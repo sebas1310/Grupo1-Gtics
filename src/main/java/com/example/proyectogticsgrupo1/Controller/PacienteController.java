@@ -11,4 +11,22 @@ public class PacienteController {
     public String paciente(){
         return "paciente/index";
     }
+
+    @GetMapping(value = "/perfilDoctor")
+    public String perfilDoc(){
+        return "paciente/perfilDoctor";
+    }
+    @GetMapping(value = "/selecTipoCita")
+    public String selecTipoCita(){
+        return "paciente/tipocita";
+    }
+    @GetMapping(value = "/reservar2")
+    public String selectDate(){
+        return "paciente/reservar2";
+    }
+
+    @GetMapping(value = "/pagos")
+    public String pagosView(){
+        return "paciente/pagos";
+    }
 }
