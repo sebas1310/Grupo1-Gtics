@@ -12,7 +12,7 @@ public class PacienteController {
     public String paciente(){
         return "paciente/index";
     }
-    
+
     @GetMapping(value = "/perfilDoctor")
     public String perfilDoc(){
         return "paciente/perfilDoctor";
