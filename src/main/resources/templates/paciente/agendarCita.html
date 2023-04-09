@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Mi perfil</title>
+  <title>Agendar Cita</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -153,7 +153,6 @@
     </ul>
   </nav><!-- End Icons Navigation -->
 </header>
-
 <!-- End Header -->
 
 <!-- ======= Sidebar ======= -->
@@ -168,13 +167,13 @@
     </li><!-- End Dashboard Nav -->
 
     <li class="nav-item">
-      <a class="nav-link" data-bs-target="#components-nav" data-bs-toggle="collapse" th:href="@{'/paciente/perfil/'}">
+      <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" th:href="@{'/paciente/perfil/'}">
         <i class="bi bi-person"></i><span>Perfil</span>
       </a>
     </li><!-- End Components Nav -->
 
     <li class="nav-item">
-      <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" th:href="@{'/paciente/agendarCita/'}">
+      <a class="nav-link " data-bs-target="#forms-nav" data-bs-toggle="collapse" th:href="@{'/paciente/agendarCita/'}">
         <i class="bi bi-calendar"></i><span>Agendar Cita</span>
       </a>
     </li><!-- End Forms Nav -->
@@ -204,211 +203,111 @@
     </li>
 
   </ul>
-</aside><!-- End Sidebar-->
+</aside>
+
+<!-- End Sidebar-->
 
 <main id="main" class="main">
 
   <div class="pagetitle">
-    <h1>Perfil</h1>
-    <nav>
+    <h1>Agendar Cita</h1>
+  </div>
 
-    </nav>
-  </div><!-- End Page Title -->
+  <!-- End Page Title -->
 
-  <section class="section profile">
-    <div class="row">
-      <div class="col-xl-4">
+  <section class="section">
+    <div class="justify-content-md-center">
+      <div class="col-md-6 offset-md-3">
 
         <div class="card">
-          <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
 
-            <img th:src="@{/assets/img/profile-img.jpg}" alt="Profile" class="rounded-circle">
-            <h2>Kevin Anderson</h2>
+          <div class="card-body">
+            <h5 ></h5>
+
+
+            <!-- General Form Elements -->
+            <form>
+              <hr>
+              <div class="row mb-3">
+                <label class="col-sm-2 col-form-label">Sede</label>
+                <div class="col-sm-10">
+                  <select class="form-select" aria-label="Default select example">
+                    <option selected>Ate</option>
+                    <option value="1">San Miguel</option>
+                    <option value="2">Cieneguilla</option>
+                  </select>
+                </div>
+              </div>
+              <div class="row mb-3">
+                <label class="col-sm-2 col-form-label">Especialidad</label>
+                <div class="col-sm-10">
+                  <select class="form-select" aria-label="Default select example">
+                    <option selected>Cardiologia</option>
+                    <option value="1">Rayos X</option>
+                    <option value="2">Ecografia</option>
+                  </select>
+                </div>
+              </div>
+              <div class="row mb-3">
+                <label class="col-sm-2 col-form-label">Doctor</label>
+                <div class="col-sm-10">
+                  <select class="form-select" aria-label="Default select example">
+                    <option selected>Marino Raymundo</option>
+                    <option value="1">Luis Mauricio</option>
+                    <option value="2">Digna Trigos</option>
+                  </select>
+                </div>
+              </div>
+              <div class="row mb-3">
+                <label class="col-sm-2 col-form-label">DNI</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" value="71409872" disabled>
+                </div>
+              </div>
+
+              <div class="row mb-3">
+                <label for="inputDate" class="col-sm-2 col-form-label">Date</label>
+                <div class="col-sm-10">
+                  <input type="date" class="form-control">
+                </div>
+              </div>
+              <div class="row mb-3">
+                <label for="inputTime" class="col-sm-2 col-form-label">Time</label>
+                <div class="col-sm-10">
+                  <input type="time" class="form-control">
+                </div>
+              </div>
+
+              <div class="row mb-3">
+                <label class="col-sm-2 col-form-label">Tipo</label>
+                <div class="col-sm-10">
+                  <select class="form-select" aria-label="Default select example">
+                    <option selected>Presencial</option>
+                    <option value="1">Virtual</option>
+                  </select>
+                </div>
+              </div>
+              <div class="row mb-3">
+                <label class="col-sm-2 col-form-label">Seguro</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" value="Rimac Seguros" disabled>
+                </div>
+              </div>
+
+              <div class="text-center">
+
+                <div class="col-sm-10">
+                  <button type="submit" class="btn btn-outline-warning">Agendar Cita</button>
+                </div>
+              </div>
+
+            </form><!-- End General Form Elements -->
 
           </div>
         </div>
 
       </div>
 
-      <div class="col-xl-8">
-
-        <div class="card">
-          <div class="card-body pt-3">
-            <!-- Bordered Tabs -->
-            <ul class="nav nav-tabs nav-tabs-bordered">
-
-              <li class="nav-item">
-                <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview">Perfil</button>
-              </li>
-
-              <li class="nav-item">
-                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-edit">Editar Perfil</button>
-              </li>
-
-              <li class="nav-item">
-                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-settings">Añadir Alergias</button>
-              </li>
-
-              <li class="nav-item">
-                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-change-password">Cambiar Contraseñas</button>
-              </li>
-
-            </ul>
-            <div class="tab-content pt-2">
-
-              <div class="tab-pane fade show active profile-overview" id="profile-overview">
-
-                <h5 class="card-title">Detalles</h5>
-
-                <div class="row">
-                  <div class="col-lg-3 col-md-4 label ">Nombre Completo</div>
-                  <div class="col-lg-9 col-md-8">Kevin Anderson</div>
-                </div>
-
-                <div class="row">
-                  <div class="col-lg-3 col-md-4 label">DNI</div>
-                  <div class="col-lg-9 col-md-8">71409872</div>
-                </div>
-
-                <div class="row">
-                  <div class="col-lg-3 col-md-4 label">Seguro</div>
-                  <div class="col-lg-9 col-md-8">Rimac Seguros</div>
-                </div>
-
-                <div class="row">
-                  <div class="col-lg-3 col-md-4 label">Nacionalidad</div>
-                  <div class="col-lg-9 col-md-8">Peruana</div>
-                </div>
-
-                <div class="row">
-                  <div class="col-lg-3 col-md-4 label">Dirección</div>
-                  <div class="col-lg-9 col-md-8">A108 Adam Street, New York, NY 535022</div>
-                </div>
-
-                <div class="row">
-                  <div class="col-lg-3 col-md-4 label">Teléfono</div>
-                  <div class="col-lg-9 col-md-8">(436) 486-3538</div>
-                </div>
-
-                <div class="row">
-                  <div class="col-lg-3 col-md-4 label">Correo</div>
-                  <div class="col-lg-9 col-md-8">k.anderson@example.com</div>
-                </div>
-
-                <div class="card">
-                  <div class="card-body">
-                    <h5 class="card-title">Alergias</h5>
-
-                    <!-- Default List group -->
-                    <ul class="list-group">
-                      <li class="list-group-item">Polvo</li>
-                      <li class="list-group-item">Polen</li>
-                      <li class="list-group-item">Pelusa</li>
-                      <li class="list-group-item">Perros</li>
-                    </ul><!-- End Default List group -->
-
-                  </div>
-                </div>
-              </div>
-
-              <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
-
-                <!-- Profile Edit Form -->
-                <form>
-                  <div class="row mb-3">
-                    <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Imagen de Perfil</label>
-                    <div class="col-md-8 col-lg-9">
-                      <img th:src="@{assets/img/profile-img.jpg}" alt="Profile" class="rounded-circle">
-                      <div class="pt-2">
-                        <a href="#" class="btn btn-primary btn-sm" title="Subir nueva foto de perfil"><i class="bi bi-upload"></i></a>
-                        <a href="#" class="btn btn-danger btn-sm" title="Borrar foto de perfil"><i class="bi bi-trash"></i></a>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="row mb-3">
-                    <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Seguro</label>
-                    <div class="col-md-8 col-lg-9">
-                      <div>
-                        <button class="btn btn-warning dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                          Rimac Seguros
-                        </button>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                          <a class="dropdown-item" href="#">Pacifico Seguros</a>
-                          <a class="dropdown-item" href="#">Seguro La Fe</a>
-                        </div>
-                      </div>
-                      </div>
-                  </div>
-                  <div class="text-center">
-                    <button type="submit" class="btn btn-outline-warning"  >Guardar Cambios</button>
-                  </div>
-                </form><!-- End Profile Edit Form -->
-
-              </div>
-
-              <div class="tab-pane fade pt-3" id="profile-settings">
-
-                <!-- Alergias Form -->
-                <form>
-
-                  <div class="row mb-3">
-                    <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Ingresar alergia</label>
-                    <div class="col-md-8 col-lg-9">
-
-                      <div class="row mb-3">
-                        <div class="col-md-8 col-lg-9">
-                          <input name="alergia" type="text" class="form-control" id="nuevaAlergia">
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="text-center">
-                    <button type="submit" class="btn btn-outline-warning">Añadir</button>
-                  </div>
-                </form><!-- End settings Form -->
-
-              </div>
-
-              <div class="tab-pane fade pt-3" id="profile-change-password">
-                <!-- Cambio de contraseña Form -->
-                <form>
-
-                  <div class="row mb-3">
-                    <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Contraseña Actual</label>
-                    <div class="col-md-8 col-lg-9">
-                      <input name="password" type="password" class="form-control" id="currentPassword">
-                    </div>
-                  </div>
-
-                  <div class="row mb-3">
-                    <label for="newPassword" class="col-md-4 col-lg-3 col-form-label" >Nueva Contraseña</label>
-                    <div class="col-md-8 col-lg-9">
-                      <input name="newpassword" type="password" class="form-control" id="newPassword">
-                    </div>
-                  </div>
-
-                  <div class="row mb-3">
-                    <label for="renewPassword" class="col-md-4 col-lg-3 col-form-label">Confirmar nueva contraseña</label>
-                    <div class="col-md-8 col-lg-9">
-                      <input name="renewpassword" type="password" class="form-control" id="renewPassword">
-                    </div>
-                  </div>
-
-                  <div class="text-center">
-                    <button type="submit" class="btn btn-outline-warning">Cambiar Contraseña</button>
-                  </div>
-                </form><!-- End Change Password Form -->
-
-              </div>
-
-            </div><!-- End Bordered Tabs -->
-
-          </div>
-        </div>
-
-      </div>
     </div>
   </section>
 
