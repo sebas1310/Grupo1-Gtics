@@ -40,6 +40,10 @@ public class PacienteController {
     public String agendarCita(){
         return "paciente/agendarCita";
     }
+    @GetMapping(value = "/historialCitas")
+    public String historialCitas(){
+        return "paciente/historialCitas";
+    }
 
 
 
