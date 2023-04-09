@@ -2,6 +2,7 @@ package com.example.proyectogticsgrupo1.Controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.Mapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
@@ -11,7 +12,7 @@ public class PacienteController {
     public String paciente(){
         return "paciente/index";
     }
-
+    
     @GetMapping(value = "/perfilDoctor")
     public String perfilDoc(){
         return "paciente/perfilDoctor";
@@ -29,4 +30,17 @@ public class PacienteController {
     public String pagosView(){
         return "paciente/pagos";
     }
+
+    @GetMapping(value = "/perfil")
+    public String perfilPaciente(){
+        return "paciente/perfil";
+    }
+
+    @GetMapping(value = "/agendarCita")
+    public String agendarCita(){
+        return "paciente/agendarCita";
+    }
+
+
+
 }
