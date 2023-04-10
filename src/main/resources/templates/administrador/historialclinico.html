@@ -27,6 +27,7 @@
     <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.4/font/bootstrap-icons.css">
 
+
     <!-- Template Main CSS File -->
     <link href="assets/css/style.css" rel="stylesheet">
 
@@ -44,7 +45,7 @@
 <header id="header" class="header fixed-top d-flex align-items-center">
 
     <div class="d-flex align-items-center justify-content-between">
-        <a href="dashboard.html" class="logo d-flex align-items-center" style="width: 200px;">
+        <a href="index.html" class="logo d-flex align-items-center" style="width: 200px;">
             <img src="assets/img/logo.png" alt="">
             <span class="d-none d-lg-block">Clinica LA FE</span>
         </a>
@@ -320,27 +321,11 @@
         </li><!-- End Profile Page Nav -->
 
         <li class="nav-item">
-            <a class="nav-link collapsed" type="button" data-bs-toggle="modal" data-bs-target="#verticalycentered">
+            <a class="nav-link collapsed" href="pages-faq.html">
                 <i class="bi bi-box-arrow-in-right"></i>
                 <span>Cerrar Sesión</span>
-                <!-- Vertically centered Modal -->
-                <div class="modal fade" id="verticalycentered" tabindex="-1">
-                    <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title">¿Seguro que deseas Salir?</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Salir</button>
-                                <button type="button" class="btn btn-primary">Cancelar</button>
-                            </div>
-                        </div>
-                    </div>
-                </div><!-- End Vertically centered Modal-->
             </a>
         </li><!-- End F.A.Q Page Nav -->
-
 
     </ul>
 
@@ -348,223 +333,107 @@
 
 <main id="main" class="main">
 
-
     <div class="pagetitle">
         <h1>Dashboard</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                <li class="breadcrumb-item"><a href="dashboard.html">Home</a></li>
                 <li class="breadcrumb-item active">Dashboard</li>
+                <li class="breadcrumb-item active">Paciente</li>
+                <li class="breadcrumb-item active">Historial Clínico</li>
             </ol>
         </nav>
     </div><!-- End Page Title -->
 
     <section class="section">
         <div class="row">
-            <div class="col-lg-6">
+            <div class="col-lg-20">
 
                 <div class="card">
                     <div class="card-body">
-                        <a class="card-title" href="dashboardpaciente.html">Pacientes</a>
+                        <h5 class="card-title">Historial Clínico</h5>
 
                         <!-- Default Table -->
                         <table class="table">
                             <thead>
                             <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Nombre</th>
-                                <th scope="col">Estado</th>
+                                <th scope="col">Estado: En Consulta</th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr>
-                                <th scope="row">1</th>
-                                <td>Lorena Vela Sulca</td>
-                                <td>Invitado</td>
+                                <td>Nombre: Lorena Vela Sulca</td>
                             </tr>
                             <tr>
-                                <th scope="row">2</th>
-                                <td>Antonio Miranda Camarena</td>
-                                <td>En Consulta</td>
+                                <th scope="col">Alergias</th>
                             </tr>
                             <tr>
-                                <th scope="row">3</th>
-                                <td>Carlos Ayala Zapata</td>
-                                <td>Registrado</td>
+                                <td> 1.- Ibuprofeno</a></td>
+                                <td> 2.- Penicilina</td>
                             </tr>
                             <tr>
-                                <th scope="row">4</th>
-                                <td>Daniela Ricra Perez</td>
-                                <td>Activo</td>
+                                <th scope="col">Tratamiento</th>
                             </tr>
                             <tr>
-                                <th scope="row">5</th>
-                                <td>Tracy Cotera Galvan</td>
-                                <td>Invitado</td>
+                                <td> 1.- Tratamiento de Diabetes</a></td>
+                                <td> 2.- Tratamiento de Presión Alta</td>
                             </tr>
+                            <tr>
+                                <th scope="col">Cuestionarios</th>
+                            </tr>
+                            <tr>
+                                <td>Satisfacción</a></td>
+                                <td><i class="bi bi-eye-fill"></i></td>
+                            </tr>
+                            <tr>
+                                <td>Familiar</td>
+                                <td><i class="bi bi-eye-fill"></i></td>
+                            </tr>
+                            <tr>
+                                <th scope="col">Formularios</th>
+                            </tr>
+                            <tr>
+                                <td> Registro</a></td>
+                                <td><i class="bi bi-journal-text"></i></td>
+                            </tr>
+
+                            <tr>
+                                <th scope="col">Consentimientos</th>
+                            </tr>
+                            <tr>
+                                <td> Uso de datos personales</a></td>
+                                <td><i class="bi bi-person-lock"></i></td>
+                            </tr>
+                            <tr>
+                                <th scope="col">Próximas Citas</th>
+                            </tr>
+                            <tr>
+                                <td> 23/05/2023 Cardiologia</a></td>
+                            </tr>
+                            <tr>
+                                <th scope="col">Documentos anexados</th>
+                            </tr>
+                            <tr>
+                                <td><i class="bi bi-filetype-pdf"></i> PDF Historial Clínico</td>
+                                <td><i class="bi bi-calendar-week"></i> Calendario de prox citas</td>
+                            </tr>
+
+
+
                             </tbody>
                         </table>
                         <!-- End Default Table Example -->
+
                     </div>
                 </div>
-
-                <div class="card">
-                    <div class="card-body">
-                        <a class="card-title" href="dashboarddoctor.html">Doctores</a>
-
-                        <!-- Default Table -->
-                        <table class="table">
-                            <thead>
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Name</th>
-                                <th scope="col">Especialidad</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tbody>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>Brandon Jacob Joese</td>
-                                <td>Neurologia</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">2</th>
-                                <td>Bridie Kessler Garly</td>
-                                <td>Cardiologia</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">3</th>
-                                <td>Ashleigh Langosh Selben</td>
-                                <td>Ginecologia</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">4</th>
-                                <td>Angus Grady Sesvev</td>
-                                <td>Cirugia</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">5</th>
-                                <td>Raheem Lehner Leyer</td>
-                                <td>Pediatria</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">6</th>
-                                <td>Antounu Merind Seder</td>
-                                <td>Pediatria</td>
-                            </tr>
-                            </tbody>
-                        </table>
-                        <!-- End Default Table Example -->
-                    </div>
-                </div>
-
-
-
-
-
-
-
             </div>
 
-            <div class="col-lg-6">
 
-                    <div class="card">
-                        <div class="card-body">
-                            <a class="card-title" href="dashboardfinanzas.html">Finanzas</a>
-
-                            <!-- Column Chart -->
-                            <div id="columnChart"></div>
-
-                            <script>
-                                document.addEventListener("DOMContentLoaded", () => {
-                                    new ApexCharts(document.querySelector("#columnChart"), {
-                                        series: [{
-                                            name: 'Egresos',
-                                            data: [44, 55, 57, 56, 61, 58, 63, 60, 66]
-                                        }, {
-                                            name: 'Ingresos',
-                                            data: [76, 85, 101, 98, 87, 105, 91, 114, 94]
-                                        }, {
-                                            name: 'Ganancias',
-                                            data: [35, 41, 36, 26, 45, 48, 52, 53, 41]
-                                        }],
-                                        chart: {
-                                            type: 'bar',
-                                            height: 350
-                                        },
-                                        plotOptions: {
-                                            bar: {
-                                                horizontal: false,
-                                                columnWidth: '55%',
-                                                endingShape: 'rounded'
-                                            },
-                                        },
-                                        dataLabels: {
-                                            enabled: false
-                                        },
-                                        stroke: {
-                                            show: true,
-                                            width: 2,
-                                            colors: ['transparent']
-                                        },
-                                        xaxis: {
-                                            categories: ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'],
-                                        },
-                                        yaxis: {
-                                            title: {
-                                                text: 'S/. (soles)'
-                                            }
-                                        },
-                                        fill: {
-                                            opacity: 1
-                                        },
-                                        tooltip: {
-                                            y: {
-                                               formatter: function(val) {
-                                                    return "$ " + val + " thousands"
-                                                }
-                                            }
-                                        }
-                                    }).render();
-                                });
-                            </script>
-                            <!-- End Column Chart -->
-
-                            <!-- Line Chart -->
-                            <canvas id="lineChart" style="max-height: 400px;"></canvas>
-                            <script>
-                                document.addEventListener("DOMContentLoaded", () => {
-                                    new Chart(document.querySelector('#lineChart'), {
-                                        type: 'line',
-                                        data: {
-                                            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-                                            datasets: [{
-                                                label: 'Line Chart',
-                                                data: [65, 59, 80, 81, 56, 55, 40],
-                                                fill: false,
-                                                borderColor: 'rgb(75, 192, 192)',
-                                                tension: 0.1
-                                            }]
-                                        },
-                                        options: {
-                                            scales: {
-                                                y: {
-                                                    beginAtZero: true
-                                                }
-                                            }
-                                        }
-                                    });
-                                });
-                            </script>
-                            <!-- End Line CHart -->
-
-
-                        </div>
-                    </div>
-            </div>
+        </div>
+        </div>
         </div>
     </section>
+
 
 
 
@@ -579,7 +448,7 @@
 <!-- ======= Footer ======= -->
 <footer id="footer" class="footer">
     <div class="copyright">
-        &copy; Copyright <strong><span>NiceAdmin</span></strong>. All Rights Reserved
+        &copy; Copyright <strong><span>ClinicaLAFE</span></strong>. All Rights Reserved
     </div>
     <div class="credits">
         <!-- All the links in the footer should remain intact. -->
