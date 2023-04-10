@@ -25,6 +25,7 @@
     <link href="assets/vendor/quill/quill.bubble.css" rel="stylesheet">
     <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
     <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.4/font/bootstrap-icons.css">
 
     <!-- Template Main CSS File -->
     <link href="assets/css/style.css" rel="stylesheet">
@@ -43,7 +44,7 @@
 <header id="header" class="header fixed-top d-flex align-items-center">
 
     <div class="d-flex align-items-center justify-content-between">
-        <a href="index.html" class="logo d-flex align-items-center" style="width: 200px;">
+        <a href="dashboard.html" class="logo d-flex align-items-center" style="width: 200px;">
             <img src="assets/img/logo.png" alt="">
             <span class="d-none d-lg-block">Clinica LA FE</span>
         </a>
@@ -285,20 +286,20 @@
 
         <li class="nav-item">
             <a class="nav-link collapsed" href="users-profile.html">
-                <i class="bi bi-person"></i>
+                <i class="bi bi-person-plus-fill"></i>
                 <span>Nuevo Paciente</span>
             </a>
         </li><!-- End Profile Page Nav -->
 
         <li class="nav-item">
-            <a class="nav-link collapsed" href="users-profile.html">
-                <i class="bi bi-person"></i>
+            <a class="nav-link collapsed" href="calendariogeneral.html">
+                <i class="bi bi-calendar3"></i>
                 <span>Calendario General</span>
             </a>
         </li><!-- End Profile Page Nav -->
 
         <li class="nav-item">
-            <a class="nav-link collapsed" href="users-profile.html">
+            <a class="nav-link collapsed" href="formatos.html">
                 <i class="bi bi-card-list"></i>
                 <span>Formatos</span>
             </a>
@@ -306,13 +307,13 @@
 
         <li class="nav-item">
             <a class="nav-link collapsed" href="users-profile.html">
-                <i class="bi bi-person"></i>
+                <i class="bi bi-wrench-adjustable"></i>
                 <span>Configuraciones</span>
             </a>
         </li><!-- End Profile Page Nav -->
 
         <li class="nav-item">
-            <a class="nav-link collapsed" href="users-profile.html">
+            <a class="nav-link collapsed" href="perfil.html">
                 <i class="bi bi-person"></i>
                 <span>Perfil</span>
             </a>
@@ -348,7 +349,7 @@
 
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">Pacientes</h5>
+                        <a class="card-title" href="dashboardpaciente.html">Pacientes</a>
 
                         <!-- Default Table -->
                         <table class="table">
@@ -393,7 +394,7 @@
 
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">Doctores</h5>
+                        <a class="card-title" href="dashboarddoctor.html">Doctores</a>
 
                         <!-- Default Table -->
                         <table class="table">
@@ -454,7 +455,7 @@
 
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title">Finanzas</h5>
+                            <a class="card-title" href="dashboardfinanzas.html">Finanzas</a>
 
                             <!-- Column Chart -->
                             <div id="columnChart"></div>

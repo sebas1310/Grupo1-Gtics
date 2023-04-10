@@ -25,6 +25,7 @@
     <link href="assets/vendor/quill/quill.bubble.css" rel="stylesheet">
     <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
     <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.4/font/bootstrap-icons.css">
 
     <!-- Template Main CSS File -->
     <link href="assets/css/style.css" rel="stylesheet">
@@ -48,7 +49,7 @@
             <span class="d-none d-lg-block">Clinica LA FE</span>
         </a>
         <a>
-            <span class="d-none d-lg-block" style="color: #0a53be"> (Sede San Miguel)</span>
+            <span class="d-none d-lg-block" style="color: #0a53be"> (Administrativo/Pediatria)</span>
         </a>
         <i class="bi bi-list toggle-sidebar-btn"></i>
     </div><!-- End Logo -->
@@ -285,36 +286,8 @@
 
         <li class="nav-item">
             <a class="nav-link collapsed" href="users-profile.html">
-                <i class="bi bi-person-plus-fill"></i>
-                <span>Nuevo Paciente</span>
-            </a>
-        </li><!-- End Profile Page Nav -->
-
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="calendariogeneral.html">
-                <i class="bi bi-calendar3"></i>
-                <span>Calendario General</span>
-            </a>
-        </li><!-- End Profile Page Nav -->
-
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="formatos.html">
-                <i class="bi bi-card-list"></i>
-                <span>Formatos</span>
-            </a>
-        </li><!-- End Profile Page Nav -->
-
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="users-profile.html">
-                <i class="bi bi-wrench-adjustable"></i>
-                <span>Configuraciones</span>
-            </a>
-        </li><!-- End Profile Page Nav -->
-
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="perfil.html">
                 <i class="bi bi-person"></i>
-                <span>Perfil</span>
+                <span>Nuevo Paciente</span>
             </a>
         </li><!-- End Profile Page Nav -->
 
@@ -324,6 +297,7 @@
                 <span>Cerrar Sesión</span>
             </a>
         </li><!-- End F.A.Q Page Nav -->
+
 
     </ul>
 
@@ -335,9 +309,8 @@
         <h1>Dashboard</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="dashboard.html">Home</a></li>
+                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
                 <li class="breadcrumb-item active">Dashboard</li>
-                <li class="breadcrumb-item active">Paciente</li>
             </ol>
         </nav>
     </div><!-- End Page Title -->
@@ -348,7 +321,7 @@
 
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">Pacientes</h5>
+                        <h5 class="card-title">Pacientes (Pediatria)</h5>
 
                         <!-- Default Table -->
                         <table class="table">
@@ -356,6 +329,7 @@
                             <tr>
                                 <th scope="col">#</th>
                                 <th scope="col">Nombre</th>
+                                <th scope="col">Forma de Registro</th>
                                 <th scope="col">Estado</th>
                             </tr>
                             </thead>
@@ -363,85 +337,108 @@
                             <tr>
                                 <th scope="row">1</th>
                                 <td>Lorena Vela Sulca</td>
+                                <td>Referido</td>
                                 <td>Invitado</td>
                             </tr>
                             <tr>
                                 <th scope="row">2</th>
                                 <td>Antonio Miranda Camarena</td>
+                                <td>AutoRegistro</td>
                                 <td>En Consulta</td>
                             </tr>
                             <tr>
                                 <th scope="row">3</th>
                                 <td>Carlos Ayala Zapata</td>
+                                <td>Referido</td>
                                 <td>Registrado</td>
                             </tr>
                             <tr>
                                 <th scope="row">4</th>
                                 <td>Daniela Ricra Perez</td>
+                                <td>Referido</td>
                                 <td>Activo</td>
                             </tr>
                             <tr>
                                 <th scope="row">5</th>
                                 <td>Tracy Cotera Galvan</td>
-                                <td>Invitado</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">6</th>
-                                <td>Lowe Vewa Sydei</td>
-                                <td>Invitado</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">7</th>
-                                <td>Antonwdio Miran Carena</td>
-                                <td>En Consulta</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">8</th>
-                                <td>Cadwrlos Awd dw2ta</td>
-                                <td>Registrado</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">9</th>
-                                <td>Daniela Rsdwe Pdwez</td>
-                                <td>Activo</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">10</th>
-                                <td>Tracy Cotewdra Gadlvan</td>
+                                <td>Autoregistro</td>
                                 <td>Invitado</td>
                             </tr>
                             </tbody>
                         </table>
                         <!-- End Default Table Example -->
-                        <!-- Centered Pagination -->
-                        <nav aria-label="Page navigation example">
-                            <ul class="pagination justify-content-center">
-                                <li class="page-item">
-                                    <a class="page-link" href="#" aria-label="Previous">
-                                        <span aria-hidden="true">&laquo;</span>
-                                    </a>
-                                </li>
-                                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#" aria-label="Next">
-                                        <span aria-hidden="true">&raquo;</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </nav><!-- End Centered Pagination -->
-
                     </div>
                 </div>
-            </div>
 
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Doctores (Pediatria)</h5>
 
+                        <!-- Default Table -->
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Correo</th>
+                                <th scope="col">Chat</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tbody>
+                            <tr>
+                                <th scope="row">1</th>
+                                <td>Brandon Jacob Joese</td>
+                                <td>ejm@pucp.edu.pe</td>
+                                <td><i class="bi bi-chat-dots-fill"></i></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">2</th>
+                                <td>Bridie Kessler Garly</td>
+                                <td>ejm@pucp.edu.pe</td>
+                                <td><i class="bi bi-chat-dots-fill"></i></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">3</th>
+                                <td>Ashleigh Langosh Selben</td>
+                                <td>ejm@pucp.edu.pe</td>
+                                <td><i class="bi bi-chat-dots-fill"></i></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">4</th>
+                                <td>Angus Grady Sesvev</td>
+                                <td>ejm@pucp.edu.pe</td>
+                                <td><i class="bi bi-chat-dots-fill"></i></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">5</th>
+                                <td>Raheem Lehner Leyer</td>
+                                <td>ejm@pucp.edu.pe</td>
+                                <td><i class="bi bi-chat-dots-fill"></i></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">6</th>
+                                <td>Antounu Merind Seder</td>
+                                <td>ejm@pucp.edu.pe</td>
+                                <td><i class="bi bi-chat-dots-fill"></i></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <!-- End Default Table Example -->
+                    </div>
                 </div>
+
+
+
+
+
+
+
             </div>
+
+
         </div>
     </section>
-
 
 
 
@@ -456,7 +453,7 @@
 <!-- ======= Footer ======= -->
 <footer id="footer" class="footer">
     <div class="copyright">
-        &copy; Copyright <strong><span>ClinicaLAFE</span></strong>. All Rights Reserved
+        &copy; Copyright <strong><span>NiceAdmin</span></strong>. All Rights Reserved
     </div>
     <div class="credits">
         <!-- All the links in the footer should remain intact. -->
