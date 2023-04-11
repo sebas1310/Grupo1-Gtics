@@ -270,6 +270,7 @@
       </a>
     </li><!-- End Dashboard Nav -->
 
+    <!---
     <li class="nav-item">
       <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
         <i class="bi bi-menu-button-wide"></i><span>Components</span><i class="bi bi-chevron-down ms-auto"></i>
@@ -346,33 +347,50 @@
           </a>
         </li>
       </ul>
-    </li><!-- End Components Nav -->
+    </li> End Components Nav
+
+
+    -->
 
     <li class="nav-item">
       <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
-        <i class="bi bi-journal-text"></i><span>Forms</span><i class="bi bi-chevron-down ms-auto"></i>
+        <i class="bi bi-journal-text"></i><span>Formularios</span><i class="bi bi-chevron-down ms-auto"></i>
       </a>
       <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+
+        <!---
         <li>
           <a href="forms-elements.html">
             <i class="bi bi-circle"></i><span>Form Elements</span>
           </a>
         </li>
+
+
         <li>
           <a href="forms-layouts.html">
             <i class="bi bi-circle"></i><span>Form Layouts</span>
           </a>
         </li>
+        --->
         <li>
-          <a href="forms-editors.html">
-            <i class="bi bi-circle"></i><span>Form Editors</span>
+          <a href="lista_formularios.html">
+            <i class="bi bi-circle"></i><span>Lista de Formularios</span>
           </a>
         </li>
+
+        <li>
+          <a href="forms-editors.html">
+            <i class="bi bi-circle"></i><span>Nuevo formulario</span>
+          </a>
+        </li>
+
+        <!---
         <li>
           <a href="forms-validation.html">
             <i class="bi bi-circle"></i><span>Form Validation</span>
           </a>
         </li>
+        --->
       </ul>
     </li><!-- End Forms Nav -->
 
@@ -505,7 +523,6 @@
   </ul>
 
 </aside><!-- End Sidebar-->
-
   <main id="main" class="main">
 
     <div class="pagetitle">
@@ -958,62 +975,62 @@
           --->
           <div class="card">
             <div class="card-body">
-              <h5 class="card-title">Bordered Table</h5>
-              <p>Add <code>.table-bordered</code> for borders on all sides of the table and cells.</p>
+              <h5 class="card-title">Lista de Reportes</h5>
+
               <!-- Bordered Table -->
               <table class="table table-bordered">
                 <thead>
                   <tr>
                     <th scope="col">#</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Position</th>
-                    <th scope="col">Age</th>
-                    <th scope="col">Start Date</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Sede</th>
+                    <th scope="col">Editar</th>
+                    <th scope="col">Fecha</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
                     <th scope="row">1</th>
-                    <td>Brandon Jacob</td>
-                    <td>Designer</td>
-                    <td>28</td>
+                    <td>Reporte para Doctores</td>
+                    <td>San Miguel</td>
+                    <td><a href="perfil-usuarios.html">Editar</a></td>
                     <td>2016-05-25</td>
                   </tr>
                   <tr>
                     <th scope="row">2</th>
-                    <td>Bridie Kessler</td>
-                    <td>Developer</td>
-                    <td>35</td>
+                    <td>Reporte para Pacientes</td>
+                    <td>Los Olivos</td>
+                    <td><a href="perfil-usuarios.html">Editar</a></td>
                     <td>2014-12-05</td>
                   </tr>
                   <tr>
                     <th scope="row">3</th>
-                    <td>Ashleigh Langosh</td>
-                    <td>Finance</td>
-                    <td>45</td>
+                    <td>Reporte para Pediatra</td>
+                    <td>San Borja</td>
+                    <td><a href="perfil-usuarios.html">Editar</a></td>
                     <td>2011-08-12</td>
                   </tr>
                   <tr>
                     <th scope="row">4</th>
-                    <td>Angus Grady</td>
-                    <td>HR</td>
-                    <td>34</td>
+                    <td>Reporte para atención especial</td>
+                    <td>Miraflores</td>
+                    <td><a href="perfil-usuarios.html">Editar</a></td>
                     <td>2012-06-11</td>
                   </tr>
                   <tr>
                     <th scope="row">5</th>
-                    <td>Raheem Lehner</td>
-                    <td>Dynamic Division Officer</td>
-                    <td>47</td>
+                    <td>Reporte Cirujano Plastico</td>
+                    <td>San Luis</td>
+                    <td><a href="perfil-usuarios.html">Editar</a></td>
                     <td>2011-04-19</td>
                   </tr>
                 </tbody>
               </table>
-              <!-- End Bordered Table -->
+              <!-- End Bordered Table
 
               <p><a href="https://getbootstrap.com/docs/5.0/utilities/borders/#border-color" target="_blank">Border color utilities</a> can be added to change colors:</p>
 
-              <!-- Primary Color Bordered Table -->
+               Primary Color Bordered Table
               <table class="table table-bordered border-primary">
                 <thead>
                   <tr>
@@ -1062,16 +1079,18 @@
                   </tr>
                 </tbody>
               </table>
-              <!-- End Primary Color Bordered Table -->
+               End Primary Color Bordered Table
 
             </div>
           </div>
+
+
 
           <div class="card">
             <div class="card-body">
               <h5 class="card-title">Small tables</h5>
               <p>Add <code>.table-sm</code> to make any <code>.table</code> more compact by cutting all cell padding in half.</p>
-              <!-- Small tables -->
+               Small tables
               <table class="table table-sm">
                 <thead>
                   <tr>
@@ -1120,11 +1139,11 @@
                   </tr>
                 </tbody>
               </table>
-              <!-- End small tables -->
+               End small tables
 
             </div>
           </div>
-
+          --->
         </div>
       </div>
     </section>
@@ -1134,7 +1153,7 @@
   <!-- ======= Footer ======= -->
   <footer id="footer" class="footer">
     <div class="copyright">
-      &copy; Copyright <strong><span>NiceAdmin</span></strong>. All Rights Reserved
+      &copy; Copyright <strong><span>Clinica LA FE</span></strong>. All Rights Reserved
     </div>
     <div class="credits">
       <!-- All the links in the footer should remain intact. -->
