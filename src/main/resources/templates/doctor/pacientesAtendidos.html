@@ -43,7 +43,7 @@
 <header id="header" class="header fixed-top d-flex align-items-center">
 
   <div class="d-flex align-items-center justify-content-between">
-    <a href="dashboardDoc.html" class="logo d-flex align-items-center">
+    <a href="index.html" class="logo d-flex align-items-center">
       <img src="assets/img/logo.png" alt="">
       <span class="d-none d-lg-block">Clínica La Fe</span>
     </a>
@@ -208,10 +208,9 @@
             <h6>Abigail Ramirez</h6>
             <span>Doctor</span>
           </li>
+        </ul>
 
-        </ul><!-- End Profile Dropdown Items -->
-      </li><!-- End Profile Nav -->
-
+      </li>
     </ul>
   </nav><!-- End Icons Navigation -->
 
@@ -245,7 +244,7 @@
     </li><!-- End Cuestionarios -->
 
     <li class="nav-item">  <!-- cambia -->
-      <a class="nav-link collapsed"  href="index.html" >
+      <a class="nav-link collapsed" href="index.html" >
         <i class="bi bi-calendar3"></i>
         <span>Calendario</span>
       </a>
@@ -287,130 +286,76 @@
 <main id="main" class="main">
 
   <div class="pagetitle">
-    <h1>Historial Clínico</h1>
+    <h1>Pacientes Atendidos</h1>
     <nav>
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="dashboardDoc.html">Home</a></li>
-        <li class="breadcrumb-item"><a href="pacientesAtendidos.html">Pacientes Atendidos</a></li>
-        <li class="breadcrumb-item active">Historial Clínico</li>
+        <li class="breadcrumb-item active">Pacientes Atendidos</li>
       </ol>
     </nav>
   </div><!-- End Page Title -->
 
   <section class="section ">
-    <!-- Left side columns -->
-    <div class="col-lg">
-      <div class="row">
-          <!-- Informacion del Paciente -->
-          <!--  <div class="col-xxl-4 col-xl-16"> -->
-        <div class="col">
-          <div class="card info-card customers-card">
-              <div class="card-body">
-                <h5 class="card-title">Informacion del Paciente </h5>
-                <div class="d-flex align-items-center">
-                  <div class="ps-3">
-                    <li>Nombre: Julia Amanda Garriazo</li>
-                    <li>Edad: 50 años</li>
-                    <li>Condicion/Enfermedad: xxxx</li>
-                    <li>Seguro: EsSalud</li>
-                    <li>Correo: amanda.garriazo@gmail.com</li>
-                  </div>
-                </div>
-            </div>
+    <div class="row">
 
-          </div> <!--End Informacion -->
+      <!-- Left side columns -->
+      <div class="col-lg">
+        <div class="row">
 
-          <!-- Historial de citas -->
 
-          <div class="col-12">
-            <div class="card recent-sales overflow-auto">
-            <div class="card-body">
-              <h5 class="card-title">Historial de Citas</h5>
+          <!-- Pacientes Atendidos -->
+          <div class="col-12" >
+            <div class="card recent-sales overflow-auto" >
 
-              <table class="table">
-                <thead class="table-light">
-                <tr>
-                  <th style="text-align: center" scope="col"># Cita</th>
-                  <th style="text-align: center" scope="col">Fecha</th>
-                  <th style="text-align: center" scope="col">Modalidad</th>
-                  <th style="text-align: center" scope="col">Boleta</th>
-                  <th style="text-align: center" scope="col">  </th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                  <th style="text-align: center" scope="row">1</th>
-                  <td style="text-align: center">31/03/2023</td>
-                  <td style="text-align: center">Presencial</td>
-                  <td style="text-align: center"> <a type="button" class="bi bi-printer-fill"></a> </td>
-                  <td style="text-align: center"> <a type="button" class="bi bi-plus-circle-fill" href="verCita.html" ></a> </td>
-                </tr>
-                <tr>
-                  <th style="text-align: center" scope="row">2</th>
-                  <td style="text-align: center">02/04/2023</td>
-                  <td style="text-align: center">Virtual</td>
-                  <td style="text-align: center"> <a type="button" class="bi bi-printer-fill" ></a> </td>
-                  <td style="text-align: center"> <a type="button" class="bi bi-plus-circle-fill" href="verCita.html"  ></a> </td>
-                </tr>
-                </tbody>
-              </table>
-              <!-- End Historial -->
-            </div>
-          </div>
-          </div>
-    </div><!-- End Left side columns -->
 
-    <!-- Right side columns -->
-    <div class="col-lg-5">
-      <!-- Bitacora -->
-      <div class="card recent-sales overflow-auto">
-          <div class="card-body">
-            <h5 class="card-title">Bitacora de Diagnostico</h5>
-            <div class=" col-md-2">
-              <ul class="nav nav-pills nav-stacked anyClass">
+              <div style="width: 100%" class="card-body" >
+                <h5 class="card-title">Lista de Pacientes</h5>
 
-              </ul>
-            </div>
-            <div class="card">
-              <div class="card-header">
-                Dr. Rodriguez
+                <table style="width: 100%"  class="table table-borderless datatable"  >
+                  <thead>
+                  <tr>
+                    <th style="text-align: center" scope="col">Nombre</th>
+                    <th style="text-align: center" scope="col">Fecha</th>
+                    <th style="text-align: center" scope="col">Tipo de Cita</th>
+                    <th style="text-align: center" scope="col">Estado del Paciente</th>
+                    <th style="text-align: center" scope="col">Historial Clínico</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr>
+                    <td style="text-align: center">Julia Amanda Garriazo</td>
+                    <td style="text-align: center">15/04/2023</td>
+                    <td style="text-align: center">Presencial</td>
+                    <td style="text-align: center">Pendiente a examenes</td>
+                    <td style="text-align: center"> <a type="button" class="bi bi-plus-circle-fill"  href="verHistorial.html"></a> </td>
+
+                  </tr>
+                  <tr>
+                    <td style="text-align: center" >Carlos Ramirez</td>
+                    <td style="text-align: center">20/04/2023</td>
+                    <td style="text-align: center">Virtual</td>
+                    <td style="text-align: center">Concluso</td>
+                    <td style="text-align: center"> <a type="button" class="bi bi-plus-circle-fill" href="verHistorial.html" ></a> </td>
+
+                  </tr>
+
+                  </tbody>
+                </table>
+
               </div>
-              <div class="card-body">
-                <p class="card-text">xxxxxxxxxxxxxxx</p>
-              </div>
-            </div>
-            <div class="card">
-              <div class="card-header">
-                Dr. Fernandez
-              </div>
-              <div class="card-body">
-                <p class="card-text">xxxxxxxxxxxxxxx</p>
-              </div>
-            </div>
-            <div class="mb-3">
-              <h5 class="card-title">Añadir Comentario</h5>
-              <form>
-                <div class="form-floating">
-                  <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea"></textarea>
-                  <label for="floatingTextarea">Comentario</label>
-                  <br>
-                </div >
-                <div class="d-grid gap d-md-flex justify-content-md-center">
-                  <button  type="submit" class="btn btn-primary">Guardar</button>
-                </div>
 
-              </form>
             </div>
+          </div><!-- End Recent Sales -->
 
 
-          </div>
-      </div>
-    </div>
-    </div>
+        </div>
+      </div><!-- End Left side columns -->
+
+
     </div>
   </section>
-</main><!-- End #main -->
 
+</main><!-- End #main -->
 
 
 <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
