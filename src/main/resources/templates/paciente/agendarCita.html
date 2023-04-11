@@ -145,7 +145,7 @@
 
       <li class="nav-item dropdown">
       <li class="nav-item dropdown pe-3">
-        <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+      <a class="nav-link nav-profile d-flex align-items-center pe-0" th:href="@{'/paciente/perfil'}" >
           <img th:src="@{/assets/img/profile-img.jpg}" alt="Profile" class="rounded-circle">
           <span class="d-none d-md-block  ps-2">L. Anderson</span>
         </a><!-- End Profile Iamge Icon -->
@@ -160,44 +160,38 @@
   <ul class="sidebar-nav" id="sidebar-nav">
 
     <li class="nav-item">
-      <a class="nav-link collapsed" th:href="@{'/paciente/'}">
+      <a class="nav-link" th:href="@{'/paciente/'}">
         <i class="bi bi-house"></i>
         <span>Dashboard</span>
       </a>
     </li><!-- End Dashboard Nav -->
 
     <li class="nav-item">
-      <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" th:href="@{'/paciente/perfil/'}">
-        <i class="bi bi-person"></i><span>Perfil</span>
-      </a>
-    </li><!-- End Components Nav -->
-
-    <li class="nav-item">
-      <a class="nav-link " data-bs-target="#forms-nav" data-bs-toggle="collapse" th:href="@{'/paciente/agendarCita/'}">
+      <a class="nav-link collapsed"  th:href="@{'/paciente/agendarCita'}">
         <i class="bi bi-calendar"></i><span>Agendar Cita</span>
       </a>
     </li><!-- End Forms Nav -->
 
     <li class="nav-item">
-      <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" th:href="@{'/paciente/historialCitas'}">
+      <a class="nav-link collapsed"  th:href="@{'/paciente/historialCitas'}">
         <i class="bi bi-calendar-check-fill"></i><span>Historial de citas</span>
       </a>
     </li><!-- End Tables Nav -->
 
     <li class="nav-item">
-      <a class="nav-link collapsed" data-bs-target="#icons-nav" data-bs-toggle="collapse" href="#">
+      <a class="nav-link collapsed"  th:href="@{'/paciente/pagos'}">
         <i class="bi bi-credit-card-fill"></i><span>Pagos</span>
       </a>
     </li>
 
     <li class="nav-item">
-      <a class="nav-link collapsed" data-bs-target="#charts-nav" data-bs-toggle="collapse" href="#">
+      <a class="nav-link collapsed" href="#">
         <i class="bi bi-gear-wide"></i><span>Configuracion</span>
       </a>
     </li>
 
     <li class="nav-item">
-      <a class="nav-link collapsed" data-bs-target="#icons-nav" data-bs-toggle="collapse" href="#">
+      <a class="nav-link collapsed"  href="#">
         <i class="bi bi-box-arrow-right"></i><span>Cerrar Sesión</span>
       </a>
     </li>
