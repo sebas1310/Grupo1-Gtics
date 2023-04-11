@@ -43,12 +43,12 @@
 <header id="header" class="header fixed-top d-flex align-items-center">
 
   <div class="d-flex align-items-center justify-content-between">
-    <a href="index.html" class="logo d-flex align-items-center" style="width: 200px;">
+    <a href="dashboard.html" class="logo d-flex align-items-center" style="width: 200px;">
       <img src="assets/img/logo.png" alt="">
       <span class="d-none d-lg-block">Clinica LA FE</span>
     </a>
     <a>
-      <span class="d-none d-lg-block" style="color: #0a53be"> (Sede San Miguel)</span>
+      <span class="d-none d-lg-block" style="color: #0a53be"> Sede San Miguel</span>
     </a>
     <i class="bi bi-list toggle-sidebar-btn"></i>
   </div><!-- End Logo -->
@@ -78,7 +78,7 @@
 
         <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
           <li class="dropdown-header">
-            Tienes 4 nuevos mensajes
+            You have 4 new notifications
           </li>
           <li>
             <hr class="dropdown-divider">
@@ -136,7 +136,7 @@
             <hr class="dropdown-divider">
           </li>
           <li class="dropdown-footer">
-            <a href="notificaciones.html">Mira todas las notificaciones</a>
+            <a href="notificaciones.html">Mostrar todas las notificaciones</a>
           </li>
 
         </ul><!-- End Notification Dropdown Items -->
@@ -152,7 +152,7 @@
 
         <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow messages">
           <li class="dropdown-header">
-            Tienes 3 nuevos mensajes
+            You have 3 new messages
           </li>
           <li>
             <hr class="dropdown-divider">
@@ -201,7 +201,7 @@
           </li>
 
           <li class="dropdown-footer">
-            <a href="mensajes.html">Mira todos los mensajes</a>
+            <a href="mensajes.html">Mostrar todos los mensajes</a>
           </li>
 
         </ul><!-- End Messages Dropdown Items -->
@@ -223,7 +223,6 @@
           <li>
             <hr class="dropdown-divider">
           </li>
-
 
         </ul><!-- End Profile Dropdown Items -->
       </li><!-- End Profile Nav -->
@@ -302,7 +301,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-success" data-bs-dismiss="modal"><a style="color: white" href="inicio.html" >Salir</button>
-        <button type="button" class="btn btn-secondary"><a style="color: white" href="dashboardfinanzas.html" >Cancelar</a></button>
+        <button type="button" class="btn btn-secondary"><a style="color: white" href="notificaciones.html" >Cancelar</a></button>
       </div>
     </div>
   </div>
@@ -316,7 +315,7 @@
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="dashboard.html">Home</a></li>
         <li class="breadcrumb-item active">Dashboard</li>
-        <li class="breadcrumb-item active">Finanzas</li>
+        <li class="breadcrumb-item active">Notificaciones</li>
       </ol>
     </nav>
   </div><!-- End Page Title -->
@@ -324,101 +323,135 @@
   <section class="section">
     <div class="row">
       <div class="col-lg-20">
+
         <div class="card">
           <div class="card-body">
-            <h5 class="card-title">Finanzas</h5>
+            <h5 class="card-title">Historial de notificaciones</h5>
 
-            <!-- Column Chart -->
-            <div id="columnChart"></div>
+            <!-- Default Table -->
+            <table class="table">
+              <thead>
+              <tr>
+                <th scope="col">Notificacion</th>
+                <th scope="col">Tipo</th>
+                <th scope="col">Hora</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr>
+                <td>Quae dolorem earum veritatis oditseno</td>
+                <td><i class="bi bi-info-circle text-primary"></i></td>
+                <td>21:04:06 17/8/23</td>
+              </tr>
+              <tr><td>Quae dolorem earum veritatis oditseno</td>
+                <td><i class="bi bi-x-circle text-danger"></i></td>
+                <td>21:04:06 17/8/23</td>
+              </tr>
+              <tr>
+                <td>Quae dolorem earum veritatis oditseno</td>
+                <td><i class="bi bi-check-circle text-success"></i></td>
+                <td>21:04:06 17/8/23</td>
 
-            <script>
-              document.addEventListener("DOMContentLoaded", () => {
-                new ApexCharts(document.querySelector("#columnChart"), {
-                  series: [{
-                    name: 'Egresos',
-                    data: [44, 55, 57, 56, 61, 58, 63, 60, 66]
-                  }, {
-                    name: 'Ingresos',
-                    data: [76, 85, 101, 98, 87, 105, 91, 114, 94]
-                  }, {
-                    name: 'Ganancias',
-                    data: [35, 41, 36, 26, 45, 48, 52, 53, 41]
-                  }],
-                  chart: {
-                    type: 'bar',
-                    height: 350
-                  },
-                  plotOptions: {
-                    bar: {
-                      horizontal: false,
-                      columnWidth: '55%',
-                      endingShape: 'rounded'
-                    },
-                  },
-                  dataLabels: {
-                    enabled: false
-                  },
-                  stroke: {
-                    show: true,
-                    width: 2,
-                    colors: ['transparent']
-                  },
-                  xaxis: {
-                    categories: ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'],
-                  },
-                  yaxis: {
-                    title: {
-                      text: 'S/. (soles)'
-                    }
-                  },
-                  fill: {
-                    opacity: 1
-                  },
-                  tooltip: {
-                    y: {
-                      formatter: function(val) {
-                        return "$ " + val + " thousands"
-                      }
-                    }
-                  }
-                }).render();
-              });
-            </script>
-            <!-- End Column Chart -->
+              </tr>
+              <tr>
+                <td>Quae dolorem earum veritatis oditseno</td>
+                <td><i class="bi bi-check-circle text-success"></i></td>
+                <td>21:04:06 17/8/23</td>
 
-            <!-- Line Chart -->
-            <canvas id="lineChart" style="max-height: 400px;"></canvas>
-            <script>
-              document.addEventListener("DOMContentLoaded", () => {
-                new Chart(document.querySelector('#lineChart'), {
-                  type: 'line',
-                  data: {
-                    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-                    datasets: [{
-                      label: 'Line Chart',
-                      data: [65, 59, 80, 81, 56, 55, 40],
-                      fill: false,
-                      borderColor: 'rgb(75, 192, 192)',
-                      tension: 0.1
-                    }]
-                  },
-                  options: {
-                    scales: {
-                      y: {
-                        beginAtZero: true
-                      }
-                    }
-                  }
-                });
-              });
-            </script>
-            <!-- End Line CHart -->
+              </tr>
+              <tr>
+                <td>Quae dolorem earum veritatis oditseno</td>
+                <td><i class="bi bi-info-circle text-primary"></i></td>
+                <td>21:04:06 17/8/23</td>
+              </tr>
+              <tr><td>Quae dolorem earum veritatis oditseno</td>
+                <td><i class="bi bi-x-circle text-danger"></i></td>
+                <td>21:04:06 17/8/23</td>
+              </tr>
+              <tr>
+                <td>Quae dolorem earum veritatis oditseno</td>
+                <td><i class="bi bi-check-circle text-success"></i></td>
+                <td>21:04:06 17/8/23</td>
 
+              </tr>
+              <tr>
+                <td>Quae dolorem earum veritatis oditseno</td>
+                <td><i class="bi bi-check-circle text-success"></i></td>
+                <td>21:04:06 17/8/23</td>
+
+              </tr>
+              <tr>
+                <td>Quae dolorem earum veritatis oditseno</td>
+                <td><i class="bi bi-info-circle text-primary"></i></td>
+                <td>21:04:06 17/8/23</td>
+              </tr>
+              <tr><td>Quae dolorem earum veritatis oditseno</td>
+                <td><i class="bi bi-x-circle text-danger"></i></td>
+                <td>21:04:06 17/8/23</td>
+              </tr>
+              <tr>
+                <td>Quae dolorem earum veritatis oditseno</td>
+                <td><i class="bi bi-check-circle text-success"></i></td>
+                <td>21:04:06 17/8/23</td>
+
+              </tr>
+              <tr>
+                <td>Quae dolorem earum veritatis oditseno</td>
+                <td><i class="bi bi-check-circle text-success"></i></td>
+                <td>21:04:06 17/8/23</td>
+
+              </tr>
+              <tr>
+                <td>Quae dolorem earum veritatis oditseno</td>
+                <td><i class="bi bi-info-circle text-primary"></i></td>
+                <td>21:04:06 17/8/23</td>
+              </tr>
+              <tr><td>Quae dolorem earum veritatis oditseno</td>
+                <td><i class="bi bi-x-circle text-danger"></i></td>
+                <td>21:04:06 17/8/23</td>
+              </tr>
+              <tr>
+                <td>Quae dolorem earum veritatis oditseno</td>
+                <td><i class="bi bi-check-circle text-success"></i></td>
+                <td>21:04:06 17/8/23</td>
+
+              </tr>
+              <tr>
+                <td>Quae dolorem earum veritatis oditseno</td>
+                <td><i class="bi bi-check-circle text-success"></i></td>
+                <td>21:04:06 17/8/23</td>
+
+              </tr>
+
+              </tbody>
+            </table>
+            <!-- End Default Table Example -->
+
+
+            <!-- Centered Pagination -->
+            <nav aria-label="Page navigation example">
+              <ul class="pagination justify-content-center">
+                <li class="page-item">
+                  <a class="page-link" href="#" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                  </a>
+                </li>
+                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item">
+                  <a class="page-link" href="#" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                  </a>
+                </li>
+              </ul>
+            </nav><!-- End Centered Pagination -->
 
           </div>
-
-
         </div>
+      </div>
+
+
     </div>
     </div>
     </div>
