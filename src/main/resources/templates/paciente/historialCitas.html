@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Historial de Citas</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link th:href="@{assets/img/favicon.png}" rel="icon">
+  <link th:href="@{assets/img/apple-touch-icon.png}" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.gstatic.com" rel="preconnect">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link th:href="@{/assets/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+  <link th:href="@{/assets/vendor/bootstrap-icons/bootstrap-icons.css}" rel="stylesheet">
+  <link th:href="@{assets/vendor/boxicons/css/boxicons.min.css}" rel="stylesheet">
+  <link th:href="@{/assets/vendor/quill/quill.snow.css}" rel="stylesheet">
+  <link th:href="@{/assets/vendor/quill/quill.bubble.css}" rel="stylesheet">
+  <link th:href="@{/assets/vendor/remixicon/remixicon.css}" rel="stylesheet">
+  <link th:href="@{/assets/vendor/simple-datatables/style.css}" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link th:href="@{/assets/css/style.css}" rel="stylesheet">
+
+</head>
+
+<body>
+
+<!-- ======= Header ======= -->
+<header id="header" class="header fixed-top d-flex align-items-center" style="background-color:#ffd966">
+
+  <div class="d-flex align-items-center justify-content-between">
+    <a th:href="@{'/paciente'}" class="logo d-flex align-items-center">
+      <img th:src="@{/assets/img/logo.png}" alt="">
+      <span class="d-none d-lg-block" style="color: white">Clínica LA FE</span>
+    </a>
+    <i class="bi bi-list toggle-sidebar-btn"></i>
+  </div><!-- End Logo -->
+
+  <nav class="header-nav ms-auto">
+    <ul class="d-flex align-items-center">
+      <li class="nav-item dropdown">
+        <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
+          <i class="bi bi-bell"></i>
+          <span class="badge bg-primary badge-number">3</span>
+        </a><!-- End Notification Icon -->
+
+        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
+          <li class="dropdown-header">
+            Tiene 3 notificaciones
+            <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">Vaciar</span></a>
+          </li>
+          <li>
+            <hr class="dropdown-divider">
+          </li>
+
+          <li class="notification-item">
+            <i class="bi bi-info-circle text-warning"></i>
+            <div>
+              <h4>Formulario</h4>
+              <p>Tiene un formulario pendiente por responder</p>
+              <p>Hace 1 min.</p>
+            </div>
+          </li>
+
+          <li>
+            <hr class="dropdown-divider">
+          </li>
+
+          <li class="notification-item">
+            <i class="bi bi-x-circle text-danger"></i>
+            <div>
+              <h4>Por Cancelar</h4>
+              <p>Queda 2 citas por pagar</p>
+              <p>Hace 3 horas</p>
+            </div>
+          </li>
+
+          <li>
+            <hr class="dropdown-divider">
+          </li>
+
+          <li class="notification-item">
+            <i class="bi bi-check-circle text-success"></i>
+            <div>
+              <h4>Cita Reservada</h4>
+              <p>Ha reservado una nueva cita con éxito</p>
+              <p>Hace 2 min</p>
+            </div>
+          </li>
+
+          <li>
+            <hr class="dropdown-divider">
+          </li>
+
+          <li class="dropdown-footer">
+            <a href="#">Mostrar todas las notificaciones</a>
+          </li>
+
+        </ul><!-- End Notification Dropdown Items -->
+      </li><!-- End Notification Nav -->
+
+      <li class="nav-item dropdown">
+
+        <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
+          <i class="bi bi-chat-left-text"></i>
+          <span class="badge bg-success badge-number">3</span>
+        </a><!-- End Messages Icon -->
+
+        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow messages">
+          <li class="dropdown-header">
+            Tienes 1 mensaje nuevo
+            <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">Ver todos</span></a>
+          </li>
+          <li>
+            <hr class="dropdown-divider">
+          </li>
+
+          <li class="message-item">
+            <a href="#">
+              <img th:src="@{/assets/img/profile-img.jpg}" alt="Profile" class="rounded-circle">
+              <div>
+                <h4>Maria Hudson</h4>
+                <p>Sobre su consulta acerca de los análisis...</p>
+                <p>Hace 2 horas</p>
+              </div>
+            </a>
+          </li>
+          <li>
+            <hr class="dropdown-divider">
+          </li>
+
+          <li class="dropdown-footer">
+            <a href="#">Mostrar todos los mensajes</a>
+          </li>
+        </ul><!-- End Messages Dropdown Items -->
+      </li><!-- End Messages Nav -->
+
+      <li class="nav-item dropdown">
+      <li class="nav-item dropdown pe-3">
+      <a class="nav-link nav-profile d-flex align-items-center pe-0" th:href="@{'/paciente/perfil'}" >
+          <img th:src="@{/assets/img/profile-img.jpg}" alt="Profile" class="rounded-circle">
+          <span class="d-none d-md-block  ps-2">L. Anderson</span>
+        </a><!-- End Profile Iamge Icon -->
+      </li><!-- End Profile Nav -->
+    </ul>
+  </nav><!-- End Icons Navigation -->
+</header>
+
+<!-- End Header -->
+
+<!-- ======= Sidebar ======= -->
+<aside id="sidebar" class="sidebar">
+  <ul class="sidebar-nav" id="sidebar-nav">
+
+    <li class="nav-item">
+      <a class="nav-link" th:href="@{'/paciente/'}">
+        <i class="bi bi-house"></i>
+        <span>Dashboard</span>
+      </a>
+    </li><!-- End Dashboard Nav -->
+
+    <li class="nav-item">
+      <a class="nav-link collapsed"  th:href="@{'/paciente/agendarCita'}">
+        <i class="bi bi-calendar"></i><span>Agendar Cita</span>
+      </a>
+    </li><!-- End Forms Nav -->
+
+    <li class="nav-item">
+      <a class="nav-link collapsed"  th:href="@{'/paciente/historialCitas'}">
+        <i class="bi bi-calendar-check-fill"></i><span>Historial de citas</span>
+      </a>
+    </li><!-- End Tables Nav -->
+
+    <li class="nav-item">
+      <a class="nav-link collapsed"  th:href="@{'/paciente/pagos'}">
+        <i class="bi bi-credit-card-fill"></i><span>Pagos</span>
+      </a>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link collapsed" href="#">
+        <i class="bi bi-gear-wide"></i><span>Configuracion</span>
+      </a>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link collapsed"  href="#">
+        <i class="bi bi-box-arrow-right"></i><span>Cerrar Sesión</span>
+      </a>
+    </li>
+
+  </ul>
+</aside><!-- End Sidebar-->
+
+<main id="main" class="main">
+
+  <div class="pagetitle">
+    <h1>Historial de Citas</h1>
+    <nav>
+
+    </nav>
+  </div><!-- End Page Title -->
+
+  <section class="section">
+    <div class="justify-content-md-center">
+      <div class="col-md-8 offset-md-2">
+
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title"></h5>
+
+            <!-- Table with stripped rows -->
+            <table class="table table-striped">
+              <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Doctor</th>
+                <th scope="col">Especialidad</th>
+                <th scope="col">Fecha y Hora</th>
+                <th scope="col">Receta</th>
+                <th scope="col">Pago</th>
+              </tr>
+              </thead>
+              <tbody>
+
+              <tr>
+                <th scope="row">1</th>
+                <td>Brandon Jacob</td>
+                <td>Cardiologia</td>
+                <td>2016-05-25</td>
+                <td>
+                  <!-- Data-bs-target: indica el id del modal a desplegarse-->
+                  <button type="button" class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#receta_modal">
+                    <i class="bi bi-capsule-pill"></i>
+                  </button>
+                  <div class="modal fade" id="receta_modal" tabindex="-1">
+                    <div class="modal-dialog modal-dialog-centered">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title">Receta</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                        </div>
+                        <div class="modal-body">
+                          Non omnis incidunt qui sed occaecati magni asperiores est mollitia. Soluta at et reprehenderit. Placeat autem numquam et fuga numquam. Tempora in facere consequatur sit dolor ipsum. Consequatur nemo amet incidunt est facilis. Dolorem neque recusandae quo sit molestias sint dignissimos.
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-warning" data-bs-dismiss="modal">Cerrar</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <button type="button" class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#recibo_modal">
+                    <i class="bi bi-receipt"></i>
+                  </button>
+                  <div class="modal fade" id="recibo_modal" tabindex="-1">
+                    <div class="modal-dialog modal-dialog-centered">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title">Recibo</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                        </div>
+                        <div class="modal-body">
+                          <img th:src="@{/assets/img/profile-img.jpg}" class="justify-content-md-center rounded-circle">
+
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-warning" data-bs-dismiss="modal">Cerrar</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+
+
+              <tr>
+                <th scope="row">1</th>
+                <td>Brandon Jacob</td>
+                <td>Cardiologia</td>
+                <td>2016-05-25</td>
+                <td>
+                  <!-- Data-bs-target: indica el id del modal a desplegarse-->
+                  <button type="button" class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#receta1_modal">
+                    <i class="bi bi-capsule-pill"></i>
+                  </button>
+                  <div class="modal fade" id="receta1_modal" tabindex="-1">
+                    <div class="modal-dialog modal-dialog-centered">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title">Receta</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                        </div>
+                        <div class="modal-body">
+                          Non omnis incidunt qui sed occaecati magni asperiores est mollitia. Soluta at et reprehenderit. Placeat autem numquam et fuga numquam. Tempora in facere consequatur sit dolor ipsum. Consequatur nemo amet incidunt est facilis. Dolorem neque recusandae quo sit molestias sint dignissimos.
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-warning" data-bs-dismiss="modal">Cerrar</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <button type="button" class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#recibo1_modal">
+                    <i class="bi bi-receipt"></i>
+                  </button>
+                  <div class="modal fade" id="recibo1_modal" tabindex="-1">
+                    <div class="modal-dialog modal-dialog-centered">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title">Recibo</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                        </div>
+                        <div class="modal-body">
+                          <img th:src="@{/assets/img/profile-img.jpg}" class="justify-content-md-center rounded-circle">
+
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-warning" data-bs-dismiss="modal">Cerrar</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+
+
+              <tr>
+                <th scope="row">1</th>
+                <td>Brandon Jacob</td>
+                <td>Cardiologia</td>
+                <td>2016-05-25</td>
+                <td>
+                  <!-- Data-bs-target: indica el id del modal a desplegarse-->
+                  <button type="button" class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#receta2_modal">
+                    <i class="bi bi-capsule-pill"></i>
+                  </button>
+                  <div class="modal fade" id="receta2_modal" tabindex="-1">
+                    <div class="modal-dialog modal-dialog-centered">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title">Receta</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                        </div>
+                        <div class="modal-body">
+                          Non omnis incidunt qui sed occaecati magni asperiores est mollitia. Soluta at et reprehenderit. Placeat autem numquam et fuga numquam. Tempora in facere consequatur sit dolor ipsum. Consequatur nemo amet incidunt est facilis. Dolorem neque recusandae quo sit molestias sint dignissimos.
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-warning" data-bs-dismiss="modal">Cerrar</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <button type="button" class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#recibo2_modal">
+                    <i class="bi bi-receipt"></i>
+                  </button>
+                  <div class="modal fade" id="recibo2_modal" tabindex="-1">
+                    <div class="modal-dialog modal-dialog-centered">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title">Recibo</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                        </div>
+                        <div class="modal-body">
+                          <img th:src="@{/assets/img/profile-img.jpg}" class="justify-content-md-center rounded-circle">
+
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-warning" data-bs-dismiss="modal">Cerrar</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+
+              <tr>
+                <th scope="row">1</th>
+                <td>Brandon Jacob</td>
+                <td>Cardiologia</td>
+                <td>2016-05-25</td>
+                <td>
+                  <!-- Data-bs-target: indica el id del modal a desplegarse-->
+                  <button type="button" class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#receta3_modal">
+                    <i class="bi bi-capsule-pill"></i>
+                  </button>
+                  <div class="modal fade" id="receta3_modal" tabindex="-1">
+                    <div class="modal-dialog modal-dialog-centered">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title">Receta</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                        </div>
+                        <div class="modal-body">
+                          Non omnis incidunt qui sed occaecati magni asperiores est mollitia. Soluta at et reprehenderit. Placeat autem numquam et fuga numquam. Tempora in facere consequatur sit dolor ipsum. Consequatur nemo amet incidunt est facilis. Dolorem neque recusandae quo sit molestias sint dignissimos.
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-warning" data-bs-dismiss="modal">Cerrar</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <button type="button" class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#recibo3_modal">
+                    <i class="bi bi-receipt"></i>
+                  </button>
+                  <div class="modal fade" id="recibo3_modal" tabindex="-1">
+                    <div class="modal-dialog modal-dialog-centered">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title">Recibo</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                        </div>
+                        <div class="modal-body">
+                          <img th:src="@{/assets/img/profile-img.jpg}" class="justify-content-md-center rounded-circle">
+
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-warning" data-bs-dismiss="modal">Cerrar</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+
+
+
+              <nav  style="color:#FFD966FF " aria-label="Page navigation example">
+                <ul class="pagination">
+                  <li class="page-item">
+                    <a class="page-link" href="#" aria-label="Previous">
+                      <span aria-hidden="true">&laquo;</span>
+                    </a>
+                  </li>
+                  <li  class="page-item"><a class="page-link" href="#">1</a></li>
+                  <li class="page-item"><a class="page-link" href="#">2</a></li>
+                  <li class="page-item"><a class="page-link" href="#">3</a></li>
+                  <li class="page-item">
+                    <a class="page-link" href="#" aria-label="Next">
+                      <span aria-hidden="true">&raquo;</span>
+                    </a>
+                  </li>
+                </ul>
+              </nav><!-- End Pagination with icons -->
+              </tbody>
+
+
+            </table>
+            <!-- End Table with stripped rows -->
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</main><!-- End #main -->
+
+<!-- ======= Footer ======= -->
+<footer id="footer" class="footer">
+
+  <div class="credits">
+    <!-- All the links in the footer should remain intact. -->
+    <!-- You can delete the links only if you purchased the pro version. -->
+    <!-- Licensing information: https://bootstrapmade.com/license/ -->
+    <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
+    Diseñado por <a href="#">Grupo 1</a>
+  </div>
+</footer><!-- End Footer -->
+
+<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+<!-- Vendor JS Files -->
+<script th:src="@{/assets/vendor/apexcharts/apexcharts.min.js}"></script>
+<script th:src="@{/assets/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/assets/vendor/chart.js/chart.min.js}"></script>
+<script th:src="@{/assets/vendor/echarts/echarts.min.js}"></script>
+<script th:src="@{/assets/vendor/quill/quill.min.js}"></script>
+<script th:src="@{/assets/vendor/simple-datatables/simple-datatables.js}"></script>
+<script th:src="@{/assets/vendor/tinymce/tinymce.min.js}"></script>
+<script th:src="@{/assets/vendor/php-email-form/validate.js}"></script>
+
+<!-- Template Main JS File -->
+<script th:src="@{/assets/js/main.js}"></script>
+
+</body>
+
+</html>
