@@ -25,8 +25,6 @@
     <link href="assets/vendor/quill/quill.bubble.css" rel="stylesheet">
     <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
     <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.4/font/bootstrap-icons.css">
-
 
     <!-- Template Main CSS File -->
     <link href="assets/css/style.css" rel="stylesheet">
@@ -45,12 +43,12 @@
 <header id="header" class="header fixed-top d-flex align-items-center">
 
     <div class="d-flex align-items-center justify-content-between">
-        <a href="index.html" class="logo d-flex align-items-center" style="width: 200px;">
+        <a href="dashboard.html" class="logo d-flex align-items-center" style="width: 200px;">
             <img src="assets/img/logo.png" alt="">
             <span class="d-none d-lg-block">Clinica LA FE</span>
         </a>
         <a>
-            <span class="d-none d-lg-block" style="color: #0a53be"> (Sede San Miguel)</span>
+            <span class="d-none d-lg-block" style="color: #0a53be"> (Administrativo/Pediatria)</span>
         </a>
         <i class="bi bi-list toggle-sidebar-btn"></i>
     </div><!-- End Logo -->
@@ -220,7 +218,7 @@
                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
                     <li class="dropdown-header">
                         <h6>K. Anderson</h6>
-                        <span>Administrativo</span>
+                        <span>Administrador</span>
                     </li>
                     <li>
                         <hr class="dropdown-divider">
@@ -260,6 +258,7 @@
             </a>
         </li><!-- End F.A.Q Page Nav -->
 
+
     </ul>
 
 </aside><!-- End Sidebar-->
@@ -267,11 +266,12 @@
 <main id="main" class="main">
 
     <div class="pagetitle">
-        <h1>Formulario Referido</h1>
+        <h1>Dashboard</h1>
         <nav>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="dashboard.html">Home</a></li>
-                <li class="breadcrumb-item active">Nuevo Paciente</li>
+                <li class="breadcrumb-item active">Dashboard</li>
+                <li class="breadcrumb-item active">Mensajes</li>
             </ol>
         </nav>
     </div><!-- End Page Title -->
@@ -282,34 +282,79 @@
 
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">Formulario</h5>
+                        <h5 class="card-title">Historial de mensajes</h5>
 
-                        <form class="row g-3">
-                            <div class="col-12">
-                                <label for="inputNanme4" class="form-label">Nombre del Paciente</label>
-                                <input value="Lorena Vela Sulca" type="text" class="form-control" id="inputNanme4">
-                            </div>
-                            <div class="col-12">
-                                <label for="inputEmail4" class="form-label">Email</label>
-                                <input value="lorena@pucp.edu.pe"type="email" class="form-control" id="inputEmail4">
-                            </div>
-                            <div class="col-12">
-                                <label for="inputNanme4" class="form-label">Telefono</label>
-                                <input value="999800999" type="text" class="form-control" id="inputNanme4">
-                            </div>
-                            <div class="col-12">
-                                <label for="inputPassword4" class="form-label">Usuario</label>
-                                <input value="loren2345" type="text" class="form-control" id="inputPassword4">
-                            </div>
-                            <div class="col-12">
-                                <label for="inputAddress" class="form-label">Contraseña</label>
-                                <input value="oasffghgfds" type="password" class="form-control" id="inputAddress">
-                            </div>
-                            <div class="text-center">
-                                <button type="submit" class="btn btn-warning" ><a href="dashboardpaciente.html">Guardar Cambios</a></button>
-                                <button type="reset" class="btn btn-secondary"><a href="dashboardpaciente.html">Cancelar</a></button>
-                            </div>
-                        </form><!-- Vertical Form -->
+                        <!-- Default Table -->
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th scope="col">Mensajes</th>
+                                <th scope="col">Nombre</th>
+                                <th scope="col">Foto</th>
+                                <th scope="col">Hora</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>Quae dolorem earum veritatis oditseno<div>fnfggjjjjjjvfncsffjgnjngjvfgngjsnfjbngjfnvd</div><div>fnfggjjjjjjvfncsffjgnjngjvfgngjsnfjbngjfnvd</div></td>
+                                <td><a href="chat.html">Andreina Bravo Torres</a></td>
+                                <td><img src="assets/img/messages-1.jpg" alt="" class="rounded-circle"></td>
+                                <td>21:04:06 17/8/23</td>
+                            </tr>
+                            <tr>
+                                <td>Quae dolorem earum veritatis oditseno<div>fnfggjjjjjjvfncsffjgnjngjvfgngjsnfjbngjfnvd</div><div>fnfggjjjjjjvfncsffjgnjngjvfgngjsnfjbngjfnvd</div></td>
+                                <td><a href="chat.html">Andreina Bravo Torres</a></td>
+                                <td><img src="assets/img/messages-2.jpg" alt="" class="rounded-circle"></td>
+                                <td>21:04:06 17/8/23</td>
+                            </tr>
+                            <tr>
+                                <td>Quae dolorem earum veritatis oditseno<div>fnfggjjjjjjvfncsffjgnjngjvfgngjsnfjbngjfnvd</div><div>fnfggjjjjjjvfncsffjgnjngjvfgngjsnfjbngjfnvd</div></td>
+                                <td><a href="chat.html">Andreina Bravo Torres</a></td>
+                                <td><img src="assets/img/messages-2.jpg" alt="" class="rounded-circle"></td>
+                                <td>21:04:06 17/8/23</td>
+                            </tr>
+                            <tr>
+                                <td>Quae dolorem earum veritatis oditseno<div>fnfggjjjjjjvfncsffjgnjngjvfgngjsnfjbngjfnvd</div><div>fnfggjjjjjjvfncsffjgnjngjvfgngjsnfjbngjfnvd</div></td>
+                                <td><a href="chat.html">Andreina Bravo Torres</a></td>
+                                <td><img src="assets/img/messages-1.jpg" alt="" class="rounded-circle"></td>
+                                <td>21:04:06 17/8/23</td>
+                            </tr>
+                            <tr>
+                                <td>Quae dolorem earum veritatis oditseno<div>fnfggjjjjjjvfncsffjgnjngjvfgngjsnfjbngjfnvd</div><div>fnfggjjjjjjvfncsffjgnjngjvfgngjsnfjbngjfnvd</div></td>
+                                <td><a href="chat.html">Andreina Bravo Torres</a></td>
+                                <td><img src="assets/img/messages-2.jpg" alt="" class="rounded-circle"></td>
+                                <td>21:04:06 17/8/23</td>
+                            </tr>
+                            <tr>
+                                <td>Quae dolorem earum veritatis oditseno<div>fnfggjjjjjjvfncsffjgnjngjvfgngjsnfjbngjfnvd</div><div>fnfggjjjjjjvfncsffjgnjngjvfgngjsnfjbngjfnvd</div></td>
+                                <td><a href="chat.html">Andreina Bravo Torres</a></td>
+                                <td><img src="assets/img/messages-2.jpg" alt="" class="rounded-circle"></td>
+                                <td>21:04:06 17/8/23</td>
+                            </tr>
+
+                            </tbody>
+                        </table>
+                        <!-- End Default Table Example -->
+
+
+                        <!-- Centered Pagination -->
+                        <nav aria-label="Page navigation example">
+                            <ul class="pagination justify-content-center">
+                                <li class="page-item">
+                                    <a class="page-link" href="#" aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span>
+                                    </a>
+                                </li>
+                                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                <li class="page-item">
+                                    <a class="page-link" href="#" aria-label="Next">
+                                        <span aria-hidden="true">&raquo;</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav><!-- End Centered Pagination -->
 
                     </div>
                 </div>
@@ -364,4 +409,3 @@
 </body>
 
 </html>
-

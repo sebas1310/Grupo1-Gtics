@@ -1,3 +1,8 @@
+
+<!-- Template Main CSS File -->
+
+
+
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/html">
 
@@ -26,6 +31,7 @@
   <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
   <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.4/font/bootstrap-icons.css">
+  <link href="assets/css/font-awesome.min.css" rel="stylesheet">
 
 
   <!-- Template Main CSS File -->
@@ -45,12 +51,12 @@
 <header id="header" class="header fixed-top d-flex align-items-center">
 
   <div class="d-flex align-items-center justify-content-between">
-    <a href="index.html" class="logo d-flex align-items-center" style="width: 200px;">
+    <a href="dashboard.html" class="logo d-flex align-items-center" style="width: 200px;">
       <img src="assets/img/logo.png" alt="">
       <span class="d-none d-lg-block">Clinica LA FE</span>
     </a>
     <a>
-      <span class="d-none d-lg-block" style="color: #0a53be"> (Sede San Miguel)</span>
+      <span class="d-none d-lg-block" style="color: #0a53be"> (Administrativo/Pediatria)</span>
     </a>
     <i class="bi bi-list toggle-sidebar-btn"></i>
   </div><!-- End Logo -->
@@ -220,7 +226,7 @@
         <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
           <li class="dropdown-header">
             <h6>K. Anderson</h6>
-            <span>Administrativo</span>
+            <span>Administrador</span>
           </li>
           <li>
             <hr class="dropdown-divider">
@@ -260,6 +266,7 @@
       </a>
     </li><!-- End F.A.Q Page Nav -->
 
+
   </ul>
 
 </aside><!-- End Sidebar-->
@@ -267,11 +274,12 @@
 <main id="main" class="main">
 
   <div class="pagetitle">
-    <h1>Formulario de Registro</h1>
+    <h1>Dashboard</h1>
     <nav>
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="dashboard.html">Home</a></li>
-        <li class="breadcrumb-item active">Nuevo Paciente</li>
+        <li class="breadcrumb-item active">Dashboard</li>
+        <li class="breadcrumb-item active">Mensajes</li>
       </ol>
     </nav>
   </div><!-- End Page Title -->
@@ -282,34 +290,108 @@
 
         <div class="card">
           <div class="card-body">
-            <h5 class="card-title">Formulario</h5>
+            <h5 class="card-title">Chat</h5>
+            <div class="container">
+              <div class="row clearfix">
+                <div class="col-lg-12">
+                  <div class="card chat-app">
+                    <div id="plist" class="people-list">
+                      <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search...">
+                      </div>
+                      <ul class="list-unstyled chat-list mt-2 mb-0">
+                        <li class="clearfix">
+                          <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="avatar">
+                          <div class="about">
+                            <div class="name">Vincent Porter</div>
+                            <div class="status"> <i class="fa fa-circle offline"></i> left 7 mins ago </div>
+                          </div>
+                        </li>
+                        <li class="clearfix active">
+                          <img src="assets/img/messages-1.jpg" alt="avatar" class="rounded-circle">
+                          <div class="about">
+                            <div class="name">Andreina Bravo Torres</div>
+                            <div class="status"> <i class="fa fa-circle online"></i> online </div>
+                          </div>
+                        </li>
+                        <li class="clearfix">
+                          <img src="https://bootdey.com/img/Content/avatar/avatar3.png" alt="avatar">
+                          <div class="about">
+                            <div class="name">Mike Thomas</div>
+                            <div class="status"> <i class="fa fa-circle online"></i> online </div>
+                          </div>
+                        </li>
+                        <li class="clearfix">
+                          <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="avatar">
+                          <div class="about">
+                            <div class="name">Christian Kelly</div>
+                            <div class="status"> <i class="fa fa-circle offline"></i> left 10 hours ago </div>
+                          </div>
+                        </li>
+                        <li class="clearfix">
+                          <img src="https://bootdey.com/img/Content/avatar/avatar8.png" alt="avatar">
+                          <div class="about">
+                            <div class="name">Monica Ward</div>
+                            <div class="status"> <i class="fa fa-circle online"></i> online </div>
+                          </div>
+                        </li>
+                        <li class="clearfix">
+                          <img src="https://bootdey.com/img/Content/avatar/avatar3.png" alt="avatar">
+                          <div class="about">
+                            <div class="name">Dean Henry</div>
+                            <div class="status"> <i class="fa fa-circle offline"></i> offline since Oct 28 </div>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                    <div class="chat">
+                      <div class="chat-header clearfix">
+                        <div class="row">
+                          <div class="col-lg-6">
+                            <a href="javascript:void(0);" data-toggle="modal" data-target="#view_info">
+                              <img src="assets/img/messages-1.jpg" alt="avatar" class="rounded-circle">                            </a>
+                            <div class="chat-about">
+                              <h6 class="m-b-0">Andreina Bravo Torres</h6>
+                              <small>Last seen: 2 hours ago</small>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="chat-history">
+                        <ul class="m-b-0">
+                          <li class="clearfix">
+                            <div class="message other-message float-right"> Hi Andreina, how are you? How is the project coming along? </div>
+                          </li>
+                          <li class="clearfix">
+                            <div class="message-data">
+                              <span class="message-data-time">10:12 AM, Today</span>
+                            </div>
+                            <div class="message my-message">Are we meeting today?</div>
+                          </li>
+                          <li class="clearfix">
+                            <div class="message-data">
+                              <span class="message-data-time">10:15 AM, Today</span>
+                            </div>
+                            <div class="message my-message">Project has been already finished and I have results to show you.</div>
+                          </li>
+                        </ul>
+                      </div>
+                      <div class="chat-message clearfix">
+                        <div class="input-group mb-0">
+                          <input type="text" class="form-control" placeholder="Enter text here...">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
 
-            <form class="row g-3">
-              <div class="col-12">
-                <label for="inputNanme4" class="form-label">Nombre del Paciente</label>
-                <input type="text" class="form-control" id="inputNanme4">
-              </div>
-              <div class="col-12">
-                <label for="inputEmail4" class="form-label">Email</label>
-                <input type="email" class="form-control" id="inputEmail4">
-              </div>
-              <div class="col-12">
-                <label for="inputNanme4" class="form-label">Telefono</label>
-                <input type="text" class="form-control" id="inputNanme4">
-              </div>
-              <div class="col-12">
-                <label for="inputPassword4" class="form-label">Usuario</label>
-                <input type="text" class="form-control" id="inputAddress">
-              </div>
-              <div class="col-12">
-                <label for="inputAddress" class="form-label">Contraseña</label>
-                <input type="password" class="form-control" id="inputPassword4">
-              </div>
-              <div class="text-center">
-                <button type="submit" class="btn btn-warning" ><a href="dashboardpaciente.html">Guardar Cambios</a></button>
-                <button type="reset" class="btn btn-secondary"><a href="nuevopaciente.html">Cancelar</a></button>
-              </div>
-            </form><!-- Vertical Form -->
+            <!-- Default Table -->
+
+
+
+            <!-- Centered Pagination -->
 
           </div>
         </div>
@@ -364,4 +446,3 @@
 </body>
 
 </html>
-
