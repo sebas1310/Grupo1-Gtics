@@ -243,14 +243,14 @@
     </li><!-- End Cuestionarios -->
 
     <li class="nav-item">  <!-- cambia -->
-      <a class="nav-link collapsed"  href="index.html" >
+      <a class="nav-link collapsed"  href="calendarioDoc.html" >
         <i class="bi bi-calendar3"></i>
         <span>Calendario</span>
       </a>
     </li><!-- End Calendario -->
 
     <li class="nav-item">  <!-- cambia -->
-      <a class="nav-link collapsed" href="index.html" >
+      <a class="nav-link collapsed" href="perfilDoc.html" >
         <i class="bi bi-person"></i>
         <span>Perfil</span>
       </a>
@@ -264,7 +264,7 @@
     <li class="nav-heading"> ----------------------------------------------- </li>
 
     <li class="nav-item">
-      <a class="nav-link collapsed" href="pages-login.html">
+      <a class="nav-link collapsed" href="configuracionDoc.html">
         <i class="bi bi-gear"></i>
         <span>Configuracion</span>
       </a>
@@ -272,14 +272,30 @@
 
 
     <li class="nav-item">
-      <a class="nav-link collapsed" href="pages-login.html" >
+      <a class="nav-link collapsed" type="button" data-bs-toggle="modal" data-bs-target="#verticalycentered">
         <i class="bi bi-box-arrow-in-right"></i>
-        <span>Cerrar Sesion</span>
+        <span>Cerrar Sesión</span>
+        <!-- Vertically centered Modal -->
+
       </a>
     </li><!-- End Cerrar Sesion -->
   </ul>
 
 </aside><!-- End Sidebar-->
+<div class="modal fade" id="verticalycentered" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">¿Seguro que deseas Salir?</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" data-bs-dismiss="modal"><a style="color: white" href="pages-login.html" >Salir</button>
+        <button type="button" class="btn btn-secondary"><a style="color: white" href="dashboardDocMensual.html" >Cancelar</a></button>
+      </div>
+    </div>
+  </div>
+</div><!-- End Vertically centered Modal-->
 <main id="main" class="main">
 
   <div class="pagetitle">
