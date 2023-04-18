@@ -18,12 +18,6 @@ body {
   color: #444444;
 }
 
-bodyfondo {
-  font-family: "Open Sans", sans-serif;
-  background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRSah6FVCoPjzOz56HNYLnJfaN0xT3zDRQYzw&usqp=CAU");
-  color: #444444;
-}
-
 a {
   color: #4154f1;
   text-decoration: none;
