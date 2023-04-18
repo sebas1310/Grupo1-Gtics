@@ -1,5 +1,5 @@
-package com.example.proyectogticsgrupo1.Repository;
+//package com.example.proyectogticsgrupo1.Repository;
 
 
-public interface DoctorRepository {
-}
+//public interface DoctorRepository {
+//}

@@ -20,7 +20,7 @@ public class InicioController {
 
     @GetMapping(value = "/formRegistro")
     public String formRegistro(){
-        return "olvidocontr.html";
+        return "olvidocontra.html";
     }
 
 
