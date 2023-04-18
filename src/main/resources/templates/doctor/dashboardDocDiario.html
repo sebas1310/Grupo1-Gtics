@@ -43,7 +43,7 @@
 <header id="header" class="header fixed-top d-flex align-items-center">
 
   <div class="d-flex align-items-center justify-content-between">
-    <a href="index.html" class="logo d-flex align-items-center">
+    <a th:href="@{'/doctor/dashboard'}" class="logo d-flex align-items-center">
       <img src="assets/img/logo.png" alt="">
       <span class="d-none d-lg-block">Clínica La Fe</span>
     </a>
@@ -95,21 +95,6 @@
           <li>
             <hr class="dropdown-divider">
           </li>
-
-          <!--
-
-          <li class="notification-item">
-            <i class="bi bi-x-circle text-danger"></i>
-            <div>
-              <h4>Atque rerum nesciunt</h4>
-              <p>Quae dolorem earum veritatis oditseno</p>
-              <p>1 hr. ago</p>
-            </div>
-          </li>
-          <li>
-            <hr class="dropdown-divider">
-          </li>
-          -->
 
           <li class="notification-item">
             <i class="bi bi-check-circle text-success"></i>
@@ -223,35 +208,29 @@
 
   <ul class="sidebar-nav" id="sidebar-nav">
     <li class="nav-item">
-      <a class="nav-link " href="dashboardDoc.html">
+      <a class="nav-link " th:href="@{'/doctor/dashboard'}">
         <i class="bi bi-grid"></i>
         <span>Dashboard</span>
       </a>
     </li><!-- End Dashboard -->
 
     <li class="nav-item"> <!-- Cambiar ref -->
-      <a class="nav-link collapsed"  href="pacientesAtendidos.html">
+      <a class="nav-link collapsed"  th:href="@{'/doctor/pacientesatendidos'}">
         <i class="bi bi-menu-button-wide"></i>
         <span>Pacientes Atendidos</span>
       </a>
     </li><!-- End Pacientes Atendidos -->
 
-    <li class="nav-item">  <!-- cambia -->
-      <a class="nav-link collapsed"  href="cuestionarioDoc.html" >
-        <i class="bi bi-journal-text"></i>
-        <span>Cuestionarios</span>
-      </a>
-    </li><!-- End Cuestionarios -->
 
     <li class="nav-item">  <!-- cambia -->
-      <a class="nav-link collapsed"  href="calendarioDoc.html" >
+      <a class="nav-link collapsed"  th:href="@{'/doctor/calendario'}" >
         <i class="bi bi-calendar3"></i>
         <span>Calendario</span>
       </a>
     </li><!-- End Calendario -->
 
     <li class="nav-item">  <!-- cambia -->
-      <a class="nav-link collapsed" href="perfilDoc.html" >
+      <a class="nav-link collapsed" th:href="@{'/doctor/perfil'}" >
         <i class="bi bi-person"></i>
         <span>Perfil</span>
       </a>
@@ -260,12 +239,13 @@
     <br><br><br><br>
     <br><br><br><br>
     <br><br><br><br>
-    <br><br><br>
+    <br><br><br><br>
+    <br>
     <br><br>
     <li class="nav-heading"> ----------------------------------------------- </li>
 
     <li class="nav-item">
-      <a class="nav-link collapsed" href="configuracionDoc.html">
+      <a class="nav-link collapsed" th:href="@{'/doctor/configuraciones'}">
         <i class="bi bi-gear"></i>
         <span>Configuracion</span>
       </a>
@@ -292,7 +272,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-success" data-bs-dismiss="modal"><a style="color: white" href="pages-login.html" >Salir</button>
-        <button type="button" class="btn btn-secondary"><a style="color: white" href="dashboardDocDiario.html" >Cancelar</a></button>
+        <button type="button" class="btn btn-secondary"><a style="color: white" th:href="@{'/doctor/dashboard/diario'}" >Cancelar</a></button>
       </div>
     </div>
   </div>
@@ -303,7 +283,7 @@
     <h1>Dashboard</h1>
     <nav>
       <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="dashboardDocDiario.html">Home</a></li>
+        <li class="breadcrumb-item"><a th:href="@{'/doctor/dashboard/diario'}">Home</a></li>
         <li class="breadcrumb-item active">Dashboard</li>
       </ol>
     </nav>
@@ -317,10 +297,20 @@
         <!-- CITAS AGENDADAS -->
         <div class="col-12">
           <div class="card recent-sales overflow-auto">
+            <div class="filter">
+              <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+              <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                <li class="dropdown-header text-start">
+                  <h6>Filtro</h6>
+                </li>
 
-
+                <li><a class="dropdown-item" th:href="@{'/doctor/dashboard/diario'}">Hoy</a></li>
+                <li><a class="dropdown-item" href="dashboardDocDiario.html">Mañana</a></li>
+              </ul>
+            </div>
             <div class="card-body">
-              <h5 class="card-title">Citas Agendadas <span>| Martes 4 de Abril</span></h5>
+              <h5 class="card-title">Citas Agendadas <span>| Hoy</span>
+                <br><br> <center>Martes 4 de Abril</center></h5>
               <table class="table table-borderless datatable">
                 <thead>
                 <tr>
@@ -328,33 +318,44 @@
                   <th style="text-align: center" scope="col">Paciente</th>
                   <th style="text-align: center" scope="col">Tipo de Cita</th>
                   <th style="text-align: center" scope="col">Estado de Cita</th>
+                  <th style="text-align: center" scope="col">Cuestionario</th>
+                  <th style="text-align: center" scope="col">Historial </th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr>
-                  <td style="text-align: center" scope="row">10:00 am</td>
+                  <td style="text-align: center" scope="row">10:00 - 11:00 am</td>
                   <td style="text-align: center">Julia Amanda Garriazo</td>
                   <td style="text-align: center">Presencial</td>
                   <td style="text-align: center">En Espera</td>
+                  <td style="text-align: center"> <a type="button" class="bi bi-journal-text"  th:href="@{'/doctor/cuestionario'}"></a></td>
+                  <td style="text-align: center" > <a class="bi bi-eye-fill" data-bs-toggle="modal" href="#modal" role="button"></a></td>
                 </tr>
-                <tr>
-                  <td style="text-align: center" scope="row">11:15 am</td>
-                  <td style="text-align: center">Bridie Kessler</td>
-                  <td style="text-align: center">Virtual</td>
-                  <td style="text-align: center"> <a type="button" class="bi bi-camera-video"  href="https://pucp.zoom.us/j/91442275627?pwd=MjFjNGNTeXZEYVhzd3RKYmtVTzROQT09"></a> Iniciar </td>
-                </tr>
+            </div>
+          </div><!-- End Recent Sales --> </td>
+          </tr>
+          <tr>
+            <td style="text-align: center" scope="row">11:15 - 12:15 pm</td>
+            <td style="text-align: center">Bridie Kessler</td>
+            <td style="text-align: center">Virtual</td>
+            <td style="text-align: center"> <a type="button" class="bi bi-camera-video"  href="https://pucp.zoom.us/j/91442275627?pwd=MjFjNGNTeXZEYVhzd3RKYmtVTzROQT09"></a> Iniciar </td>
+            <td style="text-align: center"> <a type="button" class="bi bi-journal-text"  th:href="@{'/doctor/cuestionario'}"></a></td>
+            <td style="text-align: center" > <a class="bi bi-eye-fill" data-bs-toggle="modal" href="#modal" role="button"></a></td>
+          </tr>
 
-                <tr>
-                  <td style="text-align: center" scope="row">15:00 pm</td>
-                  <td style="text-align: center">Angus Grady</td>
-                  <td style="text-align: center">Presencial</td>
-                  <td style="text-align: center">Registrado en Caja</td>
-                </tr>
-                </tbody>
-              </table>
+          <tr>
+            <td style="text-align: center" scope="row">15:00 - 16:00 pm</td>
+            <td style="text-align: center">Angus Grady</td>
+            <td style="text-align: center">Presencial</td>
+            <td style="text-align: center">Registrado en Caja</td>
+            <td style="text-align: center"> <a type="button" class="bi bi-journal-text"  th:href="@{'/doctor/cuestionario'}" ></a></td>
+            <td style="text-align: center" > <a class="bi bi-eye-fill" data-bs-toggle="modal" href="#modal" role="button"></a></td>
+          </tr>
+          </tbody>
+          </table>
               <!-- dos modal-->
 
-              <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+              <div class="modal fade" id="modal" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
                 <div class="modal-dialog modal-dialog-centered">
                   <div class="modal-content">
                     <div class="modal-header">
@@ -530,12 +531,11 @@
                       </div>
                     </div>
                     <div class="modal-footer">
-                      <button class="btn btn-primary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">Historial Clínico</button>
+                      <button class="btn btn-primary" data-bs-target="#modal" data-bs-toggle="modal">Historial Clínico</button>
                     </div>
                   </div>
                 </div>
               </div>
-              <a class="btn btn-primary" data-bs-toggle="modal" href="#exampleModalToggle" role="button">Mas Informacion</a>
 
             </div>
 
@@ -551,9 +551,9 @@
                 <h6>Filtro</h6>
               </li>
 
-              <li><a class="dropdown-item" href="dashboardDoc.html">Semanal</a></li>
-              <li><a class="dropdown-item" href="dashboardDocDiario.html">Diario</a></li>
-              <li><a class="dropdown-item" href="dashboardDocMensual.html">Mensual</a></li>
+              <li><a class="dropdown-item" th:href="@{'/doctor/dashboard'}">Semanal</a></li>
+              <li><a class="dropdown-item" th:href="@{'/doctor/dashboard/diario'}" >Diario</a></li>
+              <li><a class="dropdown-item" th:href="@{'/doctor/dashboard/mensual'}">Mensual</a></li>
             </ul>
           </div>
 

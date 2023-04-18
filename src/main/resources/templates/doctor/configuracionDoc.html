@@ -230,7 +230,7 @@
     </li><!-- End Dashboard -->
 
     <li class="nav-item"> <!-- Cambiar ref -->
-      <a class="nav-link"  href="pacientesAtendidos.html">
+      <a class="nav-link collapsed"  href="pacientesAtendidos.html">
         <i class="bi bi-menu-button-wide"></i>
         <span>Pacientes Atendidos</span>
       </a>
@@ -245,7 +245,7 @@
     </li><!-- End Cuestionarios -->
 
     <li class="nav-item">  <!-- cambia -->
-      <a class="nav-link collapsed"  href="calendarioDoc.html" >
+      <a class="nav-link collapsed"  href="index.html" >
         <i class="bi bi-calendar3"></i>
         <span>Calendario</span>
       </a>
@@ -266,7 +266,7 @@
     <li class="nav-heading"> ----------------------------------------------- </li>
 
     <li class="nav-item">
-      <a class="nav-link collapsed" href="configuracionDoc.html">
+      <a class="nav-link " href="configuracionDoc.html">
         <i class="bi bi-gear"></i>
         <span>Configuracion</span>
       </a>
@@ -293,140 +293,70 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-success" data-bs-dismiss="modal"><a style="color: white" href="pages-login.html" >Salir</button>
-        <button type="button" class="btn btn-secondary"><a style="color: white" href="verHistorial.html" >Cancelar</a></button>
+        <button type="button" class="btn btn-secondary"><a style="color: white" href="configuracionDoc.html" >Cancelar</a></button>
       </div>
     </div>
   </div>
 </div><!-- End Vertically centered Modal-->
 
-
 <main id="main" class="main">
 
   <div class="pagetitle">
-    <h1>Historial Clínico</h1>
+    <h1>Configuraciones</h1>
     <nav>
       <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="dashboardDoc.html">Home</a></li>
-        <li class="breadcrumb-item"><a href="pacientesAtendidos.html">Pacientes Atendidos</a></li>
-        <li class="breadcrumb-item active">Historial Clínico</li>
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item active">Configuraciones</li>
       </ol>
     </nav>
   </div><!-- End Page Title -->
 
-  <section class="section ">
-    <!-- Left side columns -->
-    <div class="col-lg">
-      <div class="row">
-          <!-- Informacion del Paciente -->
-          <!--  <div class="col-xxl-4 col-xl-16"> -->
-        <div class="col">
-          <div class="card info-card customers-card">
-              <div class="card-body">
-                <h5 class="card-title">Informacion del Paciente </h5>
-                <div class="d-flex align-items-center">
-                  <div class="ps-3">
-                    <li>Nombre: Julia Amanda Garriazo</li>
-                    <li>Edad: 50 años</li>
-                    <li>Condicion/Enfermedad: xxxx</li>
-                    <li>Seguro: EsSalud</li>
-                    <li>Correo: amanda.garriazo@gmail.com</li>
+  <section class="section">
+    <div class="row">
+      <div class="col-lg-20">
+
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Sede</h5>
+
+            <!-- Default Table -->
+            <table class="table">
+
+              <tbody>
+              <tr>
+                <td><div class="row mb-lg-2">
+                  <div class="col-sm-10">
+                    <select class="form-select" aria-label="Default select example">
+                      <option selected>Seleccione</option>
+                      <option value="1">San Miguel</option>
+                      <option value="2">Jesus Maria</option>
+                    </select>
                   </div>
                 </div>
-            </div>
-
-          </div> <!--End Informacion -->
-
-          <!-- Historial de citas -->
-
-          <div class="col-12">
-            <div class="card recent-sales overflow-auto">
-            <div class="card-body">
-              <h5 class="card-title">Historial de Citas</h5>
-
-              <table class="table">
-                <thead class="table-light">
-                <tr>
-                  <th style="text-align: center" scope="col"># Cita</th>
-                  <th style="text-align: center" scope="col">Fecha</th>
-                  <th style="text-align: center" scope="col">Modalidad</th>
-                  <th style="text-align: center" scope="col">Boleta</th>
-                  <th style="text-align: center" scope="col">  </th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                  <th style="text-align: center" scope="row">1</th>
-                  <td style="text-align: center">31/03/2023</td>
-                  <td style="text-align: center">Presencial</td>
-                  <td style="text-align: center"> <a type="button" class="bi bi-printer-fill"></a> </td>
-                  <td style="text-align: center"> <a type="button" class="bi bi-eye-fill" href="verCita.html" ></a> </td>
-                </tr>
-                <tr>
-                  <th style="text-align: center" scope="row">2</th>
-                  <td style="text-align: center">02/04/2023</td>
-                  <td style="text-align: center">Virtual</td>
-                  <td style="text-align: center"> <a type="button" class="bi bi-printer-fill" ></a> </td>
-                  <td style="text-align: center"> <a type="button" class="bi bi-eye-fill" href="verCita.html"  ></a> </td>
-                </tr>
-                </tbody>
-              </table>
-              <!-- End Historial -->
-            </div>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+            <!-- End Default Table Example -->
           </div>
-          </div>
-    </div><!-- End Left side columns -->
-
-    <!-- Right side columns -->
-    <div class="col-lg-5">
-      <!-- Bitacora -->
-      <div class="card recent-sales overflow-auto">
-          <div class="card-body">
-            <h5 class="card-title">Bitacora de Diagnostico</h5>
-            <div class=" col-md-2">
-              <ul class="nav nav-pills nav-stacked anyClass">
-
-              </ul>
-            </div>
-            <div class="card">
-              <div class="card-header">
-                Dr. Rodriguez
-              </div>
-              <div class="card-body">
-                <p class="card-text">xxxxxxxxxxxxxxx</p>
-              </div>
-            </div>
-            <div class="card">
-              <div class="card-header">
-                Dr. Fernandez
-              </div>
-              <div class="card-body">
-                <p class="card-text">xxxxxxxxxxxxxxx</p>
-              </div>
-            </div>
-            <div class="mb-3">
-              <h5 class="card-title">Añadir Comentario</h5>
-              <form>
-                <div class="form-floating">
-                  <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea"></textarea>
-                  <label for="floatingTextarea">Comentario</label>
-                  <br>
-                </div >
-                <div class="d-grid gap d-md-flex justify-content-md-center">
-                  <button  type="submit" class="btn btn-primary">Guardar</button>
-                </div>
-
-              </form>
-            </div>
+        </div>
 
 
-          </div>
       </div>
-    </div>
-    </div>
+
+
     </div>
   </section>
-</main><!-- End #main -->
 
+
+
+
+
+
+
+
+
+</main><!-- End #main -->
 
 
 <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
