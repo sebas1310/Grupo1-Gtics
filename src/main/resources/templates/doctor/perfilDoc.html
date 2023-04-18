@@ -43,7 +43,7 @@
 <header id="header" class="header fixed-top d-flex align-items-center">
 
   <div class="d-flex align-items-center justify-content-between">
-    <a href="index.html" class="logo d-flex align-items-center">
+    <a th:href="@{'/doctor/dashboard'}" class="logo d-flex align-items-center">
       <img src="assets/img/logo.png" alt="">
       <span class="d-none d-lg-block">Clínica La Fe</span>
     </a>
@@ -223,35 +223,29 @@
 
   <ul class="sidebar-nav" id="sidebar-nav">
     <li class="nav-item">
-      <a class="nav-link collapsed " href="dashboardDoc.html">
+      <a class="nav-link collapsed " th:href="@{'/doctor/dashboard'}" >
         <i class="bi bi-grid"></i>
         <span>Dashboard</span>
       </a>
     </li><!-- End Dashboard -->
 
     <li class="nav-item"> <!-- Cambiar ref -->
-      <a class="nav-link collapsed"  href="pacientesAtendidos.html">
+      <a class="nav-link collapsed"  th:href="@{'/doctor/pacientesatendidos'}" >
         <i class="bi bi-menu-button-wide"></i>
         <span>Pacientes Atendidos</span>
       </a>
     </li><!-- End Pacientes Atendidos -->
 
-    <li class="nav-item">  <!-- cambia -->
-      <a class="nav-link collapsed"  href="cuestionarioDoc.html" >
-        <i class="bi bi-journal-text"></i>
-        <span>Cuestionarios</span>
-      </a>
-    </li><!-- End Cuestionarios -->
 
     <li class="nav-item">  <!-- cambia -->
-      <a class="nav-link collapsed"  href="index.html" >
+      <a class="nav-link collapsed"  th:href="@{'/doctor/calendario'}" >
         <i class="bi bi-calendar3"></i>
         <span>Calendario</span>
       </a>
     </li><!-- End Calendario -->
 
     <li class="nav-item">  <!-- cambia -->
-      <a class="nav-link" href="perfilDoc.html" >
+      <a class="nav-link" th:href="@{'/doctor/perfil'}" >
         <i class="bi bi-person"></i>
         <span>Perfil</span>
       </a>
@@ -265,7 +259,7 @@
     <li class="nav-heading"> ----------------------------------------------- </li>
 
     <li class="nav-item">
-      <a class="nav-link collapsed" href="pages-login.html">
+      <a class="nav-link collapsed" th:href="@{'/doctor/configuraciones'}" >
         <i class="bi bi-gear"></i>
         <span>Configuracion</span>
       </a>
@@ -292,7 +286,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-success" data-bs-dismiss="modal"><a style="color: white" href="inicio.html" >Salir</button>
-        <button type="button" class="btn btn-secondary"><a style="color: white" href="perfil.html" >Cancelar</a></button>
+        <button type="button" class="btn btn-secondary"><a style="color: white" th:href="@{'/doctor/perfil'}" >Cancelar</a></button>
       </div>
     </div>
   </div>
@@ -305,7 +299,7 @@
     <h1>Profile</h1>
     <nav>
       <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="dashboardDoc.html">Home</a></li>
+        <li class="breadcrumb-item"><a th:href="@{'/doctor/dashboard'}">Home</a></li>
         <li class="breadcrumb-item active">Perfil</li>
       </ol>
     </nav>
