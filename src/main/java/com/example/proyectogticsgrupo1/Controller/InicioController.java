@@ -5,23 +5,34 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping(value = "/inicioSesion")
+@RequestMapping(value = "/")
 
 public class InicioController {
-    @GetMapping(value = "/")
+    @GetMapping(value = {"/","/iniciosesion"})
     public String inicioSesion(){
-        return "pages-login.html";
+
+        return "pages-login";
     }
 
-    @GetMapping(value = "/olvidoContra")
+    @GetMapping(value = "/registro")
+    public String registro(){
+
+        return "pages-register";
+    }
+
+    @GetMapping(value = "/olvidocontra")
     public String olvidoContra(){
-        return "olvidocontra.html";
+
+        return "olvidocontra";
     }
 
     @GetMapping(value = "/formRegistro")
     public String formRegistro(){
-        return "olvidocontra.html";
+
+        return "formularioregistro";
     }
+
+
 
 
 

@@ -1,6 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
 
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
@@ -10,41 +10,34 @@
   <meta content="" name="keywords">
 
   <!-- Favicons -->
-  <link href="assets/img/favicon.png" rel="icon">
-  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+  <link th:href="@{assets/img/favicon.png}" rel="icon">
+  <link th:href="@{assets/img/apple-touch-icon.png}" rel="apple-touch-icon">
 
   <!-- Google Fonts -->
   <link href="https://fonts.gstatic.com" rel="preconnect">
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
 
+
   <!-- Vendor CSS Files -->
-  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-  <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
-  <link href="assets/vendor/quill/quill.snow.css" rel="stylesheet">
-  <link href="assets/vendor/quill/quill.bubble.css" rel="stylesheet">
-  <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
-  <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
+  <link th:href="@{/assets/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+  <link th:href="@{/assets/vendor/bootstrap-icons/bootstrap-icons.css}" rel="stylesheet">
+  <link th:href="@{assets/vendor/boxicons/css/boxicons.min.css}" rel="stylesheet">
+  <link th:href="@{/assets/vendor/quill/quill.snow.css}" rel="stylesheet">
+  <link th:href="@{/assets/vendor/quill/quill.bubble.css}" rel="stylesheet">
+  <link th:href="@{/assets/vendor/remixicon/remixicon.css}" rel="stylesheet">
+  <link th:href="@{/assets/vendor/simple-datatables/style.css}" rel="stylesheet">
 
   <!-- Template Main CSS File -->
-  <link href="assets/css/style.css" rel="stylesheet">
-
-  <!-- =======================================================
-  * Template Name: NiceAdmin - v2.4.0
-  * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
-  * Author: BootstrapMade.com
-  * License: https://bootstrapmade.com/license/
-  ======================================================== -->
+  <link th:href="@{/assets/css/style.css}" rel="stylesheet">
 </head>
-
 <body>
 
 <!-- ======= Header ======= -->
 <header id="header" class="header fixed-top d-flex align-items-center">
 
   <div class="d-flex align-items-center justify-content-between">
-    <a href="index.html" class="logo d-flex align-items-center">
-      <img src="assets/img/logo.png" alt="">
+    <a th:href="@{'/doctor/dashboard'}" class="logo d-flex align-items-center">
+      <img src="../../static/assets/img/logo.png" alt="">
       <span class="d-none d-lg-block">Clínica La Fe</span>
     </a>
     <i class="bi bi-list toggle-sidebar-btn"></i>
@@ -95,21 +88,6 @@
           <li>
             <hr class="dropdown-divider">
           </li>
-
-          <!--
-
-          <li class="notification-item">
-            <i class="bi bi-x-circle text-danger"></i>
-            <div>
-              <h4>Atque rerum nesciunt</h4>
-              <p>Quae dolorem earum veritatis oditseno</p>
-              <p>1 hr. ago</p>
-            </div>
-          </li>
-          <li>
-            <hr class="dropdown-divider">
-          </li>
-          -->
 
           <li class="notification-item">
             <i class="bi bi-check-circle text-success"></i>
@@ -162,7 +140,7 @@
 
           <li class="message-item">
             <a href="#">
-              <img src="assets/img/messages-1.jpg" alt="" class="rounded-circle">
+              <img src="../../static/assets/img/messages-1.jpg" alt="" class="rounded-circle">
               <div>
                 <h4>Maria Hudson</h4>
                 <p>Doctora buenas tardes, tenia una consulta con respecto ...</p>
@@ -176,7 +154,7 @@
 
           <li class="message-item">
             <a href="#">
-              <img src="assets/img/messages-2.jpg" alt="" class="rounded-circle">
+              <img src="../../static/assets/img/messages-2.jpg" alt="" class="rounded-circle">
               <div>
                 <h4>Anna Nelson</h4>
                 <p> xxxxxxxxxxxxxxxxxxxxxxx </p>
@@ -223,35 +201,29 @@
 
   <ul class="sidebar-nav" id="sidebar-nav">
     <li class="nav-item">
-      <a class="nav-link " href="dashboardDoc.html">
+      <a class="nav-link " th:href="@{'/doctor/dashboard'}">
         <i class="bi bi-grid"></i>
         <span>Dashboard</span>
       </a>
     </li><!-- End Dashboard -->
 
     <li class="nav-item"> <!-- Cambiar ref -->
-      <a class="nav-link collapsed"  href="pacientesAtendidos.html">
+      <a class="nav-link collapsed"  th:href="@{'/doctor/pacientesatendidos'}">
         <i class="bi bi-menu-button-wide"></i>
         <span>Pacientes Atendidos</span>
       </a>
     </li><!-- End Pacientes Atendidos -->
 
-    <li class="nav-item">  <!-- cambia -->
-      <a class="nav-link collapsed"  href="cuestionarioDoc.html" >
-        <i class="bi bi-journal-text"></i>
-        <span>Cuestionarios</span>
-      </a>
-    </li><!-- End Cuestionarios -->
 
     <li class="nav-item">  <!-- cambia -->
-      <a class="nav-link collapsed"  href="calendarioDoc.html" >
+      <a class="nav-link collapsed"  th:href="@{'/doctor/calendario'}" >
         <i class="bi bi-calendar3"></i>
         <span>Calendario</span>
       </a>
     </li><!-- End Calendario -->
 
     <li class="nav-item">  <!-- cambia -->
-      <a class="nav-link collapsed" href="perfilDoc.html" >
+      <a class="nav-link collapsed" th:href="@{'/doctor/perfil'}" >
         <i class="bi bi-person"></i>
         <span>Perfil</span>
       </a>
@@ -260,12 +232,13 @@
     <br><br><br><br>
     <br><br><br><br>
     <br><br><br><br>
-    <br><br><br>
+    <br><br><br><br>
+    <br>
     <br><br>
     <li class="nav-heading"> ----------------------------------------------- </li>
 
     <li class="nav-item">
-      <a class="nav-link collapsed" href="configuracionDoc.html">
+      <a class="nav-link collapsed" th:href="@{'/doctor/configuraciones'}">
         <i class="bi bi-gear"></i>
         <span>Configuracion</span>
       </a>
@@ -292,7 +265,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-success" data-bs-dismiss="modal"><a style="color: white" href="pages-login.html" >Salir</button>
-        <button type="button" class="btn btn-secondary"><a style="color: white" href="dashboardDocDiario.html" >Cancelar</a></button>
+        <button type="button" class="btn btn-secondary"><a style="color: white" th:href="@{'/doctor/dashboard/diario'}" >Cancelar</a></button>
       </div>
     </div>
   </div>
@@ -303,7 +276,7 @@
     <h1>Dashboard</h1>
     <nav>
       <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="dashboardDocDiario.html">Home</a></li>
+        <li class="breadcrumb-item"><a th:href="@{'/doctor/dashboard/diario'}">Home</a></li>
         <li class="breadcrumb-item active">Dashboard</li>
       </ol>
     </nav>
@@ -317,10 +290,20 @@
         <!-- CITAS AGENDADAS -->
         <div class="col-12">
           <div class="card recent-sales overflow-auto">
+            <div class="filter">
+              <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+              <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                <li class="dropdown-header text-start">
+                  <h6>Filtro</h6>
+                </li>
 
-
+                <li><a class="dropdown-item" th:href="@{'/doctor/dashboard/diario'}">Hoy</a></li>
+                <li><a class="dropdown-item" href="dashboardDocDiario.html">Mañana</a></li>
+              </ul>
+            </div>
             <div class="card-body">
-              <h5 class="card-title">Citas Agendadas <span>| Martes 4 de Abril</span></h5>
+              <h5 class="card-title">Citas Agendadas <span>| Hoy</span>
+                <br><br> <center>Martes 4 de Abril</center></h5>
               <table class="table table-borderless datatable">
                 <thead>
                 <tr>
@@ -328,33 +311,44 @@
                   <th style="text-align: center" scope="col">Paciente</th>
                   <th style="text-align: center" scope="col">Tipo de Cita</th>
                   <th style="text-align: center" scope="col">Estado de Cita</th>
+                  <th style="text-align: center" scope="col">Cuestionario</th>
+                  <th style="text-align: center" scope="col">Historial </th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr>
-                  <td style="text-align: center" scope="row">10:00 am</td>
+                  <td style="text-align: center" scope="row">10:00 - 11:00 am</td>
                   <td style="text-align: center">Julia Amanda Garriazo</td>
                   <td style="text-align: center">Presencial</td>
                   <td style="text-align: center">En Espera</td>
+                  <td style="text-align: center"> <a type="button" class="bi bi-journal-text"  th:href="@{'/doctor/cuestionario'}"></a></td>
+                  <td style="text-align: center" > <a class="bi bi-eye-fill" data-bs-toggle="modal" href="#modal" role="button"></a></td>
                 </tr>
-                <tr>
-                  <td style="text-align: center" scope="row">11:15 am</td>
-                  <td style="text-align: center">Bridie Kessler</td>
-                  <td style="text-align: center">Virtual</td>
-                  <td style="text-align: center"> <a type="button" class="bi bi-camera-video"  href="https://pucp.zoom.us/j/91442275627?pwd=MjFjNGNTeXZEYVhzd3RKYmtVTzROQT09"></a> Iniciar </td>
-                </tr>
+            </div>
+          </div><!-- End Recent Sales --> </td>
+          </tr>
+          <tr>
+            <td style="text-align: center" scope="row">11:15 - 12:15 pm</td>
+            <td style="text-align: center">Bridie Kessler</td>
+            <td style="text-align: center">Virtual</td>
+            <td style="text-align: center"> <a type="button" class="bi bi-camera-video"  href="https://pucp.zoom.us/j/91442275627?pwd=MjFjNGNTeXZEYVhzd3RKYmtVTzROQT09"></a> Iniciar </td>
+            <td style="text-align: center"> <a type="button" class="bi bi-journal-text"  th:href="@{'/doctor/cuestionario'}"></a></td>
+            <td style="text-align: center" > <a class="bi bi-eye-fill" data-bs-toggle="modal" href="#modal" role="button"></a></td>
+          </tr>
 
-                <tr>
-                  <td style="text-align: center" scope="row">15:00 pm</td>
-                  <td style="text-align: center">Angus Grady</td>
-                  <td style="text-align: center">Presencial</td>
-                  <td style="text-align: center">Registrado en Caja</td>
-                </tr>
-                </tbody>
-              </table>
+          <tr>
+            <td style="text-align: center" scope="row">15:00 - 16:00 pm</td>
+            <td style="text-align: center">Angus Grady</td>
+            <td style="text-align: center">Presencial</td>
+            <td style="text-align: center">Registrado en Caja</td>
+            <td style="text-align: center"> <a type="button" class="bi bi-journal-text"  th:href="@{'/doctor/cuestionario'}" ></a></td>
+            <td style="text-align: center" > <a class="bi bi-eye-fill" data-bs-toggle="modal" href="#modal" role="button"></a></td>
+          </tr>
+          </tbody>
+          </table>
               <!-- dos modal-->
 
-              <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+              <div class="modal fade" id="modal" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
                 <div class="modal-dialog modal-dialog-centered">
                   <div class="modal-content">
                     <div class="modal-header">
@@ -530,12 +524,11 @@
                       </div>
                     </div>
                     <div class="modal-footer">
-                      <button class="btn btn-primary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">Historial Clínico</button>
+                      <button class="btn btn-primary" data-bs-target="#modal" data-bs-toggle="modal">Historial Clínico</button>
                     </div>
                   </div>
                 </div>
               </div>
-              <a class="btn btn-primary" data-bs-toggle="modal" href="#exampleModalToggle" role="button">Mas Informacion</a>
 
             </div>
 
@@ -551,9 +544,9 @@
                 <h6>Filtro</h6>
               </li>
 
-              <li><a class="dropdown-item" href="dashboardDoc.html">Semanal</a></li>
-              <li><a class="dropdown-item" href="dashboardDocDiario.html">Diario</a></li>
-              <li><a class="dropdown-item" href="dashboardDocMensual.html">Mensual</a></li>
+              <li><a class="dropdown-item" th:href="@{'/doctor/dashboard'}">Semanal</a></li>
+              <li><a class="dropdown-item" th:href="@{'/doctor/dashboard/diario'}" >Diario</a></li>
+              <li><a class="dropdown-item" th:href="@{'/doctor/dashboard/mensual'}">Mensual</a></li>
             </ul>
           </div>
 
@@ -642,17 +635,17 @@
 <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
 <!-- Vendor JS Files -->
-<script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
-<script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="assets/vendor/chart.js/chart.min.js"></script>
-<script src="assets/vendor/echarts/echarts.min.js"></script>
-<script src="assets/vendor/quill/quill.min.js"></script>
-<script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
-<script src="assets/vendor/tinymce/tinymce.min.js"></script>
-<script src="assets/vendor/php-email-form/validate.js"></script>
+<script th:src="@{'/assets/vendor/apexcharts/apexcharts.min.js'}"></script>
+<script th:src="@{'/assets/vendor/bootstrap/js/bootstrap.bundle.min.js'}"></script>
+<script th:src="@{'/assets/vendor/chart.js/chart.min.js'}"></script>
+<script th:src="@{'/assets/vendor/echarts/echarts.min.js'}"></script>
+<script th:src="@{'/assets/vendor/quill/quill.min.js'}"></script>
+<script th:src="@{'/assets/vendor/simple-datatables/simple-datatables.js'}"></script>
+<script th:src="@{'/assets/vendor/tinymce/tinymce.min.js'}"></script>
+<script th:src="@{'/assets/vendor/php-email-form/validate.js'}"></script>
 
 <!-- Template Main JS File -->
-<script src="assets/js/main.js"></script>
+<script th:src="@{'/assets/js/main.js'}"></script>
 
 </body>
 
