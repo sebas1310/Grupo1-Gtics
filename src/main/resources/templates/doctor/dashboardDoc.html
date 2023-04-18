@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Dashboard - NiceAdmin Bootstrap Template</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="assets/img/favicon.png" rel="icon">
+  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.gstatic.com" rel="preconnect">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="assets/vendor/quill/quill.snow.css" rel="stylesheet">
+  <link href="assets/vendor/quill/quill.bubble.css" rel="stylesheet">
+  <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+  <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="assets/css/style.css" rel="stylesheet">
+
+  <!-- =======================================================
+  * Template Name: NiceAdmin - v2.4.0
+  * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+</head>
+
+<body>
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="header fixed-top d-flex align-items-center">
+
+    <div class="d-flex align-items-center justify-content-between">
+      <a href="index.html" class="logo d-flex align-items-center">
+        <img src="assets/img/logo.png" alt="">
+        <span class="d-none d-lg-block">Clínica La Fe</span>
+      </a>
+      <i class="bi bi-list toggle-sidebar-btn"></i>
+    </div><!-- End Logo -->
+
+    <div class="search-bar">
+      <form class="search-form d-flex align-items-center" method="POST" action="#">
+        <input type="text" name="query" placeholder="Search" title="Enter search keyword">
+        <button type="submit" title="Search"><i class="bi bi-search"></i></button>
+      </form>
+    </div><!-- End Search Bar -->
+
+    <nav class="header-nav ms-auto">
+      <ul class="d-flex align-items-center">
+
+        <li class="nav-item d-block d-lg-none">
+          <a class="nav-link nav-icon search-bar-toggle " href="#">
+            <i class="bi bi-search"></i>
+          </a>
+        </li><!-- End Search Icon-->
+
+        <li class="nav-item dropdown">
+
+          <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
+            <i class="bi bi-bell"></i>
+            <span class="badge bg-primary badge-number">3</span>
+          </a><!-- End Notification Icon -->
+
+          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
+            <li class="dropdown-header">
+              Tienes 4 nuevas notificaciones
+              <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">Ver todas</span></a>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+
+            <li class="notification-item">
+              <i class="bi bi-exclamation-circle text-warning"></i>
+              <div>
+                <h4>Cita Presencial</h4>
+                <p>Hora: 10:00 - 11:00 am</p>
+                <p>Sede: Jesus Maria</p>
+                <p>Hace 30 min.</p>
+              </div>
+            </li>
+
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+
+            <!--
+
+            <li class="notification-item">
+              <i class="bi bi-x-circle text-danger"></i>
+              <div>
+                <h4>Atque rerum nesciunt</h4>
+                <p>Quae dolorem earum veritatis oditseno</p>
+                <p>1 hr. ago</p>
+              </div>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+            -->
+
+            <li class="notification-item">
+              <i class="bi bi-check-circle text-success"></i>
+              <div>
+                <h4>Reporte Añadido</h4>
+                <p>xxxxxxxxxxxxxxxx</p>
+                <p>Hace 2 hrs.</p>
+              </div>
+            </li>
+
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+
+            <li class="notification-item">
+              <i class="bi bi-info-circle text-primary"></i>
+              <div>
+                <h4>xxxxxxxxxx</h4>
+                <p>xxxxxxxxxxx</p>
+                <p>Hace 4 hrs.</p>
+              </div>
+            </li>
+
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+            <li class="dropdown-footer">
+              <a href="#">Mostrar todas las notificaciones</a>
+            </li>
+
+          </ul><!-- End Notification Dropdown Items -->
+
+        </li><!-- End Notification Nav -->
+
+        <li class="nav-item dropdown">
+
+          <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
+            <i class="bi bi-chat-left-text"></i>
+            <span class="badge bg-success badge-number">2</span>
+          </a><!-- End Messages Icon -->
+
+          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow messages">
+            <li class="dropdown-header">
+              Tienes 2 nuevas notificaciones
+              <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">Ver todo</span></a>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+
+            <li class="message-item">
+              <a href="#">
+                <img src="assets/img/messages-1.jpg" alt="" class="rounded-circle">
+                <div>
+                  <h4>Maria Hudson</h4>
+                  <p>Doctora buenas tardes, tenia una consulta con respecto ...</p>
+                  <p>Hace 2 hrs.</p>
+                </div>
+              </a>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+
+            <li class="message-item">
+              <a href="#">
+                <img src="assets/img/messages-2.jpg" alt="" class="rounded-circle">
+                <div>
+                  <h4>Anna Nelson</h4>
+                  <p> xxxxxxxxxxxxxxxxxxxxxxx </p>
+                  <p>Hace 3 hrs.</p>
+                </div>
+              </a>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+
+            <li class="dropdown-footer">
+              <a href="#">Mostrar todos los mensajes</a>
+            </li>
+
+          </ul><!-- End Messages Dropdown Items -->
+
+        </li><!-- End Messages Nav -->
+
+        <li class="nav-item dropdown pe-3">
+
+          <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+            <img src="https://img.freepik.com/foto-gratis/hermosa-joven-doctora-mirando-camara-oficina_1301-7807.jpg?w=2000" alt="Profile" class="rounded-circle">
+            <span class="d-none d-md-block dropdown-toggle ps-2">Abigail Ramirez</span>
+          </a><!-- End Profile Iamge Icon -->
+
+          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+            <li class="dropdown-header">
+              <h6>Abigail Ramirez</h6>
+              <span>Doctor</span>
+            </li>
+
+          </ul><!-- End Profile Dropdown Items -->
+        </li><!-- End Profile Nav -->
+
+      </ul>
+    </nav><!-- End Icons Navigation -->
+
+  </header><!-- End Header -->
+
+  <!-- ======= Sidebar ======= -->
+  <aside id="sidebar" class="sidebar">
+
+
+    <ul class="sidebar-nav" id="sidebar-nav">
+      <li class="nav-item">
+        <a class="nav-link" href="dashboardDoc.html">
+          <i class="bi bi-grid"></i>
+          <span>Dashboard</span>
+        </a>
+      </li><!-- End Dashboard -->
+
+      <li class="nav-item"> <!-- Cambiar ref -->
+        <a class="nav-link collapsed"  href="pacientesAtendidos.html">
+          <i class="bi bi-menu-button-wide"></i>
+          <span>Pacientes Atendidos</span>
+        </a>
+      </li><!-- End Pacientes Atendidos -->
+
+      <li class="nav-item">  <!-- cambia -->
+        <a class="nav-link collapsed" href="cuestionarioDoc.html">
+          <i class="bi bi-journal-text"></i>
+          <span>Cuestionarios</span>
+        </a>
+      </li><!-- End Cuestionarios -->
+
+      <li class="nav-item">  <!-- cambia -->
+        <a class="nav-link collapsed"  href="calendarioDoc.html" >
+          <i class="bi bi-calendar3"></i>
+          <span>Calendario</span>
+        </a>
+      </li><!-- End Calendario -->
+
+      <li class="nav-item">  <!-- cambia -->
+        <a class="nav-link collapsed" href="perfilDoc.html" >
+          <i class="bi bi-person"></i>
+          <span>Perfil</span>
+        </a>
+      </li><!-- End Perfil -->
+
+      <br><br><br><br>
+      <br><br><br><br>
+      <br><br><br><br>
+      <br><br><br>
+      <br><br>
+      <li class="nav-heading"> ----------------------------------------------- </li>
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="configuracionDoc.html">
+          <i class="bi bi-gear"></i>
+          <span>Configuracion</span>
+        </a>
+      </li><!-- End Configuracion -->
+
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" type="button" data-bs-toggle="modal" data-bs-target="#verticalycentered">
+          <i class="bi bi-box-arrow-in-right"></i>
+          <span>Cerrar Sesión</span>
+          <!-- Vertically centered Modal -->
+
+        </a>
+      </li><!-- End Cerrar Sesion -->
+    </ul>
+
+  </aside><!-- End Sidebar-->
+  <div class="modal fade" id="verticalycentered" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">¿Seguro que deseas Salir?</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-success" data-bs-dismiss="modal"><a style="color: white" href="pages-logi.html" >Salir</button>
+          <button type="button" class="btn btn-secondary"><a style="color: white" href="dashboardDoc.html" >Cancelar</a></button>
+        </div>
+      </div>
+    </div>
+  </div><!-- End Vertically centered Modal-->
+  <main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>Dashboard</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="dashboardDoc.html">Home</a></li>
+          <li class="breadcrumb-item active">Dashboard</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section dashboard">
+      <div class="row">
+
+        <!-- Left side columns -->
+        <div class="col-lg">
+            <!-- CITAS AGENDADAS -->
+            <div class="col-12">
+              <div class="card recent-sales overflow-auto">
+
+
+                <div class="card-body">
+                  <h5 class="card-title">Citas Agendadas <span>| Martes 4 de Abril</span></h5>
+                  <table class="table table-borderless datatable">
+                    <thead>
+                      <tr>
+                        <th style="text-align: center" scope="col">Hora</th>
+                        <th style="text-align: center" scope="col">Paciente</th>
+                        <th style="text-align: center" scope="col">Tipo de Cita</th>
+                        <th style="text-align: center" scope="col">Estado de Cita</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td style="text-align: center" scope="row">10:00 am</td>
+                        <td style="text-align: center">Julia Amanda Garriazo</td>
+                        <td style="text-align: center">Presencial</td>
+                        <td style="text-align: center">En Espera</td>
+                      </tr>
+                      <tr>
+                        <td style="text-align: center" scope="row">11:15 am</td>
+                        <td style="text-align: center">Bridie Kessler</td>
+                        <td style="text-align: center">Virtual</td>
+                        <td style="text-align: center"> <a type="button" class="bi bi-camera-video"  href="https://pucp.zoom.us/j/91442275627?pwd=MjFjNGNTeXZEYVhzd3RKYmtVTzROQT09"></a> Iniciar </td>
+                      </tr>
+
+                      <tr>
+                        <td style="text-align: center" scope="row">15:00 pm</td>
+                        <td style="text-align: center">Angus Grady</td>
+                        <td style="text-align: center">Presencial</td>
+                        <td style="text-align: center">Registrado en Caja</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <!-- dos modal-->
+
+                  <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+                    <div class="modal-dialog modal-dialog-centered">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="exampleModalToggleLabel">Historial Clínico</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                          <div class="col-lg">
+                            <div class="row">
+                              <!-- Informacion del Paciente -->
+                              <div class="col">
+                                <div class="card info-card customers-card">
+                                  <div class="card-body">
+                                    <h5 class="card-title">Informacion del Paciente </h5>
+                                    <div class="d-flex align-items-center">
+                                      <div class="ps-3">
+                                        <li>Nombre: Julia Amanda Garriazo</li>
+                                        <li>Edad: 50 años</li>
+                                        <li>Condicion/Enfermedad: xxxx</li>
+                                        <li>Seguro: EsSalud</li>
+                                        <li>Correo: amanda.garriazo@gmail.com</li>
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                </div> <!--End Informacion -->
+
+                                <!-- Historial de citas -->
+
+                                <div class="col-12">
+                                  <div class="card recent-sales overflow-auto">
+                                    <div class="card-body">
+                                      <h5 class="card-title">Historial de Citas</h5>
+
+                                      <table class="table">
+                                        <thead class="table-light">
+                                        <tr>
+                                          <th style="text-align: center" scope="col"># Cita</th>
+                                          <th style="text-align: center" scope="col">Fecha</th>
+                                          <th style="text-align: center" scope="col">Modalidad</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                          <th style="text-align: center" scope="row">1</th>
+                                          <td style="text-align: center">31/03/2023</td>
+                                          <td style="text-align: center">Presencial</td>
+                                        </tr>
+                                        <tr>
+                                          <th style="text-align: center" scope="row">2</th>
+                                          <td style="text-align: center">02/04/2023</td>
+                                          <td style="text-align: center">Virtual</td>
+                                        </tr>
+                                        </tbody>
+                                      </table>
+                                      <!-- End Historial -->
+                                    </div>
+                                  </div>
+                                  <!-- Bitacora -->
+                                  <div class="card recent-sales overflow-auto">
+                                    <div class="card-body">
+                                      <h5 class="card-title">Bitacora de Diagnostico</h5>
+
+                                      <div class="card">
+                                        <div class="card-header">
+                                          Dr. Rodriguez
+                                        </div>
+                                        <div class="card-body">
+                                          <p class="card-text">xxxxxxxxxxxxxxx</p>
+                                        </div>
+                                      </div>
+                                      <div class="card">
+                                        <div class="card-header">
+                                          Dr. Fernandez
+                                        </div>
+                                        <div class="card-body">
+                                          <p class="card-text">xxxxxxxxxxxxxxx</p>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div><!-- End Left side columns -->
+                            </div>
+                          </div>
+                        </div>
+                        <div class="modal-footer">
+                          <button class="btn btn-primary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">Historial de Citas</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+                    <div class="modal-dialog modal-dialog-centered">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="exampleModalToggleLabel2">Historial de Cita</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                          <div class="col-lg">
+                            <div class="row">
+                              <!-- Informacion Cita -->
+                              <!--  <div class="col-xxl-4 col-xl-16"> -->
+                              <div class="col">
+                                <div class="card info-card customers-card">
+                                  <div class="card-body">
+                                    <h5 class="card-title">Informacion de la Cita</h5>
+                                    <div class="ps-3">
+                                      <li>Paciente: Julia Amanda Garriazo</li>
+                                      <li>Edad: 50 años</li>
+                                      <li>Fecha: 31/03/2023</li>
+                                      <li>Modalidad: Presencial</li>
+                                      <li>Especialidad: xxxxxxxxxxx</li>
+                                    </div>
+                                  </div>
+
+                                </div> <!--End Informacion -->
+
+                                <!-- Receta Medica -->
+
+                                <div class="col-12">
+                                  <div class="card recent-sales overflow-auto">
+                                    <div class="card-body">
+                                      <h5 class="card-title">Receta Médica</h5>
+                                      <table class="table">
+                                        <thead class="table-light">
+                                        <tr>
+                                          <th style="text-align: center" scope="col">Medicamento</th>
+                                          <th style="text-align: center" scope="col">Dosis</th>
+                                          <th style="text-align: center" scope="col">Descripción</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                          <td style="text-align: center" scope="row">xxxxxxxx</td>
+                                          <td style="text-align: center">xxxxxxxxxx</td>
+                                          <td style="text-align: center">xxxxxxxxxxx</td>
+                                        </tr>
+                                        <tr>
+                                          <td style="text-align: center" scope="row">xxxxxxxxx</th>
+                                          <td style="text-align: center">xxxxxxxxxxx</td>
+                                          <td style="text-align: center">xxxxxxxxxx</td>
+                                        </tr>
+                                        </tbody>
+                                      </table>
+                                      <!-- End Historial -->
+                                    </div>
+                                  </div>
+                                  <!-- Reporte -->
+                                  <div class="card recent-sales overflow-auto">
+                                    <div class="card-body">
+                                      <h5 class="card-title">Reporte de la Cita</h5>
+                                      <div class=" col-md-2">
+                                        <ul class="nav nav-pills nav-stacked anyClass">
+
+                                        </ul>
+                                      </div>
+                                      <div class="card">
+                                        <div class="card-header">
+                                          Dr. Rodriguez
+                                        </div>
+                                        <div class="card-body">
+                                          <p class="card-text">xxxxxxxxxxxxxxx</p>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <!-- Fin Reporte-->
+                                </div>
+                              </div><!-- End Left side columns -->
+                            </div>
+                          </div>
+                        </div>
+                        <div class="modal-footer">
+                          <button class="btn btn-primary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">Historial Clínico</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <a class="btn btn-primary" data-bs-toggle="modal" href="#exampleModalToggle" role="button">Mas Informacion</a>
+
+                </div>
+
+              </div>
+            </div><!-- End Recent Sales -->
+
+          <!-- CALENDARIO  -->
+          <div class="card">
+            <div class="filter">
+              <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+              <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                <li class="dropdown-header text-start">
+                  <h6>Filtro</h6>
+                </li>
+
+                <li><a class="dropdown-item" href="dashboardDoc.html">Semanal</a></li>
+                <li><a class="dropdown-item" href="dashboardDocDiario.html">Diario</a></li>
+                <li><a class="dropdown-item" href="dashboardDocMensual.html">Mensual</a></li>
+              </ul>
+            </div>
+
+            <div class="card-body">
+              <h5 class="card-title">Calendario <span>| Semanal</span></h5>
+
+              <div class="d-grid gap-2 d-md-block">
+                <a type="button" class="bi bi-chevron-compact-left"  href=""></a>
+                <a type="button" class="bi bi-chevron-compact-right"  href=""></a>
+                <h6 class="card-title" style="text-align: center">ABRIL 2023</h6>
+              </div>
+
+              <!-- Bordered Table -->
+              <table class="table table-bordered">
+                <thead>
+                <tr>
+                  <th style="text-align: center" scope="col">Hora</th>
+                  <th style="text-align: center" scope="col">Lunes</th>
+                  <th style="text-align: center" scope="col">Martes</th>
+                  <th style="text-align: center" scope="col">Miercoles</th>
+                  <th style="text-align: center" scope="col">Jueves</th>
+                  <th style="text-align: center" scope="col">Viernes</th>
+                  <th style="text-align: center" scope="col">Sabado</th>
+                  <th style="text-align: center" scope="col">Domingo</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                  <th style="text-align: center" scope="row">9:00</th>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <th style="text-align: center" scope="row">10:00</th>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <th style="text-align: center" scope="row">11:00</th>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <th style="text-align: center" scope="row">12:00</th>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <th style="text-align: center" scope="row">13:00</th>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <th style="text-align: center" scope="row">14:00</th>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <th style="text-align: center" scope="row">15:00</th>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <th style="text-align: center" scope="row">16:00</th>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <th style="text-align: center" scope="row">17:00</th>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <th style="text-align: center" scope="row">18:00</th>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </tr>
+                </tbody>
+              </table>
+              <!-- End Bordered Table -->
+
+            </div>
+          </div><!-- End Recent Activity -->
+
+
+
+        </div><!-- End Right side columns -->
+
+      </div>
+    </section>
+
+  </main><!-- End #main -->
+
+
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Vendor JS Files -->
+  <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/chart.js/chart.min.js"></script>
+  <script src="assets/vendor/echarts/echarts.min.js"></script>
+  <script src="assets/vendor/quill/quill.min.js"></script>
+  <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
+  <script src="assets/vendor/tinymce/tinymce.min.js"></script>
+  <script src="assets/vendor/php-email-form/validate.js"></script>
+
+  <!-- Template Main JS File -->
+  <script src="assets/js/main.js"></script>
+
+</body>
+
+</html>
