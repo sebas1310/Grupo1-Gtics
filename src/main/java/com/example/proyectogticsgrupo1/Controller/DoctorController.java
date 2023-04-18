@@ -67,5 +67,10 @@ public class DoctorController {
         return "doctor/perfilDoc";
     }
 
+    @GetMapping("/configuraciones")
+    public String configuracionDoctor(){
+
+        return "doctor/configuracionDoc";
+    }
 
 }
