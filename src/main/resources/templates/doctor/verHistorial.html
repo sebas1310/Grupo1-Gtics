@@ -43,7 +43,7 @@
 <header id="header" class="header fixed-top d-flex align-items-center">
 
   <div class="d-flex align-items-center justify-content-between">
-    <a href="dashboardDoc.html" class="logo d-flex align-items-center">
+    <a th:href="@{'/doctor/dashboard'}" class="logo d-flex align-items-center">
       <img src="assets/img/logo.png" alt="">
       <span class="d-none d-lg-block">Clínica La Fe</span>
     </a>
@@ -223,14 +223,14 @@
   <ul class="sidebar-nav" id="sidebar-nav">
 
     <li class="nav-item">
-      <a class="nav-link collapsed" href="dashboardDoc.html">
+      <a class="nav-link collapsed" th:href="@{'/doctor/dashboard'}" >
         <i class="bi bi-grid"></i>
         <span>Dashboard</span>
       </a>
     </li><!-- End Dashboard -->
 
     <li class="nav-item"> <!-- Cambiar ref -->
-      <a class="nav-link"  href="pacientesAtendidos.html">
+      <a class="nav-link"  th:href="@{'/doctor/pacientesatendidos'}" >
         <i class="bi bi-menu-button-wide"></i>
         <span>Pacientes Atendidos</span>
       </a>
@@ -238,21 +238,14 @@
 
 
     <li class="nav-item">  <!-- cambia -->
-      <a class="nav-link collapsed"  href="cuestionarioDoc.html" >
-        <i class="bi bi-journal-text"></i>
-        <span>Cuestionarios</span>
-      </a>
-    </li><!-- End Cuestionarios -->
-
-    <li class="nav-item">  <!-- cambia -->
-      <a class="nav-link collapsed"  href="calendarioDoc.html" >
+      <a class="nav-link collapsed"  th:href="@{'/doctor/calendario'}" >
         <i class="bi bi-calendar3"></i>
         <span>Calendario</span>
       </a>
     </li><!-- End Calendario -->
 
     <li class="nav-item">  <!-- cambia -->
-      <a class="nav-link collapsed" href="perfilDoc.html" >
+      <a class="nav-link collapsed" th:href="@{'/doctor/perfil'}"  >
         <i class="bi bi-person"></i>
         <span>Perfil</span>
       </a>
@@ -266,7 +259,7 @@
     <li class="nav-heading"> ----------------------------------------------- </li>
 
     <li class="nav-item">
-      <a class="nav-link collapsed" href="configuracionDoc.html">
+      <a class="nav-link collapsed" th:href="@{'/doctor/configuraciones'}" >
         <i class="bi bi-gear"></i>
         <span>Configuracion</span>
       </a>
@@ -293,7 +286,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-success" data-bs-dismiss="modal"><a style="color: white" href="pages-login.html" >Salir</button>
-        <button type="button" class="btn btn-secondary"><a style="color: white" href="verHistorial.html" >Cancelar</a></button>
+        <button type="button" class="btn btn-secondary"><a style="color: white" th:href="@{'/doctor/pacientesatendidos/verhistorial'}" >Cancelar</a></button>
       </div>
     </div>
   </div>
@@ -306,8 +299,8 @@
     <h1>Historial Clínico</h1>
     <nav>
       <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="dashboardDoc.html">Home</a></li>
-        <li class="breadcrumb-item"><a href="pacientesAtendidos.html">Pacientes Atendidos</a></li>
+        <li class="breadcrumb-item"><a th:href="@{'/doctor/dashboard'}" >Home</a></li>
+        <li class="breadcrumb-item"><a th:href="@{'/doctor/pacientesatendidos'}">Pacientes Atendidos</a></li>
         <li class="breadcrumb-item active">Historial Clínico</li>
       </ol>
     </nav>
@@ -359,14 +352,14 @@
                   <td style="text-align: center">31/03/2023</td>
                   <td style="text-align: center">Presencial</td>
                   <td style="text-align: center"> <a type="button" class="bi bi-printer-fill"></a> </td>
-                  <td style="text-align: center"> <a type="button" class="bi bi-eye-fill" href="verCita.html" ></a> </td>
+                  <td style="text-align: center"> <a type="button" class="bi bi-eye-fill" th:href="@{'/doctor/pacientesatendidos/verhistorial/vercita'}" ></a> </td>
                 </tr>
                 <tr>
                   <th style="text-align: center" scope="row">2</th>
                   <td style="text-align: center">02/04/2023</td>
                   <td style="text-align: center">Virtual</td>
                   <td style="text-align: center"> <a type="button" class="bi bi-printer-fill" ></a> </td>
-                  <td style="text-align: center"> <a type="button" class="bi bi-eye-fill" href="verCita.html"  ></a> </td>
+                  <td style="text-align: center"> <a type="button" class="bi bi-eye-fill" th:href="@{'/doctor/pacientesatendidos/verhistorial/vercita'}"  ></a> </td>
                 </tr>
                 </tbody>
               </table>
