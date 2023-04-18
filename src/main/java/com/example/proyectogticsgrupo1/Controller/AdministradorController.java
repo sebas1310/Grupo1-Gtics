@@ -5,10 +5,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping(value = "/administrador")
 
 public class AdministradorController {
-    @GetMapping(value = "/")
+    @GetMapping("/administrador")
     public String administrador() {
         return "administrador/dashboard";
         }
@@ -18,7 +17,7 @@ public class AdministradorController {
 
         return "administrador/perfil";
     }
-    @GetMapping(value = "/nuevoPaciente")
+    @GetMapping(value = "/nuevopaciente")
     public String newPaciente() {
 
         return "administrador/nuevopaciente";
