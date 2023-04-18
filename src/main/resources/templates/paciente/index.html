@@ -24,205 +24,38 @@
       <div class="row">
 
         <!-- Left side columns -->
-        <div class="col-lg-8">
+        <div class="col-lg-7">
           <div class="row">
 
             <!-- Mis citas -->
             <div class="col-12">
+              <!-- Recent Activity -->
               <div class="card">
-                <div class="card-body">
-                  <h2 class="card-title">Mis citas</h2>
-                  <div class="table-responsive">
-                    <div class="d-flex justify-content-between align-items-center">
-                      <h3 id="currentWeekLabel"></h3>
-                      <button id="nextWeekButton" class="btn btn-secondary">&gt;</button>
-                    </div>
-                  <table class="table  table-bordered">
-                    <thead>
-                    <tr>
-                      <th></th>
-                      <th>Lunes</th>
-                      <th>Martes</th>
-                      <th>Miércoles</th>
-                      <th>Jueves</th>
-                      <th>Viernes</th>
-                      <th>Sábado</th>
-                      <th>Domingo</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                      <td>8:00</td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                    </tr>
-                    <tr>
-                      <td>9:00</td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td>
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
-                          Rayos X
-                        </button>
-                      </td>
-                      <td></td>
-                      <td></td>
-                    </tr>
-                    <tr>
-                      <td>10:00</td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                    </tr>
-                    <tr>
-                      <td>11:00</td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                    </tr>
-                    <tr>
-                      <td>12:00</td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                    </tr>
-                    <tr>
-                      <td>13:00</td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                    </tr>
-                    <tr>
-                      <td>14:00</td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                    </tr>
-                    <tr>
-                      <td>15:00</td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                    </tr>
-                    <tr>
-                      <td>16:00</td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                    </tr>
-                    <tr>
-                      <td>17:00</td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                    </tr>
-                    <tr>
-                      <td>18:00</td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                    </tr>
-                    <tr>
-                      <td>19:00</td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td><a th:href="@{#}">Cardiologia</a></td>
-                      <td></td>
-                      <td></td>
-                    </tr>
-                    <tr>
-                      <td>20:00</td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                    </tr>
-                    <tr>
-                      <td>21:00</td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                    </tr>
+                <div class="filter">
+                  <form>
+                    <div class="form-group">
 
-                    </tbody>
-                  </table>
-                  </div>
-                  <!-- Modal -->
-                  <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered" role="document">
-                      <div class="modal-content">
-                        <div class="modal-header">
-                          <h5 class="modal-title" id="exampleModalLongTitle">Información de la Cita</h5>
-                        </div>
-                        <div class="modal-body">
-                          <p>*Doctor= Andres Iniesta</p>
-                          <p>*Fecha= 25/04/2023</p>
-                          <p>*Hora= 15:00 pm</p>
-                          <p>*Modalidad= Presencial</p>
-                          <p>*Especialidad: Rayos X</p>
-                          <p>*Sede: San Miguel</p>
-                        </div>
-                        <div class="modal-footer d-flex justify-content-center">
-                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        </div>
-                      </div>
+                      <select class="form-select" id="1sede" name="1sede">
+                        <option value="" selected>Seleccione una sede</option>
+                        <option value="sedeA">Ancon</option>
+                        <option value="sedeB">Carabayllo</option>
+                        <option value="sedeC">Cineguilla</option>
+                        <option value="sedeD">La Molina</option>
+                        <option value="sedeE">La Molina</option>
+                      </select>
                     </div>
-                  </div>
-
+                  </form>
                 </div>
-              </div>
+
+                <div class="card-body">
+                  <h3 class="card-title">Sedes</h3>
+                  <div class="activity">
+                    <div class="activity-item d-flex">
+                      <img th:src="@{/assets/img/lima.jpg}" class="card-img-top img-fluid" alt="Mapa Sedes">
+                    </div><!-- End activity item-->
+                  </div>
+                </div>
+              </div><!-- End Recent Activity -->
             </div>
 
 
@@ -245,7 +78,7 @@
                 <div class="card-body pb-0">
                   <h5 class="card-title">Doctores-Sede San Miguel</h5>
                   <table class="table table-borderless">
-                    <thead>
+                    <thead class="text-center">
                       <tr>
                         <th scope="col">#</th>
                         <th scope="col">Nombre</th>
@@ -253,7 +86,7 @@
                         <th scope="col"></th>
                       </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="text-center">
                       <tr>
                         <th scope="row"><a href="#">#2457</a></th>
                         <td>Brandon Jacob</td>
@@ -285,36 +118,7 @@
         </div><!-- End Left side columns -->
 
         <!-- Right side columns -->
-        <div class="col-lg-4">
-
-          <!-- Recent Activity -->
-          <div class="card">
-            <div class="filter">
-                    <form>
-                      <div class="form-group">
-
-                        <select class="form-select" id="sede" name="sede">
-                          <option value="" selected>Seleccione una sede</option>
-                          <option value="sedeA">Ancon</option>
-                          <option value="sedeB">Carabayllo</option>
-                          <option value="sedeC">Cineguilla</option>
-                          <option value="sedeD">La Molina</option>
-                          <option value="sedeE">La Molina</option>
-                        </select>
-                      </div>
-                    </form>
-            </div>
-
-            <div class="card-body">
-              <h3 class="card-title">Sedes</h3>
-              <div class="activity">
-                <div class="activity-item d-flex">
-                  <img th:src="@{/assets/img/lima.jpg}" class="card-img-top img-fluid" alt="Mapa Sedes">
-                </div><!-- End activity item-->
-              </div>
-            </div>
-          </div><!-- End Recent Activity -->
-
+        <div class="col-lg-5">
 
           <!-- Website Traffic -->
           <div class="card">
@@ -325,8 +129,7 @@
                   <h6>Filter</h6>
                 </li>
 
-                <li><a class="dropdown-item" th:href="@{'/paciente/calendarioMensual'}">This Month</a></li>
-                <li><a class="dropdown-item" href="#">This Year</a></li>
+                <li><a class="dropdown-item" th:href="@{'/paciente/calendarioMensual'}">Vista Mensual</a></li>
               </ul>
             </div>
 
@@ -336,11 +139,11 @@
                 <table class="table  table-bordered">
                   <thead>
                   <tr>
-                    <th>Hora</th>
-                    <th>Evento</th>
+                    <th class="text-center">Hora</th>
+                    <th class="text-center">Evento</th>
                   </tr>
                   </thead>
-                  <tbody>
+                  <tbody class="text-center">
                   <tr>
                     <td>8:00</td>
                     <td></td>
