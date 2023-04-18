@@ -38,7 +38,7 @@
 
     <div class="d-flex align-items-center justify-content-between">
         <a th:href="@{'/administrador/dashboard'}" class="logo d-flex align-items-center" style="width: 200px;">
-            <img th:src="@{assets/img/logo.png}" alt="">
+            <img th:src="@{/assets/img/logo.png}" alt="">
             <span class="d-none d-lg-block">Clinica LA FE</span>
         </a>
         <a>
@@ -72,7 +72,7 @@
 
                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
                     <li class="dropdown-header">
-                        Tienes 4 nuevas notificaciones
+                        Tienes 4 notificaciones nuevas
                     </li>
                     <li>
                         <hr class="dropdown-divider">
@@ -146,7 +146,7 @@
 
                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow messages">
                     <li class="dropdown-header">
-                        Tienes 4 nuevos mensajes
+                        Tienes 3 nuevos mensajes
                     </li>
                     <li>
                         <hr class="dropdown-divider">
@@ -205,7 +205,7 @@
             <li class="nav-item dropdown pe-3">
 
                 <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-                    <img th:="@{assets/img/profile-img.jpg}" alt="Profile" class="rounded-circle">
+                    <img th:src="@{assets/img/profile-img.jpg}" alt="Profile" class="rounded-circle">
                     <span class="d-none d-md-block dropdown-toggle ps-2">K. Anderson</span>
                 </a><!-- End Profile Iamge Icon -->
 
@@ -218,22 +218,20 @@
                         <hr class="dropdown-divider">
                     </li>
 
-
-                </ul><!-- End Profile Dropdown Items -->
+                </ul>
             </li><!-- End Profile Nav -->
 
         </ul>
     </nav><!-- End Icons Navigation -->
 
 </header><!-- End Header -->
-
 <!-- ======= Sidebar ======= -->
 <aside id="sidebar" class="sidebar">
 
     <ul class="sidebar-nav" id="sidebar-nav">
 
         <li class="nav-item">
-            <a class="nav-link collapsed " th:href="@{'/administrador/dashboard'}">
+            <a class="nav-link collapsed" th:href="@{/administrador}">
                 <i class="bi bi-grid"></i>
                 <span>Dashboard</span>
             </a>
@@ -295,8 +293,8 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-success" data-bs-dismiss="modal"><a style="color: white" th:href="@{'/administrador/inicio'}" >Salir</button>
-                <button type="button" class="btn btn-secondary"><a style="color: white" th:href="@{'/administrador/nuevopaciente'}" >Cancelar</a></button>
+                <!--<button type="button" class="btn btn-success" data-bs-dismiss="modal"><a style="color: white" th:href="@{'/administrador'}">Salir</a></button>!-->
+                <!--<button type="button" class="btn btn-secondary"><a style="color: white" th:href="@{'/administrador/nuevopaciente'}" >Cancelar</a></button>!-->
             </div>
         </div>
     </div>
@@ -309,7 +307,7 @@
         <h1>Nuevo Paciente</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a th:href="@{'/administrador/index'}">Home</a></li>
+                <li class="breadcrumb-item"><a th:href="@{'/administrador'}">Home</a></li>
                 <li class="breadcrumb-item active">Nuevo Paciente</li>
             </ol>
         </nav>
@@ -326,8 +324,6 @@
                     <center><div style="margin-top: 30px"> *Podrá registrar usuarios pacientes por sede</div></center>
                     <center><div class="col-lg-2"><a th:href="@{'/administrador/crearpaciente'}" ><button type="button" class="btn btn-success" style="margin-top: 100px; height: 64px; margin-bottom: 100px; width:126px">Crear Paciente</button></a></div></center>
                 </div>
-
-
             </div>
 
             <div class="col-lg-6">

@@ -38,7 +38,7 @@
 <header id="header" class="header fixed-top d-flex align-items-center">
 
   <div class="d-flex align-items-center justify-content-between">
-    <a th:href="@{/administrador/dashboard}" class="logo d-flex align-items-center" style="width: 200px;">
+    <a th:href="@{'/administrador/'}" class="logo d-flex align-items-center" style="width: 200px;">
       <img th:src="@{assets/img/logo.png}" alt="">
       <span class="d-none d-lg-block">Clinica LA FE</span>
     </a>
@@ -131,7 +131,7 @@
             <hr class="dropdown-divider">
           </li>
           <li class="dropdown-footer">
-            <a th:href="@{/administrador/notificaciones}">Mira todas las notificaicones </a>
+            <a th:href="@{'/administrador/notificaciones'}">Mira todas las notificaciones</a>
           </li>
 
         </ul><!-- End Notification Dropdown Items -->
@@ -147,7 +147,7 @@
 
         <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow messages">
           <li class="dropdown-header">
-            Tu tienes 3 nuevos mensajes
+            Tienes 3 nuevos mensajes
           </li>
           <li>
             <hr class="dropdown-divider">
@@ -196,7 +196,7 @@
           </li>
 
           <li class="dropdown-footer">
-            <a th:href="@{/administrador/mensajes}">Mira todos los mensajes</a>
+            <a th:href="@{'/administrador/mensajes'}">Mira todos los mensajes</a>
           </li>
 
         </ul><!-- End Messages Dropdown Items -->
@@ -219,8 +219,7 @@
             <hr class="dropdown-divider">
           </li>
 
-
-        </ul><!-- End Profile Dropdown Items -->
+        </ul>
       </li><!-- End Profile Nav -->
 
     </ul>
@@ -234,7 +233,7 @@
   <ul class="sidebar-nav" id="sidebar-nav">
 
     <li class="nav-item">
-      <a class="nav-link collapsed " th:href="@{/administrador/dashboard}">
+      <a class="nav-link collapsed " th:href="@{/administrador}">
         <i class="bi bi-grid"></i>
         <span>Dashboard</span>
       </a>
@@ -248,7 +247,7 @@
     </li><!-- End Profile Page Nav -->
 
     <li class="nav-item">
-      <a class="nav-link" th:href="@{/administrador/users-profile}">
+      <a class="nav-link" th:href="@{'/administrador/calendariogeneral'}">
         <i class="bi bi-calendar3"></i>
         <span>Calendario General</span>
       </a>
