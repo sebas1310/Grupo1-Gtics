@@ -45,6 +45,11 @@ public class PacienteController {
         return "paciente/historialCitas";
     }
 
+    @GetMapping(value = "/calendarioMensual")
+    public String calendarioMensual(){
+        return "paciente/calendarioMensual";
+    }
+
 
 
 }
