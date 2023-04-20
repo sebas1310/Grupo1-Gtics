@@ -4,40 +4,38 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.math.BigDecimal;
-
-//@Entity
 @Getter
 @Setter
-//@Table(name="doctor")
+@Entity
+@Table(name ="doctor")
 public class Doctor {
-
-    //@Id
-    //@GeneratedValue(strategy = GenerationType.IDENTITY)
-
-    @Column(name="iddoctor",nullable = false)
-    private Integer idDoctor;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "iddoctor",  nullable = false)
+    private Integer iddcotor;
 
     @ManyToOne
-    @JoinColumn(name = "idespecialidad")
+    @JoinColumn(name = "idespecialidad",  nullable = false)
     private Especialidad especialidad;
 
     @ManyToOne
-    @JoinColumn(name = "idsede")
+    @JoinColumn(name = "idsede",  nullable = false)
     private Sede sede;
-    @Column(name="cmp",nullable = false)
+
+    @Column(name = "cmp",  nullable = false)
     private Integer cmp;
 
-    @Column(name="formacion",nullable = false, length = 500)
+    @Column(name = "formacion",  nullable = false)
     private String formacion;
-    @Column(name="rne",nullable = false)
-    private Integer rne;
 
-    @Column(name="capacitaciones",nullable = false, length = 500)
+    @Column(name = "me",  nullable = false)
+    private Integer me;
+
+    @Column(name = "capacitaciones",  nullable = false)
     private String capacitaciones;
 
     @ManyToOne
-    @JoinColumn(name = "idusuario")
+    @JoinColumn(name = "idusuario",  nullable = false)
     private Usuario usuario;
 
 }
