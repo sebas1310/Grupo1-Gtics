@@ -38,6 +38,11 @@ public class Paciente {
     @JoinColumn(name = "idestadopaciente")
     private EstadoPaciente estadoPaciente;
 
+    @ManyToOne
+    @JoinColumn(name = "idseguro")
+    private Seguro seguro;
+
+
     @Column(name = "correo", nullable = false)
     private String correo;
 
