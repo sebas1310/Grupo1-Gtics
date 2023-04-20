@@ -31,9 +31,21 @@ public class DoctorController {
 
 
     @GetMapping("/pacientesatendidos")
-    public String pacientesAtendidosDoctor(){
+    public String  pacientesAtendidosDoctor(Model model, @RequestParam("id") int idDoctor){
+        Optional<Hospital> optHospital = hospitalRepository.findById(idHospital);
+        if (optHospital.isPresent()) {
+            Hospital hospital1 = optHospital.get();
+            //enviamos el hospital para mostrar su nombre en la vista del doctor
+            model.addAttribute("hospital", hospital1);
+            //Enviamos la lista de doctores para la vista de esta forma.
+            List<Doctor> doctorList = doctorRepository.buscarDoctorPorHospital(idHospital);
+            model.addAttribute("doctores", doctorList);
 
-        return "doctor/pacientesAtendidos";
+            return "doctor/pacientesAtendidos";
+        } else {
+            return "redirect:/dashboard";
+        }
+
     }
 
     @GetMapping("/pacientesatendidos/verhistorial")
