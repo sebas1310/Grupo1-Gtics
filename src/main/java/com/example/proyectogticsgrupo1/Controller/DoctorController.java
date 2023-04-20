@@ -30,6 +30,7 @@ public class DoctorController {
     }
 
 
+    /*
     @GetMapping("/pacientesatendidos")
     public String  pacientesAtendidosDoctor(Model model, @RequestParam("id") int idDoctor){
         Optional<Hospital> optHospital = hospitalRepository.findById(idHospital);
@@ -46,8 +47,9 @@ public class DoctorController {
             return "redirect:/dashboard";
         }
 
-    }
 
+    }
+     */
     @GetMapping("/pacientesatendidos/verhistorial")
     public String historialPacienteDoctor(){
 

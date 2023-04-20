@@ -1,6 +1,6 @@
 package com.example.proyectogticsgrupo1.Entity;
 
-import jakarta.persistence.*;
+//import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,6 +12,7 @@ import java.math.BigDecimal;
 //@Table(name="doctor")
 public class Doctor {
 
+    /*
     //@Id
     //@GeneratedValue(strategy = GenerationType.IDENTITY)
 
@@ -39,5 +40,7 @@ public class Doctor {
     @ManyToOne
     @JoinColumn(name = "idusuario")
     private Usuario usuario;
+
+     */
 
 }
