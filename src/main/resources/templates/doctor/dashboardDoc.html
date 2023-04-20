@@ -373,24 +373,39 @@
                             <div class="row">
                               <!-- Informacion del Paciente -->
                               <div class="col">
-                                <div class="card info-card customers-card">
+                                <div class="card info-card ">
                                   <div class="card-body">
                                     <h5 class="card-title">Informacion del Paciente </h5>
                                     <div class="d-flex align-items-center">
-                                      <div class="ps-3">
-                                        <li>Nombre: Julia Amanda Garriazo</li>
-                                        <li>Edad: 50 años</li>
-                                        <li>Condicion/Enfermedad: xxxx</li>
-                                        <li>Seguro: EsSalud</li>
-                                        <li>Correo: amanda.garriazo@gmail.com</li>
-                                      </div>
+                                      <div class="col">
+                                        <div class="card-body">
+                                          <h9 class="card-title">Datos</h9>
+                                          <br>
+                                            <li>Nombre: Julia Amanda Garriazo</li>
+                                            <li>DNI: 234556433</li>
+                                            <li>Seguro: EsSalud</li>
+                                            <li>Edad: 50 años</li>
+                                            <li>Correo: amanda.garriazo@gmail.com</li>
+                                        </div>
+                                        <div class="card-body">
+                                          <h9 class="card-title">Alergias</h9>
+                                          <br>
+                                            <table class="table table-bordered">
+                                            <tbody>
+                                            <tr>
+                                              <td style="text-align: center" >Polvo</td>
+                                            </tr>
+                                            <tr>
+                                              <td style="text-align: center" >Polen</td>
+                                            </tr>
+                                            </tbody>
+                                          </table>
+                                        </div>
+                                    </div>
                                     </div>
                                   </div>
-
                                 </div> <!--End Informacion -->
-
                                 <!-- Historial de citas -->
-
                                 <div class="col-12">
                                   <div class="card recent-sales overflow-auto">
                                     <div class="card-body">
@@ -402,6 +417,7 @@
                                           <th style="text-align: center" scope="col"># Cita</th>
                                           <th style="text-align: center" scope="col">Fecha</th>
                                           <th style="text-align: center" scope="col">Modalidad</th>
+                                          <th style="text-align: center" scope="col">Ver Mas</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -409,11 +425,14 @@
                                           <th style="text-align: center" scope="row">1</th>
                                           <td style="text-align: center">31/03/2023</td>
                                           <td style="text-align: center">Presencial</td>
+                                          <td style="text-align: center" > <a class="bi bi-eye-fill" data-bs-toggle="modal" href="#modal2" role="button"></a></td>
                                         </tr>
                                         <tr>
                                           <th style="text-align: center" scope="row">2</th>
                                           <td style="text-align: center">02/04/2023</td>
                                           <td style="text-align: center">Virtual</td>
+                                          <td style="text-align: center" > <a class="bi bi-eye-fill" data-bs-toggle="modal" href="#modal2" role="button"></a></td>
+
                                         </tr>
                                         </tbody>
                                       </table>
@@ -448,13 +467,10 @@
                             </div>
                           </div>
                         </div>
-                        <div class="modal-footer">
-                          <button class="btn btn-primary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">Historial de Citas</button>
-                        </div>
                       </div>
                     </div>
                   </div>
-                  <div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+                  <div class="modal fade" id="modal2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
                     <div class="modal-dialog modal-dialog-centered">
                       <div class="modal-content">
                         <div class="modal-header">
@@ -537,7 +553,7 @@
                           </div>
                         </div>
                         <div class="modal-footer">
-                          <button class="btn btn-primary" data-bs-target="#modal" data-bs-toggle="modal">Historial Clínico</button>
+                          <button class="btn btn-primary" data-bs-target="#modal" data-bs-toggle="modal">Regresar</button>
                         </div>
                       </div>
                     </div>
