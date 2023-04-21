@@ -20,8 +20,8 @@ public class Usuario {
     @JoinColumn(name = "idtipodeusuario", nullable = false)
     private Tipodeusuario tipodeusuario;
 
-    @Column(name = "nombre", nullable = false)
-    private String nombre;
+    @Column(name = "nombres", nullable = false)
+    private String nombres;
 
     @Column(name = "apellidos", nullable = false)
     private String apllidos;

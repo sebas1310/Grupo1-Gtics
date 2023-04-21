@@ -31,8 +31,8 @@ public class Paciente {
     @Column(name = "alergias", nullable = false)
     private String alergias;
 
-    @Column(name = "consetimientos", nullable = false)
-    private Integer consentimiento;
+    @Column(name = "consentimientos", nullable = false)
+    private Integer consentimientos;
 
     @ManyToOne
     @JoinColumn(name = "idusuario", nullable = false)

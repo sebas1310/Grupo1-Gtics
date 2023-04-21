@@ -7,7 +7,7 @@
 <body>
 
 <!-- ======= Header ======= -->
-<header th:replace="fragments/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1', nombre = 'L. Anderson', num_men = '3')">
+<header th:replace="fragments/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1', nombre = |${pacientelog.usuario.nombres} ${pacientelog.usuario.apllidos}|, num_men = '3')">
 </header>
 <!-- End Header -->
 

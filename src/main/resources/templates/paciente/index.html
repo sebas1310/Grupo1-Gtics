@@ -6,7 +6,7 @@
 <body>
 
 <!-- ======= Header ======= -->
-<header th:replace="fragments/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1', nombre = 'L. Anderson', num_men = '3')">
+<header th:replace="fragments/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1', nombre = |${pacientelog.usuario.nombres} ${pacientelog.usuario.apllidos}|, num_men = '3')">
 </header>
 <!-- End Header -->
   <!-- ======= Sidebar ======= -->
@@ -72,32 +72,17 @@
                   <table class="table table-borderless">
                     <thead class="text-center">
                       <tr>
-                        <th scope="col">#</th>
                         <th scope="col">Nombre</th>
                         <th scope="col">Especialidad</th>
                         <th scope="col"></th>
                       </tr>
                     </thead>
                     <tbody class="text-center">
-                      <tr>
-
-                        <td>Brandon Jacob</td>
-                        <td>Medicina General</td>
-                        <td><a th:href="@{'/paciente/perfilDoctor'}" class="text-primary">Ver Perfil</a></td>
+                      <tr th:each="doctor:${docs}">
+                        <td th:text="|${doctor.usuario.nombres} ${doctor.usuario.apllidos}|"></td>
+                        <td th:text="${doctor.especialidad.nombre}"></td>
+                        <td><a th:href="@{'/paciente/perfilDoctor?iddoc='+${doctor.iddoctor}}" class="text-primary">Ver Perfil</a></td>
                       </tr>
-                      <tr>
-
-                        <td>Brandon Jacob</td>
-                        <td>Medicina General</td>
-                        <td><a th:href="@{'/paciente/perfilDoctor'}"  class="text-primary">Ver Perfil</a></td>
-                      </tr>
-                      <tr>
-
-                        <td>Brandon Jacob</td>
-                        <td>Medicina General</td>
-                        <td><a th:href="@{'/paciente/perfilDoctor'}"  class="text-primary">Ver Perfil</a></td>
-                      </tr>
-
                     </tbody>
                   </table>
 

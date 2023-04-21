@@ -12,7 +12,7 @@ public class Doctor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "iddoctor",  nullable = false)
-    private Integer iddcotor;
+    private Integer iddoctor;
 
     @ManyToOne
     @JoinColumn(name = "idespecialidad",  nullable = false)
@@ -28,8 +28,8 @@ public class Doctor {
     @Column(name = "formacion",  nullable = false)
     private String formacion;
 
-    @Column(name = "me",  nullable = false)
-    private Integer me;
+    @Column(name = "rne",  nullable = false)
+    private Integer rne;
 
     @Column(name = "capacitaciones",  nullable = false)
     private String capacitaciones;

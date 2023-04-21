@@ -1,15 +1,10 @@
-//package com.example.proyectogticsgrupo1.Repository;
+package com.example.proyectogticsgrupo1.Repository;
 
-//public class DoctorRepository { }
+import com.example.proyectogticsgrupo1.Entity.Doctor;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
-//fsfasfddsadasda
-//afdsdasda
-//FAsfdas
+import java.util.List;
 
-///asdasdsadsadas
-
-
-//FsdsdasD
-//AFDFSADAS
-//ADSDCASD
-//ASDASDASD
+public interface DoctorRepository extends JpaRepository<Doctor, Integer>{
+}
