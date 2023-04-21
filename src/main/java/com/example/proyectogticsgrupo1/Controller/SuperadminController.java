@@ -41,7 +41,7 @@ public class SuperadminController {
     }
     @GetMapping("/registraradministrador")
     public String registrarAdministrador(){
-        return "superadmin/pages-registrar-administrador";
+        return "superadmin/pages-registrar-adminitrador";
     }
     @GetMapping("/reportes")
     public String listaReportes(){
@@ -55,7 +55,16 @@ public class SuperadminController {
 
     @GetMapping("/nuevoform")
     public String nuevoFormulario(){
-        return "superadmin/forms-editor";
+        return "superadmin/forms-editors";
+    }
+
+    @GetMapping("/notificaciones")
+    public String historialNotificaciones(){
+        return "superadmin/historial-notificaciones";
+    }
+    @GetMapping("/perfilUsuario")
+    public String perfilUsuario(){
+        return "superadmin/perfil-usuarios";
     }
 
 }
