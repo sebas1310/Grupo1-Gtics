@@ -119,6 +119,18 @@ public class AdministradorController {
         return "administrador/detallesdoctor";
     }
 
+    @GetMapping(value = "/vistacuestionario")
+    public String VerCuestionario() {
+
+        return "administrador/vistacuestionario";
+    }
+
+    @GetMapping(value = "/creardoctor")
+    public String crearDoctor() {
+
+        return "administrador/creardoctor";
+    }
+
 
 
 

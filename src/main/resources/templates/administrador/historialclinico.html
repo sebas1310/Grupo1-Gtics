@@ -66,10 +66,10 @@
                         <h5 class="card-title">Historial Clínico</h5>
 
                         <!-- Default Table -->
-                        <table class="table">
+                        <table class="table col-lg-20">
                             <thead>
                             <tr>
-                                <th scope="col">Estado: En Consulta</th>
+                                <th class="table"scope="row">Estado: En Consulta</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -77,29 +77,34 @@
                                 <td>Nombre: Lorena Vela Sulca</td>
                             </tr>
                             <tr>
-                                <th scope="col">Alergias</th>
+                                <th scope="row">Alergias</th>
                             </tr>
                             <tr>
                                 <td> 1.- Ibuprofeno</a></td>
-                                <td> 2.- Penicilina</td>
                             </tr>
                             <tr>
-                                <th scope="col">Tratamiento</th>
+                                <td> 2.- Penicilina</a></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Tratamiento</th>
                             </tr>
                             <tr>
                                 <td> 1.- Tratamiento de Diabetes</a></td>
+                            </tr>
+                            <tr>
                                 <td> 2.- Tratamiento de Presión Alta</td>
                             </tr>
                             <tr>
-                                <th scope="col">Cuestionarios</th>
+                                <th scope="row">Cuestionarios</th>
                             </tr>
                             <tr>
-                                <td>Satisfacción</a></td>
-                                <td><i class="bi bi-eye-fill"></i></td>
+                                <td>Satisfacción</td>
+                                <td><a th:href="@{'/administrador/vistacuestionario'}"><i class="bi bi-eye-fill"></i></a></td>
+                                </td>
                             </tr>
                             <tr>
                                 <td>Familiar</td>
-                                <td><i class="bi bi-eye-fill"></i></td>
+                                <td><a th:href="@{'/administrador/vistacuestionario'}"><i class="bi bi-eye-fill"></i></a></td>
                             </tr>
                             <tr>
                                 <th scope="col">Formularios</th>
@@ -110,23 +115,28 @@
                             </tr>
 
                             <tr>
-                                <th scope="col">Consentimientos</th>
+                                <th scope="row">Consentimientos</th>
                             </tr>
                             <tr>
                                 <td> Uso de datos personales</a></td>
                                 <td><i class="bi bi-person-lock"></i></td>
                             </tr>
                             <tr>
-                                <th scope="col">Próximas Citas</th>
+                                <th scope="row">Próximas Citas</th>
                             </tr>
                             <tr>
-                                <td> 23/05/2023 Cardiologia</a></td>
+                                <td> 23/05/2023 Cardiologia</td>
                             </tr>
                             <tr>
-                                <th scope="col">Documentos anexados</th>
+                                <td>02/06/2023 Neurología</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Documentos anexados</th>
                             </tr>
                             <tr>
                                 <td><i class="bi bi-filetype-pdf"></i> PDF Historial Clínico</td>
+                            </tr>
+                            <tr>
                                 <td><i class="bi bi-calendar-week"></i> Calendario de prox citas</td>
                             </tr>
 
