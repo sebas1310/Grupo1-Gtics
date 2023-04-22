@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+
+</head>
+<body>
+<aside th:fragment="sidebar (active)" id="sidebar" class="sidebar">
+    <ul class="sidebar-nav" id="sidebar-nav">
+
+        <li class="nav-item" th:classappend="${active == 'index' ? 'inactive':''}">
+            <a class="nav-link" th:classappend="${active != 'dashboard' ? 'collapsed':''}" th:href="@{'/superadmin/index'}">
+                <i class="bi bi-house"></i>
+                <span>Dashboard</span>
+            </a>
+        </li><!-- End Dashboard Nav -->
+
+        <li class="nav-item" th:classappend="${active == 'perfil' ? 'active':''}">
+            <a class="nav-link" th:classappend="${active != 'perfil' ? 'collapsed':''}" th:href="@{'/superadmin/perfil'}">
+                <i class="bi bi-person"></i><span>Perfil</span>
+            </a>
+        </li><!-- End Components Nav -->
+
+        <li class="nav-item">
+            <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
+                <i class="bi bi-journal-text"></i><span>Formularios</span><i class="bi bi-chevron-down ms-auto"></i>
+            </a>
+            <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+
+                <li class="nav-item" th:classappend="${active == 'lista_form' ? 'active':''}">
+                    <a class="nav-link" th:classappend="${active != 'lista_form' ? 'collapsed':''}" th:href="@{'/superadmin/listaform'}">
+                        <i class="bi bi-circle"></i><span>Lista de Formularios</span>
+                    </a>
+                </li>
+
+
+                <li class="nav-item" th:classappend="${active == 'nuevo_form' ? 'active':''}">
+                    <a class="nav-link" th:classappend="${active != 'nuevo_form' ? 'collapsed':''}" th:href="@{'/superadmin/nuevoform'}">
+                        <i class="bi bi-circle"></i><span>Nuevo formulario</span>
+                    </a>
+                </li>
+
+            </ul>
+        </li><!-- End Forms Nav -->
+
+
+        <li class="nav-item" th:classappend="${active == 'reportes' ? 'active':''}">
+            <a class="nav-link " th:classappend="${active != 'reportes' ? 'collapsed':''}" th:href="@{'/superadmin/reportes'}">
+                <i class="bi bi-circle"></i><span>Reportes</span>
+            </a>
+        </li><!-- End Tables Nav -->
+
+
+
+        <li class="nav-item" th:classappend="${active == 'registro' ? 'active':''}">
+            <a class="nav-link" th:classappend="${active != 'registro' ? 'collapsed':''}" th:href="@{'/superadmin/registro'}">
+                <i class="bi bi-file-earmark"></i><span>Registro</span>
+            </a>
+        </li>
+
+        <li class="nav-item" th:classappend="${active == 'configuracion' ? 'active':''}">
+            <a class="nav-link" th:classappend="${active != 'configuracion' ? 'collapsed':''}" th:href="@{'/superadmin/configuracion'}">
+                <i class="bi bi-file-earmark"></i><span>Configuraciones</span>
+            </a>
+        </li>
+
+        <li class="nav-item" >
+            <a class="nav-link collapsed" data-bs-target="#icons-nav" data-bs-toggle="collapse" href="#">
+                <i class="bi bi-box-arrow-right"></i><span>Cerrar Sesión</span>
+            </a>
+        </li>
+
+    </ul>
+</aside><!-- End Sidebar-->
+
+
+</body>
+</html>
+
+
+
