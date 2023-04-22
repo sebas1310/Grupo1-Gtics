@@ -60,11 +60,11 @@
 
 
     <div class="pagetitle">
-        <h1>Nuevo Paciente</h1>
+        <h1>Nuevo Usuario</h1>
         <nav>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a th:href="@{'/administrador'}">Home</a></li>
-                <li class="breadcrumb-item active">Nuevo Paciente</li>
+                <li class="breadcrumb-item active">Nuevo Usuario</li>
             </ol>
         </nav>
     </div><!-- End Page Title -->
@@ -77,8 +77,8 @@
                     <div class="card-body">
                         <center><h1 class="card-title">Crear Paciente</h1></center>
                     </div>
-                    <center><div style="margin-top: 30px"> *Podrá registrar usuarios pacientes por sede</div></center>
-                    <center><div class="col-lg-2"><a th:href="@{'/administrador/crearpaciente'}" ><button type="button" class="btn btn-success" style="margin-top: 100px; height: 64px; margin-bottom: 100px; width:126px">Crear Paciente</button></a></div></center>
+                    <center><div style="margin-top: 30px"> *Podrá registrar usuarios pacientes en la sede</div></center>
+                    <center><div class="col-lg-2"><a th:href="@{'/administrador/crearpaciente'}" ><button type="button" class="btn btn-success" style="margin-top: 100px; height: 64px; margin-bottom: 100px; width:126px">Ir a crear Paciente</button></a></div></center>
                 </div>
             </div>
 
@@ -90,6 +90,16 @@
                     </div>
                     <center><div style="margin-top: 30px"> *Podrá enviar correo para que un paciente se registre</div></center>
                     <center><div class="col-lg-2"><a th:href="@{'/administrador/invitar'}" ><button type="button" class="btn btn-success" style="margin-top: 100px; height: 64px; margin-bottom: 100px; width:126px">Invitar por correo</button></a></div></center>
+                </div>
+            </div>
+            <div class="col-lg-12">
+
+                <div class="card">
+                    <div class="card-body">
+                        <center><h1 class="card-title">Crear Doctor</h1></center>
+                    </div>
+                    <center><div style="margin-top: 30px"> *Podrá registrar usuarios doctores en la sede</div></center>
+                    <center><div class="col-lg-2"><a th:href="@{'/administrador/invitar'}" ><button type="button" class="btn btn-success" style="margin-top: 100px; height: 64px; margin-bottom: 100px; width:126px">Ir a crear Doctor</button></a></div></center>
                 </div>
             </div>
         </div>
