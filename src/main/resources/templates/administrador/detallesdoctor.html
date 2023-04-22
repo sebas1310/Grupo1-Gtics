@@ -38,7 +38,7 @@
 </header>
 <!-- End Header -->
 <!-- ======= Sidebar ======= -->
-<aside th:replace="fragments/aside.html :: sidebar">
+<aside th:replace="fragments/aside.html :: sidebar (active = 'perfil')">
 </aside>
 <!-- End Sidebar-->
 <div class="modal fade" id="verticalycentered" tabindex="-1">
@@ -88,21 +88,6 @@
         <div class="card">
           <div class="card-body pt-3">
             <!-- Bordered Tabs -->
-            <ul class="nav nav-tabs nav-tabs-bordered">
-
-              <li class="nav-item">
-                <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview">Vista Previa</button>
-              </li>
-
-              <li class="nav-item">
-                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-edit">Editar Perfil</button>
-              </li>
-
-              <li class="nav-item">
-                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-change-password">Cambiar Contraseña</button>
-              </li>
-
-            </ul>
             <div class="tab-content pt-2">
 
               <div class="tab-pane fade show active profile-overview" id="profile-overview">
@@ -144,10 +129,6 @@
                     <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Imagen de Perfil</label>
                     <div class="col-md-8 col-lg-9">
                       <img th:src="@{/assets/img/profile-img.jpg}" alt="Profile">
-                      <div class="pt-2">
-                        <a href="#" class="btn btn-primary btn-sm" title="Upload new profile image"><i class="bi bi-upload"></i></a>
-                        <a href="#" class="btn btn-danger btn-sm" title="Remove my profile image"><i class="bi bi-trash"></i></a>
-                      </div>
                     </div>
                   </div>
 

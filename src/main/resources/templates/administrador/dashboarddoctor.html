@@ -28,6 +28,7 @@
 
   <!-- Template Main CSS File -->
   <link th:href="@{/assets/css/style.css}" rel="stylesheet">
+  <link th:href="@{/assets/css/font.css}" rel="stylesheet">
 
 </head>
 
@@ -77,6 +78,12 @@
         <div class="card">
           <div class="card-body">
             <h5 class="card-title">Doctores</h5>
+            <div class="search-bar">
+              <form class="search-form d-flex align-items-center col-lg bg-body-tertiary" method="POST" action="#">
+                <input class="form-control me-2" type="search" placeholder="Buscar Doctor" aria-label="Search">
+                <button class="btn btn-outline-success" type="submit"><i class="bi bi-search"></i></button>
+              </form>
+            </div><!-- End Search Bar -->
 
             <!-- Default Table -->
             <table class="table">

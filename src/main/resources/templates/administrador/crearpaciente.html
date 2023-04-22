@@ -73,10 +73,6 @@
                 <input type="text" class="form-control" id="inputApellido">
               </div>
               <div class="col-12">
-                <label for="inputSede" class="form-label">Sede</label>
-                <input type="text" class="form-control" id="inputSede">
-              </div>
-              <div class="col-12">
                 <label for="inputCorreo" class="form-label">Correo</label>
                 <input type="text" class="form-control" id="inputCorreo">
               </div>
@@ -86,7 +82,21 @@
               </div>
               <div class="col-12">
                 <label for="inputGenero" class="form-label">Género</label>
-                <input type="genero" class="form-control" id="inputGenero">
+                <div class="form-control">
+                <select name="select" class="form-control-plaintext " type="genero" id="inputGenero">
+                  <option value="value0">---------</option>
+                  <option value="value1">Masculino</option>
+                  <option value="value2">Femenino</option>
+                </select>
+                </div>
+              </div>
+              <div class="col-12">
+                <label for="inputPassword4" class="form-label">Contraseña</label>
+                <input type="password" class="form-control" id="inputPassword4">
+              </div>
+              <div class="col-12">
+                <label for="inputPassword5" class="form-label">Repetir Contraseña</label>
+                <input type="password" class="form-control" id="inputPassword5">
               </div>
               <div class="text-center">
                 <button type="submit" class="btn btn-success" ><a style="color: white" th:href="@{'/administrador/dashboardpaciente'}">Guardar Cambios</a></button>

@@ -50,7 +50,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-success" data-bs-dismiss="modal"><a style="color: white" th:href="@{'/administrador/inicio'}" >Salir</button>
+                <button type="button" class="btn btn-success" data-bs-dismiss="modal"><a style="color: white" th:href="@{'/administrador/inicio'}" >Salir</a></button>
                 <button type="button" class="btn btn-secondary"><a style="color: white" th:href="@{'/administrador/dashboardpaciente'}" >Cancelar</a></button>
             </div>
         </div>
@@ -76,7 +76,14 @@
 
                 <div class="card">
                     <div class="card-body">
+
                         <h5 class="card-title">Pacientes</h5>
+                        <div class="search-bar">
+                            <form class="search-form d-flex align-items-center col-lg bg-body-tertiary" method="POST" action="#">
+                                <input class="form-control me-2" type="search" placeholder="Buscar Paciente" aria-label="Search">
+                                <button class="btn btn-outline-success" type="submit"><i class="bi bi-search"></i></button>
+                            </form>
+                        </div><!-- End Search Bar -->
 
                         <!-- Default Table -->
                         <table class="table">
@@ -168,6 +175,7 @@
                 </div>
             </div>
         </div>
+
     </section>
 
 

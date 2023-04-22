@@ -39,65 +39,9 @@
 <!-- End Header -->
 
 <!-- ======= Sidebar ======= -->
-<aside id="sidebar" class="sidebar">
-
-  <ul class="sidebar-nav" id="sidebar-nav">
-
-    <li class="nav-item">
-      <a class="nav-link collapsed" th:href="@{'/administrador/dashboard'}">
-        <i class="bi bi-grid"></i>
-        <span>Dashboard</span>
-      </a>
-    </li><!-- End Dashboard Nav -->
-
-    <li class="nav-item">
-      <a class="nav-link collapsed" th:href="@{'/administrador/nuevopaciente'}">
-        <i class="bi bi-person-plus-fill"></i>
-        <span>Nuevo Paciente</span>
-      </a>
-    </li><!-- End Profile Page Nav -->
-
-    <li class="nav-item">
-      <a class="nav-link" th:href="@{'/administrador/calendariogeneral'}">
-        <i class="bi bi-calendar3"></i>
-        <span>Calendario General</span>
-      </a>
-    </li><!-- End Profile Page Nav -->
-
-    <li class="nav-item">
-      <a class="nav-link collapsed" th:href="@{'/administrador/formatos'}">
-        <i class="bi bi-card-list"></i>
-        <span>Formatos</span>
-      </a>
-    </li><!-- End Profile Page Nav -->
-
-    <li class="nav-item">
-      <a class="nav-link collapsed" th:href="@{'/administrador/configuraciones'}">
-        <i class="bi bi-wrench-adjustable"></i>
-        <span>Configuraciones</span>
-      </a>
-    </li><!-- End Profile Page Nav -->
-
-    <li class="nav-item">
-      <a class="nav-link collapsed" th:href="@{'/administrador/perfil'}">
-        <i class="bi bi-person"></i>
-        <span>Perfil</span>
-      </a>
-    </li><!-- End Profile Page Nav -->
-
-    <li class="nav-item">
-      <a class="nav-link collapsed" type="button" data-bs-toggle="modal" data-bs-target="#verticalycentered">
-        <i class="bi bi-box-arrow-in-right"></i>
-        <span>Cerrar Sesión</span>
-        <!-- Vertically centered Modal -->
-
-      </a>
-    </li><!-- End F.A.Q Page Nav -->
-
-
-  </ul>
-
-</aside><!-- End Sidebar-->
+<aside th:replace="fragments/aside.html :: sidebar (active = 'calendariogeneral')">
+</aside>
+<!-- End Sidebar-->
 <div class="modal fade" id="verticalycentered" tabindex="-1">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
