@@ -29,6 +29,17 @@ public class AdministradorController {
 
         return "administrador/calendariogeneral";
     }
+    @GetMapping(value = "/calendariomarzo")
+    public String MarzoCalendar() {
+
+        return "administrador/calendariomarzo";
+    }
+
+    @GetMapping(value = "/calendariomayo")
+    public String MayoCalendar() {
+
+        return "administrador/calendariomayo";
+    }
 
     @GetMapping(value = "/formatos")
     public String formatos() {
@@ -100,6 +111,24 @@ public class AdministradorController {
     public String chat() {
 
         return "administrador/chat";
+    }
+
+    @GetMapping(value = "/detallesdoctor")
+    public String Detalles() {
+
+        return "administrador/detallesdoctor";
+    }
+
+    @GetMapping(value = "/vistacuestionario")
+    public String VerCuestionario() {
+
+        return "administrador/vistacuestionario";
+    }
+
+    @GetMapping(value = "/creardoctor")
+    public String crearDoctor() {
+
+        return "administrador/creardoctor";
     }
 
 

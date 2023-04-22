@@ -35,10 +35,13 @@
         </dependency>
 >>>>>>> paciente
 
+<<<<<<< HEAD
 
 
 
 
+=======
+>>>>>>> administrador
          <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>

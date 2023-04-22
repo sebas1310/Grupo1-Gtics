@@ -61,46 +61,49 @@
 
         <div class="card">
           <div class="card-body">
-            <h5 class="card-title">Formulario</h5>
+            <h5 class="card-title">Cuestionario de Satisfacción</h5>
+            <h4 class="card-title">Paciente: Lorena Vela Sulca</h4>
 
             <form class="row g-3">
-              <div class="col-12">
-                <label for="inputNanme4" class="form-label">Nombres</label>
-                <input type="text" class="form-control" id="inputNanme4">
+              <div class="form-group">
+                <label form="inputDni">DNI</label>
+                <input value="70897845" name="dni" type="dni" id="inputDni" class="form-control" th:readonly="true">
               </div>
-              <div class="col-12">
-                <label for="inputApellido" class="form-label">Apellidos</label>
-                <input type="text" class="form-control" id="inputApellido">
-              </div>
-              <div class="col-12">
+              <div class="form-group">
                 <label for="inputCorreo" class="form-label">Correo</label>
-                <input type="text" class="form-control" id="inputCorreo">
+                <input value="lorena@gmail.com" name="correo" type="dni" id="inputCorreo" class="form-control" th:readonly="true">
               </div>
-              <div class="col-12">
-                <label for="inputDni" class="form-label">DNI</label>
-                <input type="dni" class="form-control" id="inputDni">
-              </div>
-              <div class="col-12">
+              <div class="form-group">
                 <label for="inputGenero" class="form-label">Género</label>
-                <div class="form-control">
-                <select name="select" class="form-control-plaintext " type="genero" id="inputGenero">
-                  <option value="value0">---------</option>
-                  <option value="value1">Masculino</option>
-                  <option value="value2">Femenino</option>
-                </select>
-                </div>
+                <input value="femenino" name="genero" type="dni" id="inputGenero" class="form-control" th:readonly="true">
               </div>
-              <div class="col-12">
-                <label for="inputPassword4" class="form-label">Contraseña</label>
-                <input type="password" class="form-control" id="inputPassword4">
+              <div class="form-group">
+                <label for="inputCita" class="form-label">Información de la Cita</label>
+                <input value="Cita en neurología por un dolor en la cabeza" name="dia" type="cita" id="inputCita" class="form-control" th:readonly="true">
               </div>
-              <div class="col-12">
-                <label for="inputPassword5" class="form-label">Repetir Contraseña</label>
-                <input type="password" class="form-control" id="inputPassword5">
+              <div class="form-group">
+                <label for="inputDia" class="form-label">Día de la Cita (cuando contesto el cuestionario)</label>
+                <input value="04/03/23" name="dia" type="dni" id="inputDia" class="form-control" th:readonly="true">
               </div>
+              <div class="form-group">
+                <label for="inputRespuesta" class="form-label">Del 1 al 10 que tan satisfecho se encontró en nuestra clínica</label>
+                <input value="10" name="dia" type="dni" id="inputRespuesta" class="form-control" th:readonly="true">
+              </div>
+              <div class="form-group">
+                <label for="inputRespuesta2" class="form-label">¿El doctor fue amable con usted?</label>
+                <input value="Si" name="dia" type="dni" id="inputRespuesta2" class="form-control" th:readonly="true">
+              </div>
+              <div class="form-group">
+              <label for="inputRespuesta3" class="form-label">¿Volvería a la clínica por otro malestas?</label>
+              <input value="Si" name="dia" type="dni" id="inputRespuesta3" class="form-control" th:readonly="true">
+            </div>
+              <div class="form-group">
+                <label for="inputRespuesta4" class="form-label">En general, que opina de nuestra clínica</label>
+                <textarea name="dia" type="dni" id="inputRespuesta4" class="form-control"th:readonly="true">Creo que es un buen lugar para poder atenderse si es que tienes algún malestar, el tiempo de espera es adecuado y el personal en general es muy amable</textarea>
+              </div>
+
               <div class="text-center">
-                <button type="submit" class="btn btn-success" ><a style="color: white" th:href="@{'/administrador/dashboardpaciente'}">Guardar Cambios</a></button>
-                <button type="reset" class="btn btn-secondary"><a style="color: white" th:href="@{'/administrador/nuevopaciente'}">Cancelar</a></button>
+                <button type="submit" class="btn btn-success" ><a style="color: white" th:href="@{'/administrador/historialclinico'}">Volver</a></button>
               </div>
             </form><!-- Vertical Form -->
 

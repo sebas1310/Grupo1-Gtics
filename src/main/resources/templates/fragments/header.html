@@ -4,6 +4,7 @@
 </head>
 
 <body>
+<<<<<<< HEAD
 <header th:fragment="header(num_not, num_form, por_canc, nombre, num_men)" id="header" class="header fixed-top d-flex align-items-center" style="background-color:#ffd966">
 
   <div class="d-flex align-items-center justify-content-between">
@@ -25,17 +26,54 @@
           <li  class="dropdown-header">
             <p th:text="|Tiene ${num_not} notificaciones |"> </p>
             <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">Vaciar</span></a>
+=======
+<header th:fragment="header(num_not, num_form, por_canc, nombre, num_men)" id="header" class="header fixed-top d-flex align-items-center" style="background-color:rgba(97,173,70,0.75)">
+
+
+  <div class="d-flex align-items-center justify-content-between">
+    <a th:href="@{'/administrador'}" class="logo d-flex align-items-center" style="width: 200px;">
+      <img th:src="@{/assets/img/logo.png}" alt="">
+      <span class="d-none d-lg-block">Clínica LA FE</span>
+    </a>
+    <a>
+      <span class="d-none d-lg-block" style="color: #18335c">(Sede San Miguel)</span>
+    </a>
+    <i class="bi bi-list toggle-sidebar-btn"></i>
+  </div><!-- End Logo -->
+
+  <nav class="header-nav ms-auto">
+    <ul class="d-flex align-items-center">
+
+      <li class="nav-item dropdown">
+
+        <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
+          <i class="bi bi-bell"></i>
+          <span class="badge bg-primary badge-number">4</span>
+        </a><!-- End Notification Icon -->
+
+        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
+          <li class="dropdown-header">
+            Tienes 4 notificaciones nuevas
+>>>>>>> administrador
           </li>
           <li>
             <hr class="dropdown-divider">
           </li>
 
           <li class="notification-item">
+<<<<<<< HEAD
             <i class="bi bi-info-circle text-warning"></i>
             <div>
               <h4>Formulario</h4>
               <p th:text="|Tiene ${num_form} por responder |"> </p>
               <p>Hace 1 min.</p>
+=======
+            <i class="bi bi-exclamation-circle text-warning"></i>
+            <div>
+              <h4>Lorem Ipsum</h4>
+              <p>Quae dolorem earum veritatis oditseno</p>
+              <p>30 min. ago</p>
+>>>>>>> administrador
             </div>
           </li>
 
@@ -46,9 +84,15 @@
           <li class="notification-item">
             <i class="bi bi-x-circle text-danger"></i>
             <div>
+<<<<<<< HEAD
               <h4>Por Cancelar</h4>
               <p th:text="|Tiene ${por_canc} citas por pagar |"> </p>
               <p>Hace 3 horas</p>
+=======
+              <h4>Atque rerum nesciunt</h4>
+              <p>Quae dolorem earum veritatis oditseno</p>
+              <p>1 hr. ago</p>
+>>>>>>> administrador
             </div>
           </li>
 
@@ -59,9 +103,15 @@
           <li class="notification-item">
             <i class="bi bi-check-circle text-success"></i>
             <div>
+<<<<<<< HEAD
               <h4>Cita Reservada</h4>
               <p>Ha reservado una nueva cita con éxito</p>
               <p>Hace 2 min</p>
+=======
+              <h4>Sit rerum fuga</h4>
+              <p>Quae dolorem earum veritatis oditseno</p>
+              <p>2 hrs. ago</p>
+>>>>>>> administrador
             </div>
           </li>
 
@@ -69,10 +119,31 @@
             <hr class="dropdown-divider">
           </li>
 
+<<<<<<< HEAD
           <li class="dropdown-footer">
             <a href="#">Mostrar todas las notificaciones</a>
           </li>
         </ul><!-- End Notification Dropdown Items -->
+=======
+          <li class="notification-item">
+            <i class="bi bi-info-circle text-primary"></i>
+            <div>
+              <h4>Dicta reprehenderit</h4>
+              <p>Quae dolorem earum veritatis oditseno</p>
+              <p>4 hrs. ago</p>
+            </div>
+          </li>
+
+          <li>
+            <hr class="dropdown-divider">
+          </li>
+          <li class="dropdown-footer">
+            <a th:href="@{'/administrador/notificaciones'}">Mira todas las notificaciones</a>
+          </li>
+
+        </ul><!-- End Notification Dropdown Items -->
+
+>>>>>>> administrador
       </li><!-- End Notification Nav -->
 
       <li class="nav-item dropdown">
@@ -84,8 +155,12 @@
 
         <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow messages">
           <li class="dropdown-header">
+<<<<<<< HEAD
             <p th:text="|Tiene ${num_men} mensajes nuevos |"> </p>
             <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">Ver todos</span></a>
+=======
+            Tienes 3 nuevos mensajes
+>>>>>>> administrador
           </li>
           <li>
             <hr class="dropdown-divider">
@@ -93,11 +168,47 @@
 
           <li class="message-item">
             <a href="#">
+<<<<<<< HEAD
               <img th:src="@{/assets/img/profile-img.jpg}" alt="Profile" class="rounded-circle">
               <div>
                 <h4>Maria Hudson</h4>
                 <p>Sobre su consulta acerca de los análisis...</p>
                 <p>Hace 2 horas</p>
+=======
+              <img th:src="@{/assets/img/messages-1.jpg}" alt="" class="rounded-circle">
+              <div>
+                <h4>Maria Hudson</h4>
+                <p>Velit asperiores et ducimus soluta repudiandae labore officia est ut...</p>
+                <p>4 hrs. ago</p>
+              </div>
+            </a>
+          </li>
+          <li>
+            <hr class="dropdown-divider">
+          </li>
+
+          <li class="message-item">
+            <a href="#">
+              <img th:src="@{assets/img/messages-2.jpg}" alt="" class="rounded-circle">
+              <div>
+                <h4>Anna Nelson</h4>
+                <p>Velit asperiores et ducimus soluta repudiandae labore officia est ut...</p>
+                <p>6 hrs. ago</p>
+              </div>
+            </a>
+          </li>
+          <li>
+            <hr class="dropdown-divider">
+          </li>
+
+          <li class="message-item">
+            <a href="#">
+              <img th:src="@{assets/img/messages-3.jpg}" alt="" class="rounded-circle">
+              <div>
+                <h4>David Muldon</h4>
+                <p>Velit asperiores et ducimus soluta repudiandae labore officia est ut...</p>
+                <p>8 hrs. ago</p>
+>>>>>>> administrador
               </div>
             </a>
           </li>
@@ -106,6 +217,7 @@
           </li>
 
           <li class="dropdown-footer">
+<<<<<<< HEAD
             <a href="#">Mostrar todos los mensajes</a>
           </li>
         </ul><!-- End Messages Dropdown Items -->
@@ -120,6 +232,37 @@
       </li><!-- End Profile Nav -->
     </ul>
   </nav><!-- End Icons Navigation -->
+=======
+            <a th:href="@{'/administrador/mensajes'}">Mira todos los mensajes</a>
+          </li>
+
+        </ul><!-- End Messages Dropdown Items -->
+
+      </li><!-- End Messages Nav -->
+
+      <li class="nav-item dropdown pe-3">
+
+        <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+          <img th:src="@{/assets/img/profile-img.jpg}" alt="Profile" class="rounded-circle">
+          <span class="d-none d-md-block dropdown-toggle ps-2">K. Anderson</span>
+        </a><!-- End Profile Iamge Icon -->
+
+        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+          <li class="dropdown-header">
+            <h6>K. Anderson</h6>
+            <span>Administrador</span>
+          </li>
+          <li>
+            <hr class="dropdown-divider">
+          </li>
+
+        </ul>
+      </li><!-- End Profile Nav -->
+
+    </ul>
+  </nav><!-- End Icons Navigation -->
+
+>>>>>>> administrador
 </header>
 
 <!-- End Header -->
