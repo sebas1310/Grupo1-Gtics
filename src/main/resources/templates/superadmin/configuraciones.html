@@ -13,21 +13,7 @@
 <!-- ======= Sidebar ======= -->
 <aside th:replace="superadmin/fragments/aside.html :: sidebar (active = 'configuraciones')">
 </aside>
-<!-- End Sidebar-->
-<div class="modal fade" id="verticalycentered" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">¿Seguro que deseas Salir?</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-success" data-bs-dismiss="modal"><a style="color: white" th:href="@{'/superadmin/index'}">Salir</button>
-                <button type="button" class="btn btn-secondary"><a style="color: white" th:href="@{'/superadmin/index'}" >Cancelar</a></button>
-            </div>
-        </div>
-    </div>
-</div><!-- End Vertically centered Modal-->
+
 <main id="main" class="main">
 
     <div class="pagetitle">
@@ -69,14 +55,20 @@
                             </tr>
                             </thead>
                             <tr>
-                                <td>Personaliza tu pagina con la paleta de colores</td>
+                                <td>Personalizar Interfaz de Usuario</td>
                                 <td><div class="row">
                                     <label for="inputColor" class="col-form-label">Color Picker</label>
                                     <div class="col-sm-10">
                                         <input type="color" class="form-control form-control-color" id="exampleColorInput" value="#4154f1" title="Choose your color">
                                     </div>
+                                    <select class="form-select" aria-label="Default select example">
+                                        <option selected>Elige rol</option>
+                                        <option value="1">Doctor</option>
+                                        <option value="2">Paciente</option>
+                                        <option value="3">Administrador</option>
+                                        <option value="4">Administrativo</option>
+                                    </select>
                                 </div></td>
-
                             </tr>
                             <thead>
                             <tr>
@@ -85,12 +77,21 @@
                             </thead>
                             <tr>
                                 <td>Sube una imagen de fondo</td>
-                                <td><div class=" mb-3">
-                                    <label for="inputNumber" class="col-sm-2 col-form-label">File Upload</label>
+                                <td>
+                                    <div class=" mb-3">
+                                    <label for="inputNumber" class="col-sm-2 col-form-label">Subir Imagen</label>
                                     <div class="col-sm-10">
                                         <input class="form-control" type="file" id="formFile">
                                     </div>
-                                </div></td>
+                                        <select class="form-select" aria-label="Default select example">
+                                            <option selected>Elige sede</option>
+                                            <option value="1">San Miguel</option>
+                                            <option value="2">San Borja</option>
+                                            <option value="3">Lince</option>
+
+                                        </select>
+                                    </div>
+                                </td>
                             </tr>
                             </tbody>
                         </table>
@@ -167,28 +168,12 @@
                     </div>
                 </div>
 
-
-
-
-
-
-
             </div>
-
 
         </div>
     </section>
 
-
-
-
-
-
-
-
-
 </main><!-- End #main -->
-
 
 <!-- ======= Footer ======= -->
 <footer id="footer" class="footer">
