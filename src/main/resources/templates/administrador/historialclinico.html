@@ -34,12 +34,12 @@
 <body>
 
 <!-- ======= Header ======= -->
-<header th:replace="fragments/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1', nombre = 'L. Anderson', num_men = '3')">
+<header th:replace="fragments/administrador/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1', nombre = 'L. Anderson', num_men = '3')">
 </header>
 <!-- End Header -->
 
 <!-- ======= Sidebar ======= -->
-<aside th:replace="fragments/aside.html :: sidebar (active = 'historialclinico')">
+<aside th:replace="fragments/administrador/aside.html :: sidebar (active = 'historialclinico')">
 </aside>
 <!-- End Sidebar-->
 
@@ -98,12 +98,12 @@
                                 <th scope="row">Cuestionarios</th>
                             </tr>
                             <tr>
-                                <td>Satisfacción</td>
+                                <td>Neurología</td>
                                 <td><a th:href="@{'/administrador/vistacuestionario'}"><i class="bi bi-eye-fill"></i></a></td>
                                 </td>
                             </tr>
                             <tr>
-                                <td>Familiar</td>
+                                <td>Cardiología</td>
                                 <td><a th:href="@{'/administrador/vistacuestionario'}"><i class="bi bi-eye-fill"></i></a></td>
                             </tr>
                             <tr>

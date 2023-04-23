@@ -34,19 +34,19 @@
 <body>
 
 <!-- ======= Header ======= -->
-<header th:replace="fragments/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1', nombre = 'L. Anderson', num_men = '3')">
+<header th:replace="fragments/administrador/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1', nombre = 'L. Anderson', num_men = '3')">
 </header>
 <!-- End Header -->
 
 <!-- ======= Sidebar ======= -->
-<aside th:replace="fragments/aside.html :: sidebar (active = 'crearpaciente')">
+<aside th:replace="fragments/administrador/aside.html :: sidebar (active = 'crearpaciente')">
 </aside>
 <!-- End Sidebar-->
 
 <main id="main" class="main">
 
   <div class="pagetitle">
-    <h1>Formulario de Registro</h1>
+    <h1>Formulario de Neurología</h1>
     <nav>
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a th:href="@{'/administrador/dashboard'}">Home</a></li>
@@ -61,7 +61,7 @@
 
         <div class="card">
           <div class="card-body">
-            <h5 class="card-title">Cuestionario de Satisfacción</h5>
+            <h5 class="card-title">Cuestionario de Neurología</h5>
             <h4 class="card-title">Paciente: Lorena Vela Sulca</h4>
 
             <form class="row g-3">
@@ -86,20 +86,21 @@
                 <input value="04/03/23" name="dia" type="dni" id="inputDia" class="form-control" th:readonly="true">
               </div>
               <div class="form-group">
-                <label for="inputRespuesta" class="form-label">Del 1 al 10 que tan satisfecho se encontró en nuestra clínica</label>
-                <input value="10" name="dia" type="dni" id="inputRespuesta" class="form-control" th:readonly="true">
+                <label for="inputRespuesta" class="form-label">Del 1 al 10 ¿que tanto dolor siente?</label>
+                <input value="7" name="dia" type="dni" id="inputRespuesta" class="form-control" th:readonly="true">
               </div>
               <div class="form-group">
-                <label for="inputRespuesta2" class="form-label">¿El doctor fue amable con usted?</label>
+                <label for="inputRespuesta2" class="form-label">¿El dolor es persistente?</label>
                 <input value="Si" name="dia" type="dni" id="inputRespuesta2" class="form-control" th:readonly="true">
               </div>
               <div class="form-group">
-              <label for="inputRespuesta3" class="form-label">¿Volvería a la clínica por otro malestas?</label>
+              <label for="inputRespuesta3" class="form-label">¿Ha tomado algún medicamento? Escriba cual</label>
               <input value="Si" name="dia" type="dni" id="inputRespuesta3" class="form-control" th:readonly="true">
-            </div>
+                <input value="Aspirina" name="dia" type="dni" id="inputRespuesta3_2" class="form-control" th:readonly="true">
+              </div>
               <div class="form-group">
-                <label for="inputRespuesta4" class="form-label">En general, que opina de nuestra clínica</label>
-                <textarea name="dia" type="dni" id="inputRespuesta4" class="form-control"th:readonly="true">Creo que es un buen lugar para poder atenderse si es que tienes algún malestar, el tiempo de espera es adecuado y el personal en general es muy amable</textarea>
+                <label for="inputRespuesta4" class="form-label">En general, describa su molestia</label>
+                <textarea name="dia" type="dni" id="inputRespuesta4" class="form-control"th:readonly="true">Mi malestar comenzó hace 4 días, estaba barriendo mi casa y de pronto me comenzó a doler la cabeza como migraña, he tenido migraña pero casi siempre se me pasa rápido, ya son varios días en los que me sigo sintiendo mal, he faltado 2 días a mi trabajo y lo único que he hecho es dormir para no sentir dolor, el dolor comienza desde el cuello y sigue todo el cerebro, hay ratos en los que me siento mejor pero cuando hago muchas cosas o pienso en muchas cosas me comienza a doler otra vez.</textarea>
               </div>
 
               <div class="text-center">
