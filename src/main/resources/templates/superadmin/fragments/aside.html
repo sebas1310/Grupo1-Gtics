@@ -8,7 +8,7 @@
     <ul class="sidebar-nav" id="sidebar-nav">
 
         <li class="nav-item" th:classappend="${active == 'index' ? 'inactive':''}">
-            <a class="nav-link" th:classappend="${active != 'dashboard' ? 'collapsed':''}" th:href="@{'/superadmin/index'}">
+            <a class="nav-link" th:classappend="${active != 'index' ? 'collapsed':''}" th:href="@{'/superadmin/index'}">
                 <i class="bi bi-house"></i>
                 <span>Dashboard</span>
             </a>

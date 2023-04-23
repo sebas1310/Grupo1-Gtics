@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-<head th:insert="fragments/librerias.html :: cabecera (titulo = 'index')">
+<head th:insert="superadmin/fragments/librerias.html :: cabecera (titulo = 'index')">
 </head>
 
 <body>
 
 <!-- ======= Header ======= -->
-<header th:replace="fragments/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1', nombre = |${superadmin.usuario.nombres} ${superadmin.usuario.apllidos}|, num_men = '3')">
+<header th:replace="superadmin/fragments/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1', nombre = 'A. Jauregui', num_men = '3')">
 </header>
 <!-- End Header -->
 
 <!-- ======= Sidebar ======= -->
-<aside th:replace="fragments/aside.html :: sidebar (active = 'index')">
+<aside th:replace="superadmin/fragments/aside.html :: sidebar (active = 'index')">
 </aside>
 <!-- End Sidebar-->
 

@@ -7,7 +7,7 @@
 <header th:fragment="header(num_not, num_form, por_canc, nombre, num_men)" id="header" class="header fixed-top d-flex align-items-center" style="background-color:#668cff">
 
     <div class="d-flex align-items-center justify-content-between">
-        <a th:href="@{'/paciente'}" class="logo d-flex align-items-center">
+        <a th:href="@{'/superadmin/index'}"class="logo d-flex align-items-center">
             <img th:src="@{/assets/img/logo.png}" alt="">
             <span class="d-none d-lg-block" style="color: white">Clínica LA FE</span>
         </a>
@@ -33,7 +33,7 @@
 
 
                     <li class="dropdown-footer">
-                        <a href="#">Mostrar todas las notificaciones</a>
+                        <a th:href="@{'/superadmin/notificaciones'}">Mostrar todas las notificaciones</a>
                     </li>
                 </ul><!-- End Notification Dropdown Items -->
             </li><!-- End Notification Nav -->
@@ -48,7 +48,7 @@
                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow messages">
                     <li class="dropdown-header">
                         <p th:text="|Tiene ${num_men} mensajes nuevos |"> </p>
-                        <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">Ver todos</span></a>
+                        <a th:href="@{'/superadmin/mensajeria'}"><span class="badge rounded-pill bg-primary p-2 ms-2">Ver todos</span></a>
                     </li>
                     <li>
                         <hr class="dropdown-divider">
@@ -69,14 +69,14 @@
                     </li>
 
                     <li class="dropdown-footer">
-                        <a href="#">Mostrar todos los mensajes</a>
+                        <a th:href="@{'/superadmin/mensajeria'}">Mostrar todos los mensajes</a>
                     </li>
                 </ul><!-- End Messages Dropdown Items -->
             </li><!-- End Messages Nav -->
 
             <li class="nav-item dropdown">
             <li class="nav-item dropdown pe-3">
-                <a class="nav-link nav-profile d-flex align-items-center pe-0" th:href="@{'/superadmin/index'}" >
+                <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" >
                     <img th:src="@{/assets/img/profile-img.jpg}" alt="Profile" class="rounded-circle">
                     <span th:text="${nombre}" class="d-none d-md-block  ps-2"></span>
                 </a><!-- End Profile Iamge Icon -->

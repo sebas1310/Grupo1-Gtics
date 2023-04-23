@@ -22,6 +22,14 @@ public class SuperadminController {
         return "superadmin/chat";
     }
 
+    @GetMapping("/editarreportes")
+    public String editarReportes(){
+        return "superadmin/editar-reportes";
+    }
+    @GetMapping("/editarforms")
+    public String editarForms(){
+        return "superadmin/forms-editors";
+    }
     @GetMapping("/registro")
     public String registrarUsuarios(){
         return "superadmin/pages-blank";
