@@ -56,4 +56,15 @@ public class AdministrativoController {
     public String chat(){
         return "administrativo/chat";
     }
+
+    @GetMapping(value = "/detallesdoctor")
+    public String detallesDoctor(){
+        return "administrativo/detallesdoctor";
+    }
+
+    @GetMapping(value = "/perfil")
+    public String perfil(){
+        return "administrativo/perfil";
+    }
+
 }
