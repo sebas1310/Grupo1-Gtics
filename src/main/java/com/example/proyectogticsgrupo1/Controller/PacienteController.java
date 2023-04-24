@@ -1,8 +1,9 @@
-package com.example.proyectogticsgrupo1.Controller;
+/*package com.example.proyectogticsgrupo1.Controller;
 
 import com.example.proyectogticsgrupo1.Entity.*;
 import com.example.proyectogticsgrupo1.Repository.*;
 import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +22,8 @@ public class PacienteController {
     final EspecialidadRepository especialidadRepository;
     final DoctorRepository doctorRepository;
     final UserRepository userRepository;
+
+    @Autowired
     final PacienteRepository pacienteRepository;
     final TipoCitaRepository tipoCitaRepository;
 
@@ -152,3 +155,4 @@ public class PacienteController {
     }
 
 }
+*/

@@ -224,7 +224,7 @@
     </li><!-- End Dashboard -->
 
     <li class="nav-item"> <!-- Cambiar ref -->
-      <a class="nav-link collapsed"  th:href="@{'/doctor/pacientesatendidos'}">
+      <a class="nav-link collapsed"  th:href="@{'/doctor/pacientesatendidos'+ '?id=' + ${doctor.idDoctor}}">
         <i class="bi bi-menu-button-wide"></i>
         <span>Pacientes Atendidos</span>
       </a>
@@ -318,8 +318,8 @@
               </ul>
             </div>
             <div class="card-body">
-              <h5 class="card-title">Citas Agendadas <span>| Hoy</span>
-                <br><br> <center>Martes 4 de Abril</center></h5>
+              <h5 class="card-title">Citas Agendadas <!--<span>| Hoy</span>-->
+                <br><br> <!--<center>Martes 4 de Abril</center>--></h5>
               <table class="table table-borderless datatable">
                 <thead>
                 <tr>
@@ -332,36 +332,31 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                  <td style="text-align: center" scope="row">10:00 - 11:00 am</td>
-                  <td style="text-align: center">Julia Amanda Garriazo</td>
-                  <td style="text-align: center">Presencial</td>
-                  <td style="text-align: center">En Espera</td>
+                <tr th:each=" citaagendada:${citasAgendadas}">
+                  <td style="text-align: center" th:text="|${citaagendada.getHorainicio()} - ${citaagendada.getHorafinal()}|"></td>
+                  <td style="text-align: center" th:text="|${citaagendada.getPaciente().getUsuario().getNombres()} ${citaagendada.getPaciente().getUsuario().getApellidos()}|"></td>
+                  <td style="text-align: center" th:text="${citaagendada.getTipoCita().getNombre()}"></td>
+                    <div>
+                  <td style="text-align: center" th:if="${citaagendada.getTipoCita().getNombre() eq 'Presencial'}" th:text="${citaagendada.getEstadoCita().getNombre()}"></td>
+                    <td style="text-align: center"th:unless="${citaagendada.getTipoCita().getNombre() eq 'Presencial'}" > <a type="button" class="bi bi-camera-video"  href="https://pucp.zoom.us/j/91442275627?pwd=MjFjNGNTeXZEYVhzd3RKYmtVTzROQT09"></a> Iniciar </td>
+                </div>
                   <td style="text-align: center"> <a type="button" class="bi bi-journal-text"  th:href="@{/doctor/cuestionario}"></a></td>
                   <td style="text-align: center" > <a class="bi bi-eye-fill" data-bs-toggle="modal" href="#modal" role="button"></a></td>
                 </tr>
-                <tr>
+               <!--<tr>
                   <td style="text-align: center" scope="row">11:15 - 12:15 pm</td>
                   <td style="text-align: center">Bridie Kessler</td>
                   <td style="text-align: center">Virtual</td>
                   <td style="text-align: center"> <a type="button" class="bi bi-camera-video"  href="https://pucp.zoom.us/j/91442275627?pwd=MjFjNGNTeXZEYVhzd3RKYmtVTzROQT09"></a> Iniciar </td>
                   <td style="text-align: center"> <a type="button" class="bi bi-journal-text"  th:href="@{/doctor/cuestionario}"></a></td>
                   <td style="text-align: center" > <a class="bi bi-eye-fill" data-bs-toggle="modal" href="#modal" role="button"></a></td>
-                </tr>
-
-                <tr>
-                  <td style="text-align: center" scope="row">15:00 - 16:00 pm</td>
-                  <td style="text-align: center">Angus Grady</td>
-                  <td style="text-align: center">Presencial</td>
-                  <td style="text-align: center">Registrado en Caja</td>
-                  <td style="text-align: center"> <a type="button" class="bi bi-journal-text"  th:href="@{'/doctor/cuestionario'}"></a></td>
-                  <td style="text-align: center" > <a class="bi bi-eye-fill" data-bs-toggle="modal" href="#modal" role="button"></a></td>
-                </tr>
+                </tr> -->
+                    
                 </tbody>
               </table>
               <!-- INICIO DEL MODAL-->
 
-              <div class="modal fade" id="modal" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+              <div th:each="paciente,indice:${citasAgendadas}" class="modal fade" id="modal" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
                 <div class="modal-dialog modal-dialog-centered">
                   <div class="modal-content">
                     <div class="modal-header">
@@ -381,11 +376,11 @@
                                     <div class="card-body">
                                       <h9 class="card-title">Datos</h9>
                                       <br>
-                                      <li>Nombre: Julia Amanda Garriazo</li>
-                                      <li>DNI: 234556433</li>
-                                      <li>Seguro: EsSalud</li>
-                                      <li>Edad: 50 años</li>
-                                      <li>Correo: amanda.garriazo@gmail.com</li>
+                                      <li>Nombre: <span th:text="|${paciente.getPaciente().getUsuario().getNombres()} ${paciente.getPaciente().getUsuario().getApellidos()}|"></span></li>
+                                      <li>DNI: <span th:text="|${paciente.getPaciente().getUsuario().getDni()}|"></span></li>
+                                      <li>Seguro: <span th:text="|${paciente.getPaciente().getSeguro().getNombre()}|"></span></li>
+                                      <li>Edad: <span th:text="|${paciente.getPaciente().getUsuario().getEdad()}|"></span></li>
+                                      <li>Correo: <span th:text="|${paciente.getPaciente().getUsuario().getCorreo()}|"></span></li>
                                     </div>
                                     <div class="card-body">
                                       <h9 class="card-title">Alergias</h9>
@@ -393,11 +388,11 @@
                                       <table class="table table-bordered">
                                         <tbody>
                                         <tr>
-                                          <td style="text-align: center" >Polvo</td>
+                                          <td style="text-align: center" ><span th:text="|${paciente.getPaciente().getAlergias()}|"></span></td>
                                         </tr>
-                                        <tr>
+                                        <!--<tr>
                                           <td style="text-align: center" >Polen</td>
-                                        </tr>
+                                        </tr>-->
                                         </tbody>
                                       </table>
                                     </div>

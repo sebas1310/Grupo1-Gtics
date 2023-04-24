@@ -24,7 +24,7 @@ public class Usuario {
     private String nombres;
 
     @Column(name = "apellidos", nullable = false)
-    private String apllidos;
+    private String apellidos;
 
     @Column(name = "dni", nullable = false)
     private String dni;

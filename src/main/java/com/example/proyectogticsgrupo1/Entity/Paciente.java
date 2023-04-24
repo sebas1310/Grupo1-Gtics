@@ -28,7 +28,10 @@ public class Paciente {
     private Seguro seguro;
 
 
-    @Column(name = "alergias", nullable = false)
+    @Column(name = "condicion_enfermedad", length = 100)
+    private String condicionEnfermedad;
+
+    @Column(name = "alergias",length = 45)
     private String alergias;
 
     @Column(name = "consentimientos", nullable = false)
