@@ -504,15 +504,17 @@
                                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                     </div>
                                                     <div class="modal-body">
-                                                        <form method="post" th:action="@{'/pacientesatendidos/verhistorial/vercita/guardarreporte'}">
-                                                            <p><label for="floatingTextarea5">Dr(a) Ramirez:</label></p>
+
+                                                        <form method="post" th:action="@{'/doctor/guardarreporte'}">
+                                                            <p><label>Dr(a) Ramirez:</label></p>
                                                             <input th:value="${cita.getIdcita()}" name="id" type="hidden"/>
-                                                            <input th:value="${reportecita.descripcion}" name="descripcion" class="form-control" placeholder="Leave a comment here" id="floatingTextarea5">
+                                                            <input th:value="${reportecita.descripcion}" name="descripcion" class="form-control" placeholder="Leave a comment here" id="descripcion">
                                                             <br>
                                                             <div class="d-grid gap d-md-flex justify-content-md-center">
                                                                 <button type="submit" class="btn btn-primary">Actualizar</button>
                                                             </div>
                                                         </form>
+
                                                     </div>
                                                 </div>
                                             </div>

@@ -4,6 +4,7 @@ import com.example.proyectogticsgrupo1.Entity.Cita;
 import com.example.proyectogticsgrupo1.Entity.Doctor;
 import com.example.proyectogticsgrupo1.Entity.Paciente;
 import com.example.proyectogticsgrupo1.Repository.*;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -13,7 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Controller
-@RequestMapping(value="/doctor",method = RequestMethod.GET)
+@RequestMapping(value="/doctor")
 public class DoctorController {
     final DoctorRepository doctorRepository;
     final PacienteRepository pacienteRepository;
@@ -71,7 +72,7 @@ public class DoctorController {
 
 
     @GetMapping("/pacientesatendidos")
-    public String pacientesAtendidosDoctor(Model model, @RequestParam("id") int idDoctor){
+    public String pacientesAtendidosDoctor(Model model, @RequestParam("id") Integer idDoctor){
 
         model.addAttribute("pacientesAtendidosDoctor",citaRepository.pacientesAtendidosPorDoctor(idDoctor));
             return "doctor/pacientesAtendidos";
@@ -102,11 +103,13 @@ public class DoctorController {
         return "doctor/verCita";
     }
 
-    @PostMapping("/pacientesatendidos/verhistorial/vercita/guardarreporte")
-    public String guardarReporte(RedirectAttributes redirectAttributes, @RequestParam("descripcion") String descripcion , @RequestParam("id") int idCita){
-        reporteCitaRepository.añadirReporteCita(descripcion,idCita);
+    @PostMapping("/guardarreporte")
+    @Transactional
+    public String guardarReporte(RedirectAttributes redirectAttributes, @RequestParam("descripcion") String descripcion , @RequestParam("id") Integer idCita){
+        System.out.println("GAAAAA");
         redirectAttributes.addAttribute("id",idCita);
-        return "redirect:/pacientesatendidos/verhistorial/vercita";
+        reporteCitaRepository.añadirReporteCita(descripcion,idCita);
+        return "redirect:doctor/pacientesatendidos/verhistorial/vercita";
     }
 
     @GetMapping("/calendario")

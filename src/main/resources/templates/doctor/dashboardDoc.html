@@ -224,7 +224,7 @@
     </li><!-- End Dashboard -->
 
     <li class="nav-item"> <!-- Cambiar ref -->
-      <a class="nav-link collapsed"  th:href="@{'/doctor/pacientesatendidos'+ '?id=' + ${doctor.idDoctor}}">
+      <a class="nav-link collapsed"  th:href="@{'/doctor/pacientesatendidos?id='+${doctor.idDoctor}}">
         <i class="bi bi-menu-button-wide"></i>
         <span>Pacientes Atendidos</span>
       </a>
