@@ -38,5 +38,7 @@ public class Paciente {
     @JoinColumn(name = "idusuario", nullable = false)
     private Usuario usuario;
 
+    @Column(name = "condicion_enfermedad")
+    private String condicionenfermedad;
 
 }
