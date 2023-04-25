@@ -4,13 +4,13 @@
 </head>
 <body>
 <!-- ======= Header ======= -->
-<header th:replace="fragments/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1', nombre = 'L. Anderson', num_men = '3')">
+<header th:replace="fragments/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1', nombre = 'Abigail Ramirez', num_men = '2')">
 </header><!-- End Header -->
 <!-- ======= Sidebar ======= -->
 <aside th:replace="fragments/aside.html :: sidebar (active = 'cuestionario')">
 </aside><!-- End Sidebar-->
 <!-- Cerrar Sesion-->
-<div class="modal fade" id="verticalycentered" tabindex="-1">
+<div class="modal fade" id="cerrar" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
@@ -19,18 +19,18 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-success" data-bs-dismiss="modal"><a style="color: white" href="pages-login.html" >Salir</button>
-                <button type="button" class="btn btn-secondary"><a style="color: white" th:href="@{'/doctor/dashboard/mensual'}" >Cancelar</a></button>
+                <button type="button" class="btn btn-secondary"><a style="color: white" th:href="@{'/doctor/cuestionario'}" >Cancelar</a></button>
             </div>
         </div>
     </div>
-</div><!-- End Vertically centered Modal-->
+</div><!-- End Cerrar Sesion-->
 <main id="main" class="main">
 
     <div class="pagetitle">
         <h1>Cuestionario</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a th:href="@{'/doctor/dashboard'}">Home</a></li>
+                <li class="breadcrumb-item"><a th:href="@{'/doctor/dashboard'}">Dashboard</a></li>
                 <li class="breadcrumb-item active">Cuestionarios</li>
             </ol>
         </nav>
@@ -74,20 +74,14 @@
                             <div class="d-grid gap d-md-flex justify-content-md-center">
                                 <button class="btn btn-primary" type="submit">Enviar form</button>
                             </div>
-
                         </form>
                     </div>
-
-
                 </div>
             </div>
         </div>
-
         </div>
     </section>
-
 </main><!-- End #main -->
-
 
 <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 <!-- Vendor JS Files -->
