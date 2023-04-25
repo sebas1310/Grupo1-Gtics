@@ -9,7 +9,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,8 +27,9 @@ public class PacienteController {
     final PacienteRepository pacienteRepository;
     final TipoCitaRepository tipoCitaRepository;
     final CitaRepository citaRepository;
+    final EventocalendariodoctorRepository eventocalendariodoctorRepository;
 
-    public PacienteController(SedeRepository sedeRepository, EspecialidadRepository especialidadRepository, DoctorRepository doctorRepository, UserRepository userRepository, PacienteRepository pacienteRepository, TipoCitaRepository tipoCitaRepository, CitaRepository citaRepository) {
+    public PacienteController(SedeRepository sedeRepository, EspecialidadRepository especialidadRepository, DoctorRepository doctorRepository, UserRepository userRepository, PacienteRepository pacienteRepository, TipoCitaRepository tipoCitaRepository, CitaRepository citaRepository, EventocalendariodoctorRepository eventocalendariodoctorRepository) {
         this.sedeRepository = sedeRepository;
         this.especialidadRepository = especialidadRepository;
         this.doctorRepository = doctorRepository;
@@ -33,6 +37,7 @@ public class PacienteController {
         this.pacienteRepository = pacienteRepository;
         this.tipoCitaRepository = tipoCitaRepository;
         this.citaRepository = citaRepository;
+        this.eventocalendariodoctorRepository = eventocalendariodoctorRepository;
     }
 
     @GetMapping(value = "/")
@@ -46,7 +51,7 @@ public class PacienteController {
     }
 
     @GetMapping(value = "/perfilDoctor")
-    public String perfilDoc(@RequestParam("iddoc") Integer iddoc, Model model){
+    public String perfilDoc(RedirectAttributes redirectAttributes, @RequestParam("iddoc") Integer iddoc, Model model){
         Optional<Paciente> optionalPaciente = pacienteRepository.findById(1);
         Paciente paciente =  optionalPaciente.get();
         model.addAttribute("pacientelog",paciente);
@@ -62,17 +67,20 @@ public class PacienteController {
 
     }
     @GetMapping(value = "/selecTipoCita")
-    public String selecTipoCita(Model model){
+    public String selecTipoCita(Model model,@RequestParam("iddoc") Integer id){
         Optional<Paciente> optionalPaciente = pacienteRepository.findById(1);
         Paciente paciente =  optionalPaciente.get();
         model.addAttribute("pacientelog",paciente);
+        model.addAttribute("doc", doctorRepository.findById(id).get());
         return "paciente/tipocita";
     }
     @GetMapping(value = "/reservar2")
-    public String selectDate(Model model){
+    public String selectDate(Model model, @RequestParam("iddoc") Integer id){
         Optional<Paciente> optionalPaciente = pacienteRepository.findById(1);
         Paciente paciente =  optionalPaciente.get();
         model.addAttribute("pacientelog",paciente);
+        //Eventocalendariodoctor eventocalendariodoctor = eventocalendariodoctorRepository.calendarioPorDoctor(id);
+        model.addAttribute("calendario", eventocalendariodoctorRepository.calendarioPorDoctor(id));
         return "paciente/reservar2";
     }
 
@@ -152,6 +160,23 @@ public class PacienteController {
         }
 
         return "redirect:/paciente/perfil";
+    }
+
+    @PostMapping(value = "/pruebascita")
+    public String pruebascita(@RequestParam("idsede") Integer nameSede,
+                              @RequestParam("especialidadid") Integer idesp,
+                              @RequestParam("iddoctor") Integer iddoctor,
+                              @RequestParam("fecha")LocalDate fecha,
+                              @RequestParam("hora")LocalTime hora,
+                              @RequestParam("idtipocita") Integer idtipocita){
+        System.out.println("nombre sede: " + nameSede);
+        System.out.println("nombre esp: " + idesp);
+        System.out.println("nombre doc: " + iddoctor);
+        System.out.println("fecha : " + fecha);
+        System.out.println("nombre hora: " + hora);
+        System.out.println("nombre idtipocita: " + idtipocita);
+
+        return "redirect:/paciente/agendarCita";
     }
 
 }
