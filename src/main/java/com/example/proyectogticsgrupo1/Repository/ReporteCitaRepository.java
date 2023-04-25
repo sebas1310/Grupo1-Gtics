@@ -17,5 +17,9 @@ public interface ReporteCitaRepository extends JpaRepository<ReporteCita,Integer
     @Query(value= "insert into reportecita (descripcion,fecha,idcita) values (?1,current_date(),?2) ",nativeQuery = true)
     void añadirReporteCita (String descripcion , Integer idCita);
 
+    @Modifying
+    @Query(value= "update reportecita set descripcion = ?1 where idcita = ?2",nativeQuery = true)
+    void actualizarReporteCita (String descripcion , Integer idCita);
+
 
 }

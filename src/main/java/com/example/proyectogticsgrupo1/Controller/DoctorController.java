@@ -3,6 +3,7 @@ package com.example.proyectogticsgrupo1.Controller;
 import com.example.proyectogticsgrupo1.Entity.Cita;
 import com.example.proyectogticsgrupo1.Entity.Doctor;
 import com.example.proyectogticsgrupo1.Entity.Paciente;
+import com.example.proyectogticsgrupo1.Entity.ReporteCita;
 import com.example.proyectogticsgrupo1.Repository.*;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Controller;
@@ -107,8 +108,12 @@ public class DoctorController {
 
     @PostMapping("/pacientesatendidos/verhistorial/vercita/guardarreporte")
     @Transactional
-    public String guardarReporte(RedirectAttributes redirectAttributes, @RequestParam("descripcion") String descripcion , @RequestParam("id") int idCita){
-        reporteCitaRepository.añadirReporteCita(descripcion,idCita);
+    public String guardarReporte(ReporteCita reporteCita, RedirectAttributes redirectAttributes, @RequestParam("descripcion") String descripcion , @RequestParam("id") int idCita){
+        if(reporteCita.getIdReporteCita() == 0){
+
+        }else {
+            reporteCitaRepository.actualizarReporteCita(descripcion, idCita);
+        }
         redirectAttributes.addAttribute("id",idCita);
         return "redirect:/doctor/pacientesatendidos/verhistorial/vercita";
 
