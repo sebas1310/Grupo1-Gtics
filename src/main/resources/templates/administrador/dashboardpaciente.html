@@ -95,55 +95,10 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td><a th:href="@{'/administrador/historialclinico'}">Lorena Vela Sulca</a></td>
-                                <td>Invitado</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">2</th>
-                                <td><a th:href="@{'/administrador/historialclinico'}">Antonio Miranda Camarena</a></td>
-                                <td>En Consulta</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">3</th>
-                                <td><a th:href="@{'/administrador/historialclinico'}">Carlos Ayala Zapata</a></td>
-                                <td>Registrado</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">4</th>
-                                <td><a th:href="@{'/administrador/historialclinico'}">Daniela Ricra Perez</a></td>
-                                <td>Activo</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">5</th>
-                                <td><a th:href="@{'/administrador/historialclinico'}">Tracy Cotera Galvan</a></td>
-                                <td>Invitado</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">6</th>
-                                <td><a th:href="@{'/administrador/historialclinico'}">Lowe Vewa Sydei</a></td>
-                                <td>Invitado</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">7</th>
-                                <td><a th:href="@{'/administrador/historialclinico'}">Lowe Vewa Sydei</a></td>
-                                <td>En Consulta</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">8</th>
-                                <td><a th:href="@{'/administrador/historialclinico'}">Lowe Vewa Sydei</a></td>
-                                <td>Registrado</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">9</th>
-                                <td><a th:href="@{'/administrador/historialclinico'}">Lowe Vewa Sydei</a></td>
-                                <td>Activo</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">10</th>
-                                <td><a th:href="@{'/administrador/historialclinico'}">Lowe Vewa Sydei</a></td>
-                                <td>Invitado</td>
+                            <tr th:each="paciente, info: ${listaPacientes}">
+                                <th scope="row" th:text="${info.index + 1}"></th>
+                                <td><a th:text="${paciente.usuario.nombres} + ' ' + ${paciente.usuario.apellidos}" th:href="@{'/administrador/historialclinico'}"></a></td>
+                                <td th:text="${paciente.idestadopaciente.nombre}"></td>
                             </tr>
                             </tbody>
                         </table>

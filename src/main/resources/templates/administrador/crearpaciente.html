@@ -63,44 +63,44 @@
           <div class="card-body">
             <h5 class="card-title">Formulario</h5>
 
-            <form class="row g-3" th:action="@{/administrador/guardarPaciente}">
+            <form class="row g-3" method="POST" th:object="${usuario}" th:action="@{'/administrador/guardar'}">
               <div class="col-12">
-                <label for="inputNanme4" class="form-label">Nombres</label>
-                <input type="text" class="form-control" id="inputNanme4">
+                <label for="nombres" class="form-label">Nombres</label>
+                <input type="text" class="form-control" id="nombres" name="nombres">
               </div>
               <div class="col-12">
-                <label for="inputApellido" class="form-label">Apellidos</label>
-                <input type="text" class="form-control" id="inputApellido">
+                <label for="apellidos" class="form-label">Apellidos</label>
+                <input type="text" class="form-control" id="apellidos" name="apellidos">
               </div>
               <div class="col-12">
-                <label for="inputCorreo" class="form-label">Correo</label>
-                <input type="text" class="form-control" id="inputCorreo">
+                <label for="correo" class="form-label">Correo</label>
+                <input type="text" class="form-control" id="correo" name="correo">
               </div>
               <div class="col-12">
-                <label for="inputDni" class="form-label">DNI</label>
-                <input type="dni" class="form-control" id="inputDni">
-              </div>
-              <div class="col-12">
-                <label for="inputGenero" class="form-label">Género</label>
-                <div class="form-control">
-                <select name="select" class="form-control-plaintext " type="genero" id="inputGenero">
-                  <option value="value0">---------</option>
-                  <option value="value1">Masculino</option>
-                  <option value="value2">Femenino</option>
-                </select>
-                </div>
+                <label for="dni" class="form-label">DNI</label>
+                <input type="dni" class="form-control" id="dni" name="dni">
               </div>
               <div class="col-12">
                 <label for="inputCel" class="form-label">Celular</label>
-                <input type="dni" class="form-control" id="inputCel">
+                <input type="dni" class="form-control" id="inputCel" name="celular">
               </div>
               <div class="col-12">
                 <label for="inputEdad" class="form-label">Edad</label>
-                <input type="dni" class="form-control" id="inputEdad">
+                <input type="dni" class="form-control" id="inputEdad" name="edad">
+              </div>
+              <div class="col-12">
+                <label for="genero" class="form-label">Género</label>
+                <div class="form-control">
+                  <select class="form-control-plaintext " type="genero" id="genero" name="genero">
+                    <option value="null">Seleccionar</option>
+                    <option value="Masculino">Masculino</option>
+                    <option value="Femenino">Femenino</option>
+                  </select>
+                </div>
               </div>
               <div class="col-12">
                 <label for="inputPassword4" class="form-label">Contraseña</label>
-                <input type="password" class="form-control" id="inputPassword4">
+                <input type="password" class="form-control" id="inputPassword4" name="contrasena">
               </div>
               <div class="col-12">
                 <label for="inputPassword5" class="form-label">Repetir Contraseña</label>
@@ -111,7 +111,6 @@
                 <button type="reset" class="btn btn-secondary"><a style="color: white" th:href="@{'/administrador/nuevopaciente'}">Cancelar</a></button>
               </div>
             </form><!-- Vertical Form -->
-
           </div>
         </div>
       </div>
