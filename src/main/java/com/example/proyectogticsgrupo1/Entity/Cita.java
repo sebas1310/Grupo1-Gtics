@@ -29,7 +29,14 @@ public class Cita {
     @JoinColumn(name = "idpaciente",  nullable = false)
     private Paciente paciente;
 
-    /*D*/
+    @ManyToOne
+    @JoinColumn(name = "iddoctor", nullable = false)
+    private Doctor doctor;
+
+    @ManyToOne
+    @JoinColumn(name = "idespecialidad", nullable = false)
+    private Especialidad especialidad;
+
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate fecha;

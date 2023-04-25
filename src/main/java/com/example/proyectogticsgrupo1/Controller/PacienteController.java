@@ -23,14 +23,16 @@ public class PacienteController {
     final UserRepository userRepository;
     final PacienteRepository pacienteRepository;
     final TipoCitaRepository tipoCitaRepository;
+    final CitaRepository citaRepository;
 
-    public PacienteController(SedeRepository sedeRepository, EspecialidadRepository especialidadRepository, DoctorRepository doctorRepository, UserRepository userRepository, PacienteRepository pacienteRepository, TipoCitaRepository tipoCitaRepository) {
+    public PacienteController(SedeRepository sedeRepository, EspecialidadRepository especialidadRepository, DoctorRepository doctorRepository, UserRepository userRepository, PacienteRepository pacienteRepository, TipoCitaRepository tipoCitaRepository, CitaRepository citaRepository) {
         this.sedeRepository = sedeRepository;
         this.especialidadRepository = especialidadRepository;
         this.doctorRepository = doctorRepository;
         this.userRepository = userRepository;
         this.pacienteRepository = pacienteRepository;
         this.tipoCitaRepository = tipoCitaRepository;
+        this.citaRepository = citaRepository;
     }
 
     @GetMapping(value = "/")
@@ -107,6 +109,7 @@ public class PacienteController {
     public String historialCitas(Model model){
         Optional<Paciente> optionalPaciente = pacienteRepository.findById(1);
         Paciente paciente =  optionalPaciente.get();
+        model.addAttribute("listcitas", citaRepository.citaPorPaciente(paciente.getIdpaciente()));
         model.addAttribute("pacientelog",paciente);
         return "paciente/historialCitas";
     }
