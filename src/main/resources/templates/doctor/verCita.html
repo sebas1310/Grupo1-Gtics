@@ -474,7 +474,7 @@
                                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                     </div>
                                                     <div class="modal-body">
-                                                        <form method="post" th:action="@{'/pacientesatendidos/verhistorial/vercita/guardarreporte'}">
+                                                        <form method="post" th:action="@{'/doctor/pacientesatendidos/verhistorial/vercita/guardarreporte'}">
 
                                                             <input th:value="${cita.getIdcita()}" name="id" type="hidden"/>
 
@@ -504,7 +504,7 @@
                                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                     </div>
                                                     <div class="modal-body">
-                                                        <form method="post" th:action="@{'/pacientesatendidos/verhistorial/vercita/guardarreporte'}">
+                                                        <form method="post" th:action="@{'/doctor/pacientesatendidos/verhistorial/vercita/guardarreporte'}">
                                                             <p><label for="floatingTextarea5">Dr(a) Ramirez:</label></p>
                                                             <input th:value="${cita.getIdcita()}" name="id" type="hidden"/>
                                                             <input th:value="${reportecita.descripcion}" name="descripcion" class="form-control" placeholder="Leave a comment here" id="floatingTextarea5">

@@ -4,6 +4,7 @@ import com.example.proyectogticsgrupo1.Entity.Cita;
 import com.example.proyectogticsgrupo1.Entity.Doctor;
 import com.example.proyectogticsgrupo1.Entity.Paciente;
 import com.example.proyectogticsgrupo1.Repository.*;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -13,7 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Controller
-@RequestMapping(value="/doctor",method = RequestMethod.GET)
+@RequestMapping(value="/doctor")
 public class DoctorController {
     final DoctorRepository doctorRepository;
     final PacienteRepository pacienteRepository;
@@ -80,6 +81,7 @@ public class DoctorController {
     @GetMapping("/pacientesatendidos/verhistorial")
     public String historialPacienteDoctor(Model model, @RequestParam("id") int idPaciente){
         Paciente paciente1 = pacienteRepository.buscarPacientePorID(idPaciente);
+        System.out.println("gaaaa");
         model.addAttribute("paciente",paciente1);
         model.addAttribute("citaspaciente",citaRepository.citasPorPaciente(idPaciente));
         model.addAttribute("bitacoradiagnostico",bitacoraDeDiagnosticoRepository.bitacoraDeDiagnostico(idPaciente));
@@ -87,10 +89,11 @@ public class DoctorController {
     }
 
     @PostMapping("/pacientesatendidos/verhistorial/guardarbitacora")
+    @Transactional
     public String guardarBitacora(RedirectAttributes redirectAttributes, @RequestParam("descripcion") String descripcion, @RequestParam("id") int idPaciente){
         bitacoraDeDiagnosticoRepository.guardarbitacora(descripcion,idPaciente);
         redirectAttributes.addAttribute("id",idPaciente);
-        return "redirect:/pacientesatendidos/verhistorial";
+        return "redirect:/doctor/pacientesatendidos/verhistorial";
     }
 
     @GetMapping("/pacientesatendidos/verhistorial/vercita")
@@ -103,10 +106,12 @@ public class DoctorController {
     }
 
     @PostMapping("/pacientesatendidos/verhistorial/vercita/guardarreporte")
+    @Transactional
     public String guardarReporte(RedirectAttributes redirectAttributes, @RequestParam("descripcion") String descripcion , @RequestParam("id") int idCita){
         reporteCitaRepository.añadirReporteCita(descripcion,idCita);
         redirectAttributes.addAttribute("id",idCita);
-        return "redirect:/pacientesatendidos/verhistorial/vercita";
+        return "redirect:/doctor/pacientesatendidos/verhistorial/vercita";
+
     }
 
     @GetMapping("/calendario")
