@@ -1,45 +1,18 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/html">
 
-<head>
-  <meta charset="utf-8">
-  <meta content="width=device-width, initial-scale=1.0" name="viewport">
-
-  <title>Dashboard - NiceAdmin Bootstrap Template</title>
-  <meta content="" name="description">
-  <meta content="" name="keywords">
-
-  <!-- Favicons -->
-  <link th:href="@{assets/img/favicon.png}" rel="icon">
-  <link th:href="@{assets/img/apple-touch-icon.png}" rel="apple-touch-icon">
-
-  <!-- Google Fonts -->
-  <link href="https://fonts.gstatic.com" rel="preconnect">
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
-
-  <!-- Vendor CSS Files -->
-  <link th:href="@{/assets/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
-  <link th:href="@{/assets/vendor/bootstrap-icons/bootstrap-icons.css}" rel="stylesheet">
-  <link th:href="@{assets/vendor/boxicons/css/boxicons.min.css}" rel="stylesheet">
-  <link th:href="@{/assets/vendor/quill/quill.snow.css}" rel="stylesheet">
-  <link th:href="@{/assets/vendor/quill/quill.bubble.css}" rel="stylesheet">
-  <link th:href="@{/assets/vendor/remixicon/remixicon.css}" rel="stylesheet">
-  <link th:href="@{/assets/vendor/simple-datatables/style.css}" rel="stylesheet">
-
-  <!-- Template Main CSS File -->
-  <link th:href="@{/assets/css/style.css}" rel="stylesheet">
-
+<head th:insert="fragments/administrador/librerias.html :: cabecera (titulo = 'Crear Paciente')">
 </head>
 
 <body>
 
 <!-- ======= Header ======= -->
-<header th:replace="fragments/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1', nombre = 'L. Anderson', num_men = '3')">
+<header th:replace="fragments/administrador/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1', nombre = 'L. Anderson', num_men = '3')">
 </header>
 <!-- End Header -->
 
 <!-- ======= Sidebar ======= -->
-<aside th:replace="fragments/aside.html :: sidebar (active = 'crearpaciente')">
+<aside th:replace="fragments/administrador/aside.html :: sidebar (active = 'crearpaciente')">
 </aside>
 <!-- End Sidebar-->
 
@@ -63,36 +36,44 @@
           <div class="card-body">
             <h5 class="card-title">Formulario</h5>
 
-            <form class="row g-3">
+            <form class="row g-3" method="POST" th:object="${usuario}" th:action="@{'/administrador/guardar'}">
               <div class="col-12">
-                <label for="inputNanme4" class="form-label">Nombres</label>
-                <input type="text" class="form-control" id="inputNanme4">
+                <label for="nombres" class="form-label">Nombres</label>
+                <input type="text" class="form-control" id="nombres" name="nombres">
               </div>
               <div class="col-12">
-                <label for="inputApellido" class="form-label">Apellidos</label>
-                <input type="text" class="form-control" id="inputApellido">
+                <label for="apellidos" class="form-label">Apellidos</label>
+                <input type="text" class="form-control" id="apellidos" name="apellidos">
               </div>
               <div class="col-12">
-                <label for="inputCorreo" class="form-label">Correo</label>
-                <input type="text" class="form-control" id="inputCorreo">
+                <label for="correo" class="form-label">Correo</label>
+                <input type="text" class="form-control" id="correo" name="correo">
               </div>
               <div class="col-12">
-                <label for="inputDni" class="form-label">DNI</label>
-                <input type="dni" class="form-control" id="inputDni">
+                <label for="dni" class="form-label">DNI</label>
+                <input type="dni" class="form-control" id="dni" name="dni">
               </div>
               <div class="col-12">
-                <label for="inputGenero" class="form-label">Género</label>
+                <label for="inputCel" class="form-label">Celular</label>
+                <input type="dni" class="form-control" id="inputCel" name="celular">
+              </div>
+              <div class="col-12">
+                <label for="inputEdad" class="form-label">Edad</label>
+                <input type="dni" class="form-control" id="inputEdad" name="edad">
+              </div>
+              <div class="col-12">
+                <label for="genero" class="form-label">Género</label>
                 <div class="form-control">
-                <select name="select" class="form-control-plaintext " type="genero" id="inputGenero">
-                  <option value="value0">---------</option>
-                  <option value="value1">Masculino</option>
-                  <option value="value2">Femenino</option>
-                </select>
+                  <select class="form-control-plaintext " type="genero" id="genero" name="genero">
+                    <option value="null">Seleccionar</option>
+                    <option value="Masculino">Masculino</option>
+                    <option value="Femenino">Femenino</option>
+                  </select>
                 </div>
               </div>
               <div class="col-12">
                 <label for="inputPassword4" class="form-label">Contraseña</label>
-                <input type="password" class="form-control" id="inputPassword4">
+                <input type="password" class="form-control" id="inputPassword4" name="contrasena">
               </div>
               <div class="col-12">
                 <label for="inputPassword5" class="form-label">Repetir Contraseña</label>
@@ -103,12 +84,9 @@
                 <button type="reset" class="btn btn-secondary"><a style="color: white" th:href="@{'/administrador/nuevopaciente'}">Cancelar</a></button>
               </div>
             </form><!-- Vertical Form -->
-
           </div>
         </div>
       </div>
-
-
     </div>
     </div>
     </div>

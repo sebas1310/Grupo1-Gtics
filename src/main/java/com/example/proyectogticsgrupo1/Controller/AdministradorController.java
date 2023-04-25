@@ -1,18 +1,43 @@
 package com.example.proyectogticsgrupo1.Controller;
 
+import com.example.proyectogticsgrupo1.Entity.Doctor;
+import com.example.proyectogticsgrupo1.Entity.Paciente;
+import com.example.proyectogticsgrupo1.Entity.Tipodeusuario;
+import com.example.proyectogticsgrupo1.Entity.Usuario;
+import com.example.proyectogticsgrupo1.Repository.DoctorRepository;
+import com.example.proyectogticsgrupo1.Repository.PacienteRepository;
+import com.example.proyectogticsgrupo1.Repository.TipodeusuarioRepository;
+import com.example.proyectogticsgrupo1.Repository.UsuarioRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+
+import javax.print.Doc;
+import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping(value="/administrador", method = RequestMethod.GET)
 
 public class AdministradorController {
+
+    @Autowired
+    UsuarioRepository usuarioRepository;
+
+    @Autowired
+    DoctorRepository doctorRepository;
+
+    @Autowired
+    TipodeusuarioRepository tipodeusuarioRepository;
+    @Autowired
+    PacienteRepository pacienteRepository;
+
+
     @GetMapping("")
-    public String administrador() {
+    public String administrador(Model model) {
         return "administrador/dashboard";
-        }
+    }
 
     @GetMapping(value = "/perfil")
     public String perfilAdministrador() {
@@ -53,15 +78,27 @@ public class AdministradorController {
         return "administrador/configuraciones";
     }
 
+    //@GetMapping(value = "/dashboardpaciente")
+    //public String dashboardpacient(Model model) {
+
+        //List<Usuario> listaUsuario = usuarioRepository.findByTipodeusuarioIdtipodeusuario(4);
+        //model.addAttribute("listaUsuario", listaUsuario);
+
+        //return "administrador/dashboardpaciente";
+    //}
+
     @GetMapping(value = "/dashboardpaciente")
-    public String dashboardpacient() {
+    public String dashboardpacient(Model model) {
+        List<Paciente> listaPacientes = pacienteRepository.test();
+        model.addAttribute("listaPacientes", listaPacientes);
 
         return "administrador/dashboardpaciente";
     }
 
     @GetMapping(value = "/dashboarddoctor")
-    public String dashboarddoc() {
-
+    public String dashboarddoc(Model model) {
+        List<Doctor> listaDoctores = doctorRepository.listado();
+        model.addAttribute("listaDoctores", listaDoctores);
         return "administrador/dashboarddoctor";
     }
 
@@ -131,11 +168,37 @@ public class AdministradorController {
         return "administrador/creardoctor";
     }
 
-
-
-
-
-
+    @GetMapping(value = "/nuevo")
+    public String nuevoPaciente(){
+        return "administrador/crearpaciente";
     }
+
+    @PostMapping(value = "/guardar")
+    public String guardarPaciente(@ModelAttribute("usuario") Usuario usuario){
+        Optional<Tipodeusuario> tipodeusuarioopt = tipodeusuarioRepository.findById(4);
+        Tipodeusuario tipodeusuario = tipodeusuarioopt.get();
+        usuario.setTipodeusuario(tipodeusuario);
+        usuario.setEstado(1);
+        usuarioRepository.save(usuario);
+        Paciente paciente = new Paciente();
+        paciente.setUsuario(usuario);
+        pacienteRepository.save(paciente);
+        return "redirect:/administrador/dashboarddoctor";
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+}
 
 
