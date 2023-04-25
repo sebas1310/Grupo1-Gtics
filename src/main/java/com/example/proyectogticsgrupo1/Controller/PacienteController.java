@@ -3,6 +3,7 @@ package com.example.proyectogticsgrupo1.Controller;
 import com.example.proyectogticsgrupo1.Entity.*;
 import com.example.proyectogticsgrupo1.Repository.*;
 import jakarta.transaction.Transactional;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -133,50 +134,82 @@ public class PacienteController {
 
     @PostMapping(value = "/alergia")
     @Transactional
-    public String modAlergia(@RequestParam("alergias") String alergia, @RequestParam("idpaciente") Integer id){
+    public String modAlergia(@RequestParam("alergias") String alergia, @RequestParam("idpaciente") Integer id, RedirectAttributes redirectAttributes){
         Optional<Paciente> optionalPaciente = pacienteRepository.findById(1);
         Paciente paciente =  optionalPaciente.get();
-        String alg = paciente.getAlergias()+","+alergia;
-        pacienteRepository.modificarAlergia(alg, id);
+        String alergias = paciente.getAlergias();
+        if(alergias.contains(alergia)){
+            redirectAttributes.addFlashAttribute("msg1","Esa alergia ya se encuentra registrada");
+        }else {
+            String alg = paciente.getAlergias()+","+alergia;
+            pacienteRepository.modificarAlergia(alg, id);
+            redirectAttributes.addFlashAttribute("msg2","Alergia agregada correctamente");
+        }
         return "redirect:/paciente/perfil";
     }
 
 
     @PostMapping(value = "/changepassword")
     @Transactional
-    public String changePassword(@RequestParam("contrasena") String contrasena, @RequestParam("newpassword") String newpassword, @RequestParam("renewpassword") String renewpassword){
+    public String changePassword(@RequestParam("contrasena") String contrasena, @RequestParam("newpassword") String newpassword, @RequestParam("renewpassword") String renewpassword, RedirectAttributes redirectAttributes){
         Optional<Paciente> optionalPaciente = pacienteRepository.findById(1);
         Paciente paciente =  optionalPaciente.get();
         if(paciente.getUsuario().getContrasena().equals(contrasena)){
             if(newpassword.equals(renewpassword)){
                 userRepository.changePassword(renewpassword,paciente.getUsuario().getIdusuario());
+                redirectAttributes.addFlashAttribute("psw1", "Contraseña actualizada");
             }
             else {
-                //no coincide se envia mensaje
-                return "redirect:/paciente/perfil";
+                redirectAttributes.addFlashAttribute("psw2", "La contraseñas ingresadas no coinciden");
             }
         }else {
-            return "redirect:/paciente/perfil";
+            redirectAttributes.addFlashAttribute("psw2", "La contraseña es incorrecta");
         }
-
         return "redirect:/paciente/perfil";
     }
 
     @PostMapping(value = "/pruebascita")
-    public String pruebascita(@RequestParam("idsede") Integer nameSede,
+    @Transactional
+    public String pruebascita(@RequestParam("idsede") Integer idsede,
                               @RequestParam("especialidadid") Integer idesp,
                               @RequestParam("iddoctor") Integer iddoctor,
-                              @RequestParam("fecha")LocalDate fecha,
+                              @RequestParam("fecha") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fecha ,
                               @RequestParam("hora")LocalTime hora,
-                              @RequestParam("idtipocita") Integer idtipocita){
-        System.out.println("nombre sede: " + nameSede);
-        System.out.println("nombre esp: " + idesp);
-        System.out.println("nombre doc: " + iddoctor);
-        System.out.println("fecha : " + fecha);
-        System.out.println("nombre hora: " + hora);
-        System.out.println("nombre idtipocita: " + idtipocita);
-
-        return "redirect:/paciente/agendarCita";
+                              @RequestParam("idseguro") Integer idseguro,
+                              @RequestParam("idtipocita") Integer idtipocita, RedirectAttributes redirectAttributes){
+        if(idsede==doctorRepository.findById(iddoctor).get().getSede().getIdsede()){
+            if(idesp==doctorRepository.findById(iddoctor).get().getSede().getIdsede()){
+                if(eventocalendariodoctorRepository.calendarioPorDoctor(iddoctor).getFecha().toString().equals(fecha.toString())){
+                    if(eventocalendariodoctorRepository.calendarioPorDoctor(iddoctor).getHorainicio()==hora){
+                        citaRepository.agengedarcita(especialidadRepository.getCosto(idesp), idsede, 1, idesp, iddoctor, fecha, hora, hora.plusHours(1),60, idtipocita, idseguro, 1);
+                        System.out.println("guardo?");
+                        return "redirect:/paciente/";
+                    }
+                    else {
+                        redirectAttributes.addFlashAttribute("msg", "La hora no es valida");
+                        return "redirect:/paciente/agendarCita";
+                    }
+                }
+                else {
+                    System.out.println(fecha);
+                    System.out.println(eventocalendariodoctorRepository.calendarioPorDoctor(iddoctor).getFecha());
+                    String a = fecha.toString();
+                    String  b = eventocalendariodoctorRepository.calendarioPorDoctor(iddoctor).getFecha().toString();
+                    System.out.println(a);
+                    System.out.println(b);
+                    System.out.println(a.equals(b));
+                    redirectAttributes.addFlashAttribute("msg", "La fecha escogida no es valida");
+                    return "redirect:/paciente/agendarCita";
+                }
+            }
+            else{
+                redirectAttributes.addFlashAttribute("msg", "El doctor no pertenece a esa especialidad");
+                return "redirect:/paciente/agendarCita";
+            }
+        }else {
+            redirectAttributes.addFlashAttribute("msg", "El doctor debe pertenecer a la sede");
+            return "redirect:/paciente/agendarCita";
+        }
     }
 
 }

@@ -47,6 +47,16 @@
               </div>
 
               <div class="row mb-3">
+                <label class="col-sm-2 col-form-label">Doctor</label>
+                <div class="col-sm-10">
+                  <select class="form-select" id="iddoctor" name="iddoctor">
+                    <option selected disabled>Seleccione doctor</option>
+                    <option th:each="doctor:${doctores}" th:text="|${doctor.usuario.nombres} ${doctor.usuario.apllidos}|" th:value="${doctor.iddoctor}"></option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="row mb-3">
                 <label class="col-sm-2 col-form-label">Especialidad</label>
                 <div class="col-sm-10">
                   <select class="form-select" id="especialidadid" name="especialidadid">
@@ -56,15 +66,6 @@
                 </div>
               </div>
 
-              <div class="row mb-3">
-                <label class="col-sm-2 col-form-label">Doctor</label>
-                <div class="col-sm-10">
-                  <select class="form-select" id="iddoctor" name="iddoctor">
-                    <option selected disabled>Seleccione doctor</option>
-                    <option th:each="doctor:${doctores}" th:text="|${doctor.usuario.nombres} ${doctor.usuario.apllidos}|" th:value="${doctor.iddoctor}"></option>
-                  </select>
-                </div>
-              </div>
 
 
               <div class="row mb-3">
@@ -102,11 +103,15 @@
                 <div class="col-sm-10">
                   <input type="text" class="form-control" th:value="${pacientelog.seguro.nombre}" disabled>
                 </div>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" name="idseguro" th:value="${pacientelog.seguro.idseguro}" hidden>
+                </div>
               </div>
 
               <div class="text-center">
 
                 <div class="col-sm-10">
+                  <div th:if="${msg!=null}" th:text="${msg}" class="alert alert-danger" role="alert"></div>
                   <button type="submit" class="btn btn-success">Agendar Cita</button>
                 </div>
               </div>

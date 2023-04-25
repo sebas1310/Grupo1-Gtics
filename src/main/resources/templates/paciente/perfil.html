@@ -34,7 +34,8 @@
 
             <img th:src="@{/assets/img/profile-img.jpg}" alt="Profile" class="rounded-circle">
             <h2 th:text="|${pacientelog.usuario.nombres} ${pacientelog.usuario.apllidos}|"></h2>
-
+            <div th:if="${psw1!=null}" th:text="${psw1}" class="alert alert-success" role="alert"></div>
+            <div th:if="${psw2!=null}" th:text="${psw2}" class="alert alert-danger" role="alert"></div>
           </div>
         </div>
 
@@ -108,7 +109,8 @@
                 <div class="card">
                   <div class="card-body">
                     <h5 class="card-title">Alergias</h5>
-
+                    <div th:if="${msg1!=null}" th:text="${msg1}" class="alert alert-danger" role="alert"></div>
+                    <div th:if="${msg2!=null}" th:text="${msg2}" class="alert alert-success" role="alert"></div>
                     <!-- Default List group -->
                     <ul class="list-group">
                       <li class="list-group-item"th:text="${pacientelog.alergias}"></li>
