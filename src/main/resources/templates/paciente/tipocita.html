@@ -4,7 +4,7 @@
 </head>
 <body>
 <!-- ======= Header ======= -->
-<header th:replace="fragmentsPacientes/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1', nombre = |${pacientelog.usuario.nombres} ${pacientelog.usuario.apllidos}|, num_men = '3')">
+<header th:replace="fragmentsPacientes/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1', nombre = |${pacientelog.usuario.nombres} ${pacientelog.usuario.apellidos}|, num_men = '3')">
 </header>
 <!-- End Header -->
 <!-- ======= Sidebar ======= -->
@@ -26,7 +26,7 @@
             <p class="card-text">60min</p>
           </div>
           <div class="text-center">
-            <a th:href="@{'/paciente/reservar2?iddoc='+${doc.iddoctor}}" class="btn" style="background-color:#FFD966FF">Reservar</a>
+            <a th:href="@{'/paciente/reservar2?iddoc='+${doc.idDoctor}}" class="btn" style="background-color:#FFD966FF">Reservar</a>
           </div>
         </div>
       </div>
@@ -38,7 +38,7 @@
             <p class="card-text">60min</p>
           </div>
           <div class="text-center">
-            <a th:href="@{'/paciente/reservar2?iddoc='+${doc.iddoctor}}" class="btn" style="background-color:#FFD966FF">Reservar</a>
+            <a th:href="@{'/paciente/reservar2?iddoc='+${doc.idDoctor}}" class="btn" style="background-color:#FFD966FF">Reservar</a>
           </div>
         </div>
       </div>

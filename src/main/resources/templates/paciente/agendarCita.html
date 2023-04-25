@@ -6,7 +6,7 @@
 <body>
 
 <!-- ======= Header ======= -->
-<header th:replace="fragmentsPacientes/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1', nombre = |${pacientelog.usuario.nombres} ${pacientelog.usuario.apllidos}|, num_men = '3')">
+<header th:replace="fragmentsPacientes/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1', nombre = |${pacientelog.usuario.nombres} ${pacientelog.usuario.apellidos}|, num_men = '3')">
 </header>
 <!-- End Header -->
 
@@ -51,7 +51,7 @@
                 <div class="col-sm-10">
                   <select class="form-select" id="iddoctor" name="iddoctor">
                     <option selected disabled>Seleccione doctor</option>
-                    <option th:each="doctor:${doctores}" th:text="|${doctor.usuario.nombres} ${doctor.usuario.apllidos}|" th:value="${doctor.iddoctor}"></option>
+                    <option th:each="doctor:${doctores}" th:text="|${doctor.usuario.nombres} ${doctor.usuario.apellidos}|" th:value="${doctor.idDoctor}"></option>
                   </select>
                 </div>
               </div>
