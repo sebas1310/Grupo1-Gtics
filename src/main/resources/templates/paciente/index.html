@@ -6,7 +6,7 @@
 <body>
 
 <!-- ======= Header ======= -->
-<header th:replace="fragments/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1', nombre = |${pacientelog.usuario.nombres} ${pacientelog.usuario.apllidos}|, num_men = '3')">
+<header th:replace="~{fragments/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1', nombre = |${pacientelog.usuario.nombres} ${pacientelog.usuario.apllidos}|, num_men = '3')}">
 </header>
 <!-- End Header -->
   <!-- ======= Sidebar ======= -->
@@ -24,11 +24,11 @@
       <div class="row">
 
         <!-- Left side columns -->
-        <div class="col-lg-7">
+        <div class="col-lg-9">
           <div class="row">
 
-            <!-- Mis citas -->
-            <div class="col-12">
+            <!-- Mapa -->
+            <div class="col-14">
               <!-- Recent Activity -->
               <div class="card">
                 <div class="filter">
@@ -40,21 +40,25 @@
                     </div>
                   </form>
                 </div>
+                <div class="activity-item d-flex">
+                       <img th:src="@{/assets/img/lima2.png}" class="card-img-top img-fluid text-center" style="width: 65%; left: 10%" alt="Mapa Sedes">
+                        <button style="resize: vertical; background-color: white; position: absolute;
+                                     top: 20%; left: 28%" ><i class="bi bi-hospital" ></i></button>
+                        <button style="resize: vertical; background-color: black; position: absolute;
+                                     top: 50%; left: 10%" ><i class="bi bi-hospital"></i></button>
+                        <button style="resize: vertical; background-color: green; position: absolute;
+                                     top: 60%; left: 40%" ><i class="bi bi-hospital"></i></button>
+                        <button style="resize: vertical; background-color: palevioletred; position: absolute;
+                                     top: 55%; left: 20%" ><i class="bi bi-hospital"></i></button>
+                        <button style="resize: vertical; background-color: powderblue; position: absolute;
+                                     top: 50%; left: 40%" ><i class="bi bi-hospital"></i></button>
+                </div><!-- End activity item-->
 
-                <div class="card-body">
-                  <h3 class="card-title">Sedes</h3>
-                  <div class="activity">
-                    <div class="activity-item d-flex">
-                      <img th:src="@{/assets/img/lima.jpg}" class="card-img-top img-fluid" alt="Mapa Sedes">
-                    </div><!-- End activity item-->
-                  </div>
-                </div>
               </div><!-- End Recent Activity -->
             </div>
 
-
             <!-- Lista doctores -->
-            <div class="col-12">
+            <div class="col-14">
               <div class="card top-selling overflow-auto">
 
                 <div class="filter">
@@ -68,7 +72,7 @@
                 </div>
 
                 <div class="card-body pb-0">
-                  <h5 class="card-title">Doctores-Sede San Miguel</h5>
+                  <h5 class="card-title">Doctores-Sede></h5>
                   <table class="table table-borderless">
                     <thead class="text-center">
                       <tr>
@@ -83,6 +87,25 @@
                         <td th:text="${doctor.especialidad.nombre}"></td>
                         <td><a th:href="@{'/paciente/perfilDoctor?iddoc='+${doctor.iddoctor}}" class="text-primary">Ver Perfil</a></td>
                       </tr>
+
+
+                      <nav  style="color:#FFD966FF " aria-label="Page navigation example">
+                        <ul class="pagination">
+                          <li class="page-item">
+                            <a class="page-link" href="#" aria-label="Previous">
+                              <span aria-hidden="true">&laquo;</span>
+                            </a>
+                          </li>
+                          <li class="page-item"><a class="page-link" href="#">1</a></li>
+                          <li class="page-item"><a class="page-link" href="#">2</a></li>
+                          <li class="page-item"><a class="page-link" href="#">3</a></li>
+                          <li class="page-item">
+                            <a class="page-link" href="#" aria-label="Next">
+                              <span aria-hidden="true">&raquo;</span>
+                            </a>
+                          </li>
+                        </ul>
+                      </nav><!-- End Pagination with icons -->
                     </tbody>
                   </table>
 
@@ -95,7 +118,7 @@
         </div><!-- End Left side columns -->
 
         <!-- Right side columns -->
-        <div class="col-lg-5">
+        <div class="col-lg-3">
 
           <!-- Website Traffic -->
           <div class="card">
@@ -185,6 +208,7 @@
 
           <!-- End Right side columns -->
         </div>
+      </div>
       </div>
     </section>
 
