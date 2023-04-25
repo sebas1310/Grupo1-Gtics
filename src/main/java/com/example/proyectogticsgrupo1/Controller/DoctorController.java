@@ -108,11 +108,12 @@ public class DoctorController {
 
     @PostMapping("/pacientesatendidos/verhistorial/vercita/guardarreporte")
     @Transactional
-    public String guardarReporte(ReporteCita reporteCita, RedirectAttributes redirectAttributes, @RequestParam("descripcion") String descripcion , @RequestParam("id") int idCita){
-        if(reporteCita.getIdReporteCita() == 0){
-
-        }else {
+    public String guardarReporte(RedirectAttributes redirectAttributes, @RequestParam("descripcion") String descripcion , @RequestParam("id") int idCita){
+        Optional<ReporteCita> reporteCita = Optional.ofNullable(reporteCitaRepository.buscarReporteCitaPorId(idCita));
+        if(reporteCita.isPresent()){
             reporteCitaRepository.actualizarReporteCita(descripcion, idCita);
+        }else {
+            reporteCitaRepository.añadirReporteCita(descripcion, idCita);
         }
         redirectAttributes.addAttribute("id",idCita);
         return "redirect:/doctor/pacientesatendidos/verhistorial/vercita";

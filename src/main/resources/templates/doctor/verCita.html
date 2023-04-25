@@ -465,7 +465,7 @@
                                         <!-- Vertically centered Modal -->
 
 
-                                        <div class="d-grid gap d-md-flex justify-content-md-center">
+                                        <div class="d-grid gap d-md-flex justify-content-md-center" th:if="${reportecita.getIdReporteCita() eq 0}">
                                             <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#verticalycentered2">Añadir Reporte</button>
                                         </div>
                                         <div class="modal fade" id="verticalycentered2" tabindex="-1">
@@ -495,7 +495,7 @@
                                             </div>
                                         </div><!-- End Vertically centered Modal-->
                                         <!-- Vertically centered Modal -->
-                                        <div class="d-grid gap d-md-flex justify-content-md-center">
+                                        <div class="d-grid gap d-md-flex justify-content-md-center" th:unless="${reportecita.getIdReporteCita() eq 0}">
                                             <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#verticalycentered3">Editar Reporte</button>
                                         </div>
                                         <div class="modal fade" id="verticalycentered3" tabindex="-1">
