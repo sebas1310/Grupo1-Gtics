@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:insert="fragments/librerias.html :: cabecera (titulo = ' Agendar Cita')">
+<head th:insert="fragmentsPacientes/librerias.html :: cabecera (titulo = ' Agendar Cita')">
 </head>
 <body>
 <!-- ======= Header ======= -->
-<header th:replace="fragments/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1', nombre = |${pacientelog.usuario.nombres} ${pacientelog.usuario.apllidos}|, num_men = '3')">
+<header th:replace="fragmentsPacientes/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1', nombre = |${pacientelog.usuario.nombres} ${pacientelog.usuario.apllidos}|, num_men = '3')">
 </header>
 <!-- End Header -->
 <!-- ======= Sidebar ======= -->
-<aside th:replace="fragments/aside.html :: sidebar (active = 'dashboard')">
+<aside th:replace="fragmentsPacientes/aside.html :: sidebar (active = 'dashboard')">
 </aside>
 <!-- End Sidebar-->
 <main id="main" class="main">
