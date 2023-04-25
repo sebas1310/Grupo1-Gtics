@@ -133,8 +133,9 @@ public class DoctorController {
     }
 
     @GetMapping("/perfil")
-    public String perfilDoctor(){
-
+    public String perfilDoctor(Model model,@RequestParam("id") int idDoctor){
+        Doctor doctor1 = doctorRepository.buscarDoctorPorId(idDoctor);
+        model.addAttribute("doctor", doctor1);
         return "doctor/perfilDoc";
     }
 
