@@ -7,18 +7,14 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@Table(name = "tipoformulario")
-public class Tipoformulario {
+@Table(name = "estadopaciente")
+public class Estadopaciente {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "idtipoformulario", nullable = false)
-    private int idtipoformulario;
-    @Basic
+    @Column(name = "idestadopaciente", nullable = false)
+    private int idestadopaciente;
+
     @Column(name = "nombre", nullable = false)
     private String nombre;
-    @ManyToOne
-    @JoinColumn(name = "idtipodeusuario", nullable = false)
-    private Tipoformulario idtipodeusuario;
-
 
 }
