@@ -41,75 +41,8 @@
       <div class="row">
 
         <!-- Left side columns -->
-        <div class="col-lg-8">
+        <div class="col-lg-12">
           <div class="row">
-
-            <!-- Sales Card -->
-            <div class="col-xxl-4 col-md-6">
-              <div class="card info-card sales-card">
-
-                <div class="filter">
-                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                    <li class="dropdown-header text-start">
-                      <h6>Filter</h6>
-                    </li>
-
-
-                  </ul>
-                </div>
-
-                <div class="card-body">
-                  <h5 class="card-title">Pacientes Registrados </h5>
-
-                  <div class="d-flex align-items-center">
-                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                      <i class="bi bi-people"></i>
-                    </div>
-                    <div class="ps-3">
-                      <h6>15</h6>
-                      <span class="text-success small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">increase</span>
-
-                    </div>
-                  </div>
-                </div>
-
-              </div>
-            </div><!-- End Sales Card -->
-
-            <!-- Revenue Card -->
-            <div class="col-xxl-4 col-md-6">
-              <div class="card info-card revenue-card">
-
-                <div class="filter">
-                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                    <li class="dropdown-header text-start">
-                      <h6>Filter</h6>
-                    </li>
-
-                  </ul>
-                </div>
-
-                <div class="card-body">
-                  <h5 class="card-title">Pacientes Sin Registrar <span>| This Month</span></h5>
-
-                  <div class="d-flex align-items-center">
-                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                      <i class="bi bi-people"></i>
-                    </div>
-                    <div class="ps-3">
-                      <h6>14</h6>
-                      <span class="text-success small pt-1 fw-bold">8%</span> <span class="text-muted small pt-2 ps-1">increase</span>
-
-                    </div>
-                  </div>
-                </div>
-
-              </div>
-            </div><!-- End Revenue Card -->
-
-
 
             <!-- Usuarios Registrados -->
             <div class="col-12">
@@ -168,83 +101,29 @@
                       </tr>
                     </tbody>
                   </table>
-
+                  <!-- Centered Pagination -->
+                  <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-center">
+                      <li class="page-item">
+                        <a class="page-link" href="#" aria-label="Previous">
+                          <span aria-hidden="true">&laquo;</span>
+                        </a>
+                      </li>
+                      <li class="page-item"><a class="page-link" href="#">1</a></li>
+                      <li class="page-item"><a class="page-link" href="#">2</a></li>
+                      <li class="page-item"><a class="page-link" href="#">3</a></li>
+                      <li class="page-item">
+                        <a class="page-link" href="#" aria-label="Next">
+                          <span aria-hidden="true">&raquo;</span>
+                        </a>
+                      </li>
+                    </ul>
+                  </nav><!-- End Centered Pagination -->
                 </div>
-
-                <!-- Pagination with icons -->
-                <nav aria-label="Page navigation example">
-                  <ul class="pagination">
-                    <li class="page-item">
-                      <a class="page-link" href="#" aria-label="Previous">
-                        <span aria-hidden="true">&laquo;</span>
-                      </a>
-                    </li>
-                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item">
-                      <a class="page-link" href="#" aria-label="Next">
-                        <span aria-hidden="true">&raquo;</span>
-                      </a>
-                    </li>
-                  </ul>
-                </nav><!-- End Pagination with icons -->
-
-              </div>
-            </div><!-- End Recent Sales -->
-
-
 
           </div>
+
         </div><!-- End Left side columns -->
-
-        <!-- Right side columns -->
-        <div class="col-lg-4">
-
-
-
-          <!-- News & Updates Traffic -->
-          <div class="card">
-            <div class="filter">
-              <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-              <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                <li class="dropdown-header text-start">
-                  <h6>Filter</h6>
-                </li>
-              </ul>
-
-            </div>
-
-            <div class="card-body pb-0">
-              <h5 class="card-title">Noticias y Actualizaciones <span>| Hoy</span></h5>
-
-              <div class="news">
-                <div class="post-item clearfix">
-                  <img th:src="@{/assets/img/news-1.jpg}" alt="">
-                  <h4><a href="#">Sede San Miguel se apertura tras COVID-19</a></h4>
-                  <p>El pasado sábado 08 de abril se reaperturó la nueva sede en el distrito de San Miguel...</p>
-                </div>
-
-                <div class="post-item clearfix">
-                  <img th:src="@{/assets/img/news-2.jpg}" alt="">
-                  <h4><a href="#">Doctor Ramirez reconocimiento nacional</a></h4>
-                  <p>El Dr. Ramirez recibió un reconocimiento en la Universidad Nacional Mayor de San Marcos..</p>
-                </div>
-
-                <div class="post-item clearfix">
-                  <img th:src="@{/assets/img/news-3.jpg} ">
-                  <h4><a href="#">Nuevas citas para Pediatría y Ginecología</a></h4>
-                  <p>Nuestros médicos especialistas están abriendo citas virtuales y presenciales...</p>
-                </div>
-
-
-              </div><!-- End sidebar recent posts-->
-            </div>
-
-
-          </div><!-- End News & Updates -->
-
-        </div><!-- End Right side columns -->
 
       </div>
     </section>
