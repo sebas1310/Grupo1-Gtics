@@ -75,7 +75,8 @@ public class SuperadminController {
         return "superadmin/perfil-usuarios";
     }
 
-
-
-
+    @GetMapping("/seguros")
+    public String seguro(){
+        return "superadmin/seguros";
+    }
 }
