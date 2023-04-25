@@ -30,28 +30,41 @@
           <form>
             <div class="mb-3">
               <label for="tabla-titulo" class="form-label">Nombre Formulario</label>
-              <input type="text" class="form-control" id="tabla-titulo" name="tabla-titulo" vai>
+              <input type="text" class="form-control" id="tabla-titulo" name="tabla-titulo" value="Registrar Pacientes">
             </div>
 
             <div class="row mb-3">
-              <label for="campo" class="col-md-4 col-lg-3 col-form-label">Campo 1</label>
+              <label class="col-md-4 col-lg-3 col-form-label">Campo 1</label>
               <div class="col-md-8 col-lg-9">
-                <input name="campo" type="password" class="form-control" id="campo">
+                <input class="form-control" value="Nombre">
+                <input class="form-control">
                 <a href="#" class="btn btn-danger btn-sm" title="Remove my profile image"><i class="bi bi-trash"></i></a>
 
               </div>
             </div>
 
             <div class="row mb-3">
-              <label for="campo2" class="col-md-4 col-lg-3 col-form-label">Campo 2</label>
+              <label class="col-md-4 col-lg-3 col-form-label">Campo 2</label>
               <div class="col-md-8 col-lg-9">
-                <input name="campo2" type="password" class="form-control" id="campo2">
+                <input class="form-control" value="Apellido">
+                <input class="form-control">
                 <a href="#" class="btn btn-danger btn-sm" title="Remove my profile image"><i class="bi bi-trash"></i></a>
 
               </div>
             </div>
 
-            <button type="submit" class="btn btn-primary"><a style="color: #fdfdfd" th:href="@{'/superadmin/editarform'}" >Añadir Campo</a></button>
+            <div class="row mb-3">
+              <label class="col-md-4 col-lg-3 col-form-label">Campo 3</label>
+              <div class="col-md-8 col-lg-9">
+                <input name="email" type="email" class="form-control" value="DNI">
+                <input class="form-control">
+
+                <a href="#" class="btn btn-danger btn-sm" title="Remove my profile image"><i class="bi bi-trash"></i></a>
+
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary"><a style="color: #fdfdfd" th:href="@{'/superadmin/listaform'}" >Guardar Cambios</a></button>
             <button type="button" class="btn btn-secondary"><a style="color: white" th:href="@{'/superadmin/listaform'}" >Cancelar</a></button>
 
           </form>
