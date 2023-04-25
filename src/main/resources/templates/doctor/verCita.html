@@ -352,9 +352,9 @@
                                                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                                     </div>
                                                                     <div class="modal-body">
-                                                                        <form>
+                                                                        <form method="post" th:action="@{'/doctor/pacientesatendidos/verhistorial/guardarreceta'}">
                                                                             <label for="floatingTextarea5">Medicamento</label>
-                                                                            <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea6">XXXXXXXXX</textarea>
+                                                                            <input th:value="${receta.getMedicamento()}" class="form-control" placeholder="Leave a comment here" id="floatingTextarea6">
                                                                             <br>
                                                                             <label for="floatingTextarea5">Dosis</label>
                                                                             <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea7">XXXXXXXXX</textarea>
@@ -457,13 +457,15 @@
                                         <!--<div class="card-header">
                                             Dr. Ramirez
                                         </div>-->
-                                        <div class="card-body">
+                                        <div class="card-body" >
                                             <p class="card-text" th:text="|${reportecita.getDescripcion()}|"></p>
                                         </div>
                                     </div>
                                     <div class="d-grid gap-2 d-md-flex justify-content-md-center">
                                         <!-- Vertically centered Modal -->
-                                        <div class="d-grid gap d-md-flex justify-content-md-center">
+
+
+                                        <div class="d-grid gap d-md-flex justify-content-md-center" th:if="${reportecita.getIdReporteCita() eq 0}">
                                             <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#verticalycentered2">Añadir Reporte</button>
                                         </div>
                                         <div class="modal fade" id="verticalycentered2" tabindex="-1">
@@ -474,7 +476,7 @@
                                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                     </div>
                                                     <div class="modal-body">
-                                                        <form method="post" th:action="@{'/pacientesatendidos/verhistorial/vercita/guardarreporte'}">
+                                                        <form method="post" th:action="@{'/doctor/pacientesatendidos/verhistorial/vercita/guardarreporte'}">
 
                                                             <input th:value="${cita.getIdcita()}" name="id" type="hidden"/>
 
@@ -493,7 +495,7 @@
                                             </div>
                                         </div><!-- End Vertically centered Modal-->
                                         <!-- Vertically centered Modal -->
-                                        <div class="d-grid gap d-md-flex justify-content-md-center">
+                                        <div class="d-grid gap d-md-flex justify-content-md-center" th:unless="${reportecita.getIdReporteCita() eq 0}">
                                             <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#verticalycentered3">Editar Reporte</button>
                                         </div>
                                         <div class="modal fade" id="verticalycentered3" tabindex="-1">
@@ -504,9 +506,14 @@
                                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                     </div>
                                                     <div class="modal-body">
+<<<<<<< HEAD
 
                                                         <form method="post" th:action="@{'/doctor/guardarreporte'}">
                                                             <p><label>Dr(a) Ramirez:</label></p>
+=======
+                                                        <form method="post" th:action="@{'/doctor/pacientesatendidos/verhistorial/vercita/guardarreporte'}">
+                                                            <p><label for="floatingTextarea5">Dr(a) Ramirez:</label></p>
+>>>>>>> 2e206909186a0f213b0b9d6a6a2f38002ec900f4
                                                             <input th:value="${cita.getIdcita()}" name="id" type="hidden"/>
                                                             <input th:value="${reportecita.descripcion}" name="descripcion" class="form-control" placeholder="Leave a comment here" id="descripcion">
                                                             <br>

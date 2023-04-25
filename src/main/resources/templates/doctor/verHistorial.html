@@ -385,12 +385,10 @@
                                     </div>-->
                                     <div class="mb-3">
                                         <h5 class="card-title">Añadir Comentario</h5>
-                                        <form method="post" th:action="@{'/pacientesatendidos/verhistorial/guardarbitacora'}">
+                                        <form method="post" th:action="@{'/doctor/pacientesatendidos/verhistorial/guardarbitacora'}">
                                             <div class="form-floating">
-                                                <input th:value="${paciente.getIdpaciente()}" name="id" type="hidden"/>
-                                                <input name="descripcion" class="form-control" placeholder="Leave a comment here" id="floatingTextarea">
-                                                <label for="floatingTextarea">Comentario</label>
-                                                <br>
+                                                <input th:value="${paciente.getIdpaciente()}" name="id" type="hidden">
+                                                <input name="descripcion" type="text" class="form-control" placeholder="Leave a comment here">
                                             </div >
                                             <div class="d-grid gap d-md-flex justify-content-md-center">
                                                 <button  type="submit" class="btn btn-primary">Guardar</button>
