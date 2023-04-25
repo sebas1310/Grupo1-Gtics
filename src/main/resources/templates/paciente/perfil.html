@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head th:insert="fragments/librerias.html :: cabecera (titulo = 'Perfil')">
+<head th:insert="fragmentsPacientes/librerias.html :: cabecera (titulo = 'Perfil')">
 </head>
 
 <body>
 
 <!-- ======= Header ======= -->
-<header th:replace="fragments/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1', nombre = 'L. Anderson', num_men = '3')">
+<header th:replace="fragmentsPacientes/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1', nombre = |${pacientelog.usuario.nombres} ${pacientelog.usuario.apllidos}|, num_men = '3')">
 </header>
 <!-- End Header -->
 
 <!-- ======= Sidebar ======= -->
-<aside th:replace="fragments/aside.html :: sidebar (active = 'perfil')">
+<aside th:replace="fragmentsPacientes/aside.html :: sidebar (active = 'perfil')">
 </aside>
 <!-- End Sidebar-->
 
@@ -33,8 +33,9 @@
           <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
 
             <img th:src="@{/assets/img/profile-img.jpg}" alt="Profile" class="rounded-circle">
-            <h2>Kevin Anderson</h2>
-
+            <h2 th:text="|${pacientelog.usuario.nombres} ${pacientelog.usuario.apllidos}|"></h2>
+            <div th:if="${psw1!=null}" th:text="${psw1}" class="alert alert-success" role="alert"></div>
+            <div th:if="${psw2!=null}" th:text="${psw2}" class="alert alert-danger" role="alert"></div>
           </div>
         </div>
 
@@ -72,49 +73,47 @@
 
                 <div class="row">
                   <div class="col-lg-3 col-md-4 label ">Nombre Completo</div>
-                  <div class="col-lg-9 col-md-8">Kevin Anderson</div>
+                  <div class="col-lg-9 col-md-8" th:text="|${pacientelog.usuario.nombres} ${pacientelog.usuario.apllidos}|"></div>
                 </div>
 
                 <div class="row">
                   <div class="col-lg-3 col-md-4 label">DNI</div>
-                  <div class="col-lg-9 col-md-8">71409872</div>
+                  <div class="col-lg-9 col-md-8"th:text="${pacientelog.usuario.dni}"></div>
                 </div>
 
                 <div class="row">
                   <div class="col-lg-3 col-md-4 label">Seguro</div>
-                  <div class="col-lg-9 col-md-8">Rimac Seguros</div>
+                  <div class="col-lg-9 col-md-8"th:text="${pacientelog.seguro.nombre}"></div>
                 </div>
 
                 <div class="row">
-                  <div class="col-lg-3 col-md-4 label">Nacionalidad</div>
-                  <div class="col-lg-9 col-md-8">Peruana</div>
+                  <div class="col-lg-3 col-md-4 label">Edad</div>
+                  <div class="col-lg-9 col-md-8"th:text="${pacientelog.usuario.edad}"></div>
                 </div>
 
                 <div class="row">
                   <div class="col-lg-3 col-md-4 label">Dirección</div>
-                  <div class="col-lg-9 col-md-8">A108 Adam Street, New York, NY 535022</div>
+                  <div class="col-lg-9 col-md-8"th:text="${pacientelog.direccion}"></div>
                 </div>
 
                 <div class="row">
-                  <div class="col-lg-3 col-md-4 label">Teléfono</div>
-                  <div class="col-lg-9 col-md-8">(436) 486-3538</div>
+                  <div class="col-lg-3 col-md-4 label">Celular</div>
+                  <div class="col-lg-9 col-md-8"th:text="${pacientelog.usuario.celular}"></div>
                 </div>
 
                 <div class="row">
                   <div class="col-lg-3 col-md-4 label">Correo</div>
-                  <div class="col-lg-9 col-md-8">k.anderson@example.com</div>
+                  <div class="col-lg-9 col-md-8"th:text="${pacientelog.usuario.correo}"></div>
                 </div>
 
                 <div class="card">
                   <div class="card-body">
                     <h5 class="card-title">Alergias</h5>
-
+                    <div th:if="${msg1!=null}" th:text="${msg1}" class="alert alert-danger" role="alert"></div>
+                    <div th:if="${msg2!=null}" th:text="${msg2}" class="alert alert-success" role="alert"></div>
                     <!-- Default List group -->
                     <ul class="list-group">
-                      <li class="list-group-item">Polvo</li>
-                      <li class="list-group-item">Polen</li>
-                      <li class="list-group-item">Pelusa</li>
-                      <li class="list-group-item">Perros</li>
+                      <li class="list-group-item"th:text="${pacientelog.alergias}"></li>
                     </ul><!-- End Default List group -->
 
                   </div>
@@ -128,7 +127,7 @@
                   <div class="row mb-3">
                     <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Imagen de Perfil</label>
                     <div class="col-md-8 col-lg-9">
-                      <img th:src="@{assets/img/profile-img.jpg}" alt="Profile" class="rounded-circle">
+                      <img th:src="@{'/assets/img/profile-img.jpg'}" alt="Profile" class="rounded-circle">
                       <div class="pt-2">
                         <a href="#" class="btn btn-primary btn-sm" title="Subir nueva foto de perfil"><i class="bi bi-upload"></i></a>
                         <a href="#" class="btn btn-danger btn-sm" title="Borrar foto de perfil"><i class="bi bi-trash"></i></a>
@@ -161,20 +160,18 @@
               <div class="tab-pane fade pt-3" id="profile-settings">
 
                 <!-- Alergias Form -->
-                <form>
-
+                <form method="post" th:action="@{/paciente/alergia}">
                   <div class="row mb-3">
-                    <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Ingresar alergia</label>
+                    <label for="alergias" class="col-md-4 col-lg-3 col-form-label">Ingresar alergia</label>
                     <div class="col-md-8 col-lg-9">
-
                       <div class="row mb-3">
                         <div class="col-md-8 col-lg-9">
-                          <input name="alergia" type="text" class="form-control" id="nuevaAlergia">
+                          <input name="idpaciente" type="hidden" class="form-control" id="idpaciente" th:value="${pacientelog.idpaciente}">
+                          <input name="alergias" type="text" class="form-control" id="alergias">
                         </div>
                       </div>
                     </div>
                   </div>
-
                   <div class="text-center">
                     <button type="submit" class="btn btn-outline-warning">Añadir</button>
                   </div>
@@ -183,13 +180,15 @@
               </div>
 
               <div class="tab-pane fade pt-3" id="profile-change-password">
+
+
                 <!-- Cambio de contraseña Form -->
-                <form>
+                <form method="post" th:action="@{'/paciente/changepassword'}">
 
                   <div class="row mb-3">
-                    <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Contraseña Actual</label>
+                    <label for="contrasena" class="col-md-4 col-lg-3 col-form-label">Contraseña Actual</label>
                     <div class="col-md-8 col-lg-9">
-                      <input name="password" type="password" class="form-control" id="currentPassword">
+                      <input name="contrasena" type="password" class="form-control" id="contrasena">
                     </div>
                   </div>
 
@@ -211,6 +210,7 @@
                     <button type="submit" class="btn btn-outline-warning">Cambiar Contraseña</button>
                   </div>
                 </form><!-- End Change Password Form -->
+
 
               </div>
 

@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:insert="fragments/librerias.html :: cabecera (titulo = 'Dashboard')">
+<head th:insert="fragmentsPacientes/librerias.html :: cabecera (titulo = 'Dashboard')">
 </head>
 
 <body>
 
 <!-- ======= Header ======= -->
-<header th:replace="fragments/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1', nombre = 'L. Anderson', num_men = '3')">
+<header th:replace="fragmentsPacientes/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1', nombre = |${pacientelog.usuario.nombres} ${pacientelog.usuario.apllidos}|, num_men = '3')">
 </header>
 <!-- End Header -->
   <!-- ======= Sidebar ======= -->
-  <aside th:replace="fragments/aside.html :: sidebar (active = 'dashboard')">
+  <aside th:replace="fragmentsPacientes/aside.html :: sidebar (active = 'dashboard')">
   </aside>
   <!-- End Sidebar-->
 
@@ -34,14 +34,8 @@
                 <div class="filter">
                   <form>
                     <div class="form-group">
-
-                      <select class="form-select" id="1sede" name="1sede">
-                        <option value="" selected>Seleccione una sede</option>
-                        <option value="sedeA">Ancon</option>
-                        <option value="sedeB">Carabayllo</option>
-                        <option value="sedeC">Cineguilla</option>
-                        <option value="sedeD">La Molina</option>
-                        <option value="sedeE">La Molina</option>
+                      <select class="form-select" id="sede" name="sede">
+                        <option th:each="sede:${sedes}" th:text="${sede.nombre}" th:value="${sede.idsede}"></option>
                       </select>
                     </div>
                   </form>
@@ -69,9 +63,7 @@
                     <li class="dropdown-header text-start">
                       <h6>Especialidad</h6>
                     </li>
-                    <li><a class="dropdown-item" href="#">Ginecología</a></li>
-                    <li><a class="dropdown-item" href="#">Urologia</a></li>
-                    <li><a class="dropdown-item" href="#">Medicina General</a></li>
+                    <li th:each="especialidad:${especialidades}"><a class="dropdown-item" href="#" th:text="${especialidad.nombre}"></a></li>
                   </ul>
                 </div>
 
@@ -80,32 +72,17 @@
                   <table class="table table-borderless">
                     <thead class="text-center">
                       <tr>
-                        <th scope="col">#</th>
                         <th scope="col">Nombre</th>
                         <th scope="col">Especialidad</th>
                         <th scope="col"></th>
                       </tr>
                     </thead>
                     <tbody class="text-center">
-                      <tr>
-                        <th scope="row"><a href="#">#2457</a></th>
-                        <td>Brandon Jacob</td>
-                        <td>Medicina General</td>
-                        <td><a th:href="@{'/paciente/perfilDoctor'}" class="text-primary">Ver Perfil</a></td>
+                      <tr th:each="doctor:${docs}">
+                        <td th:text="|${doctor.usuario.nombres} ${doctor.usuario.apllidos}|"></td>
+                        <td th:text="${doctor.especialidad.nombre}"></td>
+                        <td><a th:href="@{'/paciente/perfilDoctor?iddoc='+${doctor.iddoctor}}" class="text-primary">Ver Perfil</a></td>
                       </tr>
-                      <tr>
-                        <th scope="row"><a href="#">#2457</a></th>
-                        <td>Brandon Jacob</td>
-                        <td>Medicina General</td>
-                        <td><a th:href="@{'/paciente/perfilDoctor'}"  class="text-primary">Ver Perfil</a></td>
-                      </tr>
-                      <tr>
-                        <th scope="row"><a href="#">#2457</a></th>
-                        <td>Brandon Jacob</td>
-                        <td>Medicina General</td>
-                        <td><a th:href="@{'/paciente/perfilDoctor'}"  class="text-primary">Ver Perfil</a></td>
-                      </tr>
-
                     </tbody>
                   </table>
 

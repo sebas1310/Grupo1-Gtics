@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:insert="fragments/librerias.html :: cabecera (titulo = 'Perfil Doctor')">
+<head th:insert="fragmentsPacientes/librerias.html :: cabecera (titulo = 'Perfil Doctor')">
 </head>
 
 <body>
 <!-- ======= Header ======= -->
-<header th:replace="fragments/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1', nombre = 'L. Anderson', num_men = '3')">
+<header th:replace="fragmentsPacientes/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1', nombre = |${pacientelog.usuario.nombres} ${pacientelog.usuario.apllidos}|, num_men = '3')">
 </header>
 <!-- End Header -->
 <!-- ======= Sidebar ======= -->
-<aside th:replace="fragments/aside.html :: sidebar (active = 'dashboard')">
+<aside th:replace="fragmentsPacientes/aside.html :: sidebar (active = 'dashboard')">
 </aside>
 <!-- End Sidebar-->
 
@@ -32,7 +32,7 @@
         <div class="card">
           <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
             <img th:src="@{/assets/img/doc.jpg}" alt="Profile" class="rounded-circle">
-            <h2>Andres Iniesta</h2>
+            <h2 th:text="${doc.usuario.nombres}"></h2>
             <div class="table-responsive">
               <h5>Horario de atención</h5>
               <table class="table table-bordered">
@@ -63,28 +63,24 @@
 
                 <div class="row">
                   <div class="col-lg-3 col-md-4 label ">Especialidad:</div>
-                  <div class="col-lg-9 col-md-8">Médico General</div>
+                  <div class="col-lg-9 col-md-8" th:text="${doc.especialidad.nombre}"></div>
                 </div>
                 <div class="row">
                   <div class="col-lg-3 col-md-4 label ">CMP:</div>
-                  <div class="col-lg-9 col-md-8">121541518</div>
+                  <div class="col-lg-9 col-md-8" th:text="${doc.cmp}"></div>
                 </div>
 
                 <div class="row">
                   <div class="col-lg-3 col-md-4 label">Formación</div>
-                  <p>Médico Cirujano de la Universidad Peruana Cayetano Heredia.
-                    Médico especialista en Enfermedades Infecciosas y Tropicales en la Universidad Peruana Cayetano Heredia.
-                    Médico especialista en Dermatología en la Universidad Peruana Cayetano Heredia</p>
+                  <p th:text="${doc.formacion}"></p>
                 </div>
                 <div class="row">
                   <div class="col-lg-3 col-md-4 label">Capacitaciones</div>
-                  <p>Congreso Nacional de Avances en el Diagnóstico, Manejo y complicaciones del paciente COVID19.
-                    XXXIX Curso Internacional de la Sociedad de Medicina Interna.
-                    Conferencista en la Reunión sobre VIH Taller ( Chile).</p>
+                  <p th:text="${doc.capacitaciones}"></p>
                 </div>
                 <div class="row">
                   <div class="text-center">
-                    <a th:href="@{'/paciente/selecTipoCita'}" class="btn" style="background-color:#b29400">Reservar cita</a>
+                    <a th:href="@{'/paciente/selecTipoCita?iddoc='+${doc.iddoctor}}" class="btn" style="background-color:#b29400">Reservar cita</a>
                   </div>
                 </div>
           </div>
