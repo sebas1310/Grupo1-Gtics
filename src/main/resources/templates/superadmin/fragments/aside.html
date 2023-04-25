@@ -20,27 +20,11 @@
             </a>
         </li><!-- End Components Nav -->
 
-        <li class="nav-item">
-            <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
-                <i class="bi bi-journal-text"></i><span>Formularios</span><i class="bi bi-chevron-down ms-auto"></i>
+        <li class="nav-item" th:classappend="${active == 'lista_form' ? 'active':''}">
+            <a class="nav-link" th:classappend="${active != 'lista_form' ? 'collapsed':''}" th:href="@{'/superadmin/listaform'}">
+                <i class="bi bi-form"></i><span>Lista de Formularios</span>
             </a>
-            <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-
-                <li class="nav-item" th:classappend="${active == 'lista_form' ? 'active':''}">
-                    <a class="nav-link" th:classappend="${active != 'lista_form' ? 'collapsed':''}" th:href="@{'/superadmin/listaform'}">
-                        <i class="bi bi-circle"></i><span>Lista de Formularios</span>
-                    </a>
-                </li>
-
-
-                <li class="nav-item" th:classappend="${active == 'nuevo_form' ? 'active':''}">
-                    <a class="nav-link" th:classappend="${active != 'nuevo_form' ? 'collapsed':''}" th:href="@{'/superadmin/nuevoform'}">
-                        <i class="bi bi-circle"></i><span>Nuevo formulario</span>
-                    </a>
-                </li>
-
-            </ul>
-        </li><!-- End Forms Nav -->
+        </li>
 
 
         <li class="nav-item" th:classappend="${active == 'reportes' ? 'active':''}">

@@ -63,7 +63,7 @@ public class SuperadminController {
 
     @GetMapping("/nuevoform")
     public String nuevoFormulario(){
-        return "superadmin/forms-editors";
+        return "superadmin/nuevoformulario";
     }
 
     @GetMapping("/notificaciones")
