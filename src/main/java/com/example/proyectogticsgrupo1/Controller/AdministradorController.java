@@ -1,8 +1,10 @@
 package com.example.proyectogticsgrupo1.Controller;
 
+import com.example.proyectogticsgrupo1.Entity.Doctor;
 import com.example.proyectogticsgrupo1.Entity.Paciente;
 import com.example.proyectogticsgrupo1.Entity.Tipodeusuario;
 import com.example.proyectogticsgrupo1.Entity.Usuario;
+import com.example.proyectogticsgrupo1.Repository.DoctorRepository;
 import com.example.proyectogticsgrupo1.Repository.PacienteRepository;
 import com.example.proyectogticsgrupo1.Repository.TipodeusuarioRepository;
 import com.example.proyectogticsgrupo1.Repository.UsuarioRepository;
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.print.Doc;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,14 +26,18 @@ public class AdministradorController {
     UsuarioRepository usuarioRepository;
 
     @Autowired
+    DoctorRepository doctorRepository;
+
+    @Autowired
     TipodeusuarioRepository tipodeusuarioRepository;
     @Autowired
-    private PacienteRepository pacienteRepository;
+    PacienteRepository pacienteRepository;
+
 
     @GetMapping("")
-    public String administrador() {
+    public String administrador(Model model) {
         return "administrador/dashboard";
-        }
+    }
 
     @GetMapping(value = "/perfil")
     public String perfilAdministrador() {
@@ -89,8 +96,9 @@ public class AdministradorController {
     }
 
     @GetMapping(value = "/dashboarddoctor")
-    public String dashboarddoc() {
-
+    public String dashboarddoc(Model model) {
+        List<Doctor> listaDoctores = doctorRepository.listado();
+        model.addAttribute("listaDoctores", listaDoctores);
         return "administrador/dashboarddoctor";
     }
 
@@ -172,8 +180,12 @@ public class AdministradorController {
         usuario.setTipodeusuario(tipodeusuario);
         usuario.setEstado(1);
         usuarioRepository.save(usuario);
+        Paciente paciente = new Paciente();
+        paciente.setUsuario(usuario);
+        pacienteRepository.save(paciente);
         return "redirect:/administrador/dashboarddoctor";
     }
+
 
 
 
