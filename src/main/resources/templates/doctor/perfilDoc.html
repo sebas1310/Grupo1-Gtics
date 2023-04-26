@@ -35,7 +35,7 @@
                 </li><!-- End Calendario -->
 
                 <li class="nav-item">  <!-- cambia -->
-                    <a class="nav-link" th:href="@{'/doctor/perfil'}" >
+                    <a class="nav-link" th:href="@{'/doctor/perfil'+ '?id=' + ${doctor.getIdDoctor()}}" >
                         <i class="bi bi-person"></i>
                         <span>Perfil</span>
                     </a>
@@ -139,27 +139,27 @@
 
                                         <div class="row">
                                             <div class="col-lg-3 col-md-4 label ">Nombre</div>
-                                            <div class="col-lg-9 col-md-8">Abigail Ramirez</div>
+                                            <div class="col-lg-9 col-md-8"><span th:text="|${doctor.getUsuario().getNombres()} ${doctor.getUsuario().getApellidos()}|"></span></div>
                                         </div>
 
                                         <div class="row">
                                             <div class="col-lg-3 col-md-4 label">DNI</div>
-                                            <div class="col-lg-9 col-md-8">73360522</div>
+                                            <div class="col-lg-9 col-md-8"><span th:text="${doctor.getUsuario().getDni()}"></span></div>
                                         </div>
 
                                         <div class="row">
                                             <div class="col-lg-3 col-md-4 label">Correo</div>
-                                            <div class="col-lg-9 col-md-8">abigail.ramirez@gmail.com </div>
+                                            <div class="col-lg-9 col-md-8"><span th:text="${doctor.getUsuario().getCorreo()}"></span> </div>
                                         </div>
 
                                         <div class="row">
                                             <div class="col-lg-3 col-md-4 label">Especialidad</div>
-                                            <div class="col-lg-9 col-md-8">Rayos X</div>
+                                            <div class="col-lg-9 col-md-8"><span th:text="${doctor.getEspecialidad().getNombre()}"></span></div>
                                         </div>
 
                                         <div class="row">
                                             <div class="col-lg-3 col-md-4 label">Sede</div>
-                                            <div class="col-lg-9 col-md-8">San Miguel</div>
+                                            <div class="col-lg-9 col-md-8"><span th:text="${doctor.getSede().getNombre()}"></span></div>
                                         </div>
 
                                     </div>
