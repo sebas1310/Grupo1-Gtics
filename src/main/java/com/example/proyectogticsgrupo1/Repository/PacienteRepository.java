@@ -17,6 +17,7 @@ public interface PacienteRepository extends JpaRepository<Paciente,Integer> {
     void modificarAlergia(String alergias, Integer idpaciente);
 
 
+
     @Query(value="select * from paciente where idpaciente= ?1", nativeQuery = true)
     Paciente buscarPacientePorID (Integer idPaciente);
 }

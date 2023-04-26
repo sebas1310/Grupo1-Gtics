@@ -28,6 +28,7 @@ public class Doctor {
     @JoinColumn(name = "idsede")
     private Sede sede;
 
+
     @Column(name="cmp",nullable = false)
     private Integer cmp;
 

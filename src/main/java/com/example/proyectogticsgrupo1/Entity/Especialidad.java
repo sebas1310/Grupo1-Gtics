@@ -14,6 +14,7 @@ public class Especialidad {
     @Column(name = "idespecialidad", nullable = false)
     private Integer idespecialidad;
 
+
     @Column(name = "nombre", nullable = false)
     private String nombre;
 

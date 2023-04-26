@@ -50,6 +50,7 @@ public class Cita {
     private TipoCita tipoCita;
 
     @ManyToOne
+
     @JoinColumn(name = "idseguro",  nullable = false)
     private Seguro seguro;
 

@@ -15,6 +15,7 @@ public class Cuestionario {
     @Column(name = "idpaciente")
     private int idpaciente;
     @Basic
+
     @Column(name = "iddoctor")
     private int iddoctor;
     @Basic

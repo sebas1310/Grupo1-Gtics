@@ -13,6 +13,7 @@ import java.sql.Timestamp;
 public class BitacoraDeDiagnostico {
 
 
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 

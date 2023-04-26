@@ -11,6 +11,7 @@ import java.sql.Blob;
 @Entity
 @Table(name = "sede")
 public class Sede {
+
     @Id
     @GeneratedValue
     @Column(name = "idsede")

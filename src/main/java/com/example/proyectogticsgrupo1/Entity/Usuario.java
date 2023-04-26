@@ -11,6 +11,7 @@ import java.sql.Blob;
 @Entity
 @Table(name = "usuario")
 public class Usuario {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idusuario", nullable = false)

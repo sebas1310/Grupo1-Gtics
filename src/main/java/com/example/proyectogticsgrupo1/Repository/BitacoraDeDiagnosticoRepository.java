@@ -13,6 +13,7 @@ public interface BitacoraDeDiagnosticoRepository extends JpaRepository<BitacoraD
     @Query(value= "select * from bitacoradediagnostico where idpaciente = ?1 ",nativeQuery = true)
     List<BitacoraDeDiagnostico> bitacoraDeDiagnostico(Integer idPaciente);
 
+
     @Modifying
     @Query(value= "insert into bitacoradediagnostico (descripcion,fechayhora,idpaciente) values (?1,current_timestamp(),?2) ",nativeQuery = true)
     void guardarbitacora (String descripcion , Integer idPaciente);

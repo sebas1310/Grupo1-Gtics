@@ -28,6 +28,7 @@ public class Paciente {
     private Seguro seguro;
 
 
+
     @Column(name = "condicion_enfermedad", length = 100)
     private String condicionEnfermedad;
 

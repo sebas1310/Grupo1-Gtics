@@ -11,6 +11,7 @@ public interface CitaRepository extends JpaRepository<Cita, Integer> {
     @Query(value= "select * from cita where iddoctor= ?1 ",nativeQuery = true)
     List<Cita> pacientesAtendidosPorDoctor(Integer idDoctor);
 
+
     @Query(value= "select * from cita where idpaciente= ?1 ",nativeQuery = true)
     List<Cita> citasPorPaciente(Integer idPaciente);
 

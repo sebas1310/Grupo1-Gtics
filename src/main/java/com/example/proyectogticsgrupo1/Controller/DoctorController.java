@@ -211,6 +211,7 @@ public class DoctorController {
         doctorRepository.cambiarSede(idS, idD);
         attr.addAttribute("id", idD);
         return "redirect:/doctor/configuraciones";
+
     }
 
 }

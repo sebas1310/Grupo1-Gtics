@@ -14,6 +14,7 @@ public interface DoctorRepository extends JpaRepository<Doctor, Integer>{
     @Query(value= "select * from doctor where iddoctor = ?1 ",nativeQuery = true)
     Doctor buscarDoctorPorId (Integer idDoc);
 
+
     @Transactional
     @Modifying
     @Query(value = "UPDATE doctor set idsede =?1 WHERE iddoctor =?2", nativeQuery = true)

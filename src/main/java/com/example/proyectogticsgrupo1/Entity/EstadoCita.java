@@ -17,3 +17,4 @@ public class EstadoCita {
     @Column(name = "nombre")
     private String  nombre;
 }
+

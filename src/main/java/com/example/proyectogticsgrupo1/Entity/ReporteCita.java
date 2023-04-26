@@ -21,6 +21,7 @@ public class ReporteCita {
     @Column(name = "descripcion", nullable = false)
     private String descripcion;
 
+
     @Column(name = "fecha", nullable = false)
     private LocalDate fecha;
 
