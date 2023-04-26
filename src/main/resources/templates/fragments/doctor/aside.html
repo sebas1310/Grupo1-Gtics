@@ -30,7 +30,8 @@
     </li><!-- End Calendario -->
 
     <li class="nav-item" th:classappend="${active == 'perfil' ? 'active':''}">
-      <a class="nav-link collapsed" th:classappend="${active != 'perfil' ? 'collapsed':''}" th:href="@{'/doctor/perfil'}"  >
+      <a class="nav-link collapsed" th:classappend="${active != 'perfil' ? 'collapsed':''}"
+         th:href="@{'/doctor/perfil' + '?id=' + ${doctor.idDoctor}}"  >
         <i class="bi bi-person"></i>
         <span>Perfil</span>
       </a>

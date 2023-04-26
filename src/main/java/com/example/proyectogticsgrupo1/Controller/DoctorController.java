@@ -136,13 +136,14 @@ public class DoctorController {
     }
     @PostMapping("/doctor/pacientesatendidos/verhistorial/vercita/editarreceta")
     @Transactional
-    public String editarReceta(RedirectAttributes redirectAttributes,@RequestParam("idR") int idReceta,
-                                         @RequestParam("idcita") int idCita,
-                                         @RequestParam("medicamento") String medicamentos,
+    public String editarReceta(RedirectAttributes redirectAttributes,@RequestParam("idReceta") int idReceta,
+                                         @RequestParam("idCita") int idCita,
+                                         @RequestParam("medicamento") String medicamento,
                                          @RequestParam("dosis") String dosis,
                                          @RequestParam("descripcion") String descripcion){
-        recetaMedicaRepository.actualizarReceta(medicamentos,dosis,descripcion,idCita);
-        redirectAttributes.addAttribute("idcita",idCita);
+        recetaMedicaRepository.actualizarReceta(medicamento,dosis,descripcion,idCita, idReceta);
+        redirectAttributes.addAttribute("id",idCita);
+        redirectAttributes.addAttribute("id",idReceta);
         return "redirect:/doctor/pacientesatendidos/verhistorial/vercita";
     }
 

@@ -18,6 +18,6 @@ public interface RecetaMedicaRepository extends JpaRepository<RecetaMedica,Integ
 
 
     @Modifying
-    @Query(value= "update rectamedica set medicamento = ?1 , dosis = ?2, descripcion = ?3 where idcita = ?4",nativeQuery = true)
-    void actualizarReceta (String medicamento, String dosis, String descripcion, Integer idCita);
+    @Query(value= "update recetamedica set medicamento = ?1 , dosis = ?2, descripcion = ?3 where idcita = ?4 and idrecetamedica = ?5",nativeQuery = true)
+    void actualizarReceta (String medicamento, String dosis, String descripcion, Integer idCita, Integer idReceta);
 }
