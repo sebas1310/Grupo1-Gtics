@@ -54,6 +54,10 @@ public class Cita {
     private Seguro seguro;
 
     @ManyToOne
+    @JoinColumn(name = "idespecialidad",  nullable = false)
+    private Especialidad especialidad;
+
+    @ManyToOne
     @JoinColumn(name = "idestadocita",  nullable = false)
     private EstadoCita estadoCita;
 

@@ -25,7 +25,7 @@ public class RecetaMedica {
     @Column(name = "descripcion", length = 100, nullable = false)
     private String descripcion;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "idcita", nullable = false)
     private Cita cita;
 

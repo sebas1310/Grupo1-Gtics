@@ -1,13 +1,60 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:insert="fragments/librerias.html :: cabecera (titulo = ' Configuracion')">
+<head th:insert="fragments/doctor/librerias.html :: cabecera (titulo = ' Configuracion')">
 </head>
 <body>
 <!-- ======= Header ======= -->
-<header th:replace="fragments/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1', nombre = 'Abigail Ramirez', num_men = '2')">
+<header th:replace="fragments/doctor/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1', nombre = 'Abigail Ramirez', num_men = '2')">
 </header><!-- End Header -->
+</header>
+<!-- End Header -->
 <!-- ======= Sidebar ======= -->
-<aside th:replace="fragments/aside.html :: sidebar (active = 'configuracion')">
+<aside id="sidebar" class="sidebar">
+  <ul class="sidebar-nav" id="sidebar-nav">
+    <li class="nav-item">
+      <a class="nav-link collapsed" th:href="@{'/doctor/dashboard'}">
+        <i class="bi bi-grid"></i>
+        <span>Dashboard</span>
+      </a>
+    </li><!-- End Dashboard -->
+    <li class="nav-item"> <!-- Cambiar ref -->
+      <a class="nav-link"  th:href="@{'/doctor/pacientesatendidos'}">
+        <i class="bi bi-menu-button-wide"></i>
+        <span>Pacientes Atendidos</span>
+      </a>
+    </li><!-- End Pacientes Atendidos -->
+    <li class="nav-item">  <!-- cambia -->
+      <a class="nav-link collapsed" th:href="@{'/doctor/calendario'}"  >
+        <i class="bi bi-calendar3"></i>
+        <span>Calendario</span>
+      </a>
+    </li><!-- End Calendario -->
+    <li class="nav-item">  <!-- cambia -->
+      <a class="nav-link collapsed" th:href="@{'/doctor/perfil'}" >
+        <i class="bi bi-person"></i>
+        <span>Perfil</span>
+      </a>
+    </li><!-- End Perfil -->
+    <br><br><br><br>
+    <br><br><br><br>
+    <br><br><br><br>
+    <br><br><br><br>
+    <br><br><br>
+    <li class="nav-heading"> ----------------------------------------------- </li>
+    <li class="nav-item">
+      <a class="nav-link collapsed" th:href="@{'/doctor/configuraciones'}">
+        <i class="bi bi-gear"></i>
+        <span>Configuracion</span>
+      </a>
+    </li><!-- End Configuracion -->
+    <li class="nav-item">
+      <a class="nav-link collapsed" type="button" data-bs-toggle="modal" data-bs-target="#cerrar">
+        <i class="bi bi-box-arrow-in-right"></i>
+        <span>Cerrar Sesión</span>
+        <!-- Vertically centered Modal -->
+      </a>
+    </li><!-- End Cerrar Sesion -->
+  </ul>
 </aside><!-- End Sidebar-->
 <!-- Cerrar Sesion-->
 <div class="modal fade" id="cerrar" tabindex="-1">
@@ -43,24 +90,18 @@
           <div class="card-body">
             <h5 class="card-title">Sede</h5>
             <!-- Default Table -->
-            <table class="table">
-
-              <tbody>
-              <tr>
-                <td><div class="row mb-lg-2">
-                  <div class="col-sm-10">
-                    <select class="form-select" aria-label="Default select example">
-                      <option selected>Seleccione</option>
-                      <option value="1">San Miguel</option>
-                      <option value="2">Jesus Maria</option>
-                    </select>
-                  </div>
-                </div>
-                </td>
-              </tr>
-              </tbody>
-            </table>
-            <!-- End Default Table Example -->
+            <form th:action="${'/doctor/guardarSede'}" method="post" class="col-4">
+               <div class="mb-3">
+                 <input th:value="${doctor.getIdDoctor()}" name="id" type="hidden" />
+                <label form="nombre" class="form-label">Cambiar Sede</label>
+              </div>
+              <select class="form-select" id="sede" name="sede_id" >
+                <option th:each="sede : ${listSedes}" th:value="${sede.idsede}" th:text="${sede.nombre}">Seleccione</option>
+              </select>
+              <br>
+              <a th:href="@{'/doctor/configuraciones'}" class="btn btn-danger">Cancelar</a>
+              <button type="submit" class="btn btn-primary">Actualizar</button>
+            </form>
           </div>
         </div>
       </div>
