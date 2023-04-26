@@ -1,6 +1,7 @@
 package com.example.proyectogticsgrupo1.Entity;
 
 import jakarta.persistence.*;
+<<<<<<< HEAD
 
 import java.util.Objects;
 
@@ -37,5 +38,23 @@ public class Tipodeusuario {
         Tipodeusuario that = (Tipodeusuario) o;
         return idtipodeusuario == that.idtipodeusuario && Objects.equals(nombre, that.nombre);
     }
+=======
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+@Entity
+@Table(name = "tipodeusuario")
+public class Tipodeusuario {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "idtipodeusuario", nullable = false)
+    private Integer tipodeusuario;
+
+    @Column(name = "nombre")
+    private String nombre;
+
+>>>>>>> doctor
 
 }

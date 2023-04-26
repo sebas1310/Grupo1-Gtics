@@ -7,13 +7,13 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "estadopaciente")
-public class EstadoPaciente {
+@Table(name = "tipocita")
+public class TipoCita{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name ="idestadopaciente")
-    private Integer idestadopaciente;
+    @Column(name = "idtipocita", nullable = false)
+    private Integer idtipocita;
 
-    @Column(name = "nombre")
+    @Column(name = "nombre", nullable = false)
     private String nombre;
 }
