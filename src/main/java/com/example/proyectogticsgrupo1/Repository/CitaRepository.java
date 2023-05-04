@@ -1,6 +1,5 @@
 package com.example.proyectogticsgrupo1.Repository;
 
-import com.example.proyectogticsgrupo1.Entity.Cita;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

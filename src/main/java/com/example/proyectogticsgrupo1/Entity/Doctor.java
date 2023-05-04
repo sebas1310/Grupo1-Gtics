@@ -38,4 +38,6 @@ public class Doctor {
     @JoinColumn(name = "idusuario",  nullable = false)
     private Usuario usuario;
 
+    @Column(name = "zoom")
+    private String zoom;
 }
