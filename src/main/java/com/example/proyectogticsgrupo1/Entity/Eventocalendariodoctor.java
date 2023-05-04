@@ -18,6 +18,10 @@ public class Eventocalendariodoctor {
     @Column(name = "ideventocalendariodoctor")
     private Integer ideventocalendariodoctor;
 
+    @ManyToOne
+    @JoinColumn(name = "idtipohoracalendariodoctor")
+    private Tipohoracalendariodoctor tipohoracalendariodoctor;
+
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate fecha;
 
@@ -32,12 +36,13 @@ public class Eventocalendariodoctor {
     @Column(name = "duracion")
     private Integer duracion;
 
+    @Column(name = "descripcion")
+    private String descripcion;
+
     @ManyToOne
     @JoinColumn(name = "iddoctor")
     private Doctor doctor;
 
-    @ManyToOne
-    @JoinColumn(name = "idtipohoracalendariodoctor")
-    private Tipohoracalendariodoctor tipohoracalendariodoctor;
+
 
 }

@@ -7,7 +7,7 @@
 
 <!-- ======= Header ======= -->
 
-<header th:replace="fragmentsPacientes/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1', nombre = |${pacientelog.usuario.nombres} ${pacientelog.usuario.apllidos}|, num_men = '3')">
+<header th:replace="fragmentsPacientes/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1', nombre = |${pacientelog.usuario.nombres} ${pacientelog.usuario.apellidos}|, num_men = '3')">
 
 </header>
 <!-- End Header -->
@@ -85,7 +85,7 @@
                     </thead>
                     <tbody class="text-center">
                       <tr th:each="doctor:${docs}">
-                        <td th:text="|${doctor.usuario.nombres} ${doctor.usuario.apllidos}|"></td>
+                        <td th:text="|${doctor.usuario.nombres} ${doctor.usuario.apellidos}|"></td>
                         <td th:text="${doctor.especialidad.nombre}"></td>
                         <td><a th:href="@{'/paciente/perfilDoctor?iddoc='+${doctor.iddoctor}}" class="text-primary">Ver Perfil</a></td>
                       </tr>

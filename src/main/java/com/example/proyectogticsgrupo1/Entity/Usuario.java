@@ -24,7 +24,7 @@ public class Usuario {
     private String nombres;
 
     @Column(name = "apellidos", nullable = false)
-    private String apllidos;
+    private String apellidos;
 
     @Column(name = "dni", nullable = false)
     private String dni;
@@ -44,8 +44,18 @@ public class Usuario {
     @Column(name = "edad", nullable = false)
     private Integer edad;
 
-    @Column(name = "estado", nullable = false)
-    private Integer estado;
+    @Column(name = "estado_habilitado", nullable = false)
+    private Integer estadohabilitado;
+
+    @ManyToOne
+    @JoinColumn(name = "sede_idsede")
+    private Sede sede;
+
+    @ManyToOne
+    @JoinColumn(name = "especialidad_idespecialidad")
+    private Especialidad especialidad;
+
+
     /*
     @Column(name = "foto")
     private Blob foto;*/
