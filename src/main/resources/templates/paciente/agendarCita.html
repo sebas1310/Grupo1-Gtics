@@ -6,7 +6,7 @@
 <body>
 
 <!-- ======= Header ======= -->
-<header th:replace="fragmentsPacientes/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1', nombre = |${pacientelog.usuario.nombres} ${pacientelog.usuario.apllidos}|, num_men = '3')">
+<header th:replace="fragmentsPacientes/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1', nombre = |${pacientelog.usuario.nombres} ${pacientelog.usuario.apellidos}|, num_men = '3')">
 </header>
 <!-- End Header -->
 
@@ -51,7 +51,7 @@
                 <div class="col-sm-10">
                   <select class="form-select" id="iddoctor" name="iddoctor">
                     <option selected disabled>Seleccione doctor</option>
-                    <option th:each="doctor:${doctores}" th:text="|${doctor.usuario.nombres} ${doctor.usuario.apllidos}|" th:value="${doctor.iddoctor}"></option>
+                    <option th:each="doctor:${doctores}" th:text="|${doctor.usuario.nombres} ${doctor.usuario.apellidos}|" th:value="${doctor.iddoctor}"></option>
                   </select>
                 </div>
               </div>
@@ -76,16 +76,22 @@
               </div>
 
               <div class="row mb-3">
-                <label for="fecha" class="col-sm-2 col-form-label">Date</label>
+                <label for="fecha" class="col-sm-2 col-form-label">Fecha</label>
                 <div class="col-sm-10">
-                  <input type="date" class="form-control" name="fecha" id="fecha">
+                  <select class="form-select" name="fecha" id="fecha">
+                    <option selected disabled>Seleccione tipo de cita</option>
+                    <option th:each="e:${caldisponible}" th:text="|${e.fecha} (${e.doctor.usuario.nombres} ${e.doctor.usuario.apellidos})|" th:value="${e.fecha}"></option>
+                  </select>
                 </div>
               </div>
 
               <div class="row mb-3">
-                <label for="hora" class="col-sm-2 col-form-label">Time</label>
+                <label for="hora" class="col-sm-2 col-form-label">Hora</label>
                 <div class="col-sm-10">
-                  <input type="time" class="form-control" name="hora" id="hora">
+                  <select class="form-select" name="hora" id="hora">
+                    <option selected disabled>Seleccione Hora</option>
+                    <option th:each="e:${caldisponible}" th:text="|${e.horainicio}-${e.horafinal} (${e.doctor.usuario.nombres} ${e.doctor.usuario.apellidos})|" th:value="${e.horainicio}"></option>
+                  </select>
                 </div>
               </div>
 

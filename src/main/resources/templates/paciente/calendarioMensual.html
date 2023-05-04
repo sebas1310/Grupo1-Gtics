@@ -5,7 +5,7 @@
 <body>
 
 <!-- ======= Header ======= -->
-<header th:replace="fragmentsPacientes/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1', nombre = |${pacientelog.usuario.nombres} ${pacientelog.usuario.apllidos}|, num_men = '3')">
+<header th:replace="fragmentsPacientes/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1', nombre = |${pacientelog.usuario.nombres} ${pacientelog.usuario.apellidos}|, num_men = '3')">
 </header>
 <!-- End Header -->
 <!-- ======= Sidebar ======= -->
@@ -160,13 +160,13 @@
                                             <td></td>
                                             <td></td>
                                         </tr>
-                                        <tr>
+                                        <tr th:each="cjv:${cjeuves}">
                                             <td>19:00</td>
                                             <td></td>
                                             <td></td>
                                             <td></td>
+                                            <td th:text="${cjv.especialidad.nombre}"></td>
                                             <td></td>
-                                            <td><a th:href="@{#}">Cardiologia</a></td>
                                             <td></td>
                                             <td></td>
                                         </tr>

@@ -4,7 +4,7 @@
 </head>
 <body>
 <!-- ======= Header ======= -->
-<header th:replace="fragmentsPacientes/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1', nombre = |${pacientelog.usuario.nombres} ${pacientelog.usuario.apllidos}|, num_men = '3')">
+<header th:replace="fragmentsPacientes/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1', nombre = |${pacientelog.usuario.nombres} ${pacientelog.usuario.apellidos}|, num_men = '3')">
 </header>
 <!-- End Header -->
 <!-- ======= Sidebar ======= -->
@@ -195,7 +195,7 @@
               <div class="modal-body">
                 <div class="d-flex align-items-center">
                   <p class="ml-3 mb-0">Doctor: </p>
-                  <p class="ml-3 mb-0" th:text="|${calendario.doctor.usuario.nombres} ${calendario.doctor.usuario.apllidos}|"></p>
+                  <p class="ml-3 mb-0" th:text="|${calendario.doctor.usuario.nombres} ${calendario.doctor.usuario.apellidos}|"></p>
                 </div>
                 <div class="d-flex align-items-center">
                   <i class="bi bi-geo-alt-fill"></i>

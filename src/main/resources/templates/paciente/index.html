@@ -7,7 +7,7 @@
 
 <!-- ======= Header ======= -->
 
-<header th:replace="fragmentsPacientes/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1', nombre = |${pacientelog.usuario.nombres} ${pacientelog.usuario.apllidos}|, num_men = '3')">
+<header th:replace="fragmentsPacientes/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1', nombre = |${pacientelog.usuario.nombres} ${pacientelog.usuario.apellidos}|, num_men = '3')">
 
 </header>
 <!-- End Header -->
@@ -85,7 +85,7 @@
                     </thead>
                     <tbody class="text-center">
                       <tr th:each="doctor:${docs}">
-                        <td th:text="|${doctor.usuario.nombres} ${doctor.usuario.apllidos}|"></td>
+                        <td th:text="|${doctor.usuario.nombres} ${doctor.usuario.apellidos}|"></td>
                         <td th:text="${doctor.especialidad.nombre}"></td>
                         <td><a th:href="@{'/paciente/perfilDoctor?iddoc='+${doctor.iddoctor}}" class="text-primary">Ver Perfil</a></td>
                       </tr>
@@ -146,67 +146,106 @@
                   </tr>
                   </thead>
                   <tbody class="text-center">
-                  <tr>
-                    <td>8:00</td>
-                    <td></td>
-                  </tr>
-                  <tr>
-                    <td>9:00</td>
-                    <td></td>
-                  </tr>
-                  <tr>
-                    <td>10:00</td>
-                    <td></td>
-                  </tr>
-                  <tr>
-                    <td>11:00</td>
-                    <td></td>
-                  </tr>
-                  <tr>
-                    <td>12:00</td>
-                    <td></td>
-                  </tr>
-                  <tr>
-                    <td>13:00</td>
-                    <td></td>
-                  </tr>
-                  <tr>
-                    <td>14:00</td>
-                    <td><div class="bg-primary" title="Evento 1">Evento 1</div></td>
-                  </tr>
-                  <tr>
-                    <td>15:00</td>
-                    <td></td>
-                  </tr>
-                  <tr>
-                    <td>16:00</td>
-                    <td><div class="bg-primary" title="Evento 2">Evento 2</div></td>
-                  </tr>
-                  <tr>
-                    <td>17:00</td>
-                    <td></td>
-                  </tr>
-                  <tr>
-                    <td>18:00</td>
-                    <td></td>
-                  </tr>
-                  <tr>
-                    <td>19:00</td>
-                    <td></td>
-                  </tr>
-                  <tr>
-                    <td>20:00</td>
-                    <td></td>
-                  </tr>
-                  <tr>
-                    <td>21:00</td>
-                    <td></td>
+                  <tr th:each="p,idx:${citashoy}">
+                    <td th:text="|${p.horainicio} - ${p.horafinal}|"></td>
+                    <td>
+                      <button type="button"  style="background-color: darkseagreen" class="btn" data-toggle="modal" data-target="#exampleModalCenter" th:text="${p.especialidad.nombre}">
+                      </button>
+
+
+
+                      <!-- Modal -->
+                      <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title" id="exampleModalLongTitle" th:text="|Cita ${p.tipoCita.nombre}|"></h5>
+                            </div>
+                            <div class="modal-body">
+                              <div class="d-flex align-items-center">
+                                <p class="ml-3 mb-0">Doctor: </p>
+                                <p class="ml-3 mb-0" th:text="|${p.doctor.usuario.nombres} ${p.doctor.usuario.apellidos}|"></p>
+                              </div>
+                              <div class="d-flex align-items-center">
+                                <i class="bi bi-geo-alt-fill"></i>
+                                <p class="ml-3 mb-0" th:text="${p.doctor.sede.nombre}"></p>
+                              </div>
+                            </div>
+                            <div class="d-inline-block w-auto mx-auto">
+                              <div class="card bg-light d-flex align-items-center">
+                                <h2 th:text="${p.fecha}"></h2>
+                                <div class="card-body">
+                                  <div class="row">
+                                    <div class="col">
+                                      <div class="p-3">
+                                        Duración
+                                      </div>
+                                      <div class="p-3">
+                                        <p th:text="|${p.duracion} hora(s)|"></p>
+                                      </div>
+                                    </div>
+                                    <div class="col">
+                                      <div class="p-3">
+                                        Inicio:
+                                      </div>
+                                      <div class="p-3">
+                                        <p th:text="${p.horainicio}"></p>
+                                      </div>
+                                    </div>
+                                    <div class="col">
+                                      <div class="p-3">
+                                        Fin:
+                                      </div>
+                                      <div class="p-3">
+                                        <p th:text="${p.horafinal}"></p>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <br>
+                            <div class="modal-footer d-flex justify-content-center">
+                              <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+
+                    </td>
                   </tr>
                   </tbody>
                 </table>
               </div>
             </div>
           </div><!-- End Website Traffic -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
           <!-- End Right side columns -->
         </div>

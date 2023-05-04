@@ -49,7 +49,7 @@ public class PacienteController {
         model.addAttribute("pacientelog",paciente);
         model.addAttribute("docs", doctorRepository.findAll());
         model.addAttribute("especialidades", listespecialidad);
-
+        model.addAttribute("citashoy", citaRepository.citasHoy(1));
         model.addAttribute("sedes", sedeRepository.findAll());
         return "paciente/index";
 
@@ -81,6 +81,7 @@ public class PacienteController {
     }
     @GetMapping(value = "/reservar2")
     public String selectDate(Model model, @RequestParam("iddoc") Integer id){
+        System.out.println("llega doctor?: " + id);
         Optional<Paciente> optionalPaciente = pacienteRepository.findById(1);
         Paciente paciente =  optionalPaciente.get();
         model.addAttribute("pacientelog",paciente);
@@ -116,6 +117,7 @@ public class PacienteController {
         model.addAttribute("pacientelog",paciente);
         model.addAttribute("doctores",doctorRepository.findAll());
         model.addAttribute("tipocita",tipoCitaRepository.findAll());
+        model.addAttribute("caldisponible", eventocalendariodoctorRepository.calendarioDoctorDisponible());
         return "paciente/agendarCita";
     }
     @GetMapping(value = "/historialCitas")
@@ -129,10 +131,19 @@ public class PacienteController {
 
     @GetMapping(value = "/calendarioMensual")
     public String calendarioMensual(Model model){
+
+
         Optional<Paciente> optionalPaciente = pacienteRepository.findById(1);
         Paciente paciente =  optionalPaciente.get();
+        if(citaRepository.citasJueves()!=null){
+            model.addAttribute("cjeuves", citaRepository.citasJueves());
+        }
         model.addAttribute("pacientelog",paciente);
         return "paciente/calendarioMensual";
+
+
+
+
     }
 
 
@@ -177,32 +188,57 @@ public class PacienteController {
     public String pruebascita(@RequestParam("idsede") Integer idsede,
                               @RequestParam("especialidadid") Integer idesp,
                               @RequestParam("iddoctor") Integer iddoctor,
-                              @RequestParam("fecha") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fecha ,
+                              @RequestParam("fecha") LocalDate fecha ,
                               @RequestParam("hora")LocalTime hora,
                               @RequestParam("idseguro") Integer idseguro,
                               @RequestParam("idtipocita") Integer idtipocita, RedirectAttributes redirectAttributes){
+        System.out.println("hola?");
+
         if(idsede==doctorRepository.findById(iddoctor).get().getSede().getIdsede()){
-            if(idesp==doctorRepository.findById(iddoctor).get().getSede().getIdsede()){
-                if(eventocalendariodoctorRepository.calendarioPorDoctor(iddoctor).getFecha().toString().equals(fecha.toString())){
-                    if(eventocalendariodoctorRepository.calendarioPorDoctor(iddoctor).getHorainicio()==hora){
-                        citaRepository.agengedarcita(especialidadRepository.getCosto(idesp), idsede, 1, idesp, iddoctor, fecha, hora, hora.plusHours(1),60, idtipocita, idseguro, 1);
-                        System.out.println("guardo?");
+            System.out.println("aca?");
+            if(idesp==doctorRepository.findById(iddoctor).get().getEspecialidad().getIdespecialidad()){
+                System.out.println("revis la hora");
+                Boolean flg1=false;
+                int i;
+                System.out.println("size: " + eventocalendariodoctorRepository.calendarioFecha(fecha,iddoctor).size());
+                if(eventocalendariodoctorRepository.calendarioFecha(fecha,iddoctor).size()<=1){
+                    System.out.println("entro a 0");
+                    i=0;
+                }else {
+                    System.out.println("entro a 1");
+                    i=0;
+                }
+                while (i<eventocalendariodoctorRepository.calendarioFecha(fecha,iddoctor).size()){
+                    System.out.println("hora " +i + eventocalendariodoctorRepository.calendarioFecha(fecha,iddoctor).get(i).getHorainicio());
+                    if(eventocalendariodoctorRepository.calendarioFecha(fecha,iddoctor).get(i).getHorainicio()==hora){
+                        flg1=true;
+                    }
+                    i++;
+                }
+                System.out.println("salio");
+                System.out.println(flg1);
+                if(flg1){
+                    System.out.println("entra a validar si se repite");
+                    Boolean flg = true;
+                    for(Cita c:citaRepository.citasRepetidasValidacion(1,fecha)){
+                        if(c.getHorainicio()==hora){
+                            flg=false;
+                            break;
+                        }
+                    }
+                    if(flg){
+                        System.out.println("llega aca prim");
+                        citaRepository.agengedarcita(idsede, idesp,fecha, hora, hora.plusHours(1),60, idtipocita, idseguro, 1, 1,0,iddoctor);
+                        eventocalendariodoctorRepository.cambiarEstadoCalendario(iddoctor,fecha,hora);
                         return "redirect:/paciente/";
                     }
                     else {
-                        redirectAttributes.addFlashAttribute("msg", "La hora no es valida");
+                        redirectAttributes.addFlashAttribute("msg", "Se tiene un cita en la hora escogida");
                         return "redirect:/paciente/agendarCita";
                     }
                 }
                 else {
-                    System.out.println(fecha);
-                    System.out.println(eventocalendariodoctorRepository.calendarioPorDoctor(iddoctor).getFecha());
-                    String a = fecha.toString();
-                    String  b = eventocalendariodoctorRepository.calendarioPorDoctor(iddoctor).getFecha().toString();
-                    System.out.println(a);
-                    System.out.println(b);
-                    System.out.println(a.equals(b));
-                    redirectAttributes.addFlashAttribute("msg", "La fecha escogida no es valida");
+                    redirectAttributes.addFlashAttribute("msg", "La Hora escogida no es valida");
                     return "redirect:/paciente/agendarCita";
                 }
             }
