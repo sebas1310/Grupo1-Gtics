@@ -42,13 +42,17 @@ public class PacienteController {
     }
 
     @GetMapping(value = "/")
-    public String paciente(Model model){
+    public String paciente( Model model){
         Optional<Paciente> optionalPaciente = pacienteRepository.findById(1);
+        List<Especialidad> listespecialidad = especialidadRepository.findAll();
         Paciente paciente =  optionalPaciente.get();
         model.addAttribute("pacientelog",paciente);
         model.addAttribute("docs", doctorRepository.findAll());
+        model.addAttribute("especialidades", listespecialidad);
+
         model.addAttribute("sedes", sedeRepository.findAll());
         return "paciente/index";
+
     }
 
     @GetMapping(value = "/perfilDoctor")
