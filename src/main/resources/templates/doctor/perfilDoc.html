@@ -35,7 +35,7 @@
                 </li><!-- End Calendario -->
 
                 <li class="nav-item">  <!-- cambia -->
-                    <a class="nav-link" th:href="@{'/doctor/perfil'+ '?id=' + ${doctor.getIdDoctor()}}" >
+                    <a class="nav-link" th:href="@{'/doctor/perfil'+ '?id=' + ${doctor.getIddoctor()}}" >
                         <i class="bi bi-person"></i>
                         <span>Perfil</span>
                     </a>
@@ -178,7 +178,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <input th:value="${doctor.getIdDoctor()}" name="id" type="hidden">
+                                            <input th:value="${doctor.getIddoctor()}" name="id" type="hidden">
                                             <input th:value="${doctor.getUsuario().getIdusuario()}" name="idusuario" type="hidden">
                                             <div class="row mb-3">
                                                 <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Nombres</label>

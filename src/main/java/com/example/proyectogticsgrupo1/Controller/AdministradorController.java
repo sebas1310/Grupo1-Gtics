@@ -1,4 +1,4 @@
-package com.example.proyectogticsgrupo1.Controller;
+/*package com.example.proyectogticsgrupo1.Controller;
 
 import com.example.proyectogticsgrupo1.Entity.Doctor;
 import com.example.proyectogticsgrupo1.Entity.Paciente;
@@ -186,19 +186,6 @@ public class AdministradorController {
         return "redirect:/administrador/dashboarddoctor";
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-}
+*/
 
 

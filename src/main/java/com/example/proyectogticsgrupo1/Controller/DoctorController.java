@@ -52,7 +52,7 @@ public class DoctorController {
         if (optDoctor.isPresent()) {
             Doctor doctor1 = optDoctor.get();
             model.addAttribute("doctor", doctor1);
-            List<Cita> citasAgendadas1 = citaRepository.buscarCitasAgendadasDoctor(doctor1.getIdDoctor());
+            List<Cita> citasAgendadas1 = citaRepository.buscarCitasAgendadasDoctor(doctor1.getIddoctor());
             model.addAttribute("citasAgendadas",citasAgendadas1);
             //model.addAttribute("citasAgendadas",citaRepository.buscarCitasAgendadasDoctor(doctor.getIdDoctor()));
             return "doctor/dashboardDoc";
@@ -86,7 +86,6 @@ public class DoctorController {
     @GetMapping("/pacientesatendidos/verhistorial")
     public String historialPacienteDoctor(Model model, @RequestParam("id") int idPaciente){
         Paciente paciente1 = pacienteRepository.buscarPacientePorID(idPaciente);
-        System.out.println("gaaaa");
         model.addAttribute("paciente",paciente1);
         model.addAttribute("citaspaciente",citaRepository.citasPorPaciente(idPaciente));
         model.addAttribute("bitacoradiagnostico",bitacoraDeDiagnosticoRepository.bitacoraDeDiagnostico(idPaciente));

@@ -8,16 +8,16 @@ import java.util.List;
 
 public interface CitaRepository extends JpaRepository<Cita, Integer> {
 
-    @Query(value= "select * from cita where iddoctor= ?1 ",nativeQuery = true)
+    @Query(value= "select * from cita where doctor_iddoctor= ?1 ",nativeQuery = true)
     List<Cita> pacientesAtendidosPorDoctor(Integer idDoctor);
 
-    @Query(value= "select * from cita where idpaciente= ?1 ",nativeQuery = true)
+    @Query(value= "select * from cita where paciente_idpaciente= ?1 ",nativeQuery = true)
     List<Cita> citasPorPaciente(Integer idPaciente);
 
     @Query(value= "select * from cita where idcita = ?1 ",nativeQuery = true)
     Cita buscarCitaPorId (Integer idCita);
 
-    @Query(value= "select * from cita where iddoctor= ?1 and fecha >=current_date() ",nativeQuery = true)
+    @Query(value= "select * from cita where doctor_iddoctor= ?1 and fecha >=current_date() ",nativeQuery = true)
     List<Cita> buscarCitasAgendadasDoctor (Integer idDoctor);
 
 

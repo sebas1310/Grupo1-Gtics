@@ -67,7 +67,7 @@
                   <th style="text-align: center" scope="col">Tipo de Cita</th>
                   <th style="text-align: center" scope="col">Estado de Cita</th>
                   <th style="text-align: center" scope="col">Cuestionario</th>
-                  <th style="text-align: center" scope="col">Historial </th>
+                  <th style="text-align: center" scope="col">Info.Paciente</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -99,7 +99,6 @@
                 <div class="modal-dialog modal-dialog-centered">
                   <div class="modal-content">
                     <div class="modal-header">
-                      <h5 class="modal-title" id="exampleModalToggleLabel">Historial Clínico</h5>
                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -129,18 +128,16 @@
                                         <tr>
                                           <td style="text-align: center" ><span th:text="|${paciente.getPaciente().getAlergias()}|"></span></td>
                                         </tr>
-                                        <!--<tr>
-                                          <td style="text-align: center" >Polen</td>
-                                        </tr>-->
                                         </tbody>
                                       </table>
                                     </div>
                                   </div>
                                 </div>
                               </div>
-                            </div> <!--End Informacion -->
+                            </div>
+                              <!--End Informacion -->
                             <!-- Historial de citas -->
-                            <div class="col-12">
+                            <!--<div class="col-12">
                               <div class="card recent-sales overflow-auto">
                                 <div class="card-body">
                                   <h5 class="card-title">Historial de Citas</h5>
@@ -170,11 +167,11 @@
                                     </tr>
                                     </tbody>
                                   </table>
-                                  <!-- End Historial -->
+                                  End Historial
                                 </div>
-                              </div>
+                              </div>  -->
                               <!-- Bitacora -->
-                              <div class="card recent-sales overflow-auto">
+                              <!-- <div class="card recent-sales overflow-auto">
                                 <div class="card-body">
                                   <h5 class="card-title">Bitacora de Diagnostico</h5>
 
@@ -195,7 +192,7 @@
                                     </div>
                                   </div>
                                 </div>
-                              </div>
+                              </div> -->
                             </div>
                           </div><!-- End Left side columns -->
                         </div>

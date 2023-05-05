@@ -126,9 +126,9 @@
                                                     <td style="text-align: center" th:text="${receta.getDescripcion()}"></td>
                                                     <td> <!-- Vertically centered Modal -->
                                                         <div class="d-grid gap d-md-flex justify-content-md-center">
-                                                            <a type="button" class="bi bi-pencil-square" data-bs-toggle="modal" data-bs-target="#verticalycentered5"></a>
+                                                            <a type="button" class="bi bi-pencil-square" data-bs-toggle="modal" data-bs-target="#verticalycentered"></a>
                                                         </div>
-                                                        <div class="modal fade" id="verticalycentered5" tabindex="-1">
+                                                        <div class="modal fade" id="verticalycentered2" tabindex="-1">
                                                             <div class="modal-dialog modal-dialog-centered">
                                                                 <div class="modal-content">
                                                                     <div class="modal-header">
@@ -250,7 +250,7 @@
                             <!-- Reporte -->
                             <div class="card recent-sales overflow-auto">
                                 <div class="card-body">
-                                    <h5 class="card-title">Reporte Médico</h5>
+                                    <h5 class="card-title">Infome Médico</h5>
                                     <div class=" col-md-2">
                                         <ul class="nav nav-pills nav-stacked anyClass">
 
@@ -260,22 +260,22 @@
                                         <!--<div class="card-header">
                                             Dr. Ramirez
                                         </div>-->
-                                        <div class="card-body" >
-                                            <p class="card-text" th:text="|${reportecita.getDescripcion()}|"></p>
+                                        <div class="card-body">
+                                            <p class="card-text" >Sin Informe</p>
                                         </div>
                                     </div>
                                     <div class="d-grid gap-2 d-md-flex justify-content-md-center">
                                         <!-- Vertically centered Modal -->
 
 
-                                        <div class="d-grid gap d-md-flex justify-content-md-center" th:if="${reportecita.getIdReporteCita() eq 0}">
-                                            <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#verticalycentered2">Añadir Reporte</button>
+                                        <div class="d-grid gap d-md-flex justify-content-md-center"> <!--th:if="${reportecita.getIdReporteCita() eq 0 -->
+                                            <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#verticalycentered">Añadir Infome</button>
                                         </div>
-                                        <div class="modal fade" id="verticalycentered2" tabindex="-1">
+                                        <div class="modal fade" id="verticalycentered3" tabindex="-1">
                                             <div class="modal-dialog modal-dialog-centered">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <h5 class="modal-title">Reporte Médico</h5>
+                                                        <h5 class="modal-title">Informe Médico</h5>
                                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                     </div>
                                                     <div class="modal-body">
@@ -298,14 +298,14 @@
                                             </div>
                                         </div><!-- End Vertically centered Modal-->
                                         <!-- Vertically centered Modal -->
-                                        <div class="d-grid gap d-md-flex justify-content-md-center" th:unless="${reportecita.getIdReporteCita() eq 0}">
-                                            <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#verticalycentered3">Editar Reporte</button>
+                                        <div class="d-grid gap d-md-flex justify-content-md-center"> <!--th:unless="${reportecita.getIdReporteCita()} eq 0 -->
+                                            <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#verticalycentered">Editar Informe</button>
                                         </div>
-                                        <div class="modal fade" id="verticalycentered3" tabindex="-1">
+                                        <div class="modal fade" id="verticalycentered4" tabindex="-1">
                                             <div class="modal-dialog modal-dialog-centered">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <h5 class="modal-title">Reporte Médico</h5>
+                                                        <h5 class="modal-title">Informe Médico</h5>
                                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                     </div>
                                                     <div class="modal-body">

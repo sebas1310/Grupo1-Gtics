@@ -16,7 +16,7 @@
 
     <li class="nav-item" th:classappend="${active == 'pacientesAtendidos' ? 'active':''}">
       <a class="nav-link collapsed"  th:classappend="${active != 'pacientesAtendidos' ? 'collapsed':''}"
-         th:href="@{'/doctor/pacientesatendidos'+ '?id=' + ${doctor.idDoctor}}">
+         th:href="@{'/doctor/pacientesatendidos'+ '?id=' + ${doctor.iddoctor}}">
         <i class="bi bi-menu-button-wide"></i>
         <span>Pacientes Atendidos</span>
       </a>
@@ -30,7 +30,7 @@
     </li><!-- End Calendario -->
 
     <li class="nav-item" th:classappend="${active == 'perfil' ? 'active':''}">
-      <a class="nav-link collapsed" th:classappend="${active != 'perfil' ? 'collapsed':''}" th:href="@{'/doctor/perfil'}"  >
+      <a class="nav-link collapsed" th:classappend="${active != 'perfil' ? 'collapsed':''}" th:href="@{'/doctor/perfil'+ '?id=' + ${doctor.iddoctor}}"  >
         <i class="bi bi-person"></i>
         <span>Perfil</span>
       </a>
@@ -45,7 +45,7 @@
 
     <li class="nav-item" th:classappend="${active == 'configuracion' ? 'active':''}">
       <a class="nav-link collapsed" th:classappend="${active != 'configuracion' ? 'collapsed':''}"
-         th:href="@{'/doctor/configuraciones' + '?id=' + ${doctor.idDoctor}}" >
+         th:href="@{'/doctor/configuraciones' + '?id=' + ${doctor.iddoctor}}" >
         <i class="bi bi-gear"></i>
         <span>Configuracion</span>
       </a>

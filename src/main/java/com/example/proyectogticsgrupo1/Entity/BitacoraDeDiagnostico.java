@@ -3,30 +3,27 @@ package com.example.proyectogticsgrupo1.Entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
-import java.sql.Timestamp;
+import java.time.LocalDate;
 
-@Entity
 @Getter
 @Setter
-@Table(name="bitacoradediagnostico")
+@Entity
+@Table(name = "bitacoradediagnostico")
 public class BitacoraDeDiagnostico {
-
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "idbitacoradediagnostico")
+    private Integer idbitacoradediagnostico;
 
-    @Column(name="idbitacoradediagnostico",nullable = false)
-    private Integer idBitacoraDiagnostico;
-
-    @Column(name="descripcion",nullable = false, length = 500)
+    @Column(name = "descripcion")
     private String descripcion;
 
-    @Column(name="fechayhora",nullable = false)
-    private Timestamp fechayhora;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate fechayhora;
 
     @ManyToOne
-    @JoinColumn(name = "idpaciente",nullable = false)
+    @JoinColumn(name = "idpaciente")
     private Paciente paciente;
-
 }
