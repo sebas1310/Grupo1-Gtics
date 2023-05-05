@@ -1,13 +1,7 @@
 package com.example.proyectogticsgrupo1.Controller;
 
-import com.example.proyectogticsgrupo1.Entity.Doctor;
-import com.example.proyectogticsgrupo1.Entity.Paciente;
-import com.example.proyectogticsgrupo1.Entity.Tipodeusuario;
-import com.example.proyectogticsgrupo1.Entity.Usuario;
-import com.example.proyectogticsgrupo1.Repository.DoctorRepository;
-import com.example.proyectogticsgrupo1.Repository.PacienteRepository;
-import com.example.proyectogticsgrupo1.Repository.TipodeusuarioRepository;
-import com.example.proyectogticsgrupo1.Repository.UsuarioRepository;
+import com.example.proyectogticsgrupo1.Entity.*;
+import com.example.proyectogticsgrupo1.Repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,6 +26,10 @@ public class AdministradorController {
     TipodeusuarioRepository tipodeusuarioRepository;
     @Autowired
     PacienteRepository pacienteRepository;
+    @Autowired
+    private CitaRepository citaRepository;
+    @Autowired
+    private SedeRepository sedeRepository;
 
 
     @GetMapping("")
@@ -40,10 +38,12 @@ public class AdministradorController {
     }
 
     @GetMapping(value = "/perfil")
-    public String perfilAdministrador() {
-
+    public String perfilAdministrador(Model model) {
+        Usuario usuario = usuarioRepository.findByIdusuario(2);
+        model.addAttribute("usuario",usuario);
         return "administrador/perfil";
     }
+
     @GetMapping(value = "/nuevopaciente")
     public String newPaciente() {
         return "administrador/nuevopaciente";
@@ -72,11 +72,7 @@ public class AdministradorController {
         return "administrador/formatos";
     }
 
-    @GetMapping(value = "/configuraciones")
-    public String config() {
 
-        return "administrador/configuraciones";
-    }
 
     //@GetMapping(value = "/dashboardpaciente")
     //public String dashboardpacient(Model model) {
@@ -87,19 +83,33 @@ public class AdministradorController {
         //return "administrador/dashboardpaciente";
     //}
 
-    @GetMapping(value = "/dashboardpaciente")
+    /*@GetMapping(value = "/dashboardpaciente")
     public String dashboardpacient(Model model) {
         List<Paciente> listaPacientes = pacienteRepository.test();
         model.addAttribute("listaPacientes", listaPacientes);
+        return "administrador/dashboardpaciente";
+    }*/
 
+    @GetMapping(value = "/dashboardpaciente")
+    public String listaCitas(Model model) {
+
+        List<Paciente> listaPacientesS = pacienteRepository.listarPacienteporSede(2); // a futuro cambiar
+        model.addAttribute("listaUsuariosPacientes", listaPacientesS);
         return "administrador/dashboardpaciente";
     }
 
     @GetMapping(value = "/dashboarddoctor")
     public String dashboarddoc(Model model) {
-        List<Doctor> listaDoctores = doctorRepository.listado();
-        model.addAttribute("listaDoctores", listaDoctores);
+        List<Doctor> listaDoctoresS = doctorRepository.listarDoctorporSede(2);
+        model.addAttribute("listaUsuarioDoctores", listaDoctoresS);
         return "administrador/dashboarddoctor";
+    }
+
+    @GetMapping(value = "/configuraciones")
+    public String config(Model model) {
+        Sede sede = sedeRepository.findByIdsede(1);
+        model.addAttribute("sede",sede);
+        return "administrador/configuraciones";
     }
 
     @GetMapping(value = "/dashboardfinanzas")
@@ -173,7 +183,7 @@ public class AdministradorController {
         return "administrador/crearpaciente";
     }
 
-    @PostMapping(value = "/guardar")
+    /*@PostMapping(value = "/guardar")
     public String guardarPaciente(@ModelAttribute("usuario") Usuario usuario){
         Optional<Tipodeusuario> tipodeusuarioopt = tipodeusuarioRepository.findById(4);
         Tipodeusuario tipodeusuario = tipodeusuarioopt.get();
@@ -184,7 +194,7 @@ public class AdministradorController {
         paciente.setUsuario(usuario);
         pacienteRepository.save(paciente);
         return "redirect:/administrador/dashboarddoctor";
-    }
+    }*/
 
 
 

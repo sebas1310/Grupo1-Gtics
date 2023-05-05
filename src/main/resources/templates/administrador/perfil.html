@@ -49,9 +49,9 @@
         <div class="card">
           <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
 
-            <img th:src="@{/assets/img/profile-img.jpg}" alt="Profile" class="rounded-circle">
-            <h2>Kevin Anderson</h2>
-            <h3>Administrador</h3>
+            <img th:src="@{/assets/img/messages-1.jpg}" alt="Profile" class="rounded-circle">
+            <h2><span th:text="${usuario.nombres} + ' ' + ${usuario.apellidos}"></span></h2>
+            <h3><span th:text="${#strings.capitalize(usuario.tipodeusuario.nombre)}"></span></h3>
           </div>
         </div>
 
@@ -85,28 +85,35 @@
 
                 <div class="row">
                   <div class="col-lg-3 col-md-4 label ">Nombre</div>
-                  <div class="col-lg-9 col-md-8">Kevin Anderson</div>
+                  <div class="col-lg-9 col-md-8"><span th:text="${usuario.nombres} + ' ' + ${usuario.apellidos}"></span></div>
                 </div>
 
                 <div class="row">
-                  <div class="col-lg-3 col-md-4 label">Empresa</div>
-                  <div class="col-lg-9 col-md-8">Lueilwitz, Wisoky and Leuschke</div>
+                  <div class="col-lg-3 col-md-4 label">DNI</div>
+                  <div class="col-lg-9 col-md-8"><span th:text="${usuario.dni}"></span></div>
                 </div>
 
                 <div class="row">
-                  <div class="col-lg-3 col-md-4 label">Puesto de Trabajo</div>
-                  <div class="col-lg-9 col-md-8">Ing. Telecomunicaciones </div>
+                  <div class="col-lg-3 col-md-4 label">Correo</div>
+                  <div class="col-lg-9 col-md-8"><span th:text="${usuario.correo}"></span> </div>
                 </div>
 
                 <div class="row">
-                  <div class="col-lg-3 col-md-4 label">Telefono</div>
-                  <div class="col-lg-9 col-md-8">99999999</div>
+                  <div class="col-lg-3 col-md-4 label">Celular</div>
+                  <div class="col-lg-9 col-md-8"><span th:text="${usuario.celular}"></span></div>
                 </div>
 
                 <div class="row">
-                  <div class="col-lg-3 col-md-4 label">Email</div>
-                  <div class="col-lg-9 col-md-8">asdjffi@pucp.edu.pe</div>
+                  <div class="col-lg-3 col-md-4 label">Edad</div>
+                  <div class="col-lg-9 col-md-8"><span th:text="${usuario.edad}"></span></div>
                 </div>
+
+                <div class="row">
+                  <div class="col-lg-3 col-md-4 label">Género</div>
+                  <div class="col-lg-9 col-md-8"><span th:text="${usuario.genero}"></span></div>
+                </div>
+
+
 
               </div>
 
@@ -117,7 +124,7 @@
                   <div class="row mb-3">
                     <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Imagen de Perfil</label>
                     <div class="col-md-8 col-lg-9">
-                      <img th:src="@{/assets/img/profile-img.jpg}" alt="Profile">
+                      <img th:src="@{/assets/img/messages-1.jpg}" alt="Profile">
                       <div class="pt-2">
                         <a href="#" class="btn btn-primary btn-sm" title="Upload new profile image"><i class="bi bi-upload"></i></a>
                         <a href="#" class="btn btn-danger btn-sm" title="Remove my profile image"><i class="bi bi-trash"></i></a>
@@ -128,7 +135,7 @@
                   <div class="row mb-3">
                     <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Nombre</label>
                     <div class="col-md-8 col-lg-9">
-                      <input name="fullName" type="text" class="form-control" id="fullName" value="Kevin Anderson">
+                      <input name="fullName" type="text" class="form-control" id="fullName" value="">
                     </div>
                   </div>
 
@@ -210,20 +217,6 @@
   </section>
 
 </main><!-- End #main -->
-
-<!-- ======= Footer ======= -->
-<footer id="footer" class="footer">
-  <div class="copyright">
-    &copy; Copyright <strong><span>NiceAdmin</span></strong>. All Rights Reserved
-  </div>
-  <div class="credits">
-    <!-- All the links in the footer should remain intact. -->
-    <!-- You can delete the links only if you purchased the pro version. -->
-    <!-- Licensing information: https://bootstrapmade.com/license/ -->
-    <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
-    Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
-  </div>
-</footer><!-- End Footer -->
 
 <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 

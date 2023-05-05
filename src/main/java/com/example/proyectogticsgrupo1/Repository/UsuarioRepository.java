@@ -1,6 +1,7 @@
 package com.example.proyectogticsgrupo1.Repository;
 
 import com.example.proyectogticsgrupo1.Entity.Paciente;
+import com.example.proyectogticsgrupo1.Entity.Sede;
 import com.example.proyectogticsgrupo1.Entity.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -15,6 +16,11 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
             "    JOIN usuario u ON p.idusuario = u.idusuario\n" +
             "    JOIN estadopaciente e on p.idestadopaciente = e.idestadopaciente WHERE u.idtipodeusuario = ?1", nativeQuery = true)
     List<Paciente> buscarPaciente(int idtipodeusuario);
+
+    Usuario findByIdusuario(int idusuario);
+
+
+
 
 
 

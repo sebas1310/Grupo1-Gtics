@@ -19,11 +19,11 @@
 <main id="main" class="main">
 
     <div class="pagetitle">
-        <h1>Configuraciones</h1>
+        <h1>Configuracion de Sede</h1>
         <nav>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a th:href="@{'/administrador/index'}">Home</a></li>
-                <li class="breadcrumb-item active">Configuraciones</li>
+                <li class="breadcrumb-item active">Configuración de Sede</li>
             </ol>
         </nav>
     </div><!-- End Page Title -->
@@ -34,123 +34,43 @@
 
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">Configuraciones UI</h5>
-
                         <!-- Default Table -->
                         <table class="table">
                             <thead>
                             <tr>
-                                <th scope="col-sm-lg-2">Modo</th>
+                                <th scope="col-sm-lg-2">Nombre</th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr>
-                                <td>Cambia la apariencia de la página</td>
-                                <td><div class="row mb-lg-2">
-                                    <div class="col-sm-10">
-                                        <select class="form-select" aria-label="Default select example">
-                                            <option selected>Elige</option>
-                                            <option value="1">Claro</option>
-                                            <option value="2">Oscuro</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                </td>
+                                <td><span th:text="${sede.nombre}"></span></td>
                             </tr>
-                            <thead>
-                            <tr>
-                                <th scope="col">Colores</th>
-                            </tr>
-                            </thead>
-                            <tr>
-                                <td>Personaliza tu pagina con la paleta de colores</td>
-                                <td><div class="row mb-3">
-                                    <label for="inputColor" class="col-sm-2 col-form-label">Color Picker</label>
-                                    <div class="col-sm-10">
-                                        <input type="color" class="form-control form-control-color" id="exampleColorInput" value="#4154f1" title="Choose your color">
-                                    </div>
-                                </div></td>
+                            </tbody>
 
-                            </tr>
                             <thead>
                             <tr>
-                                <th scope="col">Imágenes</th>
+                                <th scope="col-sm-lg-2">Dirección</th>
                             </tr>
                             </thead>
+                            <tbody>
                             <tr>
-                                <td>Sube una imagen de fondo</td>
-                                <td><div class=" mb-3">
-                                    <label for="inputNumber" class="col-sm-2 col-form-label">File Upload</label>
-                                    <div class="col-sm-10">
-                                        <input class="form-control" type="file" id="formFile">
-                                    </div>
-                                </div></td>
+                                <td><span th:text="${sede.direccion}"></span></td>
+                            </tr>
+                            </tbody>
+                            <thead>
+                            <tr>
+                                <th scope="col-sm-lg-2">Coordenadas</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td><span th:text="${sede.coordenadas}"></span></td>
                             </tr>
                             </tbody>
                         </table>
                         <!-- End Default Table Example -->
                     </div>
                 </div>
-
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Configuraciones UX</h5>
-
-                        <!-- Default Table -->
-                        <table class="table">
-                            <thead>
-                            <tr>
-                                <th scope="col">Notificaciones</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <td>Elige el tiempo previo a una cita para que al doctor le llega una notificaciones</td>
-                                <td><div class="row sm-2">
-                                    <div class="col-sm-10">
-                                        <input type="time" class="form-control">
-                                    </div>
-                                </div></td>
-                            </tr>
-
-                            <tr>
-                                <td>Elige el tiempo previo a una cita para que al paciente le llega una notificaciones</td>
-                                <td><div class="row sm-2">
-                                    <div class="col-sm-10">
-                                        <input type="time" class="form-control">
-                                    </div>
-                                </div></td>
-                            </tr>
-                            <thead>
-                            <tr>
-                                <th scope="col">Notificaciones</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <td>Mantener Sesión iniciada</td>
-                                <td><div class="row sm-2">
-                                    <div class="col-sm-10">
-                                        <select class="form-select" aria-label="Default select example">
-                                            <option selected>Elige</option>
-                                            <option value="1">Si</option>
-                                            <option value="2">No</option>
-                                        </select>
-                                    </div>
-                                </div></td>
-                            </tr>
-
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-
-
-
-
-
-
             </div>
 
 

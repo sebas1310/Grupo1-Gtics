@@ -68,10 +68,10 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr th:each="paciente, info: ${listaPacientes}">
+                            <tr th:each="usuariop, info: ${listaUsuariosPacientes}">
                                 <th scope="row" th:text="${info.index + 1}"></th>
-                                <td><a th:text="${paciente.usuario.nombres} + ' ' + ${paciente.usuario.apellidos}" th:href="@{'/administrador/historialclinico'}"></a></td>
-                                <td th:text="${paciente.idestadopaciente.nombre}"></td>
+                                <td><a th:text="${usuariop.usuario.nombres} + ' ' + ${usuariop.usuario.apellidos}" th:href="@{'/administrador/historialclinico'}"></a></td>
+                                <td th:text="${usuariop.estadoPaciente.nombre}"></td>
                             </tr>
                             </tbody>
                         </table>
