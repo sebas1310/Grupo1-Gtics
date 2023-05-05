@@ -63,7 +63,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-success" data-bs-dismiss="modal"><a style="color: white" href="pages-login.html" >Salir</button>
+                        <button type="button" class="btn btn-success" data-bs-dismiss="modal"><a style="color: white" href="pages-login.html" >Salir</a></button>
                         <button type="button" class="btn btn-secondary"><a style="color: white" th:href="@{'/doctor/pacientesatendidos'}" >Cancelar</a></button>
                     </div>
                 </div>
@@ -93,18 +93,16 @@
                             <!-- Pacientes Atendidos -->
                             <div class="col-12" >
                                 <div class="card recent-sales overflow-auto" >
-
-
                                     <div style="width: 100%" class="card-body" >
                                         <h5 class="card-title">Lista de Pacientes</h5>
 
-                                        <table style="width: 100%"  class="table table-borderless datatable"  >
+                                        <table class="table table-borderless datatable" >
                                             <thead>
                                                 <tr>
                                                     <th style="text-align: center" scope="col">Nombre</th>
                                                     <th style="text-align: center" scope="col">Fecha</th>
                                                     <th style="text-align: center" scope="col">Tipo de Cita</th>
-                                                    <th style="text-align: center" scope="col">Estado del Paciente</th>
+                                                    <th style="text-align: center" scope="col">Cuestionario</th>
                                                     <th style="text-align: center" scope="col">Historial Clínico</th>
                                                 </tr>
                                             </thead>
@@ -113,7 +111,7 @@
                                                     <td style="text-align: center" th:text="|${paciente.getPaciente().getUsuario().getNombres()} ${paciente.getPaciente().getUsuario().getApellidos()}|"></td>
                                                     <td style="text-align: center" th:text="${paciente.getFecha()}"></td>
                                                     <td style="text-align: center" th:text="${paciente.getTipoCita().getNombre()}"></td>
-                                                    <td style="text-align: center" th:text="${paciente.getPaciente().getEstadoPaciente().getNombre()}"></td>
+                                                    <td style="text-align: center"> <a type="button" class="bi bi-journal-text"  th:href="@{'/doctor/cuestionario' + '?id=' + ${paciente.getPaciente().getIdpaciente()}}" ></a></td>
                                                     <td style="text-align: center"> <a type="button" class="bi bi-eye-fill"  th:href="@{'/doctor/pacientesatendidos/verhistorial'+ '?id=' + ${paciente.getPaciente().getIdpaciente()}}"></a> </td>
 
                                                 </tr>
