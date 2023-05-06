@@ -36,30 +36,32 @@
           <div class="card-body">
             <h5 class="card-title">Formulario</h5>
 
-            <form class="row g-3" method="POST" th:object="${usuario}" th:action="@{'/administrador/guardar'}">
+            <div th:if="${msg != null}" th:text="${msg}" class="alert alert-success" role="alert"></div>
+
+            <form class="row g-3" method="post" th:action="@{/administrador/guardar2}">
               <div class="col-12">
-                <label for="nombres" class="form-label">Nombres</label>
-                <input type="text" class="form-control" id="nombres" name="nombres">
+                <label class="form-label">Nombres</label>
+                <input type="text" class="form-control" name="nombres" >
               </div>
               <div class="col-12">
-                <label for="apellidos" class="form-label">Apellidos</label>
-                <input type="text" class="form-control" id="apellidos" name="apellidos">
+                <label  class="form-label">Apellidos</label>
+                <input type="text" class="form-control" name="apellidos">
               </div>
               <div class="col-12">
-                <label for="correo" class="form-label">Correo</label>
-                <input type="text" class="form-control" id="correo" name="correo">
+                <label class="form-label">Correo</label>
+                <input type="text" class="form-control" name="correo">
               </div>
               <div class="col-12">
-                <label for="dni" class="form-label">DNI</label>
-                <input type="dni" class="form-control" id="dni" name="dni">
+                <label class="form-label">DNI</label>
+                <input type="dni" class="form-control" name="dni">
               </div>
               <div class="col-12">
-                <label for="inputCel" class="form-label">Celular</label>
-                <input type="dni" class="form-control" id="inputCel" name="celular">
+                <label class="form-label">Celular</label>
+                <input type="dni" class="form-control" name="celular">
               </div>
               <div class="col-12">
-                <label for="inputEdad" class="form-label">Edad</label>
-                <input type="dni" class="form-control" id="inputEdad" name="edad">
+                <label class="form-label">Edad</label>
+                <input type="dni" class="form-control" name="edad">
               </div>
               <div class="col-12">
                 <label for="genero" class="form-label">Género</label>
@@ -71,16 +73,8 @@
                   </select>
                 </div>
               </div>
-              <div class="col-12">
-                <label for="inputPassword4" class="form-label">Contraseña</label>
-                <input type="password" class="form-control" id="inputPassword4" name="contrasena">
-              </div>
-              <div class="col-12">
-                <label for="inputPassword5" class="form-label">Repetir Contraseña</label>
-                <input type="password" class="form-control" id="inputPassword5">
-              </div>
               <div class="text-center">
-                <button type="submit" class="btn btn-success" ><a style="color: white" th:href="@{'/administrador/dashboardpaciente'}">Guardar Cambios</a></button>
+                <button type="submit" class="btn btn-success" style="color: white">Guardar Cambios</button>
                 <button type="reset" class="btn btn-secondary"><a style="color: white" th:href="@{'/administrador/nuevopaciente'}">Cancelar</a></button>
               </div>
             </form><!-- Vertical Form -->
