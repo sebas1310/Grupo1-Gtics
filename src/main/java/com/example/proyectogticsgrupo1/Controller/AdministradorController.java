@@ -37,6 +37,8 @@ public class AdministradorController {
     private CitaRepository citaRepository;
     @Autowired
     private SedeRepository sedeRepository;
+    @Autowired
+    private EspecialidadRepository especialidadRepository;
 
 
     @GetMapping("")
@@ -238,9 +240,26 @@ public class AdministradorController {
     }
 
     @GetMapping(value = "/creardoctor")
-    public String crearDoctor() {
-
+    public String crearDoctor(@ModelAttribute("especialidad") Especialidad especialidad, Model model) {
+        model.addAttribute("listaEspecialidad", especialidadRepository.findAll());
         return "administrador/creardoctor";
+    }
+
+    @PostMapping(value = "/guardar3")
+    public String guardarDoctor(Usuario user, RedirectAttributes attr, Model model){
+
+        if (user.getIdusuario() == null) {
+            attr.addFlashAttribute("msg", "Doctor creado exitosamente");
+        } else {
+            attr.addFlashAttribute("msg", "Doctor actualizado exitosamente");
+        }
+        Tipodeusuario tipodeusuario = new Tipodeusuario();
+        tipodeusuario.setIdtipodeusuario(5);
+        user.setEstadohabilitado(1);
+        user.setTipodeusuario(tipodeusuario);
+        user.setContrasena(generarContrasena(10));
+        usuarioRepository.save(user);
+        return "redirect:/administrador/crearpaciente";
     }
 
     @GetMapping(value = "/nuevo")
