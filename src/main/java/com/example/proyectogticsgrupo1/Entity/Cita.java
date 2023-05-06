@@ -42,7 +42,7 @@ public class Cita {
 
     @ManyToOne
     @JoinColumn(name = "idtipocita",  nullable = false)
-    private Tipocita tipoCita;
+    private TipoCita tipoCita;
 
     @ManyToOne
     @JoinColumn(name = "idseguro",  nullable = false)
