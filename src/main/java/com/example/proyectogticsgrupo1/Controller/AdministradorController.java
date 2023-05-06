@@ -264,6 +264,18 @@ public class AdministradorController {
         return "redirect:/administrador/crearpaciente";
     }
 
+    @PostMapping("/editarperfil")
+    @Transactional
+    public String editarPerfil(@RequestParam("idusuario") int idUsuario,
+                               @RequestParam("nombres") String nombres,
+                               @RequestParam("apellidos") String apellidos,
+                               @RequestParam("correo") String correo,
+                               @RequestParam("celular") String celular, RedirectAttributes redirectAttributes, Usuario usuario){
+        usuarioRepository.perfil(nombres,apellidos,correo,celular);
+        redirectAttributes.addAttribute("id",idUsuario);
+        return "redirect:/perfil";
+    }
+
 
 
     @GetMapping(value = "/nuevo")
