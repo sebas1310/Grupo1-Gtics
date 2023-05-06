@@ -124,7 +124,7 @@
                   <div class="row mb-3">
                     <label for="profile-edit" class="col-md-4 col-lg-3 col-form-label">Imagen de Perfil</label>
                     <div class="col-md-8 col-lg-9">
-                      <img src="https://img.freepik.com/foto-gratis/hermosa-joven-doctora-mirando-camara-oficina_1301-7807.jpg?w=2000" alt="Profile">
+                      <img th:src="@{/assets/img/messages-1.jpg}" alt="Profile">
                       <div class="pt-2">
                         <a href="#" class="btn btn-primary btn-sm" title="Upload new profile image"><i class="bi bi-upload"></i></a>
                         <a href="#" class="btn btn-danger btn-sm" title="Remove my profile image"><i class="bi bi-trash"></i></a>
@@ -148,16 +148,16 @@
                   </div>
 
                   <div class="row mb-3">
-                    <label for="dni" class="col-md-4 col-lg-3 col-form-label">DNI</label>
+                    <label for="correo" class="col-md-4 col-lg-3 col-form-label">Correo</label>
                     <div class="col-md-8 col-lg-9">
-                      <input name="dni" type="text" class="form-control" id="dni" th:value="${usuario.getDni()}">
+                      <input name="correo" type="text" class="form-control" id="correo" th:value="${usuario.getCorreo()}">
                     </div>
                   </div>
 
                   <div class="row mb-3">
-                    <label for="Email" class="col-md-4 col-lg-3 col-form-label">Correo</label>
+                    <label for="celular" class="col-md-4 col-lg-3 col-form-label">Celular</label>
                     <div class="col-md-8 col-lg-9">
-                      <input name="correo" type="text" class="form-control" id="Email" th:value="${usuario.getCorreo()}">
+                      <input name="celular" type="text" class="form-control" id="celular" th:value="${usuario.getCelular()}">
                     </div>
                   </div>
                   <!-- <div class="row mb-3">
@@ -182,7 +182,7 @@
                   <div class="row mb-3">
                     <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Actual Contraseña</label>
                     <div class="col-md-8 col-lg-9">
-                      <input name="password" type="password" class="form-control" id="currentPassword">
+                      <input name="password" type="password" class="form-control" id="currentPassword" th:value="${usuario.getContrasena()}">
                     </div>
                   </div>
 

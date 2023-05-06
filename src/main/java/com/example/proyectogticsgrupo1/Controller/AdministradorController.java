@@ -270,7 +270,7 @@ public class AdministradorController {
                                @RequestParam("nombres") String nombres,
                                @RequestParam("apellidos") String apellidos,
                                @RequestParam("correo") String correo,
-                               @RequestParam("celular") String celular, RedirectAttributes redirectAttributes, Usuario usuario){
+                               @RequestParam("celular") String celular, RedirectAttributes redirectAttributes){
         usuarioRepository.perfil(nombres,apellidos,correo,celular);
         redirectAttributes.addAttribute("id",idUsuario);
         return "redirect:/perfil";
