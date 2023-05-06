@@ -23,7 +23,7 @@ public class Paciente {
 
     @ManyToOne
     @JoinColumn(name = "idestadopaciente")
-    private Estadopaciente estadoPaciente;
+    private EstadoPaciente estadoPaciente;
 
     @ManyToOne
     @JoinColumn(name = "idseguro")
