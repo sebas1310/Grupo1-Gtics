@@ -69,12 +69,13 @@
                     <li class="dropdown-header text-start">
                       <h6>Especialidad</h6>
                     </li>
-                    <li th:each="especialidad:${especialidades}"><a class="dropdown-item" href="#" th:text="${especialidad.nombre}"></a></li>
+                    <li th:each="especialidad:${especialidades}"><a class="dropdown-item" th:href="@{'/paciente/?esp='+${especialidad.idespecialidad}}" th:text="${especialidad.nombre}"></a></li>
                   </ul>
                 </div>
 
                 <div class="card-body pb-0">
-                  <h5 class="card-title">Doctores-Sede></h5>
+                  <h5 class="card-title">Doctores</h5>
+                  <div th:if="${msg!=null}" th:text="${msg}" class="alert alert-success" role="alert"></div>
                   <table class="table table-borderless">
                     <thead class="text-center">
                       <tr>
@@ -90,24 +91,6 @@
                         <td><a th:href="@{'/paciente/perfilDoctor?iddoc='+${doctor.iddoctor}}" class="text-primary">Ver Perfil</a></td>
                       </tr>
 
-
-                      <nav  style="color:#FFD966FF " aria-label="Page navigation example">
-                        <ul class="pagination">
-                          <li class="page-item">
-                            <a class="page-link" href="#" aria-label="Previous">
-                              <span aria-hidden="true">&laquo;</span>
-                            </a>
-                          </li>
-                          <li class="page-item"><a class="page-link" href="#">1</a></li>
-                          <li class="page-item"><a class="page-link" href="#">2</a></li>
-                          <li class="page-item"><a class="page-link" href="#">3</a></li>
-                          <li class="page-item">
-                            <a class="page-link" href="#" aria-label="Next">
-                              <span aria-hidden="true">&raquo;</span>
-                            </a>
-                          </li>
-                        </ul>
-                      </nav><!-- End Pagination with icons -->
                     </tbody>
                   </table>
 

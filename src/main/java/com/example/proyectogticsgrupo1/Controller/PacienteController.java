@@ -42,15 +42,30 @@ public class PacienteController {
     }
 
     @GetMapping(value = "/")
-    public String paciente( Model model){
+    public String paciente( Model model, @RequestParam(value = "esp", required = false) Integer esp,RedirectAttributes redirectAttributes){
         Optional<Paciente> optionalPaciente = pacienteRepository.findById(1);
         List<Especialidad> listespecialidad = especialidadRepository.findAll();
         Paciente paciente =  optionalPaciente.get();
         model.addAttribute("pacientelog",paciente);
-        model.addAttribute("docs", doctorRepository.findAll());
         model.addAttribute("especialidades", listespecialidad);
         model.addAttribute("citashoy", citaRepository.citasHoy(1));
         model.addAttribute("sedes", sedeRepository.findAll());
+        if(esp!=null){
+            System.out.println("no nulo esp");
+            if(doctorRepository.doctoresPorEsp(esp).size()>=1){
+                System.out.println("lista no vaci");
+                model.addAttribute("docs",doctorRepository.doctoresPorEsp(esp));
+            }
+            else{
+                System.out.println("lista vacia");
+                redirectAttributes.addFlashAttribute("msg", "Por el momento no contamos con doctores en esa especailiad");
+                return "redirect:/paciente/";
+            }
+        }
+        else {
+            System.out.println("esp null");
+            model.addAttribute("docs", doctorRepository.findAll());
+        }
         return "paciente/index";
 
     }
