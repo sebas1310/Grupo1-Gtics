@@ -2,6 +2,7 @@ package com.example.proyectogticsgrupo1.Controller;
 
 import com.example.proyectogticsgrupo1.Entity.*;
 import com.example.proyectogticsgrupo1.Repository.*;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -244,6 +245,7 @@ public class AdministradorController {
         model.addAttribute("listaEspecialidad", especialidadRepository.findAll());
         return "administrador/creardoctor";
     }
+
 
     @PostMapping(value = "/guardar3")
     public String guardarDoctor(Usuario user, RedirectAttributes attr, Model model){
