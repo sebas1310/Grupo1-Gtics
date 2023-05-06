@@ -262,6 +262,8 @@ public class AdministradorController {
         return "redirect:/administrador/crearpaciente";
     }
 
+
+
     @GetMapping(value = "/nuevo")
     public String nuevoPaciente(){
         return "administrador/crearpaciente";

@@ -120,57 +120,57 @@
               <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
 
                 <!-- Profile Edit Form -->
-                <form>
+                <form method="post" th:action="@{'/administrador/editarperfil'}">
                   <div class="row mb-3">
-                    <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Imagen de Perfil</label>
+                    <label for="profile-edit" class="col-md-4 col-lg-3 col-form-label">Imagen de Perfil</label>
                     <div class="col-md-8 col-lg-9">
-                      <img th:src="@{/assets/img/messages-1.jpg}" alt="Profile">
+                      <img src="https://img.freepik.com/foto-gratis/hermosa-joven-doctora-mirando-camara-oficina_1301-7807.jpg?w=2000" alt="Profile">
                       <div class="pt-2">
                         <a href="#" class="btn btn-primary btn-sm" title="Upload new profile image"><i class="bi bi-upload"></i></a>
                         <a href="#" class="btn btn-danger btn-sm" title="Remove my profile image"><i class="bi bi-trash"></i></a>
                       </div>
                     </div>
                   </div>
-
+                  <input th:value="${usuario.getIdusuario()}" name="id" type="hidden">
+                  <input th:value="${usuario.getIdusuario()}" name="idusuario" type="hidden">
                   <div class="row mb-3">
-                    <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Nombre</label>
+                    <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Nombres</label>
                     <div class="col-md-8 col-lg-9">
-                      <input name="fullName" type="text" class="form-control" id="fullName" value="">
+                      <input name="nombre" type="text" class="form-control" id="fullName" th:value="${usuario.getNombres()}">
                     </div>
                   </div>
 
                   <div class="row mb-3">
-                    <label for="company" class="col-md-4 col-lg-3 col-form-label">Empresa</label>
+                    <label for="fullName2" class="col-md-4 col-lg-3 col-form-label">Apellidos</label>
                     <div class="col-md-8 col-lg-9">
-                      <input name="company" type="text" class="form-control" id="company" value="Lueilwitz, Wisoky and Leuschke">
+                      <input name="apellido" type="text" class="form-control" id="fullName2" th:value="${usuario.getApellidos()}">
                     </div>
                   </div>
 
                   <div class="row mb-3">
-                    <label for="Job" class="col-md-4 col-lg-3 col-form-label">Puesto</label>
+                    <label for="dni" class="col-md-4 col-lg-3 col-form-label">DNI</label>
                     <div class="col-md-8 col-lg-9">
-                      <input name="job" type="text" class="form-control" id="Job" value="Web Designer">
+                      <input name="dni" type="text" class="form-control" id="dni" th:value="${usuario.getDni()}">
                     </div>
                   </div>
 
                   <div class="row mb-3">
-                    <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Telefono</label>
+                    <label for="Email" class="col-md-4 col-lg-3 col-form-label">Correo</label>
                     <div class="col-md-8 col-lg-9">
-                      <input name="phone" type="text" class="form-control" id="Phone" value="99999999">
+                      <input name="correo" type="text" class="form-control" id="Email" th:value="${usuario.getCorreo()}">
                     </div>
                   </div>
-
-                  <div class="row mb-3">
-                    <label for="Email" class="col-md-4 col-lg-3 col-form-label">Email</label>
-                    <div class="col-md-8 col-lg-9">
-                      <input name="email" type="email" class="form-control" id="Email" value="asdjffi@pucp.edu.pe">
-                    </div>
-                  </div>
+                  <!-- <div class="row mb-3">
+                       <label for="sede" class="col-md-4 col-lg-3 col-form-label">Sede</label>
+                       <div class="col-md-8 col-lg-9">
+                           <input name="sedee" type="text" class="form-control" id="sede" value="San Miguel">
+                       </div>
+                   </div>-->
 
                   <div class="text-center">
                     <button type="submit" class="btn btn-success">Guardar Cambios</button>
                   </div>
-                </form><!-- End Profile Edit Form -->
+                </form><!-- End ProfileEditForm-->
 
               </div>
 
