@@ -1,9 +1,5 @@
 package com.example.proyectogticsgrupo1.Controller;
 
-import com.example.proyectogticsgrupo1.Entity.Administrador;
-import com.example.proyectogticsgrupo1.Entity.Especialidad;
-import com.example.proyectogticsgrupo1.Entity.Superadmin;
-import com.example.proyectogticsgrupo1.Entity.Usuario;
 import com.example.proyectogticsgrupo1.Repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,8 +8,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import javax.swing.text.html.Option;
-import java.util.List;
 import java.util.Optional;
 
 @Controller
