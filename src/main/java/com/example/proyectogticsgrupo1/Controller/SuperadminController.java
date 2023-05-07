@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import java.util.Optional;
 
 @Controller
-@RequestMapping(value = "/superadmin", method = RequestMethod.GET)
+@RequestMapping(value = "/superadmin")
 public class SuperadminController {
 
     @Autowired
