@@ -24,7 +24,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-success" data-bs-dismiss="modal"><a style="color: white" th:href="@{'/administrador/inicio'}" >Salir</a></button>
-        <button type="button" class="btn btn-secondary"><a style="color: white" th:href="@{'/administrador/perfil'}" >Cancelar</a></button>
+        <button type="button" class="btn btn-secondary"><a style="color: white" th:href="@{'/administrador/perfil'+ '?id=' + ${usuario.idusuario}}" >Cancelar</a></button>
       </div>
     </div>
   </div>
@@ -132,18 +132,17 @@
                     </div>
                   </div>
                   <input th:value="${usuario.getIdusuario()}" name="id" type="hidden">
-                  <input th:value="${usuario.getIdusuario()}" name="idusuario" type="hidden">
                   <div class="row mb-3">
                     <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Nombres</label>
                     <div class="col-md-8 col-lg-9">
-                      <input name="nombre" type="text" class="form-control" id="fullName" th:value="${usuario.getNombres()}">
+                      <input name="nombres" type="text" class="form-control" id="fullName" th:value="${usuario.getNombres()}">
                     </div>
                   </div>
 
                   <div class="row mb-3">
                     <label for="fullName2" class="col-md-4 col-lg-3 col-form-label">Apellidos</label>
                     <div class="col-md-8 col-lg-9">
-                      <input name="apellido" type="text" class="form-control" id="fullName2" th:value="${usuario.getApellidos()}">
+                      <input name="apellidos" type="text" class="form-control" id="fullName2" th:value="${usuario.getApellidos()}">
                     </div>
                   </div>
 
@@ -177,8 +176,8 @@
 
               <div class="tab-pane fade pt-3" id="profile-change-password">
                 <!-- Change Password Form -->
-                <form>
-
+                <form form method="post" th:action="@{'/administrador/contrasena'}" >
+                  <input th:value="${usuario.getIdusuario()}" name="id" type="hidden">
                   <div class="row mb-3">
                     <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Actual Contraseña</label>
                     <div class="col-md-8 col-lg-9">
@@ -189,12 +188,12 @@
                   <div class="row mb-3">
                     <label for="newPassword" class="col-md-4 col-lg-3 col-form-label">Nueva Contraseña</label>
                     <div class="col-md-8 col-lg-9">
-                      <input name="newpassword" type="password" class="form-control" id="newPassword">
+                      <input name="contrasena" type="password" class="form-control" id="newPassword">
                     </div>
                   </div>
 
                   <div class="row mb-3">
-                    <label for="renewPassword" class="col-md-4 col-lg-3 col-form-label">Cambiar Contraseña</label>
+                    <label for="renewPassword" class="col-md-4 col-lg-3 col-form-label">Confirmar Contraseña</label>
                     <div class="col-md-8 col-lg-9">
                       <input name="renewpassword" type="password" class="form-control" id="renewPassword">
                     </div>

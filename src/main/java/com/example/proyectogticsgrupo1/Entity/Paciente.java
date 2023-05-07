@@ -14,7 +14,6 @@ import java.util.List;
 @Table(name = "paciente")
 public class Paciente {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name ="idpaciente", nullable = false)
     private Integer idpaciente;
 
@@ -30,7 +29,7 @@ public class Paciente {
     private Seguro seguro;
 
 
-    @Column(name = "alergias", nullable = false)
+    @Column(name = "alergias", nullable = true)
     private String alergias;
 
     @Column(name = "consentimientos", nullable = false)

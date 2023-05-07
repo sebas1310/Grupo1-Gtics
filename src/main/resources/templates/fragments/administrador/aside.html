@@ -33,7 +33,7 @@
         </li><!-- End Tables Nav -->
 
         <li class="nav-item" th:classappend="${active == 'perfil' ? 'active':''}">
-            <a class="nav-link" th:classappend="${active != 'perfil' ? 'collapsed':''}" th:href="@{'/administrador/perfil'}">
+            <a class="nav-link" th:classappend="${active != 'perfil' ? 'collapsed':''}" th:href="@{'/administrador/perfil'+ '?id=' + ${usuario.idusuario}}">
                 <i class="bi bi-person"></i><span>Perfil</span>
             </a>
         </li>
