@@ -32,4 +32,6 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
     @Query(value = "update usuario set contrasena = ?1 where idusuario = ?2", nativeQuery = true)
     void actualizarcontrasena(String contrasena, int idusuario);
 
+
+
 }

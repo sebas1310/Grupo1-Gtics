@@ -197,15 +197,18 @@ public class AdministradorController {
     }*/
 
     @GetMapping(value = "/dashboardpaciente")
-    public String listaCitas(Model model,@RequestParam("id") int idUsuario) {
-         Usuario usuario = usuarioRepository.buscarPorId(idUsuario);
-         model.addAttribute("usuario",usuario);
-         Optional<Usuario> usuarioopt = usuarioRepository.findById(2);
+    public String listaCitas(Model model, @RequestParam(name="buscando",required = false) String buscando) {
+        Optional<Usuario> usuarioopt = usuarioRepository.findById(2);
         if (usuarioopt.isPresent()) {
             Usuario user = usuarioopt.get();
             model.addAttribute("usuario", user);
-            List<Paciente> listaPacientesS = pacienteRepository.listarPacienteporSede(1); // a futuro cambiar
-            model.addAttribute("listaUsuariosPacientes", listaPacientesS);
+            if(buscando == null) {
+                List<Paciente> listaPacientesS = pacienteRepository.listarPacienteporSede(2); // a futuro cambiar
+                model.addAttribute("listaUsuariosPacientes", listaPacientesS);
+            }else{
+                List<Paciente> listaUsuarios = pacienteRepository.buscadorPaciente(buscando.toLowerCase());
+                model.addAttribute("listaUsuariosPacientes", listaUsuarios);
+                }
             return "administrador/dashboardpaciente";
         } else {
             return "redirect:/iniciosesion";
@@ -213,20 +216,36 @@ public class AdministradorController {
 
     }
 
+
+    @PostMapping("/buscarPaciente")
+    public String buscadorPacientess(@RequestParam("buscando") String buscando, RedirectAttributes redirectAttributes) {
+        redirectAttributes.addAttribute("buscando",buscando);
+        return "redirect:/administrador/dashboardpaciente";
+    }
+
     @GetMapping(value = "/dashboarddoctor")
-    public String dashboarddoc(Model model,@RequestParam("id") int idUsuario) {
-        Usuario usuario = usuarioRepository.buscarPorId(idUsuario);
-        model.addAttribute("usuario",usuario);
+    public String dashboarddoc(Model model, @RequestParam(name="buscando",required = false) String buscando) {
         Optional<Usuario> usuarioopt = usuarioRepository.findById(2);
         if (usuarioopt.isPresent()) {
             Usuario user = usuarioopt.get();
             model.addAttribute("usuario", user);
-            List<Doctor> listaDoctoresS = doctorRepository.listarDoctorporSede(1);
-            model.addAttribute("listaUsuarioDoctores", listaDoctoresS);
+            if(buscando == null) {
+                List<Doctor> listaDoctoresS = doctorRepository.listarDoctorporSede(1);
+                model.addAttribute("listaUsuarioDoctores", listaDoctoresS);
+            }else{
+                List<Doctor> listaUsuarios = doctorRepository.buscadorDoctor(buscando.toLowerCase());
+                model.addAttribute("listaUsuarioDoctores", listaUsuarios);
+                }
             return "administrador/dashboarddoctor";
         } else {
             return "redirect:/iniciosesion";
         }
+    }
+
+    @PostMapping("/buscarDoctor")
+    public String buscadorDoctor(@RequestParam("buscando") String buscando, RedirectAttributes redirectAttributes) {
+        redirectAttributes.addAttribute("buscando",buscando);
+        return "redirect:/administrador/dashboarddoctor";
     }
 
     @GetMapping(value = "/configuraciones")
@@ -379,7 +398,6 @@ public class AdministradorController {
         } else {
             return "redirect:/iniciosesion";
         }
-
     }
 
 
