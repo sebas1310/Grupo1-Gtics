@@ -21,6 +21,11 @@ public interface PacienteRepository extends JpaRepository<Paciente, Integer> {
             "       JOIN usuario u on p.idusuario = u.idusuario where c.idsede = 1", nativeQuery = true)
     List<Paciente> listarPacienteporSede(int idsede);
 
+    @Query(value = "select * from paciente where idpaciente= ?1", nativeQuery = true)
+    Paciente buscarPacientH(Integer idPaciente);
+
+
+
 
 
 

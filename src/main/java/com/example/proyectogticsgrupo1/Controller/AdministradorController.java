@@ -206,6 +206,7 @@ public class AdministradorController {
         } else {
             return "redirect:/iniciosesion";
         }
+
     }
 
     @GetMapping(value = "/dashboarddoctor")
@@ -250,6 +251,7 @@ public class AdministradorController {
 
     @GetMapping(value = "/historialclinico")
     public String historialClinico(Model model) {
+
         Optional<Usuario> usuarioopt = usuarioRepository.findById(2);
         if (usuarioopt.isPresent()) {
             Usuario user = usuarioopt.get();
