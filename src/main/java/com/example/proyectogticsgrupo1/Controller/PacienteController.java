@@ -13,9 +13,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.thymeleaf.model.IModel;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -126,6 +128,9 @@ public class PacienteController {
         Optional<Paciente> optionalPaciente = pacienteRepository.findById(1);
         Paciente paciente =  optionalPaciente.get();
         model.addAttribute("pacientelog",paciente);
+        if(citaRepository.citasPorPagar(paciente.getIdpaciente()).size()>=1){
+            model.addAttribute("pagos",citaRepository.citasPorPagar(paciente.getIdpaciente()));
+        }
         return "paciente/pagos";
     }
 
@@ -292,6 +297,21 @@ public class PacienteController {
             redirectAttributes.addFlashAttribute("msg", "El doctor debe pertenecer a la sede");
             return "redirect:/paciente/agendarCita";
         }
+    }
+
+    @PostMapping(value = "/pagospruebas")
+    public String pagosPr(@RequestParam(value = "citapagos", required = false) Integer []id, RedirectAttributes redirectAttributes){
+        System.out.println("ids:  " + id.length);
+        if(id.length>0){
+            List<Cita> lisaCitas = new ArrayList<>();
+            Double costos = 0.0;
+            for(int i=0;i<id.length;i++){
+                lisaCitas.add(citaRepository.findById(id[i]).get());
+                costos=costos+lisaCitas.get(i).getEspecialidad().getCosto();
+            }
+            redirectAttributes.addFlashAttribute("msj",costos);
+        }
+        return "redirect:/paciente/pagos";
     }
 
 }
