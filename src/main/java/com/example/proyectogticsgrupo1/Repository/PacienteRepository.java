@@ -30,7 +30,7 @@ public interface PacienteRepository extends JpaRepository<Paciente, Integer> {
             "INNER JOIN estadopaciente e ON p.idestadopaciente = e.idestadopaciente\n" +
             "WHERE ((lower(u.nombres) like %?1%\n " +
             "OR lower(u.apellidos) like %?1%\n" +
-            "OR lower(e.nombre) like %?1%)  and estado_habilitado = 1 and c.idsede = 2)", nativeQuery = true)
+            "OR lower(e.nombre) like %?1%)  and estado_habilitado = 1 and c.idsede = 1)", nativeQuery = true)
     List<Paciente> buscadorPaciente(String buscando);
 
 

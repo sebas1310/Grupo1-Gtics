@@ -203,7 +203,7 @@ public class AdministradorController {
             Usuario user = usuarioopt.get();
             model.addAttribute("usuario", user);
             if(buscando == null) {
-                List<Paciente> listaPacientesS = pacienteRepository.listarPacienteporSede(2); // a futuro cambiar
+                List<Paciente> listaPacientesS = pacienteRepository.listarPacienteporSede(1); // a futuro cambiar
                 model.addAttribute("listaUsuariosPacientes", listaPacientesS);
             }else{
                 List<Paciente> listaUsuarios = pacienteRepository.buscadorPaciente(buscando.toLowerCase());
