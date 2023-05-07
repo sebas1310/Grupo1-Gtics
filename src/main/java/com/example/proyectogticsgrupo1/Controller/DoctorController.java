@@ -245,12 +245,12 @@ public class DoctorController {
     }
 
     @PostMapping("/guardarSede")
-    public String guardarSede(RedirectAttributes attr, @RequestParam("sede_id") int idS,
+    public String guardarSede(RedirectAttributes attr, @RequestParam("idsede") int idS,
                               @RequestParam("id") int idD){
         doctorRepository.cambiarSede(idS, idD);
         attr.addAttribute("id", idD);
+        attr.addAttribute("iddoctor", idS);
         return "redirect:/doctor/configuraciones";
-
     }
     /*@PostMapping("/send-email")
     public ResponseEntity<Void> sendEmail(@RequestParam String to, @RequestParam String subject, @RequestParam String body) {

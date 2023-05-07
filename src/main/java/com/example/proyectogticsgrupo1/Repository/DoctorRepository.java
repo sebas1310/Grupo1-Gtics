@@ -28,7 +28,7 @@ public interface DoctorRepository extends JpaRepository<Doctor, Integer>{
     @Transactional
     @Modifying
     @Query(value = "UPDATE doctor set idsede =?1 WHERE iddoctor =?2", nativeQuery = true)
-    void  cambiarSede(int sede_id, int doctor_id);
+    void  cambiarSede(int idsede, int iddoctor);
 
 }
 

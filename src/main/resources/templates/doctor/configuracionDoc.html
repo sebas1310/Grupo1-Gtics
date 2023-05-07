@@ -65,7 +65,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-success" data-bs-dismiss="modal"><a style="color: white" href="pages-login.html" >Salir</button>
+        <button type="button" class="btn btn-success" data-bs-dismiss="modal"><a style="color: white" href="pages-login.html" >Salir</a></button>
         <button type="button" class="btn btn-secondary"><a style="color: white" th:href="@{'/doctor/configuraciones'}" >Cancelar</a></button>
       </div>
     </div>
@@ -92,10 +92,10 @@
             <!-- Default Table -->
             <form th:action="${'/doctor/guardarSede'}" method="post" class="col-4">
                <div class="mb-3">
-                 <input th:value="${doctor.getIdDoctor()}" name="id" type="hidden" />
+                 <input th:value="${doctor.getIddoctor()}" name="id" type="hidden" />
                 <label form="nombre" class="form-label">Cambiar Sede</label>
               </div>
-              <select class="form-select" id="sede" name="sede_id" >
+              <select class="form-select" name="idsede" >
                 <option th:each="sede : ${listSedes}" th:value="${sede.idsede}" th:text="${sede.nombre}">Seleccione</option>
               </select>
               <br>
