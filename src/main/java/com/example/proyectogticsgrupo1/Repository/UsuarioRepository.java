@@ -27,4 +27,6 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
     @Query(value= "update usuario set nombres= ?1 ,apellidos= ?2, correo=?3, celular=?4 where idusuario=2 ",nativeQuery = true)
     void perfil(String nombres, String apellidos, String correo, String celular);
 
+    Usuario findById();
+
 }

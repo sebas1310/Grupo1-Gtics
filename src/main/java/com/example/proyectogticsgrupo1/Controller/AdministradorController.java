@@ -44,6 +44,8 @@ public class AdministradorController {
 
     @GetMapping("")
     public String administrador(Model model) {
+        Optional<Usuario> usuarioopt = usuarioRepository.findById(2);
+
         return "administrador/dashboard";
     }
 
