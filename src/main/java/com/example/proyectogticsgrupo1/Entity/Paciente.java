@@ -1,7 +1,7 @@
 package com.example.proyectogticsgrupo1.Entity;
 
 
-import com.mysql.cj.jdbc.Blob;
+
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
