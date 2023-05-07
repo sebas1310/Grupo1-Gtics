@@ -2,8 +2,10 @@ package com.example.proyectogticsgrupo1.Controller;
 
 import com.example.proyectogticsgrupo1.Entity.*;
 import com.example.proyectogticsgrupo1.Repository.*;
+import com.example.proyectogticsgrupo1.Service.EmailService;
 import jakarta.transaction.Transactional;
-import org.springframework.format.annotation.DateTimeFormat;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -68,6 +70,17 @@ public class PacienteController {
         }
         return "paciente/index";
 
+    }
+
+    @Autowired
+    private EmailService emailService;
+    @GetMapping(value = "/email")
+    public String emailpr(){
+        String user = "sebastian.segura1310@gmail.com";
+        String subj = "HOLA";
+        String msj = "Pruebas de envio";
+        emailService.sendEmail(user,subj,msj);
+        return "redirect:/paciente/";
     }
 
     @GetMapping(value = "/perfilDoctor")
@@ -179,6 +192,8 @@ public class PacienteController {
     }
 
 
+
+
     @PostMapping(value = "/changepassword")
     @Transactional
     public String changePassword(@RequestParam("contrasena") String contrasena, @RequestParam("newpassword") String newpassword, @RequestParam("renewpassword") String renewpassword, RedirectAttributes redirectAttributes){
@@ -207,8 +222,9 @@ public class PacienteController {
                               @RequestParam("hora")LocalTime hora,
                               @RequestParam("idseguro") Integer idseguro,
                               @RequestParam("idtipocita") Integer idtipocita, RedirectAttributes redirectAttributes){
-        System.out.println("hola?");
 
+        Optional<Paciente> optionalPaciente = pacienteRepository.findById(1);
+        Paciente paciente =  optionalPaciente.get();
         if(idsede==doctorRepository.findById(iddoctor).get().getSede().getIdsede()){
             System.out.println("aca?");
             if(idesp==doctorRepository.findById(iddoctor).get().getEspecialidad().getIdespecialidad()){
@@ -245,6 +261,7 @@ public class PacienteController {
                         System.out.println("llega aca prim");
                         citaRepository.agengedarcita(idsede, idesp,fecha, hora, hora.plusHours(1),60, idtipocita, idseguro, 1, 1,0,iddoctor);
                         eventocalendariodoctorRepository.cambiarEstadoCalendario(iddoctor,fecha,hora);
+                        emailService.sendEmail(paciente.getUsuario().getCorreo(),"Confirmación de cita","Estimado usuario usted reservó una cita para el "+fecha.toString()+ "\n"+"En la sede "+sedeRepository.findById(idsede).get().getNombre()+" ubicada " +sedeRepository.findById(idsede).get().getDireccion());
                         return "redirect:/paciente/";
                     }
                     else {
