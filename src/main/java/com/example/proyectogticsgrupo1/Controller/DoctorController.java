@@ -203,6 +203,13 @@ public class DoctorController {
         return "doctor/mensajeriaDoc";
     }
 
+    @GetMapping("/mensajeria/enviarmensaje")
+    public String enviarMensajeDoctor() {
+
+
+        return "doctor/enviarMensajeDoc";
+    }
+
     @PostMapping("/perfil/editarperfil")
     @Transactional
     public String actualizarPerfilDoctor(RedirectAttributes redirectAttributes,@RequestParam("id") int idDoctor,
