@@ -103,13 +103,13 @@
                         <div class="card recent-sales overflow-auto">
                             <div class="card-body">
                                 <h5 class="card-title">Enviar Mensaje</h5>
-                                <form class="row g-3">
+                                <form method="post" th:action="@{'/doctor/mensajeria/enviarmensaje/envio'}" class="row g-3">
 
                                     <!--<input th:value="${usuario.getIdUsuario()}" name="idUsuario" type="hidden" > -->
 
                                     <div class="col-md-6">
-                                        <label for="email" class="form-label">Correo</label>
-                                        <input type="text" name="correo" class="form-control" id="email" >
+                                        <label for="email" class="form-label">Correo Destino</label>
+                                        <input type="text" name="correodestino" class="form-control" id="email" >
                                     </div>
 
                                     <div class="col-md-6">

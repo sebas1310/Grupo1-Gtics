@@ -130,9 +130,10 @@
                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                            </div>
                                            <div class="modal-body">
-                                               <form th:action="@{/doctor/pacientesatendidos/verhistorial/vercita/editarreceta}">
+                                               <form method="post" th:action="@{'/doctor/pacientesatendidos/verhistorial/vercita/editarreceta'}">
                                                    <input th:value="${recetam.getIdRecetaMedica()}" name="idReceta" type="hidden">
                                                    <input th:value="${cita.getIdcita()}" name="idCita" type="hidden">
+
                                                    <div class="row mb-3">
                                                        <label for="medicamento" class="col-md-4 col-lg-3 col-form-label">Medicamento</label>
                                                        <div class="col-md-8 col-lg-9">
@@ -187,19 +188,21 @@
                                            </div>
                                            <div class="modal-body">
                                                <form method="post" th:action="@{'/doctor/pacientesatendidos/verhistorial/vercita/guardarreceta'}">
-                                                   <input th:value="${cita.getIdcita()}" name="idCita" type="hidden">
+
+                                                   <input th:value="${cita.getIdcita()}" name="idcita" type="hidden" />
+
                                                    <div class="form-floating">
-                                                       <input name="medicamento" class="form-control" placeholder="Leave a comment here" id="floatingTextarea1">
+                                                       <input name="medicamento" class="form-control" type="text" placeholder="Leave a comment here" id="floatingTextarea1">
                                                        <label for="floatingTextarea1">Medicamento</label>
                                                        <br>
                                                    </div >
                                                    <div class="form-floating">
-                                                       <input name="dosis" class="form-control" placeholder="Leave a comment here" id="floatingTextarea2">
+                                                       <input name="dosis" class="form-control" type="text" placeholder="Leave a comment here" id="floatingTextarea2">
                                                        <label for="floatingTextarea2">Dosis</label>
                                                        <br>
                                                    </div >
                                                    <div class="form-floating">
-                                                       <input name="descripcion" class="form-control" placeholder="Leave a comment here" id="floatingTextarea3">
+                                                       <input name="descripcion" class="form-control" type="text" placeholder="Leave a comment here" id="floatingTextarea3">
                                                        <label for="floatingTextarea3">Descripcion</label>
                                                        <br>
                                                    </div >

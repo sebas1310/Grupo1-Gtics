@@ -22,7 +22,7 @@ public class RecetaMedica {
     @Column(name = "dosis", length = 100, nullable = false)
     private String dosis;
 
-    @Column(name = "descripcion", length = 100, nullable = false)
+    @Column(name = "descripcion",nullable = false)
     private String descripcion;
 
     @ManyToOne

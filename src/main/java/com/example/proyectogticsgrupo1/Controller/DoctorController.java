@@ -5,6 +5,7 @@ import com.example.proyectogticsgrupo1.Repository.*;
 import jakarta.transaction.Transactional;
 import jdk.jfr.Event;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -30,6 +31,9 @@ public class DoctorController {
     final EventocalendariodoctorRepository eventocalendariodoctorRepository;
 
     final BoletaDoctorRepository boletaDoctorRepository;
+
+    @Autowired
+    EmailService emailService;
 
     public DoctorController(CitaRepository citaRepository, DoctorRepository doctorRepository, PacienteRepository pacienteRepository,
                             RecetaMedicaRepository recetaMedicaRepository, ReporteCitaRepository reporteCitaRepository, UserRepository userRepository,
@@ -139,13 +143,12 @@ public class DoctorController {
     @PostMapping("/doctor/pacientesatendidos/verhistorial/vercita/guardarreceta")
     @Transactional
     public String guardarReceta(RedirectAttributes redirectAttributes,
-                                @RequestParam("idReceta") int idReceta,
                                 @RequestParam("medicamento") String medicamento ,
                                 @RequestParam("dosis") String dosis,
                                 @RequestParam("descripcion") String descripcion ,
                                 @RequestParam("idcita") int idCita){
 
-        recetaMedicaRepository.agregarReceta(medicamento,dosis,descripcion,idCita, idReceta);
+        recetaMedicaRepository.agregarReceta(medicamento,dosis,descripcion,idCita);
         redirectAttributes.addAttribute("id",idCita);
         return "redirect:/doctor/pacientesatendidos/verhistorial/vercita";
 
@@ -159,8 +162,8 @@ public class DoctorController {
                                @RequestParam("dosis") String dosis,
                                @RequestParam("descripcion") String descripcion){
         recetaMedicaRepository.actualizarReceta( medicamento, dosis, descripcion, idCita, idReceta);
-        redirectAttributes.addAttribute("idCita",idCita);
-        redirectAttributes.addAttribute("idReceta",idReceta);
+        redirectAttributes.addAttribute("id",idCita);
+        //redirectAttributes.addAttribute("idReceta",idReceta);
         return "redirect:/doctor/pacientesatendidos/verhistorial/vercita";
     }
 
@@ -209,9 +212,16 @@ public class DoctorController {
 
     @GetMapping("/mensajeria/enviarmensaje")
     public String enviarMensajeDoctor() {
-
-
         return "doctor/enviarMensajeDoc";
+    }
+
+    @PostMapping("/mensajeria/enviarmensaje/envio")
+    @Transactional
+    //ResponseEntity<Void>
+    public String sendEmail(@RequestParam("correodestino") String correoDestino, @RequestParam("asunto") String asunto, @RequestParam("descripcion") String descripcion) {
+        emailService.sendEmail(correoDestino,asunto,descripcion);
+        return "redirect:/doctor/mensajeria";
+        //return ResponseEntity.ok().build();
     }
 
     @PostMapping("/perfil/editarperfil")
@@ -242,5 +252,10 @@ public class DoctorController {
         return "redirect:/doctor/configuraciones";
 
     }
+    /*@PostMapping("/send-email")
+    public ResponseEntity<Void> sendEmail(@RequestParam String to, @RequestParam String subject, @RequestParam String body) {
+        emailService.sendEmail(to, subject, body);
+        return ResponseEntity.ok().build();
 
+    }*/
 }

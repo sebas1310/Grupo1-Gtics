@@ -12,11 +12,12 @@ public interface RecetaMedicaRepository extends JpaRepository<RecetaMedica,Integ
 
     @Query(value= "select * from recetamedica where idcita = ?1 ",nativeQuery = true)
     List<RecetaMedica> buscarRecetaMedicaPorCita (Integer idCita);
-    @Modifying
-    @Query(value= "insert into recetamedica (medicamento,dosis,descripcion,idcita, idrecetamedica) values (?1,?2,?3,?4,?4) ",nativeQuery = true)
-    void agregarReceta (String medicamento,String dosis ,String descripcion , Integer idCita, Integer idReceta);
 
     @Modifying
-    @Query(value= "update recetamedica set medicamento = ?1 , dosis = ?2, descripcion = ?3 where idcita = ?4 and idrecetamedica = ?4",nativeQuery = true)
+    @Query(value= "insert into recetamedica (medicamento,dosis,descripcion,idcita) values (?1,?2,?3,?4) ",nativeQuery = true)
+    void agregarReceta (String medicamento,String dosis ,String descripcion , Integer idCita);
+
+    @Modifying
+    @Query(value= "update recetamedica set medicamento = ?1 , dosis = ?2, descripcion = ?3 where idcita = ?4 and idrecetamedica = ?5",nativeQuery = true)
     void actualizarReceta (String medicamento, String dosis, String descripcion, Integer idCita, Integer idReceta);
 }
