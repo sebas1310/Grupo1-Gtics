@@ -195,8 +195,10 @@ public class AdministradorController {
     }*/
 
     @GetMapping(value = "/dashboardpaciente")
-    public String listaCitas(Model model) {
-        Optional<Usuario> usuarioopt = usuarioRepository.findById(2);
+    public String listaCitas(Model model,@RequestParam("id") int idUsuario) {
+         Usuario usuario = usuarioRepository.buscarPorId(idUsuario);
+         model.addAttribute("usuario",usuario);
+         Optional<Usuario> usuarioopt = usuarioRepository.findById(2);
         if (usuarioopt.isPresent()) {
             Usuario user = usuarioopt.get();
             model.addAttribute("usuario", user);

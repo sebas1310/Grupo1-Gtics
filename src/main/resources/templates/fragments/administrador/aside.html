@@ -9,6 +9,7 @@
     <ul class="sidebar-nav" id="sidebar-nav">
         <li class="nav-item" th:classappend="${active == 'dashboard' ? 'inactive':''}">
             <a class="nav-link" th:classappend="${active != 'dashboard' ? 'collapsed':''}" th:href="@{'/administrador'}">
+
                 <i class="bi bi-grid"></i>
                 <span>Dashboard</span>
             </a>
