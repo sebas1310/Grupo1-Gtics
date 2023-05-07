@@ -92,6 +92,8 @@ public class PacienteController {
         if(optionalDoctor.isPresent()){
             Doctor doctor=optionalDoctor.get();
             model.addAttribute("doc",doctor);
+            System.out.println("docto evaludo "+eventocalendariodoctorRepository.getDiasProx(doctor.getIddoctor()).size());
+            model.addAttribute("dias",eventocalendariodoctorRepository.getDiasProx(doctor.getIddoctor()));
             return "paciente/perfilDoctor";
         }
         else {

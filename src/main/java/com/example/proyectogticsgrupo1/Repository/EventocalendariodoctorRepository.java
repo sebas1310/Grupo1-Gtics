@@ -1,5 +1,6 @@
 package com.example.proyectogticsgrupo1.Repository;
 
+import com.example.proyectogticsgrupo1.DTO.DiasProximosDoctor;
 import com.example.proyectogticsgrupo1.Entity.Eventocalendariodoctor;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -23,4 +24,13 @@ public interface EventocalendariodoctorRepository extends JpaRepository<Eventoca
     @Modifying
     @Query(nativeQuery = true, value = "UPDATE eventocalendariodoctor SET idtipohoracalendariodoctor = 3, descripcion='ocupado' WHERE iddoctor=?1 and fecha=?2 and horainicio=?3")
     void cambiarEstadoCalendario(Integer iddoc, LocalDate fecha, LocalTime horain);
+
+    @Query(nativeQuery = true, value =
+            "SELECT DAYNAME(fecha) AS dia, DATE_FORMAT(horainicio, '%H:%i') AS inicio, DATE_FORMAT(horafinal, '%H:%i') AS fin \n" +
+            "FROM eventocalendariodoctor \n" +
+            "WHERE idtipohoracalendariodoctor=1 AND iddoctor=?1 AND fecha >= CURDATE() \n" +
+            "ORDER BY fecha ASC\n" +
+            "LIMIT 2; \n")
+    List<DiasProximosDoctor> getDiasProx(Integer id);
+
 }

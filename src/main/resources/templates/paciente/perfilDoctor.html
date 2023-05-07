@@ -39,14 +39,10 @@
                   <td>DIA</td>
                   <td>HORA</td>
                 </tr>
-                <tr>
-                  <td>Lunes</td>
-                  <td>10:00-13:00</td>
+                <tr th:each="d:${dias}">
+                  <td th:text="${d.getDia()}"></td>
+                  <td th:text="|${d.getInicio()}-${d.getFin()}|"></td>
                 </tr>
-                </tr>
-                <tr>
-                  <td>Jueves</td>
-                  <td>15:00-18:00</td>
                 </tr>
                 </tbody>
               </table>
