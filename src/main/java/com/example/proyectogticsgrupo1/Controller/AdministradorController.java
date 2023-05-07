@@ -47,12 +47,7 @@ public class AdministradorController {
         return "administrador/dashboard";
     }
 
-    @GetMapping(value = "/perfil")
-    public String perfilAdministrador(Model model) {
-        Usuario usuario = usuarioRepository.findByIdusuario(2);
-        model.addAttribute("usuario",usuario);
-        return "administrador/perfil";
-    }
+
     @GetMapping(value = "/nuevopaciente")
     public String creandoPaciente(Model model) {
         return "administrador/nuevopaciente";
@@ -264,16 +259,20 @@ public class AdministradorController {
         return "redirect:/administrador/crearpaciente";
     }
 
+    @GetMapping(value = "/perfil")
+    public String perfilAdministrador(Model model) {
+        Usuario usuario = usuarioRepository.buscarPorId();
+        model.addAttribute("usuario",usuario);
+        return "administrador/perfil";
+    }
+
     @PostMapping("/editarperfil")
-    @Transactional
-    public String editarPerfil(@RequestParam("idusuario") int idUsuario,
-                               @RequestParam("nombres") String nombres,
+    public String editarPerfil(@RequestParam("nombres") String nombres,
                                @RequestParam("apellidos") String apellidos,
                                @RequestParam("correo") String correo,
                                @RequestParam("celular") String celular, RedirectAttributes redirectAttributes){
         usuarioRepository.perfil(nombres,apellidos,correo,celular);
-        redirectAttributes.addAttribute("id",idUsuario);
-        return "redirect:/perfil";
+        return "redirect:/administrador/perfil";
     }
 
 
