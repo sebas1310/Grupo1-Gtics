@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:insert="fragments/doctor/librerias.html :: cabecera (titulo = 'Historial Clinico')">
-</head>
-<body>
-<!-- ======= Header ======= -->
-<header th:replace="fragments/doctor/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1', nombre = 'Abigail Ramirez', num_men = '2')">
-</header>
-<!-- End Header -->
+    <head th:insert="fragments/doctor/librerias.html :: cabecera (titulo = 'Historial Clinico')">
+    </head>
+    <body>
+        <!-- ======= Header ======= -->
+        <header th:replace="fragments/doctor/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1', nombre = 'Abigail Ramirez', num_men = '2')">
+        </header>
+        <!-- End Header -->
         <!-- ======= Sidebar ======= -->
         <aside id="sidebar" class="sidebar">
             <ul class="sidebar-nav" id="sidebar-nav">
@@ -74,7 +74,7 @@
         <main id="main" class="main">
 
             <div class="pagetitle">
-                <h1>Historial Clínico</h1>
+                <h1>Boleta Doctor</h1>
                 <nav>
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a th:href="@{'/doctor/pacientesatendidos'}">Pacientes Atendidos</a></li>
@@ -92,24 +92,36 @@
                         <div class="col">
                             <div class="card info-card customers-card">
                                 <div class="card-body">
-                                    <h5 class="card-title">Informacion del Paciente </h5>
+                                    <h5 class="card-title">Boleta - Cita 1</h5>
                                     <div class="d-flex align-items-center">
-                                        <div class="ps-3">
+                                        <!--<div class="ps-3">
+                                            <h6 class="card-title">Información Paciente</h6>
                                             <li>Nombre: <span th:text="${paciente.getUsuario().getNombres() +paciente.getUsuario().getApellidos()}"></span></li>
                                             <li>Edad: <span th:text="${paciente.getUsuario().getEdad()}"></span></li>
                                             <li>Condicion/Enfermedad: <span th:text="${paciente.getCondicionenfermedad()}"></span></li>
                                             <li>Seguro: <span th:text="${paciente.getSeguro().getNombre()}"></span></li>
-                                            <li>Estado Paciente: <span th:text="${paciente.getEstadoPaciente().getNombre()}"></span> </li>
-                                            <li>Correo: <span th:text="${paciente.getUsuario().getCorreo()}"></span></li>
+                                            <li>Alergias: <span th:text="${paciente.getAlergias()}"></span></li>
+                                        </div> -->
+                                        <div class="ps-3">
+                                            <h6 class="card-title">Información Cita</h6>
+                                            <li>Fecha: <span th:text="${boletadoctor.getCita().getFecha()}"></span></li>
+                                            <li>Doctor: <span th:text="|${boletadoctor.getDoctor().getUsuario().getNombres()} ${boletadoctor.getDoctor().getUsuario().getApellidos()}|"></span></li>
+                                            <li>Paciente: <span th:text="|${boletadoctor.getPaciente().getUsuario().getNombres()} ${boletadoctor.getPaciente().getUsuario().getApellidos()}|"></span></li>
+                                            <li>Condicion/Enfermedad: <span th:text="${boletadoctor.getPaciente().getCondicionenfermedad()}"></span></li>
+                                            <li>Alergias: <span th:text="${boletadoctor.getPaciente().getAlergias()}"></span></li>
+                                            <li>Seguro: <span th:text="${boletadoctor.getPaciente().getSeguro().getNombre()}"></span></li>
+                                            <li>Monto Recibido: <span th:text="|S/. ${boletadoctor.getMonto()}|"></span></li>
+                                            <a class="bi bi-printer-fill" download="boleta.pdf">Descargar Boleta</a>
                                         </div>
                                     </div>
+                                    <!--<button class="bi bi-printer-fill" download="boleta.pdf" >Descargar Boleta</button> -->
                                 </div>
 
                             </div> <!--End Informacion -->
 
                             <!-- Historial de citas -->
 
-                            <div class="col-12">
+                            <!--<div class="col-12">
                                 <div class="card recent-sales overflow-auto">
                                     <div class="card-body">
                                         <h5 class="card-title">Historial de Citas</h5>
@@ -129,20 +141,20 @@
                                                     <th style="text-align: center" th:text="${indice.index+1}" scope="row"></th>
                                                     <td style="text-align: center" th:text="${cita.getFecha()}"></td>
                                                     <td style="text-align: center" th:text="${cita.getTipoCita().getNombre()}"></td>
-                                                    <td style="text-align: center"> <a th:href="@{'/doctor/pacientesatendidos/verhistorial/boleta' + '?id=' + ${cita.getIdcita()}}" class="bi bi-eye-fill"><!-- class="bi bi-printer-fill" download="boleta.pdf" --> </a> </td>
+                                                    <td style="text-align: center"> <a th:href="@{'/doctor/verhistorial/boleta'}" class="bi bi-printer-fill" download="boleta.pdf"></a> </td>
                                                     <td style="text-align: center"> <a type="button" class="bi bi-eye-fill" th:href="@{'/doctor/pacientesatendidos/verhistorial/vercita'+ '?id=' + ${cita.getIdcita()}}"></a> </td>
                                                 </tr>
                                             </tbody>
                                         </table>
-                                        <!-- End Historial -->
+                                        End Historial -->
                                     </div>
                                 </div>
                             </div>
                         </div><!-- End Left side columns -->
 
                         <!-- Right side columns -->
-                        <div class="col-lg-5">
-                            <!-- Bitacora -->
+                        <!--<div class="col-lg-5">
+                            Bitacora
                             <div class="card recent-sales overflow-auto">
                                 <div class="card-body">
                                     <h5 class="card-title">Bitacora de Diagnostico</h5>
@@ -160,14 +172,14 @@
                                             <p class="card-text"><span th:text="${bitacora.getFechayhora()}"></span></p>
                                         </div>
                                     </div>
-                                    <!--<div class="card">
+                                   <div class="card">
                                         <div class="card-header">
                                             Dr. Fernandez
                                         </div>
                                         <div class="card-body">
                                             <p class="card-text">xxxxxxxxxxxxxxx</p>
                                         </div>
-                                    </div>-->
+                                    </div>
                                     <div class="mb-3">
                                         <h5 class="card-title">Añadir Comentario</h5>
                                         <form method="post" th:action="@{'/doctor/pacientesatendidos/verhistorial/guardarbitacora'}">
@@ -185,7 +197,7 @@
 
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </section>

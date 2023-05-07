@@ -23,7 +23,7 @@
     </li><!-- End Pacientes Atendidos -->
 
     <li class="nav-item" th:classappend="${active == 'calendario' ? 'active':''}">  <!-- cambia -->
-      <a class="nav-link collapsed" th:classappend="${active != 'calendario' ? 'collapsed':''}" th:href="@{'/doctor/calendario'}" >
+      <a class="nav-link collapsed" th:classappend="${active != 'calendario' ? 'collapsed':''}" th:href="@{'/doctor/calendario'+ '?id=' + ${doctor.iddoctor}}" >
         <i class="bi bi-calendar3"></i>
         <span>Calendario</span>
       </a>

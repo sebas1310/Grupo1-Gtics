@@ -3,6 +3,7 @@ package com.example.proyectogticsgrupo1.Controller;
 import com.example.proyectogticsgrupo1.Entity.*;
 import com.example.proyectogticsgrupo1.Repository.*;
 import jakarta.transaction.Transactional;
+import jdk.jfr.Event;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,15 +23,18 @@ public class DoctorController {
     final ReporteCitaRepository reporteCitaRepository;
     final UserRepository userRepository;
     final BitacoraDeDiagnosticoRepository bitacoraDeDiagnosticoRepository;
-    @Autowired
-    SedeRepository  sedeRepository;
+    final SedeRepository  sedeRepository;
 
-    @Autowired
-    CuestionarioRepository cuestionarioRepository;
+    final CuestionarioRepository cuestionarioRepository;
+
+    final EventocalendariodoctorRepository eventocalendariodoctorRepository;
+
+    final BoletaDoctorRepository boletaDoctorRepository;
 
     public DoctorController(CitaRepository citaRepository, DoctorRepository doctorRepository, PacienteRepository pacienteRepository,
-                            RecetaMedicaRepository recetaMedicaRepository,ReporteCitaRepository reporteCitaRepository,UserRepository userRepository,
-                            BitacoraDeDiagnosticoRepository bitacoraDeDiagnosticoRepository) {
+                            RecetaMedicaRepository recetaMedicaRepository, ReporteCitaRepository reporteCitaRepository, UserRepository userRepository,
+                            BitacoraDeDiagnosticoRepository bitacoraDeDiagnosticoRepository,
+                            EventocalendariodoctorRepository eventocalendariodoctorRepository, CuestionarioRepository cuestionarioRepository, SedeRepository sedeRepository, BoletaDoctorRepository boletaDoctorRepository) {
 
         this.doctorRepository = doctorRepository;
         this.pacienteRepository = pacienteRepository;
@@ -39,7 +43,10 @@ public class DoctorController {
         this.reporteCitaRepository = reporteCitaRepository;
         this.userRepository = userRepository;
         this.bitacoraDeDiagnosticoRepository= bitacoraDeDiagnosticoRepository;
-
+        this.eventocalendariodoctorRepository = eventocalendariodoctorRepository;
+        this.cuestionarioRepository = cuestionarioRepository;
+        this.sedeRepository = sedeRepository;
+        this.boletaDoctorRepository = boletaDoctorRepository;
     }
 
 
@@ -100,6 +107,13 @@ public class DoctorController {
         return "redirect:/doctor/pacientesatendidos/verhistorial";
     }
 
+    @GetMapping("/pacientesatendidos/verhistorial/boleta")
+    public String verBoletaDoctor(Model model, @RequestParam("id") int idCita ){
+        BoletaDoctor boletaDoctor = boletaDoctorRepository.buscarBoletaDoctorCita(idCita);
+        model.addAttribute("boletadoctor",boletaDoctor);
+        return "doctor/boletaDoc";
+    }
+
     @GetMapping("/pacientesatendidos/verhistorial/vercita")
     public String verCitaDoctor(Model model, @RequestParam("id") int idCita){
         Cita cita1 = citaRepository.buscarCitaPorId(idCita);
@@ -147,8 +161,10 @@ public class DoctorController {
     }
 
     @GetMapping("/calendario")
-    public String calendarioDoctor(){
-
+    public String calendarioDoctor(Model model, @RequestParam("id") int idDoctor){
+        //List<Event> events =
+        List<Eventocalendariodoctor> events = eventocalendariodoctorRepository.calendarioPorDoctor(idDoctor);
+        model.addAttribute("events", events);
         return "doctor/calendarioDoc";
     }
 
@@ -157,25 +173,22 @@ public class DoctorController {
         //@RequestParam("id") int idDoc
         Paciente paciente1 = pacienteRepository.buscarPacientePorID(idPaciente);
         //Cita cita1= citaRepository.buscarCitaPorId(idCita);
-        //Doctor doctor1 = doctorRepository.buscarDoctorPorId(idDoc);
+        //Doctor doctor1 = doctorRepository.buscarDoctorPorId(idDoc);fcaalen
         List<Paciente> lista = pacienteRepository.findAll();
         model.addAttribute("paciente", paciente1);
         //model.addAttribute("cita", cita1);
         //model.addAttribute("doc", doctor1);
-        model.addAttribute("pacienteDatos", lista);
+        //model.addAttribute("pacienteDatos", lista);
 
         return "doctor/cuestionarioDoc";
     }
 
     @PostMapping("/envioCuestionario")
     public String enviarCuestionario(Model model, @RequestParam("pacienteId") int idP,
-                                     @RequestParam("docId") int idD ){
+                                                @RequestParam("docId") int idD ){
         Cuestionario nuevocuestionario = new Cuestionario();
         cuestionarioRepository.save(nuevocuestionario);
-
-
         return "redirect:/doctor/cuestionario";
-
     }
 
     @GetMapping("/perfil")
@@ -183,6 +196,11 @@ public class DoctorController {
         Doctor doctor1 = doctorRepository.buscarDoctorPorId(idDoctor);
         model.addAttribute("doctor", doctor1);
         return "doctor/perfilDoc";
+    }
+
+    @GetMapping("/mensajeria")
+    public String mensajeriaDoctor() {
+        return "doctor/mensajeriaDoc";
     }
 
     @PostMapping("/perfil/editarperfil")

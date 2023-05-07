@@ -101,7 +101,8 @@
                 <!-- Bitacora -->
                 <div class="card recent-sales overflow-auto">
                     <div class="card-body">
-                        <h5 class="card-title">Datos del Cuestionario</h5>
+                        <h5 class="card-title">Datos del Paciente</h5>
+                        <h6 class="card-title">Cita 1</h6>
                         <form class="row g-3">
                             <input th:value="${paciente.getIdpaciente()}" name="id" type="hidden" />
                             <!--
@@ -110,25 +111,33 @@
                                 <label for="nombre" class="form-label">Nombre del Paciente</label>
                                 <input th:value="|${paciente.usuario.nombres} ${paciente.usuario.apellidos}|" type="text" class="form-control" id="nombre" disabled readonly >
                             </div>
+
                             <div class="col-md-6">
-                                <label for="correo" class="form-label">Correo</label>
-                                <input th:value="${paciente.usuario.correo}" type="text" class="form-control" id="correo"  disabled readonly>
+                                <label for="enfermedad" class="form-label">Condición o Enfermedad</label>
+                                <input th:value="${paciente.getCondicionenfermedad()}" type="text" class="form-control" id="enfermedad"  disabled readonly>
                             </div>
+
                             <!--
                             <div class="col-md-6">
                                 <label for="especialidad" class="form-label">Especialidad</label>
                                 <input th:value="${doc.especialidad.nombre}" type="text" class="form-control" id="especialidad" disabled readonly>
                             </div> -->
                             <div class="col-md-6">
-                                <label for="ingresoplataforma" class="form-label">Apenas Ingrese a la Plataforma</label>
+                                <label for="alergias" class="form-label">Alergias</label>
+                                <input th:value="${paciente.getAlergias()}" type="text" class="form-control" id="alergias"  disabled readonly>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="ingresoplataforma" class="form-label">Apenas El Paciente Ingrese a la Plataforma</label>
                                 <select class="form-select" id="ingresoplataforma" required>
                                     <option selected disabled value="">Seleccione</option>
                                     <option>Sí</option>
                                     <option>No</option>
                                 </select>
                             </div>
+
                             <div class="d-grid gap d-md-flex justify-content-md-center">
-                                <button class="btn btn-primary" type="submit">Enviar form</button>
+                                <button class="btn btn-primary" type="submit">Enviar Cuestionario</button>
                             </div>
                         </form>
                     </div>
