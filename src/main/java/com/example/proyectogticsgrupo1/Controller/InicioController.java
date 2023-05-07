@@ -10,8 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class InicioController {
     @GetMapping(value = {"/","/iniciosesion"})
     public String inicioSesion(){
-        return "superadmin/pages-login";
+        return "pages-login";
     }
+//    superadmin/pages-login_spa
 
     @GetMapping(value = "/registro")
     public String registro(){

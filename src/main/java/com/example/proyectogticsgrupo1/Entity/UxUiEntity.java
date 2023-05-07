@@ -24,7 +24,7 @@ public class UxUiEntity {
     @Column(name = "imagendefondo")
     private String imagendefondo;
     @ManyToOne
-    @Column(name = "idsede")
+    @JoinColumn(name = "idsede")
     private Sede sede;
     @Basic
     @Column(name = "tipodeusuario_idtipodeusuario")
