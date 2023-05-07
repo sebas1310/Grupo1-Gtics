@@ -138,25 +138,29 @@ public class DoctorController {
     }
     @PostMapping("/doctor/pacientesatendidos/verhistorial/vercita/guardarreceta")
     @Transactional
-    public String guardarReceta(RedirectAttributes redirectAttributes, @RequestParam("medicamento") String medicamento ,
-                                @RequestParam("dosis") String dosis, @RequestParam("descripcion") String descripcion ,
+    public String guardarReceta(RedirectAttributes redirectAttributes,
+                                @RequestParam("idReceta") int idReceta,
+                                @RequestParam("medicamento") String medicamento ,
+                                @RequestParam("dosis") String dosis,
+                                @RequestParam("descripcion") String descripcion ,
                                 @RequestParam("idcita") int idCita){
 
-        recetaMedicaRepository.agregarReceta(medicamento,dosis,descripcion,idCita);
+        recetaMedicaRepository.agregarReceta(medicamento,dosis,descripcion,idCita, idReceta);
         redirectAttributes.addAttribute("id",idCita);
         return "redirect:/doctor/pacientesatendidos/verhistorial/vercita";
 
     }
     @PostMapping("/doctor/pacientesatendidos/verhistorial/vercita/editarreceta")
     @Transactional
-    public String editarReceta(RedirectAttributes redirectAttributes,@RequestParam("idReceta") int idReceta,
-                                         @RequestParam("idCita") int idCita,
-                                         @RequestParam("medicamento") String medicamento,
-                                         @RequestParam("dosis") String dosis,
-                                         @RequestParam("descripcion") String descripcion){
-        recetaMedicaRepository.actualizarReceta(medicamento,dosis,descripcion,idCita, idReceta);
-        redirectAttributes.addAttribute("id",idCita);
-        redirectAttributes.addAttribute("id",idReceta);
+    public String editarReceta(RedirectAttributes redirectAttributes,
+                               @RequestParam("idReceta") int idReceta,
+                               @RequestParam("idCita") int idCita,
+                               @RequestParam("medicamento") String medicamento,
+                               @RequestParam("dosis") String dosis,
+                               @RequestParam("descripcion") String descripcion){
+        recetaMedicaRepository.actualizarReceta( medicamento, dosis, descripcion, idCita, idReceta);
+        redirectAttributes.addAttribute("idCita",idCita);
+        redirectAttributes.addAttribute("idReceta",idReceta);
         return "redirect:/doctor/pacientesatendidos/verhistorial/vercita";
     }
 
