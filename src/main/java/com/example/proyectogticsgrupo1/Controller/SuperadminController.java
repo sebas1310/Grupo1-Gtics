@@ -64,9 +64,9 @@ public class SuperadminController {
     @GetMapping("/perfil")
     public String perfilSuperAdmin(Model model){
 
-        Optional<Superadmin> optionalSuperadmin = superAdminRepository.findById(1);
-        Superadmin superadmin = optionalSuperadmin.get();
-        model.addAttribute("superadminlog", superadmin);
+        Optional<Usuario> optionalSuperadmin = usuarioRepository.findById(1);
+        Usuario usuario = optionalSuperadmin.get();
+        model.addAttribute("superadminlog", usuario);
         return "superadmin/users-profile";
     }
     @GetMapping("/registraradministrativo")

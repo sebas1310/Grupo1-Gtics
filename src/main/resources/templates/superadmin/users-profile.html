@@ -30,7 +30,7 @@
             <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
 
               <img th:src="@{/assets/img/profile-img.jpg}" alt="Profile" class="rounded-circle">
-              <h2>Alexia Jauregui</h2>
+              <h2 th:text="${superadminlog.apellidos + ' ' + superadminlog.nombres}"></h2>
               <h3>Super Admin</h3>
 
             </div>
@@ -74,33 +74,33 @@
                   <h5 class="card-title">Detalles del Perfil</h5>
 
                   <div class="row">
-                    <div class="col-lg-3 col-md-4 label ">Nombre</div>
-                    <div class="col-lg-9 col-md-8">Alexia</div>
+                    <div class="col-lg-3 col-md-4 label" >Nombres</div>
+                    <div class="col-lg-9 col-md-8" th:text="${superadminlog.nombres}"></div>
                   </div>
 
                   <div class="row">
                     <div class="col-lg-3 col-md-4 label">Apellidos</div>
-                    <div class="col-lg-9 col-md-8">Jauregui</div>
+                    <div class="col-lg-9 col-md-8" th:text="${superadminlog.apellidos}"></div>
                   </div>
 
                   <div class="row">
                     <div class="col-lg-3 col-md-4 label">Correo</div>
-                    <div class="col-lg-9 col-md-8">alexia2212@outlook.es</div>
+                    <div class="col-lg-9 col-md-8" th:text="${superadminlog.correo}"></div>
                   </div>
 
                   <div class="row">
                     <div class="col-lg-3 col-md-4 label">DNI</div>
-                    <div class="col-lg-9 col-md-8">72299800</div>
+                    <div class="col-lg-9 col-md-8" th:text="${superadminlog.dni}"></div>
                   </div>
 
                   <div class="row">
                     <div class="col-lg-3 col-md-4 label">Edad</div>
-                    <div class="col-lg-9 col-md-8">21</div>
+                    <div class="col-lg-9 col-md-8" th:text="${superadminlog.edad}"></div>
                   </div>
 
                   <div class="row">
                     <div class="col-lg-3 col-md-4 label">Celular</div>
-                    <div class="col-lg-9 col-md-8">994023157</div>
+                    <div class="col-lg-9 col-md-8" th:text="${superadminlog.celular}"></div>
                   </div>
 
 
