@@ -1,5 +1,6 @@
 package com.example.proyectogticsgrupo1.Controller;
 
+import com.example.proyectogticsgrupo1.Entity.Usuario;
 import com.example.proyectogticsgrupo1.Repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,22 +21,16 @@ public class SuperadminController {
     SedeRepository sedeRepository;
     @Autowired
     SeguroRepository seguroRepository;
-    @Autowired
-    TipoFormularioRepository tipoFormularioRepository;
-    @Autowired
-    UxUiRepository uxUiRepository;
-    @Autowired
-    AdministradorRepository administradorRepository;
-    @Autowired
-    SuperAdminRepository superAdminRepository;
+
+
 
 
     @GetMapping("/index")
     public String inicioDashboardSuperadmin(Model model){
 
-        Optional<Administrador> optionalAdministrador = administradorRepository.findById(1);
-        Administrador administrador = optionalAdministrador.get();
-        model.addAttribute("administradores", administrador);
+        Optional<Usuario> optionalUsuario = usuarioRepository.findById(1);
+        Usuario usuario = optionalUsuario.get();
+        model.addAttribute("administradores", usuario);
 
         return "superadmin/index";
     }
