@@ -93,7 +93,7 @@
 
                 <div class="card">
                     <div class="card-body">
-                        <a class="card-title" th:href="@{'/administrador/dashboarddoctor'}">Doctores</a>
+                        <a class="card-title" th:href="@{'/administrador/dashboarddoctor'+ '?id=' + ${usuario.idusuario}}">Doctores</a>
 
                         <!-- Default Table -->
                         <table class="table">

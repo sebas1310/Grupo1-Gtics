@@ -9,6 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.time.LocalDate;
 import java.util.Random;
 
 import javax.print.Doc;
@@ -202,7 +204,7 @@ public class AdministradorController {
         if (usuarioopt.isPresent()) {
             Usuario user = usuarioopt.get();
             model.addAttribute("usuario", user);
-            List<Paciente> listaPacientesS = pacienteRepository.listarPacienteporSede(2); // a futuro cambiar
+            List<Paciente> listaPacientesS = pacienteRepository.listarPacienteporSede(1); // a futuro cambiar
             model.addAttribute("listaUsuariosPacientes", listaPacientesS);
             return "administrador/dashboardpaciente";
         } else {
@@ -212,12 +214,14 @@ public class AdministradorController {
     }
 
     @GetMapping(value = "/dashboarddoctor")
-    public String dashboarddoc(Model model) {
+    public String dashboarddoc(Model model,@RequestParam("id") int idUsuario) {
+        Usuario usuario = usuarioRepository.buscarPorId(idUsuario);
+        model.addAttribute("usuario",usuario);
         Optional<Usuario> usuarioopt = usuarioRepository.findById(2);
         if (usuarioopt.isPresent()) {
             Usuario user = usuarioopt.get();
             model.addAttribute("usuario", user);
-            List<Doctor> listaDoctoresS = doctorRepository.listarDoctorporSede(2);
+            List<Doctor> listaDoctoresS = doctorRepository.listarDoctorporSede(1);
             model.addAttribute("listaUsuarioDoctores", listaDoctoresS);
             return "administrador/dashboarddoctor";
         } else {
@@ -251,18 +255,20 @@ public class AdministradorController {
         }
     }
 
-    @GetMapping(value = "/historialclinico")
-    public String historialClinico(Model model) {
-
+    @GetMapping("/historialclinico")
+    public String historialClinico(Model model, @RequestParam("id") int idPaciente){
         Optional<Usuario> usuarioopt = usuarioRepository.findById(2);
         if (usuarioopt.isPresent()) {
             Usuario user = usuarioopt.get();
             model.addAttribute("usuario", user);
+            Paciente paciente = pacienteRepository.buscarPacientH(idPaciente);
+            model.addAttribute("paciente", paciente);
+            List<Cita> citasFuturas = citaRepository.findByPacienteAndFechaAfterOrderByFechaAsc(paciente, LocalDate.now());
+            model.addAttribute("citas", citasFuturas);
             return "administrador/historialclinico";
-        } else {
+        }else {
             return "redirect:/iniciosesion";
         }
-
     }
 
     @GetMapping(value = "/crearpaciente")
@@ -351,10 +357,15 @@ public class AdministradorController {
     }
 
     @GetMapping(value = "/vistacuestionario")
-    public String VerCuestionario() {
-
-
-        return "administrador/vistacuestionario";
+    public String VerCuestionario(Model model) {
+        Optional<Usuario> usuarioopt = usuarioRepository.findById(2);
+        if (usuarioopt.isPresent()) {
+            Usuario user = usuarioopt.get();
+            model.addAttribute("usuario", user);
+            return "administrador/vistacuestionario";
+        } else {
+            return "redirect:/iniciosesion";
+        }
     }
 
     @GetMapping(value = "/creardoctor")

@@ -20,7 +20,7 @@ public interface DoctorRepository extends JpaRepository<Doctor, Integer> {
 
     @Query(value = "SELECT DISTINCT d.* FROM cita c\n" +
             "    JOIN doctor d on c.doctor_iddoctor = d.iddoctor\n" +
-            "    JOIN usuario u on d.idusuario = u.idusuario where c.idsede = 1", nativeQuery = true)
+            "    JOIN usuario u on d.idusuario = u.idusuario where c.idsede = ?1", nativeQuery = true)
     List<Doctor> listarDoctorporSede(int idsede);
 
 

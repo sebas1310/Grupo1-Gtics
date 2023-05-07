@@ -70,7 +70,7 @@
                             <tbody>
                             <tr th:each="usuariop, info: ${listaUsuariosPacientes}">
                                 <th scope="row" th:text="${info.index + 1}"></th>
-                                <td><a th:text="${usuariop.usuario.nombres} + ' ' + ${usuariop.usuario.apellidos}" th:href="@{'/administrador/historialclinico'}"></a></td>
+                                <td><a th:text="${usuariop.usuario.nombres} + ' ' + ${usuariop.usuario.apellidos}" th:href="@{'/administrador/historialclinico'+ '?id=' + ${usuariop.getIdpaciente}}"></a></td>
                                 <td th:text="${usuariop.estadoPaciente.nombre}"></td>
                             </tr>
                             </tbody>

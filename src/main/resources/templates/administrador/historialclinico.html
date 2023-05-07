@@ -31,7 +31,7 @@
         </nav>
     </div><!-- End Page Title -->
 
-    <section class="section">
+    <section class="section" id="historial-clinico">
         <div class="row">
             <div class="col-lg-20">
 
@@ -40,33 +40,27 @@
                         <h5 class="card-title">Historial Clínico</h5>
 
                         <!-- Default Table -->
-                        <table class="table col-lg-20">
+                        <table class="table col-lg-20" >
                             <thead>
                             <tr>
-                                <th class="table"scope="row">Estado: En Consulta</th>
+                                <th class="table"scope="row">Estado: <span th:text="${paciente.getEstadoPaciente().getNombre()}"></span></th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr>
-                                <td>Nombre: Lorena Vela Sulca</td>
+                                <td>Nombre: <span th:text="${paciente.getUsuario().getNombres() + '  ' + paciente.getUsuario().getApellidos()}"></span></td>
                             </tr>
                             <tr>
                                 <th scope="row">Alergias</th>
                             </tr>
                             <tr>
-                                <td> 1.- Ibuprofeno</a></td>
-                            </tr>
-                            <tr>
-                                <td> 2.- Penicilina</a></td>
+                                <td> <span th:text="${paciente.getAlergias()}"></span> </td>
                             </tr>
                             <tr>
                                 <th scope="row">Tratamiento</th>
                             </tr>
                             <tr>
-                                <td> 1.- Tratamiento de Diabetes</a></td>
-                            </tr>
-                            <tr>
-                                <td> 2.- Tratamiento de Presión Alta</td>
+                                <td> Tratamiento de <span th:text="${paciente.getCondicionenfermedad()}"></span></td>
                             </tr>
                             <tr>
                                 <th scope="row">Cuestionarios</th>
@@ -92,27 +86,53 @@
                                 <th scope="row">Consentimientos</th>
                             </tr>
                             <tr>
-                                <td> Uso de datos personales</a></td>
+                                <td> Uso de datos personales : <span th:text="${paciente.getConsentimientos() == 1 ? 'Sí' : 'No'}"></span></td>
                                 <td><i class="bi bi-person-lock"></i></td>
                             </tr>
                             <tr>
-                                <th scope="row">Próximas Citas</th>
+                                <th scope="row" >Próximas Citas</th>
+
                             </tr>
-                            <tr>
-                                <td> 23/05/2023 Cardiologia</td>
+                            <tr th:each="cita : ${citas}">
+                                <td th:text="${cita.fecha} + '/' + ${cita.horainicio} + '-' + ${cita.horafinal} + '/' + ${cita.especialidad.nombre}"></td>
                             </tr>
-                            <tr>
-                                <td>02/06/2023 Neurología</td>
-                            </tr>
+
                             <tr>
                                 <th scope="row">Documentos anexados</th>
                             </tr>
+
                             <tr>
-                                <td><i class="bi bi-filetype-pdf"></i> PDF Historial Clínico</td>
+                                <td style="text-decoration: underline; cursor: pointer;" id="historial-clinico-pdf"><i class="bi bi-filetype-pdf"></i> PDF Historial Clínico</td>
                             </tr>
+
                             <tr>
-                                <td><i class="bi bi-calendar-week"></i> Calendario de prox citas</td>
+                                <td><i class="bi bi-calendar-week" href="#"></i> Calendario de prox citas</td>
                             </tr>
+
+                            <script>
+
+                                const generarPdf = () => {
+                                    // Obtener la sección del historial clínico
+                                    const historialClinico = document.querySelector('#historial-clinico');
+
+                                    // Configurar opciones de PDF
+                                    const pdfOptions = {
+                                        margin: [0, 0, 0, 0],
+                                        filename: 'historial-clinico.pdf',
+                                        image: { type: 'jpeg', quality: 0.98 },
+                                        html2canvas: { scale: 2 },
+                                        jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+                                    };
+
+                                    // Crear PDF a partir del contenido de la sección
+                                    html2pdf().set(pdfOptions).from(historialClinico).save();
+                                }
+
+                                // Agregar controlador de eventos de clic al botón "PDF Historial Clínico"
+                                const historialClinicoPdfBtn = document.querySelector('#historial-clinico-pdf');
+                                historialClinicoPdfBtn.addEventListener('click', generarPdf);
+                            </script>
+
 
 
 
@@ -166,6 +186,10 @@
 <script th:src="@{/assets/vendor/simple-datatables/simple-datatables.js}"></script>
 <script th:src="@{/assets/vendor/tinymce/tinymce.min.js}"></script>
 <script th:src="@{/assets/vendor/php-email-form/validate.js}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.min.js"></script>
+
+
 
 <!-- Template Main JS File -->
 <script th:src="@{/assets/js/main.js}"></script>
