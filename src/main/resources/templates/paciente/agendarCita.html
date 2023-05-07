@@ -37,8 +37,8 @@
               <hr>
               <div class="row mb-3">
 
-                <label class="col-sm-2 col-form-label">Sede</label>
-                <div class="col-sm-10">
+                <label class="col-sm-3 col-form-label" style="font-weight: bold">Sede</label>
+                <div class="col-sm-9">
                   <select class="form-select" id="idsede" name="idsede">
                     <option selected disabled>Seleccione sede</option>
                     <option th:each="sede:${sedesparacitas}" th:text="${sede.nombre}" th:value="${sede.idsede}"></option>
@@ -47,18 +47,8 @@
               </div>
 
               <div class="row mb-3">
-                <label class="col-sm-2 col-form-label">Doctor</label>
-                <div class="col-sm-10">
-                  <select class="form-select" id="iddoctor" name="iddoctor">
-                    <option selected disabled>Seleccione doctor</option>
-                    <option th:each="doctor:${doctores}" th:text="|${doctor.usuario.nombres} ${doctor.usuario.apellidos}|" th:value="${doctor.iddoctor}"></option>
-                  </select>
-                </div>
-              </div>
-
-              <div class="row mb-3">
-                <label class="col-sm-2 col-form-label">Especialidad</label>
-                <div class="col-sm-10">
+                <label class="col-sm-3 col-form-label"style="font-weight: bold">Especialidad</label>
+                <div class="col-sm-9">
                   <select class="form-select" id="especialidadid" name="especialidadid">
                     <option selected disabled>Seleccione especialidad</option>
                     <option th:each="esp:${especialidades}" th:text="${esp.nombre}" th:value="${esp.idespecialidad}"></option>
@@ -66,28 +56,35 @@
                 </div>
               </div>
 
-
-
               <div class="row mb-3">
-                <label class="col-sm-2 col-form-label">DNI</label>
-                <div class="col-sm-10">
+                <label class="col-sm-3 col-form-label"style="font-weight: bold">Doctor</label>
+                <div class="col-sm-9">
+                  <select class="form-select" id="iddoctor" name="iddoctor">
+                    <option selected disabled>Seleccione doctor</option>
+                    <option th:each="doctor:${doctores}" th:text="|${doctor.usuario.nombres} ${doctor.usuario.apellidos}|" th:value="${doctor.iddoctor}"></option>
+                  </select>
+                </div>
+              </div>
+              <div class="row mb-3">
+                <label class="col-sm-3 col-form-label"style="font-weight: bold">DNI</label>
+                <div class="col-sm-9">
                   <input type="text" class="form-control" th:value="${pacientelog.usuario.dni}" disabled>
                 </div>
               </div>
 
               <div class="row mb-3">
-                <label for="fecha" class="col-sm-2 col-form-label">Fecha</label>
-                <div class="col-sm-10">
+                <label for="fecha" class="col-sm-3 col-form-label"style="font-weight: bold">Fecha</label>
+                <div class="col-sm-9">
                   <select class="form-select" name="fecha" id="fecha">
-                    <option selected disabled>Seleccione tipo de cita</option>
+                    <option selected disabled>Seleccione fecha</option>
                     <option th:each="e:${caldisponible}" th:text="|${e.fecha} (${e.doctor.usuario.nombres} ${e.doctor.usuario.apellidos})|" th:value="${e.fecha}"></option>
                   </select>
                 </div>
               </div>
 
               <div class="row mb-3">
-                <label for="hora" class="col-sm-2 col-form-label">Hora</label>
-                <div class="col-sm-10">
+                <label for="hora" class="col-sm-3 col-form-label"style="font-weight: bold">Hora</label>
+                <div class="col-sm-9">
                   <select class="form-select" name="hora" id="hora">
                     <option selected disabled>Seleccione Hora</option>
                     <option th:each="e:${caldisponible}" th:text="|${e.horainicio}-${e.horafinal} (${e.doctor.usuario.nombres} ${e.doctor.usuario.apellidos})|" th:value="${e.horainicio}"></option>
@@ -96,8 +93,8 @@
               </div>
 
               <div class="row mb-3">
-                <label class="col-sm-2 col-form-label">Tipo</label>
-                <div class="col-sm-10">
+                <label class="col-sm-3 col-form-label"style="font-weight: bold">Tipo</label>
+                <div class="col-sm-9">
                   <select class="form-select" name="idtipocita" id="idtipocita">
                     <option selected disabled>Seleccione tipo de cita</option>
                     <option th:each="t:${tipocita}" th:text="${t.nombre}" th:value="${t.idtipocita}"></option>
@@ -105,18 +102,18 @@
                 </div>
               </div>
               <div class="row mb-3">
-                <label class="col-sm-2 col-form-label">Seguro</label>
-                <div class="col-sm-10">
+                <label class="col-sm-3 col-form-label"style="font-weight: bold">Seguro</label>
+                <div class="col-sm-9">
                   <input type="text" class="form-control" th:value="${pacientelog.seguro.nombre}" disabled>
                 </div>
-                <div class="col-sm-10">
+                <div class="col-sm-9">
                   <input type="text" class="form-control" name="idseguro" th:value="${pacientelog.seguro.idseguro}" hidden>
                 </div>
               </div>
 
               <div class="text-center">
 
-                <div class="col-sm-10">
+                <div class="text-center">
                   <div th:if="${msg!=null}" th:text="${msg}" class="alert alert-danger" role="alert"></div>
                   <button type="submit" class="btn btn-success">Agendar Cita</button>
                 </div>

@@ -177,11 +177,34 @@ public class PacienteController {
         model.addAttribute("pacientelog",paciente);
         return "paciente/calendarioMensual";
 
-
-
-
     }
 
+    @GetMapping(value = "/chat")
+    public String chat(Model model) {
+        Optional<Paciente> optionalPaciente = pacienteRepository.findById(1);
+        Paciente paciente =  optionalPaciente.get();
+        model.addAttribute("pacientelog",paciente);
+
+        return "paciente/chat";
+    }
+
+    @GetMapping(value = "/mensajes")
+    public String mensajes(Model model) {
+        Optional<Paciente> optionalPaciente = pacienteRepository.findById(1);
+        Paciente paciente =  optionalPaciente.get();
+        model.addAttribute("pacientelog",paciente);
+
+        return "paciente/mensajes";
+    }
+
+    @GetMapping(value = "/notificaciones")
+    public String notif(Model model) {
+        Optional<Paciente> optionalPaciente = pacienteRepository.findById(1);
+        Paciente paciente =  optionalPaciente.get();
+        model.addAttribute("pacientelog",paciente);
+
+        return "paciente/notificaciones";
+    }
 
     @PostMapping(value = "/alergia")
     @Transactional
