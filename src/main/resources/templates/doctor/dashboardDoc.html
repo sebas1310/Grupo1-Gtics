@@ -67,7 +67,7 @@
                   <th style="text-align: center" scope="col">Tipo de Cita</th>
                   <th style="text-align: center" scope="col">Estado de Cita</th>
                   <th style="text-align: center" scope="col">Cuestionario</th>
-                  <th style="text-align: center" scope="col">Info.Paciente</th>
+                  <th style="text-align: center" scope="col">Mas Info</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -123,13 +123,7 @@
                                     <div class="card-body">
                                       <h9 class="card-title">Alergias</h9>
                                       <br>
-                                      <table class="table table-bordered">
-                                        <tbody>
-                                        <tr>
-                                          <td style="text-align: center" ><span th:text="|${paciente.getPaciente().getAlergias()}|"></span></td>
-                                        </tr>
-                                        </tbody>
-                                      </table>
+                                      <li><span th:text="|${paciente.getPaciente().getAlergias()} |"></span></li>
                                     </div>
                                   </div>
                                 </div>

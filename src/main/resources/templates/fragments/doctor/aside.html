@@ -23,14 +23,16 @@
     </li><!-- End Pacientes Atendidos -->
 
     <li class="nav-item" th:classappend="${active == 'calendario' ? 'active':''}">  <!-- cambia -->
-      <a class="nav-link collapsed" th:classappend="${active != 'calendario' ? 'collapsed':''}" th:href="@{'/doctor/calendario'+ '?id=' + ${doctor.iddoctor}}" >
+      <a class="nav-link collapsed" th:classappend="${active != 'calendario' ? 'collapsed':''}"
+         th:href="@{'/doctor/calendario'+ '?id=' + ${doctor.iddoctor}}" >
         <i class="bi bi-calendar3"></i>
         <span>Calendario</span>
       </a>
     </li><!-- End Calendario -->
 
     <li class="nav-item" th:classappend="${active == 'perfil' ? 'active':''}">
-      <a class="nav-link collapsed" th:classappend="${active != 'perfil' ? 'collapsed':''}" th:href="@{'/doctor/perfil'+ '?id=' + ${doctor.iddoctor}}"  >
+      <a class="nav-link collapsed" th:classappend="${active != 'perfil' ? 'collapsed':''}"
+         th:href="@{'/doctor/perfil'+ '?id=' + ${doctor.iddoctor}}"  >
         <i class="bi bi-person"></i>
         <span>Perfil</span>
       </a>

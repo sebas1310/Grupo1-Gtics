@@ -4,7 +4,7 @@
 </head>
 <body>
 <!-- ======= Header ======= -->
-<header th:replace="fragments/doctor/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1', nombre = 'Abigail Ramirez', num_men = '2')">
+<header th:replace="fragments/doctor/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1', nombre = |${doctor.usuario.nombres} ${doctor.usuario.apellidos}|, num_men = '2')">
 </header><!-- End Header -->
 
         <!-- ======= Sidebar ======= -->
@@ -20,7 +20,7 @@
                 </li><!-- End Dashboard -->
 
                 <li class="nav-item"> <!-- Cambiar ref -->
-                    <a class="nav-link collapsed"  th:href="@{'/doctor/pacientesatendidos'}" >
+                    <a class="nav-link collapsed"  th:href="@{'/doctor/pacientesatendidos'+ '?id=' + ${doctor.iddoctor}}" >
                         <i class="bi bi-menu-button-wide"></i>
                         <span>Pacientes Atendidos</span>
                     </a>
@@ -49,7 +49,7 @@
                 <li class="nav-heading"> ----------------------------------------------- </li>
 
                 <li class="nav-item">
-                    <a class="nav-link collapsed" th:href="@{'/doctor/configuraciones'}" >
+                    <a class="nav-link collapsed" th:href="@{'/doctor/configuraciones'+ '?id=' + ${doctor.iddoctor}}" >
                         <i class="bi bi-gear"></i>
                         <span>Configuracion</span>
                     </a>
@@ -103,7 +103,7 @@
                             <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
 
                                 <img src="https://img.freepik.com/foto-gratis/hermosa-joven-doctora-mirando-camara-oficina_1301-7807.jpg?w=2000" alt="Profile" class="rounded-circle">
-                                <h2>Abigail Ramirez</h2>
+                                <h2><span th:text="|${doctor.getUsuario().getNombres()} ${doctor.getUsuario().getApellidos()}|"></span></h2>
                                 <h3>Doctor</h3>
                             </div>
                         </div>

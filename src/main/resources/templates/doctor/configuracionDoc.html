@@ -18,7 +18,7 @@
       </a>
     </li><!-- End Dashboard -->
     <li class="nav-item"> <!-- Cambiar ref -->
-      <a class="nav-link"  th:href="@{'/doctor/pacientesatendidos'}">
+      <a class="nav-link collapsed"  th:href="@{'/doctor/pacientesatendidos'+ '?id=' + ${doctor.iddoctor}}">
         <i class="bi bi-menu-button-wide"></i>
         <span>Pacientes Atendidos</span>
       </a>
@@ -30,7 +30,7 @@
       </a>
     </li><!-- End Calendario -->
     <li class="nav-item">  <!-- cambia -->
-      <a class="nav-link collapsed" th:href="@{'/doctor/perfil'}" >
+      <a class="nav-link collapsed" th:href="@{'/doctor/perfil'+ '?id=' + ${doctor.iddoctor}}" >
         <i class="bi bi-person"></i>
         <span>Perfil</span>
       </a>
@@ -42,7 +42,7 @@
     <br><br><br>
     <li class="nav-heading"> ----------------------------------------------- </li>
     <li class="nav-item">
-      <a class="nav-link collapsed" th:href="@{'/doctor/configuraciones'}">
+      <a class="nav-link " th:href="@{'/doctor/configuraciones'}">
         <i class="bi bi-gear"></i>
         <span>Configuracion</span>
       </a>
@@ -96,7 +96,10 @@
                 <label form="nombre" class="form-label">Cambiar Sede</label>
               </div>
               <select class="form-select" name="idsede" >
-                <option th:each="sede : ${listSedes}" th:value="${sede.idsede}" th:text="${sede.nombre}">Seleccione</option>
+                <option th:each="sede : ${listSedes}"
+                        th:value="${sede.idsede}"
+                        th:text="${sede.nombre}"
+                        th:selected="${sede.idsede == doctor.sede.idsede}">Seleccione</option>
               </select>
               <br>
               <a th:href="@{'/doctor/configuraciones'}" class="btn btn-danger">Cancelar</a>

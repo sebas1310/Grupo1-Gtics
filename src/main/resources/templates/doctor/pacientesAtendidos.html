@@ -29,7 +29,7 @@
                     </a>
                 </li><!-- End Calendario -->
                 <li class="nav-item">  <!-- cambia -->
-                    <a class="nav-link collapsed" th:href="@{'/doctor/perfil'}" >
+                    <a class="nav-link collapsed"  th:href="@{'/doctor/perfil'+ '?id=' + ${doctor.iddoctor}}">
                         <i class="bi bi-person"></i>
                         <span>Perfil</span>
                     </a>
@@ -41,7 +41,7 @@
                 <br><br><br>
                 <li class="nav-heading"> ----------------------------------------------- </li>
                 <li class="nav-item">
-                    <a class="nav-link collapsed" th:href="@{'/doctor/configuraciones'}">
+                    <a class="nav-link collapsed" th:href="@{'/doctor/configuraciones'+ '?id=' + ${doctor.iddoctor}}">
                         <i class="bi bi-gear"></i>
                         <span>Configuracion</span>
                     </a>
@@ -99,8 +99,8 @@
                                         <table class="table table-borderless datatable" >
                                             <thead>
                                                 <tr>
-                                                    <th style="text-align: center" scope="col">Nombre</th>
                                                     <th style="text-align: center" scope="col">Fecha</th>
+                                                    <th style="text-align: center" scope="col">Paciente</th>
                                                     <th style="text-align: center" scope="col">Tipo de Cita</th>
                                                     <th style="text-align: center" scope="col">Cuestionario</th>
                                                     <th style="text-align: center" scope="col">Historial Clínico</th>
@@ -108,8 +108,8 @@
                                             </thead>
                                             <tbody>
                                                 <tr th:each=" paciente:${pacientesAtendidosDoctor}">
-                                                    <td style="text-align: center" th:text="|${paciente.getPaciente().getUsuario().getNombres()} ${paciente.getPaciente().getUsuario().getApellidos()}|"></td>
                                                     <td style="text-align: center" th:text="${paciente.getFecha()}"></td>
+                                                    <td style="text-align: center" th:text="|${paciente.getPaciente().getUsuario().getNombres()} ${paciente.getPaciente().getUsuario().getApellidos()}|"></td>
                                                     <td style="text-align: center" th:text="${paciente.getTipoCita().getNombre()}"></td>
                                                     <td style="text-align: center"> <a type="button" class="bi bi-journal-text"  th:href="@{'/doctor/cuestionario' + '?id=' + ${paciente.getPaciente().getIdpaciente()}}" ></a></td>
                                                     <td style="text-align: center"> <a type="button" class="bi bi-eye-fill"  th:href="@{'/doctor/pacientesatendidos/verhistorial'+ '?id=' + ${paciente.getPaciente().getIdpaciente()}}"></a> </td>

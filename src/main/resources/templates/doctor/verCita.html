@@ -105,6 +105,7 @@
                                <table class="table">
                                    <thead class="table-light">
                                    <tr>
+                                       <th style="text-align: center" scope="col">#</th>
                                        <th style="text-align: center" scope="col">Medicamento</th>
                                        <th style="text-align: center" scope="col">Dosis</th>
                                        <th style="text-align: center" scope="col">Descripción</th>
@@ -113,11 +114,16 @@
                                    </tr>
                                    </thead>
                                    <tbody>
-                                   <tr th:each=" receta : ${recetamedica}">
+                                   <tr th:each=" receta,indice : ${recetamedica}">
+                                       <th style="text-align: center" th:text="${indice.index+1}" scope="row"></th>
                                        <td style="text-align: center" th:text="${receta.getMedicamento()}"></td>
                                        <td style="text-align: center" th:text="${receta.getDosis()}"></td>
                                        <td style="text-align: center" th:text="${receta.getDescripcion()}"></td>
-                                       <td style="text-align: center" > <a class="bi bi-pencil-square" data-bs-toggle="modal" href="#modal" role="button"></a></td>
+                                       <!-- <td style="text-align: center" th:text="${receta.getIdRecetaMedica()}"></td> -->
+                                       <td style="text-align: center" > <a class="bi bi-pencil-square"  data-bs-toggle="modal"
+                                                                            data-bs-target="#modal" role="button"></a></td>
+                                       <!-- <td> <input type="button" name="btnEditarS" value="Editar 1" th:text="${receta.getIdRecetaMedica()}"
+                                                   class="bi bi-pencil-square" data-bs-toggle="modal" data-bs-target="#modal"></td>-->
                                    </tr>
                                    </tbody>
                                </table>
@@ -137,19 +143,22 @@
                                                    <div class="row mb-3">
                                                        <label for="medicamento" class="col-md-4 col-lg-3 col-form-label">Medicamento</label>
                                                        <div class="col-md-8 col-lg-9">
-                                                           <input name="medicamento" type="text" class="form-control" id="medicamento" th:value="${recetam.getMedicamento()}">
+                                                           <input name="medicamento" type="text" class="form-control" id="medicamento"
+                                                                  th:value="${recetam.medicamento}">
                                                        </div>
                                                    </div>
                                                    <div class="row mb-3">
                                                        <label for="dosis" class="col-md-4 col-lg-3 col-form-label">Dosis</label>
                                                        <div class="col-md-8 col-lg-9">
-                                                           <input name="dosis" type="text" class="form-control" id="dosis" th:value="${recetam.getDosis()}">
+                                                           <input name="dosis" type="text" class="form-control" id="dosis"
+                                                                  th:value="${recetam.dosis}">
                                                        </div>
                                                    </div>
                                                    <div class="row mb-3">
                                                        <label for="descripcion" class="col-md-4 col-lg-3 col-form-label">Descripcion</label>
                                                        <div class="col-md-8 col-lg-9">
-                                                           <input name="descripcion" type="text" class="form-control" id="descripcion" th:value="${recetam.getDescripcion()}">
+                                                           <input name="descripcion" type="text" class="form-control" id="descripcion"
+                                                                  th:value="${recetam.descripcion}">
                                                        </div>
                                                    </div>
                                                    <br>
@@ -188,8 +197,8 @@
                                            </div>
                                            <div class="modal-body">
                                                <form method="post" th:action="@{'/doctor/pacientesatendidos/verhistorial/vercita/guardarreceta'}">
-
-                                                   <input th:value="${cita.getIdcita()}" name="idcita" type="hidden" />
+                                                   <input th:each=" recetame : ${recetamedica}" th:value="${recetame.idRecetaMedica}" name="idReceta" type="hidden" />
+                                                   <input th:value="${cita.getIdcita()}" name="id" type="hidden" />
 
                                                    <div class="form-floating">
                                                        <input name="medicamento" class="form-control" type="text" placeholder="Leave a comment here" id="floatingTextarea1">
