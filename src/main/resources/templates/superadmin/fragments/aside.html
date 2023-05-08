@@ -26,18 +26,11 @@
             </a>
         </li>
 
-        <li class="nav-item" th:classappend="${active == 'lista_form' ? 'active':''}">
-            <a class="nav-link" th:classappend="${active != 'lista_form' ? 'collapsed':''}" th:href="@{'/superadmin/seguros'}">
+        <li class="nav-item" th:classappend="${active == 'seguros' ? 'active':''}">
+            <a class="nav-link" th:classappend="${active != 'seguros' ? 'collapsed':''}" th:href="@{'/superadmin/seguros'}">
                 <i class="bi bi-circle-square"></i><span>Seguros</span>
             </a>
         </li>
-
-        <li class="nav-item" th:classappend="${active == 'reportes' ? 'active':''}">
-            <a class="nav-link " th:classappend="${active != 'reportes' ? 'collapsed':''}" th:href="@{'/superadmin/reportes'}">
-                <i class="bi bi-circle"></i><span>Reportes</span>
-            </a>
-        </li><!-- End Tables Nav -->
-
 
 
         <li class="nav-item" th:classappend="${active == 'registro' ? 'active':''}">
