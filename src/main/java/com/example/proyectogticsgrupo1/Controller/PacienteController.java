@@ -207,10 +207,10 @@ public class PacienteController {
         Optional<Paciente> optionalPaciente = pacienteRepository.findById(1);
         Paciente paciente =  optionalPaciente.get();
         String alergias = paciente.getAlergias();
-        if(alergias.contains(alergia)){
+        if(alergias.contains(alergia.toLowerCase())){
             redirectAttributes.addFlashAttribute("msg1","Esa alergia ya se encuentra registrada");
         }else {
-            String alg = paciente.getAlergias()+","+alergia;
+            String alg = paciente.getAlergias()+","+alergia.toLowerCase();
             pacienteRepository.modificarAlergia(alg, id);
             redirectAttributes.addFlashAttribute("msg2","Alergia agregada correctamente");
         }
@@ -226,13 +226,9 @@ public class PacienteController {
         Optional<Paciente> optionalPaciente = pacienteRepository.findById(1);
         Paciente paciente =  optionalPaciente.get();
         if(paciente.getUsuario().getContrasena().equals(contrasena)){
-            if(newpassword.equals(renewpassword)){
-                userRepository.changePassword(renewpassword,paciente.getUsuario().getIdusuario());
-                redirectAttributes.addFlashAttribute("psw1", "Contraseña actualizada");
-            }
-            else {
-                redirectAttributes.addFlashAttribute("psw2", "La contraseñas ingresadas no coinciden");
-            }
+            userRepository.changePassword(renewpassword,paciente.getUsuario().getIdusuario());
+            redirectAttributes.addFlashAttribute("psw1", "Contraseña actualizada");
+
         }else {
             redirectAttributes.addFlashAttribute("psw2", "La contraseña es incorrecta");
         }

@@ -14,6 +14,12 @@
 <aside th:replace="fragmentsPacientes/aside.html :: sidebar (active = 'agendar_cita')">
 </aside>
 <!-- End Sidebar-->
+
+<!--Modal Cerrar Sesion-->
+<div th:replace="fragmentsPacientes/modalCerrarSesion.html::modal">
+
+</div>
+<!-- End Modal-->
 <main id="main" class="main">
 
   <div class="pagetitle">
@@ -115,7 +121,7 @@
 
                 <div class="text-center">
                   <div th:if="${msg!=null}" th:text="${msg}" class="alert alert-danger" role="alert"></div>
-                  <button type="submit" class="btn btn-success">Agendar Cita</button>
+                  <button type="submit" class="btn btn-warning">Agendar Cita</button>
                 </div>
               </div>
 
