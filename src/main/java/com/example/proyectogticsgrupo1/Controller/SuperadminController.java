@@ -87,6 +87,7 @@ public class SuperadminController {
     @GetMapping("/perfil")
     public String perfilSuperAdmin(Model model){
 
+
         Optional<Usuario> optionalSuperadmin = usuarioRepository.findById(1);
         Usuario usuario = optionalSuperadmin.get();
         model.addAttribute("superadminlog", usuario);
@@ -116,8 +117,8 @@ public class SuperadminController {
         List<Tipodeusuario> tipodeusuarioList = tipodeusuarioRepository.findAll();
         List<Especialidad> especialidadList = especialidadRepository.findAll();
 
-        ModeloEntity modeloEntity = new ModeloEntity();
-        model.addAttribute("modelo",modeloEntity);
+//        ModeloEntity modeloEntity = new ModeloEntity();
+//        model.addAttribute("modelo",modeloEntity);
         model.addAttribute("tipodeusuarioList",tipodeusuarioList);
         model.addAttribute("especialidadList",especialidadList);
 
@@ -132,7 +133,8 @@ public class SuperadminController {
             ,@RequestParam("id_especialidad") int id_especialidad
             ,@RequestParam("nro_inputs") int nro_inputs
             ,@RequestParam("tipo_plantilla") String tipo_plantilla
-            , RedirectAttributes attr){
+            ){
+//        , RedirectAttributes attr
 
 //        ,@RequestParam("nombreplantilla") String nombreplantilla
 
@@ -161,7 +163,6 @@ public class SuperadminController {
             
         } else if (tipo_plantilla.equals("cuestionario")) {
             modeloRepository.crearnuevaPlantillaCuestionario(nombreplantilla,mod_datos,id_rol,id_especialidad,nro_inputs,1);
-            System.out.println("Se creo el cuestionario");
 
         }
 
@@ -175,7 +176,7 @@ public class SuperadminController {
 //            attr.addFlashAttribute("msg", "Empleado actualizado exitosamente");
 //        }
 
-        attr.addFlashAttribute("msg", "Plantilla creada exitosamente");
+//        attr.addFlashAttribute("msg", "Plantilla creada exitosamente");
 
 
         return "redirect:/superadmin/nuevoform";
