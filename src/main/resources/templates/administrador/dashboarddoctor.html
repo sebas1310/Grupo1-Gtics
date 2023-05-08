@@ -54,7 +54,7 @@
               <form class="search-form d-flex align-items-center col-lg bg-body-tertiary" method="post" th:action="@{/administrador/buscarDoctor}">
                 <input name="id" th:value="${usuario.idusuario}" type="hidden">
                 <input class="form-control me-2" type="search" placeholder="Buscar Doctor" aria-label="Search" name="buscando">
-                <button class="btn btn-outline-success" type="submit"><i class="bi bi-search"></i></button>
+                <button class="btn btn-outline-success" type="submit" style="margin-right: 10px"><i class="bi bi-search"></i></button>
                 <span><a class="btn btn-outline-danger" th:href="@{/administrador/dashboarddoctor}">Limpiar</i></a></span>
               </form>
             </div><!-- End Search Bar -->

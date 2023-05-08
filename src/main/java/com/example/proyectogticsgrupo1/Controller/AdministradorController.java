@@ -2,9 +2,7 @@ package com.example.proyectogticsgrupo1.Controller;
 
 import com.example.proyectogticsgrupo1.Entity.*;
 import com.example.proyectogticsgrupo1.Repository.*;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.Banner;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -13,9 +11,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.time.LocalDate;
 import java.util.Random;
 
-import javax.print.Doc;
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -196,6 +191,38 @@ public class AdministradorController {
         return "administrador/dashboardpaciente";
     }*/
 
+    @GetMapping(value = "/porregistrar")
+    public String porRegistrar(Model model, @RequestParam(name="buscando",required = false) String buscando) {
+        Optional<Usuario> usuarioopt = usuarioRepository.findById(2);
+        if (usuarioopt.isPresent()) {
+            Usuario user = usuarioopt.get();
+            model.addAttribute("usuario", user);
+            if(buscando == null) {
+                List<Paciente> listaPacientesR = pacienteRepository.listarPacienteInvitado(2); // a futuro cambiar
+                model.addAttribute("listaUsuariosPInvitados", listaPacientesR);
+            }
+            else{
+                List<Paciente> listaUsuarios = pacienteRepository.buscadorInvitado(buscando.toLowerCase());
+                model.addAttribute("listaUsuariosPInvitados", listaUsuarios);
+            }
+            return "administrador/porregistrar";
+        } else {
+            return "redirect:/iniciosesion";
+        }
+    }
+
+    @PostMapping(value = "/actualizar")
+    public String actualizarEstadoPacientes() {
+        pacienteRepository.actualizarEstado();
+        return "redirect:/administrador/dashboardpaciente";
+    }
+
+    @PostMapping("/buscarInvitado")
+    public String buscadorInvitados(@RequestParam("buscando") String buscando, RedirectAttributes redirectAttributes) {
+        redirectAttributes.addAttribute("buscando",buscando);
+        return "redirect:/administrador/porregistrar";
+    }
+
     @GetMapping(value = "/dashboardpaciente")
     public String listaCitas(Model model, @RequestParam(name="buscando",required = false) String buscando) {
         Optional<Usuario> usuarioopt = usuarioRepository.findById(2);
@@ -203,12 +230,12 @@ public class AdministradorController {
             Usuario user = usuarioopt.get();
             model.addAttribute("usuario", user);
             if(buscando == null) {
-                List<Paciente> listaPacientesS = pacienteRepository.listarPacienteporSede(1); // a futuro cambiar
+                List<Paciente> listaPacientesS = pacienteRepository.listarPacienteporSede(2); // a futuro cambiar
                 model.addAttribute("listaUsuariosPacientes", listaPacientesS);
             }else{
                 List<Paciente> listaUsuarios = pacienteRepository.buscadorPaciente(buscando.toLowerCase());
                 model.addAttribute("listaUsuariosPacientes", listaUsuarios);
-                }
+            }
             return "administrador/dashboardpaciente";
         } else {
             return "redirect:/iniciosesion";
@@ -230,7 +257,7 @@ public class AdministradorController {
             Usuario user = usuarioopt.get();
             model.addAttribute("usuario", user);
             if(buscando == null) {
-                List<Doctor> listaDoctoresS = doctorRepository.listarDoctorporSede(1);
+                List<Doctor> listaDoctoresS = doctorRepository.listarDoctorporSede(2);
                 model.addAttribute("listaUsuarioDoctores", listaDoctoresS);
             }else{
                 List<Doctor> listaUsuarios = doctorRepository.buscadorDoctor(buscando.toLowerCase());
@@ -297,18 +324,6 @@ public class AdministradorController {
             Usuario user = usuarioopt.get();
             model.addAttribute("usuario", user);
             return "administrador/crearpaciente";
-        } else {
-            return "redirect:/iniciosesion";
-        }
-    }
-
-    @GetMapping(value = "/invitar")
-    public String invitar(Model model) {
-        Optional<Usuario> usuarioopt = usuarioRepository.findById(2);
-        if (usuarioopt.isPresent()) {
-            Usuario user = usuarioopt.get();
-            model.addAttribute("usuario", user);
-            return "administrador/invitar";
         } else {
             return "redirect:/iniciosesion";
         }
