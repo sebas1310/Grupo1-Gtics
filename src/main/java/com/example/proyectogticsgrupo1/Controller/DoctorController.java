@@ -260,6 +260,11 @@ public class DoctorController {
         //return ResponseEntity.ok().build();
     }
 
+    @GetMapping("/notificaciones")
+    public String notificacionesDoctor() {
+        return "doctor/notificacionesDoc";
+    }
+
     @PostMapping("/perfil/editarperfil")
     @Transactional
     public String actualizarPerfilDoctor(RedirectAttributes redirectAttributes,@RequestParam("id") int idDoctor,
