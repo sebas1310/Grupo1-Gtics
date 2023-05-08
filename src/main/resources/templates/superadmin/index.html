@@ -52,53 +52,32 @@
 
                 <div class="card-body">
                   <h5 class="card-title">Usuarios Registrados <span>| Hoy</span></h5>
+                  <div class="search-bar">
+                    <form class="search-form d-flex align-items-center col-lg bg-body-tertiary" method="POST" action="#">
+                      <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">
+                      <button class="btn btn-outline-success" type="submit"><i class="bi bi-search"></i></button>
+                    </form>
+                  </div><!-- End Search Bar -->
 
-                  <table class="table table-borderless datatable">
+                  <table class="table">
                     <thead>
                       <tr>
                         <th scope="col">#</th>
                         <th scope="col">Nombres</th>
-                        <th scope="col">Rol</th>
+                        <th scope="col">Sede</th>
                         <th scope="col">Editar</th>
-                        <th scope="col">Estado</th>
                       </tr>
+
                     </thead>
+
                     <tbody>
-                      <tr>
-                        <th scope="row"><a href="#">#1</a></th>
-                        <td>Brandon Jacob</td>
-                        <td>Administrador</td>
-                        <td><a th:href="@{'/superadmin/perfilUsuario'}">Editar</a></td>
-                        <td><span class="badge bg-success">Activo</span></td>
-                      </tr>
-                      <tr>
-                        <th scope="row"><a href="#">#2</a></th>
-                        <td>Bridie Kessler</td>
-                        <td>Administrativo</td>
-                        <td><a th:href="@{'/superadmin/perfilUsuario'}">Editar</a></td>
-                        <td><span class="badge bg-success">Activo</span></td>
-                      </tr>
-                      <tr>
-                        <th scope="row"><a href="#">#3</a></th>
-                        <td>Ashleigh Langosh</td>
-                        <td>Paciente</td>
-                        <td><a th:href="@{'/superadmin/perfilUsuario'}">Editar</a></td>
-                        <td><span class="badge bg-success">Activo</span></td>
-                      </tr>
-                      <tr>
-                        <th scope="row"><a href="#">#4</a></th>
-                        <td>Angus Grady</td>
-                        <td>Doctor</td>
-                        <td><a th:href="@{'/superadmin/perfilUsuario'}">Editar</a></td>
-                        <td><span class="badge bg-danger">Inactivo</span></td>
-                      </tr>
-                      <tr>
-                        <th scope="row"><a href="#">#5</a></th>
-                        <td>Raheem Lehner</td>
-                        <td>Administrativo</td>
-                        <td><a th:href="@{'/superadmin/perfilUsuario'}">Editar</a></td>
-                        <td><span class="badge bg-success">Activo</span></td>
-                      </tr>
+                    <tr th:each="administrador, info: ${listaadministrador}">
+                      <th scope="row" th:text="${info.index + 1}"></th>
+                      <td th:text="|${administrador.usuario.getNombres()}  ${administrador.usuario.getApellidos()}|"></td>
+                      <td th:text="${administrador.sede.nombre()}"></td>
+                      <td><a th:href="@{'/superadmin/perfilUsuario'}">Editar</a></td>
+
+                    </tr>
                     </tbody>
                   </table>
                   <!-- Centered Pagination -->

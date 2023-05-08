@@ -15,9 +15,9 @@ public class Administrador {
     private int idadministrador;
     @ManyToOne
     @JoinColumn(name = "idsede")
-    private Sede idsede;
+    private Sede sede;
     @ManyToOne
     @JoinColumn(name = "idusuario")
-    private Usuario idusuario;
+    private Usuario usuario;
 
 }

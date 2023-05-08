@@ -39,11 +39,10 @@ public class SuperadminController {
     @GetMapping("/index")
     public String inicioDashboardSuperadmin(Model model){
 
-        Optional<Administrador> optionalAdministrador = administradorRepository.findById(1);
-        Administrador administrador = optionalAdministrador.get();
-        model.addAttribute("administradores", administrador);
 
+        model.addAttribute("listaadministrador", administradorRepository.findAll());
         return "superadmin/index";
+
     }
     @GetMapping("/listaform")
     public String listaFormularios(){
@@ -73,11 +72,8 @@ public class SuperadminController {
     }
 
     @GetMapping("/perfil")
-    public String perfilSuperAdmin(Model model){
+    public String perfilSuperAdmin(){
 
-        Optional<Superadmin> optionalSuperadmin = superAdminRepository.findById(1);
-        Superadmin superadmin = optionalSuperadmin.get();
-        model.addAttribute("superadminlog", superadmin);
         return "superadmin/users-profile";
     }
     @GetMapping("/registraradministrativo")
