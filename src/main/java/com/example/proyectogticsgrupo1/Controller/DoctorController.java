@@ -147,18 +147,20 @@ public class DoctorController {
         return "redirect:/doctor/pacientesatendidos/verhistorial/vercita";
 
     }
+
+    //consultar si se puede sacar idReceta
     @PostMapping("/pacientesatendidos/verhistorial/vercita/guardarreceta")
     @Transactional
     public String guardarReceta(RedirectAttributes redirectAttributes,
                                 @RequestParam("medicamento") String medicamento ,
                                 @RequestParam("dosis") String dosis,
                                 @RequestParam("descripcion") String descripcion ,
-                                @RequestParam("idReceta") int idReceta,
+                                //@RequestParam("idReceta") int idReceta,
                                 @RequestParam("id") int idCita){
 
         recetaMedicaRepository.agregarReceta(medicamento,dosis,descripcion,idCita);
         redirectAttributes.addAttribute("id",idCita);
-        redirectAttributes.addAttribute("idReceta",idReceta);
+        //redirectAttributes.addAttribute("idReceta",idReceta);
         return "redirect:/doctor/pacientesatendidos/verhistorial/vercita";
 
     }
@@ -175,6 +177,17 @@ public class DoctorController {
         redirectAttributes.addAttribute("idReceta",idReceta);
         return "redirect:/doctor/pacientesatendidos/verhistorial/vercita";
     }
+
+    @Transactional
+    @GetMapping(value = "/pacientesatendidos/verhistorial/vercita/borrarreceta")
+    public String borrarReceta(@RequestParam("idR") Integer idReceta, RedirectAttributes redirectAttributes){
+
+        RecetaMedica receta = recetaMedicaRepository.buscarRecetaMedicaPorID(idReceta);
+        Integer idCita = receta.getCita().getIdcita();
+        recetaMedicaRepository.borrarReceta(idReceta);
+        redirectAttributes.addAttribute("id",idCita);
+        return "redirect:/doctor/pacientesatendidos/verhistorial/vercita";
+        }
 
     @GetMapping("/calendario")
     public String calendarioDoctor(Model model, @RequestParam("id") int idDoctor){

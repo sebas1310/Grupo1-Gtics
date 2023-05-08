@@ -89,7 +89,7 @@
                        <div class="card-body">
                            <h5 class="card-title">Informacion de la Cita</h5>
                            <div class="ps-3">
-                               <li>Paciente: <span th:text="${cita.getPaciente().getUsuario().getNombres() +cita.getPaciente().getUsuario().getApellidos()}"></span></li>
+                               <li>Paciente: <span th:text="|${cita.getPaciente().getUsuario().getNombres()} ${cita.getPaciente().getUsuario().getApellidos()}|"></span></li>
                                <li>Edad: <span th:text="${cita.getPaciente().getUsuario().getEdad()}"></span> años</li>
                                <li>Fecha: <span th:text="${cita.getFecha()}"></span></li>
                                <li>Modalidad: <span th:text="${cita.getTipoCita().getNombre()}"></span></li>
@@ -111,6 +111,7 @@
                                        <th style="text-align: center" scope="col">Descripción</th>
                                        <!--<th style="text-align: center" scope="col">Opción</th> -->
                                        <th style="text-align: center" scope="col">Editar</th>
+                                       <th style="text-align: center" scope="col">Borrar</th>
                                    </tr>
                                    </thead>
                                    <tbody>
@@ -124,6 +125,7 @@
                                                                             data-bs-target="#modal" role="button"></a></td>
                                        <!-- <td> <input type="button" name="btnEditarS" value="Editar 1" th:text="${receta.getIdRecetaMedica()}"
                                                    class="bi bi-pencil-square" data-bs-toggle="modal" data-bs-target="#modal"></td>-->
+                                       <tdstyle="text-align: center" ><a class="bi bi-trash" th:href="@{'/doctor/pacientesatendidos/verhistorial/vercita/borrarreceta?idR='+${receta.getIdRecetaMedica()}}"></a></td>
                                    </tr>
                                    </tbody>
                                </table>
@@ -186,6 +188,12 @@
                                <div class="d-grid gap d-md-flex justify-content-md-center">
                                    <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#verticalycentered">
                                        Añadir Receta
+                                   </button>
+                                   <button th:if="${cita.getTipoCita().getIdtipocita() eq 1}"type="button" class="btn btn-primary" >
+                                       Generar Boleta Farmacia
+                                   </button>
+                                   <button th:unless="${cita.getTipoCita().getIdtipocita() eq 1}"type="button" class="btn btn-primary" >
+                                       Mandar Delivery
                                    </button>
                                </div>
                                <div class="modal fade" id="verticalycentered" tabindex="-1">
