@@ -20,7 +20,10 @@
     <div class="pagetitle">
       <h1>Mi Perfil</h1>
 
-    </div><!-- End Page Title -->
+    </div><!-- End Page Title -->.
+    <div class="alert alert-success" role="alert" th:if="${msg != null}" th:text="${msg}">
+      A simple success alert—check it out!
+    </div>
 
     <section class="section profile">
       <div class="row">
@@ -30,7 +33,7 @@
             <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
 
               <img th:src="@{/assets/img/profile-img.jpg}" alt="Profile" class="rounded-circle">
-              <h2 th:text="${superadminlog.apellidos + ' ' + superadminlog.nombres}"></h2>
+              <h2 th:text="${superadminlog.nombres + ' ' + superadminlog.apellidos}"></h2>
               <h3>Super Admin</h3>
 
             </div>
@@ -112,7 +115,7 @@
                   <!-- Profile Edit Form -->
                   <form>
                     <div class="row mb-3">
-                      <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Foto de Perfil</label>
+                      <label class="col-md-4 col-lg-3 col-form-label">Foto de Perfil</label>
                       <div class="col-md-8 col-lg-9">
                         <img th:src="@{/assets/img/profile-img.jpg}"alt="Profile">
                         <div class="pt-2">
@@ -125,7 +128,7 @@
                     <div class="row mb-3">
                       <label for="nombre" class="col-md-4 col-lg-3 col-form-label">Nombre</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="fullName" type="text" class="form-control" id="nombre" value="Alexia">
+                        <input name="fullName" type="text" class="form-control" id="nombre" th:value="${superadminlog.nombres}">
                       </div>
 
 
@@ -133,7 +136,7 @@
                     <div class="row mb-3">
                       <label for="apellido" class="col-md-4 col-lg-3 col-form-label">Apellidos</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="fullName" type="text" class="form-control" id="apellido" value="Jauregui">
+                        <input name="fullName" type="text" class="form-control" id="apellido" th:value="${superadminlog.apellidos}">
                       </div>
 
                     </div>
@@ -141,21 +144,21 @@
                     <div class="row mb-3">
                       <label for="Email" class="col-md-4 col-lg-3 col-form-label">Correo</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="email" type="email" class="form-control" id="Email" value="alexia2212@outlook.es">
+                        <input name="email" type="email" class="form-control" id="Email" th:value="${superadminlog.correo}">
                       </div>
                     </div>
 
                     <div class="row mb-3">
                       <label for="dni" class="col-md-4 col-lg-3 col-form-label">DNI</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="company" type="text" class="form-control" id="dni" value="72299800">
+                        <input name="company" type="text" class="form-control" id="dni" th:value="${superadminlog.dni}">
                       </div>
                     </div>
 
                     <div class="row mb-3">
                       <label for="edad" class="col-md-4 col-lg-3 col-form-label">Edad</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="edad" type="text" class="form-control" id="edad" value="21">
+                        <input name="edad" type="text" class="form-control" id="edad" th:value="${superadminlog.edad}">
                       </div>
                     </div>
 
@@ -163,7 +166,7 @@
                     <div class="row mb-3">
                         <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Celular</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="phone" type="text" class="form-control" id="Phone" value="994023157">
+                        <input name="phone" type="text" class="form-control" id="Phone" th:value="${superadminlog.celular}">
                       </div>
                     </div>
 
@@ -178,19 +181,19 @@
 
                 <div class="tab-pane fade pt-3" id="profile-change-password">
                   <!-- Change Password Form -->
-                  <form>
+                  <form method="post" th:action="@{/superadmin/cambiarContraseña}">
 
                     <div class="row mb-3">
                       <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Contraseña Actual</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="password" type="password" class="form-control" id="currentPassword">
+                        <input name="currentPassword" type="password" class="form-control" id="currentPassword">
                       </div>
                     </div>
 
                     <div class="row mb-3">
                       <label for="newPassword" class="col-md-4 col-lg-3 col-form-label">Nueva Contraseña</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="newpassword" type="password" class="form-control" id="newPassword">
+                        <input name="newPassword" type="password" class="form-control" id="newPassword">
                       </div>
                     </div>
 
@@ -224,13 +227,13 @@
     <div class="copyright">
       &copy; Copyright <strong><span>Clinica LA FE</span></strong>. All Rights Reserved
     </div>
-    <div class="credits">
-      <!-- All the links in the footer should remain intact. -->
-      <!-- You can delete the links only if you purchased the pro version. -->
-      <!-- Licensing information: https://bootstrapmade.com/license/ -->
-      <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
-      Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
-    </div>
+<!--    <div class="credits">-->
+<!--      &lt;!&ndash; All the links in the footer should remain intact. &ndash;&gt;-->
+<!--      &lt;!&ndash; You can delete the links only if you purchased the pro version. &ndash;&gt;-->
+<!--      &lt;!&ndash; Licensing information: https://bootstrapmade.com/license/ &ndash;&gt;-->
+<!--      &lt;!&ndash; Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ &ndash;&gt;-->
+<!--      Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>-->
+<!--    </div>-->
   </footer><!-- End Footer -->
 
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>

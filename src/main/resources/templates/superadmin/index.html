@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-<head th:insert="~{fragments/librerias.html :: cabecera (titulo = 'index')}">
+<head th:insert="superadmin/fragments/librerias.html :: cabecera (titulo = 'index')">
 </head>
 
 <body>
 
 <!-- ======= Header ======= -->
-<header th:replace="~{fragments/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1', nombre = 'A. Jauregui', num_men = '3')}">
+<header th:replace="superadmin/fragments/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1', nombre = 'A. Jauregui', num_men = '3')">
 </header>
 <!-- End Header -->
 
 <!-- ======= Sidebar ======= -->
-<aside th:replace="~{fragments/aside.html :: sidebar (active = 'index')}">
+<aside th:replace="superadmin/fragments/aside.html :: sidebar (active = 'index')">
 </aside>
 <!-- End Sidebar-->
 
@@ -64,61 +64,70 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <th scope="row"><a href="#">#1</a></th>
-                        <td>Brandon Jacob</td>
-                        <td>Administrador</td>
-                        <td><a th:href="@{'/superadmin/perfilUsuario'}">Editar</a></td>
-                        <td><span class="badge bg-success">Activo</span></td>
+                      <tr th:each="usuario, info : ${listaUsuarios}">
+                        <td th:text="${info.index + 1}"></td>
+                        <td th:text="${usuario.nombres + ' ' +usuario.apellidos}"></td>
+                        <td th:text="${usuario.getTipodeusuario().nombre}"></td>
+                        <td><a th:href="@{'/superadmin/perfilUsuario'}" class="btn" style="background-color:#668cff">Acceder</a></td>
+                        <td><span th:if="${usuario.estadohabilitado == 1}" class="badge bg-success">Activo</span>
+                          <span th:if="${usuario.estadohabilitado == 0}"class="badge bg-danger">Inactivo</span></td>
+<!--                        <td><span th:if="${estado_habilitado == 0}"class="badge bg-danger">Inactivo</span></td>-->
                       </tr>
-                      <tr>
-                        <th scope="row"><a href="#">#2</a></th>
-                        <td>Bridie Kessler</td>
-                        <td>Administrativo</td>
-                        <td><a th:href="@{'/superadmin/perfilUsuario'}">Editar</a></td>
-                        <td><span class="badge bg-success">Activo</span></td>
-                      </tr>
-                      <tr>
-                        <th scope="row"><a href="#">#3</a></th>
-                        <td>Ashleigh Langosh</td>
-                        <td>Paciente</td>
-                        <td><a th:href="@{'/superadmin/perfilUsuario'}">Editar</a></td>
-                        <td><span class="badge bg-success">Activo</span></td>
-                      </tr>
-                      <tr>
-                        <th scope="row"><a href="#">#4</a></th>
-                        <td>Angus Grady</td>
-                        <td>Doctor</td>
-                        <td><a th:href="@{'/superadmin/perfilUsuario'}">Editar</a></td>
-                        <td><span class="badge bg-danger">Inactivo</span></td>
-                      </tr>
-                      <tr>
-                        <th scope="row"><a href="#">#5</a></th>
-                        <td>Raheem Lehner</td>
-                        <td>Administrativo</td>
-                        <td><a th:href="@{'/superadmin/perfilUsuario'}">Editar</a></td>
-                        <td><span class="badge bg-success">Activo</span></td>
-                      </tr>
+<!--                      <tr>-->
+<!--                        <th scope="row"><a href="#">#1</a></th>-->
+<!--                        <td>Brandon Jacob</td>-->
+<!--                        <td>Administrador</td>-->
+<!--                        <td><a th:href="@{'/superadmin/perfilUsuario'}">Editar</a></td>-->
+<!--                        <td><span class="badge bg-success">Activo</span></td>-->
+<!--                      </tr>-->
+<!--                      <tr>-->
+<!--                        <th scope="row"><a href="#">#2</a></th>-->
+<!--                        <td>Bridie Kessler</td>-->
+<!--                        <td>Administrativo</td>-->
+<!--                        <td><a th:href="@{'/superadmin/perfilUsuario'}">Editar</a></td>-->
+<!--                        <td><span class="badge bg-success">Activo</span></td>-->
+<!--                      </tr>-->
+<!--                      <tr>-->
+<!--                        <th scope="row"><a href="#">#3</a></th>-->
+<!--                        <td>Ashleigh Langosh</td>-->
+<!--                        <td>Paciente</td>-->
+<!--                        <td><a th:href="@{'/superadmin/perfilUsuario'}">Editar</a></td>-->
+<!--                        <td><span class="badge bg-success">Activo</span></td>-->
+<!--                      </tr>-->
+<!--                      <tr>-->
+<!--                        <th scope="row"><a href="#">#4</a></th>-->
+<!--                        <td>Angus Grady</td>-->
+<!--                        <td>Doctor</td>-->
+<!--                        <td><a th:href="@{'/superadmin/perfilUsuario'}">Editar</a></td>-->
+<!--                        <td><span class="badge bg-danger">Inactivo</span></td>-->
+<!--                      </tr>-->
+<!--                      <tr>-->
+<!--                        <th scope="row"><a href="#">#5</a></th>-->
+<!--                        <td>Raheem Lehner</td>-->
+<!--                        <td>Administrativo</td>-->
+<!--                        <td><a th:href="@{'/superadmin/perfilUsuario'}">Editar</a></td>-->
+<!--                        <td><span class="badge bg-success">Activo</span></td>-->
+<!--                      </tr>-->
                     </tbody>
                   </table>
                   <!-- Centered Pagination -->
-                  <nav aria-label="Page navigation example">
-                    <ul class="pagination justify-content-center">
-                      <li class="page-item">
-                        <a class="page-link" href="#" aria-label="Previous">
-                          <span aria-hidden="true">&laquo;</span>
-                        </a>
-                      </li>
-                      <li class="page-item"><a class="page-link" href="#">1</a></li>
-                      <li class="page-item"><a class="page-link" href="#">2</a></li>
-                      <li class="page-item"><a class="page-link" href="#">3</a></li>
-                      <li class="page-item">
-                        <a class="page-link" href="#" aria-label="Next">
-                          <span aria-hidden="true">&raquo;</span>
-                        </a>
-                      </li>
-                    </ul>
-                  </nav><!-- End Centered Pagination -->
+<!--                  <nav aria-label="Page navigation example">-->
+<!--                    <ul class="pagination justify-content-center">-->
+<!--                      <li class="page-item">-->
+<!--                        <a class="page-link" href="#" aria-label="Previous">-->
+<!--                          <span aria-hidden="true">&laquo;</span>-->
+<!--                        </a>-->
+<!--                      </li>-->
+<!--                      <li class="page-item"><a class="page-link" href="#">1</a></li>-->
+<!--                      <li class="page-item"><a class="page-link" href="#">2</a></li>-->
+<!--                      <li class="page-item"><a class="page-link" href="#">3</a></li>-->
+<!--                      <li class="page-item">-->
+<!--                        <a class="page-link" href="#" aria-label="Next">-->
+<!--                          <span aria-hidden="true">&raquo;</span>-->
+<!--                        </a>-->
+<!--                      </li>-->
+<!--                    </ul>-->
+<!--                  </nav>&lt;!&ndash; End Centered Pagination &ndash;&gt;-->
                 </div>
 
           </div>
