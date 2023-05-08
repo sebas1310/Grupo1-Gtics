@@ -44,7 +44,7 @@ public class PacienteController {
     }
 
     @GetMapping(value = "/")
-    public String paciente( Model model, @RequestParam(value = "esp", required = false) Integer esp,RedirectAttributes redirectAttributes){
+    public String paciente( Model model, @RequestParam(value = "esp", required = false) Integer esp, @RequestParam(value = "msg1", required = false) Integer msg1,RedirectAttributes redirectAttributes){
         Optional<Paciente> optionalPaciente = pacienteRepository.findById(1);
         List<Especialidad> listespecialidad = especialidadRepository.findAll();
         Paciente paciente =  optionalPaciente.get();
@@ -52,6 +52,12 @@ public class PacienteController {
         model.addAttribute("especialidades", listespecialidad);
         model.addAttribute("citashoy", citaRepository.citasHoy(1));
         model.addAttribute("sedes", sedeRepository.findAll());
+        redirectAttributes.addFlashAttribute("msg1", "Por el momento no contamos con doctores en esa especialidad");
+        if(msg1!=null){
+            redirectAttributes.addFlashAttribute("msg2", "Ha reservado una cita con exito");
+
+        }
+
         if(esp!=null){
             System.out.println("no nulo esp");
             if(doctorRepository.doctoresPorEsp(esp).size()>=1){
@@ -290,6 +296,7 @@ public class PacienteController {
                             emailService.sendEmail(paciente.getUsuario().getCorreo(),"Confirmación de cita","Estimado usuario usted reservó una cita virtual para el "+fecha.toString()+ ".\n"+"El link para la sesion de zoom es el siguiente: " + doctorRepository.findById(iddoctor).get().getZoom());
 
                         }
+                        redirectAttributes.addFlashAttribute("msg1", "Ha reservado una cita con éxito");
 
                         return "redirect:/paciente/";
                     }
@@ -299,7 +306,7 @@ public class PacienteController {
                     }
                 }
                 else {
-                    redirectAttributes.addFlashAttribute("msg", "La Hora escogida no es valida");
+                    redirectAttributes.addFlashAttribute("msg", "La hora escogida no es valida");
                     return "redirect:/paciente/agendarCita";
                 }
             }
