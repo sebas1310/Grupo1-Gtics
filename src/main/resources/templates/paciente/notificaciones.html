@@ -16,20 +16,11 @@
 </aside>
 <!-- End Sidebar-->
 
-<div class="modal fade" id="verticalycentered" tabindex="-1">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">¿Seguro que deseas Salir?</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-success" data-bs-dismiss="modal"><a style="color: white" th:href="@{'/paciente/index'}" >Salir</a></button>
-        <button type="button" class="btn btn-secondary"><a style="color: white" th:href="@{'/paciente/notificaciones'}" >Cancelar</a></button>
-      </div>
-    </div>
-  </div>
-</div><!-- End Vertically centered Modal-->
+<!--Modal Cerrar Sesion-->
+<div th:replace="fragmentsPacientes/modalCerrarSesion.html::modal">
+
+</div>
+<!-- End Modal-->
 
 <main id="main" class="main">
 
@@ -37,7 +28,7 @@
     <h1>Notificaciones</h1>
     <nav>
       <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a th:href="@{'/paciente/index'}">Dashboard</a></li>
+        <li class="breadcrumb-item"><a th:href="@{'/paciente/'}">Dashboard</a></li>
         <li class="breadcrumb-item active">Notificaciones</li>
       </ol>
     </nav>

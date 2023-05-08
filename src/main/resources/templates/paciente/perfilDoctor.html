@@ -22,7 +22,7 @@
 <main id="main" class="main">
 
   <div class="pagetitle">
-    <h1>Profile</h1>
+    <h1>Perfil</h1>
     <nav>
       <ol class="breadcrumb">
         <li class="breadcrumb-item active">Perfil Doctor</li>
@@ -38,12 +38,12 @@
             <img th:src="@{/assets/img/doc.jpg}" alt="Profile" class="rounded-circle">
             <h2 th:text="|${doc.usuario.nombres} ${doc.usuario.apellidos}|"></h2>
             <div class="table-responsive">
-              <h5>Horario de atención</h5>
+              <h5 class="text-center">Horario de atención</h5>
               <table class="table table-bordered">
                 <tbody>
                 <tr class="table-primary">
-                  <td>DIA</td>
-                  <td>HORA</td>
+                  <td class="text-center">DIA</td>
+                  <td class="text-center">HORA</td>
                 </tr>
                 <tr th:each="d:${dias}">
                   <td th:text="${d.getDia()}"></td>
@@ -62,25 +62,35 @@
           <div class="card-body pt-3">
 
                 <div class="row">
-                  <div class="col-lg-3 col-md-4 label ">Especialidad:</div>
+                  <div class="col-lg-3 col-md-4 label " style="font-weight: bold">Especialidad:</div>
                   <div class="col-lg-9 col-md-8" th:text="${doc.especialidad.nombre}"></div>
                 </div>
                 <div class="row">
-                  <div class="col-lg-3 col-md-4 label ">CMP:</div>
+                  <div class="col-lg-3 col-md-4 label " style="font-weight: bold">CMP:</div>
                   <div class="col-lg-9 col-md-8" th:text="${doc.cmp}"></div>
                 </div>
 
                 <div class="row">
-                  <div class="col-lg-3 col-md-4 label">Formación</div>
+                  <div class="col-lg-3 col-md-4 label" style="font-weight: bold">Formación: </div>
                   <p th:text="${doc.formacion}"></p>
                 </div>
                 <div class="row">
-                  <div class="col-lg-3 col-md-4 label">Capacitaciones</div>
-                  <p th:text="${doc.capacitaciones}"></p>
+                  <div class="col-lg-3 col-md-4 label" style="font-weight: bold">Capacitaciones:</div>
+                  <table>
+                    <tbody >
+                    <tr>
+                      <ul class="list-group col-lg-4 col-md-4 label ">
+                        <li th:each="capacitacion : ${#strings.arraySplit(doc.capacitaciones, '[,.]')}" th:text="${#strings.capitalize(capacitacion)}"></li>
+
+                      </ul>
+
+                    </tr>
+                    </tbody>
+                  </table>
                 </div>
                 <div class="row">
                   <div class="text-center">
-                    <a th:href="@{'/paciente/selecTipoCita?iddoc='+${doc.iddoctor}}" class="btn" style="background-color:#b29400">Reservar cita</a>
+                    <a th:href="@{'/paciente/selecTipoCita?iddoc='+${doc.iddoctor}}" class="btn btn-outline-warning ">Reservar cita</a>
                   </div>
                 </div>
           </div>
