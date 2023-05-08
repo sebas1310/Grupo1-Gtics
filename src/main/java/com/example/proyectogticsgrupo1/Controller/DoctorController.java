@@ -116,6 +116,16 @@ public class DoctorController {
         return "redirect:/doctor/pacientesatendidos/verhistorial";
     }
 
+    @GetMapping("/pacientesatendidos/verhistorial/borrarbitacora")
+    @Transactional
+    public String borrarBitacora(RedirectAttributes redirectAttributes, @RequestParam("idB") int idBitacora){
+        BitacoraDeDiagnostico bitacora = bitacoraDeDiagnosticoRepository.buscarBitacoraDeDiagnosticoID(idBitacora);
+        Integer idPaciente = bitacora.getPaciente().getIdpaciente();
+        bitacoraDeDiagnosticoRepository.borrarbitacora(idBitacora);
+        redirectAttributes.addAttribute("id",idPaciente);
+        return "redirect:/doctor/pacientesatendidos/verhistorial";
+    }
+
     @GetMapping("/pacientesatendidos/verhistorial/boleta")
     public String verBoletaDoctor(Model model, @RequestParam("id") int idCita ){
         BoletaDoctor boletaDoctor = boletaDoctorRepository.buscarBoletaDoctorCita(idCita);

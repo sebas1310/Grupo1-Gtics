@@ -161,6 +161,7 @@
                                         <div class="card-body">
                                             <p class="card-text"><span th:text="${bitacora.getDescripcion()}"></span></p>
                                             <p class="card-text"><span th:text="${bitacora.getFechayhora()}"></span></p>
+                                            <a class="bi bi-trash" style="text-align:right" th:href="@{'/doctor/pacientesatendidos/verhistorial/borrarbitacora?idB='+${bitacora.getIdbitacoradediagnostico()}}">Borrar</a>
                                         </div>
                                     </div>
                                     <!--<div class="card">
