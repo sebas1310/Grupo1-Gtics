@@ -19,7 +19,7 @@
         </li><!-- End Dashboard -->
 
         <li class="nav-item"> <!-- Cambiar ref -->
-            <a class="nav-link collapsed"  th:href="@{'/doctor/pacientesatendidos'}" >
+            <a class="nav-link collapsed"  th:href="@{'/doctor/pacientesatendidos' + '?id=' + ${doctor.iddoctor}}" >
                 <i class="bi bi-menu-button-wide"></i>
                 <span>Pacientes Atendidos</span>
             </a>
@@ -27,14 +27,14 @@
 
 
         <li class="nav-item">  <!-- cambia -->
-            <a class="nav-link collapsed"  th:href="@{'/doctor/calendario'}" >
+            <a class="nav-link collapsed"  th:href="@{'/doctor/calendario' }" >
                 <i class="bi bi-calendar3"></i>
                 <span>Calendario</span>
             </a>
         </li><!-- End Calendario -->
 
         <li class="nav-item">  <!-- cambia -->
-            <a class="nav-link" th:href="@{'/doctor/perfil'}" >
+            <a class="nav-link collapsed" th:href="@{'/doctor/perfil' + '?id=' + ${doctor.iddoctor}}" >
                 <i class="bi bi-person"></i>
                 <span>Perfil</span>
             </a>
@@ -48,7 +48,7 @@
         <li class="nav-heading"> ----------------------------------------------- </li>
 
         <li class="nav-item">
-            <a class="nav-link collapsed" th:href="@{'/doctor/configuraciones'}" >
+            <a class="nav-link collapsed" th:href="@{'/doctor/configuraciones' + '?id=' + ${doctor.iddoctor}}" >
                 <i class="bi bi-gear"></i>
                 <span>Configuracion</span>
             </a>
@@ -87,7 +87,6 @@
         <h1>Cuestionario</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a th:href="@{'/doctor/dashboard'}">Dashboard</a></li>
                 <li class="breadcrumb-item active">Cuestionarios</li>
             </ol>
         </nav>

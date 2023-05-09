@@ -17,7 +17,7 @@
                     </a>
                 </li><!-- End Dashboard -->
                 <li class="nav-item"> <!-- Cambiar ref -->
-                    <a class="nav-link"  th:href="@{'/doctor/pacientesatendidos'}" >
+                    <a class="nav-link collapsed"  th:href="@{'/doctor/pacientesatendidos'}" >
                         <i class="bi bi-menu-button-wide"></i>
                         <span>Pacientes Atendidos</span>
                     </a>
@@ -97,40 +97,21 @@
                                 <table class="table">
                                     <thead>
                                         <tr>
-                                            <th scope="col">Hora</th>
-                                            <th scope="col">Para</th>
-                                            <th scope="col">Asunto</th>
-                                            <th scope="col">Descripcion</th>
-                                            <th scope="col">Foto</th>
+                                            <th style="text-align: center" scope="col">Fecha</th>
+                                            <th style="text-align: center" scope="col">De</th>
+                                            <th style="text-align: center" scope="col">Asunto</th>
+                                            <th style="text-align: center" scope="col">Descripcion</th>
+                                            <th style="text-align: center" scope="col"></th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td>21:04:06 17/8/23</td>
-                                            <td>Abigail Ramirez</td>
-                                            <td>Prueba</td>
+                                            <td style="text-align: center">21:04:06 17/8/23</td>
+                                            <td style="text-align: center">Abigail Ramirez</td>
+                                            <td style="text-align: center">Prueba</td>
                                             <!-- deriva al historial del paciente th:href="@{'/administrador/chat'}" -->
-                                            <td>Prueba</td>
-                                            <td><img th:src="@{/assets/img/messages-1.jpg}" alt="" class="rounded-circle"></td>
-                                        </tr>
-
-                                        <tr>
-                                            <td>Quae dolorem earum veritatis oditseno<div>fnfggjjjjjjvfncsffjgnjngjvfgngjsnfjbngjfnvd</div><div>fnfggjjjjjjvfncsffjgnjngjvfgngjsnfjbngjfnvd</div></td>
-                                            <td><a th:href="@{'/administrador/chat'}">Andreina Bravo Torres</a></td>
-                                            <td><img th:src="@{/assets/img/messages-1.jpg}" alt="" class="rounded-circle"></td>
-                                            <td>21:04:06 17/8/23</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Quae dolorem earum veritatis oditseno<div>fnfggjjjjjjvfncsffjgnjngjvfgngjsnfjbngjfnvd</div><div>fnfggjjjjjjvfncsffjgnjngjvfgngjsnfjbngjfnvd</div></td>
-                                            <td><a th:href="@{'/administrador/chat'}">Andreina Bravo Torres</a></td>
-                                            <td><img th:src="@{/assets/img/messages-2.jpg}" alt="" class="rounded-circle"></td>
-                                            <td>21:04:06 17/8/23</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Quae dolorem earum veritatis oditseno<div>fnfggjjjjjjvfncsffjgnjngjvfgngjsnfjbngjfnvd</div><div>fnfggjjjjjjvfncsffjgnjngjvfgngjsnfjbngjfnvd</div></td>
-                                            <td><a th:href="@{'/administrador/chat'}">Andreina Bravo Torres</a></td>
-                                            <td><img th:src="@{/assets/img/messages-2.jpg}" alt="" class="rounded-circle"></td>
-                                            <td>21:04:06 17/8/23</td>
+                                            <td style="text-align: center">Prueba</td>
+                                            <td style="text-align: center"><a th:href="@{'/doctor/mensajeria/enviarmensaje'}" class="btn btn-danger">Enviar Mensaje</a></td>
                                         </tr>
 
                                     </tbody>

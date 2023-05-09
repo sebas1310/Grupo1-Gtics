@@ -101,11 +101,16 @@ public class DoctorController {
 
     @GetMapping("/pacientesatendidos/verhistorial")
     public String historialPacienteDoctor(Model model, @RequestParam("id") int idPaciente){
-        Paciente paciente1 = pacienteRepository.buscarPacientePorID(idPaciente);
-        model.addAttribute("paciente",paciente1);
-        model.addAttribute("citaspaciente",citaRepository.citasPorPaciente(idPaciente));
-        model.addAttribute("bitacoradiagnostico",bitacoraDeDiagnosticoRepository.bitacoraDeDiagnostico(idPaciente));
-        return "doctor/verHistorial";
+        Optional<Doctor> optDoctor = doctorRepository.findById(2);
+        if (optDoctor.isPresent()) {
+            Doctor doctor1 = optDoctor.get();
+            model.addAttribute("doctor", doctor1);
+            Paciente paciente1 = pacienteRepository.buscarPacientePorID(idPaciente);
+            model.addAttribute("paciente", paciente1);
+            model.addAttribute("citaspaciente", citaRepository.citasPorPaciente(idPaciente));
+            model.addAttribute("bitacoradiagnostico", bitacoraDeDiagnosticoRepository.bitacoraDeDiagnostico(idPaciente));
+        }
+            return "doctor/verHistorial";
     }
 
     @PostMapping("/pacientesatendidos/verhistorial/guardarbitacora")
@@ -137,11 +142,44 @@ public class DoctorController {
     public String verCitaDoctor(Model model, @RequestParam("id") int idCita,
                                 @RequestParam(name="idReceta", defaultValue = "0") int idReceta)
     {
-        Cita cita1 = citaRepository.buscarCitaPorId(idCita);
-        model.addAttribute("cita",cita1);
-        model.addAttribute("recetamedica",recetaMedicaRepository.buscarRecetaMedicaPorCita(idCita, idReceta));
-        model.addAttribute("reportecita",reporteCitaRepository.buscarReporteCitaPorId(idCita));
+        Optional<Doctor> optDoctor = doctorRepository.findById(2);
+        if (optDoctor.isPresent()) {
+            Doctor doctor1 = optDoctor.get();
+            model.addAttribute("doctor", doctor1);
+            Cita cita1 = citaRepository.buscarCitaPorId(idCita);
+            model.addAttribute("cita", cita1);
+            model.addAttribute("recetamedica", recetaMedicaRepository.buscarRecetaMedicaPorCita(idCita, idReceta));
+            model.addAttribute("reportecita", reporteCitaRepository.buscarReporteCitaPorId(idCita));
+        }
         return "doctor/verCita";
+    }
+    @GetMapping("/pacientesatendidos/verhistorial/vercita/editarreceta")
+    public String verEditarReceta(Model model, @RequestParam("idReceta") int idReceta,
+                                  @RequestParam("id") int idCita)
+    {
+        Optional<Doctor> optDoctor = doctorRepository.findById(2);
+        if (optDoctor.isPresent()) {
+            Doctor doctor1 = optDoctor.get();
+            model.addAttribute("doctor", doctor1);
+            RecetaMedica receta = recetaMedicaRepository.buscarRecetaMedicaPorID(idReceta);
+            model.addAttribute("receta", receta);
+            Cita cita1 = citaRepository.buscarCitaPorId(idCita);
+            model.addAttribute("cita", cita1);
+        }
+        return "doctor/editarReceta";
+    }
+    @PostMapping("/pacientesatendidos/verhistorial/vercita/actualizarreceta")
+    @Transactional
+    public String editarReceta(RedirectAttributes redirectAttributes,
+                               @RequestParam("idReceta") int idReceta,
+                               @RequestParam("id") int idCita,
+                               @RequestParam("medicamento") String medicamento,
+                               @RequestParam("dosis") String dosis,
+                               @RequestParam("descripcion") String descripcion){
+        recetaMedicaRepository.actualizarReceta( medicamento, dosis, descripcion, idCita, idReceta);
+        redirectAttributes.addAttribute("idReceta",idReceta);
+        redirectAttributes.addAttribute("id",idCita);
+        return "redirect:/doctor/pacientesatendidos/verhistorial/vercita";
     }
 
     @PostMapping("/pacientesatendidos/verhistorial/vercita/guardarreporte")
@@ -174,19 +212,6 @@ public class DoctorController {
         return "redirect:/doctor/pacientesatendidos/verhistorial/vercita";
 
     }
-    @PostMapping("/pacientesatendidos/verhistorial/vercita/editarreceta")
-    @Transactional
-    public String editarReceta(RedirectAttributes redirectAttributes,
-                               @RequestParam("idReceta") int idReceta,
-                               @RequestParam("idCita") int idCita,
-                               @RequestParam("medicamento") String medicamento,
-                               @RequestParam("dosis") String dosis,
-                               @RequestParam("descripcion") String descripcion){
-        recetaMedicaRepository.actualizarReceta( medicamento, dosis, descripcion, idCita, idReceta);
-        redirectAttributes.addAttribute("id",idCita);
-        redirectAttributes.addAttribute("idReceta",idReceta);
-        return "redirect:/doctor/pacientesatendidos/verhistorial/vercita";
-    }
 
     @Transactional
     @GetMapping(value = "/pacientesatendidos/verhistorial/vercita/borrarreceta")
@@ -209,16 +234,21 @@ public class DoctorController {
 
     @GetMapping("/cuestionario")
     public String cuestionarioDoctor(Model model, @RequestParam("id") int idPaciente){
-        //@RequestParam("id") int idDoc
-        Paciente paciente1 = pacienteRepository.buscarPacientePorID(idPaciente);
-        //Cita cita1= citaRepository.buscarCitaPorId(idCita);
-        //Doctor doctor1 = doctorRepository.buscarDoctorPorId(idDoc);fcaalen
-        List<Paciente> lista = pacienteRepository.findAll();
-        model.addAttribute("paciente", paciente1);
-        //model.addAttribute("cita", cita1);
-        //model.addAttribute("doc", doctor1);
-        //model.addAttribute("pacienteDatos", lista);
 
+        Optional<Doctor> optDoctor = doctorRepository.findById(2);
+        if (optDoctor.isPresent()) {
+            Doctor doctor1 = optDoctor.get();
+            model.addAttribute("doctor", doctor1);
+            //@RequestParam("id") int idDoc
+            Paciente paciente1 = pacienteRepository.buscarPacientePorID(idPaciente);
+            //Cita cita1= citaRepository.buscarCitaPorId(idCita);
+            //Doctor doctor1 = doctorRepository.buscarDoctorPorId(idDoc);fcaalen
+            List<Paciente> lista = pacienteRepository.findAll();
+            model.addAttribute("paciente", paciente1);
+            //model.addAttribute("cita", cita1);
+            //model.addAttribute("doc", doctor1);
+            //model.addAttribute("pacienteDatos", lista);
+        }
         return "doctor/cuestionarioDoc";
     }
 
@@ -242,9 +272,20 @@ public class DoctorController {
     }
 
     @GetMapping("/mensajeria")
-    public String mensajeriaDoctor() {
+    public String mensajeriaDoctor(Model model, @RequestParam("id") int idD) {
+
+        Optional<Doctor> optDoctor = doctorRepository.findById(2);
+
+        if (optDoctor.isPresent()) {
+            Doctor doctor1 = optDoctor.get();
+            //List<Mensaje> lista = sedeRepository.findAll();
+            //model.addAttribute("listSedes", lista);
+            model.addAttribute("doctor", doctor1);
+        }
         return "doctor/mensajeriaDoc";
     }
+
+
 
     @GetMapping("/mensajeria/enviarmensaje")
     public String enviarMensajeDoctor() {
@@ -302,4 +343,6 @@ public class DoctorController {
         return ResponseEntity.ok().build();
 
     }*/
+
+
 }

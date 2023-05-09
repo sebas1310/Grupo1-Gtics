@@ -102,8 +102,8 @@
                         th:selected="${sede.idsede == doctor.sede.idsede}">Seleccione</option>
               </select>
               <br>
-              <a th:href="@{'/doctor/configuraciones'}" class="btn btn-danger">Cancelar</a>
               <button type="submit" class="btn btn-primary">Actualizar</button>
+              <a th:href="@{'/doctor/configuraciones'+ '?id=' + ${doctor.iddoctor}}" class="btn btn-danger">Cancelar</a>
             </form>
           </div>
         </div>

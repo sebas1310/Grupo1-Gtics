@@ -4,7 +4,7 @@
 </head>
 <body>
 <!-- ======= Header ======= -->
-<header th:replace="fragments/doctor/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1', nombre = 'Abigail Ramirez', num_men = '2')">
+<header th:replace="fragments/doctor/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1',  nombre = |${doctor.usuario.nombres} ${doctor.usuario.apellidos}|, num_men = '2')">
 </header>
 <!-- End Header -->
         <!-- ======= Sidebar ======= -->
@@ -17,7 +17,7 @@
                     </a>
                 </li><!-- End Dashboard -->
                 <li class="nav-item"> <!-- Cambiar ref -->
-                    <a class="nav-link"  th:href="@{'/doctor/pacientesatendidos'}">
+                    <a class="nav-link"  th:href="@{'/doctor/pacientesatendidos'+ '?id=' + ${doctor.iddoctor}}">
                         <i class="bi bi-menu-button-wide"></i>
                         <span>Pacientes Atendidos</span>
                     </a>
@@ -29,7 +29,7 @@
                     </a>
                 </li><!-- End Calendario -->
                 <li class="nav-item">  <!-- cambia -->
-                    <a class="nav-link collapsed" th:href="@{'/doctor/perfil'}" >
+                    <a class="nav-link collapsed" th:href="@{'/doctor/perfil'+ '?id=' + ${doctor.iddoctor}}" >
                         <i class="bi bi-person"></i>
                         <span>Perfil</span>
                     </a>
@@ -41,7 +41,7 @@
                 <br><br><br>
                 <li class="nav-heading"> ----------------------------------------------- </li>
                 <li class="nav-item">
-                    <a class="nav-link collapsed" th:href="@{'/doctor/configuraciones'}" >
+                    <a class="nav-link collapsed" th:href="@{'/doctor/configuraciones'+ '?id=' + ${doctor.iddoctor}}" >
                         <i class="bi bi-gear"></i>
                         <span>Configuracion</span>
                     </a>
@@ -70,12 +70,12 @@
             </div>
         </div><!-- End Vertically centered Modal-->
 <main id="main" class="main">
-    <div class="pagetitle">
-        <h1>Cita 1</h1>
+    <div class="pagetitle" th:each=" cita,indice : ${cita}">
+        <h1>Cita<span th:text="${indice.index+1}" > </span></h1>
         <nav>
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a th:href="@{'/doctor/pacientesatendidos'}">Pacientes Atendidos</a></li>
-            <li class="breadcrumb-item"><a th:href="@{'/doctor/pacientesatendidos/verhistorial'}">Historial Clínico</a></li>
+            <li class="breadcrumb-item"><a th:href="@{'/doctor/pacientesatendidos'+ '?id=' + ${doctor.iddoctor}}">Pacientes Atendidos</a></li>
+            <li class="breadcrumb-item"><a th:href="@{'/doctor/pacientesatendidos/verhistorial'+ '?id=' + ${doctor.iddoctor}}">Historial Clínico</a></li>
             <li class="breadcrumb-item active">Cita 1</li>
         </ol>
         </nav>
@@ -121,8 +121,7 @@
                                        <td style="text-align: center" th:text="${receta.getDosis()}"></td>
                                        <td style="text-align: center" th:text="${receta.getDescripcion()}"></td>
                                        <!-- <td style="text-align: center" th:text="${receta.getIdRecetaMedica()}"></td> -->
-                                       <td style="text-align: center" > <a class="bi bi-pencil-square"  data-bs-toggle="modal"
-                                                                            data-bs-target="#modal" role="button"></a></td>
+                                       <td style="text-align: center" > <a class="bi bi-pencil-square"  th:href="@{'/doctor/pacientesatendidos/verhistorial/vercita/editarreceta?idReceta='+ ${receta.getIdRecetaMedica()} + '&id=' + ${cita.getIdcita()}}"></a></td>
                                        <!-- <td> <input type="button" name="btnEditarS" value="Editar 1" th:text="${receta.getIdRecetaMedica()}"
                                                    class="bi bi-pencil-square" data-bs-toggle="modal" data-bs-target="#modal"></td>-->
                                        <td style="text-align: center" ><a class="bi bi-trash" th:href="@{'/doctor/pacientesatendidos/verhistorial/vercita/borrarreceta?idR='+${receta.getIdRecetaMedica()}}"></a></td>
@@ -185,14 +184,15 @@
                                    </div>
                                </div><!-- End  Modal-->
                                <!--Modal Añadir Receta-->
-                               <div class="d-grid gap d-md-flex justify-content-md-center">
+                               <div class="d-grid gap-2 d-md-flex justify-content-md-center">
                                    <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#verticalycentered">
                                        Añadir Receta
                                    </button>
-                                   <button th:if="${cita.getTipoCita().getIdtipocita() eq 1}"type="button" class="btn btn-primary" >
+                                   <br>
+                                   <button th:if="${cita.getTipoCita().getIdtipocita() eq 1}"type="button" class="btn btn-outline-primary" >
                                        Generar Boleta Farmacia
                                    </button>
-                                   <button th:unless="${cita.getTipoCita().getIdtipocita() eq 1}" type="button" class="btn btn-primary" >
+                                   <button th:unless="${cita.getTipoCita().getIdtipocita() eq 1}" type="button" class="btn btn-outline-primary" >
                                        Enviar Por Delivery
                                    </button>
                                </div>
