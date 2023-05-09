@@ -19,7 +19,7 @@
                 </li><!-- End Dashboard -->
 
                 <li class="nav-item"> <!-- Cambiar ref -->
-                    <a class="nav-link collapsed"  th:href="@{'/doctor/pacientesatendidos'}" >
+                    <a class="nav-link collapsed"  th:href="@{'/doctor/pacientesatendidos'+ '?id=' + ${doctor.iddoctor}}" >
                         <i class="bi bi-menu-button-wide"></i>
                         <span>Pacientes Atendidos</span>
                     </a>
@@ -34,7 +34,7 @@
                 </li><!-- End Calendario -->
 
                 <li class="nav-item">  <!-- cambia -->
-                    <a class="nav-link collapsed" th:href="@{'/doctor/perfil'}" >
+                    <a class="nav-link collapsed" th:href="@{'/doctor/perfil'+ '?id=' + ${doctor.iddoctor}}" >
                         <i class="bi bi-person"></i>
                         <span>Perfil</span>
                     </a>
@@ -48,7 +48,7 @@
                 <li class="nav-heading"> ----------------------------------------------- </li>
 
                 <li class="nav-item">
-                    <a class="nav-link collapsed" th:href="@{'/doctor/configuraciones'}" >
+                    <a class="nav-link collapsed" th:href="@{'/doctor/configuraciones'+ '?id=' + ${doctor.iddoctor}}" >
                         <i class="bi bi-gear"></i>
                         <span>Configuracion</span>
                     </a>
@@ -107,9 +107,14 @@
 
                                     <!--<input th:value="${usuario.getIdUsuario()}" name="idUsuario" type="hidden" > -->
 
-                                    <div class="col-md-6">
+                                    <div th:if="${usuariodestino != null}" class="col-md-6">
                                         <label for="email" class="form-label">Correo Destino</label>
-                                        <input type="text" name="correodestino" class="form-control" id="email" >
+                                        <input th:if="${usuariodestino != null}" th:value="${usuariodestino.getCorreo()}" type="text" name="correodestino" class="form-control" id="email" >
+                                    </div>
+
+                                    <div th:unless="${usuariodestino != null}" class="col-md-6">
+                                        <label for="email2" class="form-label">Correo Destino</label>
+                                        <input type="text" name="correodestino" class="form-control" id="email2" >
                                     </div>
 
                                     <div class="col-md-6">

@@ -333,9 +333,17 @@ public class DoctorController {
 
 
     @GetMapping("/mensajeria/enviarmensaje")
-    public String enviarMensajeDoctor() {
-
-        return "doctor/enviarMensajeDoc";
+    public String enviarMensajeDoctor(Model model , @RequestParam("idp") int idUsuarioDestino) {
+        Optional<Doctor> optDoctor = doctorRepository.findById(2);
+        if (optDoctor.isPresent()) {
+            Doctor doctor1 = optDoctor.get();
+            model.addAttribute("doctor", doctor1);
+            if (idUsuarioDestino != 0) {
+                model.addAttribute("usuariodestino", userRepository.usuarioDestino(idUsuarioDestino));
+                return "doctor/enviarMensajeDoc";
+            }
+        }
+            return "doctor/enviarMensajeDoc";
     }
 
     @PostMapping("/mensajeria/enviarmensaje/envio")

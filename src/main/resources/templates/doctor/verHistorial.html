@@ -112,7 +112,7 @@
                                     <div class="card-body">
                                         <h5 class="card-title">Examen Medico</h5>
                                         <h6>¿ El paciente requiere realizar unos exámenes? Entonces, envie un mensaje al paciente</h6>
-                                        <a th:href="@{'/doctor/mensajeria/enviarmensaje'}" class="btn btn-primary">Enviar Mensaje</a>
+                                        <a th:href="@{'/doctor/mensajeria/enviarmensaje'+ '?idp=' + ${paciente.getUsuario().getIdusuario()}}" class="btn btn-primary">Enviar Mensaje</a>
                                     </div>
                                 </div>
                             </div>
