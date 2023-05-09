@@ -2,6 +2,7 @@ package com.example.proyectogticsgrupo1.Controller;
 
 import com.example.proyectogticsgrupo1.Entity.*;
 import com.example.proyectogticsgrupo1.Repository.*;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -455,8 +456,9 @@ public class AdministradorController {
     }
 
     @GetMapping(value = "/perfil")
-    public String perfilAdministrador(Model model, @RequestParam("id") int idusuario) {
-        Usuario usuario = usuarioRepository.buscarPorId(idusuario);
+    public String perfilPaciente(Model model){
+        Optional<Usuario> usuarioopt = usuarioRepository.findById(2);
+        Usuario usuario =  usuarioopt.get();
         model.addAttribute("usuario",usuario);
         return "administrador/perfil";
     }
@@ -473,14 +475,15 @@ public class AdministradorController {
         return "redirect:/administrador/perfil";
     }
 
-    @PostMapping(value = "/contrasena")
+    /*@PostMapping(value = "/contrasena")
     public String actualizarContra(RedirectAttributes redirectAttributes,
                                @RequestParam("id") int idusuario,
                                @RequestParam("contrasena") String contrasena){
         usuarioRepository.actualizarcontrasena(contrasena,idusuario);
         redirectAttributes.addAttribute("id",idusuario);
         return "redirect:/administrador/perfil";
-    }
+    }*/
+
     @GetMapping(value = "/nuevo")
     public String nuevoPaciente(Model model){
         Optional<Usuario> usuarioopt = usuarioRepository.findById(2);
@@ -505,6 +508,21 @@ public class AdministradorController {
         pacienteRepository.save(paciente);
         return "redirect:/administrador/dashboarddoctor";
     }*/
+
+    @PostMapping(value = "/changecontrasena")
+    @Transactional
+    public String changePassword(@RequestParam("contrasena") String contrasena, @RequestParam("newpassword") String newpassword, @RequestParam("renewpassword") String renewpassword, RedirectAttributes redirectAttributes){
+        Optional<Usuario> usuarioOptional = usuarioRepository.findById(2);
+        Usuario usuario =  usuarioOptional.get();
+        if(usuario.getContrasena().equals(contrasena)){
+            usuarioRepository.changePassword(renewpassword,usuario.getIdusuario());
+            redirectAttributes.addFlashAttribute("psw1", "Contraseña actualizada");
+
+        }else {
+            redirectAttributes.addFlashAttribute("psw2", "La contraseña es incorrecta");
+        }
+        return "redirect:/administrador/perfil";
+    }
 
 
 

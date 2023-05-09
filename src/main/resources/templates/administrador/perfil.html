@@ -173,27 +173,28 @@
 
               </div>
 
-
               <div class="tab-pane fade pt-3" id="profile-change-password">
-                <!-- Change Password Form -->
-                <form form method="post" th:action="@{'/administrador/contrasena'}" >
+
+
+                <!-- Cambio de contraseña Form -->
+                <form method="post" th:action="@{'/administrador/changecontrasena'}" onsubmit="return validateForm()">
                   <input th:value="${usuario.getIdusuario()}" name="id" type="hidden">
                   <div class="row mb-3">
-                    <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Actual Contraseña</label>
+                    <label for="contrasena" class="col-md-4 col-lg-3 col-form-label">Contraseña Actual</label>
                     <div class="col-md-8 col-lg-9">
-                      <input name="password" type="password" class="form-control" id="currentPassword" th:value="${usuario.getContrasena()}">
+                      <input name="contrasena" type="password" class="form-control" id="contrasena">
                     </div>
                   </div>
 
                   <div class="row mb-3">
-                    <label for="newPassword" class="col-md-4 col-lg-3 col-form-label">Nueva Contraseña</label>
+                    <label for="newPassword" class="col-md-4 col-lg-3 col-form-label" >Nueva Contraseña</label>
                     <div class="col-md-8 col-lg-9">
-                      <input name="contrasena" type="password" class="form-control" id="newPassword">
+                      <input name="newpassword" type="password" class="form-control" id="newPassword">
                     </div>
                   </div>
 
                   <div class="row mb-3">
-                    <label for="renewPassword" class="col-md-4 col-lg-3 col-form-label">Confirmar Contraseña</label>
+                    <label for="renewPassword" class="col-md-4 col-lg-3 col-form-label">Confirmar nueva contraseña</label>
                     <div class="col-md-8 col-lg-9">
                       <input name="renewpassword" type="password" class="form-control" id="renewPassword">
                     </div>
@@ -202,9 +203,46 @@
                   <div class="text-center">
                     <button type="submit" class="btn btn-success">Cambiar Contraseña</button>
                   </div>
+                  <div id="error-message" class="alert alert-danger mt-3" style="display: none;"></div>
                 </form><!-- End Change Password Form -->
 
+                <!-- Funcion para validar -->
+                <script>
+                  function validateForm() {
+                    var password = document.getElementById("contrasena").value;
+                    var newPassword = document.getElementById("newPassword").value;
+                    var renewPassword = document.getElementById("renewPassword").value;
+
+                    if (password === "" || newPassword === "" || renewPassword === "") {
+                      var errorMessage = document.getElementById("error-message");
+                      errorMessage.style.display = "block";
+                      errorMessage.innerHTML = "Debe completar todos los campos";
+                      return false;
+                    }
+                    if (password === newPassword ) {
+                      var errorMessage = document.getElementById("error-message");
+                      errorMessage.style.display = "block";
+                      errorMessage.innerHTML = "La nueva contraseña no puede ser igual a la anterior";
+                      return false;
+                    }
+                    if (renewPassword != newPassword ) {
+                      var errorMessage = document.getElementById("error-message");
+                      errorMessage.style.display = "block";
+                      errorMessage.innerHTML = "No coinciden las contraseñas";
+                      return false;
+                    }
+
+
+                    return true;
+                  }
+                </script>
+                <!-- FIN Funcion para validar -->
+
               </div>
+
+
+
+
 
             </div><!-- End Bordered Tabs -->
 
