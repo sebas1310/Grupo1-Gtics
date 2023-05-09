@@ -1,10 +1,15 @@
 package com.example.proyectogticsgrupo1.Entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Objects;
 
 @Entity
+@Getter
+@Setter
+@Table(name = "especialidad")
 public class Especialidad {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -17,29 +22,9 @@ public class Especialidad {
     @Column(name = "costo")
     private double costo;
 
-    public int getIdespecialidad() {
-        return idespecialidad;
-    }
-
-    public void setIdespecialidad(int idespecialidad) {
-        this.idespecialidad = idespecialidad;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public double getCosto() {
-        return costo;
-    }
-
-    public void setCosto(double costo) {
-        this.costo = costo;
-    }
+    @Basic
+    @Column(name = "torre")
+    private String torre;
 
     @Override
     public boolean equals(Object o) {

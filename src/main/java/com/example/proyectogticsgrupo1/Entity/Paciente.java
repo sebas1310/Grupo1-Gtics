@@ -1,10 +1,15 @@
 package com.example.proyectogticsgrupo1.Entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Objects;
 
 @Entity
+@Getter
+@Setter
+@Table(name = "paciente")
 public class Paciente {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -26,77 +31,17 @@ public class Paciente {
     @Column(name = "consentimientos")
     private int consentimientos;
 
-
     @ManyToOne
     @JoinColumn(name = "idusuario")
     private Usuario usuario;
 
-    public Usuario getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
-    }
-
     @Basic
     @Column(name = "condicion_enfermedad")
-    private String condicionEnfermedad;
+    private String condicion_enfermedad;
 
-    public int getIdpaciente() {
-        return idpaciente;
-    }
-
-    public void setIdpaciente(int idpaciente) {
-        this.idpaciente = idpaciente;
-    }
-
-    public String getDireccion() {
-        return direccion;
-    }
-
-    public void setDireccion(String direccion) {
-        this.direccion = direccion;
-    }
+    @Basic
+    @Column(name = "poliza")
+    private String poliza;
 
 
-    public String getAlergias() {
-        return alergias;
-    }
-
-    public void setAlergias(String alergias) {
-        this.alergias = alergias;
-    }
-
-    public int getConsentimientos() {
-        return consentimientos;
-    }
-
-    public void setConsentimientos(int consentimientos) {
-        this.consentimientos = consentimientos;
-    }
-
-    public String getCondicionEnfermedad() {
-        return condicionEnfermedad;
-    }
-
-    public Estadopaciente getIdestadopaciente() {
-        return idestadopaciente;
-    }
-
-    public void setIdestadopaciente(Estadopaciente idestadopaciente) {
-        this.idestadopaciente = idestadopaciente;
-    }
-
-    public Seguro getIdseguro() {
-        return idseguro;
-    }
-
-    public void setIdseguro(Seguro idseguro) {
-        this.idseguro = idseguro;
-    }
-
-    public void setCondicionEnfermedad(String condicionEnfermedad) {
-        this.condicionEnfermedad = condicionEnfermedad;
-    }
 }

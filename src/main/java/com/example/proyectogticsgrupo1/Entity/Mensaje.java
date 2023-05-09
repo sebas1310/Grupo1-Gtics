@@ -12,10 +12,9 @@ import java.time.LocalTime;
 @Getter
 @Setter
 @Entity
-@Table(name = "mensajes")
+@Table(name = "mensaje")
 
 public class Mensaje {
-
 
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,5 +33,20 @@ public class Mensaje {
     @Basic
     @Column(name = "correodestino")
     private String correodestino;
+
+    @ManyToOne
+    @JoinColumn(name = "idusuariodestino",  nullable = false)
+    private Usuario usuariodestino;
+
+    @ManyToOne
+    @JoinColumn(name = "idusuarioorigen",  nullable = false)
+    private Usuario usuarioorigen;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate fecha;
+
+    @Column(name = "hora", nullable = false)
+    @Temporal(TemporalType.TIME)
+    private LocalTime hora;
 
 }

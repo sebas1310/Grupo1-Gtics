@@ -7,6 +7,7 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
+@Table(name = "formularioadministrativo")
 public class Formularioadministrativo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
