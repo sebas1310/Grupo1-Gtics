@@ -5,6 +5,7 @@ import com.example.proyectogticsgrupo1.Entity.ModeloEntity;
 import com.example.proyectogticsgrupo1.Entity.Tipodeusuario;
 import com.example.proyectogticsgrupo1.Entity.Usuario;
 import com.example.proyectogticsgrupo1.Repository.*;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,6 +15,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 import java.util.regex.Pattern;
 
 @Controller
@@ -111,12 +113,20 @@ public class SuperadminController {
 
     @PostMapping("/save")
     public String guardarAdministrador(Usuario usuario, RedirectAttributes attr){
+        usuario.setContrasena(RandomStringUtils.random(10, true, true));
+        usuario.setEstadohabilitado(1);
+        Tipodeusuario admin = new Tipodeusuario();
+        admin.setIdtipodeusuario(3);
+        usuario.setTipodeusuario(admin);
 
+        System.out.println("llega a guardar"+ usuario);
         if(usuario.getIdusuario()==null){
             attr.addFlashAttribute("msg", "Administrador creado exitosamente");
         }else{
             attr.addFlashAttribute("msg","Administrador actualizado");
         }
+        System.out.println("genero"+ usuario.getGenero());
+        usuario.setGenero("Femenino");
         usuarioRepository.save(usuario);
         return "redirect:/superadmin/registro";
     }

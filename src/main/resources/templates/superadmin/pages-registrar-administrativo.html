@@ -50,7 +50,7 @@
                         <h5 class="card-title">Ingrese los datos</h5>
 
                         <!-- General Form Elements -->
-                        <form method="post" th:action="@{'/save'}" class="mt-2">
+                        <form method="post" th:action="@{'/superadmin/save'}" class="mt-2">
 
                             <div class="row mb-3">
                                 <label class="col-form-label">Nombre</label>
@@ -74,21 +74,21 @@
                             </div>
 
                             <div class="row mb-3">
-                                <label for="inputPassword" class="col-form-label">DNI</label>
+                                <label  class="col-form-label">DNI</label>
                                 <div class="col-sm-10">
                                     <input type="dni" class="form-control" name="dni" required>
                                 </div>
                             </div>
 
                             <div class="row mb-3">
-                                <label for="inputPassword" class="col-form-label">Edad</label>
+                                <label class="col-form-label">Edad</label>
                                 <div class="col-sm-10">
                                     <input type="edad" class="form-control" name="edad" required>
                                 </div>
                             </div>
 
                             <div class="row mb-3">
-                                <label for="inputPassword" class="col-form-label">Celular</label>
+                                <label  class="col-form-label">Celular</label>
                                 <div class="col-sm-10">
                                     <input type="celular" class="form-control" name="celular" required>
                                 </div>
@@ -99,8 +99,8 @@
                                 <div class="col-sm-10">
                                     <select class="form-select" aria-label="Default select example">
                                         <option selected>Elija uno</option>
-                                        <option value="1">Masculino</option>
-                                        <option value="2">Femenino</option>
+                                        <option value="Masculino">Masculino</option>
+                                        <option value="Femenino">Femenino</option>
                                     </select>
                                 </div>
                             </div>
@@ -111,7 +111,7 @@
                                     <select class="form-select" aria-label="Default select example">
                                         <option selected>Elija uno</option>
                                         <option value="1">Activo</option>
-                                        <option value="2">Inactivo</option>
+                                        <option value="0">Inactivo</option>
                                     </select>
                                 </div>
                             </div>

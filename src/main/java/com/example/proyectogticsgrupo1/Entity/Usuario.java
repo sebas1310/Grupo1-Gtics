@@ -6,45 +6,46 @@ import lombok.Setter;
 
 import java.sql.Blob;
 
+
+@Entity
 @Getter
 @Setter
-@Entity
 @Table(name = "usuario")
 public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idusuario", nullable = false)
+    @Column(name = "idusuario")
     private Integer idusuario;
 
     @ManyToOne
-    @JoinColumn(name = "idtipodeusuario", nullable = false)
+    @JoinColumn(name = "idtipodeusuario")
     private Tipodeusuario tipodeusuario;
 
-    @Column(name = "nombres", nullable = false)
+    @Column(name = "nombres")
     private String nombres;
 
-    @Column(name = "apellidos", nullable = false)
+    @Column(name = "apellidos")
     private String apellidos;
 
-    @Column(name = "dni", nullable = false)
+    @Column(name = "dni")
     private String dni;
 
-    @Column(name = "correo", nullable = false)
+    @Column(name = "correo")
     private String correo;
 
-    @Column(name = "contrasena", nullable = false)
+    @Column(name = "contrasena")
     private String contrasena;
 
-    @Column(name = "genero", nullable = false)
+    @Column(name = "genero")
     private String genero;
 
-    @Column(name = "celular", nullable = false)
+    @Column(name = "celular")
     private String celular;
 
-    @Column(name = "edad", nullable = false)
+    @Column(name = "edad")
     private Integer edad;
 
-    @Column(name = "estado_habilitado", nullable = false)
+    @Column(name = "estado_habilitado")
     private Integer estadohabilitado;
 
     @ManyToOne

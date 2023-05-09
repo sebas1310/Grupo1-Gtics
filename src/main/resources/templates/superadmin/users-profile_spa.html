@@ -184,9 +184,9 @@
                   <form method="post" th:action="@{/superadmin/cambiarContraseña}">
 
                     <div class="row mb-3">
-                      <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Contraseña Actual</label>
+                      <label for="contrasena" class="col-md-4 col-lg-3 col-form-label">Contraseña Actual</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="currentPassword" type="password" class="form-control" id="currentPassword">
+                        <input name="contrasena" type="password" class="form-control" id="contrasena">
                       </div>
                     </div>
 
@@ -209,6 +209,37 @@
                     </div>
                   </form><!-- End Change Password Form -->
 
+                  <!-- Funcion para validar -->
+                  <script>
+                    function validateForm() {
+                      var password = document.getElementById("contrasena").value;
+                      var newPassword = document.getElementById("newPassword").value;
+                      var renewPassword = document.getElementById("renewPassword").value;
+
+                      if (password === "" || newPassword === "" || renewPassword === "") {
+                        var errorMessage = document.getElementById("error-message");
+                        errorMessage.style.display = "block";
+                        errorMessage.innerHTML = "Debe completar todos los campos";
+                        return false;
+                      }
+                      if (password === newPassword ) {
+                        var errorMessage = document.getElementById("error-message");
+                        errorMessage.style.display = "block";
+                        errorMessage.innerHTML = "La nueva contraseña no puede ser igual a la anterior";
+                        return false;
+                      }
+                      if (renewPassword != newPassword ) {
+                        var errorMessage = document.getElementById("error-message");
+                        errorMessage.style.display = "block";
+                        errorMessage.innerHTML = "No coinciden las contraseñas";
+                        return false;
+                      }
+
+
+                      return true;
+                    }
+                  </script>
+                  <!-- FIN Funcion para validar -->
                 </div>
 
               </div><!-- End Bordered Tabs -->
