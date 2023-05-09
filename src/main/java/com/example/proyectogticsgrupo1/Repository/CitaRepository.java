@@ -1,6 +1,7 @@
 package com.example.proyectogticsgrupo1.Repository;
 
 import com.example.proyectogticsgrupo1.Entity.Cita;
+import com.example.proyectogticsgrupo1.Entity.Paciente;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -27,4 +28,14 @@ public interface CitaRepository extends JpaRepository<Cita, Integer> {
     @Modifying
     @Query(nativeQuery = true, value = "INSERT INTO cita (idsede, idespecialidad, fecha, horainicio, horafinal, duracion, idtipocita, idseguro, idestadocita, paciente_idpaciente, doctor_iddoctor) VALUES (?1, ?2, ?3, ?4, ?5, ?6,?7,?8,?9,?10,?11)")
     void agengedarcita(Integer idsede, Integer idespecialidad,LocalDate fecha, LocalTime horini, LocalTime horafin,Integer duracion, Integer idtipocita, Integer idseguro, Integer idestadoctia, Integer idpac, Integer iddoc);
+
+    @Query(value = "SELECT p.idpaciente, c.paciente_idpaciente, c.fecha\n" +
+            "FROM paciente p\n" +
+            "         JOIN cita c ON p.idpaciente= c.paciente_idpaciente", nativeQuery = true)
+    List<Cita> citasporpaciente(String citas);
+
+    List<Cita> findByPacienteAndFechaAfterOrderByFechaAsc(Paciente paciente, LocalDate fechaactual);
+
+
 }
+

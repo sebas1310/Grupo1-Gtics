@@ -17,5 +17,5 @@ public class Tipodeusuario {
     @Column(name = "nombre")
     private String nombre;
 
-
 }
+

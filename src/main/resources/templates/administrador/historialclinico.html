@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+
+<head th:insert="fragments/administrador/librerias.html :: cabecera (titulo = 'Historial Clinico')">
+
+</head>
+
+<body>
+
+<!-- ======= Header ======= -->
+<header th:replace="fragments/administrador/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1', nombre = 'L. Anderson', num_men = '3')">
+</header>
+<!-- End Header -->
+
+<!-- ======= Sidebar ======= -->
+<aside th:replace="fragments/administrador/aside.html :: sidebar (active = 'historialclinico')">
+</aside>
+<!-- End Sidebar-->
+
+<main id="main" class="main">
+
+    <div class="pagetitle">
+        <h1>Dashboard</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a th:href="@{'/administrador/dashboard'}">Home</a></li>
+                <li class="breadcrumb-item active">Dashboard</li>
+                <li class="breadcrumb-item active">Paciente</li>
+                <li class="breadcrumb-item active">Historial Clínico</li>
+            </ol>
+        </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section" id="historial-clinico">
+        <div class="row">
+            <div class="col-lg-20">
+
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Historial Clínico</h5>
+
+                        <!-- Default Table -->
+                        <table class="table col-lg-20" >
+                            <thead>
+                            <tr>
+                                <th class="table"scope="row">Estado: <span th:text="${paciente.getEstadoPaciente().getNombre()}"></span></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>Nombre: <span th:text="${paciente.getUsuario().getNombres() + '  ' + paciente.getUsuario().getApellidos()}"></span></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Alergias</th>
+                            </tr>
+                            <tr>
+                                <td> <span th:text="${paciente.getAlergias()}"></span> </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Tratamiento</th>
+                            </tr>
+                            <tr>
+                                <td> Tratamiento de <span th:text="${paciente.getCondicionenfermedad()}"></span></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Cuestionarios</th>
+                            </tr>
+                            <tr>
+                                <td>Neurología</td>
+                                <td><a th:href="@{'/administrador/vistacuestionario'}"><i class="bi bi-eye-fill"></i></a></td>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Cardiología</td>
+                                <td><a th:href="@{'/administrador/vistacuestionario'}"><i class="bi bi-eye-fill"></i></a></td>
+                            </tr>
+                            <tr>
+                                <th scope="col">Formularios</th>
+                            </tr>
+                            <tr>
+                                <td> Registro</a></td>
+                                <td><i class="bi bi-journal-text"></i></td>
+                            </tr>
+
+                            <tr>
+                                <th scope="row">Consentimientos</th>
+                            </tr>
+                            <tr>
+                                <td> Uso de datos personales : <span th:text="${paciente.getConsentimientos() == 1 ? 'Sí' : 'No'}"></span></td>
+                                <td><i class="bi bi-person-lock"></i></td>
+                            </tr>
+                            <tr>
+                                <th scope="row" >Próximas Citas</th>
+
+                            </tr>
+                            <tr th:each="cita : ${citas}">
+                                <td th:text="${cita.fecha} + '/' + ${cita.horainicio} + '-' + ${cita.horafinal} + '/' + ${cita.especialidad.nombre}"></td>
+                            </tr>
+
+                            <tr>
+                                <th scope="row">Documentos anexados</th>
+                            </tr>
+
+                            <tr>
+                                <td style="text-decoration: underline; cursor: pointer;" id="historial-clinico-pdf"><i class="bi bi-filetype-pdf"></i> PDF Historial Clínico</td>
+                            </tr>
+
+                            <tr>
+                                <td><i class="bi bi-calendar-week" href="#"></i> Calendario de prox citas</td>
+                            </tr>
+
+                            <script>
+
+                                const generarPdf = () => {
+                                    // Obtener la sección del historial clínico
+                                    const historialClinico = document.querySelector('#historial-clinico');
+
+                                    // Configurar opciones de PDF
+                                    const pdfOptions = {
+                                        margin: [0, 0, 0, 0],
+                                        filename: 'historial-clinico.pdf',
+                                        image: { type: 'jpeg', quality: 0.98 },
+                                        html2canvas: { scale: 2 },
+                                        jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+                                    };
+
+                                    // Crear PDF a partir del contenido de la sección
+                                    html2pdf().set(pdfOptions).from(historialClinico).save();
+                                }
+
+                                // Agregar controlador de eventos de clic al botón "PDF Historial Clínico"
+                                const historialClinicoPdfBtn = document.querySelector('#historial-clinico-pdf');
+                                historialClinicoPdfBtn.addEventListener('click', generarPdf);
+                            </script>
+
+
+
+
+                            </tbody>
+                        </table>
+                        <!-- End Default Table Example -->
+
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+        </div>
+        </div>
+    </section>
+
+
+
+
+
+
+
+
+
+
+</main><!-- End #main -->
+
+<!-- ======= Footer ======= -->
+<footer id="footer" class="footer">
+    <div class="copyright">
+        &copy; Copyright <strong><span>ClinicaLAFE</span></strong>. All Rights Reserved
+    </div>
+    <div class="credits">
+        <!-- All the links in the footer should remain intact. -->
+        <!-- You can delete the links only if you purchased the pro version. -->
+        <!-- Licensing information: https://bootstrapmade.com/license/ -->
+        <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
+        Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+    </div>
+</footer><!-- End Footer -->
+
+<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+<!-- Vendor JS Files -->
+<script th:src="@{/assets/vendor/apexcharts/apexcharts.min.js}"></script>
+<script th:src="@{/assets/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/assets/vendor/chart.js/chart.min.js}"></script>
+<script th:src="@{/assets/vendor/echarts/echarts.min.js}"></script>
+<script th:src="@{/assets/vendor/quill/quill.min.js}"></script>
+<script th:src="@{/assets/vendor/simple-datatables/simple-datatables.js}"></script>
+<script th:src="@{/assets/vendor/tinymce/tinymce.min.js}"></script>
+<script th:src="@{/assets/vendor/php-email-form/validate.js}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.min.js"></script>
+
+
+
+<!-- Template Main JS File -->
+<script th:src="@{/assets/js/main.js}"></script>
+
+</body>
+
+</html>

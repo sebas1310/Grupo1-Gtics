@@ -23,3 +23,4 @@ public class Seguro {
      @Column(name = "comisiondoctor")
     private Double comisiondoctor;
 }
+

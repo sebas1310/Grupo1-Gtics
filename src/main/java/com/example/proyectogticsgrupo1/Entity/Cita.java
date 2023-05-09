@@ -60,5 +60,11 @@ public class Cita {
     @JoinColumn(name = "doctor_iddoctor", nullable = false)
     private Doctor doctor;
 
-
 }
+
+
+
+
+
+
+
