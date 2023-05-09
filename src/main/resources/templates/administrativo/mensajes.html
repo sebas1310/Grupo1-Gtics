@@ -88,46 +88,17 @@
                             <tr>
                                 <th scope="col">Mensajes</th>
                                 <th scope="col">Nombre</th>
-                                <th scope="col">Foto</th>
                                 <th scope="col">Hora</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <td>Quae dolorem earum veritatis oditseno<div>fnfggjjjjjjvfncsffjgnjngjvfgngjsnfjbngjfnvd</div><div>fnfggjjjjjjvfncsffjgnjngjvfgngjsnfjbngjfnvd</div></td>
-                                <td><a th:href="@{'/administrativo/chat'}">Andreina Bravo Torres</a></td>
+
+                            <tr th:each="mensaje : ${listaMensajes}">
+                                <td th:text="${info.index + 1}"></td>
+                                <td th:text="${mensaje.usuario.nombres} + ' ' + ${mensaje.usuario.apellidos}"></td>
                                 <td><img th:src="@{'/assets/img/messages-1.jpg'}" alt="" class="rounded-circle"></td>
-                                <td>21:04:06 17/8/23</td>
-                            </tr>
-                            <tr>
-                                <td>Quae dolorem earum veritatis oditseno<div>fnfggjjjjjjvfncsffjgnjngjvfgngjsnfjbngjfnvd</div><div>fnfggjjjjjjvfncsffjgnjngjvfgngjsnfjbngjfnvd</div></td>
-                                <td><a th:href="@{'/administrativo/chat'}">Andreina Bravo Torres</a></td>
-                                <td><img th:src="@{'/assets/img/messages-2.jpg'}" alt="" class="rounded-circle"></td>
-                                <td>21:04:06 17/8/23</td>
-                            </tr>
-                            <tr>
-                                <td>Quae dolorem earum veritatis oditseno<div>fnfggjjjjjjvfncsffjgnjngjvfgngjsnfjbngjfnvd</div><div>fnfggjjjjjjvfncsffjgnjngjvfgngjsnfjbngjfnvd</div></td>
-                                <td><a th:href="@{'/administrativo/chat'}">Andreina Bravo Torres</a></td>
-                                <td><img th:src="@{'/assets/img/messages-2.jpg'}" alt="" class="rounded-circle"></td>
-                                <td>21:04:06 17/8/23</td>
-                            </tr>
-                            <tr>
-                                <td>Quae dolorem earum veritatis oditseno<div>fnfggjjjjjjvfncsffjgnjngjvfgngjsnfjbngjfnvd</div><div>fnfggjjjjjjvfncsffjgnjngjvfgngjsnfjbngjfnvd</div></td>
-                                <td><a th:href="@{'/administrativo/chat'}">Andreina Bravo Torres</a></td>
-                                <td><img th:src="@{'/assets/img/messages-1.jpg'}" alt="" class="rounded-circle"></td>
-                                <td>21:04:06 17/8/23</td>
-                            </tr>
-                            <tr>
-                                <td>Quae dolorem earum veritatis oditseno<div>fnfggjjjjjjvfncsffjgnjngjvfgngjsnfjbngjfnvd</div><div>fnfggjjjjjjvfncsffjgnjngjvfgngjsnfjbngjfnvd</div></td>
-                                <td><a th:href="@{'/administrativo/chat'}">Andreina Bravo Torres</a></td>
-                                <td><img th:src="@{'/assets/img/messages-2.jpg'}" alt="" class="rounded-circle"></td>
-                                <td>21:04:06 17/8/23</td>
-                            </tr>
-                            <tr>
-                                <td>Quae dolorem earum veritatis oditseno<div>fnfggjjjjjjvfncsffjgnjngjvfgngjsnfjbngjfnvd</div><div>fnfggjjjjjjvfncsffjgnjngjvfgngjsnfjbngjfnvd</div></td>
-                                <td><a th:href="@{'/administrativo/chat'}">Andreina Bravo Torres</a></td>
-                                <td><img th:src="@{'/assets/img/messages-2.jpg'}" alt="" class="rounded-circle"></td>
-                                <td>21:04:06 17/8/23</td>
+                                <td th:text="${mensaje.fecha} + ' ' + {mensaje.hora}"></td>
+
                             </tr>
 
                             </tbody>

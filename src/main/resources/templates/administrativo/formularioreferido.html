@@ -82,32 +82,81 @@
                     <div class="card-body">
                         <h5 class="card-title">Formulario</h5>
 
-                        <form class="row g-3">
-                            <div class="col-12">
-                                <label for="inputNanme4" class="form-label">Nombre del Paciente</label>
-                                <input value="Lorena Vela Sulca" type="text" class="form-control" id="inputNanme4">
+                        <h6 class="card-title">Elegir los campos a editar</h6>
+
+                        <form method="post" th:action="@{/paciente/guardareditar}" class="mt-2">
+                            <input type="hidden" class="form-control" name="id" id="id" th:value="${paciente.idpaciente}">
+
+                            <div class="mb-3">
+                                <label for="nombres" class="form-label">Nombres:</label>
+                                <input type="text" class="form-control" name="nombres" id="nombres" th:value="${paciente.usuario.nombres}">
                             </div>
-                            <div class="col-12">
-                                <label for="inputEmail4" class="form-label">Email</label>
-                                <input value="lorena@pucp.edu.pe"type="email" class="form-control" id="inputEmail4">
+
+                            <div class="mb-3">
+                                <label for="apellidos" class="form-label">Apellidos:</label>
+                                <input type="text" class="form-control" name="apellidos" id="apellidos" th:value="${paciente.usuario.apellidos}">
                             </div>
-                            <div class="col-12">
-                                <label for="inputNanme4" class="form-label">Telefono</label>
-                                <input value="999800999" type="text" class="form-control" id="inputNanme4">
+
+                            <div class="mb-3">
+                                <label for="dni" class="form-label">DNI:</label>
+                                <input type="text" class="form-control" name="dni" id="dni" th:value="${paciente.usuario.dni}">
                             </div>
-                            <div class="col-12">
-                                <label for="inputPassword4" class="form-label">Usuario</label>
-                                <input value="loren2345" type="text" class="form-control" id="inputPassword4">
+
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Correo:</label>
+                                <input type="text" class="form-control" name="email" id="email" th:value="${paciente.usuario.correo}">
                             </div>
-                            <div class="col-12">
-                                <label for="inputAddress" class="form-label">Contraseña</label>
-                                <input value="oasffghgfds" type="password" class="form-control" id="inputAddress">
+
+                            <div class="mb-3">
+                                <label for="contrasena" class="form-label">Contrasena:</label>
+                                <input type="text" class="form-control" name="contrasena" id="contrasena" th:value="${paciente.usuario.contrasena}">
                             </div>
-                            <div class="text-center">
-                                <button type="submit" class="btn btn-warning" ><a th:href="@{'/administrativo/dashboard'}" >Guardar Cambios</a></button>
-                                <button type="reset" class="btn btn-secondary"><a th:href="@{'/administrativo/dashboard'}" >Cancelar</a></button>
+
+                            <div class="mb-3">
+                                <label for="genero" class="form-label">Genero:</label>
+                                <input type="text" class="form-control" name="genero" id="genero" th:value="${paciente.usuario.genero}">
                             </div>
-                        </form><!-- Vertical Form -->
+
+                            <div action="upload.php" method="post" enctype="multipart/form-data">
+                                Seleccionar Imagen:
+                                <input type="file" name="fileToUpload" id="fileToUpload" th:value="${paciente.usuario.foto}>
+                                <input type="submit" value="Subir Imagen" name="submit">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="celular" class="form-label">Celular:</label>
+                                <input type="text" class="form-control" name="celular" id="celular" th:value="${paciente.usuario.celular}">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="edad" class="form-label">Edad:</label>
+                                <input type="text" class="form-control" name="edad" id="edad" th:value="${paciente.usuario.edad}">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="sede" class="form-label">Puesto:</label>
+                                <select name="sede" id="sede" class="form-select">
+                                    <option th:each="sede : ${listaSede}"
+                                            th:value="${sede.idsede}"
+                                            th:text="${sede.nombre}"
+                                            th:selected="${paciente.usuario.sede_idsede == sede.idsede}"></option>
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="especialidad" class="form-label">Puesto:</label>
+                                <select name="especialidad" id="especialidad" class="form-select">
+                                    <option th:each="especialidad : ${listaEspecialidad}"
+                                            th:value="${especialidad.idespecialidad}"
+                                            th:text="${especialidad.nombre}"
+                                            th:selected="${paciente.usuario.especialidad_idespecialidad == especialidad.idespecialidad}"></option>
+                                </select>
+                            </div>
+
+                            <a th:href="@{/administrativo/dashboardpaciente}" class="btn btn-danger">Cancelar</a>
+                            <button type="submit" class="btn btn-primary">Editar</button>
+
+                        </form>
 
                     </div>
                 </div>
@@ -118,15 +167,6 @@
         </div>
         </div>
     </section>
-
-
-
-
-
-
-
-
-
 
 </main><!-- End #main -->
 

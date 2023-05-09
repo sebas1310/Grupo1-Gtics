@@ -62,7 +62,7 @@
     <h1>Profile</h1>
     <nav>
       <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a th:href="@{'/administrador/index'}">Home</a></li>
+        <li class="breadcrumb-item"><a th:href="@{'/administrativo/index'}">Home</a></li>
         <li class="breadcrumb-item active">Perfil</li>
       </ol>
     </nav>
@@ -75,11 +75,12 @@
         <div class="card">
           <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
 
-            <img th:src="@{/assets/img/profile-img.jpg}" alt="Profile" class="rounded-circle">
-            <h2>Kevin Anderson</h2>
-            <h3>Administrador</h3>
+            <img th:src="@{/assets/img/messages-1.jpg}" alt="Profile" class="rounded-circle">
+            <h2><span th:text="${usuario.nombres} + ' ' + ${usuario.apellidos}"></span></h2>
+            <h3><span th:text="${#strings.capitalize(usuario.tipodeusuario.nombre)}"></span></h3>
           </div>
         </div>
+
 
       </div>
 
@@ -111,109 +112,115 @@
 
                 <div class="row">
                   <div class="col-lg-3 col-md-4 label ">Nombre</div>
-                  <div class="col-lg-9 col-md-8">Kevin Anderson</div>
+                  <div class="col-lg-9 col-md-8"><span th:text="${usuario.nombres} + ' ' + ${usuario.apellidos}"></span></div>
                 </div>
 
                 <div class="row">
-                  <div class="col-lg-3 col-md-4 label">Empresa</div>
-                  <div class="col-lg-9 col-md-8">Lueilwitz, Wisoky and Leuschke</div>
+                  <div class="col-lg-3 col-md-4 label">DNI</div>
+                  <div class="col-lg-9 col-md-8"><span th:text="${usuario.dni}"></span></div>
                 </div>
 
                 <div class="row">
-                  <div class="col-lg-3 col-md-4 label">Puesto de Trabajo</div>
-                  <div class="col-lg-9 col-md-8">Ing. Telecomunicaciones </div>
+                  <div class="col-lg-3 col-md-4 label">Correo</div>
+                  <div class="col-lg-9 col-md-8"><span th:text="${usuario.correo}"></span> </div>
                 </div>
 
                 <div class="row">
-                  <div class="col-lg-3 col-md-4 label">Telefono</div>
-                  <div class="col-lg-9 col-md-8">99999999</div>
+                  <div class="col-lg-3 col-md-4 label">Celular</div>
+                  <div class="col-lg-9 col-md-8"><span th:text="${usuario.celular}"></span></div>
                 </div>
 
                 <div class="row">
-                  <div class="col-lg-3 col-md-4 label">Email</div>
-                  <div class="col-lg-9 col-md-8">asdjffi@pucp.edu.pe</div>
+                  <div class="col-lg-3 col-md-4 label">Edad</div>
+                  <div class="col-lg-9 col-md-8"><span th:text="${usuario.edad}"></span></div>
                 </div>
+
+                <div class="row">
+                  <div class="col-lg-3 col-md-4 label">Género</div>
+                  <div class="col-lg-9 col-md-8"><span th:text="${usuario.genero}"></span></div>
+                </div>
+
+
 
               </div>
+
 
               <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
 
                 <!-- Profile Edit Form -->
-                <form>
+                <form method="post" th:action="@{'/administrador/editarperfil'}">
                   <div class="row mb-3">
-                    <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Imagen de Perfil</label>
+                    <label for="profile-edit" class="col-md-4 col-lg-3 col-form-label">Imagen de Perfil</label>
                     <div class="col-md-8 col-lg-9">
-                      <img th:src="@{/assets/img/profile-img.jpg}" alt="Profile">
+                      <img th:src="@{/assets/img/messages-1.jpg}" alt="Profile">
                       <div class="pt-2">
                         <a href="#" class="btn btn-primary btn-sm" title="Upload new profile image"><i class="bi bi-upload"></i></a>
                         <a href="#" class="btn btn-danger btn-sm" title="Remove my profile image"><i class="bi bi-trash"></i></a>
                       </div>
                     </div>
                   </div>
-
+                  <input th:value="${usuario.getIdusuario()}" name="id" type="hidden">
                   <div class="row mb-3">
-                    <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Nombre</label>
+                    <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Nombres</label>
                     <div class="col-md-8 col-lg-9">
-                      <input name="fullName" type="text" class="form-control" id="fullName" value="Kevin Anderson">
+                      <input name="nombres" type="text" class="form-control" id="fullName" th:value="${usuario.getNombres()}">
                     </div>
                   </div>
 
                   <div class="row mb-3">
-                    <label for="company" class="col-md-4 col-lg-3 col-form-label">Empresa</label>
+                    <label for="fullName2" class="col-md-4 col-lg-3 col-form-label">Apellidos</label>
                     <div class="col-md-8 col-lg-9">
-                      <input name="company" type="text" class="form-control" id="company" value="Lueilwitz, Wisoky and Leuschke">
+                      <input name="apellidos" type="text" class="form-control" id="fullName2" th:value="${usuario.getApellidos()}">
                     </div>
                   </div>
 
                   <div class="row mb-3">
-                    <label for="Job" class="col-md-4 col-lg-3 col-form-label">Puesto</label>
+                    <label for="correo" class="col-md-4 col-lg-3 col-form-label">Correo</label>
                     <div class="col-md-8 col-lg-9">
-                      <input name="job" type="text" class="form-control" id="Job" value="Web Designer">
+                      <input name="correo" type="text" class="form-control" id="correo" th:value="${usuario.getCorreo()}">
                     </div>
                   </div>
 
                   <div class="row mb-3">
-                    <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Telefono</label>
+                    <label for="celular" class="col-md-4 col-lg-3 col-form-label">Celular</label>
                     <div class="col-md-8 col-lg-9">
-                      <input name="phone" type="text" class="form-control" id="Phone" value="99999999">
+                      <input name="celular" type="text" class="form-control" id="celular" th:value="${usuario.getCelular()}">
                     </div>
                   </div>
-
-                  <div class="row mb-3">
-                    <label for="Email" class="col-md-4 col-lg-3 col-form-label">Email</label>
-                    <div class="col-md-8 col-lg-9">
-                      <input name="email" type="email" class="form-control" id="Email" value="asdjffi@pucp.edu.pe">
-                    </div>
-                  </div>
+                  <!-- <div class="row mb-3">
+                       <label for="sede" class="col-md-4 col-lg-3 col-form-label">Sede</label>
+                       <div class="col-md-8 col-lg-9">
+                           <input name="sedee" type="text" class="form-control" id="sede" value="San Miguel">
+                       </div>
+                   </div>-->
 
                   <div class="text-center">
                     <button type="submit" class="btn btn-success">Guardar Cambios</button>
                   </div>
-                </form><!-- End Profile Edit Form -->
+                </form><!-- End ProfileEditForm-->
 
               </div>
 
-
               <div class="tab-pane fade pt-3" id="profile-change-password">
                 <!-- Change Password Form -->
-                <form>
-
+                <form form method="post" th:action="@{'/administrador/contrasena'}" >
+                  <input th:value="${usuario.getIdusuario()}" name="id" type="hidden">
                   <div class="row mb-3">
                     <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Actual Contraseña</label>
                     <div class="col-md-8 col-lg-9">
-                      <input name="password" type="password" class="form-control" id="currentPassword">
+                      <input name="password" type="password" class="form-control" id="currentPassword" th:value="${usuario.getContrasena()}">
                     </div>
                   </div>
 
                   <div class="row mb-3">
                     <label for="newPassword" class="col-md-4 col-lg-3 col-form-label">Nueva Contraseña</label>
                     <div class="col-md-8 col-lg-9">
-                      <input name="newpassword" type="password" class="form-control" id="newPassword">
+                      <input name="contrasena" type="password" class="form-control" id="newPassword">
                     </div>
                   </div>
 
                   <div class="row mb-3">
-                    <label for="renewPassword" class="col-md-4 col-lg-3 col-form-label">Cambiar Contraseña</label>
+                    <label for="renewPassword" class="col-md-4 col-lg-3 col-form-label">Confirmar Contraseña</label>
                     <div class="col-md-8 col-lg-9">
                       <input name="renewpassword" type="password" class="form-control" id="renewPassword">
                     </div>

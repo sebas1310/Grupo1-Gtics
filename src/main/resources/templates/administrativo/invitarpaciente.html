@@ -84,31 +84,59 @@
         <div class="card">
           <div class="card-body">
             <h5 class="card-title">Formulario</h5>
+            <h6 class="card-title">Por favor llenar los datos obligatorios para paciente:</h6>
 
             <form class="row g-3">
               <div class="col-12">
-                <label for="inputNanme4" class="form-label">Nombre del Paciente</label>
-                <input type="text" class="form-control" id="inputNanme4">
+                <label for="inputName4" class="form-label">Nombres:</label>
+                <input type="text" class="form-control" id="inputName4">
               </div>
               <div class="col-12">
-                <label for="inputEmail4" class="form-label">Email</label>
-                <input type="email" class="form-control" id="inputEmail4">
+                <label for="inputLastName4" class="form-label">Apellidos:</label>
+                <input type="text" class="form-control" id="inputLastName4">
               </div>
               <div class="col-12">
-                <label for="inputNanme4" class="form-label">Telefono</label>
-                <input type="text" class="form-control" id="inputNanme4">
+                <label for="inputDNI4" class="form-label">DNI:</label>
+                <input type="email" class="form-control" id="inputDNI4">
               </div>
               <div class="col-12">
-                <label for="inputPassword4" class="form-label">Usuario</label>
-                <input type="text" class="form-control" id="inputAddress">
+                <label for="inputGender4" class="form-label">Genero:</label>
+                <input type="text" class="form-control" id="inputGender4">
               </div>
               <div class="col-12">
-                <label for="inputAddress" class="form-label">Contraseña</label>
+                <label for="inputTelephone4" class="form-label">Correo:</label>
+                <input type="text" class="form-control" id="inputTelephone4">
+              </div>
+
+              <div class="col-12">
+                <label for="inputPassword4" class="form-label">Contraseña:</label>
                 <input type="password" class="form-control" id="inputPassword4">
               </div>
               <div class="col-12">
-                <label for="inputAddress" class="form-label">Repetir Contraseña</label>
-                <input type="password" class="form-control" id="inputPassword4">
+                <label for="inputRPassword4" class="form-label">Repetir Contraseña:</label>
+                <input type="password" class="form-control" id="inputRPassword4">
+              </div>
+              <div class="col-12">
+                <label for="inputRPassword4" class="form-label">Celular:</label>
+                <input type="password" class="form-control" id="inputRPassword4">
+              </div>
+              <div class="mb-3">
+                <label for="sede" class="form-label">Sede:</label>
+                <select name="sede" id="sede" class="form-select">
+                  <option th:each="sede : ${listaSedes}"
+                          th:value="${sede.idsede}"
+                          th:text="${sede.nombre}"></option>
+                </select>
+
+              </div>
+              <div class="mb-3">
+                <label for="especialidad" class="form-label">Especialidad:</label>
+                <select name="especialidad" id="especialidad" class="form-select">
+                  <option th:each="especialidada : ${listaEspecialidadaes}"
+                          th:value="${especialidad.idespecialidad}"
+                          th:text="${especialidad.nombre}"></option>
+                </select>
+
               </div>
               <div class="text-center">
                 <button type="submit" class="btn btn-warning" ><a th:href="@{'/administrativo/dashboardpacientes'}" >Enviar registro por correo  <i class="bi bi-google"></i></a></button>
