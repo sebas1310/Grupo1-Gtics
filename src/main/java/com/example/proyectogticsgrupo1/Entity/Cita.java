@@ -64,13 +64,4 @@ public class Cita {
     private Doctor doctor;
 
 
-
-
-
-
-
-
-
-
-
 }

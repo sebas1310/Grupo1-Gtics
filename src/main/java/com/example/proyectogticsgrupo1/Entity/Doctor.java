@@ -40,5 +40,4 @@ public class Doctor {
 
     @Column(name = "zoom")
     private String zoom;
-
 }

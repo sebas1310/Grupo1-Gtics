@@ -59,5 +59,4 @@ public class Usuario {
     /*
     @Column(name = "foto")
     private Blob foto;*/
-
 }

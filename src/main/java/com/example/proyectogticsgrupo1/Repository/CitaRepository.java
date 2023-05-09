@@ -10,10 +10,19 @@ import java.time.LocalTime;
 import java.util.List;
 
 public interface CitaRepository extends JpaRepository<Cita, Integer> {
-    @Query(nativeQuery = true, value = "SELECT * FROM cita WHERE idpaciente = ?1 AND fecha < CURRENT_DATE();\n")
+    @Query(nativeQuery = true, value = "SELECT * FROM cita WHERE paciente_idpaciente = ?1 AND fecha < CURRENT_DATE();\n")
     List<Cita> citaPorPaciente(Integer id);
 
+    @Query(nativeQuery = true, value = "SELECT * FROM cita WHERE paciente_idpaciente = ?1 AND fecha=?2")
+    List<Cita> citasRepetidasValidacion(Integer id, LocalDate fecha);
+
+    @Query(nativeQuery = true, value = "SELECT * FROM cita WHERE fecha= CURRENT_DATE")
+    List<Cita> citasHoy(Integer id);
+
+    @Query(nativeQuery = true, value = "SELECT * FROM cita WHERE WEEKDAY(fecha) = 3 AND YEARWEEK(fecha, 1) = YEARWEEK(CURDATE(), 1)")
+    List<Cita> citasJueves();
+
     @Modifying
-    @Query(nativeQuery = true, value = "INSERT INTO cita (costo, idsede, idpaciente, idespecialidad, iddoctor, fecha, horainicio, horafinal, duracion, idtipocita, idseguro, idestadocita) VALUES (?1, ?2, ?3, ?4, ?5, ?6,?7,?8,?9,?10, ?11,?12)")
-    void agengedarcita(Double costo, Integer idsede, Integer idpaciente, Integer idespecialidad, Integer iddoctor, LocalDate fecha, LocalTime horini, LocalTime horafin,Integer duracion, Integer idtipocita, Integer idseguro, Integer idestadoctia );
+    @Query(nativeQuery = true, value = "INSERT INTO cita (idsede, idespecialidad, fecha, horainicio, horafinal, duracion, idtipocita, idseguro, idestadocita, paciente_idpaciente, pendiente_examenes, doctor_iddoctor) VALUES (?1, ?2, ?3, ?4, ?5, ?6,?7,?8,?9,?10,?11,?12)")
+    void agengedarcita(Integer idsede, Integer idespecialidad,LocalDate fecha, LocalTime horini, LocalTime horafin,Integer duracion, Integer idtipocita, Integer idseguro, Integer idestadoctia, Integer idpac, Integer exam, Integer iddoc);
 }

@@ -43,6 +43,4 @@ public class Eventocalendariodoctor {
     @JoinColumn(name = "iddoctor")
     private Doctor doctor;
 
-
-
 }
