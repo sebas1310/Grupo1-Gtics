@@ -285,7 +285,7 @@ public class AdministradorController {
         if (usuarioopt.isPresent()) {
             Usuario user = usuarioopt.get();
             model.addAttribute("usuario", user);
-            Sede sede = sedeRepository.findByIdsede(1);
+            Sede sede = sedeRepository.findByIdsede(2);
             model.addAttribute("sede",sede);
             return "administrador/configuraciones";
         } else {
