@@ -23,7 +23,7 @@
     </div><!-- End Page Title -->
 
 
-    <section class="section">
+    <section class="section dashboard">
         <div class="row">
             <div class="col-lg-6">
 
@@ -34,70 +34,39 @@
         </div>
         </div>
 
+        <div class="col-12">
+            <div class="card recent-sales overflow-auto">
+                <div class="card-body">
+                    <h5 class="card-title">Lista de Seguros</h5>
 
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title">Lista de Seguros</h5>
-
-                <!-- Bordered Table -->
-                <table class="table table-bordered">
-                    <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Nombre</th>
-                        <th scope="col">Paciente Porcentaje</th>
-                        <th scope="col">Doctor Porcentaje</th>
+                    <!-- Bordered Table -->
+                    <table class="table table-borderless datatable">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Nombre</th>
+                                <th scope="col">Paciente Porcentaje</th>
+                                <th scope="col">Doctor Porcentaje</th>
 
                     </tr>
                     </thead>
-                    <tbody>
-                    <tr>
-                        <th scope="row">1</th>
-                        <td>Rimac EPS</td>
-                        <td>0.15</td>
-                        <td>0.6</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">2</th>
-                        <td>Rimac Seguros</td>
-                        <td>0.25</td>
-                        <td>0.7</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">3</th>
-                        <td>Pacifico EPS</td>
-                        <td>0.1</td>
-                        <td>0.6</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">4</th>
-                        <td>Mapfre</td>
-                        <td>0.4</td>
-                        <td>0.5</td>
-                    </tr>
+                        <tbody>
 
-                    </tbody>
+                            <tr th:each="seguro, info : ${listSeguros}" th:id="'fila-' + ${info.index}">
+                                <td th:text="${info.index + 1}"></td>
+                                <td th:text="${seguro.nombre}"></td>
+                                <td th:text="${seguro.coaseguro}"></td>
+                                <td th:text="${seguro.comisiondoctor}"></td>
+                            </tr>
+
+                        </tbody>
                 </table>
-                <!-- Centered Pagination -->
-                <nav aria-label="Page navigation example">
-                    <ul class="pagination justify-content-center">
-                        <li class="page-item">
-                            <a class="page-link" href="#" aria-label="Previous">
-                                <span aria-hidden="true">&laquo;</span>
-                            </a>
-                        </li>
-                        <li class="page-item"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item">
-                            <a class="page-link" href="#" aria-label="Next">
-                                <span aria-hidden="true">&raquo;</span>
-                            </a>
-                        </li>
-                    </ul>
-                </nav><!-- End Centered Pagination -->
 
+
+                </div>
             </div>
+        </div>
+
         </div>
     </section>
 

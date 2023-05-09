@@ -1,9 +1,6 @@
 package com.example.proyectogticsgrupo1.Controller;
 
-import com.example.proyectogticsgrupo1.Entity.Especialidad;
-import com.example.proyectogticsgrupo1.Entity.ModeloEntity;
-import com.example.proyectogticsgrupo1.Entity.Tipodeusuario;
-import com.example.proyectogticsgrupo1.Entity.Usuario;
+import com.example.proyectogticsgrupo1.Entity.*;
 import com.example.proyectogticsgrupo1.Repository.*;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -263,7 +260,9 @@ public class SuperadminController {
     }
 
     @GetMapping("/seguros")
-    public String seguro(){
+    public String seguro(Model model){
+        List<Seguro> listSeguros = seguroRepository.findAll();
+        model.addAttribute("listSeguros",listSeguros);
         return "/superadmin/seguros_spa";
     }
 
