@@ -2,6 +2,8 @@ package com.example.proyectogticsgrupo1.Controller;
 
 
 import com.example.proyectogticsgrupo1.Repository.PacienteRepository;
+import com.example.proyectogticsgrupo1.Repository.DoctorRepository;
+import com.example.proyectogticsgrupo1.Repository.FormularioadministrativoRepository;
 
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,34 +14,32 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.List;
 import java.util.Optional;
 
+final PacienteRepository pacienteRepository;
+final DoctorRepository doctorRepository;
+final FormularioadministrativoRepository formularioadministrativoRepository;
 public class PacienteController {
 
 
-    final EmployeeRepository employeeRepository;
-    final DepartmentRepository departmentRepository;
-    final JobRepository jobRepository;
-    public EmployeeController(EmployeeRepository employeesRepository, DepartmentRepository departmentsRepository, JobRepository jobsRepository ) {
-        this.employeeRepository = employeesRepository;
-        this.departmentRepository = departmentsRepository;
-        this.jobRepository = jobsRepository;
+    public PacienteController(PacienteRepository employeesRepository, DoctorRepository departmentsRepository, FormularioadministrativoRepository jobsRepository ) {
+        this.pacienteRepository = pacienteRepository;
+        this.doctorRepository = doctorRepository;
+        this.formularioadministrativoRepository = formularioadministrativoRepository;
     }
 
-
-
-    @GetMapping("/empleado")
-    public String inicioEmpleados(Model model){
-        List<Employee> listaEmpleados = employeeRepository.listarEmpleados();
-        model.addAttribute("listaEmpleados",listaEmpleados);
-        return "empleado/listar";
+    @GetMapping("/administrativo")
+    public String inicioPacientes(Model model){
+        List<Paciente> listaPacientes = PacienteRepository.listarPacientes();
+        model.addAttribute("listaPacientes",listaPacientes);
+        return "administrativo/dashboard";
     }
 
 
     @PostMapping("/empleado/buscar")
-    public String buscarEmpleados(@RequestParam("textoaBuscar") String searchText, Model model){
+    public String buscarPacientes(@RequestParam("textoaBuscar") String searchText, Model model){
         List<Employee> listaEmpleados = employeeRepository.buscarEmpleados(searchText);
         model.addAttribute("listaEmpleados",listaEmpleados);
         model.addAttribute("textoaBuscar",searchText);
-        return "empleado/listar";
+        return "administrativo/dashboard";
     }
 
     @GetMapping("/empleado/nuevo")
@@ -99,7 +99,7 @@ public class PacienteController {
 
     }
 
-    @PostMapping("/empleado/guardareditar")
+    @PostMapping("/administrativo/guardareditar")
     public String editarEmpleado(
             @RequestParam("nombre") String nombre,
             @RequestParam("apellido") String apellido,

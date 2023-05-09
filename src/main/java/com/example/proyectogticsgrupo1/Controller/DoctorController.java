@@ -1,5 +1,8 @@
 package com.example.proyectogticsgrupo1.Controller;
 
+import com.example.proyectogticsgrupo1.Repository.DoctorRepository;
+import com.example.proyectogticsgrupo1.Repository.FormularioadministrativoRepository;
+import com.example.proyectogticsgrupo1.Repository.PacienteRepository;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -9,19 +12,16 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.List;
 import java.util.Optional;
 
+final PacienteRepository pacienteRepository;
+final DoctorRepository doctorRepository;
+final FormularioadministrativoRepository formularioadministrativoRepository;
 public class DoctorController {
 
-
-    final EmployeeRepository employeeRepository;
-    final DepartmentRepository departmentRepository;
-    final JobRepository jobRepository;
-    public EmployeeController(EmployeeRepository employeesRepository, DepartmentRepository departmentsRepository, JobRepository jobsRepository ) {
-        this.employeeRepository = employeesRepository;
-        this.departmentRepository = departmentsRepository;
-        this.jobRepository = jobsRepository;
+    public DoctorController(PacienteRepository employeesRepository, DoctorRepository departmentsRepository, FormularioadministrativoRepository jobsRepository ) {
+        this.pacienteRepository = pacienteRepository;
+        this.doctorRepository = doctorRepository;
+        this.formularioadministrativoRepository = formularioadministrativoRepository;
     }
-
-
 
     @GetMapping("/empleado")
     public String inicioEmpleados(Model model){
@@ -30,7 +30,6 @@ public class DoctorController {
         return "empleado/listar";
     }
 
-
     @PostMapping("/empleado/buscar")
     public String buscarEmpleados(@RequestParam("textoaBuscar") String searchText, Model model){
         List<Employee> listaEmpleados = employeeRepository.buscarEmpleados(searchText);
@@ -38,10 +37,6 @@ public class DoctorController {
         model.addAttribute("textoaBuscar",searchText);
         return "empleado/listar";
     }
-
-
-
-
 
     @GetMapping("/empleado/nuevo")
     public String empleadosNuevo(Model model){
@@ -65,10 +60,6 @@ public class DoctorController {
         return "empleado/nuevoPaciente";
     }
 
-
-
-
-
     @PostMapping("/empleado/guardar")
     public String guardarEmpleado(
             @RequestParam("nombre") String nombre,
@@ -86,9 +77,6 @@ public class DoctorController {
         redirectAttributes.addFlashAttribute("msgGreen","Empleado creado exitosamente");
         return "redirect:/empleado";
     }
-
-
-
 
 
     @GetMapping("/empleado/editar")

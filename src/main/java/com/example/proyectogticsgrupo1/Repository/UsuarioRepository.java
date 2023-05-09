@@ -14,9 +14,9 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
 
     @Transactional
     @Modifying
-    @Query(value = "insert into `bdclinica_lafe`.`paciente` (`idpaciente`, `direccion`, `idestadopaciente`, `idseguro`, `alergias`,`consentimientos`, `condicion_enfermedad`, `poliza`,`referido` ) values ( ?1,?2,?3,?4,?5,?6,?7,?8,?9) ",
+    @Query(value = "insert into `bdclinica_lafe`.`usuario` (`idusuario`, `idtipodeusuario`, `nombres`, `apellidos`, `dni`, `correo`, `contrasena`, `genero`, `foto`, `celular`, `edad`, `sede_idsede`, `especialidad_idespecialidad`, `estado_habilitado`, `sueldo`, `firma`) values ( ?1,?2,?3,?4,?5,?6,?7,?8,?9,?10,?11,?12,?13,?14,?15,?16) ",
             nativeQuery = true)
-    void guardarUsuario(int idpaciente, String direccion, int idestadopaciente, int idseguro, String alergias, int consentimientos, String condicion_enfermedad, String poliza, Boolean referido);
+    void guardarUsuario(int idusuario, int idtipodeusuario, String idestadopaciente, int idseguro, String alergias, int consentimientos, String condicion_enfermedad, String poliza, Boolean referido);
     @Query(value = "SELECT * FROM paciente p\n" +
             "    JOIN usuario u ON p.idusuario = u.idusuario\n" +
             "    JOIN estadopaciente e on p.idestadopaciente = e.idestadopaciente WHERE u.idtipodeusuario = ?1", nativeQuery = true)
