@@ -17,5 +17,4 @@ public class EstadoPaciente {
 
     @Column(name = "nombre", nullable = false)
     private String nombre;
-
 }

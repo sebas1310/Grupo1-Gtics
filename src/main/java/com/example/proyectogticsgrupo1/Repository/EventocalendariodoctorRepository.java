@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+
 import java.util.List;
 
 
@@ -34,3 +35,4 @@ public interface EventocalendariodoctorRepository extends JpaRepository<Eventoca
     List<DiasProximosDoctor> getDiasProx(Integer id);
 
 }
+

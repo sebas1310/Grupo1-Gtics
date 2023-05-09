@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head th:insert="fragments/doctor/librerias.html :: cabecera (titulo = 'Respuesta Mensaje')">
+    </head>
+    <body>
+        <!-- ======= Header ======= -->
+        <header th:replace="fragments/doctor/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1', nombre = |${doctor.usuario.nombres} ${doctor.usuario.apellidos}|, num_men = '2')">
+        </header>
+        <!-- End Header -->
+        <!-- ======= Sidebar ======= -->
+        <aside id="sidebar" class="sidebar">
+            <ul class="sidebar-nav" id="sidebar-nav">
+                <li class="nav-item">
+                    <a class="nav-link collapsed" th:href="@{'/doctor/dashboard'}" >
+                        <i class="bi bi-grid"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li><!-- End Dashboard -->
+                <li class="nav-item"> <!-- Cambiar ref -->
+                    <a class="nav-link collapsed"  th:href="@{'/doctor/pacientesatendidos'+ '?id=' + ${doctor.iddoctor}}" >
+                        <i class="bi bi-menu-button-wide"></i>
+                        <span>Pacientes Atendidos</span>
+                    </a>
+                </li><!-- End Pacientes Atendidos -->
+                <li class="nav-item">  <!-- cambia -->
+                    <a class="nav-link collapsed"  th:href="@{'/doctor/calendario'}" >
+                        <i class="bi bi-calendar3"></i>
+                        <span>Calendario</span>
+                    </a>
+                </li><!-- End Calendario -->
+                <li class="nav-item">  <!-- cambia -->
+                    <a class="nav-link collapsed" th:href="@{'/doctor/perfil'+ '?id=' + ${doctor.iddoctor}}"  >
+                        <i class="bi bi-person"></i>
+                        <span>Perfil</span>
+                    </a>
+                </li><!-- End Perfil -->
+                <br><br><br><br>
+                <br><br><br><br>
+                <br><br><br><br>
+                <br><br><br><br>
+                <br><br><br>
+                <li class="nav-heading"> ----------------------------------------------- </li>
+                <li class="nav-item">
+                    <a class="nav-link collapsed" th:href="@{'/doctor/configuraciones'+ '?id=' + ${doctor.iddoctor}}" >
+                        <i class="bi bi-gear"></i>
+                        <span>Configuracion</span>
+                    </a>
+                </li><!-- End Configuracion -->
+                <li class="nav-item">
+                    <a class="nav-link collapsed" type="button" data-bs-toggle="modal" data-bs-target="#cerrar">
+                        <i class="bi bi-box-arrow-in-right"></i>
+                        <span>Cerrar Sesión</span>
+                        <!-- Vertically centered Modal -->
+                    </a>
+                </li><!-- End Cerrar Sesion -->
+            </ul>
+        </aside><!-- End Sidebar-->
+        <div class="modal fade" id="cerrar" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">¿Seguro que deseas Salir?</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-success" data-bs-dismiss="modal"><a style="color: white" href="pages-login.html" >Salir</a></button>
+                        <button type="button" class="btn btn-secondary"><a style="color: white" th:href="@{'/doctor/pacientesatendidos/verhistorial'}" >Cancelar</a></button>
+                    </div>
+                </div>
+            </div>
+        </div><!-- End Vertically centered Modal-->
+
+
+        <main id="main" class="main">
+
+            <div class="pagetitle">
+                <h1>Mensajería</h1>
+                <nav>
+                    <!--<ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a th:href="@{'/doctor/pacientesatendidos'}">Pacientes Atendidos</a></li>
+                        <li class="breadcrumb-item active">Historial Clínico</li>
+                    </ol>-->
+                </nav>
+            </div>
+            <!-- End Page Title -->
+
+            <section class="section">
+                <div class="row">
+                    <div class="col-lg-20">
+
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Historial Mensajes</h5>
+
+                                <!-- Default Table -->
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th style="text-align: center" scope="col">De:</th>
+                                            <th style="text-align: center" scope="col">Asunto</th>
+                                            <th style="text-align: center" scope="col">Descripcion</th>
+                                            <th style="text-align: center" scope="col">Fecha</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr th:each=" mensaje : ${historialmensajes}">
+                                            <td style="text-align: center" th:text="|${mensaje.getUsuarioOrigen().getNombres()} ${mensaje.getUsuarioOrigen().getApellidos()} ${mensaje.getUsuarioOrigen().getTipodeusuario().getNombre()}|"></td>
+                                            <td style="text-align: center" th:text="${mensaje.getAsunto()}"></td>
+                                            <td style="text-align: center" th:text="${mensaje.getDescripcion()}"></td>
+                                            <!-- deriva al historial del paciente th:href="@{'/administrador/chat'}" -->
+                                            <td style="text-align: center" th:text="|${mensaje.getFecha()} ${mensaje.getHora()}|"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <!-- End Default Table Example -->
+
+                                <form method="post" th:action="@{'/doctor/mensajeria/enviarmensaje/envio'}" class="row g-3">
+
+                                    <!--<input th:value="${usuario.getIdUsuario()}" name="idUsuario" type="hidden" >
+                                    <input th:value="${mensaje.getIdMensaje()}" name="idM" type="hidden" />-->
+
+                                    <div class="col-md-6">
+                                        <label for="email" class="form-label">Correo Destino</label>
+                                        <input th:value="${usuariorigen.getCorreo()}" type="text" name="correodestino" class="form-control" id="email"  ></div>
+
+                                    <div class="col-md-6">
+                                        <label for="asunt" class="form-label">Asunto</label>
+                                        <input type="text" name="asunto" class="form-control" id="asunt" >
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label for="description" class="form-label">Descripcion</label>
+                                        <input type="text" name="descripcion" class="form-control" id="description" >
+                                    </div>
+
+                                    <!--<div class="col-md-6">
+                                        <label for="ingresoplataforma" class="form-label">Apenas El Paciente Ingrese a la Plataforma</label>
+                                        <select class="form-select" id="ingresoplataforma" required>
+                                            <option selected disabled value="">Seleccione</option>
+                                            <option>Sí</option>
+                                            <option>No</option>
+                                        </select>
+                                    </div> -->
+
+                                    <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+                                        <button class="btn btn-primary" type="submit">Enviar</button>
+                                        <a th:href="@{'/doctor/mensajeria'}" class="btn btn-danger">Regresar</a>
+                                    </div>
+                                </form>
+                            </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+                </div>
+                </div>
+            </section>
+        </main><!-- End #main -->
+
+
+
+        <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+        <!-- Vendor JS Files -->
+        <script th:src="@{'/assets/vendor/apexcharts/apexcharts.min.js'}"></script>
+        <script th:src="@{'/assets/vendor/bootstrap/js/bootstrap.bundle.min.js'}"></script>
+        <script th:src="@{'/assets/vendor/chart.js/chart.min.js'}"></script>
+        <script th:src="@{'/assets/vendor/echarts/echarts.min.js'}"></script>
+        <script th:src="@{'/assets/vendor/quill/quill.min.js'}"></script>
+        <script th:src="@{'/assets/vendor/simple-datatables/simple-datatables.js'}"></script>
+        <script th:src="@{'/assets/vendor/tinymce/tinymce.min.js'}"></script>
+        <script th:src="@{'/assets/vendor/php-email-form/validate.js'}"></script>
+
+        <!-- Template Main JS File -->
+        <script th:src="@{'/assets/js/main.js'}"></script>
+
+    </body>
+
+</html>

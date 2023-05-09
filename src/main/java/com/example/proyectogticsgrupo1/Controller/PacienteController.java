@@ -4,7 +4,6 @@ import com.example.proyectogticsgrupo1.Entity.*;
 import com.example.proyectogticsgrupo1.Repository.*;
 import com.example.proyectogticsgrupo1.Service.EmailService;
 import jakarta.transaction.Transactional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,6 +28,8 @@ public class PacienteController {
     final EspecialidadRepository especialidadRepository;
     final DoctorRepository doctorRepository;
     final UserRepository userRepository;
+
+    @Autowired
     final PacienteRepository pacienteRepository;
     final TipoCitaRepository tipoCitaRepository;
     final CitaRepository citaRepository;

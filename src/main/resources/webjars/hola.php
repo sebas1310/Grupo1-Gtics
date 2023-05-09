@@ -1,0 +1,18 @@
+<build>
+    <resources>
+        <resource>
+            <directory>src/main/resources</directory>
+            <filtering>true</filtering>
+            <includes>
+                <include>application.properties</include>
+                <include>pom.xml</include>
+            </includes>
+        </resource>
+        <resource>
+            <directory>src/main/resources/webjars</directory>
+            <includes>
+                <include>hola.php</include>
+            </includes>
+        </resource>
+    </resources>
+</build>

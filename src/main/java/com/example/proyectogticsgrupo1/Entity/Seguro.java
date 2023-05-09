@@ -14,13 +14,14 @@ public class Seguro {
     @Column(name = "idseguro")
     private Integer idseguro;
 
-     @Column(name = "nombre")
+    @Column(name = "nombre")
     private String  nombre;
 
-     @Column(name = "coaseguro")
+    @Column(name = "coaseguro")
     private Double coaseguro;
 
      @Column(name = "comisiondoctor")
     private Double comisiondoctor;
 }
+
 

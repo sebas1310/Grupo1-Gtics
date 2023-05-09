@@ -52,6 +52,9 @@ public class Usuario {
     @JoinColumn(name = "especialidad_idespecialidad")
     private Especialidad especialidad;
 
+    @Column(name = "sueldo")
+    private Double sueldo;
 
 }
+
 

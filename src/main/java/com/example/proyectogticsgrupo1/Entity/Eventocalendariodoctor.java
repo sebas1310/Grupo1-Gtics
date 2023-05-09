@@ -13,6 +13,7 @@ import java.time.LocalTime;
 @Entity
 @Table(name = "eventocalendariodoctor")
 public class Eventocalendariodoctor {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ideventocalendariodoctor")
@@ -44,3 +45,4 @@ public class Eventocalendariodoctor {
     private Doctor doctor;
 
 }
+
