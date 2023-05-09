@@ -124,6 +124,8 @@
                                 <!-- Profile Edit Form -->
                                 <form method="post" th:action="@{'superadmin/actualizarUser'}" th:object="${usuario}" class="mt-2">
 
+                                    <input name="idusuario" type="hidden" class="form-control" id="idusuario" th:value="${usuario.idusuario}" th:field="${usuario.idusuario}">
+
 
                                     <div class="row mb-3">
                                         <label  class="col-md-4 col-lg-3 col-form-label">Foto de Perfil</label>
@@ -140,7 +142,7 @@
                                     <div class="row mb-3">
                                         <label for="nombre" class="col-md-4 col-lg-3 col-form-label">Nombre</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <input name="fullName" type="text" class="form-control" id="nombre" th:value="${usuario.nombres}">
+                                            <input name="fullName" type="text" class="form-control" id="nombre" th:value="${usuario.nombres}" th:field="${usuario.nombres}">
                                         </div>
 
 
@@ -148,7 +150,7 @@
                                     <div class="row mb-3">
                                         <label for="apellido" class="col-md-4 col-lg-3 col-form-label">Apellidos</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <input name="fullName" type="text" class="form-control" id="apellido" th:value="${usuario.apellidos}">
+                                            <input name="fullName" type="text" class="form-control" id="apellido" th:value="${usuario.apellidos}" th:field="${usuario.apellidos}">
                                         </div>
 
                                     </div>
@@ -156,21 +158,21 @@
                                     <div class="row mb-3">
                                         <label for="Email" class="col-md-4 col-lg-3 col-form-label">Correo</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <input name="email" type="email" class="form-control" id="Email" th:value="${usuario.correo}">
+                                            <input name="email" type="email" class="form-control" id="Email" th:value="${usuario.correo}" th:field="${usuario.correo}">
                                         </div>
                                     </div>
 
                                     <div class="row mb-3">
                                         <label for="dni" class="col-md-4 col-lg-3 col-form-label">DNI</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <input name="company" type="text" class="form-control" id="dni" th:value="${usuario.dni}">
+                                            <input name="company" type="text" class="form-control" id="dni" th:value="${usuario.dni}" th:field="${usuario.dni}">
                                         </div>
                                     </div>
 
                                     <div class="row mb-3">
                                         <label for="edad" class="col-md-4 col-lg-3 col-form-label">Edad</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <input name="edad" type="text" class="form-control" id="edad" th:value="${usuario.edad}">
+                                            <input name="edad" type="text" class="form-control" id="edad" th:value="${usuario.edad}" th:field="${usuario.edad}">
                                         </div>
                                     </div>
 
@@ -178,15 +180,35 @@
                                     <div class="row mb-3">
                                         <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Celular</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <input name="phone" type="text" class="form-control" id="Phone" th:value="${usuario.celular}">
+                                            <input name="phone" type="text" class="form-control" id="Phone" th:value="${usuario.celular}" th:field="${usuario.celular}">
                                         </div>
                                     </div>
 
 
-                                    <div class="form-check form-switch">
-                                        <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" th:checked="${usuario.estadohabilitado == 1}" th:field="${usuario.estadohabilitado}" th:value="${usuario.estadohabilitado != null} ? ${usuario.estadohabilitado} : '0'">
-                                        <label for="flexSwitchCheckDefault" class="form-check-label">Inactivo/Activo</label>
+<!--
+
+<!--                                    <div class="form-check form-switch">-->
+<!--                                        <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" th:checked='false' th:field="${usuario.estadohabilitado}" th:value="${usuario.estadohabilitado != null} ? ${usuario.estadohabilitado} : '0'" >-->
+<!--                                        <label for="flexSwitchCheckDefault" class="form-check-label">Activo/Inactivo</label>-->
+<!--                                    </div>-->
+
+                                    <div class="row mb-3">
+                                        <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Estado Habilitado</label>
+                                        <select class="col-md-8 col-lg-9 form-control"  th:value="${usuario.estadohabilitado}" th:field="${usuario.estadohabilitado}">
+                                            <option value="1">Activo</option>
+                                            <option value="0">Inactivo</option>
+<!--                                            <option th:each="option : ${options}"-->
+<!--                                                    th:value="${option.value}"-->
+<!--                                                    th:text="${option.label}"-->
+<!--                                                    th:selected="${usuario.value == selectedOption}">-->
+<!--                                            </option>-->
+                                        </select>
                                     </div>
+
+
+
+
+
 
 
 

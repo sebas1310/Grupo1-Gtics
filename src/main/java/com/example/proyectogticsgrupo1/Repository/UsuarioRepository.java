@@ -24,5 +24,11 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
     void cambiarPassword(String nuevaContraseña);
 
 
+    @Modifying
+    @Transactional
+    @Query(value="update usuario set estado_habilitado = ?1,nombres=?2,apellidos=?3,correo=?4,dni=?5,edad=?6,celular=?7 where idusuario = ?8",nativeQuery = true)
+    void actualizarPaciente(int habilitado,String nombres, String apellidos, String correo, String DNI, int edad, String celular, int idusuario);
+
+
 }
 

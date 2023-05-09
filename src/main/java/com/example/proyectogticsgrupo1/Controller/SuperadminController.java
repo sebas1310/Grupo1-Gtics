@@ -111,17 +111,22 @@ public class SuperadminController {
     @PostMapping("/superadmin/actualizarUser")
     public String actualizarUser(Usuario usuario,RedirectAttributes attr){
 
-//        if (usuario.getEstadohabilitado() == null){
-//
-//        }
-//        Usuario usuario = usuario.getEstadohabilitado();
-//        System.out.println(usuario.getEstadohabilitado());
-//        usuarioRepository.actualizarPaciente()
-//
-//
-//        if(usuario.getIdusuario()!=null){
-//            attr.addFlashAttribute("msg", "Usuario actualizado exitosamente");
-//        }
+        System.out.println(usuario.getNombres());
+        System.out.println(usuario.getEstadohabilitado());
+
+        if (usuario.getEstadohabilitado() == 0){
+            int habilitado = 0;
+            usuarioRepository.actualizarPaciente(habilitado,usuario.getNombres(),usuario.getApellidos(),usuario.getCorreo(),usuario.getDni(),usuario.getEdad(),usuario.getCelular(),usuario.getIdusuario());
+
+        }else{
+            int habilitado = 1;
+            usuarioRepository.actualizarPaciente(habilitado,usuario.getNombres(),usuario.getApellidos(),usuario.getCorreo(),usuario.getDni(),usuario.getEdad(),usuario.getCelular(),usuario.getIdusuario());
+
+        }
+
+        if(usuario.getIdusuario()!=null){
+            attr.addFlashAttribute("msg", "Usuario actualizado exitosamente");
+        }
 ;
         return "redirect:/superadmin/index";
     }
