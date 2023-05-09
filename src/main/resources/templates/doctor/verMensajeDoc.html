@@ -75,13 +75,7 @@
 
             <div class="pagetitle">
                 <h1>Mensajería</h1>
-                <a th:href="@{'/doctor/mensajeria/enviarmensaje'}" class="btn btn-danger">Enviar Mensaje</a>
-                <nav>
-                    <!--<ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a th:href="@{'/doctor/pacientesatendidos'}">Pacientes Atendidos</a></li>
-                        <li class="breadcrumb-item active">Historial Clínico</li>
-                    </ol>-->
-                </nav>
+                <a th:href="@{'/doctor/mensajeria'}" class="btn btn-danger">Regresar</a>
             </div>
             <!-- End Page Title -->
 
@@ -91,7 +85,7 @@
 
                         <div class="card">
                             <div class="card-body">
-                                <h5 class="card-title">Mensajes Recibidos</h5>
+                                <h5 class="card-title">Mensaje Recibido</h5>
 
                                 <!-- Default Table -->
                                 <table class="table">
@@ -101,21 +95,15 @@
                                             <th style="text-align: center" scope="col">Asunto</th>
                                             <th style="text-align: center" scope="col">Descripcion</th>
                                             <th style="text-align: center" scope="col">Fecha</th>
-                                            <th style="text-align: center" scope="col"></th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr th:each=" mensaje : ${listamensajes}">
+                                        <tr>
                                             <td style="text-align: center" th:text="|${mensaje.getUsuarioOrigen().getNombres()} ${mensaje.getUsuarioOrigen().getApellidos()} ${mensaje.getUsuarioOrigen().getTipodeusuario().getNombre()}|"></td>
                                             <td style="text-align: center" th:text="${mensaje.getAsunto()}"></td>
                                             <td style="text-align: center" th:text="${mensaje.getDescripcion()}"></td>
-                                            <!-- deriva al historial del paciente th:href="@{'/administrador/chat'}" -->
                                             <td style="text-align: center" th:text="|${mensaje.getFecha()} ${mensaje.getHora()}|"></td>
-                                            <td style="text-align: center" th:if="${mensaje.getUsuarioOrigen().getTipodeusuario().getIdtipodeusuario() eq 3}">
-                                                <a th:href="@{'/doctor/mensajeria/enviarmensaje'}" class="btn btn-danger">Enviar Mensaje</a></td>
-                                            <td style="text-align: center" th:unless="${mensaje.getUsuarioOrigen().getTipodeusuario().getIdtipodeusuario() eq 3}">
-                                                <a th:href="@{'/doctor/mensajeria/vermensaje'+'?idM=' + ${mensaje.getIdMensaje()}}" class="btn btn-danger">Ver Mensaje</a></td>
-                                            </tr>
+                                        </tr>
 
                                     </tbody>
                                 </table>

@@ -35,6 +35,9 @@ public class DoctorController {
     @Autowired
     EmailService emailService;
 
+    @Autowired
+    MailCorreoRepository mailCorreoRepository;
+
     public DoctorController(CitaRepository citaRepository, DoctorRepository doctorRepository, PacienteRepository pacienteRepository,
                             RecetaMedicaRepository recetaMedicaRepository, ReporteCitaRepository reporteCitaRepository, UserRepository userRepository,
                             BitacoraDeDiagnosticoRepository bitacoraDeDiagnosticoRepository,
@@ -272,23 +275,38 @@ public class DoctorController {
     }
 
     @GetMapping("/mensajeria")
-    public String mensajeriaDoctor(Model model, @RequestParam("id") int idD) {
+    public String mensajeriaDoctor(Model model) {
 
+        /*@RequestParam("id") int idD*/
         Optional<Doctor> optDoctor = doctorRepository.findById(2);
 
         if (optDoctor.isPresent()) {
             Doctor doctor1 = optDoctor.get();
-            //List<Mensaje> lista = sedeRepository.findAll();
-            //model.addAttribute("listSedes", lista);
-            model.addAttribute("doctor", doctor1);
+            model.addAttribute("listamensajes",mailCorreoRepository.buscarMensajesRecibidosPorID(doctor1.getUsuario().getIdusuario()));
+            //model.addAttribute("doctor", doctor1);
         }
         return "doctor/mensajeriaDoc";
+    }
+
+    @GetMapping("/mensajeria/vermensaje")
+    public String verMensajeDoctor(Model model, @RequestParam("idM") int idMensaje) {
+
+        /*@RequestParam("id") int idD*/
+        Optional<Doctor> optDoctor = doctorRepository.findById(2);
+
+        if (optDoctor.isPresent()) {
+            Doctor doctor1 = optDoctor.get();
+            model.addAttribute("mensaje",mailCorreoRepository.buscarMensajePorID(idMensaje));
+            //model.addAttribute("doctor", doctor1);
+        }
+        return "doctor/verMensajeDoc";
     }
 
 
 
     @GetMapping("/mensajeria/enviarmensaje")
     public String enviarMensajeDoctor() {
+
         return "doctor/enviarMensajeDoc";
     }
 
