@@ -13,9 +13,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.thymeleaf.model.IModel;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -44,7 +46,7 @@ public class PacienteController {
     }
 
     @GetMapping(value = "/")
-    public String paciente( Model model, @RequestParam(value = "esp", required = false) Integer esp,RedirectAttributes redirectAttributes){
+    public String paciente( Model model, @RequestParam(value = "esp", required = false) Integer esp, @RequestParam(value = "msg1", required = false) Integer msg1,RedirectAttributes redirectAttributes){
         Optional<Paciente> optionalPaciente = pacienteRepository.findById(1);
         List<Especialidad> listespecialidad = especialidadRepository.findAll();
         Paciente paciente =  optionalPaciente.get();
@@ -52,6 +54,12 @@ public class PacienteController {
         model.addAttribute("especialidades", listespecialidad);
         model.addAttribute("citashoy", citaRepository.citasHoy(1));
         model.addAttribute("sedes", sedeRepository.findAll());
+        redirectAttributes.addFlashAttribute("msg1", "Por el momento no contamos con doctores en esa especialidad");
+        if(msg1!=null){
+            redirectAttributes.addFlashAttribute("msg2", "Ha reservado una cita con exito");
+
+        }
+
         if(esp!=null){
             System.out.println("no nulo esp");
             if(doctorRepository.doctoresPorEsp(esp).size()>=1){
@@ -126,6 +134,9 @@ public class PacienteController {
         Optional<Paciente> optionalPaciente = pacienteRepository.findById(1);
         Paciente paciente =  optionalPaciente.get();
         model.addAttribute("pacientelog",paciente);
+        if(citaRepository.citasPorPagar(paciente.getIdpaciente()).size()>=1){
+            model.addAttribute("pagos",citaRepository.citasPorPagar(paciente.getIdpaciente()));
+        }
         return "paciente/pagos";
     }
 
@@ -172,11 +183,34 @@ public class PacienteController {
         model.addAttribute("pacientelog",paciente);
         return "paciente/calendarioMensual";
 
-
-
-
     }
 
+    @GetMapping(value = "/chat")
+    public String chat(Model model) {
+        Optional<Paciente> optionalPaciente = pacienteRepository.findById(1);
+        Paciente paciente =  optionalPaciente.get();
+        model.addAttribute("pacientelog",paciente);
+
+        return "paciente/chat";
+    }
+
+    @GetMapping(value = "/mensajes")
+    public String mensajes(Model model) {
+        Optional<Paciente> optionalPaciente = pacienteRepository.findById(1);
+        Paciente paciente =  optionalPaciente.get();
+        model.addAttribute("pacientelog",paciente);
+
+        return "paciente/mensajes";
+    }
+
+    @GetMapping(value = "/notificaciones")
+    public String notif(Model model) {
+        Optional<Paciente> optionalPaciente = pacienteRepository.findById(1);
+        Paciente paciente =  optionalPaciente.get();
+        model.addAttribute("pacientelog",paciente);
+
+        return "paciente/notificaciones";
+    }
 
     @PostMapping(value = "/alergia")
     @Transactional
@@ -184,10 +218,10 @@ public class PacienteController {
         Optional<Paciente> optionalPaciente = pacienteRepository.findById(1);
         Paciente paciente =  optionalPaciente.get();
         String alergias = paciente.getAlergias();
-        if(alergias.contains(alergia)){
+        if(alergias.contains(alergia.toLowerCase())){
             redirectAttributes.addFlashAttribute("msg1","Esa alergia ya se encuentra registrada");
         }else {
-            String alg = paciente.getAlergias()+","+alergia;
+            String alg = paciente.getAlergias()+","+alergia.toLowerCase();
             pacienteRepository.modificarAlergia(alg, id);
             redirectAttributes.addFlashAttribute("msg2","Alergia agregada correctamente");
         }
@@ -203,13 +237,9 @@ public class PacienteController {
         Optional<Paciente> optionalPaciente = pacienteRepository.findById(1);
         Paciente paciente =  optionalPaciente.get();
         if(paciente.getUsuario().getContrasena().equals(contrasena)){
-            if(newpassword.equals(renewpassword)){
-                userRepository.changePassword(renewpassword,paciente.getUsuario().getIdusuario());
-                redirectAttributes.addFlashAttribute("psw1", "Contraseña actualizada");
-            }
-            else {
-                redirectAttributes.addFlashAttribute("psw2", "La contraseñas ingresadas no coinciden");
-            }
+            userRepository.changePassword(renewpassword,paciente.getUsuario().getIdusuario());
+            redirectAttributes.addFlashAttribute("psw1", "Contraseña actualizada");
+
         }else {
             redirectAttributes.addFlashAttribute("psw2", "La contraseña es incorrecta");
         }
@@ -262,7 +292,7 @@ public class PacienteController {
                     }
                     if(flg){
                         System.out.println("llega aca prim");
-                        citaRepository.agengedarcita(idsede, idesp,fecha, hora, hora.plusHours(1),60, idtipocita, idseguro, 1, 1,0,iddoctor);
+                        citaRepository.agengedarcita(idsede, idesp,fecha, hora, hora.plusHours(1),60, idtipocita, idseguro, 1, 1,iddoctor);
                         eventocalendariodoctorRepository.cambiarEstadoCalendario(iddoctor,fecha,hora);
                         if(idtipocita==1){
                             emailService.sendEmail(paciente.getUsuario().getCorreo(),"Confirmación de cita","Estimado usuario usted reservó una cita para el "+fecha.toString()+ ".\n"+"En la sede "+sedeRepository.findById(idsede).get().getNombre()+" ubicada " +sedeRepository.findById(idsede).get().getDireccion());
@@ -271,6 +301,7 @@ public class PacienteController {
                             emailService.sendEmail(paciente.getUsuario().getCorreo(),"Confirmación de cita","Estimado usuario usted reservó una cita virtual para el "+fecha.toString()+ ".\n"+"El link para la sesion de zoom es el siguiente: " + doctorRepository.findById(iddoctor).get().getZoom());
 
                         }
+                        redirectAttributes.addFlashAttribute("msg1", "Ha reservado una cita con éxito");
 
                         return "redirect:/paciente/";
                     }
@@ -280,7 +311,7 @@ public class PacienteController {
                     }
                 }
                 else {
-                    redirectAttributes.addFlashAttribute("msg", "La Hora escogida no es valida");
+                    redirectAttributes.addFlashAttribute("msg", "La hora escogida no es valida");
                     return "redirect:/paciente/agendarCita";
                 }
             }
@@ -292,6 +323,21 @@ public class PacienteController {
             redirectAttributes.addFlashAttribute("msg", "El doctor debe pertenecer a la sede");
             return "redirect:/paciente/agendarCita";
         }
+    }
+
+    @PostMapping(value = "/pagospruebas")
+    public String pagosPr(@RequestParam(value = "citapagos", required = false) Integer []id, RedirectAttributes redirectAttributes){
+        System.out.println("ids:  " + id.length);
+        if(id.length>0){
+            List<Cita> lisaCitas = new ArrayList<>();
+            Double costos = 0.0;
+            for(int i=0;i<id.length;i++){
+                lisaCitas.add(citaRepository.findById(id[i]).get());
+                costos=costos+lisaCitas.get(i).getEspecialidad().getCosto();
+            }
+            redirectAttributes.addFlashAttribute("msj",costos);
+        }
+        return "redirect:/paciente/pagos";
     }
 
 }
