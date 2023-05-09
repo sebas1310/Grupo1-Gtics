@@ -34,4 +34,10 @@ public interface ModeloRepository extends JpaRepository<ModeloEntity,Integer> {
     @Query(value="INSERT INTO modelo(nombre, preguntas,idtipodeusuario,idespecialidad,nro_inputs,cuestionario)\n" +
             "VALUES (?1,?2,?3,?4,?5,?6)",nativeQuery = true)
     void crearnuevaPlantillaCuestionario(String nombreplantilla,String mod_datos,int id_rol,int id_especialidad,int nro_inputs,int flg_cuestionario);
+
+
+    @Modifying
+    @Transactional
+    @Query(value="UPDATE modelo SET nombre = ?1 WHERE idmodelo = ?2",nativeQuery = true)
+    void actualizarPlantilla(String nuevoNbrPlantilla,int id_modelo);
 }

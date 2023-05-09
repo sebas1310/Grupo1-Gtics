@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
@@ -58,7 +59,12 @@ public class SuperadminController {
         return "superadmin/index";
     }
     @GetMapping("/listaform")
-    public String listaFormularios(){
+    public String listaFormularios(Model model){
+
+        List<ModeloEntity> modeloEntityList = modeloRepository.findAll();
+        model.addAttribute("modeloEntityList",modeloEntityList);
+
+
         return "superadmin/lista_formularios";
     }
 
@@ -124,6 +130,18 @@ public class SuperadminController {
 
 
         return "superadmin/nuevoformulario";
+    }
+
+
+    @PostMapping("/guardarCambiosPlantilla")
+    public String guardarCambiosPlantilla(Model model, @RequestParam("nuevoNombrePlantilla") String nuevoNombrePlantilla
+            , @RequestParam("id_fila") int id_fila){
+        System.out.println(nuevoNombrePlantilla);
+
+        modeloRepository.actualizarPlantilla(nuevoNombrePlantilla,id_fila);
+
+        return "redirect:/superadmin/listaform";
+
     }
 
     @PostMapping("/crearPlantillaInforme")

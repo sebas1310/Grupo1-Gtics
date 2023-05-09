@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:insert="superadmin/fragments/librerias.html :: cabecera (titulo = 'editarform')">
 </head>
@@ -20,64 +21,17 @@
 <!--        A simple success alert—check it out!-->
 <!--    </div>-->
 
-
-
     <div class="pagetitle">
         <h1>Nueva Plantilla</h1>
 
     </div><!-- End Page Title -->
-
-
-
     <section class="section">
         <div class="row">
             <div class="col-lg-6">
 
 
                 <div class="container">
-<!--                                        <form method="post" th:action="@{/superadmin/crearPlantillaInforme}" th:object="${modelo}">-->
-<!--                                            <div class="mb-3">-->
-<!--                                                <label for="tabla-titulo" class="form-label">Nombre Formulario</label>-->
-<!--                                                <input type="text" class="form-control" id="tabla-titulo" name="tabla-titulo">-->
-<!--                                            </div>-->
 
-<!--                                            <div class="row mb-3">-->
-<!--                                                <label  class="col-md-4 col-lg-3 col-form-label"><input name="campo1" type="text" class="form-control" ></label>-->
-<!--                                                <div class="col-md-8 col-lg-9">-->
-<!--                                                    <input name="fullName" type="text" class="form-control" >-->
-<!--                                                    <a href="#" class="btn btn-danger btn-sm" title="Remove my profile image"><i class="bi bi-trash"></i></a>-->
-
-<!--                                                </div>-->
-
-<!--                                            </div>-->
-
-<!--                                            <div class="row mb-3">-->
-<!--                                                <label class="col-md-4 col-lg-3 col-form-label"><input name="campo2" type="text" class="form-control" ></label>-->
-<!--                                                <div class="col-md-8 col-lg-9">-->
-<!--                                                    <input name="fullName" type="text" class="form-control">-->
-<!--                                                    <a href="#" class="btn btn-danger btn-sm" title="Remove my profile image"><i class="bi bi-trash"></i></a>-->
-
-<!--                                                </div>-->
-
-<!--                                            </div>-->
-
-<!--                                            <input type="hidden" name="numInputs" id="numInputs">-->
-
-<!--                                            <div>-->
-<!--                                                <button type="submit" class="btn btn-primary"><a style="color: #fdfdfd" th:href="@{'/superadmin/editarforms'}" >Añadir Campo</a></button>-->
-
-<!--                                            </div>-->
-<!--                                            <div>-->
-<!--                                                <button type="submit" class="btn btn-dark"><a style="color: #fdfdfd" th:href="@{'/superadmin/listaform'}" >Guardar Plantilla - Formulario  </a></button>-->
-
-<!--                                                <button type="button" class="btn btn-secondary"><a style="color: white" th:href="@{'/superadmin/listaform'}" >Cancelar</a></button>-->
-
-<!--                                            </div>-->
-
-<!--                                        </form>-->
-<!--                    <div class="alert alert-success" role="alert" th:if="${msg != null}" th:text="${msg}">-->
-<!--                        A simple success alert—check it out!-->
-<!--                    </div>-->
 
                     <form id="miFormulario">
 
@@ -114,8 +68,9 @@
                             </div>
                         </div>
                         <button class="btn btn-primary" id="botonAgregar" onclick="enviarFormulario()" style="color: white">Agregar input</button>
-                        <button class="btn btn-dark" id="enviarConcat" onclick="envioStringConcat()" style="color: white">Guardar Plantilla - Informe</button>
-                        <button type="button" class="btn btn-secondary"><a style="color: white" th:href="@{'/superadmin/listaform'}" >Cancelar</a></button>
+                        <button class="btn btn-dark" id="enviarConcat" onclick="envioStringConcat()" type="submit" style="color: white">Guardar Plantilla - Informe</button>
+<!--                        onclick="envioStringConcat()"-->
+                        <button type="button" class="btn btn-secondary" onclick="envioStringConcat()"><a style="color: white" th:href="@{'/superadmin/listaform'}" >Cancelar</a></button>
 <!--                        <button type="submit" onclick="envioStringConcat()" value="Enviar"></button>-->
                     </form>
                 </div>
@@ -137,10 +92,6 @@
         &copy; Copyright <strong><span>Clinica LA FE</span></strong>. All Rights Reserved
     </div>
     <div class="credits">
-        <!-- All the links in the footer should remain intact. -->
-        <!-- You can delete the links only if you purchased the pro version. -->
-        <!-- Licensing information: https://bootstrapmade.com/license/ -->
-        <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
         Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
     </div>
 </footer><!-- End Footer -->
@@ -189,10 +140,16 @@
             nuevoInput.innerHTML = `
     <label for="${tituloInput}">${tituloInput}:</label>
     <input type="text" id="${tituloInput}" name="${tituloInput}" class="form-control"/>
-    <a href="#" class="btn btn-danger btn-sm" title="Remove my profile image"><i class="bi bi-trash"></i></a>
+    <button class="btn btn-danger btn-sm remove-input" title="Remove input"><i class="bi bi-trash"></i></button>
+<!--    <a href="#" class="btn btn-danger btn-sm" title="Remove my profile image"><i class="bi bi-trash"></i></a>-->
   `;
             divInputs.appendChild(nuevoInput);
+            const botonEliminar = nuevoInput.querySelector('.remove-input');
+            botonEliminar.addEventListener('click', function() {
+                divInputs.removeChild(nuevoInput);
+            });
         });
+
 
 
     </script>
@@ -225,16 +182,21 @@
 
                 datos = datos + "|" + valor;
 
-                // nombre + "|" +
-
             }
             console.log(datos);
             var xmlhttp = new XMLHttpRequest();
+            xmlhttp.open("POST", "/superadmin/crearPlantillaInforme", true);
+            xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
             xmlhttp.onreadystatechange = function() {
+
+                console.log("Estado actual: " + xmlhttp.readyState);
+                console.log("Código de estado HTTP: " + xmlhttp.status);
                 if (xmlhttp.readyState == XMLHttpRequest.DONE) {
                     if (xmlhttp.status == 200) {
                         // Mostrar mensaje de éxito
                         alert("Plantilla registrada correctamente");
+
+
                     } else {
                         // Mostrar mensaje de error
                         alert("Ha ocurrido un error al registrar la plantilla");
@@ -242,13 +204,12 @@
                 }
             };
 
-            xmlhttp.open("POST", "/superadmin/crearPlantillaInforme", true);
-            xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
             xmlhttp.send("datos=" + datos +"&nombreplantilla="+nombreplantilla+"&id_rol="+id_rol+"&id_especialidad="+id_especialidad+"&nro_inputs="+nro_inputs+"&tipo_plantilla="+tipo_plantilla);
-            // xmlhttp.send("nombreplantilla=" + nombreplantilla);
+            // xmlhttp.send(datos);
 
         }
     </script>
+
 
 
 </body>

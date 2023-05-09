@@ -56,41 +56,21 @@
 
           </thead>
           <tbody>
-          <tr>
-            <th scope="row">1</th>
-            <td>Registrar pacientes</td>
-            <td>San Miguel</td>
-            <td>Doctor</td>
-            <td><a th:href="@{'/superadmin/editarforms'}">Editar</a></td>
-          </tr>
-          <tr>
-            <th scope="row">2</th>
-            <td>Registrar doctores</td>
-            <td>Los Olivos</td>
-            <td>Administrativo</td>
-            <td><a th:href="@{'/superadmin/editarforms'}">Editar</a></td>
-          </tr>
-          <tr>
-            <th scope="row">3</th>
-            <td>Registrar administrativo</td>
-            <td>San Borja</td>
-            <td>Administrador</td>
-            <td><a th:href="@{'/superadmin/editarforms'}">Editar</a></td>
-          </tr>
-          <tr>
-            <th scope="row">4</th>
-            <td>Registrar adminitradores</td>
-            <td>Miraflores</td>
-            <td>Administrador</td>
-            <td><a th:href="@{'/superadmin/editarforms'}">Editar</a></td>
-          </tr>
-          <tr>
-            <th scope="row">5</th>
-            <td>Registrar examen médico</td>
-            <td>San Luis</td>
-            <td>Doctor</td>
-            <td><a th:href="@{'/superadmin/editarforms'}">Editar</a></td>
-          </tr>
+
+            <tr th:each="modelo, info : ${modeloEntityList}" th:id="'fila-' + ${modelo.idmodelo}">
+              <td th:text="${info.index + 1}" id="indice"></td>
+              <td th:text="${modelo.nombre}" id="nbr_modelo"></td>
+              <td th:text="${modelo.especialidad.nombre}" id="nbr_especialidad"></td>
+              <td th:text="${modelo.tipodeusuario.nombre}" id="nbr_rol"></td>
+              <td>
+                <button type="button" class="btn btn-secondary button-edit" th:data-id="${modelo.idmodelo}"
+                        onclick="mostrarModal(this)"><i
+                        class="bi bi-pencil-square"></i></button>
+              </td>
+
+            </tr>
+
+
           </tbody>
         </table>
 
@@ -114,12 +94,43 @@
         </nav><!-- End Centered Pagination -->
 
 
-
       </div>
     </div>
   </section>
 
+  <!-- Modal -->
+  <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <input class="id_fila" id="id_fila" type="hidden">
+          </div>
+          <div class="mb-3">
+            <label for="nombre_plantilla" class="col-form-label">Nombre Plantilla:</label>
+            <input type="text" class="form-control" id="nombre_plantilla">
+          </div>
+          <!--          <div class="mb-3">-->
+          <!--            <label for="especialidad_name" class="col-form-label">Especialidad:</label>-->
+          <!--            <input type="text" class="form-control" id="especialidad_name">-->
+          <!--          </div>-->
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary" onclick="ModificarForm()">Save changes</button>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+
 </main><!-- End #main -->
+
 
 <!-- ======= Footer ======= -->
 <footer id="footer" class="footer">
@@ -135,20 +146,136 @@
   </div>
 </footer><!-- End Footer -->
 
-<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
-<!-- Vendor JS Files -->
-<script th:src="@{'/assets/vendor/apexcharts/apexcharts.min.js'}"></script>
-<script th:src="@{'/assets/vendor/bootstrap/js/bootstrap.bundle.min.js'}"></script>
-<script th:src="@{'/assets/vendor/chart.js/chart.min.js'}"></script>
-<script th:src="@{'/assets/vendor/echarts/echarts.min.js'}"></script>
-<script th:src="@{'/assets/vendor/quill/quill.min.js'}"></script>
-<script th:src="@{'/assets/vendor/simple-datatables/simple-datatables.js'}"></script>
-<script th:src="@{'/assets/vendor/tinymce/tinymce.min.js'}"></script>
-<script th:src="@{'/assets/vendor/php-email-form/validate.js'}"></script>
+  <!-- Vendor JS Files -->
+  <script th:src="@{'/assets/vendor/apexcharts/apexcharts.min.js'}"></script>
+  <script th:src="@{'/assets/vendor/bootstrap/js/bootstrap.bundle.min.js'}"></script>
+  <script th:src="@{'/assets/vendor/chart.js/chart.min.js'}"></script>
+  <script th:src="@{'/assets/vendor/echarts/echarts.min.js'}"></script>
+  <script th:src="@{'/assets/vendor/quill/quill.min.js'}"></script>
+  <script th:src="@{'/assets/vendor/simple-datatables/simple-datatables.js'}"></script>
+  <script th:src="@{'/assets/vendor/tinymce/tinymce.min.js'}"></script>
+  <script th:src="@{'/assets/vendor/php-email-form/validate.js'}"></script>
 
-<!-- Template Main JS File -->
-<script th:src="@{'/assets/js/main.js'}"></script>
+  <!-- Template Main JS File -->
+  <script th:src="@{'/assets/js/main.js'}"></script>
+  <script>
+    // function editarRegistroModal(button){
+    //
+    //   const tableRow = button.parentNode.parentNode
+    //
+    //   // const id = button.dataset.registroMerchantId;
+    //
+    //   const especialidad_name = tableRow.cells[2].innerHTML;
+    //
+    //   console.log(tableRow);
+    //   console.log(especialidad_name);
+    //
+    //
+    //
+    //
+    //   const crearModal = bootstrap.Modal.getOrCreateInstance('#createModal');
+    //   crearModal.show();
+    //
+    //   document.getElementById("especialidad-name").value = especialidad_name;
+    //
+    // }
+
+  </script>
+  <script>
+    const modal = document.getElementById("createModal");
+    const span = document.getElementsByClassName("close")[0];
+    const modalId = document.getElementById("modal-id");
+    const modalNombre = document.getElementById("modal-nombre");
+
+    // Función para mostrar el modal y los detalles del usuario seleccionado
+    function mostrarModal(button) {
+
+      const id = button.dataset.id;
+
+      const nombrePlantilla = document.querySelector("#fila-" + id + " td:nth-child(2)").textContent;
+      // const nombreEspecialidad = document.querySelector("#fila-"+id+" td:nth-child(3)").textContent;
+
+
+      console.log(nombrePlantilla);
+      // console.log(nombreEspecialidad);
+
+      const crearModal = bootstrap.Modal.getOrCreateInstance('#createModal');
+      crearModal.show();
+
+
+      document.getElementById("nombre_plantilla").value = nombrePlantilla;
+      document.getElementById("id_fila").value = id;
+      // document.getElementById("id_fila").value = id;
+      // document.getElementById("especialidad_name").value = nombreEspecialidad;
+
+
+      //   // Obtener los datos de la fila seleccionada
+      //   const id = button.dataset.id;
+      //   const nombre = button.dataset.nombre;
+      //
+      //   // Agregar los datos al modal
+      //   modalId.innerHTML = id;
+      //   modalNombre.innerHTML = nombre;
+      //
+      //   // Mostrar el modal
+      //   modal.style.display = "block";
+      // }
+      //
+      // // Función para cerrar el modal
+      // span.onclick = function () {
+      //   modal.style.display = "none";
+      // };
+      //
+      // // Cuando el usuario hace clic fuera del modal, cerrarlo
+      // window.onclick = function (event) {
+      //   if (event.target == modal) {
+      //     modal.style.display = "none";
+      //   }
+      // };
+    };
+
+    function ModificarForm() {
+      const crearModal = bootstrap.Modal.getOrCreateInstance('#createModal');
+      crearModal.hide();
+
+      var nuevoNombrePlantilla = document.getElementById("nombre_plantilla").value
+      const id_fila = document.getElementById("id_fila").value
+
+      console.log(id_fila);
+      // document.getElementById("especialidad_name").value
+
+
+
+
+      var xmlhttp = new XMLHttpRequest();
+      xmlhttp.open("POST", "/superadmin/guardarCambiosPlantilla", true);
+      xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+      xmlhttp.onreadystatechange = function () {
+
+        if (xmlhttp.readyState == XMLHttpRequest.DONE) {
+          if (xmlhttp.status == 200) {
+            // Mostrar mensaje de éxito
+            alert("Plantilla actualizada correctamente");
+            location.reload();
+
+
+          } else {
+            // Mostrar mensaje de error
+            alert("Ha ocurrido un error al actualizar la plantilla");
+          }
+        }
+      };
+
+      xmlhttp.send("nuevoNombrePlantilla=" + nuevoNombrePlantilla+"&id_fila="+id_fila);
+
+      // xmlhttp.send(datos);
+
+    };
+
+
+  </script>
 
 </body>
 
