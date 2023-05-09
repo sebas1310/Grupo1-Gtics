@@ -90,13 +90,15 @@
                   <table class="table table-borderless">
                     <thead class="text-center">
                       <tr>
+                        <th> </th>
                         <th scope="col">Nombre</th>
                         <th scope="col">Especialidad</th>
                         <th scope="col"></th>
                       </tr>
                     </thead>
                     <tbody class="text-center">
-                      <tr th:each="doctor:${docs}">
+                      <tr th:each="doctor, ind:${docs}">
+                        <th scope="row"><img th:src="@{/assets/img/messages-1.jpg}"> </th>
                         <td th:text="|${doctor.usuario.nombres} ${doctor.usuario.apellidos}|"></td>
                         <td th:text="${doctor.especialidad.nombre}"></td>
                         <td><a th:href="@{'/paciente/perfilDoctor?iddoc='+${doctor.iddoctor}}" class="text-primary">Ver Perfil</a></td>
@@ -163,7 +165,26 @@
                             <div class="modal-body">
 
                               <div class="d-flex align-items-center">
-                                <a  class="ml-3 mb-0" th:href="@{'/paciente/perfilDoctor?iddoc='+${p.doctor.iddoctor}}" th:text="|Doctor: ${p.doctor.usuario.nombres} ${p.doctor.usuario.apellidos}|"></a>
+                                <div class="col-lg-8">
+                                  <table>
+                                    <tr>
+                                      <td>
+                                        <p  class="ml-3 mb-0" >Doctor:</p>
+                                      </td>
+                                      <td>
+                                        <p  class="ml-3 mb-0"  th:text="|${p.doctor.usuario.nombres} ${p.doctor.usuario.apellidos}|"></p>
+                                      </td>
+
+                                    </tr>
+                                  </table>
+
+                                </div>
+                                <div class="col-lg-4">
+
+                                  <a  type="button" class="btn btn-outline-warning"  th:href="@{'/paciente/perfilDoctor?iddoc='+${p.doctor.iddoctor}}"  >Ver perfil</a>
+
+                                </div>
+
 
                               </div>
 
