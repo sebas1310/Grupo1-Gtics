@@ -18,103 +18,134 @@
 <!-- End Modal-->
 
 <main id="main" class="main">
-
     <div class="pagetitle">
         <h1>Pagos de Cita virtual</h1>
     </div><!-- End Page Title -->
     <section class="section profile">
-        <div class="card d-flex justify-content-center">
-            <br>
-            <div class="card mx-2">
-                <div class="card-body">
-                    <br>
-                    <div class="row">
-                        <div class="col">
-                            <div class="p-1">
-                                <h3>Medios de pago</h3>
-                                <img th:src="@{/assets/img/pagos.jpg}" alt="" style="width: 50%;">
-                            </div>
-                            <form method="post" th:action="@{'/paciente/pagospruebas'}">
-                            <div class="card d-flex justify-content-center">
-                                <h3>Pagos pendientes</h3>
-                                <table>
-                                    <tr th:each="p:${pagos}">
-                                        <td>
-                                            <input class="form-check-input" type="checkbox" name="citapagos" th:value="${p.idcita}"/>
-                                            <input th:value="${p.especialidad.costo}" name="costos" hidden>
-                                        </td>
-                                        <td th:text="|S/${p.especialidad.costo}|"></td>
-                                    </tr>
-                                </table>
-                                <br>
-                                <button type="submit" class="btn btn-primary">Pagar</button>
-                            </div>
-                            </form>
-                        </div>
+        <div class="row">
 
-                        <div class="col">
-                            <div class="p-1">
-                                <div class="container">
-                                    <div class="row">
+        <!-- Left side columns -->
+        <div class="col-lg-7">
+            <div class="row">
+
+                <!-- Reports -->
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+
+                            <table>
+                                <br>
+                                <h4 style="font-weight: bold">Medios de pago</h4>
+                                <tr>
+                                    <td style="width: 40%;">
+                                        <!--Medios de Pago-->
+                                        <img th:src="@{/assets/img/pagos.jpg}" alt="" style="width: 90%;" >
+                                    </td>
+                                    <td style="width: 60%;">
+                                        <!--Campos de tarjeta-->
                                         <form>
-                                            <div class="form-row">
-                                                <div class="form-group col-md-6">
+                                            <div >
+                                                <div>
                                                     <label for="nombre">Nombre completo</label>
                                                     <input type="text" class="form-control" id="nombre" placeholder="Ingrese su nombre completo">
                                                 </div>
-                                                <div class="form-group col-md-6">
+                                                <div >
                                                     <label for="tarjeta">Número de tarjeta</label>
                                                     <input type="text" class="form-control" id="tarjeta" placeholder="Ingrese el número de tarjeta">
                                                 </div>
                                             </div>
-                                            <div class="form-row">
-                                                <div class="form-group col-md-6">
+                                            <div >
+                                                <div>
                                                     <label for="fecha_vencimiento">Fecha de vencimiento</label>
                                                     <input type="text" class="form-control" id="fecha_vencimiento" placeholder="MM/AA">
                                                 </div>
-                                                <div class="form-group col-md-6">
+                                                <div>
                                                     <label for="cvv">CVV</label>
                                                     <input type="password" class="form-control" id="cvv" placeholder="Ingrese el código de seguridad">
                                                 </div>
-                                                <div class="form-group col-md-6">
-                                                    <button th:if="${msj!=null}" th:text="|Pagar S/${msj}|" type="submit" class="btn btn-primary"></button>
+                                                <div>
+                                                    <button th:if="${msj!=null}" th:text="|Pagar S/${msj}|" type="submit" class="btn btn-warning"></button>
                                                 </div>
                                             </div>
                                         </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
 
-                        <div class="col">
-                            <div class="p-1" th:each="d:${pagos}">
-                                    <h5 class="ml-3 mb-0">Cita Virtual</h5>
-                                    <p class="ml-3 mb-0" th:text="|Docotor: ${d.doctor.usuario.nombres} ${d.doctor.usuario.apellidos}|"></p>
-                                    <p class="ml-3 mb-0"><i class="bi bi-geo-alt-fill" th:text="${d.sede.nombre}"></i></p>
-                            </div>
 
-                            <div class="p-1">
-                                <div class="ml-3 mb-0">
-
-                                </div>
-                            </div>
+                                        <br>
+                                    </td>
+                                </tr>
+                            </table>
                         </div>
                     </div>
-                </div>
-
-                </div>
+                </div><!-- End Reports -->
             </div>
-        </div>
+        </div><!-- End Left side columns -->
 
+        <!-- Right side columns -->
+        <div class="col-lg-5">
+
+            <!-- Recent Activity -->
+            <div class="card" style="background-color: white">
+                <div class="card-body">
+                <!--Form pagos pendientes-->
+                    <form method="post" th:action="@{'/paciente/pagospruebas'}" onsubmit="return validateForm2()">
+                    <div class="card d-flex justify-content-center">
+                        <br>
+                        <h4 style="font-weight: bold">Pagos pendientes</h4>
+                        <table>
+                            <tr th:each="p:${pagos}">
+                                <td>
+                                    <input class="form-check-input" type="checkbox" name="citapagos" th:value="${p.idcita}"/>
+                                    <input th:value="${p.especialidad.costo}" name="costos" hidden>
+                                </td>
+                                <td th:text="|S/${p.especialidad.costo}|"></td>
+                                <td>
+                                </td>
+                                <td class="text-center">
+                                    <h5 class="ml-3 mb-0">Cita Virtual</h5>
+                                    <p class="ml-3 mb-0" th:text="|Docotor: ${p.doctor.usuario.nombres} ${p.doctor.usuario.apellidos}|"></p>
+                                    <p class="ml-3 mb-0"><i class="bi bi-geo-alt-fill" th:text="${p.sede.nombre}"></i></p>
+
+                                </td>
+                            </tr>
+                        </table>
+                        <br>
+                        <div class="d-flex justify-content-center">
+                            <button type="submit" class="btn btn-warning btn">Pagar</button>
+                        </div>
+                        <div id="error-message2" class="alert alert-danger mt-3" style="display: none;"></div>
+
+                    </div>
+                </form>
+                    <script>
+                        function validateForm2() {
+                            var checkboxes = document.querySelectorAll('input[name="citapagos"]');
+                            var checked = false;
+
+                            for (var i = 0; i < checkboxes.length; i++) {
+                                if (checkboxes[i].checked) {
+                                    checked = true;
+                                    break;
+                                }
+                            }
+
+                            if (!checked) {
+                                var errorMessage = document.getElementById("error-message2");
+                                errorMessage.style.display = "block";
+                                errorMessage.innerHTML = "Seleccione al menos una opción";
+                                return false;
+                            }
+
+                            return true;
+                        }
+                    </script>
+                </div>
+            </div><!-- End Recent Activity -->
+        </div><!-- End Right side columns -->
+
+        </div>
     </section>
 
 </main><!-- End #main -->
-
-
-
-
-
-
 
 <script th:src="@{/assets/vendor/apexcharts/apexcharts.min.js}"></script>
 <script th:src="@{/assets/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
