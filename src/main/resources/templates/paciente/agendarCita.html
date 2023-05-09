@@ -14,6 +14,12 @@
 <aside th:replace="fragmentsPacientes/aside.html :: sidebar (active = 'agendar_cita')">
 </aside>
 <!-- End Sidebar-->
+
+<!--Modal Cerrar Sesion-->
+<div th:replace="fragmentsPacientes/modalCerrarSesion.html::modal">
+
+</div>
+<!-- End Modal-->
 <main id="main" class="main">
 
   <div class="pagetitle">
@@ -33,14 +39,14 @@
 
 
             <!-- General Form Elements -->
-            <form method="post" th:action="@{'/paciente/pruebascita'}">
+            <form method="post" th:action="@{'/paciente/pruebascita'}" onsubmit="return validateForm()">
               <hr>
               <div class="row mb-3">
 
                 <label class="col-sm-3 col-form-label" style="font-weight: bold">Sede</label>
                 <div class="col-sm-9">
-                  <select class="form-select" id="idsede" name="idsede">
-                    <option selected disabled>Seleccione sede</option>
+                  <select class="form-select" id="idsede" name="idsede" >
+                    <option value="vacio" selected disabled>Seleccione sede</option>
                     <option th:each="sede:${sedesparacitas}" th:text="${sede.nombre}" th:value="${sede.idsede}"></option>
                   </select>
                 </div>
@@ -49,8 +55,8 @@
               <div class="row mb-3">
                 <label class="col-sm-3 col-form-label"style="font-weight: bold">Especialidad</label>
                 <div class="col-sm-9">
-                  <select class="form-select" id="especialidadid" name="especialidadid">
-                    <option selected disabled>Seleccione especialidad</option>
+                  <select class="form-select" id="especialidadid" name="especialidadid" required>
+                    <option value="vacio" selected disabled>Seleccione especialidad</option>
                     <option th:each="esp:${especialidades}" th:text="${esp.nombre}" th:value="${esp.idespecialidad}"></option>
                   </select>
                 </div>
@@ -59,8 +65,8 @@
               <div class="row mb-3">
                 <label class="col-sm-3 col-form-label"style="font-weight: bold">Doctor</label>
                 <div class="col-sm-9">
-                  <select class="form-select" id="iddoctor" name="iddoctor">
-                    <option selected disabled>Seleccione doctor</option>
+                  <select class="form-select" id="iddoctor" name="iddoctor" required>
+                    <option value="vacio" selected disabled>Seleccione doctor</option>
                     <option th:each="doctor:${doctores}" th:text="|${doctor.usuario.nombres} ${doctor.usuario.apellidos}|" th:value="${doctor.iddoctor}"></option>
                   </select>
                 </div>
@@ -68,15 +74,15 @@
               <div class="row mb-3">
                 <label class="col-sm-3 col-form-label"style="font-weight: bold">DNI</label>
                 <div class="col-sm-9">
-                  <input type="text" class="form-control" th:value="${pacientelog.usuario.dni}" disabled>
+                  <input type="text" class="form-control" th:value="${pacientelog.usuario.dni}" disabled required>
                 </div>
               </div>
 
               <div class="row mb-3">
                 <label for="fecha" class="col-sm-3 col-form-label"style="font-weight: bold">Fecha</label>
                 <div class="col-sm-9">
-                  <select class="form-select" name="fecha" id="fecha">
-                    <option selected disabled>Seleccione fecha</option>
+                  <select class="form-select" name="fecha" id="fecha" required>
+                    <option value="vacio" selected disabled>Seleccione fecha</option>
                     <option th:each="e:${caldisponible}" th:text="|${e.fecha} (${e.doctor.usuario.nombres} ${e.doctor.usuario.apellidos})|" th:value="${e.fecha}"></option>
                   </select>
                 </div>
@@ -85,8 +91,8 @@
               <div class="row mb-3">
                 <label for="hora" class="col-sm-3 col-form-label"style="font-weight: bold">Hora</label>
                 <div class="col-sm-9">
-                  <select class="form-select" name="hora" id="hora">
-                    <option selected disabled>Seleccione Hora</option>
+                  <select class="form-select" name="hora" id="hora" required>
+                    <option value="vacio" selected disabled>Seleccione Hora</option>
                     <option th:each="e:${caldisponible}" th:text="|${e.horainicio}-${e.horafinal} (${e.doctor.usuario.nombres} ${e.doctor.usuario.apellidos})|" th:value="${e.horainicio}"></option>
                   </select>
                 </div>
@@ -95,8 +101,8 @@
               <div class="row mb-3">
                 <label class="col-sm-3 col-form-label"style="font-weight: bold">Tipo</label>
                 <div class="col-sm-9">
-                  <select class="form-select" name="idtipocita" id="idtipocita">
-                    <option selected disabled>Seleccione tipo de cita</option>
+                  <select class="form-select" name="idtipocita" id="idtipocita" required>
+                    <option value="vacio" selected disabled>Seleccione tipo de cita</option>
                     <option th:each="t:${tipocita}" th:text="${t.nombre}" th:value="${t.idtipocita}"></option>
                   </select>
                 </div>
@@ -104,22 +110,53 @@
               <div class="row mb-3">
                 <label class="col-sm-3 col-form-label"style="font-weight: bold">Seguro</label>
                 <div class="col-sm-9">
-                  <input type="text" class="form-control" th:value="${pacientelog.seguro.nombre}" disabled>
+                  <input type="text" class="form-control" th:value="${pacientelog.seguro.nombre}" disabled required>
                 </div>
                 <div class="col-sm-9">
-                  <input type="text" class="form-control" name="idseguro" th:value="${pacientelog.seguro.idseguro}" hidden>
+                  <input type="text" class="form-control" name="idseguro" th:value="${pacientelog.seguro.idseguro}" hidden required>
                 </div>
               </div>
 
               <div class="text-center">
-
                 <div class="text-center">
-                  <div th:if="${msg!=null}" th:text="${msg}" class="alert alert-danger" role="alert"></div>
-                  <button type="submit" class="btn btn-success">Agendar Cita</button>
+                  <button type="submit" class="btn btn-warning">Agendar Cita</button>
                 </div>
               </div>
 
+              <div th:if="${msg!=null}" th:text="${msg}" class="alert alert-danger" role="alert"></div>
+
+              <div id="error-message" class="alert alert-danger mt-3" style="display: none;"></div>
+
             </form><!-- End General Form Elements -->
+
+            <script>
+              function validateForm() {
+                // Get form fields
+                var sede = document.getElementById("idsede");
+                var especialidad = document.getElementById("especialidadid");
+                var doctor = document.getElementById("iddoctor");
+                var fecha = document.getElementById("fecha");
+                var hora = document.getElementById("hora");
+                var tipoCita = document.getElementById("idtipocita");
+
+                // Check if all fields are completed
+                if (
+                        sede.value === "vacio" ||
+                        especialidad.value === "vacio" ||
+                        doctor.value === "vacio" ||
+                        fecha.value === "vacio" ||
+                        hora.value === "vacio" ||
+                        tipoCita.value === "vacio"
+                ) {
+                  var errorMessage = document.getElementById("error-message");
+                  errorMessage.style.display = "block";
+                  errorMessage.innerHTML = "Complete todos los campos";
+                  return false;
+                }
+
+                return true; // Allow form submission
+              }
+            </script>
 
           </div>
         </div>

@@ -16,6 +16,12 @@
 </aside>
 <!-- End Sidebar-->
 
+<!--Modal Cerrar Sesion-->
+<div th:replace="fragmentsPacientes/modalCerrarSesion.html::modal">
+
+</div>
+<!-- End Modal-->
+
 <main id="main" class="main">
 
   <div class="pagetitle">
@@ -36,6 +42,7 @@
             <h2 th:text="|${pacientelog.usuario.nombres} ${pacientelog.usuario.apellidos}|"></h2>
             <div th:if="${psw1!=null}" th:text="${psw1}" class="alert alert-success" role="alert"></div>
             <div th:if="${psw2!=null}" th:text="${psw2}" class="alert alert-danger" role="alert"></div>
+
           </div>
         </div>
 
@@ -112,9 +119,25 @@
                     <div th:if="${msg1!=null}" th:text="${msg1}" class="alert alert-danger" role="alert"></div>
                     <div th:if="${msg2!=null}" th:text="${msg2}" class="alert alert-success" role="alert"></div>
                     <!-- Default List group -->
-                    <ul class="list-group">
-                      <li class="list-group-item"th:text="${pacientelog.alergias}"></li>
-                    </ul><!-- End Default List group -->
+
+                    <table class="table">
+                      <thead>
+                      <tr>
+                      </tr>
+
+                      </thead>
+                      <tbody>
+                      <tr>
+                        <td>
+                          <ul class="list-group">
+                            <li th:each="alergia : ${#strings.arraySplit(pacientelog.alergias, ',')}" th:text="${#strings.capitalize(alergia)}"></li>
+                          </ul>
+                        </td>
+                      </tr>
+                      </tbody>
+                    </table>
+
+
 
                   </div>
                 </div>
@@ -160,7 +183,7 @@
               <div class="tab-pane fade pt-3" id="profile-settings">
 
                 <!-- Alergias Form -->
-                <form method="post" th:action="@{/paciente/alergia}">
+                <form method="post" th:action="@{/paciente/alergia}" onsubmit="return validateForm2()">
                   <div class="row mb-3">
                     <label for="alergias" class="col-md-4 col-lg-3 col-form-label">Ingresar alergia</label>
                     <div class="col-md-8 col-lg-9">
@@ -175,7 +198,26 @@
                   <div class="text-center">
                     <button type="submit" class="btn btn-outline-warning">Añadir</button>
                   </div>
+                  <div id="error-message2" class="alert alert-danger mt-3" style="display: none;"></div>
+
                 </form><!-- End settings Form -->
+
+                <!-- Funcion para validar -->
+                <script>
+                  function validateForm2() {
+                    var alergias = document.getElementById("alergias").value;
+
+
+                    if (alergias === "" ) {
+                      var errorMessage = document.getElementById("error-message2");
+                      errorMessage.style.display = "block";
+                      errorMessage.innerHTML = "Complete el campo requerido";
+                      return false;
+                    }
+                    return true;
+                  }
+                </script>
+                <!-- FIN Funcion para validar -->
 
               </div>
 
@@ -183,7 +225,7 @@
 
 
                 <!-- Cambio de contraseña Form -->
-                <form method="post" th:action="@{'/paciente/changepassword'}">
+                <form method="post" th:action="@{'/paciente/changepassword'}" onsubmit="return validateForm()">
 
                   <div class="row mb-3">
                     <label for="contrasena" class="col-md-4 col-lg-3 col-form-label">Contraseña Actual</label>
@@ -209,8 +251,40 @@
                   <div class="text-center">
                     <button type="submit" class="btn btn-outline-warning">Cambiar Contraseña</button>
                   </div>
+                  <div id="error-message" class="alert alert-danger mt-3" style="display: none;"></div>
                 </form><!-- End Change Password Form -->
 
+                <!-- Funcion para validar -->
+                <script>
+                  function validateForm() {
+                    var password = document.getElementById("contrasena").value;
+                    var newPassword = document.getElementById("newPassword").value;
+                    var renewPassword = document.getElementById("renewPassword").value;
+
+                    if (password === "" || newPassword === "" || renewPassword === "") {
+                      var errorMessage = document.getElementById("error-message");
+                      errorMessage.style.display = "block";
+                      errorMessage.innerHTML = "Debe completar todos los campos";
+                      return false;
+                    }
+                    if (password === newPassword ) {
+                      var errorMessage = document.getElementById("error-message");
+                      errorMessage.style.display = "block";
+                      errorMessage.innerHTML = "La nueva contraseña no puede ser igual a la anterior";
+                      return false;
+                    }
+                    if (renewPassword != newPassword ) {
+                      var errorMessage = document.getElementById("error-message");
+                      errorMessage.style.display = "block";
+                      errorMessage.innerHTML = "No coinciden las contraseñas";
+                      return false;
+                    }
+
+
+                    return true;
+                  }
+                </script>
+                <!-- FIN Funcion para validar -->
 
               </div>
 
