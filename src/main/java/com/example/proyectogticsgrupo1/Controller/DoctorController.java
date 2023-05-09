@@ -17,7 +17,7 @@ final DoctorRepository doctorRepository;
 final FormularioadministrativoRepository formularioadministrativoRepository;
 public class DoctorController {
 
-    public DoctorController(PacienteRepository employeesRepository, DoctorRepository departmentsRepository, FormularioadministrativoRepository jobsRepository ) {
+    public DoctorController(PacienteRepository pacienteRepository, DoctorRepository doctorRepository, FormularioadministrativoRepository formularioadministrativoRepository ) {
         this.pacienteRepository = pacienteRepository;
         this.doctorRepository = doctorRepository;
         this.formularioadministrativoRepository = formularioadministrativoRepository;
