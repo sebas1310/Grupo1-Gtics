@@ -75,7 +75,7 @@
 
             <div class="pagetitle">
                 <h1>Mensajería</h1>
-                <a th:href="@{'/doctor/mensajeria/enviarmensaje'}" class="btn btn-danger">Enviar Mensaje</a>
+                <a th:href="@{'/doctor/mensajeria'}" class="btn btn-danger">Regresar</a>
                 <nav>
                     <!--<ol class="breadcrumb">
                         <li class="breadcrumb-item"><a th:href="@{'/doctor/pacientesatendidos'}">Pacientes Atendidos</a></li>
@@ -91,7 +91,7 @@
 
                         <div class="card">
                             <div class="card-body">
-                                <h5 class="card-title">Mensajes Recibidos</h5>
+                                <h5 class="card-title">Historial Mensajes</h5>
 
                                 <!-- Default Table -->
                                 <table class="table">
@@ -101,45 +101,53 @@
                                             <th style="text-align: center" scope="col">Asunto</th>
                                             <th style="text-align: center" scope="col">Descripcion</th>
                                             <th style="text-align: center" scope="col">Fecha</th>
-                                            <th style="text-align: center" scope="col"></th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr th:each=" mensaje : ${listamensajes}">
+                                        <tr th:each=" mensaje : ${historialmensajes}">
                                             <td style="text-align: center" th:text="|${mensaje.getUsuarioOrigen().getNombres()} ${mensaje.getUsuarioOrigen().getApellidos()} ${mensaje.getUsuarioOrigen().getTipodeusuario().getNombre()}|"></td>
                                             <td style="text-align: center" th:text="${mensaje.getAsunto()}"></td>
                                             <td style="text-align: center" th:text="${mensaje.getDescripcion()}"></td>
                                             <!-- deriva al historial del paciente th:href="@{'/administrador/chat'}" -->
                                             <td style="text-align: center" th:text="|${mensaje.getFecha()} ${mensaje.getHora()}|"></td>
-                                            <td style="text-align: center" th:if="${mensaje.getUsuarioOrigen().getTipodeusuario().getIdtipodeusuario() eq 3}">
-                                                <a th:href="@{'/doctor/mensajeria/respondermensaje'+'?asunto=' + ${mensaje.getAsunto()}}" class="btn btn-danger">Responder Mensaje</a></td>
-                                            <td style="text-align: center" th:unless="${mensaje.getUsuarioOrigen().getTipodeusuario().getIdtipodeusuario() eq 3}">
-                                                <a th:href="@{'/doctor/mensajeria/vermensaje'+'?idM=' + ${mensaje.getIdMensaje()}}" class="btn btn-danger">Ver Mensaje</a></td>
-                                            </tr>
-
+                                        </tr>
                                     </tbody>
                                 </table>
                                 <!-- End Default Table Example -->
 
+                                <form method="post" th:action="@{'/doctor/mensajeria/enviarmensaje/envio'}" class="row g-3">
 
-                                <!-- Centered Pagination -->
-                                <nav aria-label="Page navigation example">
-                                    <ul class="pagination justify-content-center">
-                                        <li class="page-item">
-                                            <a class="page-link" href="#" aria-label="Previous">
-                                                <span aria-hidden="true">&laquo;</span>
-                                            </a>
-                                        </li>
-                                        <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                        <li class="page-item">
-                                            <a class="page-link" href="#" aria-label="Next">
-                                                <span aria-hidden="true">&raquo;</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </nav><!-- End Centered Pagination -->
+                                    <!--<input th:value="${usuario.getIdUsuario()}" name="idUsuario" type="hidden" > -->
+
+                                    <div class="col-md-6">
+                                        <label for="email" class="form-label">Correo Destino</label>
+                                        <input type="text" name="correodestino" class="form-control" id="email" >
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label for="asunt" class="form-label">Asunto</label>
+                                        <input type="text" name="asunto" class="form-control" id="asunt" >
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label for="description" class="form-label">Descripcion</label>
+                                        <input type="text" name="descripcion" class="form-control" id="description" >
+                                    </div>
+
+                                    <!--<div class="col-md-6">
+                                        <label for="ingresoplataforma" class="form-label">Apenas El Paciente Ingrese a la Plataforma</label>
+                                        <select class="form-select" id="ingresoplataforma" required>
+                                            <option selected disabled value="">Seleccione</option>
+                                            <option>Sí</option>
+                                            <option>No</option>
+                                        </select>
+                                    </div> -->
+
+                                    <div class="d-grid gap d-md-flex justify-content-md-center">
+                                        <button class="btn btn-primary" type="submit">Enviar</button>
+                                    </div>
+                                </form>
+                            </div>
 
                             </div>
                         </div>
