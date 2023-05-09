@@ -7,12 +7,19 @@
 <aside th:fragment="sidebar (active)" id="sidebar" class="sidebar">
 
   <ul class="sidebar-nav" id="sidebar-nav">
-    <li class="nav-item" th:classappend="${active == 'dashboard' ? 'inactive':''}">
-      <a class="nav-link" th:classappend="${active != 'dashboard' ? 'collapsed':''}" th:href="@{'/administrativo/dashboard'}">
+    <li class="nav-item" th:classappend="${active == 'dashboardpaciente' ? 'inactive':''}">
+      <a class="nav-link" th:classappend="${active != 'dashboardpaciente' ? 'collapsed':''}" th:href="@{'/administrativo/dashboardpaciente'}">
         <i class="bi bi-grid"></i>
-        <span>Dashboard</span>
+        <span>Pacientes</span>
       </a>
     </li><!-- End Dashboard -->
+
+    <li class="nav-item" th:classappend="${active == 'dashboarddoctores' ? 'inactive':''}">
+      <a class="nav-link" th:classappend="${active != 'dashboarddoctores' ? 'collapsed':''}" th:href="@{'/administrativo/dashboarddoctores'}">
+        <i class="bi bi-grid"></i>
+        <span>Doctores</span>
+      </a>
+    </li>
 
     <li class="nav-item" th:classappend="${active == 'nuevopaciente' ? 'active':''}">
       <a class="nav-link" th:classappend="${active != 'nuevopaciente' ? 'collapsed':''}" th:href="@{'/administrativo/nuevopaciente'}">
@@ -20,9 +27,39 @@
       </a>
     </li><!-- End Components Nav -->
 
+    <li class="nav-item" th:classappend="${active == 'nuevopaciente' ? 'active':''}">
+      <a class="nav-link" th:classappend="${active != 'nuevopaciente' ? 'collapsed':''}" th:href="@{'/administrativo/nuevopaciente'}">
+        <i class="bi bi-person-plus-fill"></i><span>Editar Paciente</span>
+      </a>
+    </li>
+
     <li class="nav-item" th:classappend="${active == 'perfil' ? 'active':''}">
       <a class="nav-link" th:classappend="${active != 'perfil' ? 'collapsed':''}" th:href="@{'/administrativo/perfil'}">
         <i class="bi bi-person"></i><span>Perfil</span>
+      </a>
+    </li>
+
+    <li class="nav-item" th:classappend="${active == 'mensajeria' ? 'active':''}">
+      <a class="nav-link" th:classappend="${active != 'mensajeria' ? 'collapsed':''}" th:href="@{'/administrativo/mensajeria'}">
+        <i class="bi bi-person-plus-fill"></i><span>Mensajeria</span>
+      </a>
+    </li>
+
+    <li class="nav-item" th:classappend="${active == 'vermensajeria' ? 'active':''}">
+      <a class="nav-link" th:classappend="${active != 'vermensajeria' ? 'collapsed':''}" th:href="@{'/administrativo/vermensajeria'}">
+        <i class="bi bi-person-plus-fill"></i><span>Ver Mensajeria</span>
+      </a>
+    </li>
+
+    <li class="nav-item" th:classappend="${active == 'respondermensajeria' ? 'active':''}">
+      <a class="nav-link" th:classappend="${active != 'respondermensajeria' ? 'collapsed':''}" th:href="@{'/administrativo/respondermensajeria'}">
+        <i class="bi bi-person-plus-fill"></i><span>Responder Mensaje</span>
+      </a>
+    </li>
+
+    <li class="nav-item" th:classappend="${active == 'enviarmensajeria' ? 'active':''}">
+      <a class="nav-link" th:classappend="${active != 'enviarmensajeria' ? 'collapsed':''}" th:href="@{'/administrativo/enviarmensajeria'}">
+        <i class="bi bi-person-plus-fill"></i><span>Enviar Mensaje</span>
       </a>
     </li>
 
