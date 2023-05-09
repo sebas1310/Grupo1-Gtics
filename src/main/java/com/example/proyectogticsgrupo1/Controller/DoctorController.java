@@ -264,7 +264,7 @@ public class DoctorController {
     }
 
     @GetMapping("/perfil")
-    public String perfilDoctor(Model model,@RequestParam("id") int idDoctor) {
+    public String perfilDoctor(Model model) {
 
         Optional<Doctor> optDoctor = doctorRepository.findById(2);
         if (optDoctor.isPresent()) {
@@ -375,6 +375,25 @@ public class DoctorController {
         return ResponseEntity.ok().build();
 
     }*/
+
+    @PostMapping("/cambiarContra")
+    @Transactional
+    public String cambiarContraseña(Model model, RedirectAttributes attr,
+                                    @RequestParam("contrasena") String contrasena,
+                                    @RequestParam("newpassword") String newpassword,
+                                    @RequestParam("renewpassword") String renewpassword){
+
+        Optional<Doctor> optDoctor = doctorRepository.findById(2);
+        Doctor doctor =  optDoctor.get();
+        if(doctor.getUsuario().getContrasena().equals(contrasena)){
+            userRepository.changePassword(renewpassword,doctor.getUsuario().getIdusuario());
+            attr.addFlashAttribute("psw1", "Contraseña actualizada");
+        }else {
+            attr.addFlashAttribute("psw2", "La contraseña actual es incorrecta");
+            return "redirect:/doctor/perfil";
+        }
+        return "redirect:/doctor/perfil";
+    }
 
 
 }
