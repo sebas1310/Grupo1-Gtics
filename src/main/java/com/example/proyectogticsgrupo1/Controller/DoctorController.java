@@ -303,7 +303,8 @@ public class DoctorController {
     }
 
     @GetMapping("/mensajeria/respondermensaje")
-    public String responderMensajeDoctor(Model model, @RequestParam("asunto") String asunto) {
+    public String responderMensajeDoctor(Model model, @RequestParam("asunto") String asunto,
+                                         @RequestParam("idM") int idMensaje){
 
         /*@RequestParam("id") int idD*/
         Optional<Doctor> optDoctor = doctorRepository.findById(2);
@@ -311,6 +312,7 @@ public class DoctorController {
         if (optDoctor.isPresent()) {
             Doctor doctor1 = optDoctor.get();
             model.addAttribute("historialmensajes",mailCorreoRepository.buscarMensajePorAsunto(asunto));
+            model.addAttribute("mensaje",mailCorreoRepository.buscarMensajePorID(idMensaje));
             //model.addAttribute("doctor", doctor1);
         }
         return "doctor/responderMensajeDoc";

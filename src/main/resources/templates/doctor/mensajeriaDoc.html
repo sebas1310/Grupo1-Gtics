@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-    <head th:insert="fragments/doctor/librerias.html :: cabecera (titulo = 'Historial Clinico')">
+    <head th:insert="fragments/doctor/librerias.html :: cabecera (titulo = 'Mensajeria')">
     </head>
     <body>
         <!-- ======= Header ======= -->
@@ -11,7 +11,7 @@
         <aside id="sidebar" class="sidebar">
             <ul class="sidebar-nav" id="sidebar-nav">
                 <li class="nav-item">
-                    <a class="nav-link collapsed" th:href="@{'/doctor/dashboard'}" >
+                    <a class="nav-link collapsed" th:href="@{'/doctor/dashboard' }" >
                         <i class="bi bi-grid"></i>
                         <span>Dashboard</span>
                     </a>
@@ -63,7 +63,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-success" data-bs-dismiss="modal"><a style="color: white" href="pages-login.html" >Salir</button>
+                        <button type="button" class="btn btn-success" data-bs-dismiss="modal"><a style="color: white" href="pages-login.html" >Salir</a></button>
                         <button type="button" class="btn btn-secondary"><a style="color: white" th:href="@{'/doctor/pacientesatendidos/verhistorial'}" >Cancelar</a></button>
                     </div>
                 </div>
@@ -75,7 +75,6 @@
 
             <div class="pagetitle">
                 <h1>Mensajería</h1>
-                <a th:href="@{'/doctor/mensajeria/enviarmensaje'}" class="btn btn-danger">Enviar Mensaje</a>
                 <nav>
                     <!--<ol class="breadcrumb">
                         <li class="breadcrumb-item"><a th:href="@{'/doctor/pacientesatendidos'}">Pacientes Atendidos</a></li>
@@ -94,14 +93,14 @@
                                 <h5 class="card-title">Mensajes Recibidos</h5>
 
                                 <!-- Default Table -->
-                                <table class="table">
+                                <table class="table table-borderless datatable">
                                     <thead>
                                         <tr>
-                                            <th style="text-align: center" scope="col">De:</th>
+                                            <th style="text-align: center" scope="col">De</th>
                                             <th style="text-align: center" scope="col">Asunto</th>
                                             <th style="text-align: center" scope="col">Descripcion</th>
                                             <th style="text-align: center" scope="col">Fecha</th>
-                                            <th style="text-align: center" scope="col"></th>
+                                            <th style="text-align: center" scope="col">Mensaje</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -112,34 +111,15 @@
                                             <!-- deriva al historial del paciente th:href="@{'/administrador/chat'}" -->
                                             <td style="text-align: center" th:text="|${mensaje.getFecha()} ${mensaje.getHora()}|"></td>
                                             <td style="text-align: center" th:if="${mensaje.getUsuarioOrigen().getTipodeusuario().getIdtipodeusuario() eq 3}">
-                                                <a th:href="@{'/doctor/mensajeria/respondermensaje'+'?asunto=' + ${mensaje.getAsunto()}}" class="btn btn-danger">Responder Mensaje</a></td>
+                                                <a th:href="@{'/doctor/mensajeria/respondermensaje'+'?asunto=' + ${mensaje.getAsunto()} +'$idM'+ ${mensaje.getIdMensaje()}}" class="btn btn-danger">Responder</a></td>
                                             <td style="text-align: center" th:unless="${mensaje.getUsuarioOrigen().getTipodeusuario().getIdtipodeusuario() eq 3}">
-                                                <a th:href="@{'/doctor/mensajeria/vermensaje'+'?idM=' + ${mensaje.getIdMensaje()}}" class="btn btn-danger">Ver Mensaje</a></td>
+                                                <a th:href="@{'/doctor/mensajeria/vermensaje'+'?idM=' + ${mensaje.getIdMensaje()}}" class="btn btn-danger">Visualizar</a></td>
                                             </tr>
 
                                     </tbody>
                                 </table>
                                 <!-- End Default Table Example -->
 
-
-                                <!-- Centered Pagination -->
-                                <nav aria-label="Page navigation example">
-                                    <ul class="pagination justify-content-center">
-                                        <li class="page-item">
-                                            <a class="page-link" href="#" aria-label="Previous">
-                                                <span aria-hidden="true">&laquo;</span>
-                                            </a>
-                                        </li>
-                                        <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                        <li class="page-item">
-                                            <a class="page-link" href="#" aria-label="Next">
-                                                <span aria-hidden="true">&raquo;</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </nav><!-- End Centered Pagination -->
 
                             </div>
                         </div>

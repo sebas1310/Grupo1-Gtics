@@ -75,7 +75,6 @@
 
             <div class="pagetitle">
                 <h1>Mensajería</h1>
-                <a th:href="@{'/doctor/mensajeria'}" class="btn btn-danger">Regresar</a>
                 <nav>
                     <!--<ol class="breadcrumb">
                         <li class="breadcrumb-item"><a th:href="@{'/doctor/pacientesatendidos'}">Pacientes Atendidos</a></li>
@@ -118,10 +117,11 @@
                                 <form method="post" th:action="@{'/doctor/mensajeria/enviarmensaje/envio'}" class="row g-3">
 
                                     <!--<input th:value="${usuario.getIdUsuario()}" name="idUsuario" type="hidden" > -->
+                                    <input th:value="${mensaje.getIdMensaje()}" name="idM" type="hidden" />
 
                                     <div class="col-md-6">
                                         <label for="email" class="form-label">Correo Destino</label>
-                                        <input type="text" name="correodestino" class="form-control" id="email" >
+                                        <input th:value="|${mensaje.getUsuarioOrigen().getNombres()}|" type="text"  class="form-control" id="email" disabled readonly>
                                     </div>
 
                                     <div class="col-md-6">
@@ -143,8 +143,9 @@
                                         </select>
                                     </div> -->
 
-                                    <div class="d-grid gap d-md-flex justify-content-md-center">
+                                    <div class="d-grid gap-2 d-md-flex justify-content-md-center">
                                         <button class="btn btn-primary" type="submit">Enviar</button>
+                                        <a th:href="@{'/doctor/mensajeria'}" class="btn btn-danger">Regresar</a>
                                     </div>
                                 </form>
                             </div>
