@@ -17,19 +17,19 @@ public class InicioController {
     @GetMapping(value = "/registro")
     public String registro(){
 
-        return "superadmin/pages-register";
+        return "superadmin/pages-register_spa";
     }
 
     @GetMapping(value = "/olvidocontra")
     public String olvidoContra(){
 
-        return "superadmin/olvidocontra";
+        return "superadmin/olvidocontra_spa";
     }
 
     @GetMapping(value = "/formRegistro")
     public String formRegistro(){
 
-        return "superadmin/formularioregistro";
+        return "superadmin/formularioregistro_spa";
     }
 
 }

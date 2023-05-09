@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
@@ -56,7 +55,7 @@ public class SuperadminController {
 
 
 
-        return "superadmin/index";
+        return "index_spa";
     }
     @GetMapping("/listaform")
     public String listaFormularios(Model model){
@@ -65,29 +64,29 @@ public class SuperadminController {
         model.addAttribute("modeloEntityList",modeloEntityList);
 
 
-        return "superadmin/lista_formularios";
+        return "lista_plantillas_spa";
     }
 
     @GetMapping("/chat")
     public String chats(){
-        return "superadmin/chat";
+        return "chat_spa";
     }
 
     @GetMapping("/editarreportes")
     public String editarReportes(){
-        return "superadmin/editar-reportes";
+        return "editar-reportes_spa";
     }
     @GetMapping("/editarforms")
     public String editarForms(){
-        return "superadmin/forms-editors";
+        return "forms-editors_spa";
     }
     @GetMapping("/registro")
     public String registrarUsuarios(){
-        return "superadmin/pages-blank";
+        return "pages-blank_spa";
     }
     @GetMapping("/mensajeria")
     public String mensajeria(){
-        return "superadmin/mensajeria";
+        return "mensajeria_spa";
     }
 
     @GetMapping("/perfil")
@@ -97,7 +96,7 @@ public class SuperadminController {
         Optional<Usuario> optionalSuperadmin = usuarioRepository.findById(1);
         Usuario usuario = optionalSuperadmin.get();
         model.addAttribute("superadminlog", usuario);
-        return "superadmin/users-profile";
+        return "users-profile_spa";
     }
     @GetMapping("/registraradministrativo")
     public String registrarAdministrativo(Model model){
@@ -146,19 +145,19 @@ public class SuperadminController {
         if(optionalUsuario.isPresent()){
             Usuario usuario = optionalUsuario.get();
             model.addAttribute("usuario", usuario);
-            return "superadmin/users-profile";
+            return "users-profile_spa";
         }else{
             return "redirect:/index";
         }
     }
     @GetMapping("/reportes")
     public String listaReportes(){
-        return "superadmin/tables-general";
+        return "tables-general_spa";
     }
 
     @GetMapping("/configuracion")
     public String configuraciones(){
-        return "superadmin/configuraciones";
+        return "configuraciones_spa";
     }
 
     @GetMapping("/nuevoform")
@@ -173,7 +172,7 @@ public class SuperadminController {
         model.addAttribute("especialidadList",especialidadList);
 
 
-        return "superadmin/nuevoformulario";
+        return "nuevoformulario_spa";
     }
 
 
@@ -246,16 +245,16 @@ public class SuperadminController {
 
     @GetMapping("/notificaciones")
     public String historialNotificaciones(){
-        return "superadmin/historial-notificaciones";
+        return "historial-notificaciones_spa";
     }
     @GetMapping("/perfilUsuario")
     public String perfilUsuario(){
-        return "superadmin/perfil-usuarios";
+        return "perfil-usuarios_spa";
     }
 
     @GetMapping("/seguros")
     public String seguro(){
-        return "superadmin/seguros";
+        return "seguros_spa";
     }
 
 

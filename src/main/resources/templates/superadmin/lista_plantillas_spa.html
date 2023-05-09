@@ -1,30 +1,30 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:insert="superadmin/fragments/librerias.html :: cabecera (titulo = 'listaforms')">
+<head th:insert="superadmin/fragments_spa/librerias_spa.html :: cabecera (titulo = 'listaforms')">
 </head>
 
 <body>
 
 <!-- ======= Header ======= -->
-<header th:replace="superadmin/fragments/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1', nombre = 'A. Jauregui', num_men = '3')">
+<header th:replace="superadmin/fragments_spa/header_spa.html :: header(num_not = '3', num_form = '2 ', por_canc = '1', nombre = 'A. Jauregui', num_men = '3')">
 </header>
 <!-- End Header -->
 
 <!-- ======= Sidebar ======= -->
-<aside th:replace="superadmin/fragments/aside.html :: sidebar (active = 'listaforms')">
+<aside th:replace="superadmin/fragments_spa/aside_spa.html :: sidebar (active = 'listaforms')">
 </aside>
 <!-- End Sidebar-->
 
 <main id="main" class="main">
 
   <div class="pagetitle">
-    <h1>Editar Formularios</h1>
+    <h1>Plantillas</h1>
 
   </div><!-- End Page Title -->
 
-  <button type="submit" class="btn btn-primary"><a style="color: #fdfdfd" th:href="@{'/superadmin/nuevoform'}" >Añadir Formulario</a></button>
+  <button type="submit" class="btn btn-primary"><a style="color: #fdfdfd" th:href="@{'/superadmin/nuevoform'}" >Añadir Plantilla</a></button>
 
-  <section class="section">
+  <section class="section dashboard">
     <div class="row">
       <div class="col-lg-6">
 
@@ -38,62 +38,47 @@
 
 
 
-    <div class="card">
-      <div class="card-body">
-        <h5 class="card-title">Lista de Formularios</h5>
+    <div class="col-12">
+      <div class="card recent-sales overflow-auto">
+        <div class="card-body">
+          <h5 class="card-title">Lista de Plantillas</h5>
 
-        <!-- Bordered Table -->
-        <table class="table table-bordered">
-          <thead>
+          <!-- Bordered Table -->
+          <table class="table table-borderless datatable">
+            <thead>
 
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Nombre</th>
-            <th scope="col">Especialidad</th>
-            <th scope="col">Destinatario</th>
-            <th scope="col">Editar</th>
-          </tr>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Especialidad</th>
+                <th scope="col">Destinatario</th>
+                <th scope="col">Editar</th>
+              </tr>
 
-          </thead>
-          <tbody>
+            </thead>
+            <tbody>
 
-            <tr th:each="modelo, info : ${modeloEntityList}" th:id="'fila-' + ${modelo.idmodelo}">
-              <td th:text="${info.index + 1}" id="indice"></td>
-              <td th:text="${modelo.nombre}" id="nbr_modelo"></td>
-              <td th:text="${modelo.especialidad.nombre}" id="nbr_especialidad"></td>
-              <td th:text="${modelo.tipodeusuario.nombre}" id="nbr_rol"></td>
-              <td>
-                <button type="button" class="btn btn-secondary button-edit" th:data-id="${modelo.idmodelo}"
-                        onclick="mostrarModal(this)"><i
-                        class="bi bi-pencil-square"></i></button>
-              </td>
+              <tr th:each="modelo, info : ${modeloEntityList}" th:id="'fila-' + ${modelo.idmodelo}">
+                <td th:text="${info.index + 1}" id="indice"></td>
+                <td th:text="${modelo.nombre}" id="nbr_modelo"></td>
+                <td th:text="${modelo.especialidad.nombre}" id="nbr_especialidad"></td>
+                <td th:text="${modelo.tipodeusuario.nombre}" id="nbr_rol"></td>
+                <td>
+                  <button type="button" class="btn btn-secondary button-edit" th:data-id="${modelo.idmodelo}"
+                          onclick="mostrarModal(this)"><i
+                          class="bi bi-pencil-square"></i></button>
+                </td>
 
-            </tr>
-
-
-          </tbody>
-        </table>
-
-        <!-- Centered Pagination -->
-        <nav aria-label="Page navigation example">
-          <ul class="pagination justify-content-center">
-            <li class="page-item">
-              <a class="page-link" href="#" aria-label="Previous">
-                <span aria-hidden="true">&laquo;</span>
-              </a>
-            </li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item">
-              <a class="page-link" href="#" aria-label="Next">
-                <span aria-hidden="true">&raquo;</span>
-              </a>
-            </li>
-          </ul>
-        </nav><!-- End Centered Pagination -->
+              </tr>
 
 
+            </tbody>
+          </table>
+
+
+
+
+        </div>
       </div>
     </div>
   </section>

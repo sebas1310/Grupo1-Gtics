@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:insert="superadmin/fragments/librerias.html :: cabecera (titulo = 'configuraciones')">
+<head th:insert="superadmin/fragments_spa/librerias_spa.html :: cabecera (titulo = 'configuraciones')">
 </head>
 
 <body>
 
 <!-- ======= Header ======= -->
-<header th:replace="superadmin/fragments/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1', nombre = 'A. Jauregui', num_men = '3')">
+<header th:replace="superadmin/fragments_spa/header_spa.html :: header(num_not = '3', num_form = '2 ', por_canc = '1', nombre = 'A. Jauregui', num_men = '3')">
 </header>
 <!-- End Header -->
 
 <!-- ======= Sidebar ======= -->
-<aside th:replace="superadmin/fragments/aside.html :: sidebar (active = 'configuraciones')">
+<aside th:replace="superadmin/fragments_spa/aside_spa.html :: sidebar (active = 'configuraciones')">
 </aside>
 
 <main id="main" class="main">

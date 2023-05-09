@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:insert="superadmin/fragments/librerias.html :: cabecera (titulo = 'mensajeria')">
+<head th:insert="superadmin/fragments_spa/librerias_spa.html :: cabecera (titulo = 'notificaciones')">
 </head>
 
 <body>
+
 <!-- ======= Header ======= -->
-<header th:replace="superadmin/fragments/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1', nombre = 'A. Jauregui', num_men = '3')">
+<header th:replace="superadmin/fragments_spa/header_spa.html :: header(num_not = '3', num_form = '2 ', por_canc = '1', nombre = 'A. Jauregui', num_men = '3')">
 </header>
 <!-- End Header -->
 
 <!-- ======= Sidebar ======= -->
-<aside th:replace="superadmin/fragments/aside.html :: sidebar (active = 'mensajeria')">
+<aside th:replace="superadmin/fragments_spa/aside_spa.html :: sidebar (active = 'notificaciones')">
 </aside>
-
 <!-- End Sidebar-->
 <div class="modal fade" id="verticalycentered" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
@@ -22,7 +22,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-success" data-bs-dismiss="modal"><a style="color: white" th:href="@{'/superadmin/index'}">Salir</button>
+                <button type="button" class="btn btn-success" data-bs-dismiss="modal"><a style="color: white" th:href="@{'/superadmin/index'}" >Salir </button>
                 <button type="button" class="btn btn-secondary"><a style="color: white" th:href="@{'/superadmin/index'}" >Cancelar</a></button>
             </div>
         </div>
@@ -36,7 +36,7 @@
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="dashboard.html">Home</a></li>
                 <li class="breadcrumb-item active">Dashboard</li>
-                <li class="breadcrumb-item active">Mensajes</li>
+                <li class="breadcrumb-item active">Notificaciones</li>
             </ol>
         </nav>
     </div><!-- End Page Title -->
@@ -47,54 +47,101 @@
 
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">Historial de mensajes</h5>
+                        <h5 class="card-title">Historial de notificaciones</h5>
 
                         <!-- Default Table -->
                         <table class="table">
                             <thead>
                             <tr>
-                                <th scope="col">Mensajes</th>
-                                <th scope="col">Nombre</th>
-                                <th scope="col">Foto</th>
+                                <th scope="col">Notificacion</th>
+                                <th scope="col">Tipo</th>
                                 <th scope="col">Hora</th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr>
-                                <td>Quae dolorem earum veritatis oditseno<div>fnfggjjjjjjvfncsffjgnjngjvfgngjsnfjbngjfnvd</div><div>fnfggjjjjjjvfncsffjgnjngjvfgngjsnfjbngjfnvd</div></td>
-                                <td><a th:href="@{'/superadmin/chat'}">Andreina Bravo Torres</a></td>
-                                <td><img th:src="@{'assets/img/messages-1.jpg'}" alt="" class="rounded-circle"></td>
+                                <td>Quae dolorem earum veritatis oditseno</td>
+                                <td><i class="bi bi-info-circle text-primary"></i></td>
+                                <td>21:04:06 17/8/23</td>
+                            </tr>
+                            <tr><td>Quae dolorem earum veritatis oditseno</td>
+                                <td><i class="bi bi-x-circle text-danger"></i></td>
                                 <td>21:04:06 17/8/23</td>
                             </tr>
                             <tr>
-                                <td>Quae dolorem earum veritatis oditseno<div>fnfggjjjjjjvfncsffjgnjngjvfgngjsnfjbngjfnvd</div><div>fnfggjjjjjjvfncsffjgnjngjvfgngjsnfjbngjfnvd</div></td>
-                                <td><a th:href="@{'/superadmin/chat'}">Andreina Bravo Torres</a></td>
-                                <td><img th:src="@{'assets/img/messages-1.jpg'}" alt="" class="rounded-circle"></td>
+                                <td>Quae dolorem earum veritatis oditseno</td>
+                                <td><i class="bi bi-check-circle text-success"></i></td>
+                                <td>21:04:06 17/8/23</td>
+
+                            </tr>
+                            <tr>
+                                <td>Quae dolorem earum veritatis oditseno</td>
+                                <td><i class="bi bi-check-circle text-success"></i></td>
+                                <td>21:04:06 17/8/23</td>
+
+                            </tr>
+                            <tr>
+                                <td>Quae dolorem earum veritatis oditseno</td>
+                                <td><i class="bi bi-info-circle text-primary"></i></td>
+                                <td>21:04:06 17/8/23</td>
+                            </tr>
+                            <tr><td>Quae dolorem earum veritatis oditseno</td>
+                                <td><i class="bi bi-x-circle text-danger"></i></td>
                                 <td>21:04:06 17/8/23</td>
                             </tr>
                             <tr>
-                                <td>Quae dolorem earum veritatis oditseno<div>fnfggjjjjjjvfncsffjgnjngjvfgngjsnfjbngjfnvd</div><div>fnfggjjjjjjvfncsffjgnjngjvfgngjsnfjbngjfnvd</div></td>
-                                <td><a th:href="@{'/superadmin/chat'}">Andreina Bravo Torres</a></td>
-                                <td><img th:src="@{'assets/img/messages-1.jpg'}" alt="" class="rounded-circle"></td>
+                                <td>Quae dolorem earum veritatis oditseno</td>
+                                <td><i class="bi bi-check-circle text-success"></i></td>
+                                <td>21:04:06 17/8/23</td>
+
+                            </tr>
+                            <tr>
+                                <td>Quae dolorem earum veritatis oditseno</td>
+                                <td><i class="bi bi-check-circle text-success"></i></td>
+                                <td>21:04:06 17/8/23</td>
+
+                            </tr>
+                            <tr>
+                                <td>Quae dolorem earum veritatis oditseno</td>
+                                <td><i class="bi bi-info-circle text-primary"></i></td>
+                                <td>21:04:06 17/8/23</td>
+                            </tr>
+                            <tr><td>Quae dolorem earum veritatis oditseno</td>
+                                <td><i class="bi bi-x-circle text-danger"></i></td>
                                 <td>21:04:06 17/8/23</td>
                             </tr>
                             <tr>
-                                <td>Quae dolorem earum veritatis oditseno<div>fnfggjjjjjjvfncsffjgnjngjvfgngjsnfjbngjfnvd</div><div>fnfggjjjjjjvfncsffjgnjngjvfgngjsnfjbngjfnvd</div></td>
-                                <td><a th:href="@{'/superadmin/chat'}">Andreina Bravo Torres</a></td>
-                                <td><img th:src="@{'assets/img/messages-1.jpg'}" alt="" class="rounded-circle"></td>
+                                <td>Quae dolorem earum veritatis oditseno</td>
+                                <td><i class="bi bi-check-circle text-success"></i></td>
+                                <td>21:04:06 17/8/23</td>
+
+                            </tr>
+                            <tr>
+                                <td>Quae dolorem earum veritatis oditseno</td>
+                                <td><i class="bi bi-check-circle text-success"></i></td>
+                                <td>21:04:06 17/8/23</td>
+
+                            </tr>
+                            <tr>
+                                <td>Quae dolorem earum veritatis oditseno</td>
+                                <td><i class="bi bi-info-circle text-primary"></i></td>
+                                <td>21:04:06 17/8/23</td>
+                            </tr>
+                            <tr><td>Quae dolorem earum veritatis oditseno</td>
+                                <td><i class="bi bi-x-circle text-danger"></i></td>
                                 <td>21:04:06 17/8/23</td>
                             </tr>
                             <tr>
-                                <td>Quae dolorem earum veritatis oditseno<div>fnfggjjjjjjvfncsffjgnjngjvfgngjsnfjbngjfnvd</div><div>fnfggjjjjjjvfncsffjgnjngjvfgngjsnfjbngjfnvd</div></td>
-                                <td><a th:href="@{'/superadmin/chat'}">Andreina Bravo Torres</a></td>
-                                <td><img th:src="@{'assets/img/messages-1.jpg'}" alt="" class="rounded-circle"></td>
+                                <td>Quae dolorem earum veritatis oditseno</td>
+                                <td><i class="bi bi-check-circle text-success"></i></td>
                                 <td>21:04:06 17/8/23</td>
+
                             </tr>
                             <tr>
-                                <td>Quae dolorem earum veritatis oditseno<div>fnfggjjjjjjvfncsffjgnjngjvfgngjsnfjbngjfnvd</div><div>fnfggjjjjjjvfncsffjgnjngjvfgngjsnfjbngjfnvd</div></td>
-                                <td><a th:href="@{'/superadmin/chat'}">Andreina Bravo Torres</a></td>
-                                <td><img th:src="@{'assets/img/messages-1.jpg'}" alt="" class="rounded-circle"></td>
+                                <td>Quae dolorem earum veritatis oditseno</td>
+                                <td><i class="bi bi-check-circle text-success"></i></td>
                                 <td>21:04:06 17/8/23</td>
+
                             </tr>
 
                             </tbody>
@@ -133,10 +180,11 @@
 
 </main><!-- End #main -->
 
+
 <!-- ======= Footer ======= -->
 <footer id="footer" class="footer">
     <div class="copyright">
-        &copy; Copyright <strong><span>Clinica LA FE</span></strong>. All Rights Reserved
+        &copy; Copyright <strong><span>Clīnica LA FE</span></strong>. All Rights Reserved
     </div>
     <div class="credits">
         <!-- All the links in the footer should remain intact. -->

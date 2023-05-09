@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:insert="superadmin/fragments/librerias.html :: cabecera (titulo = 'registroadministrador')">
+<head th:insert="superadmin/fragments_spa/librerias_spa.html :: cabecera (titulo = 'registroadministrador')">
 </head>
 
 <body>
 
 <!-- ======= Header ======= -->
-<header th:replace="superadmin/fragments/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1', nombre = 'A. Jauregui', num_men = '3')">
+<header th:replace="superadmin/fragments_spa/header_spa.html :: header(num_not = '3', num_form = '2 ', por_canc = '1', nombre = 'A. Jauregui', num_men = '3')">
 </header>
 <!-- End Header -->
 
 <!-- ======= Sidebar ======= -->
-<aside th:replace="superadmin/fragments/aside.html :: sidebar (active = 'registroadministrador')">
+<aside th:replace="superadmin/fragments_spa/aside_spa.html :: sidebar (active = 'registroadministrador')">
 </aside>
 <!-- End Sidebar-->
 
@@ -35,7 +35,7 @@
         <h1>Registro para Administradores</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                <li class="breadcrumb-item"><a href="index_spa.html">Home</a></li>
                 <li class="breadcrumb-item">Registro</li>
                 <li class="breadcrumb-item active">Administrador</li>
             </ol>
