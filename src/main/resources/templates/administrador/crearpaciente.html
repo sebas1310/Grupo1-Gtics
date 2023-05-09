@@ -41,33 +41,33 @@
             <form class="row g-3" method="post" th:action="@{/administrador/guardar2}">
               <div class="col-12">
                 <label class="form-label">Nombres</label>
-                <input type="nombres" class="form-control" name="nombres" >
+                <input type="nombres" class="form-control" name="nombres" required >
               </div>
               <div class="col-12">
                 <label  class="form-label">Apellidos</label>
-                <input type="apellidos" class="form-control" name="apellidos">
+                <input  class="form-control" name="apellidos" required>
               </div>
               <div class="col-12">
                 <label class="form-label">Correo</label>
-                <input type="correo" class="form-control" name="correo">
+                <input  class="form-control" name="correo" required>
               </div>
               <div class="col-12">
                 <label class="form-label">DNI</label>
-                <input type="dni" class="form-control" name="dni">
+                <input class="form-control" name="dni" required>
               </div>
               <div class="col-12">
                 <label class="form-label">Celular</label>
-                <input type="celular" class="form-control" name="celular">
+                <input class="form-control" name="celular" required>
               </div>
               <div class="col-12">
                 <label class="form-label">Edad</label>
-                <input type="edad" class="form-control" name="edad">
+                <input class="form-control" name="edad" required>
               </div>
               <div class="col-12">
                 <label for="genero" class="form-label">Género</label>
                 <div class="form-control">
-                  <select class="form-control-plaintext " type="genero" id="genero" name="genero">
-                    <option value="null">Seleccionar</option>
+                  <select class="form-control-plaintext " id="genero" name="genero" required>
+                    <option disabled selected>Seleccionar</option>
                     <option value="Masculino">Masculino</option>
                     <option value="Femenino">Femenino</option>
                   </select>
@@ -75,7 +75,7 @@
               </div>
               <div class="col-12">
                 <label class="form-label">Dirección</label>
-                <input type="direccion" class="form-control" name="direccion">
+                <input class="form-control" name="direccion" required>
               </div>
               <div class="text-center">
                 <button type="submit" class="btn btn-success" style="color: white">Guardar Cambios</button>
