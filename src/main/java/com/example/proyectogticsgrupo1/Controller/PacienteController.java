@@ -1,5 +1,8 @@
 package com.example.proyectogticsgrupo1.Controller;
 
+
+import com.example.proyectogticsgrupo1.Repository.PacienteRepository;
+
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -50,22 +53,24 @@ public class PacienteController {
         return "empleado/nuevoEmpleado";
     }
 
-    @PostMapping("/empleado/guardar")
-    public String guardarEmpleado(
-            @RequestParam("nombre") String nombre,
-            @RequestParam("apellido") String apellido,
-            @RequestParam("email") String email,
-            @RequestParam("contrasena") String contrasena,
-            @RequestParam("puesto") String puesto_id,
-            @RequestParam("sueldo") double sueldo,
-            @RequestParam("EmpleadoJefe") int jefe_id,
-            @RequestParam("departamento") int departamento_id,
+
+    @PostMapping("/paciente/guardar")
+    public String guardarPaciente(
+            @RequestParam("direccion") String direccion,
+            @RequestParam("idestadopaciente") int idestadopaciente,
+            @RequestParam("idseguro") int idseguro,
+            @RequestParam("alergias") String alergias,
+            @RequestParam("consentimientos") int consentimientos ,
+            @RequestParam("idusuario") int idusuario,
+            @RequestParam("condicion_enfermedad") String condicion_enfermedad,
+            @RequestParam("poliza") String poliza,
+            @RequestParam("referido") Boolean referido ,
             RedirectAttributes redirectAttributes
     ){
 
-        employeeRepository.guardarEmpleado( nombre,  apellido,  email,  contrasena,  puesto_id,  sueldo,  jefe_id,  departamento_id);
+        PacienteRepository.guardarPaciente( direccion, idestadopaciente, idseguro, alergias, consentimientos, idusuario, condicion_enfermedad, poliza, referido);
         redirectAttributes.addFlashAttribute("msgGreen","Empleado creado exitosamente");
-        return "redirect:/empleado";
+        return "redirect:/administrativo/";
     }
 
 

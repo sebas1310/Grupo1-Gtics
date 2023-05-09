@@ -11,14 +11,19 @@ import java.util.List;
 
 public interface PacienteRepository extends JpaRepository<Paciente, Integer> {
 
+
+    @Transactional
+    @Modifying
+    @Query(value = "insert into `bdclinica_lafe`.`paciente` (`idpaciente`, `direccion`, `idestadopaciente`, `idseguro`, `alergias`,`consentimientos`, `condicion_enfermedad`, `poliza`,`referido` ) values ( ?1,?2,?3,?4,?5,?6,?7,?8,?9) ",
+            nativeQuery = true)
+    void guardarPaciente(int idpaciente, String direccion, int idestadopaciente, int idseguro, String alergias, int consentimientos, String condicion_enfermedad, String poliza, Boolean referido);
     @Query(value = "SELECT p FROM Paciente p JOIN p.usuario u WHERE u.tipodeusuario.idtipodeusuario = 4")
     List<Paciente> test();
-
 
     @Query(value = "SELECT p FROM Paciente p JOIN p.usuario u WHERE u.nombres = ?", nativeQuery = true)
     List<Paciente> buscarPaciente();
 
-    @Query(value = "SELECT p FROM Paciente p JOIN p.usuario u WHERE u.nombres = ? and referido = 1", nativeQuery = true)
+    @Query(value = "SELECT p FROM Paciente p JOIN p.usuario u WHERE referido = 1", nativeQuery = true)
     List<Paciente> buscarPacienteReferido();
 
     @Query(value = "SELECT DISTINCT p.* FROM cita c\n" +

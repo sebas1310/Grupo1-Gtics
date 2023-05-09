@@ -39,6 +39,10 @@ public class DoctorController {
         return "empleado/listar";
     }
 
+
+
+
+
     @GetMapping("/empleado/nuevo")
     public String empleadosNuevo(Model model){
         List<Job> listaPuestos = jobRepository.findAll();
@@ -49,6 +53,21 @@ public class DoctorController {
         model.addAttribute("listaDepartamentos",listaDepartamentos);
         return "empleado/nuevoEmpleado";
     }
+
+    @GetMapping("/empleado/nuevo")
+    public String empleadosNuevo(Model model){
+        List<Job> listaPuestos = jobRepository.findAll();
+        List<Department> listaDepartamentos = departmentRepository.findAll();
+        List<Employee> listaJefes = employeeRepository.listarEmpleados();
+        model.addAttribute("listaPuestos",listaPuestos);
+        model.addAttribute("listaJefes",listaJefes);
+        model.addAttribute("listaDepartamentos",listaDepartamentos);
+        return "empleado/nuevoPaciente";
+    }
+
+
+
+
 
     @PostMapping("/empleado/guardar")
     public String guardarEmpleado(
@@ -67,6 +86,9 @@ public class DoctorController {
         redirectAttributes.addFlashAttribute("msgGreen","Empleado creado exitosamente");
         return "redirect:/empleado";
     }
+
+
+
 
 
     @GetMapping("/empleado/editar")

@@ -49,4 +49,8 @@ public class Usuario {
     @Column(name = "estado", nullable = false)
     private int estado;
 
+    @Basic
+    @Column(name = "firma", nullable = false)
+    private byte[] firma;
+
 }

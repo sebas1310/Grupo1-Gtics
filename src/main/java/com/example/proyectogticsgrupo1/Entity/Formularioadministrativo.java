@@ -9,6 +9,7 @@ import lombok.Setter;
 @Setter
 @Table(name = "formularioadministrativo")
 public class Formularioadministrativo {
+
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "idformularioadministrativo")

@@ -21,12 +21,15 @@ public class Paciente {
     @ManyToOne
     @JoinColumn(name = "idestadopaciente")
     private Estadopaciente idestadopaciente;
+
     @ManyToOne
     @JoinColumn(name = "idseguro")
     private Seguro idseguro;
+
     @Basic
     @Column(name = "alergias")
     private String alergias;
+
     @Basic
     @Column(name = "consentimientos")
     private int consentimientos;
@@ -42,6 +45,10 @@ public class Paciente {
     @Basic
     @Column(name = "poliza")
     private String poliza;
+
+    @Basic
+    @Column(name = "referido")
+    private Boolean referido;
 
 
 }
