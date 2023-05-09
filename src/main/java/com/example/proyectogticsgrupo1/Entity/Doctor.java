@@ -41,4 +41,7 @@ public class Doctor {
     @Column(name = "zoom")
     private String zoom;
 
+    @Column(name = "consultorio")
+    private String consultorio;
+
 }
