@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-    <head th:insert="fragments/doctor/librerias.html :: cabecera (titulo = 'Historial Clinico')">
+    <head th:insert="fragments/doctor/librerias.html :: cabecera (titulo = 'Respuesta Mensaje')">
     </head>
     <body>
         <!-- ======= Header ======= -->
-        <header th:replace="fragments/doctor/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1', nombre = 'Abigail Ramirez', num_men = '2')">
+        <header th:replace="fragments/doctor/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1', nombre = |${doctor.usuario.nombres} ${doctor.usuario.apellidos}|, num_men = '2')">
         </header>
         <!-- End Header -->
         <!-- ======= Sidebar ======= -->
@@ -17,7 +17,7 @@
                     </a>
                 </li><!-- End Dashboard -->
                 <li class="nav-item"> <!-- Cambiar ref -->
-                    <a class="nav-link collapsed"  th:href="@{'/doctor/pacientesatendidos'}" >
+                    <a class="nav-link collapsed"  th:href="@{'/doctor/pacientesatendidos'+ '?id=' + ${doctor.iddoctor}}" >
                         <i class="bi bi-menu-button-wide"></i>
                         <span>Pacientes Atendidos</span>
                     </a>
@@ -29,7 +29,7 @@
                     </a>
                 </li><!-- End Calendario -->
                 <li class="nav-item">  <!-- cambia -->
-                    <a class="nav-link collapsed" th:href="@{'/doctor/perfil'}"  >
+                    <a class="nav-link collapsed" th:href="@{'/doctor/perfil'+ '?id=' + ${doctor.iddoctor}}"  >
                         <i class="bi bi-person"></i>
                         <span>Perfil</span>
                     </a>
@@ -41,7 +41,7 @@
                 <br><br><br>
                 <li class="nav-heading"> ----------------------------------------------- </li>
                 <li class="nav-item">
-                    <a class="nav-link collapsed" th:href="@{'/doctor/configuraciones'}" >
+                    <a class="nav-link collapsed" th:href="@{'/doctor/configuraciones'+ '?id=' + ${doctor.iddoctor}}" >
                         <i class="bi bi-gear"></i>
                         <span>Configuracion</span>
                     </a>
@@ -63,7 +63,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-success" data-bs-dismiss="modal"><a style="color: white" href="pages-login.html" >Salir</button>
+                        <button type="button" class="btn btn-success" data-bs-dismiss="modal"><a style="color: white" href="pages-login.html" >Salir</a></button>
                         <button type="button" class="btn btn-secondary"><a style="color: white" th:href="@{'/doctor/pacientesatendidos/verhistorial'}" >Cancelar</a></button>
                     </div>
                 </div>
@@ -116,13 +116,12 @@
 
                                 <form method="post" th:action="@{'/doctor/mensajeria/enviarmensaje/envio'}" class="row g-3">
 
-                                    <!--<input th:value="${usuario.getIdUsuario()}" name="idUsuario" type="hidden" > -->
-                                    <input th:value="${mensaje.getIdMensaje()}" name="idM" type="hidden" />
+                                    <!--<input th:value="${usuario.getIdUsuario()}" name="idUsuario" type="hidden" >
+                                    <input th:value="${mensaje.getIdMensaje()}" name="idM" type="hidden" />-->
 
                                     <div class="col-md-6">
                                         <label for="email" class="form-label">Correo Destino</label>
-                                        <input th:value="|${mensaje.getUsuarioOrigen().getNombres()}|" type="text"  class="form-control" id="email" disabled readonly>
-                                    </div>
+                                        <input th:value="${usuariorigen.getCorreo()}" type="text" name="correodestino" class="form-control" id="email"  ></div>
 
                                     <div class="col-md-6">
                                         <label for="asunt" class="form-label">Asunto</label>

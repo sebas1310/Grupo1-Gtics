@@ -136,8 +136,13 @@ public class DoctorController {
 
     @GetMapping("/pacientesatendidos/verhistorial/boleta")
     public String verBoletaDoctor(Model model, @RequestParam("id") int idCita ){
-        BoletaDoctor boletaDoctor = boletaDoctorRepository.buscarBoletaDoctorCita(idCita);
-        model.addAttribute("boletadoctor",boletaDoctor);
+        Optional<Doctor> optDoctor = doctorRepository.findById(2);
+        if (optDoctor.isPresent()) {
+            Doctor doctor1 = optDoctor.get();
+            model.addAttribute("doctor", doctor1);
+            BoletaDoctor boletaDoctor = boletaDoctorRepository.buscarBoletaDoctorCita(idCita);
+            model.addAttribute("boletadoctor", boletaDoctor);
+        }
         return "doctor/boletaDoc";
     }
 
@@ -146,11 +151,13 @@ public class DoctorController {
                                 @RequestParam(name="idReceta", defaultValue = "0") int idReceta)
     {
         Optional<Doctor> optDoctor = doctorRepository.findById(2);
+        Optional<Cita> optCita = citaRepository.findById(idCita);
+        //Optional<Paciente> optPaciente = pacienteRepository.findById(idPaciente);
         if (optDoctor.isPresent()) {
             Doctor doctor1 = optDoctor.get();
             model.addAttribute("doctor", doctor1);
-            Cita cita1 = citaRepository.buscarCitaPorId(idCita);
-            model.addAttribute("cita", cita1);
+            Cita cita =optCita.get();
+            model.addAttribute("cita", cita);
             model.addAttribute("recetamedica", recetaMedicaRepository.buscarRecetaMedicaPorCita(idCita, idReceta));
             model.addAttribute("reportecita", reporteCitaRepository.buscarReporteCitaPorId(idCita));
         }
@@ -228,10 +235,15 @@ public class DoctorController {
         }
 
     @GetMapping("/calendario")
-    public String calendarioDoctor(Model model, @RequestParam("id") int idDoctor){
+    public String calendarioDoctor(Model model){
         //List<Event> events =
-        List<Eventocalendariodoctor> events = eventocalendariodoctorRepository.calendarioPorDoctor(idDoctor);
-        model.addAttribute("events", events);
+        //List<Eventocalendariodoctor> events = eventocalendariodoctorRepository.calendarioPorDoctor(idDoctor);
+        //model.addAttribute("events", events);
+        Optional<Doctor> optDoctor = doctorRepository.findById(2);
+        if (optDoctor.isPresent()) {
+            Doctor doctor1 = optDoctor.get();
+            model.addAttribute("doctor", doctor1);
+        }
         return "doctor/calendarioDoc";
     }
 
@@ -283,7 +295,7 @@ public class DoctorController {
         if (optDoctor.isPresent()) {
             Doctor doctor1 = optDoctor.get();
             model.addAttribute("listamensajes",mailCorreoRepository.buscarMensajesRecibidosPorID(doctor1.getUsuario().getIdusuario()));
-            //model.addAttribute("doctor", doctor1);
+            model.addAttribute("doctor", doctor1);
         }
         return "doctor/mensajeriaDoc";
     }
@@ -297,14 +309,14 @@ public class DoctorController {
         if (optDoctor.isPresent()) {
             Doctor doctor1 = optDoctor.get();
             model.addAttribute("mensaje",mailCorreoRepository.buscarMensajePorID(idMensaje));
-            //model.addAttribute("doctor", doctor1);
+            model.addAttribute("doctor", doctor1);
         }
         return "doctor/verMensajeDoc";
     }
 
     @GetMapping("/mensajeria/respondermensaje")
     public String responderMensajeDoctor(Model model, @RequestParam("asunto") String asunto,
-                                         @RequestParam("idM") int idMensaje){
+                                         @RequestParam("id") int idUsuarioOrigen){
 
         /*@RequestParam("id") int idD*/
         Optional<Doctor> optDoctor = doctorRepository.findById(2);
@@ -312,11 +324,11 @@ public class DoctorController {
         if (optDoctor.isPresent()) {
             Doctor doctor1 = optDoctor.get();
             model.addAttribute("historialmensajes",mailCorreoRepository.buscarMensajePorAsunto(asunto));
-            model.addAttribute("mensaje",mailCorreoRepository.buscarMensajePorID(idMensaje));
-            //model.addAttribute("doctor", doctor1);
+            model.addAttribute("usuariorigen",userRepository.usuarioDestino(idUsuarioOrigen));
+            model.addAttribute("doctor", doctor1);
         }
         return "doctor/responderMensajeDoc";
-    }
+}
 
 
 

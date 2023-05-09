@@ -17,19 +17,19 @@
                     </a>
                 </li><!-- End Dashboard -->
                 <li class="nav-item"> <!-- Cambiar ref -->
-                    <a class="nav-link"  th:href="@{'/doctor/pacientesatendidos'}" >
+                    <a class="nav-link"  th:href="@{'/doctor/pacientesatendidos'+ '?id=' + ${doctor.iddoctor}}" >
                         <i class="bi bi-menu-button-wide"></i>
                         <span>Pacientes Atendidos</span>
                     </a>
                 </li><!-- End Pacientes Atendidos -->
                 <li class="nav-item">  <!-- cambia -->
-                    <a class="nav-link collapsed"  th:href="@{'/doctor/calendario'}" >
+                    <a class="nav-link collapsed"  th:href="@{'/doctor/calendario'+ '?id=' + ${doctor.iddoctor}}" >
                         <i class="bi bi-calendar3"></i>
                         <span>Calendario</span>
                     </a>
                 </li><!-- End Calendario -->
                 <li class="nav-item">  <!-- cambia -->
-                    <a class="nav-link collapsed" th:href="@{'/doctor/perfil'}"  >
+                    <a class="nav-link collapsed" th:href="@{'/doctor/perfil'+ '?id=' + ${doctor.iddoctor}}"  >
                         <i class="bi bi-person"></i>
                         <span>Perfil</span>
                     </a>
@@ -41,7 +41,7 @@
                 <br><br><br>
                 <li class="nav-heading"> ----------------------------------------------- </li>
                 <li class="nav-item">
-                    <a class="nav-link collapsed" th:href="@{'/doctor/configuraciones'}" >
+                    <a class="nav-link collapsed" th:href="@{'/doctor/configuraciones'+ '?id=' + ${doctor.iddoctor}}" >
                         <i class="bi bi-gear"></i>
                         <span>Configuracion</span>
                     </a>
@@ -77,8 +77,8 @@
                 <h1>Boleta Doctor</h1>
                 <nav>
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a th:href="@{'/doctor/pacientesatendidos'}">Pacientes Atendidos</a></li>
-                        <li class="breadcrumb-item ">Historial Clínico</li>
+                        <li class="breadcrumb-item"><a th:href="@{'/doctor/pacientesatendidos'+ '?id=' + ${doctor.iddoctor}}">Pacientes Atendidos</a></li>
+                        <li class="breadcrumb-item " >Historial Clínico</li>
                         <li class="breadcrumb-item active">Boleta</li>
                     </ol>
                 </nav>

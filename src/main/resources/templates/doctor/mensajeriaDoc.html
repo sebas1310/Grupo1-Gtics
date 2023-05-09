@@ -4,7 +4,7 @@
     </head>
     <body>
         <!-- ======= Header ======= -->
-        <header th:replace="fragments/doctor/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1', nombre = 'Abigail Ramirez', num_men = '2')">
+        <header th:replace="fragments/doctor/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1', nombre = |${doctor.usuario.nombres} ${doctor.usuario.apellidos}|, num_men = '2')">
         </header>
         <!-- End Header -->
         <!-- ======= Sidebar ======= -->
@@ -17,7 +17,7 @@
                     </a>
                 </li><!-- End Dashboard -->
                 <li class="nav-item"> <!-- Cambiar ref -->
-                    <a class="nav-link collapsed"  th:href="@{'/doctor/pacientesatendidos'}" >
+                    <a class="nav-link collapsed"  th:href="@{'/doctor/pacientesatendidos'+ '?id=' + ${doctor.iddoctor}}" >
                         <i class="bi bi-menu-button-wide"></i>
                         <span>Pacientes Atendidos</span>
                     </a>
@@ -29,7 +29,7 @@
                     </a>
                 </li><!-- End Calendario -->
                 <li class="nav-item">  <!-- cambia -->
-                    <a class="nav-link collapsed" th:href="@{'/doctor/perfil'}"  >
+                    <a class="nav-link collapsed" th:href="@{'/doctor/perfil'+ '?id=' + ${doctor.iddoctor}}"  >
                         <i class="bi bi-person"></i>
                         <span>Perfil</span>
                     </a>
@@ -41,7 +41,7 @@
                 <br><br><br>
                 <li class="nav-heading"> ----------------------------------------------- </li>
                 <li class="nav-item">
-                    <a class="nav-link collapsed" th:href="@{'/doctor/configuraciones'}" >
+                    <a class="nav-link collapsed" th:href="@{'/doctor/configuraciones'+ '?id=' + ${doctor.iddoctor}}" >
                         <i class="bi bi-gear"></i>
                         <span>Configuracion</span>
                     </a>
@@ -111,7 +111,7 @@
                                             <!-- deriva al historial del paciente th:href="@{'/administrador/chat'}" -->
                                             <td style="text-align: center" th:text="|${mensaje.getFecha()} ${mensaje.getHora()}|"></td>
                                             <td style="text-align: center" th:if="${mensaje.getUsuarioOrigen().getTipodeusuario().getIdtipodeusuario() eq 3}">
-                                                <a th:href="@{'/doctor/mensajeria/respondermensaje'+'?asunto=' + ${mensaje.getAsunto()} +'$idM'+ ${mensaje.getIdMensaje()}}" class="btn btn-danger">Responder</a></td>
+                                                <a th:href="@{'/doctor/mensajeria/respondermensaje'+'?asunto=' + ${mensaje.getAsunto()} +'&id='+ ${mensaje.getUsuarioOrigen().getIdusuario()}}" class="btn btn-danger">Responder</a></td>
                                             <td style="text-align: center" th:unless="${mensaje.getUsuarioOrigen().getTipodeusuario().getIdtipodeusuario() eq 3}">
                                                 <a th:href="@{'/doctor/mensajeria/vermensaje'+'?idM=' + ${mensaje.getIdMensaje()}}" class="btn btn-danger">Visualizar</a></td>
                                             </tr>
