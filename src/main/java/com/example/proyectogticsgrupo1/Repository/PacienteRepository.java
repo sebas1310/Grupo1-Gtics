@@ -1,4 +1,4 @@
-package com.example.proyectogticsgrupo1.Repository;
+/*package com.example.proyectogticsgrupo1.Repository;*/
 
 import com.example.proyectogticsgrupo1.Entity.Paciente;
 import com.example.proyectogticsgrupo1.Entity.Usuario;

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Dashboard - NiceAdmin Bootstrap Template</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="assets/img/favicon.png" rel="icon">
+  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.gstatic.com" rel="preconnect">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link th:href="@{'/assets/vendor/bootstrap/css/bootstrap.min.css'}" rel="stylesheet">
+  <link th:href="@{'/assets/vendor/bootstrap-icons/bootstrap-icons.css'}" rel="stylesheet">
+  <link th:href="@{'/assets/vendor/boxicons/css/boxicons.min.css'}" rel="stylesheet">
+  <link th:href="@{'/assets/vendor/quill/quill.snow.css'}" rel="stylesheet">
+  <link th:href="@{'/assets/vendor/quill/quill.bubble.css'}" rel="stylesheet">
+  <link th:href="@{'/assets/vendor/remixicon/remixicon.css'}" rel="stylesheet">
+  <link th:href="@{'/assets/vendor/simple-datatables/style.css'}" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.4/font/bootstrap-icons.css">
+
+  <!-- Template Main CSS File -->
+  <link th:href="@{'/assets/css/style.css'}" rel="stylesheet">
+
+  <!-- =======================================================
+  * Template Name: NiceAdmin - v2.4.0
+  * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+</head>
+
+<body>
+
+
+
+<!-- ======= Header ======= -->
+<header th:replace="fragments/administrativo/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1', nombre = 'L. Anderson', num_men = '3')">
+</header>
+<!-- End Header -->
+<!-- ======= Sidebar ======= -->
+<aside th:replace="fragments/administrativo/aside.html :: sidebar (active = 'nuevopaciente')">
+</aside>
+<div class="modal fade" id="verticalycentered" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">¿Seguro que deseas Salir?</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-warning" data-bs-dismiss="modal"><a style="color: white" href="inicio.html" >Salir</button>
+        <button type="button" class="btn btn-secondary"><a style="color: white" th:href="@{'/administrativo/invitar'}"  >Cancelar</a></button>
+      </div>
+    </div>
+  </div>
+</div><!-- End Vertically centered Modal-->
+
+
+<main id="main" class="main">
+
+  <div class="pagetitle">
+    <h1>Formulario de Registro</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a th:href="@{'/administrativo/dashboard'}" >Home</a></li>
+        <li class="breadcrumb-item active">Nuevo Paciente</li>
+      </ol>
+    </nav>
+  </div><!-- End Page Title -->
+
+  <section class="section">
+    <div class="row">
+      <div class="col-lg-20">
+
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Formulario</h5>
+
+            <form class="row g-3">
+              <div class="col-12">
+                <label for="inputNanme4" class="form-label">Nombre del Paciente</label>
+                <input type="text" class="form-control" id="inputNanme4">
+              </div>
+              <div class="col-12">
+                <label for="inputEmail4" class="form-label">Email</label>
+                <input type="email" class="form-control" id="inputEmail4">
+              </div>
+              <div class="col-12">
+                <label for="inputNanme4" class="form-label">Telefono</label>
+                <input type="text" class="form-control" id="inputNanme4">
+              </div>
+              <div class="col-12">
+                <label for="inputPassword4" class="form-label">Usuario</label>
+                <input type="text" class="form-control" id="inputAddress">
+              </div>
+              <div class="col-12">
+                <label for="inputAddress" class="form-label">Contraseña</label>
+                <input type="password" class="form-control" id="inputPassword4">
+              </div>
+              <div class="col-12">
+                <label for="inputAddress" class="form-label">Repetir Contraseña</label>
+                <input type="password" class="form-control" id="inputPassword4">
+              </div>
+              <div class="text-center">
+                <button type="submit" class="btn btn-warning" ><a th:href="@{'/administrativo/dashboardpacientes'}" >Enviar registro por correo  <i class="bi bi-google"></i></a></button>
+                <button type="reset" class="btn btn-secondary"><a th:href="@{'/administrativo/nuevopaciente'}" >Cancelar</a></button>
+              </div>
+            </form><!-- Vertical Form -->
+
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+    </div>
+    </div>
+  </section>
+
+
+
+
+
+
+
+
+
+
+</main><!-- End #main -->
+
+<!-- ======= Footer ======= -->
+<footer id="footer" class="footer">
+  <div class="copyright">
+    &copy; Copyright <strong><span>ClinicaLAFE</span></strong>. All Rights Reserved
+  </div>
+  <div class="credits">
+    <!-- All the links in the footer should remain intact. -->
+    <!-- You can delete the links only if you purchased the pro version. -->
+    <!-- Licensing information: https://bootstrapmade.com/license/ -->
+    <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
+    Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+  </div>
+</footer><!-- End Footer -->
+
+<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+<!-- Vendor JS Files -->
+<script th:src="@{'/assets/vendor/apexcharts/apexcharts.min.js'}"></script>
+<script th:src="@{'/assets/vendor/bootstrap/js/bootstrap.bundle.min.js'}"></script>
+<script th:src="@{'/assets/vendor/chart.js/chart.min.js'}"></script>
+<script th:src="@{'/assets/vendor/echarts/echarts.min.js'}"></script>
+<script th:src="@{'/assets/vendor/quill/quill.min.js'}"></script>
+<script th:src="@{'/assets/vendor/simple-datatables/simple-datatables.js'}"></script>
+<script th:src="@{'/assets/vendor/tinymce/tinymce.min.js'}"></script>
+<script th:src="@{'/assets/vendor/php-email-form/validate.js'}"></script>
+
+<!-- Template Main JS File -->
+<script th:src="@{'/assets/js/main.js'}"></script>
+
+</body>
+
+</html>
+
