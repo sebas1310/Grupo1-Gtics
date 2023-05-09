@@ -55,7 +55,7 @@ public class SuperadminController {
 
 
 
-        return "index_spa";
+        return "/superadmin/index_spa";
     }
     @GetMapping("/listaform")
     public String listaFormularios(Model model){
@@ -64,29 +64,29 @@ public class SuperadminController {
         model.addAttribute("modeloEntityList",modeloEntityList);
 
 
-        return "lista_plantillas_spa";
+        return "/superadmin/lista_plantillas_spa";
     }
 
     @GetMapping("/chat")
     public String chats(){
-        return "chat_spa";
+        return "/superadmin/chat_spa";
     }
 
     @GetMapping("/editarreportes")
     public String editarReportes(){
-        return "editar-reportes_spa";
+        return "/superadmin/editar-reportes_spa";
     }
     @GetMapping("/editarforms")
     public String editarForms(){
-        return "forms-editors_spa";
+        return "/superadmin/forms-editors_spa";
     }
     @GetMapping("/registro")
     public String registrarUsuarios(){
-        return "pages-blank_spa";
+        return "/superadmin/pages-blank_spa";
     }
     @GetMapping("/mensajeria")
     public String mensajeria(){
-        return "mensajeria_spa";
+        return "/superadmin/mensajeria_spa";
     }
 
     @GetMapping("/perfil")
@@ -96,12 +96,12 @@ public class SuperadminController {
         Optional<Usuario> optionalSuperadmin = usuarioRepository.findById(1);
         Usuario usuario = optionalSuperadmin.get();
         model.addAttribute("superadminlog", usuario);
-        return "users-profile_spa";
+        return "/superadmin/users-profile_spa";
     }
     @GetMapping("/registraradministrativo")
     public String registrarAdministrativo(Model model){
 
-        return "superadmin/pages-registrar-administrativo";
+        return "/superadmin/pages-registrar-administrativo";
     }
     @GetMapping("/registraradministrador")
     public String registrarAdministrador(Model model){
@@ -118,7 +118,7 @@ public class SuperadminController {
             attr.addFlashAttribute("msg","Administrador actualizado");
         }
         usuarioRepository.save(usuario);
-        return "redirect:/registro";
+        return "redirect:/superadmin/registro";
     }
 
     @GetMapping("/delete")
@@ -134,7 +134,7 @@ public class SuperadminController {
             attr.addFlashAttribute("msg" ,"Usuario borrado");
         }
 
-        return "redirect:/index";
+        return "redirect:/superadmin/index";
 
     }
 
@@ -147,17 +147,17 @@ public class SuperadminController {
             model.addAttribute("usuario", usuario);
             return "users-profile_spa";
         }else{
-            return "redirect:/index";
+            return "redirect:/superadmin/index";
         }
     }
     @GetMapping("/reportes")
     public String listaReportes(){
-        return "tables-general_spa";
+        return "/superadmin/tables-general_spa";
     }
 
     @GetMapping("/configuracion")
     public String configuraciones(){
-        return "configuraciones_spa";
+        return "/superadmin/configuraciones_spa";
     }
 
     @GetMapping("/nuevoform")
@@ -172,7 +172,7 @@ public class SuperadminController {
         model.addAttribute("especialidadList",especialidadList);
 
 
-        return "nuevoformulario_spa";
+        return "/superadmin/nuevoformulario_spa";
     }
 
 
@@ -245,16 +245,16 @@ public class SuperadminController {
 
     @GetMapping("/notificaciones")
     public String historialNotificaciones(){
-        return "historial-notificaciones_spa";
+        return "/superadmin/historial-notificaciones_spa";
     }
     @GetMapping("/perfilUsuario")
     public String perfilUsuario(){
-        return "perfil-usuarios_spa";
+        return "/superadmin/perfil-usuarios_spa";
     }
 
     @GetMapping("/seguros")
     public String seguro(){
-        return "seguros_spa";
+        return "/superadmin/seguros_spa";
     }
 
 
