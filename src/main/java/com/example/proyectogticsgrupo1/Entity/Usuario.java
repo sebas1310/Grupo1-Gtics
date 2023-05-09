@@ -37,7 +37,6 @@ public class Usuario {
     @Column(name = "dni", nullable = false)
     private String dni;
 
-
     @Column(name = "correo", nullable = false)
     private String correo;
 
