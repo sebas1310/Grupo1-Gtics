@@ -56,8 +56,6 @@ public class Cita {
     @JoinColumn(name = "paciente_idpaciente",  nullable = false)
     private Paciente paciente;
 
-    @Column(name = "pendiente_examenes")
-    private Integer pendiente_examenes;
 
     @ManyToOne
     @JoinColumn(name = "doctor_iddoctor", nullable = false)
