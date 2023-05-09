@@ -18,6 +18,9 @@ public interface PacienteRepository extends JpaRepository<Paciente, Integer> {
     @Query(value = "SELECT p FROM Paciente p JOIN p.usuario u WHERE u.nombres = ?", nativeQuery = true)
     List<Paciente> buscarPaciente();
 
+    @Query(value = "SELECT p FROM Paciente p JOIN p.usuario u WHERE u.nombres = ? and referido = 1", nativeQuery = true)
+    List<Paciente> buscarPacienteReferido();
+
     @Query(value = "SELECT DISTINCT p.* FROM cita c\n" +
             "       INNER JOIN paciente p ON c.paciente_idpaciente = p.idpaciente\n" +
             "       INNER JOIN estadopaciente e ON p.idestadopaciente = e.idestadopaciente\n"+
@@ -56,6 +59,7 @@ public interface PacienteRepository extends JpaRepository<Paciente, Integer> {
             "OR lower(u.apellidos) like %?1%\n" +
             "OR lower(e.nombre) like %?1%)  and estado_habilitado = 1 and c.idsede = 2)", nativeQuery = true)
     List<Paciente> buscadorInvitado(String buscando);
+
 
     @Transactional
     @Modifying

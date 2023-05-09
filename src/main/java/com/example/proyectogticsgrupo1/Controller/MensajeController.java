@@ -9,7 +9,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.List;
 import java.util.Optional;
 
-public class PacienteController {
+public class MensajeController {
 
 
     final EmployeeRepository employeeRepository;
@@ -90,11 +90,9 @@ public class PacienteController {
             redirectAttributes.addFlashAttribute("msgRed","No se encontró al empleado");
             return "redirect:/empleado";
         }
-
-
     }
 
-    @PostMapping("/empleado/guardareditar")
+    @PostMapping("/paciente/guardareditar")
     public String editarEmpleado(
             @RequestParam("nombre") String nombre,
             @RequestParam("apellido") String apellido,
