@@ -31,14 +31,8 @@
 <main id="main" class="main">
 
     <div class="pagetitle">
-        <h1>Registro para Administrativos</h1>
-        <nav>
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="index_spa.html">Home</a></li>
-                <li class="breadcrumb-item">Registro</li>
-                <li class="breadcrumb-item active">Administrativo</li>
-            </ol>
-        </nav>
+        <h1 th:text="|Registro para ${t}|">Registro para Administrativos</h1>
+
     </div><!-- End Page Title -->
 
     <section class="section">
@@ -83,7 +77,7 @@
                             <div class="row mb-3">
                                 <label class="col-form-label">Edad</label>
                                 <div class="col-sm-10">
-                                    <input type="number" class="form-control" th:field="*{edad}" required>
+                                    <input  class="form-control" th:field="*{edad}" required>
                                 </div>
                             </div>
 
@@ -115,7 +109,8 @@
                                     </select>
                                 </div>
                             </div>
-                            <input type="hidden" th:name="tipodeusuario.idtipodeusuario" th:value="3">
+                            <input type="hidden"  th:if="${t eq 'administrativo'}" th:name="tipodeusuario.idtipodeusuario" th:value="3">
+                            <input type="hidden"  th:if="${t eq 'administrador'}" th:name="tipodeusuario.idtipodeusuario" th:value="2">
                             <div class="row mb-3">
                                 <div class="col-sm-10">
                                     <button type="submit" class="btn btn-primary">Guardar Cambios</button>

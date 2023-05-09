@@ -96,7 +96,9 @@ public class SuperadminController {
         return "/superadmin/users-profile_spa";
     }
     @GetMapping("/registraradministrativo")
-    public String registrarAdministrativo(@ModelAttribute("usuario") Usuario usuario, Model model){
+    public String registrarAdministrativo(@ModelAttribute("usuario") Usuario usuario, Model model, @RequestParam("t") String t){
+        System.out.println(t);
+        model.addAttribute("t",t);
         return "/superadmin/pages-registrar-administrativo";
     }
     @GetMapping("/registraradministrador")
@@ -123,15 +125,6 @@ public class SuperadminController {
 ;
         return "redirect:/superadmin/index";
     }
-    @PostMapping("/saveusuario")
-    public String editarUsuarios(Usuario superadminlog, RedirectAttributes attr){
-        System.out.println("id"+superadminlog.getIdusuario());
-
-        attr.addFlashAttribute("msg","Superadmin actualizado");
-
-        usuarioRepository.save(superadminlog);
-        return "redirect:/superadmin/perfil";
-    }
 
     @PostMapping("/savespa")
     public String guardarSuperadmin(Usuario superadminlog, RedirectAttributes attr){
@@ -145,6 +138,7 @@ public class SuperadminController {
 
     @PostMapping("/save")
     public String guardarAdministrador(Usuario usuario, RedirectAttributes attr){
+        System.out.println(usuario.getCelular());
         usuario.setContrasena(RandomStringUtils.random(10, true, true));
 
 
