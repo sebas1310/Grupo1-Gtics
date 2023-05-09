@@ -72,8 +72,8 @@
               <tbody>
                 <tr th:each="usuariod, info: ${listaUsuarioDoctores}">
                   <th scope="row" th:text="${info.index + 1}"></th>
-                  <td th:text="${usuariod.usuario.nombres} + ' ' + ${usuariod.usuario.apellidos}"></td>
-                  <td th:text="${usuariod.especialidad.nombre}"></td>
+                  <td><a th:text="${usuariod.usuario.nombres} + ' ' + ${usuariod.usuario.apellidos}" th:href="@{'/administrador/detallesdoctor' + '?id=' + ${usuariod.getIddoctor}}"></a></td>
+                  <td th:text="${#strings.capitalize(usuariod.especialidad.nombre)}"></td>
                 </tr>
               </tbody>
             </table>

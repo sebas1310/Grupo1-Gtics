@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.print.Doc;
 import java.time.LocalDate;
 import java.util.Random;
 
@@ -46,12 +47,15 @@ public class AdministradorController {
         if (usuarioopt.isPresent()) {
             Usuario user = usuarioopt.get();
             model.addAttribute("usuario", user);
+            List<Paciente> listaPacientesSD = pacienteRepository.listarPacienteporSedeDashboard(2); // a futuro cambiar
+            model.addAttribute("listaUsuariosPacientes", listaPacientesSD);
+            List<Doctor> listaDoctoresSD = doctorRepository.listarDoctorporSedeDashboard(2);
+            model.addAttribute("listaUsuarioDoctores", listaDoctoresSD);
             return "administrador/dashboard";
         } else {
             return "redirect:/iniciosesion";
         }
     }
-
 
     @GetMapping(value = "/nuevopaciente")
     public String creandoPaciente(Model model) {
@@ -96,7 +100,7 @@ public class AdministradorController {
     }*/
 
     @PostMapping(value = "/guardar2")
-    public String guardarUsuario(Usuario user, RedirectAttributes attr, Model model){
+    public String guardarUsuario(Usuario user, RedirectAttributes attr, Model model, @RequestParam("direccion") String direccion){
 
         if (user.getIdusuario() == null) {
             attr.addFlashAttribute("msg", "Paciente creado exitosamente");
@@ -111,14 +115,13 @@ public class AdministradorController {
         usuarioRepository.save(user);
         Paciente paciente = new Paciente();
         EstadoPaciente estadoPaciente = new EstadoPaciente();
-        estadoPaciente.setIdestadopaciente(2);
+        estadoPaciente.setIdestadopaciente(1);
         paciente.setEstadoPaciente(estadoPaciente);
-        paciente.setDireccion("-");
+        paciente.setDireccion(direccion);
         paciente.setConsentimientos(0);
         Seguro seguro = new Seguro();
         seguro.setIdseguro(7);
         paciente.setSeguro(seguro);
-        paciente.setIdpaciente(10); //cambiar
         paciente.setUsuario(user);
         paciente.setCondicionenfermedad("-");
         pacienteRepository.save(paciente);
@@ -378,12 +381,16 @@ public class AdministradorController {
         }
     }
 
+
     @GetMapping(value = "/detallesdoctor")
-    public String Detalles(Model model) {
+    public String Detalles(Model model, @RequestParam("id") int idDoctor) {
         Optional<Usuario> usuarioopt = usuarioRepository.findById(2);
         if (usuarioopt.isPresent()) {
             Usuario user = usuarioopt.get();
             model.addAttribute("usuario", user);
+            Doctor doctor = doctorRepository.buscarDoctorH(idDoctor);
+            model.addAttribute("doctor",doctor);
+
             return "administrador/detallesdoctor";
         } else {
             return "redirect:/iniciosesion";
@@ -417,7 +424,7 @@ public class AdministradorController {
 
 
     @PostMapping(value = "/guardar3")
-    public String guardarDoctor(Usuario user, RedirectAttributes attr, Model model){
+    public String guardarDoctor(Usuario user, RedirectAttributes attr, Model model, @RequestParam("especialidad") int idEspecialidad){
 
         if (user.getIdusuario() == null) {
             attr.addFlashAttribute("msg", "Doctor creado exitosamente");
@@ -430,9 +437,21 @@ public class AdministradorController {
         user.setTipodeusuario(tipodeusuario);
         user.setContrasena(generarContrasena(10));
         usuarioRepository.save(user);
-        return "redirect:/administrador/crearpaciente";
-
-
+        Doctor doctor = new Doctor();
+        doctor.setCmp(0);
+        doctor.setFormacion("-");
+        doctor.setRne(0);
+        doctor.setCapacitaciones("-");
+        Sede sede = new Sede();
+        sede.setIdsede(2);
+        doctor.setSede(sede);
+        Especialidad especialidad = new Especialidad();
+        especialidad.setIdespecialidad(idEspecialidad);
+        doctor.setEspecialidad(especialidad);
+        doctor.setUsuario(user);
+        doctor.setConsultorio("-");
+        doctorRepository.save(doctor);
+        return "redirect:/administrador/creardoctor";
     }
 
     @GetMapping(value = "/perfil")

@@ -24,6 +24,11 @@ public interface DoctorRepository extends JpaRepository<Doctor, Integer> {
     List<Doctor> listarDoctorporSede(int idsede);
 
     @Query(value = "SELECT DISTINCT d.* FROM cita c\n" +
+            "    JOIN doctor d on c.doctor_iddoctor = d.iddoctor\n" +
+            "    JOIN usuario u on d.idusuario = u.idusuario where c.idsede = ?1 LIMIT 5", nativeQuery = true)
+    List<Doctor> listarDoctorporSedeDashboard(int idsede);
+
+    @Query(value = "SELECT DISTINCT d.* FROM cita c\n" +
             "INNER JOIN doctor d ON c.doctor_iddoctor = d.iddoctor\n" +
             "INNER JOIN usuario u on d.idusuario = u.idusuario\n" +
             "INNER JOIN especialidad e on d.idespecialidad = e.idespecialidad\n" +
@@ -31,6 +36,9 @@ public interface DoctorRepository extends JpaRepository<Doctor, Integer> {
             "OR lower(u.apellidos) like %?1%\n" +
             "OR lower(e.nombre) like %?1%) and estado_habilitado = 1 and c.idsede = 2)", nativeQuery = true)
     List<Doctor> buscadorDoctor(String buscando);
+
+    @Query(value = "select * from doctor where iddoctor= ?1", nativeQuery = true)
+    Doctor buscarDoctorH(Integer idDoctor);
 
 
 }

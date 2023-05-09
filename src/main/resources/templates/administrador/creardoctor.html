@@ -61,15 +61,16 @@
                 <div class="form-control">
                   <select class="form-control-plaintext " type="genero" id="inputGenero" name="genero">
                     <option value="null">Seleccionar</option>
-                    <option value="value1">Masculino</option>
-                    <option value="value2">Femenino</option>
+                    <option value="Masculino">Masculino</option>
+                    <option value="Femenino">Femenino</option>
                   </select>
                 </div>
               </div>
               <div class="col-12">
                 <label for="inputEspecialidad" class="form-label">Especialidad</label>
                 <div class="form-control">
-                  <select name="select" class="form-control-plaintext " id="inputEspecialidad" th:field="*{especialidad.idespecialidad}">
+                  <select class="form-control-plaintext " id="inputEspecialidad" name="especialidad" th:value="*{especialidad.idespecialidad}">
+                    <option value="null">Seleccionar</option>
                     <option th:each="especialidad : ${listaEspecialidad}" th:value="${especialidad.idespecialidad}"
                             th:text="${especialidad.nombre}"></option>
                   </select>

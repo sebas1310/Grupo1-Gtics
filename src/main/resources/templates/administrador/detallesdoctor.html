@@ -49,8 +49,8 @@
           <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
 
             <img th:src="@{/assets/img/profile-img.jpg}" alt="Profile" class="rounded-circle">
-            <h2>Kevin Anderson</h2>
-            <h3>Doctor</h3>
+            <h2><span th:text="${doctor.getUsuario().getNombres()}"></span></h2>
+            <h3><span th:text="${#strings.capitalize(doctor.getUsuario().getTipodeusuario().getNombre())}"></span></h3>
           </div>
         </div>
 
@@ -69,21 +69,21 @@
 
                 <div class="row">
                   <div class="col-lg-3 col-md-4 label ">Nombre</div>
-                  <div class="col-lg-9 col-md-8">Kevin Anderson</div>
+                  <div class="col-lg-9 col-md-8"><span th:text="${doctor.getUsuario().getNombres()}"></span></div>
                 </div>
                 <div class="row">
                   <div class="col-lg-3 col-md-4 label ">Especialidad</div>
-                  <div class="col-lg-9 col-md-8">Neurología</div>
+                  <div class="col-lg-9 col-md-8"><span th:text="${doctor.getEspecialidad().getNombre()}"></span></div>
                 </div>
 
                 <div class="row">
                   <div class="col-lg-3 col-md-4 label">Telefono</div>
-                  <div class="col-lg-9 col-md-8">99999999</div>
+                  <div class="col-lg-9 col-md-8"><span th:text="${doctor.getUsuario().getCelular()}"></span></div>
                 </div>
 
                 <div class="row">
                   <div class="col-lg-3 col-md-4 label">Email</div>
-                  <div class="col-lg-9 col-md-8">asdjffi@pucp.edu.pe</div>
+                  <div class="col-lg-9 col-md-8"><span th:text="${doctor.getUsuario().getCorreo()}"></span></div>
                 </div>
 
               </div>

@@ -1,12 +1,9 @@
 package com.example.proyectogticsgrupo1.Entity;
 
 
-import com.mysql.cj.jdbc.Blob;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.util.List;
 
 @Getter
 @Setter
@@ -14,6 +11,7 @@ import java.util.List;
 @Table(name = "paciente")
 public class Paciente {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name ="idpaciente", nullable = false)
     private Integer idpaciente;
 
