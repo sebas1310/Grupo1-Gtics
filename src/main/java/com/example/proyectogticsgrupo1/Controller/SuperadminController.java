@@ -108,6 +108,26 @@ public class SuperadminController {
         return "superadmin/pages-registrar-adminitrador";
     }
 
+
+
+    @PostMapping("/superadmin/actualizarUser")
+    public String actualizarUser(Usuario usuario,RedirectAttributes attr){
+
+//        if (usuario.getEstadohabilitado() == null){
+//
+//        }
+//        Usuario usuario = usuario.getEstadohabilitado();
+//        System.out.println(usuario.getEstadohabilitado());
+//        usuarioRepository.actualizarPaciente()
+//
+//
+//        if(usuario.getIdusuario()!=null){
+//            attr.addFlashAttribute("msg", "Usuario actualizado exitosamente");
+//        }
+;
+        return "redirect:/superadmin/index";
+    }
+
     @PostMapping("/save")
     public String guardarAdministrador(Usuario usuario, RedirectAttributes attr){
         usuario.setContrasena(RandomStringUtils.random(10, true, true));
@@ -127,6 +147,9 @@ public class SuperadminController {
         usuarioRepository.save(usuario);
         return "redirect:/superadmin/registro";
     }
+
+
+
 
     @GetMapping("/delete")
     public String borrarUsuario(@RequestParam("id") int id, RedirectAttributes attr) {
@@ -255,7 +278,14 @@ public class SuperadminController {
         return "/superadmin/historial-notificaciones_spa";
     }
     @GetMapping("/perfilUsuario")
-    public String perfilUsuario(){
+    public String perfilUsuario(Model model,@RequestParam("id") int id){
+
+        Optional<Usuario> optionalUsuario = usuarioRepository.findById(id);
+        Usuario usuario = optionalUsuario.get();
+
+        System.out.println(id);
+        model.addAttribute("usuario", usuario);
+
         return "/superadmin/perfil-usuarios_spa";
     }
 
