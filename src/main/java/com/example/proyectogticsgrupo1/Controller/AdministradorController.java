@@ -428,7 +428,7 @@ public class AdministradorController {
     public String guardarDoctor(Usuario user, RedirectAttributes attr, Model model, @RequestParam("especialidad") int idEspecialidad){
 
         if (user.getIdusuario() == null) {
-            attr.addFlashAttribute("msg", "Doctor creado exitosamente");
+            attr.addFlashAttribute("doc", "Doctor creado exitosamente");
         } else {
             attr.addFlashAttribute("msg", "Doctor actualizado exitosamente");
         }
@@ -436,6 +436,9 @@ public class AdministradorController {
         tipodeusuario.setIdtipodeusuario(5);
         user.setEstadohabilitado(1);
         user.setTipodeusuario(tipodeusuario);
+        Sede sede = new Sede();
+        sede.setIdsede(2);
+        user.setSede(sede);
         user.setContrasena(generarContrasena(10));
         usuarioRepository.save(user);
         Doctor doctor = new Doctor();
@@ -443,8 +446,6 @@ public class AdministradorController {
         doctor.setFormacion("-");
         doctor.setRne(0);
         doctor.setCapacitaciones("-");
-        Sede sede = new Sede();
-        sede.setIdsede(2);
         doctor.setSede(sede);
         Especialidad especialidad = new Especialidad();
         especialidad.setIdespecialidad(idEspecialidad);
@@ -452,7 +453,7 @@ public class AdministradorController {
         doctor.setUsuario(user);
         doctor.setConsultorio("-");
         doctorRepository.save(doctor);
-        return "redirect:/administrador/creardoctor";
+        return "redirect:/administrador/dashboarddoctor";
     }
 
     @GetMapping(value = "/perfil")
