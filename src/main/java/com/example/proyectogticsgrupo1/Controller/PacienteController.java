@@ -76,7 +76,7 @@ public class PacienteController {
             System.out.println("esp null");
             model.addAttribute("docs", doctorRepository.findAll());
         }
-        return "paciente/index";
+        return "/paciente/index";
 
     }
 
