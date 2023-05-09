@@ -100,12 +100,56 @@ public class SuperadminController {
         return "superadmin/users-profile";
     }
     @GetMapping("/registraradministrativo")
-    public String registrarAdministrativo(){
+    public String registrarAdministrativo(Model model){
+
         return "superadmin/pages-registrar-administrativo";
     }
     @GetMapping("/registraradministrador")
-    public String registrarAdministrador(){
+    public String registrarAdministrador(Model model){
+
         return "superadmin/pages-registrar-adminitrador";
+    }
+
+    @PostMapping("/save")
+    public String guardarAdministrador(Usuario usuario, RedirectAttributes attr){
+
+        if(usuario.getIdusuario()==null){
+            attr.addFlashAttribute("msg", "Administrador creado exitosamente");
+        }else{
+            attr.addFlashAttribute("msg","Administrador actualizado");
+        }
+        usuarioRepository.save(usuario);
+        return "redirect:/registro";
+    }
+
+    @GetMapping("/delete")
+    public String borrarUsuario(@RequestParam("id") int id, RedirectAttributes attr) {
+
+
+        Optional<Usuario> optUsuario = usuarioRepository.findById(id);
+
+        if (optUsuario.isPresent()) {
+            //usuaruiosRepository.eliminarmanager(id);
+            //usuaruiosRepository.actualizardepartamento(id);
+            //usuaruiosRepository.eliminarempleado(id);
+            attr.addFlashAttribute("msg" ,"Usuario borrado");
+        }
+
+        return "redirect:/index";
+
+    }
+
+
+    @GetMapping("/edit")
+    public String editarUsuario(Model model, @RequestParam("id") int id){
+        Optional<Usuario> optionalUsuario = usuarioRepository.findById(id);
+        if(optionalUsuario.isPresent()){
+            Usuario usuario = optionalUsuario.get();
+            model.addAttribute("usuario", usuario);
+            return "superadmin/users-profile";
+        }else{
+            return "redirect:/index";
+        }
     }
     @GetMapping("/reportes")
     public String listaReportes(){
