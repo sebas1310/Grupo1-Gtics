@@ -69,7 +69,7 @@
                         <td th:text="${info.index + 1}"></td>
                         <td th:text="${usuario.nombres + ' ' +usuario.apellidos}"></td>
                         <td th:text="${usuario.getTipodeusuario().nombre}"></td>
-                        <td><a th:href="@{'/superadmin/perfilUsuario'}" class="btn" style="background-color:#668cff">Acceder</a></td>
+                        <td><a th:href="@{'/superadmin/perfilUsuario?id=' + ${usuario.idusuario}}" class="btn" style="background-color:#668cff">Acceder</a></td>
                         <td><span th:if="${usuario.estadohabilitado == 1}" class="badge bg-success">Activo</span>
                           <span th:if="${usuario.estadohabilitado == 0}"class="badge bg-danger">Inactivo</span></td>
                       </tr>

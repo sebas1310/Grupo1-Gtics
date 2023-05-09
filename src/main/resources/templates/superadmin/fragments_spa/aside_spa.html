@@ -7,12 +7,31 @@
 <aside th:fragment="sidebar (active)" id="sidebar" class="sidebar">
     <ul class="sidebar-nav" id="sidebar-nav">
 
-        <li class="nav-item" th:classappend="${active == 'index' ? 'inactive':''}">
+        <li class="nav-item" th:classappend="${active == 'index' ? 'active':''}">
             <a class="nav-link" th:classappend="${active != 'index' ? 'collapsed':''}" th:href="@{'/superadmin/index'}">
                 <i class="bi bi-house"></i>
                 <span>Dashboard</span>
             </a>
         </li><!-- End Dashboard Nav -->
+
+
+        <li class="nav-item" th:classappend="${active == 'lista_form' ? 'active':''}">
+            <a class="nav-link" th:classappend="${active != 'lista_form' ? 'collapsed':''}" th:href="@{'/superadmin/listaform'}">
+                <i class="bi bi-file-earmark-medical"></i><span>Plantillas</span>
+            </a>
+        </li>
+
+        <li class="nav-item" th:classappend="${active == 'seguros' ? 'active':''}">
+            <a class="nav-link" th:classappend="${active != 'seguros' ? 'collapsed':''}" th:href="@{'/superadmin/seguros'}">
+                <i class="bi bi-envelope-paper-heart"></i><span>Seguros</span>
+            </a>
+        </li>
+
+        <li class="nav-item" th:classappend="${active == 'registro' ? 'active':''}">
+            <a class="nav-link" th:classappend="${active != 'registro' ? 'collapsed':''}" th:href="@{'/superadmin/registro'}">
+                <i class="bi bi-card-checklist"></i><span>Registro</span>
+            </a>
+        </li>
 
         <li class="nav-item" th:classappend="${active == 'perfil' ? 'active':''}">
             <a class="nav-link" th:classappend="${active != 'perfil' ? 'collapsed':''}" th:href="@{'/superadmin/perfil'}">
@@ -20,28 +39,16 @@
             </a>
         </li><!-- End Components Nav -->
 
-        <li class="nav-item" th:classappend="${active == 'lista_form' ? 'active':''}">
-            <a class="nav-link" th:classappend="${active != 'lista_form' ? 'collapsed':''}" th:href="@{'/superadmin/listaform'}">
-                <i class="bi bi-circle"></i><span>Lista de Formularios</span>
-            </a>
-        </li>
 
-        <li class="nav-item" th:classappend="${active == 'seguros' ? 'active':''}">
-            <a class="nav-link" th:classappend="${active != 'seguros' ? 'collapsed':''}" th:href="@{'/superadmin/seguros'}">
-                <i class="bi bi-circle-square"></i><span>Seguros</span>
-            </a>
-        </li>
-
-
-        <li class="nav-item" th:classappend="${active == 'registro' ? 'active':''}">
-            <a class="nav-link" th:classappend="${active != 'registro' ? 'collapsed':''}" th:href="@{'/superadmin/registro'}">
-                <i class="bi bi-file-earmark"></i><span>Registro</span>
-            </a>
-        </li>
+        <br><br><br><br>
+        <br><br><br><br>
+        <br><br><br>
+        <br><br><br>
+        <li class="nav-heading"> ----------------------------------------------- </li>
 
         <li class="nav-item" th:classappend="${active == 'configuracion' ? 'active':''}">
             <a class="nav-link" th:classappend="${active != 'configuracion' ? 'collapsed':''}" th:href="@{'/superadmin/configuracion'}">
-                <i class="bi bi-file-earmark"></i><span>Configuraciones</span>
+                <i class="bi bi-gear"></i><span>Configuraciones</span>
             </a>
         </li>
 

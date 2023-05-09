@@ -8,8 +8,8 @@
 
     <div class="d-flex align-items-center justify-content-between">
         <a th:href="@{'/superadmin/index'}"class="logo d-flex align-items-center">
-            <img th:src="@{/assets/img/logo.png}" alt="">
-            <span class="d-none d-lg-block" style="color: white">Clínica LA FE</span>
+            <img th:src="@{/assets/img/logo.png}" alt="" th:href="@{'/superadmin/index'}">
+            <span class="d-none d-lg-block" style="color: white" th:href="@{'/superadmin/index'}">Clínica LA FE</span>
         </a>
         <i class="bi bi-list toggle-sidebar-btn"></i>
     </div><!-- End Logo -->
@@ -38,12 +38,14 @@
                 </ul><!-- End Notification Dropdown Items -->
             </li><!-- End Notification Nav -->
 
+
+            <!---
             <li class="nav-item dropdown">
 
                 <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
                     <i class="bi bi-chat-left-text"></i>
                     <span class="badge bg-success badge-number">3</span>
-                </a><!-- End Messages Icon -->
+                </a>
 
                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow messages">
                     <li class="dropdown-header">
@@ -71,12 +73,15 @@
                     <li class="dropdown-footer">
                         <a th:href="@{'/superadmin/mensajeria'}">Mostrar todos los mensajes</a>
                     </li>
-                </ul><!-- End Messages Dropdown Items -->
-            </li><!-- End Messages Nav -->
+                </ul>
+            </li>
+
+
+            ---->
 
             <li class="nav-item dropdown">
             <li class="nav-item dropdown pe-3">
-                <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" >
+                <a class="nav-link nav-profile d-flex align-items-center pe-0" th:href="@{'/superadmin/index'}" >
                     <img th:src="@{/assets/img/profile-img.jpg}" alt="Profile" class="rounded-circle">
                     <span th:text="${nombre}" class="d-none d-md-block  ps-2"></span>
                 </a><!-- End Profile Iamge Icon -->

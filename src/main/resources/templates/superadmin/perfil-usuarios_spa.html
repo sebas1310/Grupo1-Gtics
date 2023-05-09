@@ -44,8 +44,8 @@
                     <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
 
                         <img th:src="@{/assets/img/profile-img.jpg}" alt="Profile" class="rounded-circle">
-                        <h2>Brandon Jacob</h2>
-                        <h3>Administrador</h3>
+                        <h2 th:text="${usuario.nombres + ' ' + usuario.apellidos}"></h2>
+                        <h3 th:text="${usuario.tipodeusuario.nombre}"></h3>
 
                     </div>
                 </div>
@@ -88,28 +88,33 @@
                                 <h5 class="card-title">Detalles del Perfil</h5>
 
                                 <div class="row">
-                                    <div class="col-lg-3 col-md-4 label ">Nombre y Apelidos</div>
-                                    <div class="col-lg-9 col-md-8">Brandon Jacob</div>
+                                    <div class="col-lg-3 col-md-4 label" >Nombres</div>
+                                    <div class="col-lg-9 col-md-8" th:text="${usuario.nombres}"></div>
                                 </div>
 
                                 <div class="row">
-                                    <div class="col-lg-3 col-md-4 label">Sede</div>
-                                    <div class="col-lg-9 col-md-8">Los Olivos</div>
+                                    <div class="col-lg-3 col-md-4 label">Apellidos</div>
+                                    <div class="col-lg-9 col-md-8" th:text="${usuario.apellidos}"></div>
                                 </div>
 
                                 <div class="row">
-                                    <div class="col-lg-3 col-md-4 label">Empleo</div>
-                                    <div class="col-lg-9 col-md-8">Administrador</div>
+                                    <div class="col-lg-3 col-md-4 label">Correo</div>
+                                    <div class="col-lg-9 col-md-8" th:text="${usuario.correo}"></div>
                                 </div>
 
                                 <div class="row">
-                                    <div class="col-lg-3 col-md-4 label">Teléfono</div>
-                                    <div class="col-lg-9 col-md-8">994023157</div>
+                                    <div class="col-lg-3 col-md-4 label">DNI</div>
+                                    <div class="col-lg-9 col-md-8" th:text="${usuario.dni}"></div>
                                 </div>
 
                                 <div class="row">
-                                    <div class="col-lg-3 col-md-4 label">Email</div>
-                                    <div class="col-lg-9 col-md-8">jacob.brandon@outlook.es</div>
+                                    <div class="col-lg-3 col-md-4 label">Edad</div>
+                                    <div class="col-lg-9 col-md-8" th:text="${usuario.edad}"></div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-4 label">Celular</div>
+                                    <div class="col-lg-9 col-md-8" th:text="${usuario.celular}"></div>
                                 </div>
 
                             </div>
@@ -117,11 +122,13 @@
                             <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
 
                                 <!-- Profile Edit Form -->
-                                <form method="post" th:action="@{'/save'}" th:object="${usuario}" class="mt-2">
+                                <form method="post" th:action="@{'superadmin/actualizarUser'}" th:object="${usuario}" class="mt-2">
+
+                                    <input name="idusuario" type="hidden" class="form-control" id="idusuario" th:value="${usuario.idusuario}" th:field="${usuario.idusuario}">
 
 
                                     <div class="row mb-3">
-                                        <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Foto de Perfil</label>
+                                        <label  class="col-md-4 col-lg-3 col-form-label">Foto de Perfil</label>
                                         <div class="col-md-8 col-lg-9">
                                             <img th:src="@{/assets/img/profile-img.jpg}" alt="Profile">
                                             <div class="pt-2">
@@ -133,47 +140,75 @@
 
 
                                     <div class="row mb-3">
-                                        <label class="col-md-4 col-lg-3 col-form-label">Nombre y Apellidos</label>
+                                        <label for="nombre" class="col-md-4 col-lg-3 col-form-label">Nombre</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <input th:field="*{nombres}" type="text" class="form-control">
+                                            <input name="fullName" type="text" class="form-control" id="nombre" th:value="${usuario.nombres}" th:field="${usuario.nombres}">
+                                        </div>
+
+
+                                    </div>
+                                    <div class="row mb-3">
+                                        <label for="apellido" class="col-md-4 col-lg-3 col-form-label">Apellidos</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <input name="fullName" type="text" class="form-control" id="apellido" th:value="${usuario.apellidos}" th:field="${usuario.apellidos}">
+                                        </div>
+
+                                    </div>
+
+                                    <div class="row mb-3">
+                                        <label for="Email" class="col-md-4 col-lg-3 col-form-label">Correo</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <input name="email" type="email" class="form-control" id="Email" th:value="${usuario.correo}" th:field="${usuario.correo}">
+                                        </div>
+                                    </div>
+
+                                    <div class="row mb-3">
+                                        <label for="dni" class="col-md-4 col-lg-3 col-form-label">DNI</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <input name="company" type="text" class="form-control" id="dni" th:value="${usuario.dni}" th:field="${usuario.dni}">
+                                        </div>
+                                    </div>
+
+                                    <div class="row mb-3">
+                                        <label for="edad" class="col-md-4 col-lg-3 col-form-label">Edad</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <input name="edad" type="text" class="form-control" id="edad" th:value="${usuario.edad}" th:field="${usuario.edad}">
                                         </div>
                                     </div>
 
 
                                     <div class="row mb-3">
-                                        <label for="company" class="col-md-4 col-lg-3 col-form-label">Sede</label>
+                                        <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Celular</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <input name="company" type="text" class="form-control" id="company" value="Los Olivos">
+                                            <input name="phone" type="text" class="form-control" id="Phone" th:value="${usuario.celular}" th:field="${usuario.celular}">
                                         </div>
                                     </div>
+
+
+<!--
+
+<!--                                    <div class="form-check form-switch">-->
+<!--                                        <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" th:checked='false' th:field="${usuario.estadohabilitado}" th:value="${usuario.estadohabilitado != null} ? ${usuario.estadohabilitado} : '0'" >-->
+<!--                                        <label for="flexSwitchCheckDefault" class="form-check-label">Activo/Inactivo</label>-->
+<!--                                    </div>-->
 
                                     <div class="row mb-3">
-                                        <label for="Job" class="col-md-4 col-lg-3 col-form-label">Empleo</label>
-                                        <div class="col-md-8 col-lg-9">
-                                            <input name="job" type="text" class="form-control" id="Job" value="Administrador">
-                                        </div>
-                                    </div>
-
-                                    <div class="row mb-3">
-                                        <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Teléfono</label>
-                                        <div class="col-md-8 col-lg-9">
-                                            <input name="phone" type="text" class="form-control" id="Phone" value="994023157">
-                                        </div>
-                                    </div>
-
-                                    <div class="row mb-3">
-                                        <label for="Email" class="col-md-4 col-lg-3 col-form-label">Email</label>
-                                        <div class="col-md-8 col-lg-9">
-                                            <input name="email" type="email" class="form-control" id="Email" value="jacob.brandon@outlook.es">
-                                        </div>
+                                        <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Estado Habilitado</label>
+                                        <select class="col-md-8 col-lg-9 form-control"  th:value="${usuario.estadohabilitado}" th:field="${usuario.estadohabilitado}">
+                                            <option value="1">Activo</option>
+                                            <option value="0">Inactivo</option>
+<!--                                            <option th:each="option : ${options}"-->
+<!--                                                    th:value="${option.value}"-->
+<!--                                                    th:text="${option.label}"-->
+<!--                                                    th:selected="${usuario.value == selectedOption}">-->
+<!--                                            </option>-->
+                                        </select>
                                     </div>
 
 
-                                    <div class="form-check form-switch">
-                                        <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
-                                        <label for="Email" class="col-md-4 col-lg-3 col-form-label">Activo/Inactivo</label>
 
-                                    </div>
+
+
 
 
 
@@ -187,19 +222,19 @@
 
                             <div class="tab-pane fade pt-3" id="profile-change-password">
                                 <!-- Change Password Form -->
-                                <form>
+                                <form method="post" th:action="@{/superadmin/cambiarContraseña}">
 
                                     <div class="row mb-3">
-                                        <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Contraseña Actual</label>
+                                        <label for="contrasena" class="col-md-4 col-lg-3 col-form-label">Contraseña Actual</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <input name="password" type="password" class="form-control" id="currentPassword">
+                                            <input name="contrasena" type="password" class="form-control" id="contrasena">
                                         </div>
                                     </div>
 
                                     <div class="row mb-3">
                                         <label for="newPassword" class="col-md-4 col-lg-3 col-form-label">Nueva Contraseña</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <input name="newpassword" type="password" class="form-control" id="newPassword">
+                                            <input name="newPassword" type="password" class="form-control" id="newPassword">
                                         </div>
                                     </div>
 

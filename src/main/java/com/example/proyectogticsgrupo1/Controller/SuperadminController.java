@@ -1,10 +1,8 @@
 package com.example.proyectogticsgrupo1.Controller;
 
-import com.example.proyectogticsgrupo1.Entity.Especialidad;
-import com.example.proyectogticsgrupo1.Entity.ModeloEntity;
-import com.example.proyectogticsgrupo1.Entity.Tipodeusuario;
-import com.example.proyectogticsgrupo1.Entity.Usuario;
+import com.example.proyectogticsgrupo1.Entity.*;
 import com.example.proyectogticsgrupo1.Repository.*;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,6 +12,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 import java.util.regex.Pattern;
 
 @Controller
@@ -90,27 +89,62 @@ public class SuperadminController {
     }
 
     @GetMapping("/perfil")
-    public String perfilSuperAdmin(Model model){
-
-
+    public String perfilSuperAdmin(@ModelAttribute("superadminlog") Usuario usuario, Model model){
         Optional<Usuario> optionalSuperadmin = usuarioRepository.findById(1);
-        Usuario usuario = optionalSuperadmin.get();
+        usuario = optionalSuperadmin.get();
         model.addAttribute("superadminlog", usuario);
         return "/superadmin/users-profile_spa";
     }
     @GetMapping("/registraradministrativo")
-    public String registrarAdministrativo(Model model){
-
+    public String registrarAdministrativo(@ModelAttribute("usuario") Usuario usuario, Model model, @RequestParam("t") String t){
+        System.out.println(t);
+        model.addAttribute("t",t);
         return "/superadmin/pages-registrar-administrativo";
     }
     @GetMapping("/registraradministrador")
-    public String registrarAdministrador(Model model){
-
+    public String registrarAdministrador(@ModelAttribute("usuario") Usuario usuario,Model model){
         return "superadmin/pages-registrar-adminitrador";
+    }
+
+
+
+    @PostMapping("/superadmin/actualizarUser")
+    public String actualizarUser(Usuario usuario,RedirectAttributes attr){
+
+        System.out.println(usuario.getNombres());
+        System.out.println(usuario.getEstadohabilitado());
+
+        if (usuario.getEstadohabilitado() == 0){
+            int habilitado = 0;
+            usuarioRepository.actualizarPaciente(habilitado,usuario.getNombres(),usuario.getApellidos(),usuario.getCorreo(),usuario.getDni(),usuario.getEdad(),usuario.getCelular(),usuario.getIdusuario());
+
+        }else{
+            int habilitado = 1;
+            usuarioRepository.actualizarPaciente(habilitado,usuario.getNombres(),usuario.getApellidos(),usuario.getCorreo(),usuario.getDni(),usuario.getEdad(),usuario.getCelular(),usuario.getIdusuario());
+
+        }
+
+        if(usuario.getIdusuario()!=null){
+            attr.addFlashAttribute("msg", "Usuario actualizado exitosamente");
+        }
+;
+        return "redirect:/superadmin/index";
+    }
+
+    @PostMapping("/savespa")
+    public String guardarSuperadmin(Usuario superadminlog, RedirectAttributes attr){
+        System.out.println("id"+superadminlog.getIdusuario());
+
+        attr.addFlashAttribute("msg","Superadmin actualizado");
+
+        usuarioRepository.save(superadminlog);
+        return "redirect:/superadmin/perfil";
     }
 
     @PostMapping("/save")
     public String guardarAdministrador(Usuario usuario, RedirectAttributes attr){
+        System.out.println(usuario.getCelular());
+        usuario.setContrasena(RandomStringUtils.random(10, true, true));
 
         if(usuario.getIdusuario()==null){
             attr.addFlashAttribute("msg", "Administrador creado exitosamente");
@@ -121,6 +155,9 @@ public class SuperadminController {
         return "redirect:/superadmin/registro";
     }
 
+
+
+
     @GetMapping("/delete")
     public String borrarUsuario(@RequestParam("id") int id, RedirectAttributes attr) {
 
@@ -128,8 +165,8 @@ public class SuperadminController {
         Optional<Usuario> optUsuario = usuarioRepository.findById(id);
 
         if (optUsuario.isPresent()) {
-            //usuaruiosRepository.eliminarmanager(id);
-            //usuaruiosRepository.actualizardepartamento(id);
+            //usuaruiosRepository.eliminartipodeusuario(id);
+            //usuaruiosRepository.actualizarsede(id);
             //usuaruiosRepository.eliminarempleado(id);
             attr.addFlashAttribute("msg" ,"Usuario borrado");
         }
@@ -248,12 +285,21 @@ public class SuperadminController {
         return "/superadmin/historial-notificaciones_spa";
     }
     @GetMapping("/perfilUsuario")
-    public String perfilUsuario(){
+    public String perfilUsuario(Model model,@RequestParam("id") int id){
+
+        Optional<Usuario> optionalUsuario = usuarioRepository.findById(id);
+        Usuario usuario = optionalUsuario.get();
+
+        System.out.println(id);
+        model.addAttribute("usuario", usuario);
+
         return "/superadmin/perfil-usuarios_spa";
     }
 
     @GetMapping("/seguros")
-    public String seguro(){
+    public String seguro(Model model){
+        List<Seguro> listSeguros = seguroRepository.findAll();
+        model.addAttribute("listSeguros",listSeguros);
         return "/superadmin/seguros_spa";
     }
 
