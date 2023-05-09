@@ -35,7 +35,7 @@ public class AdministrativoController {
 
     @GetMapping(value = "/invitar")
     public String invitar(){
-        return"administrativo/invitar";
+        return "invitarpaciente";
     }
 
     @GetMapping(value = "/mensajes")
