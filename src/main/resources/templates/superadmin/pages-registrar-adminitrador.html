@@ -51,7 +51,7 @@
                         <h5 class="card-title">Ingrese los datos</h5>
 
                         <!-- General Form Elements -->
-                        <form method="post" th:action="@{'/save'}" class="mt-2">
+                        <form method="post" th:action="@{'/superadmin/save'}" class="mt-2">
 
                             <div class="row mb-3">
                                 <label class="col-form-label">Nombre</label>
@@ -90,11 +90,10 @@
                                 </div>
                             </div>
 
-
                             <div class="row mb-3">
                                 <label class="col-sm-2 col-form-label">Genero</label>
                                 <div class="col-sm-10">
-                                    <select name="genero" class="form-select" aria-label="Default select example" required>
+                                    <select name="genero" class="form-select" required>
                                         <option selected disabled>Elija uno</option>
                                         <option value="Masculino">Masculino</option>
                                         <option value="Femenino">Femenino</option>
@@ -112,8 +111,6 @@
                                     </select>
                                 </div>
                             </div>
-
-
 
                             <div class="row mb-3">
                                 <div class="col-sm-10">

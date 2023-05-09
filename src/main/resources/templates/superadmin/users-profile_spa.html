@@ -113,7 +113,8 @@
                 <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
 
                   <!-- Profile Edit Form -->
-                  <form>
+                  <form method="post" th:action="@{'/superadmin/savespa'}" th:object="${superadminlog}" class="mt-2">
+
                     <div class="row mb-3">
                       <label class="col-md-4 col-lg-3 col-form-label">Foto de Perfil</label>
                       <div class="col-md-8 col-lg-9">
@@ -126,50 +127,55 @@
                     </div>
 
                     <div class="row mb-3">
-                      <label for="nombre" class="col-md-4 col-lg-3 col-form-label">Nombre</label>
+                      <label class="col-md-4 col-lg-3 col-form-label">Nombre</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="fullName" type="text" class="form-control" id="nombre" th:value="${superadminlog.nombres}">
+                        <input type="text" class="form-control" th:field="*{nombres}">
                       </div>
 
 
                     </div>
                     <div class="row mb-3">
-                      <label for="apellido" class="col-md-4 col-lg-3 col-form-label">Apellidos</label>
+                      <label class="col-md-4 col-lg-3 col-form-label">Apellidos</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="fullName" type="text" class="form-control" id="apellido" th:value="${superadminlog.apellidos}">
+                        <input  type="text" class="form-control" th:field="*{apellidos}">
                       </div>
 
                     </div>
 
                     <div class="row mb-3">
-                      <label for="Email" class="col-md-4 col-lg-3 col-form-label">Correo</label>
+                      <label class="col-md-4 col-lg-3 col-form-label">Correo</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="email" type="email" class="form-control" id="Email" th:value="${superadminlog.correo}">
+                        <input type="email" class="form-control" th:field="*{correo}">
                       </div>
                     </div>
 
                     <div class="row mb-3">
-                      <label for="dni" class="col-md-4 col-lg-3 col-form-label">DNI</label>
+                      <label class="col-md-4 col-lg-3 col-form-label">DNI</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="company" type="text" class="form-control" id="dni" th:value="${superadminlog.dni}">
+                        <input  type="text" class="form-control"  th:field="*{dni}">
                       </div>
                     </div>
 
                     <div class="row mb-3">
-                      <label for="edad" class="col-md-4 col-lg-3 col-form-label">Edad</label>
+                      <label class="col-md-4 col-lg-3 col-form-label">Edad</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="edad" type="text" class="form-control" id="edad" th:value="${superadminlog.edad}">
+                        <input  type="text" class="form-control"  th:field="*{edad}">
                       </div>
                     </div>
 
 
                     <div class="row mb-3">
-                        <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Celular</label>
+                        <label  class="col-md-4 col-lg-3 col-form-label">Celular</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="phone" type="text" class="form-control" id="Phone" th:value="${superadminlog.celular}">
+                        <input  type="text" class="form-control" th:field="*{celular}">
                       </div>
                     </div>
 
+                    <input type="hidden" th:field="*{estadohabilitado}">
+                    <input type="hidden" th:field="*{genero}">
+                    <input type="hidden" th:field="*{tipodeusuario}">
+                    <input type="hidden" th:field="*{contrasena}">
+                    <input type="hidden" th:field="*{idusuario}">
 
                     <div class="text-center">
                       <button type="submit" class="btn btn-primary">Guardar Cambios</button>

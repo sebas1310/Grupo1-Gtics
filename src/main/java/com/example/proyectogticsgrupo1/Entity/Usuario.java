@@ -1,6 +1,8 @@
 package com.example.proyectogticsgrupo1.Entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -28,6 +30,7 @@ public class Usuario {
     private String apellidos;
 
     @Column(name = "dni")
+    @Pattern(regexp = "\\d{8}", message = "El DNI debe tener exactamente 8 dígitos")
     private String dni;
 
     @Column(name = "correo")
@@ -40,6 +43,7 @@ public class Usuario {
     private String genero;
 
     @Column(name = "celular")
+   // @Pattern(regexp = "\\d{9}", message = "El Celular debe tener exactamente 9 dígitos")
     private String celular;
 
     @Column(name = "edad")

@@ -89,22 +89,18 @@ public class SuperadminController {
     }
 
     @GetMapping("/perfil")
-    public String perfilSuperAdmin(Model model){
-
-
+    public String perfilSuperAdmin(@ModelAttribute("superadminlog") Usuario usuario, Model model){
         Optional<Usuario> optionalSuperadmin = usuarioRepository.findById(1);
-        Usuario usuario = optionalSuperadmin.get();
+        usuario = optionalSuperadmin.get();
         model.addAttribute("superadminlog", usuario);
         return "/superadmin/users-profile_spa";
     }
     @GetMapping("/registraradministrativo")
-    public String registrarAdministrativo(Model model){
-
+    public String registrarAdministrativo(@ModelAttribute("usuario") Usuario usuario, Model model){
         return "/superadmin/pages-registrar-administrativo";
     }
     @GetMapping("/registraradministrador")
-    public String registrarAdministrador(Model model){
-
+    public String registrarAdministrador(@ModelAttribute("usuario") Usuario usuario,Model model){
         return "superadmin/pages-registrar-adminitrador";
     }
 
@@ -127,23 +123,37 @@ public class SuperadminController {
 ;
         return "redirect:/superadmin/index";
     }
+    @PostMapping("/saveusuario")
+    public String editarUsuarios(Usuario superadminlog, RedirectAttributes attr){
+        System.out.println("id"+superadminlog.getIdusuario());
+
+        attr.addFlashAttribute("msg","Superadmin actualizado");
+
+        usuarioRepository.save(superadminlog);
+        return "redirect:/superadmin/perfil";
+    }
+
+    @PostMapping("/savespa")
+    public String guardarSuperadmin(Usuario superadminlog, RedirectAttributes attr){
+        System.out.println("id"+superadminlog.getIdusuario());
+
+        attr.addFlashAttribute("msg","Superadmin actualizado");
+
+        usuarioRepository.save(superadminlog);
+        return "redirect:/superadmin/perfil";
+    }
 
     @PostMapping("/save")
     public String guardarAdministrador(Usuario usuario, RedirectAttributes attr){
         usuario.setContrasena(RandomStringUtils.random(10, true, true));
-        usuario.setEstadohabilitado(1);
-        Tipodeusuario admin = new Tipodeusuario();
-        admin.setIdtipodeusuario(3);
-        usuario.setTipodeusuario(admin);
 
-        System.out.println("llega a guardar"+ usuario);
+
         if(usuario.getIdusuario()==null){
             attr.addFlashAttribute("msg", "Administrador creado exitosamente");
         }else{
             attr.addFlashAttribute("msg","Administrador actualizado");
         }
-        System.out.println("genero"+ usuario.getGenero());
-        usuario.setGenero("Femenino");
+
         usuarioRepository.save(usuario);
         return "redirect:/superadmin/registro";
     }
@@ -158,8 +168,8 @@ public class SuperadminController {
         Optional<Usuario> optUsuario = usuarioRepository.findById(id);
 
         if (optUsuario.isPresent()) {
-            //usuaruiosRepository.eliminarmanager(id);
-            //usuaruiosRepository.actualizardepartamento(id);
+            //usuaruiosRepository.eliminartipodeusuario(id);
+            //usuaruiosRepository.actualizarsede(id);
             //usuaruiosRepository.eliminarempleado(id);
             attr.addFlashAttribute("msg" ,"Usuario borrado");
         }
