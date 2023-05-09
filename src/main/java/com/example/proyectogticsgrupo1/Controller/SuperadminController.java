@@ -146,13 +146,11 @@ public class SuperadminController {
         System.out.println(usuario.getCelular());
         usuario.setContrasena(RandomStringUtils.random(10, true, true));
 
-
         if(usuario.getIdusuario()==null){
             attr.addFlashAttribute("msg", "Administrador creado exitosamente");
         }else{
             attr.addFlashAttribute("msg","Administrador actualizado");
         }
-
         usuarioRepository.save(usuario);
         return "redirect:/superadmin/registro";
     }
