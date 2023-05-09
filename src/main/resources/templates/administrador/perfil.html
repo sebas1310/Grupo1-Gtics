@@ -182,7 +182,7 @@
                   <div class="row mb-3">
                     <label for="contrasena" class="col-md-4 col-lg-3 col-form-label">Contraseña Actual</label>
                     <div class="col-md-8 col-lg-9">
-                      <input name="contrasena" type="password" class="form-control" id="contrasena">
+                      <input name="contrasena" type="password" class="form-control" id="contrasena" th:value="${usuario.getContrasena()}" readonly>
                     </div>
                   </div>
 
