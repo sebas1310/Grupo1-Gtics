@@ -1,20 +1,20 @@
 package com.example.proyectogticsgrupo1.Repository;
 
 import com.example.proyectogticsgrupo1.Entity.Cita;
-import com.example.proyectogticsgrupo1.Entity.RecetaMedica;
+import com.example.proyectogticsgrupo1.Entity.Recetamedica;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
-public interface RecetaMedicaRepository extends JpaRepository<RecetaMedica,Integer> {
+public interface RecetaMedicaRepository extends JpaRepository<Recetamedica,Integer> {
 
     @Query(value= "select * from recetamedica where idcita = ?1 and idrecetamedica ",nativeQuery = true)
-    List<RecetaMedica> buscarRecetaMedicaPorCita (Integer idCita, Integer idReceta);
+    List<Recetamedica> buscarRecetaMedicaPorCita (Integer idCita, Integer idReceta);
 
     @Query(value= "select * from recetamedica where idrecetamedica =?1 ",nativeQuery = true)
-    RecetaMedica buscarRecetaMedicaPorID (Integer idReceta);
+    Recetamedica buscarRecetaMedicaPorID (Integer idReceta);
 
     @Modifying
     @Query(value= "insert into recetamedica (medicamento,dosis,descripcion,idcita) values (?1,?2,?3,?4) ",nativeQuery = true)

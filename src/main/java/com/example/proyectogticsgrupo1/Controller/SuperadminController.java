@@ -54,7 +54,7 @@ public class SuperadminController {
 
 
 
-        return "/superadmin/index_spa";
+        return "superadmin/index_spa";
     }
     @GetMapping("/listaform")
     public String listaFormularios(Model model){
@@ -63,7 +63,7 @@ public class SuperadminController {
         model.addAttribute("modeloEntityList",modeloEntityList);
 
 
-        return "/superadmin/lista_plantillas_spa";
+        return "superadmin/lista_plantillas_spa";
     }
 
     @GetMapping("/chat")
@@ -73,19 +73,19 @@ public class SuperadminController {
 
     @GetMapping("/editarreportes")
     public String editarReportes(){
-        return "/superadmin/editar-reportes_spa";
+        return "superadmin/editar-reportes_spa";
     }
     @GetMapping("/editarforms")
     public String editarForms(){
-        return "/superadmin/forms-editors_spa";
+        return "superadmin/forms-editors_spa";
     }
     @GetMapping("/registro")
     public String registrarUsuarios(){
-        return "/superadmin/pages-blank_spa";
+        return "superadmin/pages-blank_spa";
     }
     @GetMapping("/mensajeria")
     public String mensajeria(){
-        return "/superadmin/mensajeria_spa";
+        return "superadmin/mensajeria_spa";
     }
 
     @GetMapping("/perfil")
@@ -93,13 +93,13 @@ public class SuperadminController {
         Optional<Usuario> optionalSuperadmin = usuarioRepository.findById(1);
         usuario = optionalSuperadmin.get();
         model.addAttribute("superadminlog", usuario);
-        return "/superadmin/users-profile_spa";
+        return "superadmin/users-profile_spa";
     }
     @GetMapping("/registraradministrativo")
     public String registrarAdministrativo(@ModelAttribute("usuario") Usuario usuario, Model model, @RequestParam("t") String t){
         System.out.println(t);
         model.addAttribute("t",t);
-        return "/superadmin/pages-registrar-administrativo";
+        return "superadmin/pages-registrar-administrativo";
     }
     @GetMapping("/registraradministrador")
     public String registrarAdministrador(@ModelAttribute("usuario") Usuario usuario,Model model){
@@ -189,12 +189,12 @@ public class SuperadminController {
     }
     @GetMapping("/reportes")
     public String listaReportes(){
-        return "/superadmin/tables-general_spa";
+        return "superadmin/tables-general_spa";
     }
 
     @GetMapping("/configuracion")
     public String configuraciones(){
-        return "/superadmin/configuraciones_spa";
+        return "superadmin/configuraciones_spa";
     }
 
     @GetMapping("/nuevoform")
@@ -209,7 +209,7 @@ public class SuperadminController {
         model.addAttribute("especialidadList",especialidadList);
 
 
-        return "/superadmin/nuevoformulario_spa";
+        return "superadmin/nuevoformulario_spa";
     }
 
 
@@ -282,7 +282,7 @@ public class SuperadminController {
 
     @GetMapping("/notificaciones")
     public String historialNotificaciones(){
-        return "/superadmin/historial-notificaciones_spa";
+        return "superadmin/historial-notificaciones_spa";
     }
     @GetMapping("/perfilUsuario")
     public String perfilUsuario(Model model,@RequestParam("id") int id){
@@ -293,33 +293,33 @@ public class SuperadminController {
         System.out.println(id);
         model.addAttribute("usuario", usuario);
 
-        return "/superadmin/perfil-usuarios_spa";
+        return "superadmin/perfil-usuarios_spa";
     }
 
     @GetMapping("/seguros")
     public String seguro(Model model){
         List<Seguro> listSeguros = seguroRepository.findAll();
         model.addAttribute("listSeguros",listSeguros);
-        return "/superadmin/seguros_spa";
+        return "superadmin/seguros_spa";
     }
 
 
-    @PostMapping("/cambiarContraseña")
+    @PostMapping("/cambiarContrasena")
     public String cambiarContraseña(Model model, RedirectAttributes attr, @RequestParam("currentPassword") String currentPassword,
                                     @RequestParam("newPassword") String  newPassword,
                                     @RequestParam("renewpassword") String  renewpassword){
 
-        String contraseñaActual = currentPassword;
-        String nuevaContraseña = newPassword;
-        String nuevaContraseña_v2 = renewpassword;
+        String contrasenaActual = currentPassword;
+        String nuevaContrasena = newPassword;
+        String nuevaContrasena_v2 = renewpassword;
 
 
 
 
-        if (nuevaContraseña == contraseñaActual && nuevaContraseña_v2 == renewpassword) {
+        if (nuevaContrasena == contrasenaActual && nuevaContrasena_v2 == renewpassword) {
             attr.addFlashAttribute("msg", "No se pudo actualizar la contraseña");
         } else {
-            usuarioRepository.cambiarPassword(nuevaContraseña);
+            usuarioRepository.cambiarPassword(nuevaContrasena);
             attr.addFlashAttribute("msg", "Contraseña actualizada exitosamente");
         }
 
