@@ -22,7 +22,7 @@ public class DoctorController {
     final CitaRepository citaRepository;
     final RecetaMedicaRepository recetaMedicaRepository;
     final ReporteCitaRepository reporteCitaRepository;
-    final UserRepository userRepository;
+    final UsuarioRepository usuarioRepository;
     final BitacoraDeDiagnosticoRepository bitacoraDeDiagnosticoRepository;
     final SedeRepository  sedeRepository;
 
@@ -39,7 +39,7 @@ public class DoctorController {
     MailCorreoRepository mailCorreoRepository;
 
     public DoctorController(CitaRepository citaRepository, DoctorRepository doctorRepository, PacienteRepository pacienteRepository,
-                            RecetaMedicaRepository recetaMedicaRepository, ReporteCitaRepository reporteCitaRepository, UserRepository userRepository,
+                            RecetaMedicaRepository recetaMedicaRepository, ReporteCitaRepository reporteCitaRepository,UsuarioRepository usuarioRepository,
                             BitacoraDeDiagnosticoRepository bitacoraDeDiagnosticoRepository,
                             EventocalendariodoctorRepository eventocalendariodoctorRepository, CuestionarioRepository cuestionarioRepository, SedeRepository sedeRepository, BoletaDoctorRepository boletaDoctorRepository) {
 
@@ -48,7 +48,7 @@ public class DoctorController {
         this.citaRepository = citaRepository;
         this.recetaMedicaRepository =recetaMedicaRepository;
         this.reporteCitaRepository = reporteCitaRepository;
-        this.userRepository = userRepository;
+        this.usuarioRepository = usuarioRepository;
         this.bitacoraDeDiagnosticoRepository= bitacoraDeDiagnosticoRepository;
         this.eventocalendariodoctorRepository = eventocalendariodoctorRepository;
         this.cuestionarioRepository = cuestionarioRepository;
@@ -171,7 +171,7 @@ public class DoctorController {
         if (optDoctor.isPresent()) {
             Doctor doctor1 = optDoctor.get();
             model.addAttribute("doctor", doctor1);
-            Recetamedica receta = recetaMedicaRepository.buscarRecetaMedicaPorID(idReceta);
+            RecetaMedica receta = recetaMedicaRepository.buscarRecetaMedicaPorID(idReceta);
             model.addAttribute("receta", receta);
             Cita cita1 = citaRepository.buscarCitaPorId(idCita);
             model.addAttribute("cita", cita1);
@@ -227,7 +227,7 @@ public class DoctorController {
     @GetMapping(value = "/pacientesatendidos/verhistorial/vercita/borrarreceta")
     public String borrarReceta(@RequestParam("idR") Integer idReceta, RedirectAttributes redirectAttributes){
 
-       Recetamedica receta = recetaMedicaRepository.buscarRecetaMedicaPorID(idReceta);
+        RecetaMedica receta = recetaMedicaRepository.buscarRecetaMedicaPorID(idReceta);
         Integer idCita = receta.getCita().getIdcita();
         recetaMedicaRepository.borrarReceta(idReceta);
         redirectAttributes.addAttribute("id",idCita);
@@ -324,7 +324,7 @@ public class DoctorController {
         if (optDoctor.isPresent()) {
             Doctor doctor1 = optDoctor.get();
             model.addAttribute("historialmensajes",mailCorreoRepository.buscarMensajePorAsunto(asunto));
-            model.addAttribute("usuariorigen",userRepository.usuarioDestino(idUsuarioOrigen));
+            model.addAttribute("usuariorigen",usuarioRepository.usuarioDestino(idUsuarioOrigen));
             model.addAttribute("doctor", doctor1);
         }
         return "doctor/responderMensajeDoc";
@@ -339,7 +339,7 @@ public class DoctorController {
             Doctor doctor1 = optDoctor.get();
             model.addAttribute("doctor", doctor1);
             if (idUsuarioDestino != 0) {
-                model.addAttribute("usuariodestino", userRepository.usuarioDestino(idUsuarioDestino));
+                model.addAttribute("usuariodestino", usuarioRepository.usuarioDestino(idUsuarioDestino));
                 return "doctor/enviarMensajeDoc";
             }
         }
@@ -366,7 +366,7 @@ public class DoctorController {
                                          @RequestParam("idusuario") int idUsuario,@RequestParam("nombre") String nombres,
                                          @RequestParam("apellido") String apellidos,@RequestParam("dni") String dni,
                                          @RequestParam("correo") String correo){
-        userRepository.actualizarPerfilDoctor(nombres,apellidos,dni,correo,idUsuario);
+        usuarioRepository.actualizarPerfilDoctor(nombres,apellidos,dni,correo,idUsuario);
         redirectAttributes.addAttribute("id",idDoctor);
         return "redirect:/doctor/perfil";
     }
@@ -408,7 +408,7 @@ public class DoctorController {
         Optional<Doctor> optDoctor = doctorRepository.findById(2);
         Doctor doctor =  optDoctor.get();
         if(doctor.getUsuario().getContrasena().equals(contrasena)){
-            userRepository.changePassword(renewpassword,doctor.getUsuario().getIdusuario());
+            usuarioRepository.changePassword(renewpassword,doctor.getUsuario().getIdusuario());
             attr.addFlashAttribute("psw1", "Contraseña actualizada");
         }else {
             attr.addFlashAttribute("psw2", "La contraseña actual es incorrecta");
