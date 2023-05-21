@@ -46,7 +46,7 @@ public class PacienteController {
         this.eventocalendariodoctorRepository = eventocalendariodoctorRepository;
     }
 
-    @GetMapping(value = "/")
+    @GetMapping(value = "")
     public String paciente( Model model, @RequestParam(value = "esp", required = false) Integer esp, @RequestParam(value = "msg1", required = false) Integer msg1,RedirectAttributes redirectAttributes){
         Optional<Paciente> optionalPaciente = pacienteRepository.findById(1);
         List<Especialidad> listespecialidad = especialidadRepository.findAll();
