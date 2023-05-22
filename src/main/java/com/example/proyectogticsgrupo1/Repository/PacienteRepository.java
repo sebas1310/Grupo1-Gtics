@@ -13,6 +13,11 @@ import java.util.List;
 
 public interface PacienteRepository extends JpaRepository<Paciente, Integer> {
 
+
+    @Query(nativeQuery = true, value = "Select * from paciente WHERE idusuario = ?1")
+    Paciente pacXuser(Integer id);
+
+
     @Modifying
     @Query(nativeQuery = true, value = "UPDATE paciente SET alergias = ?1 WHERE idpaciente = ?2")
     void modificarAlergia(String alergias, Integer idpaciente);

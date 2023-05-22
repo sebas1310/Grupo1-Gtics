@@ -15,6 +15,9 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
 
     //List<Usuario> findByTipodeusuarioIdtipodeusuario(int id);
 
+    public Usuario findByCorreo(String correo);
+
+
     @Query(value= "select * from usuario where correo = ?1 and contrasena = ?2 ",nativeQuery = true)
     Usuario validarLoginDeUsuario (String correo, String contrasena);
 

@@ -74,7 +74,7 @@
               <div class="row mb-3">
                 <label class="col-sm-3 col-form-label"style="font-weight: bold">DNI</label>
                 <div class="col-sm-9">
-                  <input type="text" class="form-control" th:value="${pacientelog.usuario.dni}" disabled required>
+                  <input type="text" class="form-control" th:value="${session.usuario.dni}" disabled required>
                 </div>
               </div>
 
@@ -116,7 +116,8 @@
                   <input type="text" class="form-control" name="idseguro" th:value="${pacientelog.seguro.idseguro}" hidden required>
                 </div>
               </div>
-
+              <h1 th:text="${session.usuario.idusuario}"></h1>
+              <h2 th:text="${pacientelog.direccion}"></h2>
               <div class="text-center">
                 <div class="text-center">
                   <button type="submit" class="btn btn-warning">Agendar Cita</button>

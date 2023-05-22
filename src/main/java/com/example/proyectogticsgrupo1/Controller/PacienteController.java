@@ -3,7 +3,9 @@ package com.example.proyectogticsgrupo1.Controller;
 import com.example.proyectogticsgrupo1.Entity.*;
 import com.example.proyectogticsgrupo1.Repository.*;
 import com.example.proyectogticsgrupo1.Service.EmailService;
+import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
+import jakarta.websocket.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -46,12 +48,18 @@ public class PacienteController {
         this.eventocalendariodoctorRepository = eventocalendariodoctorRepository;
     }
 
+    @Autowired
+    private HttpSession session;
+
+
     @GetMapping(value = "/")
     public String paciente( Model model, @RequestParam(value = "esp", required = false) Integer esp, @RequestParam(value = "msg1", required = false) Integer msg1,RedirectAttributes redirectAttributes){
-        Optional<Paciente> optionalPaciente = pacienteRepository.findById(1);
+;
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+
         List<Especialidad> listespecialidad = especialidadRepository.findAll();
-        Paciente paciente =  optionalPaciente.get();
-        model.addAttribute("pacientelog",paciente);
+
+        model.addAttribute("pacientelog",pacienteRepository.pacXuser(usuario.getIdusuario()));
         model.addAttribute("especialidades", listespecialidad);
         model.addAttribute("citashoy", citaRepository.citasHoy(1));
         model.addAttribute("sedes", sedeRepository.findAll());
@@ -94,8 +102,8 @@ public class PacienteController {
 
     @GetMapping(value = "/perfilDoctor")
     public String perfilDoc(RedirectAttributes redirectAttributes, @RequestParam("iddoc") Integer iddoc, Model model){
-        Optional<Paciente> optionalPaciente = pacienteRepository.findById(1);
-        Paciente paciente =  optionalPaciente.get();
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        Paciente paciente = pacienteRepository.pacXuser(usuario.getIdusuario());
         model.addAttribute("pacientelog",paciente);
         Optional<Doctor> optionalDoctor = doctorRepository.findById(iddoc);
         if(optionalDoctor.isPresent()){
