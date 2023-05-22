@@ -72,6 +72,8 @@ public class SecurityConfig {
                             response.sendRedirect("/paciente");
                         }else if (rol.equals("superadmin")) {
                             response.sendRedirect("/superadmin/index");
+                        }else if (rol.equals("administrativo")) {
+                            response.sendRedirect("/administrativo");
                         }else {
                             response.sendRedirect("/");
                         }
@@ -86,6 +88,7 @@ public class SecurityConfig {
                 .requestMatchers("/administrador", "/administrador/**").hasAnyAuthority("administrador")
                 .requestMatchers("/paciente", "/paciente/**").hasAnyAuthority("paciente")
                 .requestMatchers("/superadmin", "/superadmin/**").hasAnyAuthority("superadmin")
+                .requestMatchers("/administrativo", "/administrativo/**").hasAnyAuthority("administrativo")
                 //.requestMatchers("/shipper", "/shipper/**").hasAuthority("admin")
                 //Dejar accesible a todos los usuarios cualquier otra ruta con anyRequest()
                 .anyRequest().permitAll();
