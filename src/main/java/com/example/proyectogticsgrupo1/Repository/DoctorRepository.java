@@ -65,5 +65,8 @@ public interface DoctorRepository extends JpaRepository<Doctor, Integer>{
     @Query(value="UPDATE usuario set contrasena = ?1 where idusuario = ?2",nativeQuery = true)
     void cambiarContra(String nuevaContra, Integer id );
 
+    @Query(value= "select * from doctor where idusuario = ?1 ",nativeQuery = true)
+    Doctor buscarDoctorPorIdUsuario (Integer idUsuario);
+
 }
 

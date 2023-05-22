@@ -2,6 +2,7 @@ package com.example.proyectogticsgrupo1.Controller;
 
 import com.example.proyectogticsgrupo1.Entity.*;
 import com.example.proyectogticsgrupo1.Repository.*;
+import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 import jdk.jfr.Event;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +39,7 @@ public class DoctorController {
     @Autowired
     MailCorreoRepository mailCorreoRepository;
 
+
     public DoctorController(CitaRepository citaRepository, DoctorRepository doctorRepository, PacienteRepository pacienteRepository,
                             RecetaMedicaRepository recetaMedicaRepository, ReporteCitaRepository reporteCitaRepository,UsuarioRepository usuarioRepository,
                             BitacoraDeDiagnosticoRepository bitacoraDeDiagnosticoRepository,
@@ -56,25 +58,28 @@ public class DoctorController {
         this.boletaDoctorRepository = boletaDoctorRepository;
     }
 
+    @Autowired
+    private HttpSession session;
 
     //Mostrará Por Defecto el Calendario Semanal de Doctor
 
     @GetMapping("/dashboard")
     public String inicioDashboardDoctor(Model model) {
 
-        Optional<Doctor> optDoctor = doctorRepository.findById(2);
+        /*Optional<Doctor> optDoctor = doctorRepository.findById(2);
         if (optDoctor.isPresent()) {
             Doctor doctor1 = optDoctor.get();
-            model.addAttribute("doctor", doctor1);
-            List<Cita> citasAgendadas1 = citaRepository.buscarCitasAgendadasDoctor(doctor1.getIddoctor());
-            model.addAttribute("citasAgendadas",citasAgendadas1);
-            //model.addAttribute("citasAgendadas",citaRepository.buscarCitasAgendadasDoctor(doctor.getIdDoctor()));
-            return "doctor/dashboardDoc";
-        } else {
-            return "redirect:/iniciosesion";
-        }
+            model.addAttribute("doctor", doctor1); */
+            Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
+            Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
+            model.addAttribute("doctor",doctor);
+            List<Cita> citasAgendadas1 = citaRepository.buscarCitasAgendadasDoctor(doctor.getIddoctor());
 
-    }
+            model.addAttribute("citasAgendadas",citasAgendadas1);
+            return "doctor/dashboardDoc";
+        } /*else {
+            return "redirect:/iniciosesion";
+        }*/
 
     @GetMapping("/dashboard/diario")
     public String inicioDashboardDoctor2(){
@@ -91,14 +96,16 @@ public class DoctorController {
 
 
     @GetMapping("/pacientesatendidos")
-    public String pacientesAtendidosDoctor(Model model, @RequestParam("id") int idDoctor) {
-        Optional<Doctor> optDoctor = doctorRepository.findById(2);
+    public String pacientesAtendidosDoctor(Model model) {
+        /*Optional<Doctor> optDoctor = doctorRepository.findById(2);
         if (optDoctor.isPresent()) {
-            Doctor doctor1 = optDoctor.get();
-            model.addAttribute("doctor", doctor1);
-            model.addAttribute("pacientesAtendidosDoctor", citaRepository.pacientesAtendidosPorDoctor(idDoctor));
+            Doctor doctor1 = optDoctor.get();*/
+            Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
+            Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
+            model.addAttribute("doctor",doctor);
+            //model.addAttribute("doctor", doctor1);
+            model.addAttribute("pacientesAtendidosDoctor", citaRepository.pacientesAtendidosPorDoctor(doctor.getIddoctor()));
 
-        }
         return "doctor/pacientesAtendidos";
     }
 
@@ -239,11 +246,14 @@ public class DoctorController {
         //List<Event> events =
         //List<Eventocalendariodoctor> events = eventocalendariodoctorRepository.calendarioPorDoctor(idDoctor);
         //model.addAttribute("events", events);
-        Optional<Doctor> optDoctor = doctorRepository.findById(2);
+        /*Optional<Doctor> optDoctor = doctorRepository.findById(2);
         if (optDoctor.isPresent()) {
             Doctor doctor1 = optDoctor.get();
             model.addAttribute("doctor", doctor1);
-        }
+        }*/
+        Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
+        Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
+        model.addAttribute("doctor",doctor);
         return "doctor/calendarioDoc";
     }
 
@@ -278,11 +288,14 @@ public class DoctorController {
     @GetMapping("/perfil")
     public String perfilDoctor(Model model) {
 
-        Optional<Doctor> optDoctor = doctorRepository.findById(2);
+        /*Optional<Doctor> optDoctor = doctorRepository.findById(2);
         if (optDoctor.isPresent()) {
             Doctor doctor1 = optDoctor.get();
             model.addAttribute("doctor", doctor1);
-        }
+        }*/
+        Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
+        Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
+        model.addAttribute("doctor",doctor);
         return "doctor/perfilDoc";
     }
 
@@ -372,14 +385,15 @@ public class DoctorController {
     }
 
     @GetMapping("/configuraciones")
-    public String configuracionDoctor(Model model, @RequestParam("id") int idD){
-        Optional<Doctor> optDoctor = doctorRepository.findById(2);
+    public String configuracionDoctor(Model model){
+        /*Optional<Doctor> optDoctor = doctorRepository.findById(2);
         if (optDoctor.isPresent()) {
-            Doctor doctor1 = optDoctor.get();
+            Doctor doctor1 = optDoctor.get();*/
+            Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
+            Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
+            model.addAttribute("doctor",doctor);
             List<Sede> lista = sedeRepository.findAll();
             model.addAttribute("listSedes", lista);
-            model.addAttribute("doctor", doctor1);
-        }
         return "doctor/configuracionDoc";
     }
 

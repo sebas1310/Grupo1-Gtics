@@ -100,7 +100,7 @@
 
         <a class="nav-link nav-profile d-flex align-items-center pe-0" th:href="@{'/doctor/perfil'}" data-bs-toggle="dropdown">
           <img src="https://img.freepik.com/foto-gratis/hermosa-joven-doctora-mirando-camara-oficina_1301-7807.jpg?w=2000" alt="Profile" class="rounded-circle">
-          <span th:text="${nombre}" class="d-none d-md-block">Abigail Ramirez</span>
+          <span th:text="|${nombre}|" class="d-none d-md-block">Abigail Ramirez</span>
         </a><!-- End Profile Iamge Icon -->
       </li><!-- End Profile Nav -->
     </ul>

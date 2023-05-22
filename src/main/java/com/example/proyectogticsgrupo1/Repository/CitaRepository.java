@@ -36,7 +36,7 @@ public interface CitaRepository extends JpaRepository<Cita, Integer> {
 
     List<Cita> findByPacienteAndFechaAfterOrderByFechaAsc(Paciente paciente, LocalDate fechaactual);
 
-    @Query(value= "select * from cita where doctor_iddoctor= '2' and concat(fecha, ' ' , horainicio , ' ', horafinal) <=current_timestamp()\n" +
+    @Query(value= "select * from cita where doctor_iddoctor= ?1 and concat(fecha, ' ' , horainicio , ' ', horafinal) <=current_timestamp()\n" +
             "order by concat(fecha, ' ' , horainicio ) DESC",nativeQuery = true)
     List<Cita> pacientesAtendidosPorDoctor(Integer idDoctor);
 
