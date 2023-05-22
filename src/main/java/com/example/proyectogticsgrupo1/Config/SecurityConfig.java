@@ -80,7 +80,6 @@ public class SecurityConfig {
                 });
         //para cerrar sesion
         http.logout();
-
         http.authorizeHttpRequests()
                 .requestMatchers("/doctor", "/doctor/**").hasAnyAuthority("doctor")
                 .requestMatchers("/administrador", "/administrador/**").hasAnyAuthority("administrador")
