@@ -232,12 +232,11 @@ public class DoctorController {
 
     @GetMapping("/calendario")
     public String calendarioDoctor(Model model){
-        //List<Event> events =
-        //List<Eventocalendariodoctor> events = eventocalendariodoctorRepository.calendarioPorDoctor(idDoctor);
-        //model.addAttribute("events", events);
         Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
         Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
         model.addAttribute("doctor",doctor);
+        List<Eventocalendariodoctor> eventosDoctor = eventocalendariodoctorRepository.eventosCalendarioDoctor(doctor.getIddoctor());
+        model.addAttribute("eventos", eventosDoctor);
         return "doctor/calendarioDoc";
     }
 

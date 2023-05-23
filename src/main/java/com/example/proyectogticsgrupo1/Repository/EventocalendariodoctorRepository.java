@@ -34,5 +34,8 @@ public interface EventocalendariodoctorRepository extends JpaRepository<Eventoca
             "LIMIT 2; \n")
     List<DiasProximosDoctor> getDiasProx(Integer id);
 
+    @Query(nativeQuery = true, value = "select * from eventocalendariodoctor where iddoctor=?1 order by fecha")
+    List<Eventocalendariodoctor> eventosCalendarioDoctor(Integer iddoc);
+
 }
 
