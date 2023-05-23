@@ -191,9 +191,9 @@
                                        Añadir Receta
                                    </button>
                                    <br>
-                                   <button th:if="${cita.getTipoCita().getIdtipocita() eq 1}"type="button" class="btn btn-outline-primary" >
+                                   <a th:if="${cita.getTipoCita().getIdtipocita() eq 1}"type="button" th:href="@{'/doctor/pacientesatendidos/verhistorial/vercita/boletaMedicamento' + '?idCita=' + ${cita.getIdcita()}}" class="btn btn-outline-primary" >
                                        Generar Boleta Farmacia
-                                   </button>
+                                   </a>
                                    <button th:unless="${cita.getTipoCita().getIdtipocita() eq 1}" type="button" class="btn btn-outline-primary" >
                                        Enviar Por Delivery
                                    </button>

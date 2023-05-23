@@ -13,6 +13,9 @@ public interface RecetaMedicaRepository extends JpaRepository<RecetaMedica,Integ
     @Query(value= "select * from recetamedica where idcita = ?1 and idrecetamedica ",nativeQuery = true)
     List<RecetaMedica> buscarRecetaMedicaPorCita (Integer idCita, Integer idReceta);
 
+    @Query(value= "select * from recetamedica where idcita = ?1 ",nativeQuery = true)
+    List<RecetaMedica> recetaMedicaPorCita (Integer idCita);
+
     @Query(value= "select * from recetamedica where idrecetamedica =?1 ",nativeQuery = true)
     RecetaMedica buscarRecetaMedicaPorID (Integer idReceta);
 
