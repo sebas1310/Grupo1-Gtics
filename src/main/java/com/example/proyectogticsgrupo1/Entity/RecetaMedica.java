@@ -8,22 +8,26 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "recetamedica")
-public class Recetamedica {
+public class RecetaMedica {
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idrecetamedica")
-    private Integer idrecetamedica;
+    @Column(name = "idrecetamedica", nullable = false)
+    private Integer idRecetaMedica;
 
-    @Column(name = "medicamento")
+    @Column(name = "medicamento", length = 100, nullable = false)
     private String medicamento;
 
-    @Column(name = "dosis")
+    @Column(name = "dosis", length = 100, nullable = false)
     private String dosis;
 
-    @Column(name = "descripcion")
+    @Column(name = "descripcion",nullable = false)
     private String descripcion;
 
     @ManyToOne
-    @JoinColumn(name = "idcita")
+    @JoinColumn(name = "idcita", nullable = false)
     private Cita cita;
+
+
 }

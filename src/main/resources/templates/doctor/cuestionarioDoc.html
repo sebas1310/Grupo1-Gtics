@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="fragments/doctor/librerias.html :: cabecera (titulo = ' Cuestionario')">
+</head>
+<body>
+<!-- ======= Header ======= -->
+<header th:replace="fragments/doctor/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1',  nombre = |${doctor.usuario.nombres} ${doctor.usuario.apellidos}|, num_men = '2')">
+</header>
+<!-- End Header -->
+
+<!-- ======= Sidebar ======= -->
+<aside th:replace="fragments/doctor/aside.html :: sidebar (active = 'pacientesAtendidos')">
+</aside><!-- End Sidebar-->
+
+<!--Modal Cerrar Sesion-->
+<div th:replace="fragments/doctor/modalCerrarSesion.html::modal">
+
+</div>
+<!-- End Modal-->
+
+<main id="main" class="main">
+
+    <div class="pagetitle">
+        <h1>Cuestionario</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item active">Cuestionarios</li>
+            </ol>
+        </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section ">
+        <div class="row">
+
+            <!-- Right side columns -->
+            <div class="col-lg">
+                <!-- Bitacora -->
+                <div class="card recent-sales overflow-auto">
+                    <div class="card-body">
+                        <h5 class="card-title">Datos del Paciente</h5>
+                        <h6 class="card-title">Cita 1</h6>
+                        <form class="row g-3">
+                            <input th:value="${paciente.getIdpaciente()}" name="id" type="hidden" />
+                            <!--
+                            <input th:value="${doc.getIdDoctor()}" name="id" type="hidden" /> -->
+                            <div class="col-md-6">
+                                <label for="nombre" class="form-label">Nombre del Paciente</label>
+                                <input th:value="|${paciente.usuario.nombres} ${paciente.usuario.apellidos}|" type="text" class="form-control" id="nombre" disabled readonly >
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="enfermedad" class="form-label">Condición o Enfermedad</label>
+                                <input th:value="${paciente.getCondicionenfermedad()}" type="text" class="form-control" id="enfermedad"  disabled readonly>
+                            </div>
+
+                            <!--
+                            <div class="col-md-6">
+                                <label for="especialidad" class="form-label">Especialidad</label>
+                                <input th:value="${doc.especialidad.nombre}" type="text" class="form-control" id="especialidad" disabled readonly>
+                            </div> -->
+                            <div class="col-md-6">
+                                <label for="alergias" class="form-label">Alergias</label>
+                                <input th:value="${paciente.getAlergias()}" type="text" class="form-control" id="alergias"  disabled readonly>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="ingresoplataforma" class="form-label">Apenas El Paciente Ingrese a la Plataforma</label>
+                                <select class="form-select" id="ingresoplataforma" required>
+                                    <option selected disabled value="">Seleccione</option>
+                                    <option>Sí</option>
+                                    <option>No</option>
+                                </select>
+                            </div>
+
+                            <div class="d-grid gap d-md-flex justify-content-md-center">
+                                <button class="btn btn-primary" type="submit">Enviar Cuestionario</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </section>
+</main><!-- End #main -->
+
+<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+<!-- Vendor JS Files -->
+<script th:src="@{'/assets/vendor/apexcharts/apexcharts.min.js'}"></script>
+<script th:src="@{'/assets/vendor/bootstrap/js/bootstrap.bundle.min.js'}"></script>
+<script th:src="@{'/assets/vendor/chart.js/chart.min.js'}"></script>
+<script th:src="@{'/assets/vendor/echarts/echarts.min.js'}"></script>
+<script th:src="@{'/assets/vendor/quill/quill.min.js'}"></script>
+<script th:src="@{'/assets/vendor/simple-datatables/simple-datatables.js'}"></script>
+<script th:src="@{'/assets/vendor/tinymce/tinymce.min.js'}"></script>
+<script th:src="@{'/assets/vendor/php-email-form/validate.js'}"></script>
+
+<!-- Template Main JS File -->
+<script th:src="@{'/assets/js/main.js'}"></script>
+
+</body>
+
+
+</html>

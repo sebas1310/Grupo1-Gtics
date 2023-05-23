@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="fragments/doctor/librerias.html :: cabecera (titulo = 'Editar Receta')">
+</head>
+<body>
+<!-- ======= Header ======= -->
+<header th:replace="fragments/doctor/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1',  nombre = |${doctor.usuario.nombres} ${doctor.usuario.apellidos}|, num_men = '2')">
+</header>
+<!-- End Header -->
+
+<!-- ======= Sidebar ======= -->
+<aside th:replace="fragments/doctor/aside.html :: sidebar (active = 'pacientesAtendidos')">
+</aside><!-- End Sidebar-->
+
+<!--Modal Cerrar Sesion-->
+<div th:replace="fragments/doctor/modalCerrarSesion.html::modal">
+
+</div>
+<!-- End Modal-->
+
+<main id="main" class="main">
+  <div class="pagetitle">
+    <h1>Receta Medica</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a th:href="@{'/doctor/pacientesatendidos'+ '?id=' + ${doctor.iddoctor}}">Pacientes Atendidos</a></li>
+        <li class="breadcrumb-item"><a th:href="@{'/doctor/pacientesatendidos/verhistorial' + '?id=' + ${doctor.iddoctor}}">Historial Clínico</a></li>
+        <li class="breadcrumb-item "><a >Cita 1</a></li>
+        <li class="breadcrumb-item active">Receta Medica</li>
+      </ol>
+    </nav>
+  </div>
+  <section class="section ">
+    <div class="content-center">
+      <div th:each=" receta : ${receta}" class="justify-content-center">
+          <div class="card align-center-md-6">
+            <div class="card-body">
+              <h5 class="card-title">Receta Médica</h5>
+              <form method="post" th:action="@{'/doctor/pacientesatendidos/verhistorial/vercita/actualizarreceta'}">
+                <input th:value="${receta.getIdRecetaMedica()}" name="idReceta" type="hidden">
+                <input th:value="${cita.getIdcita()}" name="id" type="hidden">
+                <div class="content-md-6-center">
+                  <label for="medicamento" class="form-label">Medicamento</label>
+                  <input type="text" name="medicamento" class="form-control" id="medicamento"
+                         th:value="${receta.getMedicamento()}">
+                </div>
+                <div class="justify-content-md-6-center">
+                  <label for="dosis" class="form-label">Dosis</label>
+                  <input type="text" name="dosis" class="form-control" id="dosis"
+                         th:value="${receta.getDosis()}">
+                </div>
+
+                <div class="justify-content-md-6-center">
+                  <label for="description" class="form-label">Descripcion</label>
+                  <input type="text" name="descripcion" class="form-control" id="description"
+                         th:value="${receta.getDescripcion()}">
+                </div>
+                <br>
+                <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+                  <button class="btn btn-primary" type="submit">Actualizar</button>
+                  <button class="btn btn-danger" th:href="@{'/doctor/pacientesatendidos/verhistorial/vercita '+ '?id=' + ${doctor.iddoctor}}">Cancelar</button>
+                </div>
+              </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main><!-- End #main -->
+
+
+
+<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+<!-- Vendor JS Files -->
+<script th:src="@{'/assets/vendor/apexcharts/apexcharts.min.js'}"></script>
+<script th:src="@{'/assets/vendor/bootstrap/js/bootstrap.bundle.min.js'}"></script>
+<script th:src="@{'/assets/vendor/chart.js/chart.min.js'}"></script>
+<script th:src="@{'/assets/vendor/echarts/echarts.min.js'}"></script>
+<script th:src="@{'/assets/vendor/quill/quill.min.js'}"></script>
+<script th:src="@{'/assets/vendor/simple-datatables/simple-datatables.js'}"></script>
+<script th:src="@{'/assets/vendor/tinymce/tinymce.min.js'}"></script>
+<script th:src="@{'/assets/vendor/php-email-form/validate.js'}"></script>
+
+<!-- Template Main JS File -->
+<script th:src="@{'/assets/js/main.js'}"></script>
+
+</body>
+
+</html>

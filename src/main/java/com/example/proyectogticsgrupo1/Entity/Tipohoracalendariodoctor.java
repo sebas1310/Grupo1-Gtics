@@ -16,4 +16,5 @@ public class Tipohoracalendariodoctor {
 
     @Column(name = "nombre")
     private String nombre;
+
 }

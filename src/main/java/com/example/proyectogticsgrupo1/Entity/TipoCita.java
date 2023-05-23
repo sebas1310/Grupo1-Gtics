@@ -16,4 +16,6 @@ public class TipoCita{
 
     @Column(name = "nombre", nullable = false)
     private String nombre;
+
 }
+
