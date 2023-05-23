@@ -47,30 +47,21 @@ public class AdministradorController {
 
     @GetMapping("")
     public String administrador(Model model) {
-        Optional<Usuario> usuarioopt = usuarioRepository.findById(2);
-        if (usuarioopt.isPresent()) {
-            Usuario user = usuarioopt.get();
-            model.addAttribute("usuario", user);
-            List<Paciente> listaPacientesSD = pacienteRepository.listarPacienteporSedeDashboard(2); // a futuro cambiar
+            Usuario usuarioAdministrador = (Usuario) session.getAttribute("usuario");
+            List<Paciente> listaPacientesSD = pacienteRepository.listarPacienteporSedeDashboard(usuarioAdministrador.getSede().getIdsede()); // a futuro cambiar
             model.addAttribute("listaUsuariosPacientes", listaPacientesSD);
-            List<Doctor> listaDoctoresSD = doctorRepository.listarDoctorporSedeDashboard(2);
+            List<Doctor> listaDoctoresSD = doctorRepository.listarDoctorporSedeDashboard(usuarioAdministrador.getSede().getIdsede());
             model.addAttribute("listaUsuarioDoctores", listaDoctoresSD);
-            return "administrador/dashboard";
-        } else {
-            return "redirect:/iniciosesion";
-        }
+            model.addAttribute("usuario",usuarioAdministrador);
+        return "administrador/dashboard";
     }
 
     @GetMapping(value = "/nuevopaciente")
     public String creandoPaciente(Model model) {
-        Optional<Usuario> usuarioopt = usuarioRepository.findById(2);
-        if (usuarioopt.isPresent()) {
-            Usuario user = usuarioopt.get();
-            model.addAttribute("usuario", user);
+        Usuario usuarioAdministrador = (Usuario) session.getAttribute("usuario");
+        model.addAttribute("usuario", usuarioAdministrador);
             return "administrador/nuevopaciente";
-        } else {
-            return "redirect:/iniciosesion";
-        }
+
     }
 
 
@@ -146,14 +137,9 @@ public class AdministradorController {
 
     @GetMapping(value = "/calendariogeneral")
     public String genCalendar(Model model) {
-        Optional<Usuario> usuarioopt = usuarioRepository.findById(2);
-        if (usuarioopt.isPresent()) {
-            Usuario user = usuarioopt.get();
-            model.addAttribute("usuario", user);
+        Usuario usuarioAdministrador = (Usuario) session.getAttribute("usuario");
+        model.addAttribute("usuario", usuarioAdministrador);
             return "administrador/calendariogeneral";
-        } else {
-            return "redirect:/iniciosesion";
-        }
     }
     @GetMapping(value = "/calendariomarzo")
     public String MarzoCalendar() {
@@ -169,15 +155,9 @@ public class AdministradorController {
 
     @GetMapping(value = "/formatos")
     public String formatos(Model model) {
-
-        Optional<Usuario> usuarioopt = usuarioRepository.findById(2);
-        if (usuarioopt.isPresent()) {
-            Usuario user = usuarioopt.get();
-            model.addAttribute("usuario", user);
+        Usuario usuarioAdministrador = (Usuario) session.getAttribute("usuario");
+        model.addAttribute("usuario", usuarioAdministrador);
             return "administrador/formatos";
-        } else {
-            return "redirect:/iniciosesion";
-        }
     }
 
 
@@ -233,21 +213,16 @@ public class AdministradorController {
     @GetMapping(value = "/dashboardpaciente")
     public String listaCitas(Model model, @RequestParam(name="buscando",required = false) String buscando) {
         Optional<Usuario> usuarioopt = usuarioRepository.findById(2);
-        if (usuarioopt.isPresent()) {
-            Usuario user = usuarioopt.get();
-            model.addAttribute("usuario", user);
+        Usuario usuarioAdministrador = (Usuario) session.getAttribute("usuario");
+        model.addAttribute("usuario", usuarioAdministrador);
             if(buscando == null) {
-                List<Paciente> listaPacientesS = pacienteRepository.listarPacienteporSede(2); // a futuro cambiar
+                List<Paciente> listaPacientesS = pacienteRepository.listarPacienteporSede(usuarioAdministrador.getSede().getIdsede()); // a futuro cambiar
                 model.addAttribute("listaUsuariosPacientes", listaPacientesS);
             }else{
                 List<Paciente> listaUsuarios = pacienteRepository.buscadorPaciente(buscando.toLowerCase());
                 model.addAttribute("listaUsuariosPacientes", listaUsuarios);
             }
             return "administrador/dashboardpaciente";
-        } else {
-            return "redirect:/iniciosesion";
-        }
-
     }
 
 
@@ -284,146 +259,96 @@ public class AdministradorController {
 
     @GetMapping(value = "/configuraciones")
     public String config(Model model) {
-        Optional<Usuario> usuarioopt = usuarioRepository.findById(2);
-        if (usuarioopt.isPresent()) {
-            Usuario user = usuarioopt.get();
-            model.addAttribute("usuario", user);
-            Sede sede = sedeRepository.findByIdsede(2);
+        Usuario usuarioAdministrador = (Usuario) session.getAttribute("usuario");
+        model.addAttribute("usuario", usuarioAdministrador);
+            Sede sede = sedeRepository.findByIdsede(usuarioAdministrador.getSede().getIdsede());
             model.addAttribute("sede",sede);
             return "administrador/configuraciones";
-        } else {
-            return "redirect:/iniciosesion";
-        }
+
     }
 
     @GetMapping(value = "/dashboardfinanzas")
     public String dashboardfinanz(Model model) {
-        Optional<Usuario> usuarioopt = usuarioRepository.findById(2);
-        if (usuarioopt.isPresent()) {
-            Usuario user = usuarioopt.get();
-            model.addAttribute("usuario", user);
+        Usuario usuarioAdministrador = (Usuario) session.getAttribute("usuario");
+        model.addAttribute("usuario", usuarioAdministrador);
             return "administrador/dashboardfinanzas";
-        } else {
-            return "redirect:/iniciosesion";
-        }
+
     }
 
     @GetMapping("/historialclinico")
     public String historialClinico(Model model, @RequestParam("id") int idPaciente){
-        Optional<Usuario> usuarioopt = usuarioRepository.findById(2);
-        if (usuarioopt.isPresent()) {
-            Usuario user = usuarioopt.get();
-            model.addAttribute("usuario", user);
+        Usuario usuarioAdministrador = (Usuario) session.getAttribute("usuario");
+        model.addAttribute("usuario", usuarioAdministrador);
             Paciente paciente = pacienteRepository.buscarPacientH(idPaciente);
             model.addAttribute("paciente", paciente);
             List<Cita> citasFuturas = citaRepository.findByPacienteAndFechaAfterOrderByFechaAsc(paciente, LocalDate.now());
             model.addAttribute("citas", citasFuturas);
             return "administrador/historialclinico";
-        }else {
-            return "redirect:/iniciosesion";
-        }
     }
 
     @GetMapping(value = "/crearpaciente")
     public String crearPaciente(Model model) {
-        Optional<Usuario> usuarioopt = usuarioRepository.findById(2);
-        if (usuarioopt.isPresent()) {
-            Usuario user = usuarioopt.get();
-            model.addAttribute("usuario", user);
+        Usuario usuarioAdministrador = (Usuario) session.getAttribute("usuario");
+        model.addAttribute("usuario", usuarioAdministrador);
             return "administrador/crearpaciente";
-        } else {
-            return "redirect:/iniciosesion";
-        }
+
     }
 
     @GetMapping(value = "/vistaformato")
     public String vistaForm(Model model) {
-        Optional<Usuario> usuarioopt = usuarioRepository.findById(2);
-        if (usuarioopt.isPresent()) {
-            Usuario user = usuarioopt.get();
-            model.addAttribute("usuario", user);
+        Usuario usuarioAdministrador = (Usuario) session.getAttribute("usuario");
+        model.addAttribute("usuario", usuarioAdministrador);
             return "administrador/vistaformato";
-        } else {
-            return "redirect:/iniciosesion";
-        }
 
     }
 
     @GetMapping(value = "/notificaciones")
     public String notif(Model model) {
-        Optional<Usuario> usuarioopt = usuarioRepository.findById(2);
-        if (usuarioopt.isPresent()) {
-            Usuario user = usuarioopt.get();
-            model.addAttribute("usuario", user);
+        Usuario usuarioAdministrador = (Usuario) session.getAttribute("usuario");
+        model.addAttribute("usuario", usuarioAdministrador);
             return "administrador/notificaciones";
-        } else {
-            return "redirect:/iniciosesion";
-        }
     }
 
     @GetMapping(value = "/mensajes")
     public String mensajes(Model model) {
-        Optional<Usuario> usuarioopt = usuarioRepository.findById(2);
-        if (usuarioopt.isPresent()) {
-            Usuario user = usuarioopt.get();
-            model.addAttribute("usuario", user);
+        Usuario usuarioAdministrador = (Usuario) session.getAttribute("usuario");
+        model.addAttribute("usuario", usuarioAdministrador);
             return "administrador/mensajes";
-        } else {
-            return "redirect:/iniciosesion";
-        }
     }
 
     @GetMapping(value = "/chat")
     public String chat(Model model) {
-        Optional<Usuario> usuarioopt = usuarioRepository.findById(2);
-        if (usuarioopt.isPresent()) {
-            Usuario user = usuarioopt.get();
-            model.addAttribute("usuario", user);
+        Usuario usuarioAdministrador = (Usuario) session.getAttribute("usuario");
+        model.addAttribute("usuario", usuarioAdministrador);
             return "administrador/chat";
-        } else {
-            return "redirect:/iniciosesion";
-        }
+
     }
 
 
     @GetMapping(value = "/detallesdoctor")
     public String Detalles(Model model, @RequestParam("id") int idDoctor) {
-        Optional<Usuario> usuarioopt = usuarioRepository.findById(2);
-        if (usuarioopt.isPresent()) {
-            Usuario user = usuarioopt.get();
-            model.addAttribute("usuario", user);
+        Usuario usuarioAdministrador = (Usuario) session.getAttribute("usuario");
+        model.addAttribute("usuario", usuarioAdministrador);
             Doctor doctor = doctorRepository.buscarDoctorH(idDoctor);
             model.addAttribute("doctor",doctor);
-
             return "administrador/detallesdoctor";
-        } else {
-            return "redirect:/iniciosesion";
-        }
+
     }
 
     @GetMapping(value = "/vistacuestionario")
     public String VerCuestionario(Model model) {
-        Optional<Usuario> usuarioopt = usuarioRepository.findById(2);
-        if (usuarioopt.isPresent()) {
-            Usuario user = usuarioopt.get();
-            model.addAttribute("usuario", user);
+        Usuario usuarioAdministrador = (Usuario) session.getAttribute("usuario");
+        model.addAttribute("usuario", usuarioAdministrador);
             return "administrador/vistacuestionario";
-        } else {
-            return "redirect:/iniciosesion";
-        }
     }
 
     @GetMapping(value = "/creardoctor")
     public String crearDoctor(@ModelAttribute("especialidad") Especialidad especialidad, Model model) {
-        Optional<Usuario> usuarioopt = usuarioRepository.findById(2);
-        if (usuarioopt.isPresent()) {
-            Usuario user = usuarioopt.get();
-            model.addAttribute("usuario", user);
-            model.addAttribute("listaEspecialidad", especialidadRepository.findAll());
-            return "administrador/creardoctor";
-        } else {
-            return "redirect:/iniciosesion";
-        }
+        Usuario usuarioAdministrador = (Usuario) session.getAttribute("usuario");
+        model.addAttribute("usuario", usuarioAdministrador);
+        model.addAttribute("listaEspecialidad", especialidadRepository.findAll());
+        return "administrador/creardoctor";
+
     }
 
 
@@ -463,9 +388,8 @@ public class AdministradorController {
 
     @GetMapping(value = "/perfil")
     public String perfilPaciente(Model model){
-        Optional<Usuario> usuarioopt = usuarioRepository.findById(2);
-        Usuario usuario =  usuarioopt.get();
-        model.addAttribute("usuario",usuario);
+        Usuario usuarioAdministrador = (Usuario) session.getAttribute("usuario");
+        model.addAttribute("usuario",usuarioAdministrador);
         return "administrador/perfil";
     }
 
@@ -492,14 +416,9 @@ public class AdministradorController {
 
     @GetMapping(value = "/nuevo")
     public String nuevoPaciente(Model model){
-        Optional<Usuario> usuarioopt = usuarioRepository.findById(2);
-        if (usuarioopt.isPresent()) {
-            Usuario user = usuarioopt.get();
-            model.addAttribute("usuario", user);
+        Usuario usuarioAdministrador = (Usuario) session.getAttribute("usuario");
+        model.addAttribute("usuario", usuarioAdministrador);
             return "administrador/crearpaciente";
-        } else {
-            return "redirect:/iniciosesion";
-        }
     }
 
     /*@PostMapping(value = "/guardar")
