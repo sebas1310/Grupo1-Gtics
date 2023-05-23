@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.print.Doc;
 import java.time.LocalDate;
 import java.util.Random;
 
@@ -114,7 +115,7 @@ public class AdministradorController {
         user.setContrasena(generarContrasena(10));
         usuarioRepository.save(user);
         Paciente paciente = new Paciente();
-        Estadopaciente estadoPaciente = new Estadopaciente();
+        EstadoPaciente estadoPaciente = new EstadoPaciente();
         estadoPaciente.setIdestadopaciente(1);
         paciente.setEstadoPaciente(estadoPaciente);
         paciente.setDireccion(direccion);
@@ -181,10 +182,10 @@ public class AdministradorController {
     //@GetMapping(value = "/dashboardpaciente")
     //public String dashboardpacient(Model model) {
 
-        //List<Usuario> listaUsuario = usuarioRepository.findByTipodeusuarioIdtipodeusuario(4);
-        //model.addAttribute("listaUsuario", listaUsuario);
+    //List<Usuario> listaUsuario = usuarioRepository.findByTipodeusuarioIdtipodeusuario(4);
+    //model.addAttribute("listaUsuario", listaUsuario);
 
-        //return "administrador/dashboardpaciente";
+    //return "administrador/dashboardpaciente";
     //}
 
     /*@GetMapping(value = "/dashboardpaciente")
@@ -265,7 +266,7 @@ public class AdministradorController {
             }else{
                 List<Doctor> listaUsuarios = doctorRepository.buscadorDoctor(buscando.toLowerCase());
                 model.addAttribute("listaUsuarioDoctores", listaUsuarios);
-                }
+            }
             return "administrador/dashboarddoctor";
         } else {
             return "redirect:/iniciosesion";
@@ -525,20 +526,4 @@ public class AdministradorController {
         }
         return "redirect:/administrador/perfil";
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
-
-

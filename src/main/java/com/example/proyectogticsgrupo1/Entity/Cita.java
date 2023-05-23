@@ -18,26 +18,13 @@ public class Cita {
     @Column(name = "idcita", nullable = false)
     private Integer idcita;
 
-<<<<<<< HEAD
-=======
-    @Column(name = "costo", nullable = false)
-    private Double costo;
-
->>>>>>> origin
     @ManyToOne
     @JoinColumn(name = "idsede",  nullable = false)
     private Sede sede;
 
     @ManyToOne
-<<<<<<< HEAD
     @JoinColumn(name = "idespecialidad", nullable = false)
     private Especialidad especialidad;
-=======
-    @JoinColumn(name = "idpaciente",  nullable = false)
-    private Paciente paciente;
-
-    /*D*/
->>>>>>> origin
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate fecha;
@@ -62,7 +49,6 @@ public class Cita {
     private Seguro seguro;
 
     @ManyToOne
-<<<<<<< HEAD
     @JoinColumn(name = "idestadocita",  nullable = false)
     private EstadoCita estadoCita;
 
@@ -86,15 +72,3 @@ public class Cita {
 
 
 }
-=======
-    @JoinColumn(name = "idespecialidad",  nullable = false)
-    private Especialidad especialidad;
-
-    @ManyToOne
-    @JoinColumn(name = "idestadocita",  nullable = false)
-    private EstadoCita estadoCita;
-
-
-
-}
->>>>>>> origin

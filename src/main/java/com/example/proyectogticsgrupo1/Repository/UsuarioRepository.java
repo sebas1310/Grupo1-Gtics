@@ -1,7 +1,6 @@
 package com.example.proyectogticsgrupo1.Repository;
 
 import com.example.proyectogticsgrupo1.Entity.Paciente;
-import com.example.proyectogticsgrupo1.Entity.Sede;
 import com.example.proyectogticsgrupo1.Entity.Usuario;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
