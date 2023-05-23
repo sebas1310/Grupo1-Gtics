@@ -2,15 +2,27 @@ package com.example.proyectogticsgrupo1.Repository;
 
 import com.example.proyectogticsgrupo1.Entity.Doctor;
 import com.example.proyectogticsgrupo1.Entity.Paciente;
-import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import javax.print.Doc;
 import java.util.List;
 
-public interface DoctorRepository extends JpaRepository<Doctor, Integer> {
+
+
+import com.example.proyectogticsgrupo1.Entity.Sede;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+
+public interface DoctorRepository extends JpaRepository<Doctor, Integer>{
+
+    @Query(value = "SELECT * from doctor where idsede = ?1", nativeQuery=true)
+    List<Doctor> doctoresPorEsp(int idsede);
+
 
     /*@Query(value="select u.nombres,u.apellidos,e.nombre from usuario u "+
             "join doctor d on d.idusuario = u.idusuario "+
@@ -53,6 +65,8 @@ public interface DoctorRepository extends JpaRepository<Doctor, Integer> {
     @Query(value="UPDATE usuario set contrasena = ?1 where idusuario = ?2",nativeQuery = true)
     void cambiarContra(String nuevaContra, Integer id );
 
-
+    @Query(value= "select * from doctor where idusuario = ?1 ",nativeQuery = true)
+    Doctor buscarDoctorPorIdUsuario (Integer idUsuario);
 
 }
+

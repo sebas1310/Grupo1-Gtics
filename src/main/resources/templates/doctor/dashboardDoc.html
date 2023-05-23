@@ -4,28 +4,18 @@
 </head>
 <body>
 <!-- ======= Header ======= -->
-<header th:replace="fragments/doctor/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1', nombre = |${doctor.usuario.nombres} ${doctor.usuario.apellidos}|, num_men = '2')">
+<header th:replace="fragments/doctor/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1', nombre = |${session.usuario.nombres} ${session.usuario.apellidos}|, num_men = '2')">
 </header>
 <!-- End Header -->
 <!-- ======= Sidebar ======= -->
 <aside th:replace="fragments/doctor/aside.html :: sidebar (active = 'dashboard')">
 </aside><!-- End Sidebar-->
 
-<div class="modal fade" id="cerrar" tabindex="-1">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">¿Seguro que deseas Salir?</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-success" data-bs-dismiss="modal"><a style="color: white" href="pages-login.html" >Salir</a></button>
-        <button type="button" class="btn btn-secondary"><a style="color: white" th:href="@{'/doctor/dashboard'}" >Cancelar</a></button>
-      </div>
-    </div>
-  </div>
-</div><!-- End Vertically centered Modal-->
+<!--Modal Cerrar Sesion-->
+<div th:replace="fragments/doctor/modalCerrarSesion.html::modal">
 
+</div>
+<!-- End Modal-->
 <main id="main" class="main">
 
   <div class="pagetitle">
@@ -37,12 +27,11 @@
     </nav>
   </div><!-- End Page Title -->
 
-  <section class="section dashboard">
+  <section class="section ">
     <div class="row">
-
       <!-- Left side columns -->
       <div class="col-lg">
-        <!-- CITAS AGENDADAS -->
+        <!-- CITAS AGENDADAS
         <div class="col-12">
           <div class="card recent-sales overflow-auto">
             <div class="filter">
@@ -56,22 +45,29 @@
                 <li><a class="dropdown-item"th:href="@{'/doctor/dashboard'}">Mañana</a></li>
               </ul>
             </div>
-            <div class="card-body">
+          </div> -->
+        <div class="row">
+          <!-- Pacientes Atendidos -->
+          <div class="col-12" >
+            <div class="card recent-sales overflow-auto" >
+              <div style="width: 100%" class="card-body" >
               <h5 class="card-title">Citas Agendadas <!--<span>| Hoy</span>-->
                 <br><br> <!--<center>Martes 4 de Abril</center>--></h5>
               <table class="table table-borderless datatable">
                 <thead>
                 <tr>
+                  <th style="text-align: center" scope="col">Fecha</th>
                   <th style="text-align: center" scope="col">Hora</th>
                   <th style="text-align: center" scope="col">Paciente</th>
                   <th style="text-align: center" scope="col">Tipo de Cita</th>
                   <th style="text-align: center" scope="col">Estado de Cita</th>
                   <th style="text-align: center" scope="col">Cuestionario</th>
-                  <th style="text-align: center" scope="col">Historial </th>
+                  <th style="text-align: center" scope="col">Mas Info</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each=" citaagendada:${citasAgendadas}">
+                  <td style="text-align: center" th:text="|${citaagendada.getFecha()}|"></td>
                   <td style="text-align: center" th:text="|${citaagendada.getHorainicio()} - ${citaagendada.getHorafinal()}|"></td>
                   <td style="text-align: center" th:text="|${citaagendada.getPaciente().getUsuario().getNombres()} ${citaagendada.getPaciente().getUsuario().getApellidos()}|"></td>
                   <td style="text-align: center" th:text="${citaagendada.getTipoCita().getNombre()}"></td>
@@ -90,16 +86,17 @@
                   <td style="text-align: center"> <a type="button" class="bi bi-journal-text"  th:href="@{/doctor/cuestionario}"></a></td>
                   <td style="text-align: center" > <a class="bi bi-eye-fill" data-bs-toggle="modal" href="#modal" role="button"></a></td>
                 </tr> -->
-                    
                 </tbody>
               </table>
+              </div>
+            </div>
+          </div>
+        </div>
               <!-- INICIO DEL MODAL-->
-
               <div th:each="paciente,indice:${citasAgendadas}" class="modal fade" id="modal" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
                 <div class="modal-dialog modal-dialog-centered">
                   <div class="modal-content">
                     <div class="modal-header">
-                      <h5 class="modal-title" id="exampleModalToggleLabel">Historial Clínico</h5>
                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -124,23 +121,15 @@
                                     <div class="card-body">
                                       <h9 class="card-title">Alergias</h9>
                                       <br>
-                                      <table class="table table-bordered">
-                                        <tbody>
-                                        <tr>
-                                          <td style="text-align: center" ><span th:text="|${paciente.getPaciente().getAlergias()}|"></span></td>
-                                        </tr>
-                                        <!--<tr>
-                                          <td style="text-align: center" >Polen</td>
-                                        </tr>-->
-                                        </tbody>
-                                      </table>
+                                      <li><span th:text="|${paciente.getPaciente().getAlergias()} |"></span></li>
                                     </div>
                                   </div>
                                 </div>
                               </div>
-                            </div> <!--End Informacion -->
+                            </div>
+                              <!--End Informacion -->
                             <!-- Historial de citas -->
-                            <div class="col-12">
+                            <!--<div class="col-12">
                               <div class="card recent-sales overflow-auto">
                                 <div class="card-body">
                                   <h5 class="card-title">Historial de Citas</h5>
@@ -170,11 +159,11 @@
                                     </tr>
                                     </tbody>
                                   </table>
-                                  <!-- End Historial -->
+                                  End Historial
                                 </div>
-                              </div>
+                              </div>  -->
                               <!-- Bitacora -->
-                              <div class="card recent-sales overflow-auto">
+                              <!-- <div class="card recent-sales overflow-auto">
                                 <div class="card-body">
                                   <h5 class="card-title">Bitacora de Diagnostico</h5>
 
@@ -195,7 +184,7 @@
                                     </div>
                                   </div>
                                 </div>
-                              </div>
+                              </div> -->
                             </div>
                           </div><!-- End Left side columns -->
                         </div>
@@ -439,11 +428,8 @@
               </tbody>
             </table>
             <!-- End Bordered Table -->
-
           </div>
         </div><!-- End Recent Activity -->
-
-
 
       </div><!-- End Right side columns -->
 

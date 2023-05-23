@@ -4,90 +4,26 @@
 </head>
 <body>
 <!-- ======= Header ======= -->
-<header th:replace="fragments/doctor/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1', nombre = 'Abigail Ramirez', num_men = '2')">
-</header><!-- End Header -->
+<header th:replace="fragments/doctor/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1',  nombre = |${doctor.usuario.nombres} ${doctor.usuario.apellidos}|, num_men = '2')">
+</header>
+<!-- End Header -->
+
 <!-- ======= Sidebar ======= -->
-<aside id="sidebar" class="sidebar">
-
-
-    <ul class="sidebar-nav" id="sidebar-nav">
-        <li class="nav-item">
-            <a class="nav-link collapsed " th:href="@{'/doctor/dashboard'}" >
-                <i class="bi bi-grid"></i>
-                <span>Dashboard</span>
-            </a>
-        </li><!-- End Dashboard -->
-
-        <li class="nav-item"> <!-- Cambiar ref -->
-            <a class="nav-link collapsed"  th:href="@{'/doctor/pacientesatendidos'}" >
-                <i class="bi bi-menu-button-wide"></i>
-                <span>Pacientes Atendidos</span>
-            </a>
-        </li><!-- End Pacientes Atendidos -->
-
-
-        <li class="nav-item">  <!-- cambia -->
-            <a class="nav-link collapsed"  th:href="@{'/doctor/calendario'}" >
-                <i class="bi bi-calendar3"></i>
-                <span>Calendario</span>
-            </a>
-        </li><!-- End Calendario -->
-
-        <li class="nav-item">  <!-- cambia -->
-            <a class="nav-link" th:href="@{'/doctor/perfil'}" >
-                <i class="bi bi-person"></i>
-                <span>Perfil</span>
-            </a>
-        </li><!-- End Perfil -->
-
-        <br><br><br><br>
-        <br><br><br><br>
-        <br><br><br><br>
-        <br><br><br>
-        <br><br>
-        <li class="nav-heading"> ----------------------------------------------- </li>
-
-        <li class="nav-item">
-            <a class="nav-link collapsed" th:href="@{'/doctor/configuraciones'}" >
-                <i class="bi bi-gear"></i>
-                <span>Configuracion</span>
-            </a>
-        </li><!-- End Configuracion -->
-
-
-        <li class="nav-item">
-            <a class="nav-link collapsed" type="button" data-bs-toggle="modal" data-bs-target="#cerrar">
-                <i class="bi bi-box-arrow-in-right"></i>
-                <span>Cerrar Sesión</span>
-                <!-- Vertically centered Modal -->
-
-            </a>
-        </li><!-- End Cerrar Sesion -->
-    </ul>
-
+<aside th:replace="fragments/doctor/aside.html :: sidebar (active = 'pacientesAtendidos')">
 </aside><!-- End Sidebar-->
-<!-- Cerrar Sesion-->
-<div class="modal fade" id="cerrar" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">¿Seguro que deseas Salir?</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-success" data-bs-dismiss="modal"><a style="color: white" href="pages-login.html" >Salir</a></button>
-                <button type="button" class="btn btn-secondary"><a style="color: white" th:href="@{'/doctor/cuestionario'}" >Cancelar</a></button>
-            </div>
-        </div>
-    </div>
-</div><!-- End Cerrar Sesion-->
+
+<!--Modal Cerrar Sesion-->
+<div th:replace="fragments/doctor/modalCerrarSesion.html::modal">
+
+</div>
+<!-- End Modal-->
+
 <main id="main" class="main">
 
     <div class="pagetitle">
         <h1>Cuestionario</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a th:href="@{'/doctor/dashboard'}">Dashboard</a></li>
                 <li class="breadcrumb-item active">Cuestionarios</li>
             </ol>
         </nav>
@@ -101,7 +37,8 @@
                 <!-- Bitacora -->
                 <div class="card recent-sales overflow-auto">
                     <div class="card-body">
-                        <h5 class="card-title">Datos del Cuestionario</h5>
+                        <h5 class="card-title">Datos del Paciente</h5>
+                        <h6 class="card-title">Cita 1</h6>
                         <form class="row g-3">
                             <input th:value="${paciente.getIdpaciente()}" name="id" type="hidden" />
                             <!--
@@ -110,25 +47,33 @@
                                 <label for="nombre" class="form-label">Nombre del Paciente</label>
                                 <input th:value="|${paciente.usuario.nombres} ${paciente.usuario.apellidos}|" type="text" class="form-control" id="nombre" disabled readonly >
                             </div>
+
                             <div class="col-md-6">
-                                <label for="correo" class="form-label">Correo</label>
-                                <input th:value="${paciente.usuario.correo}" type="text" class="form-control" id="correo"  disabled readonly>
+                                <label for="enfermedad" class="form-label">Condición o Enfermedad</label>
+                                <input th:value="${paciente.getCondicionenfermedad()}" type="text" class="form-control" id="enfermedad"  disabled readonly>
                             </div>
+
                             <!--
                             <div class="col-md-6">
                                 <label for="especialidad" class="form-label">Especialidad</label>
                                 <input th:value="${doc.especialidad.nombre}" type="text" class="form-control" id="especialidad" disabled readonly>
                             </div> -->
                             <div class="col-md-6">
-                                <label for="ingresoplataforma" class="form-label">Apenas Ingrese a la Plataforma</label>
+                                <label for="alergias" class="form-label">Alergias</label>
+                                <input th:value="${paciente.getAlergias()}" type="text" class="form-control" id="alergias"  disabled readonly>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="ingresoplataforma" class="form-label">Apenas El Paciente Ingrese a la Plataforma</label>
                                 <select class="form-select" id="ingresoplataforma" required>
                                     <option selected disabled value="">Seleccione</option>
                                     <option>Sí</option>
                                     <option>No</option>
                                 </select>
                             </div>
+
                             <div class="d-grid gap d-md-flex justify-content-md-center">
-                                <button class="btn btn-primary" type="submit">Enviar form</button>
+                                <button class="btn btn-primary" type="submit">Enviar Cuestionario</button>
                             </div>
                         </form>
                     </div>

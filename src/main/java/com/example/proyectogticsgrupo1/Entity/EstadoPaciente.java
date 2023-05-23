@@ -1,19 +1,20 @@
 package com.example.proyectogticsgrupo1.Entity;
 
 import jakarta.persistence.*;
+
 import lombok.Getter;
 import lombok.Setter;
 
+@Entity
 @Getter
 @Setter
-@Entity
 @Table(name = "estadopaciente")
 public class EstadoPaciente {
-    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name ="idestadopaciente")
-    private Integer idestadopaciente;
+    @Id
+    @Column(name = "idestadopaciente", nullable = false)
+    private int idestadopaciente;
 
-    @Column(name = "nombre")
+    @Column(name = "nombre", nullable = false)
     private String nombre;
 }

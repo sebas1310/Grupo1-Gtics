@@ -4,11 +4,13 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
+
 @Getter
 @Setter
 @Entity
 @Table(name = "seguro")
-public class Seguro {
+public class Seguro implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idseguro")
@@ -20,6 +22,8 @@ public class Seguro {
     @Column(name = "coaseguro")
     private Double coaseguro;
 
-    @Column(name = "comisiondoctor")
+     @Column(name = "comisiondoctor")
     private Double comisiondoctor;
 }
+
+

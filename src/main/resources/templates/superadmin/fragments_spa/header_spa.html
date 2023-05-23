@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+
+<body>
+<header th:fragment="header(num_not, num_form, por_canc, nombre, num_men)" id="header" class="header fixed-top d-flex align-items-center" style="background-color:#668cff">
+
+    <div class="d-flex align-items-center justify-content-between">
+        <a th:href="@{'/superadmin/index'}"class="logo d-flex align-items-center">
+            <img th:src="@{/assets/img/logo.png}" alt="" th:href="@{'/superadmin/index'}">
+            <span class="d-none d-lg-block" style="color: white" th:href="@{'/superadmin/index'}">Clínica LA FE</span>
+        </a>
+        <i class="bi bi-list toggle-sidebar-btn"></i>
+    </div><!-- End Logo -->
+
+    <nav class="header-nav ms-auto">
+        <ul class="d-flex align-items-center">
+            <li class="nav-item dropdown">
+                <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
+                    <i class="bi bi-bell"></i>
+                    <span th:text="${num_not}" class="badge bg-primary badge-number"></span>
+                </a><!-- End Notification Icon -->
+
+                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
+                    <li  class="dropdown-header">
+                        <p th:text="|Tiene ${num_not} notificaciones |"> </p>
+                        <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">Vaciar</span></a>
+                    </li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+
+
+                    <li class="dropdown-footer">
+                        <a th:href="@{'/superadmin/notificaciones'}">Mostrar todas las notificaciones</a>
+                    </li>
+                </ul><!-- End Notification Dropdown Items -->
+            </li><!-- End Notification Nav -->
+
+
+            <!---
+            <li class="nav-item dropdown">
+
+                <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
+                    <i class="bi bi-chat-left-text"></i>
+                    <span class="badge bg-success badge-number">3</span>
+                </a>
+
+                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow messages">
+                    <li class="dropdown-header">
+                        <p th:text="|Tiene ${num_men} mensajes nuevos |"> </p>
+                        <a th:href="@{'/superadmin/mensajeria'}"><span class="badge rounded-pill bg-primary p-2 ms-2">Ver todos</span></a>
+                    </li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+
+                    <li class="message-item">
+                        <a href="#">
+                            <img th:src="@{/assets/img/profile-img.jpg}" alt="Profile" class="rounded-circle">
+                            <div>
+                                <h4>Maria Hudson</h4>
+                                <p>Sobre su consulta acerca de los análisis...</p>
+                                <p>Hace 2 horas</p>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+
+                    <li class="dropdown-footer">
+                        <a th:href="@{'/superadmin/mensajeria'}">Mostrar todos los mensajes</a>
+                    </li>
+                </ul>
+            </li>
+
+
+            ---->
+
+            <li class="nav-item dropdown">
+            <li class="nav-item dropdown pe-3">
+                <a class="nav-link nav-profile d-flex align-items-center pe-0" th:href="@{'/superadmin/index'}" >
+                    <img th:src="@{/assets/img/profile-img.jpg}" alt="Profile" class="rounded-circle">
+                    <span th:text="${nombre}" class="d-none d-md-block  ps-2"></span>
+                </a><!-- End Profile Iamge Icon -->
+            </li><!-- End Profile Nav -->
+        </ul>
+    </nav><!-- End Icons Navigation -->
+</header>
+
+<!-- End Header -->
+
+</body>
+</html>

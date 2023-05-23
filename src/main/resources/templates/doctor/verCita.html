@@ -4,338 +4,204 @@
 </head>
 <body>
 <!-- ======= Header ======= -->
-<header th:replace="fragments/doctor/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1', nombre = 'Abigail Ramirez', num_men = '2')">
+<header th:replace="fragments/doctor/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1',  nombre = |${doctor.usuario.nombres} ${doctor.usuario.apellidos}|, num_men = '2')">
 </header>
 <!-- End Header -->
-        <!-- ======= Sidebar ======= -->
-        <aside id="sidebar" class="sidebar">
-            <ul class="sidebar-nav" id="sidebar-nav">
-                <li class="nav-item">
-                    <a class="nav-link collapsed" th:href="@{'/doctor/dashboard'}">
-                        <i class="bi bi-grid"></i>
-                        <span>Dashboard</span>
-                    </a>
-                </li><!-- End Dashboard -->
-                <li class="nav-item"> <!-- Cambiar ref -->
-                    <a class="nav-link"  th:href="@{'/doctor/pacientesatendidos'}">
-                        <i class="bi bi-menu-button-wide"></i>
-                        <span>Pacientes Atendidos</span>
-                    </a>
-                </li><!-- End Pacientes Atendidos -->
-                <li class="nav-item">  <!-- cambia -->
-                    <a class="nav-link collapsed"  th:href="@{'/doctor/calendario'}" >
-                        <i class="bi bi-calendar3"></i>
-                        <span>Calendario</span>
-                    </a>
-                </li><!-- End Calendario -->
-                <li class="nav-item">  <!-- cambia -->
-                    <a class="nav-link collapsed" th:href="@{'/doctor/perfil'}" >
-                        <i class="bi bi-person"></i>
-                        <span>Perfil</span>
-                    </a>
-                </li><!-- End Perfil -->
-                <br><br><br><br>
-                <br><br><br><br>
-                <br><br><br><br>
-                <br><br><br><br>
-                <br><br><br>
-                <li class="nav-heading"> ----------------------------------------------- </li>
-                <li class="nav-item">
-                    <a class="nav-link collapsed" th:href="@{'/doctor/configuraciones'}" >
-                        <i class="bi bi-gear"></i>
-                        <span>Configuracion</span>
-                    </a>
-                </li><!-- End Configuracion -->
-                <li class="nav-item">
-                    <a class="nav-link collapsed" type="button" data-bs-toggle="modal" data-bs-target="#cerrar">
-                        <i class="bi bi-box-arrow-in-right"></i>
-                        <span>Cerrar Sesión</span>
-                        <!-- Vertically centered Modal -->
-                    </a>
-                </li><!-- End Cerrar Sesion -->
-            </ul>
-        </aside><!-- End Sidebar-->
-        <div class="modal fade" id="cerrar" tabindex="-1">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">¿Seguro que deseas Salir?</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-success" data-bs-dismiss="modal"><a style="color: white" href="pages-login.html" >Salir </button>
-                        <button type="button" class="btn btn-secondary"><a style="color: white" th:href="@{'/doctor/pacientesatendidos/verhistorial/vercita'}" >Cancelar</a></button>
-                    </div>
-                </div>
-            </div>
-        </div><!-- End Vertically centered Modal-->
-        <main id="main" class="main">
 
-            <div class="pagetitle">
-                <h1>Cita 1</h1>
-                <nav>
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a th:href="@{'/doctor/pacientesatendidos'}">Pacientes Atendidos</a></li>
-                        <li class="breadcrumb-item"><a th:href="@{'/doctor/pacientesatendidos/verhistorial'}">Historial Clínico</a></li>
-                        <li class="breadcrumb-item active">Cita 1</li>
-                    </ol>
-                </nav>
-            </div><!-- End Page Title -->
+<!-- ======= Sidebar ======= -->
+<aside th:replace="fragments/doctor/aside.html :: sidebar (active = 'pacientesAtendidos')">
+</aside><!-- End Sidebar-->
 
-            <section class="section ">
-                <!-- Left side columns -->
-                <div class="col-lg">
-                    <div class="row">
-                        <!-- Informacion Cita -->
-                        <!--  <div class="col-xxl-4 col-xl-16"> -->
-                        <div class="col">
-                            <div class="card info-card customers-card">
-                                <div class="card-body">
-                                    <h5 class="card-title">Informacion de la Cita</h5>
-                                    <div class="ps-3">
-                                        <li>Paciente: <span th:text="${cita.getPaciente().getUsuario().getNombres() +cita.getPaciente().getUsuario().getApellidos()}"></span></li>
-                                        <li>Edad: <span th:text="${cita.getPaciente().getUsuario().getEdad()}"></span> años</li>
-                                        <li>Fecha: <span th:text="${cita.getFecha()}"></span></li>
-                                        <li>Modalidad: <span th:text="${cita.getTipoCita().getNombre()}"></span></li>
-                                        <li>Especialidad: <span th:text="${cita.getSeguro().getNombre()}"></span></li>
-                                    </div>
-                                </div>
+<!--Modal Cerrar Sesion-->
+<div th:replace="fragments/doctor/modalCerrarSesion.html::modal">
 
-                            </div> <!--End Informacion -->
+</div>
+<!-- End Modal-->
 
-                            <!-- Receta Medica -->
+<main id="main" class="main">
+    <div class="pagetitle" th:each=" cita,indice : ${cita}">
+        <h1>Cita<span th:text="${indice.index+1}" > </span></h1>
+        <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a th:href="@{'/doctor/pacientesatendidos'+ '?id=' + ${doctor.iddoctor}}">Pacientes Atendidos</a></li>
+            <li class="breadcrumb-item"><a th:href="@{'/doctor/pacientesatendidos/verhistorial'+ '?id=' + ${cita.idcita}}">Historial Clínico</a></li>
+            <!-- th:href="@{'/doctor/pacientesatendidos/verhistorial'+ '?id=' + ${cita.idcita}}" -->
+            <li class="breadcrumb-item active">Cita 1</li>
+        </ol>
+        </nav>
+    </div>
+    <section class="section ">
+        <div class="col-lg">
+           <div class="row">
+           <!-- Informacion Cita -->
+               <div class="col">
+                   <div class="card info-card customers-card">
+                       <div class="card-body">
+                           <h5 class="card-title">Informacion de la Cita</h5>
+                           <div class="ps-3">
+                               <li>Paciente: <span th:text="|${cita.getPaciente().getUsuario().getNombres()} ${cita.getPaciente().getUsuario().getApellidos()}|"></span></li>
+                               <li>Edad: <span th:text="${cita.getPaciente().getUsuario().getEdad()}"></span> años</li>
+                               <li>Fecha: <span th:text="${cita.getFecha()}"></span></li>
+                               <li>Modalidad: <span th:text="${cita.getTipoCita().getNombre()}"></span></li>
+                               <li>Especialidad: <span th:text="${cita.getSeguro().getNombre()}"></span></li>
+                           </div>
+                       </div>
+                   </div> <!--End Informacion -->
+                   <!-- Receta Medica -->
+                   <div class="col-12">
+                       <div class="card recent-sales overflow-auto">
+                           <div class="card-body">
+                               <h5 class="card-title">Receta Médica</h5>
+                               <table class="table">
+                                   <thead class="table-light">
+                                   <tr>
+                                       <th style="text-align: center" scope="col">#</th>
+                                       <th style="text-align: center" scope="col">Medicamento</th>
+                                       <th style="text-align: center" scope="col">Dosis</th>
+                                       <th style="text-align: center" scope="col">Descripción</th>
+                                       <!--<th style="text-align: center" scope="col">Opción</th> -->
+                                       <th style="text-align: center" scope="col">Editar</th>
+                                       <th style="text-align: center" scope="col">Borrar</th>
+                                   </tr>
+                                   </thead>
+                                   <tbody>
+                                   <tr th:each=" receta,indice : ${recetamedica}">
+                                       <th style="text-align: center" th:text="${indice.index+1}" scope="row"></th>
+                                       <td style="text-align: center" th:text="${receta.getMedicamento()}"></td>
+                                       <td style="text-align: center" th:text="${receta.getDosis()}"></td>
+                                       <td style="text-align: center" th:text="${receta.getDescripcion()}"></td>
+                                       <!-- <td style="text-align: center" th:text="${receta.getIdRecetaMedica()}"></td> -->
+                                       <td style="text-align: center" > <a class="bi bi-pencil-square"  th:href="@{'/doctor/pacientesatendidos/verhistorial/vercita/editarreceta?idReceta='+ ${receta.getIdRecetaMedica()} + '&id=' + ${cita.getIdcita()}}"></a></td>
+                                       <!-- <td> <input type="button" name="btnEditarS" value="Editar 1" th:text="${receta.getIdRecetaMedica()}"
+                                                   class="bi bi-pencil-square" data-bs-toggle="modal" data-bs-target="#modal"></td>-->
+                                       <td style="text-align: center" ><a class="bi bi-trash" th:href="@{'/doctor/pacientesatendidos/verhistorial/vercita/borrarreceta?idR='+${receta.getIdRecetaMedica()}}"></a></td>
+                                   </tr>
+                                   </tbody>
+                               </table>
 
-                            <div class="col-12">
-                                <div class="card recent-sales overflow-auto">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Receta Médica</h5>
-                                        <table class="table">
-                                            <thead class="table-light">
-                                                <tr>
-                                                    <th style="text-align: center" scope="col">Medicamento</th>
-                                                    <th style="text-align: center" scope="col">Dosis</th>
-                                                    <th style="text-align: center" scope="col">Descripción</th>
-                                                    <!--<th style="text-align: center" scope="col">Opción</th> -->
-                                                    <th style="text-align: center" scope="col">Editar</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr th:each=" receta:${recetamedica}">
-                                                    <td style="text-align: center" th:text="${receta.getMedicamento()}"></td>
-                                                    <td style="text-align: center" th:text="${receta.getDosis()}"></td>
-                                                    <td style="text-align: center" th:text="${receta.getDescripcion()}"></td>
-                                                    <td> <!-- Vertically centered Modal -->
-                                                        <div class="d-grid gap d-md-flex justify-content-md-center">
-                                                            <a type="button" class="bi bi-pencil-square" data-bs-toggle="modal" data-bs-target="#verticalycentered5"></a>
-                                                        </div>
-                                                        <div class="modal fade" id="verticalycentered5" tabindex="-1">
-                                                            <div class="modal-dialog modal-dialog-centered">
-                                                                <div class="modal-content">
-                                                                    <div class="modal-header">
-                                                                        <h5 class="modal-title">Receta Médica</h5>
-                                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                                    </div>
-                                                                    <div class="modal-body">
-                                                                        <form th:action="@{'/doctor/pacientesatendidos/verhistorial/vercita/editarreceta'}">
-                                                                            <input th:value="${receta.getIdRecetaMedica()}" name="idR" type="hidden">
-                                                                            <input th:value="${cita.getIdcita()}" name="idcita" type="hidden">
-                                                                            <div class="row mb-3">
-                                                                                <label for="medicamento" class="col-md-4 col-lg-3 col-form-label">Medicamento</label>
-                                                                                <div class="col-md-8 col-lg-9">
-                                                                                    <input name="medicamento" type="text" class="form-control" id="medicamento" th:value="${receta.getMedicamento()}">
-                                                                                </div>
-                                                                            </div>
+                               <!-- Modal editar -->
+                               <div th:each=" recetam : ${recetamedica}" class="modal fade" id="modal" tabindex="-1" aria-hidden="true" >
+                                   <div class="modal-dialog modal-dialog-centered">
+                                       <div class="modal-content">
+                                           <div class="modal-header">
+                                               <h5 class="modal-title">Receta Médica</h5>
+                                               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                           </div>
+                                           <div class="modal-body">
+                                               <form method="post" th:action="@{'/doctor/pacientesatendidos/verhistorial/vercita/editarreceta'}">
+                                                   <input th:value="${recetam.getIdRecetaMedica()}" name="idReceta" type="hidden">
+                                                   <input th:value="${cita.getIdcita()}" name="idCita" type="hidden">
 
-                                                                            <div class="row mb-3">
-                                                                                <label for="dosis" class="col-md-4 col-lg-3 col-form-label">Dosis</label>
-                                                                                <div class="col-md-8 col-lg-9">
-                                                                                    <input name="dosis" type="text" class="form-control" id="dosis" th:value="${receta.getDosis()}">
-                                                                                </div>
-                                                                            </div>
+                                                   <div class="row mb-3">
+                                                       <label for="medicamento" class="col-md-4 col-lg-3 col-form-label">Medicamento</label>
+                                                       <div class="col-md-8 col-lg-9">
+                                                           <input name="medicamento" type="text" class="form-control" id="medicamento"
+                                                                  th:value="${recetam.medicamento}">
+                                                       </div>
+                                                   </div>
+                                                   <div class="row mb-3">
+                                                       <label for="dosis" class="col-md-4 col-lg-3 col-form-label">Dosis</label>
+                                                       <div class="col-md-8 col-lg-9">
+                                                           <input name="dosis" type="text" class="form-control" id="dosis"
+                                                                  th:value="${recetam.dosis}">
+                                                       </div>
+                                                   </div>
+                                                   <div class="row mb-3">
+                                                       <label for="descripcion" class="col-md-4 col-lg-3 col-form-label">Descripcion</label>
+                                                       <div class="col-md-8 col-lg-9">
+                                                           <input name="descripcion" type="text" class="form-control" id="descripcion"
+                                                                  th:value="${recetam.descripcion}">
+                                                       </div>
+                                                   </div>
+                                                   <br>
+                                                   <!--
+                                                   <div class="form-floating">
+                                                   <div class="form-check-center">
+                                                       <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault2">
+                                                       <label class="form-check-label" for="flexCheckDefault2">Generar Boleta Farmacia</label>
+                                                   </div>
+                                                   <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked3" checked>
+                                                        <label class="form-check-label" for="flexCheckChecked3">Mandar Delivery</label>
+                                                   </div>
+                                                   <br>-->
+                                                   <br>
+                                                   <div class="d-grid gap d-md-flex justify-content-md-center">
+                                                       <button type="submit" class="btn btn-primary">Actualizar</button>
+                                                   </div>
+                                               </form>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div><!-- End  Modal-->
+                               <!--Modal Añadir Receta-->
+                               <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+                                   <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#verticalycentered">
+                                       Añadir Receta
+                                   </button>
+                                   <br>
+                                   <button th:if="${cita.getTipoCita().getIdtipocita() eq 1}"type="button" class="btn btn-outline-primary" >
+                                       Generar Boleta Farmacia
+                                   </button>
+                                   <button th:unless="${cita.getTipoCita().getIdtipocita() eq 1}" type="button" class="btn btn-outline-primary" >
+                                       Enviar Por Delivery
+                                   </button>
+                               </div>
+                               <div class="modal fade" id="verticalycentered" tabindex="-1">
+                                   <div class="modal-dialog modal-dialog-centered">
+                                       <div class="modal-content">
+                                           <div class="modal-header">
+                                               <h5 class="modal-title">Receta Médica</h5>
+                                               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                           </div>
+                                           <div class="modal-body">
+                                               <form method="post" th:action="@{'/doctor/pacientesatendidos/verhistorial/vercita/guardarreceta'}">
+                                                   <input th:each=" recetame : ${recetamedica}" th:value="${recetame.idRecetaMedica}" name="idReceta" type="hidden" />
+                                                   <input th:value="${cita.getIdcita()}" name="id" type="hidden" />
 
-                                                                            <div class="row mb-3">
-                                                                                <label for="descripcion" class="col-md-4 col-lg-3 col-form-label">Descripcion</label>
-                                                                                <div class="col-md-8 col-lg-9">
-                                                                                    <input name="descripcion" type="text" class="form-control" id="descripcion" th:value="${receta.getDescripcion()}">
-                                                                                </div>
-                                                                            </div>
+                                                   <div class="form-floating">
+                                                       <input name="medicamento" class="form-control" type="text" placeholder="Leave a comment here" id="floatingTextarea1">
+                                                       <label for="floatingTextarea1">Medicamento</label>
+                                                       <br>
+                                                   </div >
+                                                   <div class="form-floating">
+                                                       <input name="dosis" class="form-control" type="text" placeholder="Leave a comment here" id="floatingTextarea2">
+                                                       <label for="floatingTextarea2">Dosis</label>
+                                                       <br>
+                                                   </div >
+                                                   <div class="form-floating">
+                                                       <input name="descripcion" class="form-control" type="text" placeholder="Leave a comment here" id="floatingTextarea3">
+                                                       <label for="floatingTextarea3">Descripcion</label>
+                                                       <br>
+                                                   </div >
+                                                   <!--<div class="form-floating">
+                                                       <div class="form-check-center">
+                                                           <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                                           <label class="form-check-label" for="flexCheckDefault">Generar Boleta Farmacia</label>
+                                                       </div>
+                                                       <div class="form-check">
+                                                           <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
+                                                           <label class="form-check-label" for="flexCheckChecked">Mandar Delivery</label>
+                                                       </div>
+                                                       <br>
+                                                   </div > -->
 
-                                                                            <br>
-                                                                            <!--
-                                                                            <div class="form-floating">
-                                                                                <div class="form-check-center">
-                                                                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault2">
-                                                                                    <label class="form-check-label" for="flexCheckDefault2">Generar Boleta Farmacia</label>
-                                                                                </div>
-                                                                                <div class="form-check">
-                                                                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked3" checked>
-                                                                                    <label class="form-check-label" for="flexCheckChecked3">Mandar Delivery</label>
-                                                                                </div>
-                                                                                <br>
-                                                                            </div > -->
-                                                                            <br>
-                                                                            <div class="d-grid gap d-md-flex justify-content-md-center">
-                                                                                <button type="submit" class="btn btn-primary">Actualizar</button>
-                                                                            </div>
-                                                                        </form>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div><!-- End Vertically centered Modal--></td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                        <!-- Vertically centered Modal -->
-                                        <div class="d-grid gap d-md-flex justify-content-md-center">
-                                            <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#verticalycentered">
-                                                Añadir Receta
-                                            </button>
-                                        </div>
-                                        <div class="modal fade" id="verticalycentered" tabindex="-1">
-                                            <div class="modal-dialog modal-dialog-centered">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title">Receta Médica</h5>
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <form method="post" th:action="@{'/doctor/pacientesatendidos/verhistorial/vercita/guardarreceta'}">
-
-                                                            <input th:value="${cita.getIdcita()}" name="idcita" type="hidden">
-
-                                                            <div class="form-floating">
-                                                                <input name="medicamento" class="form-control" placeholder="Leave a comment here" id="floatingTextarea1">
-                                                                <label for="floatingTextarea1">Medicamento</label>
-                                                                <br>
-                                                            </div >
-                                                            <div class="form-floating">
-                                                                <input name="dosis" class="form-control" placeholder="Leave a comment here" id="floatingTextarea2">
-                                                                <label for="floatingTextarea2">Dosis</label>
-                                                                <br>
-                                                            </div >
-                                                            <div class="form-floating">
-                                                                <input name="descripcion" class="form-control" placeholder="Leave a comment here" id="floatingTextarea3">
-                                                                <label for="floatingTextarea3">Descripcion</label>
-                                                                <br>
-                                                            </div >
-                                                            <!--<div class="form-floating">
-                                                                <div class="form-check-center">
-                                                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                                                                    <label class="form-check-label" for="flexCheckDefault">Generar Boleta Farmacia</label>
-                                                                </div>
-                                                                <div class="form-check">
-                                                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
-                                                                    <label class="form-check-label" for="flexCheckChecked">Mandar Delivery</label>
-                                                                </div>
-                                                                <br>
-                                                            </div > -->
-
-                                                            <div class="d-grid gap d-md-flex justify-content-md-center">
-                                                                <button  type="submit" class="btn btn-primary">Guardar</button>
-                                                            </div>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div><!-- End Vertically centered Modal-->
-
-                                        <!-- End Historial -->
-                                    </div>
-                                </div>
-                            </div>
-                        </div><!-- End Left side columns -->
-
-                        <!-- Right side columns -->
-                        <div class="col-lg-5">
-                            <!-- Reporte -->
-                            <div class="card recent-sales overflow-auto">
-                                <div class="card-body">
-                                    <h5 class="card-title">Reporte Médico</h5>
-                                    <div class=" col-md-2">
-                                        <ul class="nav nav-pills nav-stacked anyClass">
-
-                                        </ul>
-                                    </div>
-                                    <div class="card">
-                                        <!--<div class="card-header">
-                                            Dr. Ramirez
-                                        </div>-->
-                                        <div class="card-body" >
-                                            <p class="card-text" th:text="|${reportecita.getDescripcion()}|"></p>
-                                        </div>
-                                    </div>
-                                    <div class="d-grid gap-2 d-md-flex justify-content-md-center">
-                                        <!-- Vertically centered Modal -->
-
-
-                                        <div class="d-grid gap d-md-flex justify-content-md-center" th:if="${reportecita.getIdReporteCita() eq 0}">
-                                            <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#verticalycentered2">Añadir Reporte</button>
-                                        </div>
-                                        <div class="modal fade" id="verticalycentered2" tabindex="-1">
-                                            <div class="modal-dialog modal-dialog-centered">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title">Reporte Médico</h5>
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <form method="post" th:action="@{'/doctor/pacientesatendidos/verhistorial/vercita/guardarreporte'}">
-
-                                                            <input th:value="${cita.getIdcita()}" name="id" type="hidden"/>
-
-                                                            <div class="form-floating">
-                                                                <input name="descripcion" class="form-control" placeholder="Leave a comment here" id="floatingTextarea4">
-                                                                <label for="floatingTextarea1">Comentario</label>
-                                                                <br>
-                                                            </div >
-
-                                                            <div class="d-grid gap d-md-flex justify-content-md-center">
-                                                                <button type="submit" class="btn btn-primary">Guardar</button>
-                                                            </div>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div><!-- End Vertically centered Modal-->
-                                        <!-- Vertically centered Modal -->
-                                        <div class="d-grid gap d-md-flex justify-content-md-center" th:unless="${reportecita.getIdReporteCita() eq 0}">
-                                            <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#verticalycentered3">Editar Reporte</button>
-                                        </div>
-                                        <div class="modal fade" id="verticalycentered3" tabindex="-1">
-                                            <div class="modal-dialog modal-dialog-centered">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title">Reporte Médico</h5>
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <form method="post" th:action="@{'/doctor/pacientesatendidos/verhistorial/vercita/guardarreporte'}">
-                                                            <p><label for="floatingTextarea5">Dr(a) Ramirez:</label></p>
-                                                            <input th:value="${cita.getIdcita()}" name="id" type="hidden"/>
-                                                            <input th:value="${reportecita.descripcion}" name="descripcion" class="form-control" placeholder="Leave a comment here" id="floatingTextarea5">
-                                                            <br>
-                                                            <div class="d-grid gap d-md-flex justify-content-md-center">
-                                                                <button type="submit" class="btn btn-primary">Actualizar</button>
-                                                            </div>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div><!-- End Vertically centered Modal-->
-                                    </div>
-
-                                </div>
-                            </div>
-                            <!-- Fin Bitacora-->
-
-                        </div>
-                    </div>
-                </div>
-                </div><!-- End Left side columns -->
-                </div>
-                </div>
-            </section>
-        </main><!-- End #main -->
+                                                   <div class="d-grid gap d-md-flex justify-content-md-center">
+                                                       <button  type="submit" class="btn btn-primary">Guardar</button>
+                                                   </div>
+                                               </form>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div><!--End Modal-->
+                           </div>
+                       </div>
+                   </div>
+               </div><!-- End Left side columns -->
+           </div>
+        </div>
+    </section>
+</main><!-- End #main -->
 
 
 

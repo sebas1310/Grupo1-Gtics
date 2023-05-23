@@ -68,7 +68,7 @@
             <hr class="dropdown-divider">
           </li>
           <li class="dropdown-footer">
-            <a href="#">Mostrar todas las notificaciones</a>
+            <a th:href="@{'/doctor/notificaciones'}">Mostrar todas las notificaciones</a>
           </li>
         </ul><!-- End Notification Dropdown Items -->
       </li><!-- End Notification Nav -->
@@ -88,35 +88,8 @@
           <li>
             <hr class="dropdown-divider">
           </li>
-
-          <li class="message-item">
-            <a href="#">
-              <img th:src="@{/assets/img/messages-1.jpg}" alt="Profile" class="rounded-circle">
-              <div>
-                <h4>Maria Hudson</h4>
-                <p>Doctora buenas tardes, tenia una consulta con respecto ...</p>
-                <p>Hace 2 hrs.</p>
-              </div>
-            </a>
-          </li>
-          <li>
-            <hr class="dropdown-divider">
-          </li>
-          <li class="message-item">
-            <a href="#">
-              <img th:src="@{/assets/img/messages-2.jpg}" alt="Profile" class="rounded-circle">
-              <div>
-                <h4>Anna Nelson</h4>
-                <p> xxxxxxxxxxxxxxxxxxxxxxx </p>
-                <p>Hace 3 hrs.</p>
-              </div>
-            </a>
-          </li>
-          <li>
-            <hr class="dropdown-divider">
-          </li>
           <li class="dropdown-footer">
-            <a href="#">Mostrar todos los mensajes</a>
+            <a th:href="@{'/doctor/mensajeria'}">Mostrar todos los mensajes</a>
           </li>
         </ul><!-- End Messages Dropdown Items -->
       </li><!-- End Messages Nav -->
@@ -124,12 +97,14 @@
       <li class="nav-item dropdown">
       <li class="nav-item dropdown pe-3">
 
-        <a class="nav-link nav-profile d-flex align-items-center pe-0" th:href="@{'/doctor/perfil'}" data-bs-toggle="dropdown">
+
+        <a class="nav-link nav-profile d-flex align-items-center pe-0" th:href="@{'/doctor/perfil'}" >
           <img src="https://img.freepik.com/foto-gratis/hermosa-joven-doctora-mirando-camara-oficina_1301-7807.jpg?w=2000" alt="Profile" class="rounded-circle">
-          <span th:text="${nombre}" class="d-none d-md-block">Abigail Ramirez</span>
+          <span th:text="|${nombre}|" class="d-none d-md-block"></span>
         </a><!-- End Profile Iamge Icon -->
       </li><!-- End Profile Nav -->
     </ul>
+
   </nav><!-- End Icons Navigation -->
 </header>
 

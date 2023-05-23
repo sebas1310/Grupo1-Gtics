@@ -5,11 +5,13 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
+
 @Getter
 @Setter
 @Entity
 @Table(name = "paciente")
-public class Paciente {
+public class Paciente implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name ="idpaciente", nullable = false)
@@ -27,7 +29,7 @@ public class Paciente {
     private Seguro seguro;
 
 
-    @Column(name = "alergias", nullable = true)
+    @Column(name = "alergias", nullable = false)
     private String alergias;
 
     @Column(name = "consentimientos", nullable = false)
@@ -39,6 +41,5 @@ public class Paciente {
 
     @Column(name = "condicion_enfermedad")
     private String condicionenfermedad;
-
 
 }

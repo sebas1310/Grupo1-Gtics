@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -12,7 +13,7 @@ import java.time.LocalTime;
 @Setter
 @Entity
 @Table(name = "cita")
-public class Cita {
+public class Cita implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idcita", nullable = false)
@@ -56,19 +57,13 @@ public class Cita {
     @JoinColumn(name = "paciente_idpaciente",  nullable = false)
     private Paciente paciente;
 
-
     @ManyToOne
     @JoinColumn(name = "doctor_iddoctor", nullable = false)
     private Doctor doctor;
 
-
-
-
-
-
-
-
-
-
-
 }
+
+
+
+
+

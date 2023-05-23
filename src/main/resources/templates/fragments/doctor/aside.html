@@ -16,21 +16,23 @@
 
     <li class="nav-item" th:classappend="${active == 'pacientesAtendidos' ? 'active':''}">
       <a class="nav-link collapsed"  th:classappend="${active != 'pacientesAtendidos' ? 'collapsed':''}"
-         th:href="@{'/doctor/pacientesatendidos'+ '?id=' + ${doctor.idDoctor}}">
+         th:href="@{'/doctor/pacientesatendidos'+ '?id=' + ${doctor.iddoctor}}">
         <i class="bi bi-menu-button-wide"></i>
         <span>Pacientes Atendidos</span>
       </a>
     </li><!-- End Pacientes Atendidos -->
 
     <li class="nav-item" th:classappend="${active == 'calendario' ? 'active':''}">  <!-- cambia -->
-      <a class="nav-link collapsed" th:classappend="${active != 'calendario' ? 'collapsed':''}" th:href="@{'/doctor/calendario'}" >
+      <a class="nav-link collapsed" th:classappend="${active != 'calendario' ? 'collapsed':''}"
+         th:href="@{'/doctor/calendario'}" > <!--+ '?id=' + ${doctor.iddoctor}}"-->
         <i class="bi bi-calendar3"></i>
         <span>Calendario</span>
       </a>
     </li><!-- End Calendario -->
 
     <li class="nav-item" th:classappend="${active == 'perfil' ? 'active':''}">
-      <a class="nav-link collapsed" th:classappend="${active != 'perfil' ? 'collapsed':''}" th:href="@{'/doctor/perfil'}"  >
+      <a class="nav-link collapsed" th:classappend="${active != 'perfil' ? 'collapsed':''}"
+         th:href="@{'/doctor/perfil'+ '?id=' + ${doctor.iddoctor}}">
         <i class="bi bi-person"></i>
         <span>Perfil</span>
       </a>
@@ -45,7 +47,7 @@
 
     <li class="nav-item" th:classappend="${active == 'configuracion' ? 'active':''}">
       <a class="nav-link collapsed" th:classappend="${active != 'configuracion' ? 'collapsed':''}"
-         th:href="@{'/doctor/configuraciones' + '?id=' + ${doctor.idDoctor}}" >
+         th:href="@{'/doctor/configuraciones'+ '?id=' + ${doctor.iddoctor}}" >
         <i class="bi bi-gear"></i>
         <span>Configuracion</span>
       </a>
@@ -63,20 +65,6 @@
 
 </aside><!-- End Sidebar-->
 
-<!-- Cerrar Sesion-->
-<div class="modal fade" id="cerrar" tabindex="-1">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">¿Seguro que deseas Salir?</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-success" data-bs-dismiss="modal"><a style="color: white" href="pages-login.html" >Salir</button>
-        <button type="button" class="btn btn-secondary"><a style="color: white" th:href="@{'/doctor/dashboard/mensual'}" >Cancelar</a></button>
-      </div>
-    </div>
-  </div>
-</div><!-- End Vertically centered Modal-->
+
 </body>
 </html>
