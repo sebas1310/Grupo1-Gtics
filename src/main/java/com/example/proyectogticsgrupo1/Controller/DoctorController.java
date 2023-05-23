@@ -237,7 +237,18 @@ public class DoctorController {
         redirectAttributes.addAttribute("id",idCita);
         return "redirect:/doctor/pacientesatendidos/verhistorial/vercita";
         }
+    @GetMapping("/pacientesatendidos/verhistorial/vercita/boletaMedicamento")
+    public String verBoletaFarmacia(Model model,
+                                    @RequestParam("idCita") int idCita ){
 
+        Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
+        Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
+        model.addAttribute("doctor",doctor);
+        List<RecetaMedica>  receta = recetaMedicaRepository.recetaMedicaPorCita(idCita);
+        model.addAttribute("receta", receta);
+
+        return "doctor/boletaFarmacia";
+        }
     @GetMapping("/calendario")
     public String calendarioDoctor(Model model){
         //List<Event> events =
