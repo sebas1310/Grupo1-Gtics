@@ -93,7 +93,7 @@
                               </thead>
                               <tbody>
                               <tr th:each="doctor, ind:${docs}">
-                                <th scope="row"><img th:src=="@{/assets/img/messages-1.jpg}"> </th>
+                                <th scope="row"><img th:src="@{/assets/img/messages-1.jpg}"> </th>
                                 <td th:text="|${doctor.usuario.nombres} ${doctor.usuario.apellidos}|"></td>
                                 <td th:text="${doctor.especialidad.nombre}"></td>
                                 <td><a th:href="@{'/paciente/perfilDoctor?iddoc='+${doctor.iddoctor}}" class="text-primary">Ver Perfil</a></td>

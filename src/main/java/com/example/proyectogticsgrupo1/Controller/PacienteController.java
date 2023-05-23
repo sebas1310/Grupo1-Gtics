@@ -283,8 +283,6 @@ public class PacienteController {
     @PostMapping(value = "/changepassword")
     @Transactional
     public String changePassword(@RequestParam("contrasena") String contrasena, @RequestParam("newpassword") String newpassword, @RequestParam("renewpassword") String renewpassword, RedirectAttributes redirectAttributes){
-        //Optional<Paciente> optionalPaciente = pacienteRepository.findById(1);
-       // Paciente paciente =  optionalPaciente.get();
 
         Usuario usuario = (Usuario) session.getAttribute("usuario");
         Paciente paciente = pacienteRepository.pacXuser(usuario.getIdusuario());
