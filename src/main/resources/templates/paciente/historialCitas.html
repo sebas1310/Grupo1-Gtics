@@ -32,114 +32,98 @@
     </nav>
   </div><!-- End Page Title -->
 
-  <section class="section">
-    <div class="justify-content-md-center">
-      <div class="col-md-8 offset-md-2">
 
-        <div class="card">
-          <div class="card-body">
-            <h5 class="card-title"></h5>
+  <section class="section ">
+    <div class="row">
+      <!-- Left side columns -->
+      <div class="col-lg">
+        <div class="row">
+          <!-- Pacientes Atendidos -->
+          <div class="col-12" >
+            <div class="card recent-sales overflow-auto" >
+              <div style="width: 100%" class="card-body" >
+                <!--<h5 class="card-title">Lista de Pacientes</h5>-->
+                <table class="table table-borderless datatable" >
+                  <thead>
+                  <tr  >
+                    <th class="text-center" scope="col">#</th>
+                    <th class="text-center" scope="col">Doctor</th>
+                    <th class="text-center" scope="col">Especialidad</th>
+                    <th class="text-center" scope="col">Fecha</th>
+                    <th class="text-center" scope="col">Sede</th>
+                    <th class="text-center" scope="col">Tipo de cita</th>
+                    <th class="text-center" scope="col">Receta</th>
+                    <th class="text-center" scope="col">Recibo</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr th:each="list,idx:${listcitas}">
+                    <th scope="row" th:text="${idx.index+1}"></th>
+                    <td class="text-center"  th:text="${list.doctor.usuario.nombres}"></td>
+                    <td class="text-center"  th:text="${list.especialidad.nombre}"></td>
+                    <td class="text-center"  th:text="${list.fecha}"></td>
+                    <td class="text-center"  th:text="${list.sede.nombre}"></td>
+                    <td class="text-center"  th:text="${list.tipoCita.nombre}"></td>
+                    <td class="text-center" >
+                      <!-- Data-bs-target: indica el id del modal a desplegarse-->
+                      <button type="button" class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#receta_modal">
+                        <i class="bi bi-capsule-pill"></i>
+                      </button>
+                      <div class="modal fade" id="receta_modal" tabindex="-1">
+                        <div class="modal-dialog modal-dialog-centered">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title">Receta</h5>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                            </div>
+                            <div class="modal-body text-center">
+                              <img th:src="@{/assets/img/receta.jpeg}" class="justify-content-md-center ">
 
-            <!-- Table with stripped rows -->
-            <table class="table table-striped">
-              <thead>
-              <tr  >
-                <th class="text-center" scope="col">#</th>
-                <th class="text-center" scope="col">Doctor</th>
-                <th class="text-center" scope="col">Especialidad</th>
-                <th class="text-center" scope="col">Fecha</th>
-                <th class="text-center" scope="col">Sede</th>
-                <th class="text-center" scope="col">Tipo de cita</th>
-                <th class="text-center" scope="col">Receta</th>
-                <th class="text-center" scope="col">Recibo</th>
-              </tr>
-              </thead>
-              <tbody>
-
-              <tr th:each="list,idx:${listcitas}">
-                <th scope="row" th:text="${idx.index+1}"></th>
-                <td class="text-center"  th:text="${list.doctor.usuario.nombres}"></td>
-                <td class="text-center"  th:text="${list.especialidad.nombre}"></td>
-                <td class="text-center"  th:text="${list.fecha}"></td>
-                <td class="text-center"  th:text="${list.sede.nombre}"></td>
-                <td class="text-center"  th:text="${list.tipoCita.nombre}"></td>
-                <td class="text-center" >
-                  <!-- Data-bs-target: indica el id del modal a desplegarse-->
-                  <button type="button" class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#receta_modal">
-                    <i class="bi bi-capsule-pill"></i>
-                  </button>
-                  <div class="modal fade" id="receta_modal" tabindex="-1">
-                    <div class="modal-dialog modal-dialog-centered">
-                      <div class="modal-content">
-                        <div class="modal-header">
-                          <h5 class="modal-title">Receta</h5>
-                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-                        </div>
-                        <div class="modal-body text-center">
-                          <img th:src="@{/assets/img/receta.jpeg}" class="justify-content-md-center ">
-
-                        </div>
-                        <div class="modal-footer">
-                          <a th:href="@{/assets/img/receta.jpeg}" download="receta_cita1"  type="button" class="btn btn-outline-warning" >Descargar</a>
-                          <button type="button" class="btn btn-warning" data-bs-dismiss="modal">Cerrar</button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </td>
-                <td class="text-center" >
-                  <button type="button" class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#recibo_modal">
-                    <i class="bi bi-receipt"></i>
-                  </button>
-                  <div class="modal fade" id="recibo_modal" tabindex="-1">
-                    <div class="modal-dialog modal-dialog-centered">
-                      <div class="modal-content">
-                        <div class="modal-header">
-                          <h5 class="modal-title">Recibo</h5>
-                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-                        </div>
-                        <div class="modal-body text-center">
-                          <img th:src="@{/assets/img/recibo.png}" class="justify-content-md-center ">
-
-                        </div>
-                        <div class="modal-footer">
-                          <a th:href="@{/assets/img/recibo.png}" download="recibo_cita1"  type="button" class="btn btn-outline-warning" >Descargar</a>
-                          <button type="button" class="btn btn-warning" data-bs-dismiss="modal">Cerrar</button>
-
+                            </div>
+                            <div class="modal-footer">
+                              <a th:href="@{/assets/img/receta.jpeg}" download="receta_cita1"  type="button" class="btn btn-outline-warning" >Descargar</a>
+                              <button type="button" class="btn btn-warning" data-bs-dismiss="modal">Cerrar</button>
+                            </div>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </div>
-                </td>
-              </tr>
+                    </td>
+                    <td class="text-center" >
+                      <button type="button" class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#recibo_modal">
+                        <i class="bi bi-receipt"></i>
+                      </button>
+                      <div class="modal fade" id="recibo_modal" tabindex="-1">
+                        <div class="modal-dialog modal-dialog-centered">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title">Recibo</h5>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                            </div>
+                            <div class="modal-body text-center">
+                              <img th:src="@{/assets/img/recibo.png}" class="justify-content-md-center ">
+
+                            </div>
+                            <div class="modal-footer">
+                              <a th:href="@{/assets/img/recibo.png}" download="recibo_cita1"  type="button" class="btn btn-outline-warning" >Descargar</a>
+                              <button type="button" class="btn btn-warning" data-bs-dismiss="modal">Cerrar</button>
+
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div><!-- End Recent Sales -->
 
 
-              <nav  style="color:#FFD966FF " aria-label="Page navigation example">
-                <ul class="pagination">
-                  <li class="page-item">
-                    <a class="page-link" href="#" aria-label="Previous">
-                      <span aria-hidden="true">&laquo;</span>
-                    </a>
-                  </li>
-                  <li  class="page-item"><a class="page-link" href="#">1</a></li>
-                  <li class="page-item"><a class="page-link" href="#">2</a></li>
-                  <li class="page-item"><a class="page-link" href="#">3</a></li>
-                  <li class="page-item">
-                    <a class="page-link" href="#" aria-label="Next">
-                      <span aria-hidden="true">&raquo;</span>
-                    </a>
-                  </li>
-                </ul>
-              </nav><!-- End Pagination with icons -->
-
-              </tbody>
-            </table>
-            <!-- End Table with stripped rows -->
-
-          </div>
         </div>
+      </div><!-- End Left side columns -->
 
-      </div>
+
     </div>
   </section>
 
