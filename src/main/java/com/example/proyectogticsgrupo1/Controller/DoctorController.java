@@ -66,10 +66,6 @@ public class DoctorController {
     @GetMapping("/dashboard")
     public String inicioDashboardDoctor(Model model) {
 
-        /*Optional<Doctor> optDoctor = doctorRepository.findById(2);
-        if (optDoctor.isPresent()) {
-            Doctor doctor1 = optDoctor.get();
-            model.addAttribute("doctor", doctor1); */
             Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
             Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
             model.addAttribute("doctor",doctor);
@@ -77,9 +73,7 @@ public class DoctorController {
 
             model.addAttribute("citasAgendadas",citasAgendadas1);
             return "doctor/dashboardDoc";
-        } /*else {
-            return "redirect:/iniciosesion";
-        }*/
+        }
 
     @GetMapping("/dashboard/diario")
     public String inicioDashboardDoctor2(){
@@ -97,9 +91,7 @@ public class DoctorController {
 
     @GetMapping("/pacientesatendidos")
     public String pacientesAtendidosDoctor(Model model) {
-        /*Optional<Doctor> optDoctor = doctorRepository.findById(2);
-        if (optDoctor.isPresent()) {
-            Doctor doctor1 = optDoctor.get();*/
+
             Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
             Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
             model.addAttribute("doctor",doctor);
@@ -111,15 +103,15 @@ public class DoctorController {
 
     @GetMapping("/pacientesatendidos/verhistorial")
     public String historialPacienteDoctor(Model model, @RequestParam("id") int idPaciente){
-        Optional<Doctor> optDoctor = doctorRepository.findById(2);
-        if (optDoctor.isPresent()) {
-            Doctor doctor1 = optDoctor.get();
-            model.addAttribute("doctor", doctor1);
+
+            Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
+            Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
+            model.addAttribute("doctor",doctor);
             Paciente paciente1 = pacienteRepository.buscarPacientePorID(idPaciente);
             model.addAttribute("paciente", paciente1);
-            model.addAttribute("citaspaciente", citaRepository.citasPorPaciente(idPaciente));
+            model.addAttribute("citaspaciente", citaRepository.citasPorPaciente(idPaciente,doctor.getIddoctor()));
             model.addAttribute("bitacoradiagnostico", bitacoraDeDiagnosticoRepository.bitacoraDeDiagnostico(idPaciente));
-        }
+
             return "doctor/verHistorial";
     }
 
@@ -143,46 +135,43 @@ public class DoctorController {
 
     @GetMapping("/pacientesatendidos/verhistorial/boleta")
     public String verBoletaDoctor(Model model, @RequestParam("id") int idCita ){
-        Optional<Doctor> optDoctor = doctorRepository.findById(2);
-        if (optDoctor.isPresent()) {
-            Doctor doctor1 = optDoctor.get();
-            model.addAttribute("doctor", doctor1);
+
+            Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
+            Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
+            model.addAttribute("doctor",doctor);
             BoletaDoctor boletaDoctor = boletaDoctorRepository.buscarBoletaDoctorCita(idCita);
             model.addAttribute("boletadoctor", boletaDoctor);
-        }
+
         return "doctor/boletaDoc";
     }
 
     @GetMapping("/pacientesatendidos/verhistorial/vercita")
     public String verCitaDoctor(Model model, @RequestParam("id") int idCita,
-                                @RequestParam(name="idReceta", defaultValue = "0") int idReceta)
-    {
-        Optional<Doctor> optDoctor = doctorRepository.findById(2);
-        Optional<Cita> optCita = citaRepository.findById(idCita);
-        //Optional<Paciente> optPaciente = pacienteRepository.findById(idPaciente);
-        if (optDoctor.isPresent()) {
-            Doctor doctor1 = optDoctor.get();
-            model.addAttribute("doctor", doctor1);
+                                @RequestParam(name="idReceta", defaultValue = "0") int idReceta) {
+
+            Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
+            Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
+            model.addAttribute("doctor",doctor);
+            Optional<Cita> optCita = citaRepository.findById(idCita);
             Cita cita =optCita.get();
             model.addAttribute("cita", cita);
             model.addAttribute("recetamedica", recetaMedicaRepository.buscarRecetaMedicaPorCita(idCita, idReceta));
             model.addAttribute("reportecita", reporteCitaRepository.buscarReporteCitaPorId(idCita));
-        }
+
         return "doctor/verCita";
     }
     @GetMapping("/pacientesatendidos/verhistorial/vercita/editarreceta")
     public String verEditarReceta(Model model, @RequestParam("idReceta") int idReceta,
-                                  @RequestParam("id") int idCita)
-    {
-        Optional<Doctor> optDoctor = doctorRepository.findById(2);
-        if (optDoctor.isPresent()) {
-            Doctor doctor1 = optDoctor.get();
-            model.addAttribute("doctor", doctor1);
+                                  @RequestParam("id") int idCita) {
+
+            Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
+            Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
+            model.addAttribute("doctor",doctor);
             RecetaMedica receta = recetaMedicaRepository.buscarRecetaMedicaPorID(idReceta);
             model.addAttribute("receta", receta);
             Cita cita1 = citaRepository.buscarCitaPorId(idCita);
             model.addAttribute("cita", cita1);
-        }
+
         return "doctor/editarReceta";
     }
     @PostMapping("/pacientesatendidos/verhistorial/vercita/actualizarreceta")
@@ -246,11 +235,6 @@ public class DoctorController {
         //List<Event> events =
         //List<Eventocalendariodoctor> events = eventocalendariodoctorRepository.calendarioPorDoctor(idDoctor);
         //model.addAttribute("events", events);
-        /*Optional<Doctor> optDoctor = doctorRepository.findById(2);
-        if (optDoctor.isPresent()) {
-            Doctor doctor1 = optDoctor.get();
-            model.addAttribute("doctor", doctor1);
-        }*/
         Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
         Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
         model.addAttribute("doctor",doctor);
@@ -260,20 +244,13 @@ public class DoctorController {
     @GetMapping("/cuestionario")
     public String cuestionarioDoctor(Model model, @RequestParam("id") int idPaciente){
 
-        Optional<Doctor> optDoctor = doctorRepository.findById(2);
-        if (optDoctor.isPresent()) {
-            Doctor doctor1 = optDoctor.get();
-            model.addAttribute("doctor", doctor1);
-            //@RequestParam("id") int idDoc
+            Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
+            Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
+            model.addAttribute("doctor",doctor);
             Paciente paciente1 = pacienteRepository.buscarPacientePorID(idPaciente);
-            //Cita cita1= citaRepository.buscarCitaPorId(idCita);
-            //Doctor doctor1 = doctorRepository.buscarDoctorPorId(idDoc);fcaalen
             List<Paciente> lista = pacienteRepository.findAll();
             model.addAttribute("paciente", paciente1);
-            //model.addAttribute("cita", cita1);
-            //model.addAttribute("doc", doctor1);
-            //model.addAttribute("pacienteDatos", lista);
-        }
+
         return "doctor/cuestionarioDoc";
     }
 
@@ -288,11 +265,6 @@ public class DoctorController {
     @GetMapping("/perfil")
     public String perfilDoctor(Model model) {
 
-        /*Optional<Doctor> optDoctor = doctorRepository.findById(2);
-        if (optDoctor.isPresent()) {
-            Doctor doctor1 = optDoctor.get();
-            model.addAttribute("doctor", doctor1);
-        }*/
         Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
         Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
         model.addAttribute("doctor",doctor);
@@ -302,28 +274,23 @@ public class DoctorController {
     @GetMapping("/mensajeria")
     public String mensajeriaDoctor(Model model) {
 
-        /*@RequestParam("id") int idD*/
-        Optional<Doctor> optDoctor = doctorRepository.findById(2);
 
-        if (optDoctor.isPresent()) {
-            Doctor doctor1 = optDoctor.get();
-            model.addAttribute("listamensajes",mailCorreoRepository.buscarMensajesRecibidosPorID(doctor1.getUsuario().getIdusuario()));
-            model.addAttribute("doctor", doctor1);
-        }
+            Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
+            Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
+            model.addAttribute("doctor",doctor);
+            model.addAttribute("listamensajes",mailCorreoRepository.buscarMensajesRecibidosPorID(doctor.getUsuario().getIdusuario()));
+
         return "doctor/mensajeriaDoc";
     }
 
     @GetMapping("/mensajeria/vermensaje")
     public String verMensajeDoctor(Model model, @RequestParam("idM") int idMensaje) {
 
-        /*@RequestParam("id") int idD*/
-        Optional<Doctor> optDoctor = doctorRepository.findById(2);
-
-        if (optDoctor.isPresent()) {
-            Doctor doctor1 = optDoctor.get();
+            Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
+            Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
+            model.addAttribute("doctor",doctor);
             model.addAttribute("mensaje",mailCorreoRepository.buscarMensajePorID(idMensaje));
-            model.addAttribute("doctor", doctor1);
-        }
+
         return "doctor/verMensajeDoc";
     }
 
@@ -331,15 +298,12 @@ public class DoctorController {
     public String responderMensajeDoctor(Model model, @RequestParam("asunto") String asunto,
                                          @RequestParam("id") int idUsuarioOrigen){
 
-        /*@RequestParam("id") int idD*/
-        Optional<Doctor> optDoctor = doctorRepository.findById(2);
-
-        if (optDoctor.isPresent()) {
-            Doctor doctor1 = optDoctor.get();
+            Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
+            Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
+            model.addAttribute("doctor",doctor);
             model.addAttribute("historialmensajes",mailCorreoRepository.buscarMensajePorAsunto(asunto));
             model.addAttribute("usuariorigen",usuarioRepository.usuarioDestino(idUsuarioOrigen));
-            model.addAttribute("doctor", doctor1);
-        }
+
         return "doctor/responderMensajeDoc";
 }
 
@@ -347,15 +311,13 @@ public class DoctorController {
 
     @GetMapping("/mensajeria/enviarmensaje")
     public String enviarMensajeDoctor(Model model , @RequestParam("idp") int idUsuarioDestino) {
-        Optional<Doctor> optDoctor = doctorRepository.findById(2);
-        if (optDoctor.isPresent()) {
-            Doctor doctor1 = optDoctor.get();
-            model.addAttribute("doctor", doctor1);
+            Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
+            Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
+            model.addAttribute("doctor",doctor);
             if (idUsuarioDestino != 0) {
                 model.addAttribute("usuariodestino", usuarioRepository.usuarioDestino(idUsuarioDestino));
                 return "doctor/enviarMensajeDoc";
             }
-        }
             return "doctor/enviarMensajeDoc";
     }
 
@@ -369,7 +331,10 @@ public class DoctorController {
     }
 
     @GetMapping("/notificaciones")
-    public String notificacionesDoctor() {
+    public String notificacionesDoctor(Model model) {
+        Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
+        Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
+        model.addAttribute("doctor",doctor);
         return "doctor/notificacionesDoc";
     }
 
@@ -386,9 +351,7 @@ public class DoctorController {
 
     @GetMapping("/configuraciones")
     public String configuracionDoctor(Model model){
-        /*Optional<Doctor> optDoctor = doctorRepository.findById(2);
-        if (optDoctor.isPresent()) {
-            Doctor doctor1 = optDoctor.get();*/
+
             Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
             Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
             model.addAttribute("doctor",doctor);
@@ -405,12 +368,6 @@ public class DoctorController {
         attr.addAttribute("iddoctor", idS);
         return "redirect:/doctor/configuraciones";
     }
-    /*@PostMapping("/send-email")
-    public ResponseEntity<Void> sendEmail(@RequestParam String to, @RequestParam String subject, @RequestParam String body) {
-        emailService.sendEmail(to, subject, body);
-        return ResponseEntity.ok().build();
-
-    }*/
 
     @PostMapping("/cambiarContra")
     @Transactional
@@ -419,8 +376,9 @@ public class DoctorController {
                                     @RequestParam("newpassword") String newpassword,
                                     @RequestParam("renewpassword") String renewpassword){
 
-        Optional<Doctor> optDoctor = doctorRepository.findById(2);
-        Doctor doctor =  optDoctor.get();
+        Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
+        Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
+        model.addAttribute("doctor",doctor);
         if(doctor.getUsuario().getContrasena().equals(contrasena)){
             usuarioRepository.changePassword(renewpassword,doctor.getUsuario().getIdusuario());
             attr.addFlashAttribute("psw1", "Contraseña actualizada");
