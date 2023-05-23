@@ -14,7 +14,7 @@
 
 body {
   font-family: "Open Sans", sans-serif;
-  background: rgb(255, 255, 255);
+  background: #f6f9ff;
   color: #444444;
 }
 
@@ -397,7 +397,15 @@ h6 {
   z-index: 997;
   height: 60px;
   box-shadow: 0px 2px 20px rgba(1, 41, 112, 0.1);
-  background-color: rgba(182, 215, 168, 0.93);
+<<<<<<< HEAD
+<<<<<<< HEAD
+  background-color: #fff;
+=======
+  background-color: #da9a52;
+>>>>>>> administrativo
+=======
+  background-color: #fff;
+>>>>>>> paciente
   padding-left: 20px;
   /* Toggle Sidebar Button */
   /* Search Bar */

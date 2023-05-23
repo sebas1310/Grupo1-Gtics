@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="fragments/doctor/librerias.html :: cabecera (titulo = 'Historial Clinico')">
+</head>
+<body>
+<!-- ======= Header ======= -->
+<header th:replace="fragments/doctor/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1', nombre = 'Abigail Ramirez', num_men = '2')">
+</header>
+<!-- End Header -->
+        <!-- ======= Sidebar ======= -->
+        <aside id="sidebar" class="sidebar">
+            <ul class="sidebar-nav" id="sidebar-nav">
+                <li class="nav-item">
+                    <a class="nav-link collapsed" th:href="@{'/doctor/dashboard'}" >
+                        <i class="bi bi-grid"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li><!-- End Dashboard -->
+                <li class="nav-item"> <!-- Cambiar ref -->
+                    <a class="nav-link"  th:href="@{'/doctor/pacientesatendidos'}" >
+                        <i class="bi bi-menu-button-wide"></i>
+                        <span>Pacientes Atendidos</span>
+                    </a>
+                </li><!-- End Pacientes Atendidos -->
+                <li class="nav-item">  <!-- cambia -->
+                    <a class="nav-link collapsed"  th:href="@{'/doctor/calendario'}" >
+                        <i class="bi bi-calendar3"></i>
+                        <span>Calendario</span>
+                    </a>
+                </li><!-- End Calendario -->
+                <li class="nav-item">  <!-- cambia -->
+                    <a class="nav-link collapsed" th:href="@{'/doctor/perfil'}"  >
+                        <i class="bi bi-person"></i>
+                        <span>Perfil</span>
+                    </a>
+                </li><!-- End Perfil -->
+                <br><br><br><br>
+                <br><br><br><br>
+                <br><br><br><br>
+                <br><br><br><br>
+                <br><br><br>
+                <li class="nav-heading"> ----------------------------------------------- </li>
+                <li class="nav-item">
+                    <a class="nav-link collapsed" th:href="@{'/doctor/configuraciones'}" >
+                        <i class="bi bi-gear"></i>
+                        <span>Configuracion</span>
+                    </a>
+                </li><!-- End Configuracion -->
+                <li class="nav-item">
+                    <a class="nav-link collapsed" type="button" data-bs-toggle="modal" data-bs-target="#cerrar">
+                        <i class="bi bi-box-arrow-in-right"></i>
+                        <span>Cerrar Sesión</span>
+                        <!-- Vertically centered Modal -->
+                    </a>
+                </li><!-- End Cerrar Sesion -->
+            </ul>
+        </aside><!-- End Sidebar-->
+        <div class="modal fade" id="cerrar" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">¿Seguro que deseas Salir?</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-success" data-bs-dismiss="modal"><a style="color: white" href="pages-login.html" >Salir</button>
+                        <button type="button" class="btn btn-secondary"><a style="color: white" th:href="@{'/doctor/pacientesatendidos/verhistorial'}" >Cancelar</a></button>
+                    </div>
+                </div>
+            </div>
+        </div><!-- End Vertically centered Modal-->
+
+
+        <main id="main" class="main">
+
+            <div class="pagetitle">
+                <h1>Historial Clínico</h1>
+                <nav>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a th:href="@{'/doctor/pacientesatendidos'}">Pacientes Atendidos</a></li>
+                        <li class="breadcrumb-item active">Historial Clínico</li>
+                    </ol>
+                </nav>
+            </div><!-- End Page Title -->
+
+            <section class="section ">
+                <!-- Left side columns -->
+                <div class="col-lg">
+                    <div class="row">
+                        <!-- Informacion del Paciente -->
+                        <!--  <div class="col-xxl-4 col-xl-16"> -->
+                        <div class="col">
+                            <div class="card info-card customers-card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Informacion del Paciente </h5>
+                                    <div class="d-flex align-items-center">
+                                        <div class="ps-3">
+                                            <li>Nombre: <span th:text="${paciente.getUsuario().getNombres() +paciente.getUsuario().getApellidos()}"></span></li>
+                                            <li>Edad: <span th:text="${paciente.getUsuario().getEdad()}"></span></li>
+                                            <li>Condicion/Enfermedad: <span th:text="${paciente.getCondicionEnfermedad()}"></span></li>
+                                            <li>Seguro: <span th:text="${paciente.getSeguro().getNombre()}"></span></li>
+                                            <li>Estado Paciente: <span th:text="${paciente.getEstadoPaciente().getNombre()}"></span> </li>
+                                            <li>Correo: <span th:text="${paciente.getUsuario().getCorreo()}"></span></li>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div> <!--End Informacion -->
+
+                            <!-- Historial de citas -->
+
+                            <div class="col-12">
+                                <div class="card recent-sales overflow-auto">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Historial de Citas</h5>
+
+                                        <table class="table">
+                                            <thead class="table-light">
+                                                <tr>
+                                                    <th style="text-align: center" scope="col"># Cita</th>
+                                                    <th style="text-align: center" scope="col">Fecha</th>
+                                                    <th style="text-align: center" scope="col">Modalidad</th>
+                                                    <th style="text-align: center" scope="col">Boleta</th>
+                                                    <th style="text-align: center" scope="col">Ver Más</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr th:each=" cita,indice:${citaspaciente}">
+                                                    <th style="text-align: center" th:text="${indice.index+1}" scope="row"></th>
+                                                    <td style="text-align: center" th:text="${cita.getFecha()}"></td>
+                                                    <td style="text-align: center" th:text="${cita.getTipoCita().getNombre()}"></td>
+                                                    <td style="text-align: center"> <a href="archivo.jpg" class="bi bi-printer-fill" download="boleta.pdf"></a> </td>
+                                                    <td style="text-align: center"> <a type="button" class="bi bi-eye-fill" th:href="@{'/doctor/pacientesatendidos/verhistorial/vercita'+ '?id=' + ${cita.getIdcita()}}"></a> </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <!-- End Historial -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div><!-- End Left side columns -->
+
+                        <!-- Right side columns -->
+                        <div class="col-lg-5">
+                            <!-- Bitacora -->
+                            <div class="card recent-sales overflow-auto">
+                                <div class="card-body">
+                                    <h5 class="card-title">Bitacora de Diagnostico</h5>
+                                    <div class=" col-md-2">
+                                        <ul class="nav nav-pills nav-stacked anyClass">
+
+                                        </ul>
+                                    </div>
+                                    <div class="card" th:each="bitacora:${bitacoradiagnostico}">
+                                        <div class="card-header">
+                                            Dr(a) Abigail Ramirez
+                                        </div>
+                                        <div class="card-body">
+                                            <p class="card-text"><span th:text="${bitacora.getDescripcion()}"></span></p>
+                                            <p class="card-text"><span th:text="${bitacora.getFechayhora()}"></span></p>
+                                        </div>
+                                    </div>
+                                    <!--<div class="card">
+                                        <div class="card-header">
+                                            Dr. Fernandez
+                                        </div>
+                                        <div class="card-body">
+                                            <p class="card-text">xxxxxxxxxxxxxxx</p>
+                                        </div>
+                                    </div>-->
+                                    <div class="mb-3">
+                                        <h5 class="card-title">Añadir Comentario</h5>
+                                        <form method="post" th:action="@{'/doctor/pacientesatendidos/verhistorial/guardarbitacora'}">
+                                            <div class="form-floating">
+                                                <input th:value="${paciente.getIdpaciente()}" name="id" type="hidden">
+                                                <input name="descripcion" type="text" class="form-control" placeholder="Leave a comment here">
+                                            </div >
+                                            <div class="d-grid gap d-md-flex justify-content-md-center">
+                                                <button  type="submit" class="btn btn-primary">Guardar</button>
+                                            </div>
+
+                                        </form>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main><!-- End #main -->
+
+
+
+        <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+        <!-- Vendor JS Files -->
+        <script th:src="@{'/assets/vendor/apexcharts/apexcharts.min.js'}"></script>
+        <script th:src="@{'/assets/vendor/bootstrap/js/bootstrap.bundle.min.js'}"></script>
+        <script th:src="@{'/assets/vendor/chart.js/chart.min.js'}"></script>
+        <script th:src="@{'/assets/vendor/echarts/echarts.min.js'}"></script>
+        <script th:src="@{'/assets/vendor/quill/quill.min.js'}"></script>
+        <script th:src="@{'/assets/vendor/simple-datatables/simple-datatables.js'}"></script>
+        <script th:src="@{'/assets/vendor/tinymce/tinymce.min.js'}"></script>
+        <script th:src="@{'/assets/vendor/php-email-form/validate.js'}"></script>
+
+        <!-- Template Main JS File -->
+        <script th:src="@{'/assets/js/main.js'}"></script>
+
+    </body>
+
+</html>

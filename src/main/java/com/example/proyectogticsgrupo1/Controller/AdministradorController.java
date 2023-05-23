@@ -9,7 +9,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.print.Doc;
 import java.time.LocalDate;
 import java.util.Random;
 
@@ -115,7 +114,7 @@ public class AdministradorController {
         user.setContrasena(generarContrasena(10));
         usuarioRepository.save(user);
         Paciente paciente = new Paciente();
-        EstadoPaciente estadoPaciente = new EstadoPaciente();
+        Estadopaciente estadoPaciente = new Estadopaciente();
         estadoPaciente.setIdestadopaciente(1);
         paciente.setEstadoPaciente(estadoPaciente);
         paciente.setDireccion(direccion);
