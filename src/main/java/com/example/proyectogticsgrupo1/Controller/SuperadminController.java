@@ -2,6 +2,7 @@ package com.example.proyectogticsgrupo1.Controller;
 
 import com.example.proyectogticsgrupo1.Entity.*;
 import com.example.proyectogticsgrupo1.Repository.*;
+import jakarta.servlet.http.HttpSession;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -35,8 +36,15 @@ public class SuperadminController {
     @Autowired
     ModeloRepository modeloRepository;
 
+    @Autowired
+    private HttpSession session;
 
+    /*Ejm para SuperAdmin : Agregar dentro de cada ruta GET (o POST , si es necesario) , el usuario logeado:
 
+        Usuario usuarioSuperAdmin = (Usuario) session.getAttribute("usuario"); //usuario logeado
+        model.addAttribute("usuarioSA",usuarioSuperAdmin);
+
+     */
 
     @GetMapping("/index")
     public String inicioDashboardSuperadmin(Model model){

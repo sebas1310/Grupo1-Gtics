@@ -2,6 +2,7 @@ package com.example.proyectogticsgrupo1.Controller;
 
 import com.example.proyectogticsgrupo1.Entity.*;
 import com.example.proyectogticsgrupo1.Repository.*;
+import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -41,6 +42,15 @@ public class AdministradorController {
     @Autowired
     private EspecialidadRepository especialidadRepository;
 
+    @Autowired
+    private HttpSession session;
+
+    /*Ejm para Admin : Agregar dentro de cada ruta GET (o POST , si es necesario) , el usuario logeado:
+
+        Usuario usuarioAdmin = (Usuario) session.getAttribute("usuario"); //usuario logeado
+        model.addAttribute("usuario",usuarioAdmin);
+
+     */
 
     @GetMapping("")
     public String administrador(Model model) {
