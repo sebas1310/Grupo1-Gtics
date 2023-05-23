@@ -105,12 +105,12 @@ public class SuperadminController {
         System.out.println(t);
         model.addAttribute("t",t);
 
-
+        model.addAttribute("listasedes", sedeRepository.findAll());
         return "superadmin/pages-registrar-administrativo";
     }
     @GetMapping("/registraradministrador")
     public String registrarAdministrador(@ModelAttribute("usuario") Usuario usuario,Model model){
-
+        model.addAttribute("listasedes", sedeRepository.findAll());
         return "superadmin/pages-registrar-adminitrador";
     }
 
