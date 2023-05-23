@@ -433,13 +433,6 @@ public class AdministradorController {
             attr.addFlashAttribute("msg", "Doctor actualizado exitosamente");
         }
 
-        if (user.getDni() < 8){
-            System.out.println("Número de dni no valido");
-
-        }else {
-            System.out.println("entro a 1");
-
-        }
 
         Tipodeusuario tipodeusuario = new Tipodeusuario();
         tipodeusuario.setIdtipodeusuario(5);
