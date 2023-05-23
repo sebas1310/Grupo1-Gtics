@@ -61,7 +61,7 @@ public class PacienteController {
 
         model.addAttribute("pacientelog",pacienteRepository.pacXuser(usuario.getIdusuario()));
         model.addAttribute("especialidades", listespecialidad);
-        model.addAttribute("citashoy", citaRepository.citasHoy(1));
+        model.addAttribute("citashoy", citaRepository.citasHoy(pacienteRepository.pacXuser(usuario.getIdusuario()).getIdpaciente()));
         model.addAttribute("sedes", sedeRepository.findAll());
         redirectAttributes.addFlashAttribute("msg1", "Por el momento no contamos con doctores en esa especialidad");
         if(msg1!=null){
