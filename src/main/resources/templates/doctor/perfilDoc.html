@@ -27,7 +27,7 @@
                 <h1>Perfil</h1>
                 <nav>
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a th:href="@{'/doctor/dashboard'}">Home</a></li>
+                        <li class="breadcrumb-item"><a th:href="@{'/doctor/dashboard'}">Dashboard</a></li>
                         <li class="breadcrumb-item active">Perfil</li>
                     </ol>
                 </nav>
@@ -85,9 +85,10 @@
 
                                         <div class="row">
                                             <div class="col-lg-3 col-md-4 label">DNI</div>
-                                            <div class="col-lg-9 col-md-8"><span th:text="${doctor.getUsuario().getDni()}"></span></div>
+                                            <div class="col-lg-9 col-md-8">
+                                                <span th:text="${doctor.getUsuario().getDni()}" ></span>
+                                            </div>
                                         </div>
-
                                         <div class="row">
                                             <div class="col-lg-3 col-md-4 label">Correo</div>
                                             <div class="col-lg-9 col-md-8"><span th:text="${doctor.getUsuario().getCorreo()}"></span> </div>
