@@ -203,17 +203,29 @@
                 </form><!-- End settings Form -->
 
                 <!-- Funcion para validar -->
+
                 <script>
                   function validateForm2() {
-                    var alergias = document.getElementById("alergias").value;
+                    var alergias = document.getElementById("alergias").value.trim();
 
-
-                    if (alergias === "" ) {
+                    if (alergias === "") {
                       var errorMessage = document.getElementById("error-message2");
                       errorMessage.style.display = "block";
                       errorMessage.innerHTML = "Complete el campo requerido";
                       return false;
                     }
+
+                    var palabras = alergias.split(" ").filter(function (palabra) {
+                      return palabra !== "";
+                    });
+
+                    if (palabras.length !== new Set(palabras).size) {
+                      var errorMessage = document.getElementById("error-message2");
+                      errorMessage.style.display = "block";
+                      errorMessage.innerHTML = "La palabra está repetida";
+                      return false;
+                    }
+
                     return true;
                   }
                 </script>

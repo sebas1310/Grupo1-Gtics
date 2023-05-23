@@ -11,21 +11,11 @@
 <aside th:replace="fragments/doctor/aside.html :: sidebar (active = 'dashboard')">
 </aside><!-- End Sidebar-->
 
-<div class="modal fade" id="cerrar" tabindex="-1">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">¿Seguro que deseas Salir?</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-success" data-bs-dismiss="modal"><a style="color: white" href="pages-login.html" >Salir</a></button>
-        <button type="button" class="btn btn-secondary"><a style="color: white" th:href="@{'/doctor/dashboard'}" >Cancelar</a></button>
-      </div>
-    </div>
-  </div>
-</div><!-- End Vertically centered Modal-->
+<!--Modal Cerrar Sesion-->
+<div th:replace="fragments/doctor/modalCerrarSesion.html::modal">
 
+</div>
+<!-- End Modal-->
 <main id="main" class="main">
 
   <div class="pagetitle">
