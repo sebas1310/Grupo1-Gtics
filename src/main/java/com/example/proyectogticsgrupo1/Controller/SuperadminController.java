@@ -39,12 +39,6 @@ public class SuperadminController {
     @Autowired
     private HttpSession session;
 
-    /*Ejm para SuperAdmin : Agregar dentro de cada ruta GET (o POST , si es necesario) , el usuario logeado:
-
-        Usuario usuarioSuperAdmin = (Usuario) session.getAttribute("usuario"); //usuario logeado
-        model.addAttribute("usuarioSA",usuarioSuperAdmin);
-
-     */
 
     @GetMapping("/index")
     public String inicioDashboardSuperadmin(Model model){

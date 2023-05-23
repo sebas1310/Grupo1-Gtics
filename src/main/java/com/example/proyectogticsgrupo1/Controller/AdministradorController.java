@@ -45,13 +45,6 @@ public class AdministradorController {
     @Autowired
     private HttpSession session;
 
-    /*Ejm para Admin : Agregar dentro de cada ruta GET (o POST , si es necesario) , el usuario logeado:
-
-        Usuario usuarioAdmin = (Usuario) session.getAttribute("usuario"); //usuario logeado
-        model.addAttribute("usuario",usuarioAdmin);
-
-     */
-
     @GetMapping("")
     public String administrador(Model model) {
         Optional<Usuario> usuarioopt = usuarioRepository.findById(2);
