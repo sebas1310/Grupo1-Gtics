@@ -35,7 +35,11 @@ public class SuperadminController {
     @Autowired
     ModeloRepository modeloRepository;
 
+    @Autowired
+    TablaDatosLlenosRepository tablaDatosLlenosRepository;
 
+    @Autowired
+    TablaTitulosInputsRepository tablaTitulosInputsRepository;
 
 
     @GetMapping("/index")
