@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+
+</head>
+<body>
+<aside th:fragment="sidebar (active)" id="sidebar" class="sidebar">
+
+    <ul class="sidebar-nav" id="sidebar-nav">
+        <li class="nav-item" th:classappend="${active == 'dashboard' ? 'inactive':''}">
+            <a class="nav-link" th:classappend="${active != 'dashboard' ? 'collapsed':''}" th:href="@{'/administrador'}">
+
+                <i class="bi bi-grid"></i>
+                <span>Dashboard</span>
+            </a>
+        </li><!-- End Dashboard -->
+
+        <li class="nav-item" th:classappend="${active == 'nuevopaciente' ? 'active':''}">
+            <a class="nav-link" th:classappend="${active != 'nuevopaciente' ? 'collapsed':''}" th:href="@{'/administrador/nuevopaciente'}">
+                <i class="bi bi-person-plus-fill"></i><span>Nuevo Usuario</span>
+            </a>
+        </li><!-- End Components Nav -->
+
+        <li class="nav-item" th:classappend="${active == 'calendariogeneral' ? 'active':''}">
+            <a class="nav-link" th:classappend="${active != 'calendariogeneral' ? 'collapsed':''}" th:href="@{'/administrador/calendariogeneral'}">
+                <i class="bi bi-calendar"></i><span>Calendario General</span>
+            </a>
+        </li><!-- End Forms Nav -->
+
+        <li class="nav-item" th:classappend="${active == 'formatos' ? 'active':''}">
+            <a class="nav-link " th:classappend="${active != 'formatos' ? 'collapsed':''}" th:href="@{'/administrador/formatos'}">
+                <i class="bi bi-card-list"></i><span>Formatos</span>
+            </a>
+        </li><!-- End Tables Nav -->
+
+        <li class="nav-item" th:classappend="${active == 'perfil' ? 'active':''}">
+            <a class="nav-link" th:classappend="${active != 'perfil' ? 'collapsed':''}" th:href="@{'/administrador/perfil'+ '?id=' + ${usuario.idusuario}}">
+                <i class="bi bi-person"></i><span>Perfil</span>
+            </a>
+        </li>
+
+        <br><br><br><br>
+        <br><br><br><br>
+        <br><br><br>
+        <br><br>
+        <li class="nav-heading"> ----------------------------------------------- </li>
+
+        <li class="nav-item" th:classappend="${active == 'configuracion' ? 'active':''}">
+            <a class="nav-link collapsed" th:classappend="${active != 'configuracion' ? 'collapsed':''}" th:href="@{'/administrador/configuraciones'}" >
+                <i class="bi bi-gear"></i>
+                <span>Configuracion</span>
+            </a>
+        </li><!-- End Configuracion -->
+
+        <li class="nav-item" th:classappend="${active == 'cerrarSesion' ? 'active':''}">
+            <a class="nav-link collapsed" type="button" data-bs-toggle="modal" data-bs-target="#verticalycentered">
+                <i class="bi bi-box-arrow-in-right"></i>
+                <span>Cerrar Sesión</span>
+                <!-- Vertically centered Modal -->
+
+            </a>
+        </li>
+    </ul>
+
+</aside><!-- End Sidebar-->
+
+<!-- Cerrar Sesion-->
+<div class="modal fade" id="verticalycentered" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">¿Seguro que deseas Salir? Admin</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-footer">
+                <form th:action="@{/logout}" method="post">
+                    <button type="submit" class="btn btn-danger">Cerrar sesion</button>
+                </form>
+                <button type="button" class="btn btn-secondary"><a style="color: white" th:href="@{'/administrador'}" >Cancelar</a></button>
+            </div>
+        </div>
+    </div>
+</div><!-- End Vertically centered Modal-->
+</body>
+</html>

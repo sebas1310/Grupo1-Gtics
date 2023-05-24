@@ -2,8 +2,10 @@ package com.example.proyectogticsgrupo1.Controller;
 
 import com.example.proyectogticsgrupo1.Entity.*;
 import com.example.proyectogticsgrupo1.Repository.*;
+import jakarta.servlet.http.HttpSession;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -36,20 +38,17 @@ public class SuperadminController {
     ModeloRepository modeloRepository;
 
     @Autowired
-    TablaTitulosInputsRepository tablaTitulosInputsRepository;
-
-    @Autowired
-    TablaDatosLlenosRepository tablaDatosLlenosRepository;
-
-
+    private HttpSession session;
 
 
     @GetMapping("/index")
     public String inicioDashboardSuperadmin(Model model){
 
-        Optional<Usuario> optionalUsuario = usuarioRepository.findById(1);
-        Usuario usuario = optionalUsuario.get();
+        //Optional<Usuario> optionalUsuario = usuarioRepository.findById(1);
+        //Usuario usuario = optionalUsuario.get();
 
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        model.addAttribute("usuario",usuario);
 
         List<Usuario> listaUsuarios = usuarioRepository.findAll();
 
@@ -60,7 +59,7 @@ public class SuperadminController {
 
 
 
-        return "/superadmin/index_spa";
+        return "superadmin/index_spa";
     }
     @GetMapping("/listaform")
     public String listaFormularios(Model model){
@@ -69,7 +68,7 @@ public class SuperadminController {
         model.addAttribute("modeloEntityList",modeloEntityList);
 
 
-        return "/superadmin/lista_plantillas_spa";
+        return "superadmin/lista_plantillas_spa";
     }
 
     @GetMapping("/chat")
@@ -79,19 +78,19 @@ public class SuperadminController {
 
     @GetMapping("/editarreportes")
     public String editarReportes(){
-        return "/superadmin/editar-reportes_spa";
+        return "superadmin/editar-reportes_spa";
     }
     @GetMapping("/editarforms")
     public String editarForms(){
-        return "/superadmin/forms-editors_spa";
+        return "superadmin/forms-editors_spa";
     }
     @GetMapping("/registro")
     public String registrarUsuarios(){
-        return "/superadmin/pages-blank_spa";
+        return "superadmin/pages-blank_spa";
     }
     @GetMapping("/mensajeria")
     public String mensajeria(){
-        return "/superadmin/mensajeria_spa";
+        return "superadmin/mensajeria_spa";
     }
 
     @GetMapping("/perfil")
@@ -99,16 +98,19 @@ public class SuperadminController {
         Optional<Usuario> optionalSuperadmin = usuarioRepository.findById(1);
         usuario = optionalSuperadmin.get();
         model.addAttribute("superadminlog", usuario);
-        return "/superadmin/users-profile_spa";
+        return "superadmin/users-profile_spa";
     }
     @GetMapping("/registraradministrativo")
     public String registrarAdministrativo(@ModelAttribute("usuario") Usuario usuario, Model model, @RequestParam("t") String t){
         System.out.println(t);
         model.addAttribute("t",t);
-        return "/superadmin/pages-registrar-administrativo";
+
+
+        return "superadmin/pages-registrar-administrativo";
     }
     @GetMapping("/registraradministrador")
     public String registrarAdministrador(@ModelAttribute("usuario") Usuario usuario,Model model){
+
         return "superadmin/pages-registrar-adminitrador";
     }
 
@@ -195,12 +197,12 @@ public class SuperadminController {
     }
     @GetMapping("/reportes")
     public String listaReportes(){
-        return "/superadmin/tables-general_spa";
+        return "superadmin/tables-general_spa";
     }
 
     @GetMapping("/configuracion")
     public String configuraciones(){
-        return "/superadmin/configuraciones_spa";
+        return "superadmin/configuraciones_spa";
     }
 
     @GetMapping("/nuevoform")
@@ -215,7 +217,7 @@ public class SuperadminController {
         model.addAttribute("especialidadList",especialidadList);
 
 
-        return "/superadmin/nuevoformulario_spa";
+        return "superadmin/nuevoformulario_spa";
     }
 
 
@@ -258,71 +260,29 @@ public class SuperadminController {
         listaPreguntas = List.of(mod_datos.split(Pattern.quote("|")));
 
         System.out.println("preguntas:"+listaPreguntas);
-
-
-        /////////////////////////
-
-        for (int i = 0; i < listaPreguntas.size(); i++) {
-            String pregunta = listaPreguntas.get(i);
-            System.out.println("pregunta:"+ pregunta);
-            tablaTitulosInputsRepository.agregarNombreTitulos(pregunta);
-
-        }
-
-
-        /*tablaTitulosInputsRepository.agregarNuevaPlantilla(nombreplantilla,id_rol,id_especialidad,1);*/
-        int id_registro_nuevo = 0;
-
+        
         if(tipo_plantilla.equals("formulario")){
-            tablaTitulosInputsRepository.agregarNuevoFormulario(nombreplantilla,id_rol,id_especialidad,1);
-            id_registro_nuevo = tablaTitulosInputsRepository.contarRegistros();
-
+            modeloRepository.crearnuevaPlantillaForms(nombreplantilla,mod_datos,id_rol,id_especialidad,nro_inputs,1);
+            
         } else if (tipo_plantilla.equals("informe")) {
-            tablaTitulosInputsRepository.agregarNuevoInforme(nombreplantilla,id_rol,id_especialidad,1);
-            id_registro_nuevo = tablaTitulosInputsRepository.contarRegistros();
-
+            modeloRepository.crearnuevaPlantillaInforme(nombreplantilla,mod_datos,id_rol,id_especialidad,nro_inputs,1);
+            
         } else if (tipo_plantilla.equals("cuestionario")) {
-            tablaTitulosInputsRepository.agregarNuevoCuestionario(nombreplantilla,id_rol,id_especialidad,1);
-            id_registro_nuevo = tablaTitulosInputsRepository.contarRegistros();
+            modeloRepository.crearnuevaPlantillaCuestionario(nombreplantilla,mod_datos,id_rol,id_especialidad,nro_inputs,1);
 
         }
 
-        System.out.println("id: "+id_registro_nuevo);
-
-
-        ///METODO LLENAR PLANTILLA INFORME //
-
-
-        List<String> listaElementosDatosInputs = new ArrayList<>();
-
-        listaElementosDatosInputs.add("respuesta1");
-        listaElementosDatosInputs.add("respuesta2");
-        listaElementosDatosInputs.add("respuesta3");
-        listaElementosDatosInputs.add("respuesta4");
-        listaElementosDatosInputs.add("respuesta5");
-
-        for (String elemento : listaElementosDatosInputs) {
-            tablaDatosLlenosRepository.agregarDatosDeInput(elemento);
-        }
-
-//        tablaDatosLlenosRepository.LlenadoDePlantilla(id_registro_nuevo,nombreplantilla,id_usuario,id_modelo,id_cita);
-        tablaDatosLlenosRepository.LlenadoDePlantilla(id_registro_nuevo,nombreplantilla,4,7,1);
-
-
-
-        //////////////////////////////////////
 //        modeloRepository.crearnuevaPlantilla(nombreplantilla,mod_datos,id_rol,id_especialidad,nro_inputs);
+
+
+
 //        if (employee.getEmployeeId() == 0) {
 //            attr.addFlashAttribute("msg", "Plantilla creada exitosamente");
 //        } else {
 //            attr.addFlashAttribute("msg", "Empleado actualizado exitosamente");
 //        }
+
 //        attr.addFlashAttribute("msg", "Plantilla creada exitosamente");
-
-        //BORRADO DE LA TABLA DE TITULOS.
-
-        tablaTitulosInputsRepository.BorrarTitulosInput();
-        tablaDatosLlenosRepository.BorrarDatosDeInput();
 
 
         return "redirect:/superadmin/nuevoform";
@@ -330,7 +290,7 @@ public class SuperadminController {
 
     @GetMapping("/notificaciones")
     public String historialNotificaciones(){
-        return "/superadmin/historial-notificaciones_spa";
+        return "superadmin/historial-notificaciones_spa";
     }
     @GetMapping("/perfilUsuario")
     public String perfilUsuario(Model model,@RequestParam("id") int id){
@@ -341,37 +301,33 @@ public class SuperadminController {
         System.out.println(id);
         model.addAttribute("usuario", usuario);
 
-        return "/superadmin/perfil-usuarios_spa";
+        return "superadmin/perfil-usuarios_spa";
     }
 
     @GetMapping("/seguros")
     public String seguro(Model model){
         List<Seguro> listSeguros = seguroRepository.findAll();
         model.addAttribute("listSeguros",listSeguros);
-        return "/superadmin/seguros_spa";
+        return "superadmin/seguros_spa";
     }
 
 
-    @PostMapping("/cambiarContraseña")
+    @PostMapping("/cambiarContrasena")
     public String cambiarContraseña(Model model, RedirectAttributes attr, @RequestParam("currentPassword") String currentPassword,
                                     @RequestParam("newPassword") String  newPassword,
                                     @RequestParam("renewpassword") String  renewpassword){
 
-        String contraseñaActual = currentPassword;
-        String nuevaContraseña = newPassword;
-        String nuevaContraseña_v2 = renewpassword;
+        String contrasenaActual = currentPassword;
+        String nuevaContrasena = newPassword;
+        String nuevaContrasena_v2 = renewpassword;
 
 
-
-
-        if (nuevaContraseña == contraseñaActual && nuevaContraseña_v2 == renewpassword) {
+        if (nuevaContrasena.equals(contrasenaActual) && nuevaContrasena_v2.equals(renewpassword)) {
             attr.addFlashAttribute("msg", "No se pudo actualizar la contraseña");
         } else {
-            usuarioRepository.cambiarPassword(nuevaContraseña);
+            usuarioRepository.cambiarPassword(new BCryptPasswordEncoder().encode(nuevaContrasena));
             attr.addFlashAttribute("msg", "Contraseña actualizada exitosamente");
         }
-
-
 
         return "redirect:/superadmin/perfil";
     }

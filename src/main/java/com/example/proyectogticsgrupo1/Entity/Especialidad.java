@@ -4,11 +4,14 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
+
 @Getter
 @Setter
 @Entity
 @Table(name = "especialidad")
-public class Especialidad {
+public class Especialidad implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idespecialidad", nullable = false)
@@ -21,3 +24,4 @@ public class Especialidad {
     private Double costo;
 
 }
+

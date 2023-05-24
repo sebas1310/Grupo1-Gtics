@@ -1,54 +1,49 @@
 package com.example.proyectogticsgrupo1.Entity;
-
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.sql.Blob;
+import java.io.Serializable;
 
-
-@Entity
 @Getter
 @Setter
+@Entity
 @Table(name = "usuario")
-public class Usuario {
+public class Usuario  implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idusuario")
+    @Column(name = "idusuario", nullable = false)
     private Integer idusuario;
 
     @ManyToOne
-    @JoinColumn(name = "idtipodeusuario")
+    @JoinColumn(name = "idtipodeusuario", nullable = false)
     private Tipodeusuario tipodeusuario;
 
-    @Column(name = "nombres")
+    @Column(name = "nombres", nullable = false)
     private String nombres;
 
-    @Column(name = "apellidos")
+    @Column(name = "apellidos", nullable = false)
     private String apellidos;
 
-    @Column(name = "dni")
-    //@Pattern(regexp = "\\d{8}", message = "El DNI debe tener exactamente 8 dígitos")
+    @Column(name = "dni", nullable = false)
     private String dni;
 
-    @Column(name = "correo")
+    @Column(name = "correo", nullable = false)
     private String correo;
 
-    @Column(name = "contrasena")
+    @Column(name = "contrasena", nullable = false)
     private String contrasena;
 
-    @Column(name = "genero")
+    @Column(name = "genero", nullable = false)
     private String genero;
 
-    @Column(name = "celular")
+    @Column(name = "celular", nullable = false)
     private String celular;
 
-    @Column(name = "edad")
+    @Column(name = "edad", nullable = false)
     private Integer edad;
 
-    @Column(name = "estado_habilitado")
+    @Column(name = "estado_habilitado", nullable = false)
     private Integer estadohabilitado;
 
     @ManyToOne
@@ -59,9 +54,9 @@ public class Usuario {
     @JoinColumn(name = "especialidad_idespecialidad")
     private Especialidad especialidad;
 
-
-    /*
-    @Column(name = "foto")
-    private Blob foto;*/
+    @Column(name = "sueldo")
+    private Double sueldo;
 
 }
+
+

@@ -4,11 +4,13 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
+
 @Getter
 @Setter
 @Entity
 @Table(name ="doctor")
-public class Doctor {
+public class Doctor implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "iddoctor",  nullable = false)
@@ -41,4 +43,8 @@ public class Doctor {
     @Column(name = "zoom")
     private String zoom;
 
+    @Column(name = "consultorio", nullable = false)
+    private String consultorio;
 }
+
+

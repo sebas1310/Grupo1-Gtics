@@ -1,16 +1,17 @@
 package com.example.proyectogticsgrupo1.Entity;
 
 
-
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.io.Serializable;
 
 @Getter
 @Setter
 @Entity
 @Table(name = "paciente")
-public class Paciente {
+public class Paciente implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name ="idpaciente", nullable = false)
