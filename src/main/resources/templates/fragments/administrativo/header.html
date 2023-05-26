@@ -10,11 +10,13 @@
     <div class="d-flex align-items-center justify-content-between">
         <a th:href="@{'/administrativo'}" class="logo d-flex align-items-center" style="width: 200px;">
             <img th:src="@{/assets/img/logo.png}" alt="">
-            <span class="d-none d-lg-block">Clínica LA FE</span>
+            <span class="d-none d-lg-block" style="color: white" th:href="@{'/administrativo/dashboard'}">Clínica LA FE</span>
         </a>
+
         <a>
-            <span class="d-none d-lg-block" style="color: #18335c">(Administrativo/Pediatría)</span>
+            <span class="d-none d-lg-block" style="color: #0f1010">(Administrativo/Pediatría)</span>
         </a>
+
         <i class="bi bi-list toggle-sidebar-btn"></i>
     </div><!-- End Logo -->
 
@@ -29,70 +31,19 @@
                 </a><!-- End Notification Icon -->
 
                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
-                    <li class="dropdown-header">
-                        Tienes 4 notificaciones nuevas
+                    <li  class="dropdown-header">
+                        <p th:text="|Tiene ${num_not} notificaciones |"> </p>
+                        <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">Vaciar</span></a>
                     </li>
                     <li>
                         <hr class="dropdown-divider">
                     </li>
 
-                    <li class="notification-item">
-                        <i class="bi bi-exclamation-circle text-warning"></i>
-                        <div>
-                            <h4>Lorem Ipsum</h4>
-                            <p>Quae dolorem earum veritatis oditseno</p>
-                            <p>30 min. ago</p>
-                        </div>
-                    </li>
 
-                    <li>
-                        <hr class="dropdown-divider">
-                    </li>
-
-                    <li class="notification-item">
-                        <i class="bi bi-x-circle text-danger"></i>
-                        <div>
-                            <h4>Atque rerum nesciunt</h4>
-                            <p>Quae dolorem earum veritatis oditseno</p>
-                            <p>1 hr. ago</p>
-                        </div>
-                    </li>
-
-                    <li>
-                        <hr class="dropdown-divider">
-                    </li>
-
-                    <li class="notification-item">
-                        <i class="bi bi-check-circle text-success"></i>
-                        <div>
-                            <h4>Sit rerum fuga</h4>
-                            <p>Quae dolorem earum veritatis oditseno</p>
-                            <p>2 hrs. ago</p>
-                        </div>
-                    </li>
-
-                    <li>
-                        <hr class="dropdown-divider">
-                    </li>
-
-                    <li class="notification-item">
-                        <i class="bi bi-info-circle text-primary"></i>
-                        <div>
-                            <h4>Dicta reprehenderit</h4>
-                            <p>Quae dolorem earum veritatis oditseno</p>
-                            <p>4 hrs. ago</p>
-                        </div>
-                    </li>
-
-                    <li>
-                        <hr class="dropdown-divider">
-                    </li>
                     <li class="dropdown-footer">
-                        <a th:href="@{'/administrativo/notificaciones'}">Mira todas las notificaciones</a>
+                        <a th:href="@{'/administrativo/notificaciones'}">Mostrar todas las notificaciones</a>
                     </li>
-
                 </ul><!-- End Notification Dropdown Items -->
-
             </li><!-- End Notification Nav -->
 
             <li class="nav-item dropdown">

@@ -1,5 +1,11 @@
 package com.example.proyectogticsgrupo1.Controller;
 
+import com.example.proyectogticsgrupo1.Entity.Paciente;
+import com.example.proyectogticsgrupo1.Entity.Usuario;
+import com.example.proyectogticsgrupo1.Repository.DoctorRepository;
+import com.example.proyectogticsgrupo1.Repository.PacienteRepository;
+import com.example.proyectogticsgrupo1.Repository.UsuarioRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -7,6 +13,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping(value = "/administrativo")
 public class AdministrativoController {
+
+    @Autowired
+    UsuarioRepository usuarioRepository;
+    @Autowired
+    PacienteRepository pacienteRepository;
+    @Autowired
+    DoctorRepository doctorRepository;
 
     @GetMapping(value = "/dashboard")
     public String dashboard(){
