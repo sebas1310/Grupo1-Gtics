@@ -3,21 +3,21 @@ package com.example.proyectogticsgrupo1.Entity;
 import jakarta.persistence.*;
 
 @Entity
-public class Tipodeusuario {
+public class Tipohoracalendariodoctor {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "idtipodeusuario")
-    private int idtipodeusuario;
+    @Column(name = "idtipohoracalendariodoctor")
+    private int idtipohoracalendariodoctor;
     @Basic
     @Column(name = "nombre")
     private String nombre;
 
-    public int getIdtipodeusuario() {
-        return idtipodeusuario;
+    public int getIdtipohoracalendariodoctor() {
+        return idtipohoracalendariodoctor;
     }
 
-    public void setIdtipodeusuario(int idtipodeusuario) {
-        this.idtipodeusuario = idtipodeusuario;
+    public void setIdtipohoracalendariodoctor(int idtipohoracalendariodoctor) {
+        this.idtipohoracalendariodoctor = idtipohoracalendariodoctor;
     }
 
     public String getNombre() {
@@ -33,9 +33,9 @@ public class Tipodeusuario {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Tipodeusuario that = (Tipodeusuario) o;
+        Tipohoracalendariodoctor that = (Tipohoracalendariodoctor) o;
 
-        if (idtipodeusuario != that.idtipodeusuario) return false;
+        if (idtipohoracalendariodoctor != that.idtipohoracalendariodoctor) return false;
         if (nombre != null ? !nombre.equals(that.nombre) : that.nombre != null) return false;
 
         return true;
@@ -43,7 +43,7 @@ public class Tipodeusuario {
 
     @Override
     public int hashCode() {
-        int result = idtipodeusuario;
+        int result = idtipohoracalendariodoctor;
         result = 31 * result + (nombre != null ? nombre.hashCode() : 0);
         return result;
     }

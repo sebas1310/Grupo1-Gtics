@@ -17,9 +17,10 @@ public interface PacienteRepository extends JpaRepository<Paciente, Integer> {
     @Query(value = "insert into `bdclinica_lafe`.`paciente` (`idpaciente`, `direccion`, `idestadopaciente`, `idseguro`, `alergias`,`consentimientos`, `condicion_enfermedad`, `poliza`,`referido` ) values ( ?1,?2,?3,?4,?5,?6,?7,?8,?9) ",
             nativeQuery = true)
     void guardarPaciente(int idpaciente, String direccion, int idestadopaciente, int idseguro, String alergias, int consentimientos, String condicion_enfermedad, String poliza, Boolean referido);
+    /*
     @Query(value = "SELECT p FROM Paciente p JOIN p.usuario u WHERE u.tipodeusuario.idtipodeusuario = 4")
     List<Paciente> test();
-
+*/
     @Query(value = "SELECT p FROM Paciente p JOIN p.usuario u WHERE u.nombres = ?", nativeQuery = true)
     List<Paciente> buscarPaciente();
 

@@ -3,21 +3,21 @@ package com.example.proyectogticsgrupo1.Entity;
 import jakarta.persistence.*;
 
 @Entity
-public class Tipodeusuario {
+public class Estadocita {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "idtipodeusuario")
-    private int idtipodeusuario;
+    @Column(name = "idestadocita")
+    private int idestadocita;
     @Basic
     @Column(name = "nombre")
     private String nombre;
 
-    public int getIdtipodeusuario() {
-        return idtipodeusuario;
+    public int getIdestadocita() {
+        return idestadocita;
     }
 
-    public void setIdtipodeusuario(int idtipodeusuario) {
-        this.idtipodeusuario = idtipodeusuario;
+    public void setIdestadocita(int idestadocita) {
+        this.idestadocita = idestadocita;
     }
 
     public String getNombre() {
@@ -33,9 +33,9 @@ public class Tipodeusuario {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Tipodeusuario that = (Tipodeusuario) o;
+        Estadocita that = (Estadocita) o;
 
-        if (idtipodeusuario != that.idtipodeusuario) return false;
+        if (idestadocita != that.idestadocita) return false;
         if (nombre != null ? !nombre.equals(that.nombre) : that.nombre != null) return false;
 
         return true;
@@ -43,7 +43,7 @@ public class Tipodeusuario {
 
     @Override
     public int hashCode() {
-        int result = idtipodeusuario;
+        int result = idestadocita;
         result = 31 * result + (nombre != null ? nombre.hashCode() : 0);
         return result;
     }

@@ -3,7 +3,9 @@ package com.example.proyectogticsgrupo1.Repository;
 import com.example.proyectogticsgrupo1.Entity.Paciente;
 import com.example.proyectogticsgrupo1.Entity.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -14,7 +16,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
 
     @Transactional
     @Modifying
-    @Query(value = "insert into `bdclinica_lafe`.`usuario` (`idusuario`, `idtipodeusuario`, `nombres`, `apellidos`, `dni`, `correo`, `contrasena`, `genero`, `foto`, `celular`, `edad`, `sede_idsede`, `especialidad_idespecialidad`, `estado_habilitado`, `sueldo`, `firma`) values ( ?1,?2,?3,?4,?5,?6,?7,?8,?9,?10,?11,?12,?13,?14,?15,?16) ",
+    @Query(value = "insert into `bdclinica`.`usuario` (`idusuario`, `idtipodeusuario`, `nombres`, `apellidos`, `dni`, `correo`, `contrasena`, `genero`, `foto`, `celular`, `edad`, `sede_idsede`, `especialidad_idespecialidad`, `estado_habilitado`, `sueldo`, `firma`) values ( ?1,?2,?3,?4,?5,?6,?7,?8,?9,?10,?11,?12,?13,?14,?15,?16) ",
             nativeQuery = true)
     void guardarUsuario(int idusuario, int idtipodeusuario, String idestadopaciente, int idseguro, String alergias, int consentimientos, String condicion_enfermedad, String poliza, Boolean referido);
     @Query(value = "SELECT * FROM paciente p\n" +
