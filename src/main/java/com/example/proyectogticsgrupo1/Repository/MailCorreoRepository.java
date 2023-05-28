@@ -1,6 +1,7 @@
 package com.example.proyectogticsgrupo1.Repository;
 
 import com.example.proyectogticsgrupo1.Entity.MailCorreo;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -9,7 +10,7 @@ import java.util.List;
 
 public interface MailCorreoRepository extends JpaRepository <MailCorreo,Integer>{
 
-    @Query(value= "select * from mensaje where idusuariodestino = ?1 order by fecha desc ",nativeQuery = true)
+    @Query(value= "select * from mensaje where idusuariodestino = ?1 ",nativeQuery = true)
     List<MailCorreo> buscarMensajesRecibidosPorID (Integer idUsuarioDestino);
 
     @Query(value= "select * from mensaje where idusuariodestino = ?1 or idusuarioorigen = ?1",nativeQuery = true)
@@ -18,7 +19,7 @@ public interface MailCorreoRepository extends JpaRepository <MailCorreo,Integer>
     @Query(value= "select * from mensaje where idmensaje = ?1 ",nativeQuery = true)
     MailCorreo buscarMensajePorID (Integer idMensaje);
 
-    @Query(value= "select * from mensaje where asunto = ?1 order by fecha ",nativeQuery = true)
+    @Query(value= "select * from mensaje where asunto = ?1 ",nativeQuery = true)
     List<MailCorreo> buscarMensajePorAsunto (String asunto);
 
     @Modifying
