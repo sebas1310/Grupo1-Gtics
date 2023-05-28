@@ -239,7 +239,7 @@ public class AdministradorController {
             Usuario user = usuarioopt.get();
             model.addAttribute("usuario", user);
             if(buscando == null) {
-                List<Doctor> listaDoctoresS = doctorRepository.listarDoctorporSede(2);
+                List<Doctor> listaDoctoresS = doctorRepository.listarDoctorporSede(1);
                 model.addAttribute("listaUsuarioDoctores", listaDoctoresS);
             }else{
                 List<Doctor> listaUsuarios = doctorRepository.buscadorDoctor(buscando.toLowerCase());
@@ -367,7 +367,7 @@ public class AdministradorController {
         user.setEstadohabilitado(1);
         user.setTipodeusuario(tipodeusuario);
         Sede sede = new Sede();
-        sede.setIdsede(2);
+        sede.setIdsede(1);
         user.setSede(sede);
         user.setContrasena(generarContrasena(10));
         usuarioRepository.save(user);
