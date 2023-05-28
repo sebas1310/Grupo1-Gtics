@@ -25,12 +25,13 @@
 
         <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
           <i class="bi bi-bell"></i>
-          <span class="badge bg-primary badge-number">4</span>
+          <span th:text="${num_not}" class="badge bg-primary badge-number">4</span>
         </a><!-- End Notification Icon -->
 
         <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
           <li class="dropdown-header">
-            Tienes 4 notificaciones nuevas
+            <p th:text="|Tiene ${num_not} notificaciones |"> </p>
+            <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">Vaciar</span></a>
           </li>
           <li>
             <hr class="dropdown-divider">
@@ -39,9 +40,9 @@
           <li class="notification-item">
             <i class="bi bi-exclamation-circle text-warning"></i>
             <div>
-              <h4>Lorem Ipsum</h4>
-              <p>Quae dolorem earum veritatis oditseno</p>
-              <p>30 min. ago</p>
+              <h4>Formulario</h4>
+              <p th:text="|Tiene ${num_form} por responder |"></p>
+              <p>Hace 1 min.</p>
             </div>
           </li>
 
@@ -52,7 +53,7 @@
           <li class="notification-item">
             <i class="bi bi-x-circle text-danger"></i>
             <div>
-              <h4>Atque rerum nesciunt</h4>
+              <h4>Por Cancelar</h4>
               <p>Quae dolorem earum veritatis oditseno</p>
               <p>1 hr. ago</p>
             </div>
@@ -75,20 +76,13 @@
             <hr class="dropdown-divider">
           </li>
 
-          <li class="notification-item">
-            <i class="bi bi-info-circle text-primary"></i>
-            <div>
-              <h4>Dicta reprehenderit</h4>
-              <p>Quae dolorem earum veritatis oditseno</p>
-              <p>4 hrs. ago</p>
-            </div>
-          </li>
+
 
           <li>
             <hr class="dropdown-divider">
           </li>
           <li class="dropdown-footer">
-            <a th:href="@{'/administrador/notificaciones'}">Mira todas las notificaciones</a>
+            <a th:href="@{'/administrador/notificaciones'}">Mostrar todas las notificaciones</a>
           </li>
 
         </ul><!-- End Notification Dropdown Items -->
@@ -162,9 +156,9 @@
 
       <li class="nav-item dropdown pe-3">
 
-        <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+        <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" th:href="@{'/administrador/perfil'}">
           <img th:src="@{/assets/img/messages-1.jpg}" alt="Profile" class="rounded-circle">
-          <span class="d-none d-md-block ps-2">Angie Alejandro</span>
+          <span th:text="${usuario.nombres} + ' ' + ${usuario.apellidos}" class="d-none d-md-block ps-2"></span>
         </a><!-- End Profile Iamge Icon -->
 
       </li><!-- End Profile Nav -->
