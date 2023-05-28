@@ -251,11 +251,10 @@ public class DoctorController {
         }
     @GetMapping("/calendario")
     public String calendarioDoctor(Model model){
-        //List<Event> events =
-        //List<Eventocalendariodoctor> events = eventocalendariodoctorRepository.calendarioPorDoctor(idDoctor);
-        //model.addAttribute("events", events);
         Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
         Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
+        List<Eventocalendariodoctor> eventos = eventocalendariodoctorRepository.calendarioPorDoctor(doctor.getIddoctor());
+        model.addAttribute("eventos", eventos);
         model.addAttribute("doctor",doctor);
         return "doctor/calendarioDoc";
     }
