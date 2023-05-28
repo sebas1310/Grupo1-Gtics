@@ -27,7 +27,9 @@
     </nav>
   </div><!-- End Page Title -->
 
-  <section class="section ">
+    <div th:if="${msg!=null}" th:text="${msg}" class="alert alert-success" role="alert"></div>
+
+    <section class="section ">
     <div class="row">
       <!-- Left side columns -->
       <div class="col-lg">

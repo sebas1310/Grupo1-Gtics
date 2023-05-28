@@ -103,7 +103,6 @@ public class DoctorController {
             Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
             Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
             model.addAttribute("doctor",doctor);
-            //model.addAttribute("doctor", doctor1);
             model.addAttribute("pacientesAtendidosDoctor", citaRepository.pacientesAtendidosPorDoctor(doctor.getIddoctor()));
 
         return "doctor/pacientesAtendidos";
@@ -127,6 +126,7 @@ public class DoctorController {
     @Transactional
     public String guardarBitacora(RedirectAttributes redirectAttributes, @RequestParam("descripcion") String descripcion, @RequestParam("id") int idPaciente){
         bitacoraDeDiagnosticoRepository.guardarbitacora(descripcion,idPaciente);
+        redirectAttributes.addFlashAttribute("msg","Bitácora Guardada");
         redirectAttributes.addAttribute("id",idPaciente);
         return "redirect:/doctor/pacientesatendidos/verhistorial";
     }
@@ -137,6 +137,7 @@ public class DoctorController {
         BitacoraDeDiagnostico bitacora = bitacoraDeDiagnosticoRepository.buscarBitacoraDeDiagnosticoID(idBitacora);
         Integer idPaciente = bitacora.getPaciente().getIdpaciente();
         bitacoraDeDiagnosticoRepository.borrarbitacora(idBitacora);
+        redirectAttributes.addFlashAttribute("msg2","Bitácora Borrada");
         redirectAttributes.addAttribute("id",idPaciente);
         return "redirect:/doctor/pacientesatendidos/verhistorial";
     }
@@ -192,6 +193,7 @@ public class DoctorController {
                                @RequestParam("descripcion") String descripcion){
         recetaMedicaRepository.actualizarReceta( medicamento, dosis, descripcion, idCita, idReceta);
         redirectAttributes.addAttribute("idReceta",idReceta);
+        redirectAttributes.addFlashAttribute("msg3","Receta Actualizada");
         redirectAttributes.addAttribute("id",idCita);
         return "redirect:/doctor/pacientesatendidos/verhistorial/vercita";
     }
@@ -221,6 +223,7 @@ public class DoctorController {
                                 @RequestParam("id") int idCita){
 
         recetaMedicaRepository.agregarReceta(medicamento,dosis,descripcion,idCita);
+        redirectAttributes.addFlashAttribute("msg","Receta Agregada");
         redirectAttributes.addAttribute("id",idCita);
         //redirectAttributes.addAttribute("idReceta",idReceta);
         return "redirect:/doctor/pacientesatendidos/verhistorial/vercita";
@@ -234,6 +237,7 @@ public class DoctorController {
         RecetaMedica receta = recetaMedicaRepository.buscarRecetaMedicaPorID(idReceta);
         Integer idCita = receta.getCita().getIdcita();
         recetaMedicaRepository.borrarReceta(idReceta);
+        redirectAttributes.addFlashAttribute("msg2","Receta Borrada");
         redirectAttributes.addAttribute("id",idCita);
         return "redirect:/doctor/pacientesatendidos/verhistorial/vercita";
         }
@@ -272,12 +276,15 @@ public class DoctorController {
         return "doctor/cuestionarioDoc";
     }
 
-    @PostMapping("/envioCuestionario")
+    @PostMapping("/enviocuestionario")
     public String enviarCuestionario(Model model, @RequestParam("pacienteId") int idP,
-                                                @RequestParam("docId") int idD ){
+                                                @RequestParam("docId") int idD,
+                                     RedirectAttributes redirectAttributes){
         Cuestionario nuevocuestionario = new Cuestionario();
-        cuestionarioRepository.save(nuevocuestionario);
-        return "redirect:/doctor/cuestionario";
+        //cuestionarioRepository.save(nuevocuestionario);
+        redirectAttributes.addFlashAttribute("msg","Cuestionario Enviado");
+        return "redirect:/doctor/dashboard";
+
     }
 
     @GetMapping("/perfil")
@@ -321,6 +328,7 @@ public class DoctorController {
             model.addAttribute("doctor",doctor);
             model.addAttribute("historialmensajes",mailCorreoRepository.buscarMensajePorAsunto(asunto));
             model.addAttribute("usuariorigen",usuarioRepository.usuarioDestino(idUsuarioOrigen));
+            model.addAttribute("asunto",asunto);
 
         return "doctor/responderMensajeDoc";
 }
@@ -342,8 +350,12 @@ public class DoctorController {
     @PostMapping("/mensajeria/enviarmensaje/envio")
     @Transactional
     //ResponseEntity<Void>
-    public String sendEmail(@RequestParam("correodestino") String correoDestino, @RequestParam("asunto") String asunto, @RequestParam("descripcion") String descripcion) {
+    public String sendEmail(RedirectAttributes redirectAttributes, @RequestParam("correodestino") String correoDestino,
+                            @RequestParam("asunto") String asunto, @RequestParam("descripcion") String descripcion,
+                            @RequestParam("idusuariodestino") int idUsuarioDestino , @RequestParam("idusuarioorigen") int idUsuarioOrigen) {
         emailService.sendEmail(correoDestino,asunto,descripcion);
+        mailCorreoRepository.guardarMensaje(asunto,descripcion,correoDestino,idUsuarioDestino ,idUsuarioOrigen);
+        redirectAttributes.addFlashAttribute("msg","Mensaje Enviado");
         return "redirect:/doctor/mensajeria";
         //return ResponseEntity.ok().build();
     }
@@ -358,12 +370,12 @@ public class DoctorController {
 
     @PostMapping("/perfil/editarperfil")
     @Transactional
-    public String actualizarPerfilDoctor(RedirectAttributes redirectAttributes,@RequestParam("id") int idDoctor,
+    public String actualizarPerfilDoctor(RedirectAttributes redirectAttributes,
                                          @RequestParam("idusuario") int idUsuario,@RequestParam("nombre") String nombres,
                                          @RequestParam("apellido") String apellidos,@RequestParam("dni") String dni,
                                          @RequestParam("correo") String correo){
         usuarioRepository.actualizarPerfilDoctor(nombres,apellidos,dni,correo,idUsuario);
-        redirectAttributes.addAttribute("id",idDoctor);
+        redirectAttributes.addFlashAttribute("msg","Perfil Actualizado");
         return "redirect:/doctor/perfil";
     }
 
@@ -384,6 +396,7 @@ public class DoctorController {
         doctorRepository.cambiarSede(idS, idD);
         attr.addAttribute("id", idD);
         attr.addAttribute("iddoctor", idS);
+        attr.addFlashAttribute("msg","Sede Actualizada");
         return "redirect:/doctor/configuraciones";
     }
 

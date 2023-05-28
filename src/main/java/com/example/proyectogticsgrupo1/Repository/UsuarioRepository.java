@@ -56,7 +56,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
     void actualizarPaciente(int habilitado,String nombres, String apellidos, String correo, String DNI, int edad, String celular, int idusuario);
 
     @Modifying
-    @Query(value= "update usuario set nombres= ?1 ,apellidos= ?2, dni= ?3, correo=?4 where idusuario=?5 ",nativeQuery = true)
+    @Query(value= "update usuario set nombres= ?1 ,apellidos= ?2, dni= ?3, correo = ?4 where idusuario= ?5 ",nativeQuery = true)
     void actualizarPerfilDoctor (String nombres, String apellidos, String dni , String correo, Integer idUsuario);
 
     @Modifying

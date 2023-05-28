@@ -65,14 +65,9 @@
                                         <input type="text" name="descripcion" class="form-control" id="description" >
                                     </div>
 
-                                    <!--<div class="col-md-6">
-                                        <label for="ingresoplataforma" class="form-label">Apenas El Paciente Ingrese a la Plataforma</label>
-                                        <select class="form-select" id="ingresoplataforma" required>
-                                            <option selected disabled value="">Seleccione</option>
-                                            <option>Sí</option>
-                                            <option>No</option>
-                                        </select>
-                                    </div> -->
+                                    <input type="hidden" th:value="${usuariodestino.idusuario}" name="idusuariodestino" class="form-control" >
+
+                                    <input type="hidden" th:value="${session.usuario.idusuario}" name="idusuarioorigen" class="form-control" >
 
                                     <div class="d-grid gap d-md-flex justify-content-md-center">
                                         <button class="btn btn-primary" type="submit">Enviar</button>

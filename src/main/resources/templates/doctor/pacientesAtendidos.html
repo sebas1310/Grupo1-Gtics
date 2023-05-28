@@ -53,11 +53,11 @@
                                             </thead>
                                             <tbody>
                                                 <tr th:each=" paciente:${pacientesAtendidosDoctor}">
-                                                    <td style="text-align: center" th:text="${paciente.getFecha()}"></td>
-                                                    <td style="text-align: center" th:text="|${paciente.getPaciente().getUsuario().getNombres()} ${paciente.getPaciente().getUsuario().getApellidos()}|"></td>
-                                                    <td style="text-align: center" th:text="${paciente.getTipoCita().getNombre()}"></td>
-                                                    <td style="text-align: center"> <a type="button" class="bi bi-journal-text"  th:href="@{'/doctor/cuestionario' + '?id=' + ${paciente.getPaciente().getIdpaciente()}}" ></a></td>
-                                                    <td style="text-align: center"> <a type="button" class="bi bi-eye-fill"  th:href="@{'/doctor/pacientesatendidos/verhistorial'+ '?id=' + ${paciente.getPaciente().getIdpaciente()}}"></a> </td>
+                                                    <td style="text-align: center" th:text="${paciente.getUltimaFecha()}"></td>
+                                                    <td style="text-align: center" th:text="${paciente.getNombrePaciente()}"></td>
+                                                    <td style="text-align: center" th:text="${paciente.getTipoCita()}"></td>
+                                                    <td style="text-align: center"> <a type="button" class="bi bi-journal-text"  th:href="@{'/doctor/cuestionario' + '?id=' + ${paciente.getIDPaciente()}}" ></a></td>
+                                                    <td style="text-align: center"> <a type="button" class="bi bi-eye-fill"  th:href="@{'/doctor/pacientesatendidos/verhistorial'+ '?id=' + ${paciente.getIDPaciente()}}"></a> </td>
                                                 </tr>
                                             </tbody>
                                         </table>

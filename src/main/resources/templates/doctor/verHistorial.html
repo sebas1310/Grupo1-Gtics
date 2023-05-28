@@ -102,6 +102,11 @@
                             <div class="card recent-sales overflow-auto">
                                 <div class="card-body">
                                     <h5 class="card-title">Bitacora de Diagnostico</h5>
+
+                                    <div th:if="${msg!=null}" th:text="${msg}" class="alert alert-success" role="alert"></div>
+
+                                    <div th:if="${msg2!=null}" th:text="${msg2}" class="alert alert-danger" role="alert"></div>
+
                                     <div class=" col-md-2">
                                         <ul class="nav nav-pills nav-stacked anyClass">
 
@@ -109,7 +114,6 @@
                                     </div>
                                     <div class="card" th:each="bitacora:${bitacoradiagnostico}">
                                         <div class="card-header" th:text="|Dr(a) ${doctor.usuario.nombres} ${doctor.usuario.apellidos}|">
-                                            Dr(a) Abigail Ramirez
                                         </div>
                                         <div class="card-body">
                                             <p class="card-text"><span th:text="${bitacora.getDescripcion()}"></span></p>

@@ -37,7 +37,9 @@
 
                         <div class="card">
                             <div class="card-body">
-                                <h5 class="card-title">Mensajes Recibidos</h5>
+                                <h5 class="card-title">Mensajes Recibidos</h5> <a class="card-title" align="right">Mensajes a Pacientes</a>
+
+                                <div th:if="${msg!=null}" th:text="${msg}" class="alert alert-success" role="alert"></div>
 
                                 <!-- Default Table -->
                                 <table class="table table-borderless datatable">

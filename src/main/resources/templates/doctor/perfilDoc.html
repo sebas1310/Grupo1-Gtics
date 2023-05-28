@@ -32,6 +32,7 @@
                     </ol>
                 </nav>
             </div><!-- End Page Title -->
+            <div th:if="${msg!=null}" th:text="${msg}" class="alert alert-success" role="alert"></div>
 
             <section class="section profile">
                 <div class="row">
@@ -120,8 +121,8 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <input th:value="${doctor.getIddoctor()}" name="id" type="hidden">
-                                            <input th:value="${doctor.getUsuario().getIdusuario()}" name="idusuario" type="hidden">
+
+                                            <input th:value="${doctor.usuario.idusuario}" name="idusuario" type="hidden">
                                             <div class="row mb-3">
                                                 <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Nombres</label>
                                                 <div class="col-md-8 col-lg-9">
@@ -157,12 +158,6 @@
                                                 </div>
                                             </div>
 
-                                            <!-- <div class="row mb-3">
-                                                 <label for="sede" class="col-md-4 col-lg-3 col-form-label">Sede</label>
-                                                 <div class="col-md-8 col-lg-9">
-                                                     <input name="sedee" type="text" class="form-control" id="sede" value="San Miguel">
-                                                 </div>
-                                             </div>-->
 
                                             <div class="text-center">
                                                 <button type="submit" class="btn btn-success">Guardar Cambios</button>
