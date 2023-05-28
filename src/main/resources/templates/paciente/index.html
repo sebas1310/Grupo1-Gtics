@@ -72,44 +72,45 @@
 
             <!-- Lista doctores -->
             <div class="col-14">
-              <div class="card top-selling overflow-auto">
+              <section class="section ">
+                <div class="row">
+                  <!-- Left side columns -->
+                  <div class="col-lg">
+                    <div class="row">
+                      <!-- Pacientes Atendidos -->
+                      <div class="col-12" >
+                        <div class="card recent-sales overflow-auto" >
+                          <div style="width: 100%" class="card-body" >
+                            <h5 class="card-title">Doctores</h5>
+                            <table class="table table-borderless datatable" >
+                              <thead>
+                              <tr>
+                                <th> </th>
+                                <th style="text-align: center" scope="col">Nombre</th>
+                                <th style="text-align: center" scope="col">Especialidad</th>
+                                <th style="text-align: center" scope="col"></th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                              <tr th:each="doctor, ind:${docs}">
+                                <th scope="row"><img th:src="@{/assets/img/messages-1.jpg}" class="rounded-circle" > </th>
+                                <td class="text-center" th:text="|${doctor.usuario.nombres} ${doctor.usuario.apellidos}|"></td>
+                                <td th:text="${doctor.especialidad.nombre}"></td>
+                                <td><a th:href="@{'/paciente/perfilDoctor?iddoc='+${doctor.iddoctor}}" class="text-primary">Ver Perfil</a></td>
+                              </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div><!-- End Recent Sales -->
 
-                <div class="filter">
-                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                    <li class="dropdown-header text-start">
-                      <h6>Especialidad</h6>
-                    </li>
-                    <li th:each="especialidad:${especialidades}"><a class="dropdown-item" th:href="@{'/paciente/?esp='+${especialidad.idespecialidad}}" th:text="${especialidad.nombre}"></a></li>
-                  </ul>
+
+                    </div>
+                  </div><!-- End Left side columns -->
+
+
                 </div>
-
-                <div class="card-body pb-0">
-                  <h5 class="card-title">Doctores</h5>
-                  <div th:if="${msg!=null}" th:text="${msg}" class="alert alert-success" role="alert"></div>
-                  <table class="table table-borderless">
-                    <thead class="text-center">
-                      <tr>
-                        <th> </th>
-                        <th scope="col">Nombre</th>
-                        <th scope="col">Especialidad</th>
-                        <th scope="col"></th>
-                      </tr>
-                    </thead>
-                    <tbody class="text-center">
-                      <tr th:each="doctor, ind:${docs}">
-                        <th scope="row"><img th:src="@{/assets/img/messages-1.jpg}"> </th>
-                        <td th:text="|${doctor.usuario.nombres} ${doctor.usuario.apellidos}|"></td>
-                        <td th:text="${doctor.especialidad.nombre}"></td>
-                        <td><a th:href="@{'/paciente/perfilDoctor?iddoc='+${doctor.iddoctor}}" class="text-primary">Ver Perfil</a></td>
-                      </tr>
-
-                    </tbody>
-                  </table>
-
-                </div>
-
-              </div>
+              </section>
             </div><!-- End Top Selling -->
 
           </div>

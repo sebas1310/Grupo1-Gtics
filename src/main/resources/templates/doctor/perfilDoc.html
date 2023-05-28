@@ -7,80 +7,18 @@
 <header th:replace="fragments/doctor/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1', nombre = |${doctor.usuario.nombres} ${doctor.usuario.apellidos}|, num_men = '2')">
 </header><!-- End Header -->
 
-        <!-- ======= Sidebar ======= -->
-        <aside id="sidebar" class="sidebar">
+<!-- ======= Sidebar ======= -->
+<aside th:replace="fragments/doctor/aside.html :: sidebar (active = 'perfil')">
+</aside>
+<!-- End Sidebar-->
+
+<!--Modal Cerrar Sesion-->
+<div th:replace="fragments/doctor/modalCerrarSesion.html::modal">
+
+</div>
+<!-- End Modal-->
 
 
-            <ul class="sidebar-nav" id="sidebar-nav">
-                <li class="nav-item">
-                    <a class="nav-link collapsed " th:href="@{'/doctor/dashboard'}" >
-                        <i class="bi bi-grid"></i>
-                        <span>Dashboard</span>
-                    </a>
-                </li><!-- End Dashboard -->
-
-                <li class="nav-item"> <!-- Cambiar ref -->
-                    <a class="nav-link collapsed"  th:href="@{'/doctor/pacientesatendidos'+ '?id=' + ${doctor.iddoctor}}" >
-                        <i class="bi bi-menu-button-wide"></i>
-                        <span>Pacientes Atendidos</span>
-                    </a>
-                </li><!-- End Pacientes Atendidos -->
-
-
-                <li class="nav-item">  <!-- cambia -->
-                    <a class="nav-link collapsed"  th:href="@{'/doctor/calendario'}" >
-                        <i class="bi bi-calendar3"></i>
-                        <span>Calendario</span>
-                    </a>
-                </li><!-- End Calendario -->
-
-                <li class="nav-item">  <!-- cambia -->
-                    <a class="nav-link" th:href="@{'/doctor/perfil'+ '?id=' + ${doctor.getIddoctor()}}" >
-                        <i class="bi bi-person"></i>
-                        <span>Perfil</span>
-                    </a>
-                </li><!-- End Perfil -->
-
-                <br><br><br><br>
-                <br><br><br><br>
-                <br><br><br><br>
-                <br><br><br><br>
-                <br><br><br>
-                <li class="nav-heading"> ----------------------------------------------- </li>
-
-                <li class="nav-item">
-                    <a class="nav-link collapsed" th:href="@{'/doctor/configuraciones'+ '?id=' + ${doctor.iddoctor}}" >
-                        <i class="bi bi-gear"></i>
-                        <span>Configuracion</span>
-                    </a>
-                </li><!-- End Configuracion -->
-
-
-                <li class="nav-item">
-                    <a class="nav-link collapsed" type="button" data-bs-toggle="modal" data-bs-target="#verticalycentered">
-                        <i class="bi bi-box-arrow-in-right"></i>
-                        <span>Cerrar Sesión</span>
-                        <!-- Vertically centered Modal -->
-
-                    </a>
-                </li><!-- End Cerrar Sesion -->
-            </ul>
-
-        </aside><!-- End Sidebar-->
-        <div class="modal fade" id="verticalycentered" tabindex="-1">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">¿Seguro que deseas Salir?</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-success" data-bs-dismiss="modal"><a style="color: white" href="inicio.html" >Salir</button>
-                        <button type="button" class="btn btn-secondary"><a style="color: white" th:href="@{'/doctor/perfil'}" >Cancelar</a></button>
-                    </div>
-                </div>
-            </div>
-        </div><!-- End Vertically centered Modal-->
 
 
         <main id="main" class="main">
@@ -89,7 +27,7 @@
                 <h1>Perfil</h1>
                 <nav>
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a th:href="@{'/doctor/dashboard'}">Home</a></li>
+                        <li class="breadcrumb-item"><a th:href="@{'/doctor/dashboard'}">Dashboard</a></li>
                         <li class="breadcrumb-item active">Perfil</li>
                     </ol>
                 </nav>
@@ -145,11 +83,12 @@
                                             <div class="col-lg-9 col-md-8"><span th:text="|${doctor.getUsuario().getNombres()} ${doctor.getUsuario().getApellidos()}|"></span></div>
                                         </div>
 
-                                        <div class="row">
+                                        <div class="row" >
                                             <div class="col-lg-3 col-md-4 label">DNI</div>
-                                            <div class="col-lg-9 col-md-8"><span th:text="${doctor.getUsuario().getDni()}"></span></div>
+                                            <div class="col-lg-9 col-md-8" disabled readonly>
+                                                <span th:text="${doctor.getUsuario().getDni()}" ></span>
+                                            </div>
                                         </div>
-
                                         <div class="row">
                                             <div class="col-lg-3 col-md-4 label">Correo</div>
                                             <div class="col-lg-9 col-md-8"><span th:text="${doctor.getUsuario().getCorreo()}"></span> </div>
@@ -200,7 +139,7 @@
                                             <div class="row mb-3">
                                                 <label for="dni" class="col-md-4 col-lg-3 col-form-label">DNI</label>
                                                 <div class="col-md-8 col-lg-9">
-                                                    <input name="dni" type="text" class="form-control" id="dni" th:value="${doctor.getUsuario().getDni()}">
+                                                    <input name="dni" type="text" class="form-control" id="dni" th:value="${doctor.getUsuario().getDni()}" disabled readonly>
                                                 </div>
                                             </div>
 
