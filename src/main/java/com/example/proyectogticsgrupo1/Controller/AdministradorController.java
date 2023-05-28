@@ -380,6 +380,7 @@ public class AdministradorController {
                                @RequestParam("celular") String celular){
         usuarioRepository.perfil(nombres,apellidos,correo,celular,idusuario);
         redirectAttributes.addAttribute("id",idusuario);
+        redirectAttributes.addFlashAttribute("msg","Perfil Actualizado");
         return "redirect:/administrador/perfil";
     }
 
