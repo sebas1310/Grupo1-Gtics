@@ -367,7 +367,7 @@ public class AdministradorController {
     @GetMapping(value = "/perfil")
     public String perfilPaciente(Model model){
         Usuario usuarioAdministrador = (Usuario) session.getAttribute("usuario");
-        model.addAttribute("usuario",usuarioAdministrador);
+        model.addAttribute("usuariolog",usuarioAdministrador);
         return "administrador/perfil";
     }
 
