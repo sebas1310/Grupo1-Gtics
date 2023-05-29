@@ -235,7 +235,7 @@ public class SuperadminController {
             ,@RequestParam("id_especialidad") int id_especialidad
             ,@RequestParam("nro_inputs") int nro_inputs
             ,@RequestParam("tipo_plantilla") String tipo_plantilla
-            ){
+    ){
 //        , RedirectAttributes attr
 
 //        ,@RequestParam("nombreplantilla") String nombreplantilla
@@ -324,6 +324,7 @@ public class SuperadminController {
 
         return "redirect:/superadmin/nuevoform";
     }
+
 
     @GetMapping("/notificaciones")
     public String historialNotificaciones(){
