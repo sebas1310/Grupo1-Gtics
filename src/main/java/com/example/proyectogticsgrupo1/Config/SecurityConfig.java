@@ -16,7 +16,6 @@ import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.savedrequest.DefaultSavedRequest;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 
 
 import javax.sql.DataSource;
@@ -93,16 +92,18 @@ public class SecurityConfig {
 
 
         http.authorizeHttpRequests()
-//                .requestMatchers("/superadmin/crearPlantillaInforme").permitAll()
+                .requestMatchers("/superadmin/crearPlantillaInforme").permitAll()
+
                 .requestMatchers("/doctor", "/doctor/**").hasAnyAuthority("doctor")
                 .requestMatchers("/administrador", "/administrador/**").hasAnyAuthority("administrador")
+                .requestMatchers("/superadmin/crearPlantillaInforme").permitAll()
                 .requestMatchers("/paciente", "/paciente/**").hasAnyAuthority("paciente")
                 .requestMatchers("/superadmin", "/superadmin/**").hasAnyAuthority("superadmin")
                 .requestMatchers("/administrativo", "/administrativo/**").hasAnyAuthority("administrativo")
                 //.requestMatchers("/shipper", "/shipper/**").hasAuthority("admin")
                 //Dejar accesible a todos los usuarios cualquier otra ruta con anyRequest()
 
-                .anyRequest().authenticated();
+                .anyRequest().permitAll();
 
 
         /*http.logout().logoutSuccessUrl("/").deleteCookies("JSESSIONID")
