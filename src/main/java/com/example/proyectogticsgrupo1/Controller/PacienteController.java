@@ -7,6 +7,9 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 import jakarta.websocket.Session;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -279,16 +282,20 @@ public class PacienteController {
 
 
 
-
     @PostMapping(value = "/changepassword")
     @Transactional
     public String changePassword(@RequestParam("contrasena") String contrasena, @RequestParam("newpassword") String newpassword, @RequestParam("renewpassword") String renewpassword, RedirectAttributes redirectAttributes){
 
         Usuario usuario = (Usuario) session.getAttribute("usuario");
         Paciente paciente = pacienteRepository.pacXuser(usuario.getIdusuario());
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-        if(paciente.getUsuario().getContrasena().equals(contrasena)){
-            userRepository.changePassword(renewpassword,paciente.getUsuario().getIdusuario());
+
+
+        if(passwordEncoder.matches(contrasena, paciente.getUsuario().getContrasena())){
+            String hashedNewPassword = passwordEncoder.encode(newpassword);
+
+            userRepository.changePassword(hashedNewPassword,paciente.getUsuario().getIdusuario());
             redirectAttributes.addFlashAttribute("psw1", "Contraseña actualizada");
 
         }else {
