@@ -7,7 +7,7 @@
 <body>
 
 <!-- ======= Header ======= -->
-<header th:replace="fragmentsPacientes/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1', nombre = |${session.usuario.nombres} ${session.usuario.apellidos}|, num_men = '3')">
+<header th:replace="fragmentsPacientes/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1', nombre = |${session.usuario.nombres} ${session.usuario.apellidos} (${session.usuario.tipodeusuario.nombre.toUpperCase()})|, num_men = '3')">
 </header>
 <!-- End Header -->
 
@@ -61,7 +61,7 @@
                     <th scope="row" th:text="${idx.index+1}"></th>
                     <td class="text-center"  th:text="${list.doctor.usuario.nombres}"></td>
                     <td class="text-center"  th:text="${list.especialidad.nombre}"></td>
-                    <td class="text-center"  th:text="${list.fecha}"></td>
+                    <td class="text-center"  th:text="${#temporals.format(list.fecha, 'dd-MM-yyyy')}"></td>
                     <td class="text-center"  th:text="${list.sede.nombre}"></td>
                     <td class="text-center"  th:text="${list.tipoCita.nombre}"></td>
                     <td class="text-center" >
