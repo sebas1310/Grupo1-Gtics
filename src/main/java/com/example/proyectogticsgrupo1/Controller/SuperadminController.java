@@ -3,11 +3,13 @@ package com.example.proyectogticsgrupo1.Controller;
 import com.example.proyectogticsgrupo1.Entity.*;
 import com.example.proyectogticsgrupo1.Repository.*;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -104,13 +106,14 @@ public class SuperadminController {
     public String registrarAdministrativo(@ModelAttribute("usuario") Usuario usuario, Model model, @RequestParam("t") String t){
         System.out.println(t);
         model.addAttribute("t",t);
-
         model.addAttribute("listasedes", sedeRepository.findAll());
         return "superadmin/pages-registrar-administrativo";
     }
     @GetMapping("/registraradministrador")
-    public String registrarAdministrador(@ModelAttribute("usuario") Usuario usuario,Model model){
-        model.addAttribute("listasedes", sedeRepository.findAll());
+    public String registrarAdministrador(@ModelAttribute("usuario") Usuario usuario1, Model model){
+
+        model.addAttribute("listasedes", sedeRepository.listaSedes());
+
         return "superadmin/pages-registrar-adminitrador";
     }
 
@@ -149,18 +152,31 @@ public class SuperadminController {
         return "redirect:/superadmin/perfil";
     }
 
+    @PostMapping("/saveSeguro")
+    public String guardarSeguro(Seguro seguro, RedirectAttributes attr){
+        System.out.println("id"+seguro.getNombre());
+
+        attr.addFlashAttribute("msg","Seguro actualizado actualizado");
+
+        seguroRepository.save(seguro);
+        return "redirect:/superadmin/seguros";
+    }
+
     @PostMapping("/save")
-    public String guardarAdministrador(Usuario usuario, RedirectAttributes attr){
+    public String guardarAdministrador(@Valid Usuario usuario, BindingResult bindingResult, RedirectAttributes attr){
         System.out.println(usuario.getCelular());
         usuario.setContrasena(RandomStringUtils.random(10, true, true));
 
-        if(usuario.getIdusuario()==null){
-            attr.addFlashAttribute("msg", "Administrador creado exitosamente");
+        if(bindingResult.hasErrors()){
+            attr.addFlashAttribute("msg", "Administrador presenta errores");
+            return "redirect:/superadmin/registraradministrador";
+
         }else{
             attr.addFlashAttribute("msg","Administrador actualizado");
+            usuarioRepository.save(usuario);
+            return "redirect:/superadmin/index";
+
         }
-        usuarioRepository.save(usuario);
-        return "redirect:/superadmin/registro";
     }
 
 

@@ -39,7 +39,7 @@
                 <div class="card-body">
                     <h5 class="card-title">Lista de Seguros</h5>
 
-                    <!-- Bordered Table -->
+
                     <table class="table table-borderless datatable">
                         <thead>
                             <tr>
@@ -47,20 +47,21 @@
                                 <th scope="col">Nombre</th>
                                 <th scope="col">Paciente Porcentaje</th>
                                 <th scope="col">Doctor Porcentaje</th>
-
-                    </tr>
-                    </thead>
+                            </tr>
+                        </thead>
                         <tbody>
 
                             <tr th:each="seguro, info : ${listSeguros}" th:id="'fila-' + ${info.index}">
                                 <td th:text="${info.index + 1}"></td>
                                 <td th:text="${seguro.nombre}"></td>
-                                <td th:text="${seguro.coaseguro}"></td>
+                                <td th:field="${seguro.coaseguro}"></td>
+                                <td th:field="${seguro.coaseguro}"></td>
                                 <td th:text="${seguro.comisiondoctor}"></td>
                             </tr>
 
                         </tbody>
-                </table>
+
+                    </table>
 
 
                 </div>
