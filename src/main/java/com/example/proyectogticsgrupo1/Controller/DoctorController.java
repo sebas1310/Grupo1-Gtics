@@ -171,7 +171,7 @@ public class DoctorController {
         if (optDoctor.isPresent()) {
             Doctor doctor1 = optDoctor.get();
             model.addAttribute("doctor", doctor1);
-            Recetamedica receta = recetaMedicaRepository.buscarRecetaMedicaPorID(idReceta);
+            RecetaMedica receta = recetaMedicaRepository.buscarRecetaMedicaPorID(idReceta);
             model.addAttribute("receta", receta);
             Cita cita1 = citaRepository.buscarCitaPorId(idCita);
             model.addAttribute("cita", cita1);
@@ -227,7 +227,7 @@ public class DoctorController {
     @GetMapping(value = "/pacientesatendidos/verhistorial/vercita/borrarreceta")
     public String borrarReceta(@RequestParam("idR") Integer idReceta, RedirectAttributes redirectAttributes){
 
-       Recetamedica receta = recetaMedicaRepository.buscarRecetaMedicaPorID(idReceta);
+        RecetaMedica receta = recetaMedicaRepository.buscarRecetaMedicaPorID(idReceta);
         Integer idCita = receta.getCita().getIdcita();
         recetaMedicaRepository.borrarReceta(idReceta);
         redirectAttributes.addAttribute("id",idCita);

@@ -45,16 +45,16 @@ public class SuperadminController {
     @GetMapping("/index")
     public String inicioDashboardSuperadmin(Model model){
 
-        Optional<Usuario> optionalUsuario = usuarioRepository.findById(1);
-        Usuario usuario = optionalUsuario.get();
-
-
-        List<Usuario> listaUsuarios = usuarioRepository.findAll();
-
-
-        model.addAttribute("administradores", usuario);
-
-        model.addAttribute("listaUsuarios", listaUsuarios);
+//        Optional<Usuario> optionalUsuario = usuarioRepository.findById(1);
+//        Usuario usuario = optionalUsuario.get();
+//
+//
+//        List<Usuario> listaUsuarios = usuarioRepository.findAll();
+//
+//
+//        model.addAttribute("administradores", usuario);
+//
+//        model.addAttribute("listaUsuarios", listaUsuarios);
 
 
 
@@ -303,7 +303,7 @@ public class SuperadminController {
         }
 
 //        tablaDatosLlenosRepository.LlenadoDePlantilla(id_registro_nuevo,nombreplantilla,id_usuario,id_modelo,id_cita);
-        tablaDatosLlenosRepository.LlenadoDePlantilla(id_registro_nuevo,nombreplantilla,4,7,1);
+        tablaDatosLlenosRepository.LlenadoDePlantilla(id_registro_nuevo+2,nombreplantilla,4,7,1);
 
 
 
