@@ -23,8 +23,9 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-success" data-bs-dismiss="modal"><a style="color: white" th:href="@{'/administrador/inicio'}" >Salir</button>
-        <button type="button" class="btn btn-secondary"><a style="color: white" th:href="@{'/administrador/calendariomayo'}" >Cancelar</a></button>
+        <form th:action="@{/logout}" method="post">
+          <button type="submit" class="btn btn-success">Salir</button>
+        </form>                <button type="button" class="btn btn-secondary"><a style="color: white" th:href="@{/administrador/calendariomayo}" >Cancelar</a></button>
       </div>
     </div>
   </div>

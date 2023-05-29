@@ -2,11 +2,13 @@ package com.example.proyectogticsgrupo1.Controller;
 
 import com.example.proyectogticsgrupo1.Entity.*;
 import com.example.proyectogticsgrupo1.Repository.*;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -367,7 +369,7 @@ public class AdministradorController {
     @GetMapping(value = "/perfil")
     public String perfilPaciente(Model model){
         Usuario usuarioAdministrador = (Usuario) session.getAttribute("usuario");
-        model.addAttribute("usuariolog",usuarioAdministrador);
+        model.addAttribute("usuario",usuarioAdministrador);
         return "administrador/perfil";
     }
 
@@ -379,6 +381,8 @@ public class AdministradorController {
                                @RequestParam("correo") String correo,
                                @RequestParam("celular") String celular){
         usuarioRepository.perfil(nombres,apellidos,correo,celular,idusuario);
+        session.removeAttribute("usuario");
+        session.setAttribute("usuario", usuarioRepository.findById(idusuario).get());
         redirectAttributes.addAttribute("id",idusuario);
         redirectAttributes.addFlashAttribute("msg","Perfil Actualizado");
         return "redirect:/administrador/perfil";
