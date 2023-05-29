@@ -36,6 +36,14 @@ public class SuperadminController {
     @Autowired
     ModeloRepository modeloRepository;
 
+
+    @Autowired
+    TablaDatosLlenosRepository tablaDatosLlenosRepository;
+
+    @Autowired
+    TablaTitulosInputsRepository tablaTitulosInputsRepository;
+
+
     @Autowired
     private HttpSession session;
 
@@ -233,7 +241,7 @@ public class SuperadminController {
             ,@RequestParam("id_especialidad") int id_especialidad
             ,@RequestParam("nro_inputs") int nro_inputs
             ,@RequestParam("tipo_plantilla") String tipo_plantilla
-            ){
+    ){
 //        , RedirectAttributes attr
 
 //        ,@RequestParam("nombreplantilla") String nombreplantilla
@@ -254,33 +262,75 @@ public class SuperadminController {
         listaPreguntas = List.of(mod_datos.split(Pattern.quote("|")));
 
         System.out.println("preguntas:"+listaPreguntas);
-        
-        if(tipo_plantilla.equals("formulario")){
-            modeloRepository.crearnuevaPlantillaForms(nombreplantilla,mod_datos,id_rol,id_especialidad,nro_inputs,1);
-            
-        } else if (tipo_plantilla.equals("informe")) {
-            modeloRepository.crearnuevaPlantillaInforme(nombreplantilla,mod_datos,id_rol,id_especialidad,nro_inputs,1);
-            
-        } else if (tipo_plantilla.equals("cuestionario")) {
-            modeloRepository.crearnuevaPlantillaCuestionario(nombreplantilla,mod_datos,id_rol,id_especialidad,nro_inputs,1);
+
+        /////////////////////////
+
+        for (int i = 0; i < listaPreguntas.size(); i++) {
+            String pregunta = listaPreguntas.get(i);
+            System.out.println("pregunta:"+ pregunta);
+            tablaTitulosInputsRepository.agregarNombreTitulos(pregunta);
 
         }
 
+
+        /*tablaTitulosInputsRepository.agregarNuevaPlantilla(nombreplantilla,id_rol,id_especialidad,1);*/
+        int id_registro_nuevo = 0;
+
+        if(tipo_plantilla.equals("formulario")){
+            tablaTitulosInputsRepository.agregarNuevoFormulario(nombreplantilla,id_rol,id_especialidad,1);
+            id_registro_nuevo = tablaTitulosInputsRepository.contarRegistros();
+
+        } else if (tipo_plantilla.equals("informe")) {
+            tablaTitulosInputsRepository.agregarNuevoInforme(nombreplantilla,id_rol,id_especialidad,1);
+            id_registro_nuevo = tablaTitulosInputsRepository.contarRegistros();
+
+        } else if (tipo_plantilla.equals("cuestionario")) {
+            tablaTitulosInputsRepository.agregarNuevoCuestionario(nombreplantilla,id_rol,id_especialidad,1);
+            id_registro_nuevo = tablaTitulosInputsRepository.contarRegistros();
+
+        }
+
+        System.out.println("id: "+id_registro_nuevo);
+
+
+        ///METODO LLENAR PLANTILLA INFORME //
+
+
+        List<String> listaElementosDatosInputs = new ArrayList<>();
+
+        listaElementosDatosInputs.add("respuesta1");
+        listaElementosDatosInputs.add("respuesta2");
+        listaElementosDatosInputs.add("respuesta3");
+        listaElementosDatosInputs.add("respuesta4");
+        listaElementosDatosInputs.add("respuesta5");
+
+        for (String elemento : listaElementosDatosInputs) {
+            tablaDatosLlenosRepository.agregarDatosDeInput(elemento);
+        }
+
+//        tablaDatosLlenosRepository.LlenadoDePlantilla(id_registro_nuevo,nombreplantilla,id_usuario,id_modelo,id_cita);
+        tablaDatosLlenosRepository.LlenadoDePlantilla(id_registro_nuevo+2,nombreplantilla,4,7,1);
+
+
+
+        //////////////////////////////////////
 //        modeloRepository.crearnuevaPlantilla(nombreplantilla,mod_datos,id_rol,id_especialidad,nro_inputs);
-
-
-
 //        if (employee.getEmployeeId() == 0) {
 //            attr.addFlashAttribute("msg", "Plantilla creada exitosamente");
 //        } else {
 //            attr.addFlashAttribute("msg", "Empleado actualizado exitosamente");
 //        }
-
 //        attr.addFlashAttribute("msg", "Plantilla creada exitosamente");
+
+        //BORRADO DE LA TABLA DE TITULOS.
+
+        tablaTitulosInputsRepository.BorrarTitulosInput();
+        tablaDatosLlenosRepository.BorrarDatosDeInput();
 
 
         return "redirect:/superadmin/nuevoform";
     }
+
 
     @GetMapping("/notificaciones")
     public String historialNotificaciones(){
