@@ -80,26 +80,32 @@
                                         <h5 class="card-title">Detalles del Perfil</h5>
 
                                         <div class="row">
-                                            <div class="col-lg-3 col-md-4 label ">Nombre</div>
+                                            <div class="col-lg-3 col-md-4 label" >Nombre</div>
                                             <div class="col-lg-9 col-md-8"><span th:text="|${doctor.getUsuario().getNombres()} ${doctor.getUsuario().getApellidos()}|"></span></div>
-                                        </div>
-
+                                        </div> <!--
                                         <div class="row" >
-                                            <div class="col-lg-3 col-md-4 label">DNI</div>
-                                            <div class="col-lg-9 col-md-8" disabled readonly>
+                                            <div class="col-lg-3 col-md-4 label">Dni</div>
+                                            <div class="col-lg-9 col-md-8" >
                                                 <span th:text="${doctor.getUsuario().getDni()}" ></span>
                                             </div>
-                                        </div>
+                                        </div> -->
                                         <div class="row">
                                             <div class="col-lg-3 col-md-4 label">Correo</div>
                                             <div class="col-lg-9 col-md-8"><span th:text="${doctor.getUsuario().getCorreo()}"></span> </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-3 col-md-4 label">Formacion</div>
+                                            <div class="col-lg-9 col-md-8"><span th:text="${doctor.getFormacion()}"></span></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-3 col-md-4 label">Capacitaciones</div>
+                                            <div class="col-lg-9 col-md-8"><span th:text="${doctor.getCapacitaciones()}"></span></div>
                                         </div>
 
                                         <div class="row">
                                             <div class="col-lg-3 col-md-4 label">Especialidad</div>
                                             <div class="col-lg-9 col-md-8"><span th:text="${doctor.getEspecialidad().getNombre()}"></span></div>
                                         </div>
-
                                         <div class="row">
                                             <div class="col-lg-3 col-md-4 label">Sede</div>
                                             <div class="col-lg-9 col-md-8"><span th:text="${doctor.getSede().getNombre()}"></span></div>
@@ -110,7 +116,7 @@
                                     <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
 
                                         <!-- Profile Edit Form -->
-                                        <form method="post" th:action="@{'/doctor/perfil/editarperfil'}">
+                                        <form method="post" th:action="@{'/doctor/perfil/editarperfil'}" onsubmit="return validateForm2()" >
                                             <div class="row mb-3">
                                                 <label for="profile-edit" class="col-md-4 col-lg-3 col-form-label">Imagen de Perfil</label>
                                                 <div class="col-md-8 col-lg-9">
@@ -124,32 +130,46 @@
 
                                             <input th:value="${doctor.usuario.idusuario}" name="idusuario" type="hidden">
                                             <div class="row mb-3">
-                                                <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Nombres</label>
+                                                <label for="nombre" class="col-md-4 col-lg-3 col-form-label">Nombres</label>
                                                 <div class="col-md-8 col-lg-9">
-                                                    <input name="nombre" type="text" class="form-control" id="fullName" th:value="${doctor.getUsuario().getNombres()}">
+                                                    <input name="nombre" type="text" class="form-control" id="nombre" th:value="${doctor.getUsuario().getNombres()}">
                                                 </div>
                                             </div>
 
                                             <div class="row mb-3">
-                                                <label for="fullName2" class="col-md-4 col-lg-3 col-form-label">Apellidos</label>
+                                                <label for="apellido" class="col-md-4 col-lg-3 col-form-label">Apellidos</label>
                                                 <div class="col-md-8 col-lg-9">
-                                                    <input name="apellido" type="text" class="form-control" id="fullName2" th:value="${doctor.getUsuario().getApellidos()}">
+                                                    <input name="apellido" type="text" class="form-control" id="apellido" th:value="${doctor.getUsuario().getApellidos()}">
                                                 </div>
                                             </div>
 
                                             <div class="row mb-3">
-                                                <label for="dni" class="col-md-4 col-lg-3 col-form-label">DNI</label>
+                                                <label for="correo" class="col-md-4 col-lg-3 col-form-label">Correo</label>
                                                 <div class="col-md-8 col-lg-9">
-                                                    <input name="dni" type="text" class="form-control" id="dni" th:value="${doctor.getUsuario().getDni()}" disabled readonly>
+                                                    <input name="correo" type="email" class="form-control" id="correo" th:value="${doctor.getUsuario().getCorreo()}">
                                                 </div>
                                             </div>
 
                                             <div class="row mb-3">
-                                                <label for="Email" class="col-md-4 col-lg-3 col-form-label">Correo</label>
+                                                <label for="formacion" class="col-md-4 col-lg-3 col-form-label">Formacion</label>
                                                 <div class="col-md-8 col-lg-9">
-                                                    <input name="correo" type="text" class="form-control" id="Email" th:value="${doctor.getUsuario().getCorreo()}">
+                                                    <input name="formacion" type="text" class="form-control" id="formacion" th:value="${doctor.getFormacion()}">
                                                 </div>
                                             </div>
+
+                                            <div class="row mb-3">
+                                                <label for="capacitaciones" class="col-md-4 col-lg-3 col-form-label">Capacitaciones</label>
+                                                <div class="col-md-8 col-lg-9">
+                                                    <input name="capacitaciones" type="text" class="form-control" id="capacitaciones" th:value="${doctor.getCapacitaciones()}">
+                                                </div>
+                                            </div>
+                                            <!--
+                                            <div class="row mb-3">
+                                                <label for="dni" class="col-md-4 col-lg-3 col-form-label">Dni</label>
+                                                <div class="col-md-8 col-lg-9">
+                                                    <p type="text" class="form-control" id="dni" th:text="${doctor.getUsuario().getDni()}" >
+                                                </div>
+                                            </div> -->
 
                                             <div class="row mb-3">
                                                 <label for="especialidad" class="col-md-4 col-lg-3 col-form-label">Especialidad</label>
@@ -158,11 +178,70 @@
                                                 </div>
                                             </div>
 
-
                                             <div class="text-center">
                                                 <button type="submit" class="btn btn-success">Guardar Cambios</button>
+                                                <div id="error-message2" class="alert alert-danger mt-3" style="display: none;"></div>
                                             </div>
                                         </form><!-- End ProfileEditForm-->
+
+                                        <!-- Funcion para validar -->
+                                        <script>
+                                            function validateForm2() {
+                                                var nombre = document.getElementById("nombre").value.trim();
+                                                var apellido = document.getElementById("apellido").value.trim();
+                                                var correo = document.getElementById("correo").value.trim();
+                                                var formacion = document.getElementById("formacion").value.trim();
+                                                var capacitaciones = document.getElementById("capacitaciones").value.trim();
+
+
+                                                if (nombre === "" || apellido === "" || correo === "" ||
+                                                    formacion === "" || capacitaciones === "" ) {
+                                                    var errorMessage = document.getElementById("error-message2");
+                                                    errorMessage.style.display = "block";
+                                                    errorMessage.innerHTML = "Complete el campo requerido";
+                                                    return false;
+                                                }
+
+                                                if (nombre.length >= 25 || /^\s+$/.test(nombre) || apellido.length >= 25 || /^\s+$/.test(apellido))
+                                                {
+                                                    var errorMessage = document.getElementById("error-message2");
+                                                    errorMessage.style.display = "block";
+                                                    errorMessage.innerHTML = "El campo nombre/apellido excede el número de letras permitidas";
+                                                    return false;
+                                                }
+
+                                                else if (nombre.length <= 2 || /^\s+$/.test(nombre) || apellido.length <= 2 || /^\s+$/.test(apellido))
+                                                {
+                                                    var errorMessage = document.getElementById("error-message2");
+                                                    errorMessage.style.display = "block";
+                                                    errorMessage.innerHTML = "El campo nombre/apellido debe tener como mínimo 3 letras";
+                                                    return false;
+                                                }
+                                                else if (/^([0-9])*$/.test(nombre) || /^([0-9])*$/.test(apellido))
+                                                {
+                                                    var errorMessage = document.getElementById("error-message2");
+                                                    errorMessage.style.display = "block";
+                                                    errorMessage.innerHTML = "El valor ingresado en nombre/apellido no es una letra";
+                                                    return false;
+                                                }
+                                                <!-- Como hacer para que no se trunque en solo nombre cuando los dos estan mal
+                                                else if (/^([a-zA-Z0-9])*$/.test(nombre) || /^([a-zA-Z0-9])*$/.test(apellido))
+                                                Como hacer para que no ingresen letras y numeros juntos?
+                                                {
+                                                    var errorMessage = document.getElementById("error-message2");
+                                                    errorMessage.style.display = "block";
+                                                    if(/^([a-zA-Z0-9])*$/.test(nombre) ){
+                                                        errorMessage.innerHTML = "El valor " + nombre + " no es una letra";
+                                                    }
+                                                    else{
+                                                        errorMessage.innerHTML = "El valor " + apellido + " no es una letra";
+                                                    }
+                                                    return false;
+                                              }-->
+                                                return true;
+                                            }
+                                        </script>
+                                        <!-- FIN Funcion para validar -->
 
                                     </div>
 
@@ -193,6 +272,7 @@
 
                                             <div class="text-center">
                                                 <button type="submit" class="btn btn-success">Cambiar Contraseña</button>
+                                                <div id="error-message" class="alert alert-danger mt-3" style="display: none;"></div>
                                             </div>
                                         </form><!-- End Change Password Form -->
 

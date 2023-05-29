@@ -77,18 +77,12 @@
                                         <label for="asunt" class="form-label">Asunto</label>
                                         <input th:value="${asunto}" type="text" name="asunto" class="form-control" id="asunt" >
                                     </div>
-
                                     <div class="col-md-6">
                                         <label for="description" class="form-label">Descripcion</label>
                                         <input type="text" name="descripcion" class="form-control" id="description" >
                                     </div>
-
                                     <input type="hidden" th:value="${usuariorigen.idusuario}" name="idusuariodestino" class="form-control" >
-
                                     <input type="hidden" th:value="${session.usuario.idusuario}" name="idusuarioorigen" class="form-control" >
-
-
-
                                     <div class="d-grid gap-2 d-md-flex justify-content-md-center">
                                         <button class="btn btn-primary" type="submit">Enviar</button>
                                         <a th:href="@{'/doctor/mensajeria'}" class="btn btn-danger">Regresar</a>
@@ -99,8 +93,6 @@
                             </div>
                         </div>
                     </div>
-
-
                 </div>
                 </div>
                 </div>

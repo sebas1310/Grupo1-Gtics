@@ -243,16 +243,35 @@ public class DoctorController {
         }
     @GetMapping("/pacientesatendidos/verhistorial/vercita/boletaMedicamento")
     public String verBoletaFarmacia(Model model,
-                                    @RequestParam("idCita") int idCita ){
+                                    @RequestParam("idCita") int idCita,
+                                    @RequestParam("idPaciente") int idPaciente ){
 
         Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
         Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
         model.addAttribute("doctor",doctor);
         List<RecetaMedica>  receta = recetaMedicaRepository.recetaMedicaPorCita(idCita);
         model.addAttribute("receta", receta);
+        Paciente paciente = pacienteRepository.buscarPacientePorID(idPaciente);
+        model.addAttribute("paciente", paciente);
 
         return "doctor/boletaFarmacia";
         }
+
+    @GetMapping("/pacientesatendidos/verhistorial/vercita/boletaMedicamentoDelivery")
+    public String verBoletaDelivery(Model model,
+                                    @RequestParam("idCita") int idCita,
+                                    @RequestParam("idPaciente") int idPaciente ){
+
+        Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
+        Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
+        model.addAttribute("doctor",doctor);
+        List<RecetaMedica>  receta = recetaMedicaRepository.recetaMedicaPorCita(idCita);
+        model.addAttribute("receta", receta);
+        Paciente paciente = pacienteRepository.buscarPacientePorID(idPaciente);
+        model.addAttribute("paciente", paciente);
+
+        return "doctor/boletaDelivery";
+    }
     @GetMapping("/calendario")
     public String calendarioDoctor(Model model){
         Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
@@ -372,9 +391,11 @@ public class DoctorController {
     @Transactional
     public String actualizarPerfilDoctor(RedirectAttributes redirectAttributes,
                                          @RequestParam("idusuario") int idUsuario,@RequestParam("nombre") String nombres,
-                                         @RequestParam("apellido") String apellidos,@RequestParam("dni") String dni,
-                                         @RequestParam("correo") String correo){
-        usuarioRepository.actualizarPerfilDoctor(nombres,apellidos,dni,correo,idUsuario);
+                                         @RequestParam("apellido") String apellidos, @RequestParam("correo") String correo,
+                                         @RequestParam("formacion") String formacion,
+                                         @RequestParam("capacitaciones") String capacitaciones){
+        usuarioRepository.actualizarPerfilDoctor(nombres,apellidos,correo,idUsuario);
+        doctorRepository.actualizarDoctor(formacion, capacitaciones, idUsuario);
         redirectAttributes.addFlashAttribute("msg","Perfil Actualizado");
         return "redirect:/doctor/perfil";
     }

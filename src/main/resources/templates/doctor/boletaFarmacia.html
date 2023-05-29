@@ -1,80 +1,28 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:insert="fragments/doctor/librerias.html :: cabecera (titulo = 'Boleta')">
+<head th:insert="fragments/doctor/librerias.html :: cabecera (titulo = 'Boleta Farmacia')">
 </head>
 <body>
 <!-- ======= Header ======= -->
-<header th:replace="fragments/doctor/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1', nombre = 'Abigail Ramirez', num_men = '2')">
+<header th:replace="fragments/doctor/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1',  nombre = |${doctor.usuario.nombres} ${doctor.usuario.apellidos}|, num_men = '2')">
 </header>
 <!-- End Header -->
+
 <!-- ======= Sidebar ======= -->
-<aside id="sidebar" class="sidebar">
-    <ul class="sidebar-nav" id="sidebar-nav">
-        <li class="nav-item">
-            <a class="nav-link collapsed" th:href="@{'/doctor/dashboard'}" >
-                <i class="bi bi-grid"></i>
-                <span>Dashboard</span>
-            </a>
-        </li><!-- End Dashboard -->
-        <li class="nav-item"> <!-- Cambiar ref -->
-            <a class="nav-link"  th:href="@{'/doctor/pacientesatendidos'+ '?id=' + ${doctor.iddoctor}}" >
-                <i class="bi bi-menu-button-wide"></i>
-                <span>Pacientes Atendidos</span>
-            </a>
-        </li><!-- End Pacientes Atendidos -->
-        <li class="nav-item">  <!-- cambia -->
-            <a class="nav-link collapsed"  th:href="@{'/doctor/calendario'+ '?id=' + ${doctor.iddoctor}}" >
-                <i class="bi bi-calendar3"></i>
-                <span>Calendario</span>
-            </a>
-        </li><!-- End Calendario -->
-        <li class="nav-item">  <!-- cambia -->
-            <a class="nav-link collapsed" th:href="@{'/doctor/perfil'+ '?id=' + ${doctor.iddoctor}}"  >
-                <i class="bi bi-person"></i>
-                <span>Perfil</span>
-            </a>
-        </li><!-- End Perfil -->
-        <br><br><br><br>
-        <br><br><br><br>
-        <br><br><br><br>
-        <br><br><br><br>
-        <br><br><br>
-        <li class="nav-heading"> ----------------------------------------------- </li>
-        <li class="nav-item">
-            <a class="nav-link collapsed" th:href="@{'/doctor/configuraciones'+ '?id=' + ${doctor.iddoctor}}" >
-                <i class="bi bi-gear"></i>
-                <span>Configuracion</span>
-            </a>
-        </li><!-- End Configuracion -->
-        <li class="nav-item">
-            <a class="nav-link collapsed" type="button" data-bs-toggle="modal" data-bs-target="#cerrar">
-                <i class="bi bi-box-arrow-in-right"></i>
-                <span>Cerrar Sesión</span>
-                <!-- Vertically centered Modal -->
-            </a>
-        </li><!-- End Cerrar Sesion -->
-    </ul>
+<aside th:replace="fragments/doctor/aside.html :: sidebar (active = 'pacientesAtendidos')">
 </aside><!-- End Sidebar-->
-<div class="modal fade" id="cerrar" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">¿Seguro que deseas Salir?</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-success" data-bs-dismiss="modal"><a style="color: white" href="pages-login.html" >Salir</a></button>
-                <button type="button" class="btn btn-secondary"><a style="color: white" th:href="@{'/doctor/pacientesatendidos/verhistorial'}" >Cancelar</a></button>
-            </div>
-        </div>
-    </div>
-</div><!-- End Vertically centered Modal-->
+
+<!--Modal Cerrar Sesion-->
+<div th:replace="fragments/doctor/modalCerrarSesion.html::modal">
+
+</div>
+<!-- End Modal-->
 
 
 <main id="main" class="main">
 
     <div class="pagetitle">
-        <h1>Boleta Doctor</h1>
+        <h1>Boleta Farmacia</h1>
         <nav>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a th:href="@{'/doctor/pacientesatendidos'+ '?id=' + ${doctor.iddoctor}}">Pacientes Atendidos</a></li>
@@ -95,11 +43,43 @@
                         <div class="card-body">
                             <h5 class="card-title">Boleta - Farmacia</h5>
                             <div class="ps-3">
+                                <h6 class="card-title">Información Paciente</h6>
+                            </div>
+                            <table class="table col-lg-20" >
+                                <thead>
+                                <tr>
+                                    <th scope="row">Paciente:</th>
+                                </tr>
+                                <tr>
+                                    <td> <span th:text="|${paciente.getUsuario().getNombres()} ${paciente.getUsuario().getApellidos()}|"></span> </td>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <th scope="row">Enfermedad:</th>
+                                </tr>
+                                <tr>
+                                    <td> <span th:text="${paciente.getCondicionenfermedad()}" ></span> </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Alergias:</th>
+                                </tr>
+                                <tr>
+                                    <td> <span th:text="${paciente.getAlergias()}" ></span> </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Direcion:</th>
+                                </tr>
+                                <tr>
+                                    <td> <span th:text="${paciente.getDireccion()}" ></span> </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <div class="ps-3">
                                 <h6 class="card-title">Información Medicamentos</h6>
                                 <table class="table">
                                     <thead class="table-light">
                                     <tr>
-                                        <th style="text-align: center" scope="col">#</th>
                                         <th style="text-align: center" scope="col">Medicamento</th>
                                         <th style="text-align: center" scope="col">Dosis</th>
                                         <th style="text-align: center" scope="col">Descripción</th>
@@ -107,40 +87,38 @@
                                     </thead>
                                     <tbody>
                                     <tr th:each=" receta ,indice : ${receta}">
-                                        <th style="text-align: center" th:text="${indice.index+1}" scope="row"></th>
                                         <td style="text-align: center" th:text="${receta.getMedicamento()}"></td>
                                         <td style="text-align: center" th:text="${receta.getDosis()}"></td>
                                         <td style="text-align: center" th:text="${receta.getDescripcion()}"></td>
                                     </tr>
-
-                                    <div>
-                                        <td style="text-decoration: underline; cursor: pointer;" id="boletaPdf"><i class="bi bi-printer-fill"></i>Descargar Boleta</td>
-                                    </div>
-                                    <script>
-                                        const generarPdf = () => {
-                                            // Obtener la sección del historial clínico
-                                            const boletaDoc = document.querySelector('#boletaDoctor');
-
-                                            // Configurar opciones de PDF
-                                            const pdfOptions = {
-                                                margin: [0, 0, 0, 0],
-                                                filename: 'boleta-farmacia.pdf',
-                                                image: { type: 'jpeg', quality: 0.98 },
-                                                html2canvas: { scale: 2 },
-                                                jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
-                                            };
-
-                                            // Crear PDF a partir del contenido de la sección
-                                            html2pdf().set(pdfOptions).from(boletaDoc).save();
-                                        }
-
-                                        // Agregar controlador de eventos de clic al botón "PDF Historial Clínico"
-                                        const boletaDocPdfBtn = document.querySelector('#boletaPdf');
-                                        boletaDocPdfBtn.addEventListener('click', generarPdf);
-                                    </script>
                                     </tbody>
                                 </table>
                             </div>
+                            <div class="text-center">
+                                <p style="text-decoration: underline; cursor: pointer;" id="boletaPdf"><i class="bi bi-printer-fill"></i>Descargar Boleta</p>
+                            </div>
+                            <script>
+                                const generarPdf = () => {
+                                    // Obtener la sección del historial clínico
+                                    const boletaDoc = document.querySelector('#boletaDoctor');
+
+                                    // Configurar opciones de PDF
+                                    const pdfOptions = {
+                                        margin: [0, 0, 0, 0],
+                                        filename: 'boleta-farmacia.pdf',
+                                        image: { type: 'jpeg', quality: 0.98 },
+                                        html2canvas: { scale: 2 },
+                                        jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+                                    };
+
+                                    // Crear PDF a partir del contenido de la sección
+                                    html2pdf().set(pdfOptions).from(boletaDoc).save();
+                                }
+
+                                // Agregar controlador de eventos de clic al botón "PDF Historial Clínico"
+                                const boletaDocPdfBtn = document.querySelector('#boletaPdf');
+                                boletaDocPdfBtn.addEventListener('click', generarPdf);
+                            </script>
                         </div>
                     </div>
                 </div>

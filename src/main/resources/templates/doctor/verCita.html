@@ -95,7 +95,7 @@
                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                            </div>
                                            <div class="modal-body">
-                                               <form method="post" th:action="@{'/doctor/pacientesatendidos/verhistorial/vercita/editarreceta'}">
+                                               <form method="post" th:action="@{'/doctor/pacientesatendidos/verhistorial/vercita/editarreceta'}" >
                                                    <input th:value="${recetam.getIdRecetaMedica()}" name="idReceta" type="hidden">
                                                    <input th:value="${cita.getIdcita()}" name="idCita" type="hidden">
 
@@ -137,6 +137,9 @@
                                                        <button type="submit" class="btn btn-primary">Actualizar</button>
                                                    </div>
                                                </form>
+                                               <script>
+
+                                               </script>
                                            </div>
                                        </div>
                                    </div>
@@ -147,12 +150,12 @@
                                        Añadir Receta
                                    </button>
                                    <br>
-                                   <a th:if="${cita.getTipoCita().getIdtipocita() eq 1}"type="button" th:href="@{'/doctor/pacientesatendidos/verhistorial/vercita/boletaMedicamento' + '?idCita=' + ${cita.getIdcita()}}" class="btn btn-outline-primary" >
+                                   <a th:if="${cita.getTipoCita().getIdtipocita() eq 1}"type="button" th:href="@{'/doctor/pacientesatendidos/verhistorial/vercita/boletaMedicamento?idCita=' + ${cita.getIdcita()} + '&idPaciente=' + ${cita.getPaciente().getIdpaciente()}}" class="btn btn-outline-primary" >
                                            Generar Boleta Farmacia
                                    </a>
-                                   <button th:unless="${cita.getTipoCita().getIdtipocita() eq 1}" type="button" class="btn btn-outline-primary" >
+                                   <a th:unless="${cita.getTipoCita().getIdtipocita() eq 1}" type="button" th:href="@{'/doctor/pacientesatendidos/verhistorial/vercita/boletaMedicamentoDelivery?idCita=' + ${cita.getIdcita()} + '&idPaciente=' + ${cita.getPaciente().getIdpaciente()}}" class="btn btn-outline-primary" >
                                        Enviar Por Delivery
-                                   </button>
+                                   </a>
                                </div>
                                <div class="modal fade" id="verticalycentered" tabindex="-1">
                                    <div class="modal-dialog modal-dialog-centered">
@@ -162,7 +165,7 @@
                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                            </div>
                                            <div class="modal-body">
-                                               <form method="post" th:action="@{'/doctor/pacientesatendidos/verhistorial/vercita/guardarreceta'}">
+                                               <form method="post" th:action="@{'/doctor/pacientesatendidos/verhistorial/vercita/guardarreceta'}" onsubmit="return validateForm()">
                                                    <input th:each=" recetame : ${recetamedica}" th:value="${recetame.idRecetaMedica}" name="idReceta" type="hidden" />
                                                    <input th:value="${cita.getIdcita()}" name="id" type="hidden" />
 
@@ -181,22 +184,28 @@
                                                        <label for="floatingTextarea3">Descripcion</label>
                                                        <br>
                                                    </div >
-                                                   <!--<div class="form-floating">
-                                                       <div class="form-check-center">
-                                                           <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                                                           <label class="form-check-label" for="flexCheckDefault">Generar Boleta Farmacia</label>
-                                                       </div>
-                                                       <div class="form-check">
-                                                           <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
-                                                           <label class="form-check-label" for="flexCheckChecked">Mandar Delivery</label>
-                                                       </div>
-                                                       <br>
-                                                   </div > -->
 
-                                                   <div class="d-grid gap d-md-flex justify-content-md-center">
+                                                   <div class="text-center">
                                                        <button  type="submit" class="btn btn-primary">Guardar</button>
+                                                       <div id="error-message2" class="alert alert-danger mt-3" style="display: none;"></div>
                                                    </div>
                                                </form>
+                                               <script>
+                                                   function validateForm() {
+                                                       var medicamento = document.getElementById("medicamento").value.trim();
+                                                       var dosis = document.getElementById("dosis").value.trim();
+                                                       var descripcion = document.getElementById("descripcion").value.trim();
+
+                                                       if (medicamento === "" || dosis === "" || descripcion === "") {
+                                                           var errorMessage = document.getElementById("error-message2");
+                                                           errorMessage.style.display = "block";
+                                                           errorMessage.innerHTML = "Complete el/los campo/s requerido";
+                                                           return false;
+                                                       }
+
+                                                       return true;
+                                                   }
+                                               </script>
                                            </div>
                                        </div>
                                    </div>
