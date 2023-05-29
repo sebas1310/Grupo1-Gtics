@@ -3,6 +3,7 @@ package com.example.proyectogticsgrupo1.Controller;
 import com.example.proyectogticsgrupo1.Entity.*;
 import com.example.proyectogticsgrupo1.Repository.*;
 import jakarta.servlet.http.HttpSession;
+import jakarta.transaction.Transactional;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -51,8 +52,11 @@ public class SuperadminController {
     @GetMapping("/index")
     public String inicioDashboardSuperadmin(Model model){
 
-        Optional<Usuario> optionalUsuario = usuarioRepository.findById(1);
-        Usuario usuario = optionalUsuario.get();
+
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+
+//        Optional<Usuario> optionalUsuario = usuarioRepository.findById(1);
+//        Usuario usuario = optionalUsuario.get();
 
 
         List<Usuario> listaUsuarios = usuarioRepository.findAll();
@@ -235,6 +239,7 @@ public class SuperadminController {
     }
 
     @PostMapping("/crearPlantillaInforme")
+    @Transactional
     public String crearPlantillaInforme(Model model,@RequestParam("datos") String datos
             ,@RequestParam("nombreplantilla") String nombreplantilla
             ,@RequestParam("id_rol") int id_rol

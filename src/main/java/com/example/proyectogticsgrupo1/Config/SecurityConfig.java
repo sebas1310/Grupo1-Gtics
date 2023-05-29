@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -15,10 +16,13 @@ import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.savedrequest.DefaultSavedRequest;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
+
 
 import javax.sql.DataSource;
 
 @Configuration
+@EnableWebSecurity
 public class SecurityConfig {
 
     final DataSource dataSource;
@@ -33,6 +37,9 @@ public class SecurityConfig {
         this.usuarioRepository = usuarioRepository;
         this.pacienteRepository = pacienteRepository;
     }
+
+
+
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -86,6 +93,7 @@ public class SecurityConfig {
 
 
         http.authorizeHttpRequests()
+//                .requestMatchers("/superadmin/crearPlantillaInforme").permitAll()
                 .requestMatchers("/doctor", "/doctor/**").hasAnyAuthority("doctor")
                 .requestMatchers("/administrador", "/administrador/**").hasAnyAuthority("administrador")
                 .requestMatchers("/paciente", "/paciente/**").hasAnyAuthority("paciente")
@@ -93,7 +101,8 @@ public class SecurityConfig {
                 .requestMatchers("/administrativo", "/administrativo/**").hasAnyAuthority("administrativo")
                 //.requestMatchers("/shipper", "/shipper/**").hasAuthority("admin")
                 //Dejar accesible a todos los usuarios cualquier otra ruta con anyRequest()
-                .anyRequest().permitAll();
+
+                .anyRequest().authenticated();
 
 
         /*http.logout().logoutSuccessUrl("/").deleteCookies("JSESSIONID")
