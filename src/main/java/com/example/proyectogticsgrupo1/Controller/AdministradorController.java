@@ -424,6 +424,8 @@ public class AdministradorController {
         model.addAttribute("usuario", usuarioAdministrador);
         if(usuarioAdministrador.getContrasena().equals(contrasena)){
             usuarioRepository.changePassword(renewpassword,usuarioAdministrador.getIdusuario());
+            session.removeAttribute("usuario");
+            session.setAttribute("usuario", usuarioRepository.findById(usuarioAdministrador.getIdusuario()).get());
             redirectAttributes.addFlashAttribute("psw1", "Contraseña actualizada");
 
         }else {

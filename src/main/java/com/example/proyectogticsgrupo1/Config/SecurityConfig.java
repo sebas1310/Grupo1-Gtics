@@ -91,7 +91,7 @@ public class SecurityConfig {
                 .requestMatchers("/paciente", "/paciente/**").hasAnyAuthority("paciente")
                 .requestMatchers("/superadmin", "/superadmin/**").hasAnyAuthority("superadmin")
                 .requestMatchers("/administrativo", "/administrativo/**").hasAnyAuthority("administrativo")
-                //.requestMatchers("/shipper", "/shipper/**").hasAuthority("admin")
+                //.requestMatchers("/shipper", "/shippefr/**").hasAuthority("admin")
                 //Dejar accesible a todos los usuarios cualquier otra ruta con anyRequest()
                 .anyRequest().permitAll();
 
