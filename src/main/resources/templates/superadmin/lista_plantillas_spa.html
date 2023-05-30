@@ -49,25 +49,29 @@
 
               <tr>
                 <th scope="col">#</th>
-                <th scope="col">Nombre</th>
+                <th scope="col">Nombre Plantilla</th>
                 <th scope="col">Especialidad</th>
-                <th scope="col">Destinatario</th>
+                <th scope="col">Destinado a</th>
                 <th scope="col">Editar</th>
+<!--                <th style="display:none">Column6</th>-->
+                <th scope="col">id del modelo</th>
               </tr>
 
             </thead>
             <tbody>
 
-              <tr th:each="modelo, info : ${modeloEntityList}" th:id="'fila-' + ${modelo.idmodelo}">
+              <tr th:each="modelo, info : ${modeloEntityList}" th:id="'fila-' + ${modelo.id}">
                 <td th:text="${info.index + 1}" id="indice"></td>
-                <td th:text="${modelo.nombre}" id="nbr_modelo"></td>
+                <td th:text="${modelo.nombrePlantilla}" id="nbr_modelo"></td>
                 <td th:text="${modelo.especialidad.nombre}" id="nbr_especialidad"></td>
                 <td th:text="${modelo.tipodeusuario.nombre}" id="nbr_rol"></td>
+
                 <td>
-                  <button type="button" class="btn btn-secondary button-edit" th:data-id="${modelo.idmodelo}"
+                  <button type="button" class="btn btn-secondary button-edit" th:data-id="${modelo.id}"
                           onclick="mostrarModal(this)"><i
                           class="bi bi-pencil-square"></i></button>
                 </td>
+                <td th:text="${modelo.id}" id="id_modelo"></td>
 
               </tr>
 
@@ -98,6 +102,10 @@
           <div class="mb-3">
             <label for="nombre_plantilla" class="col-form-label">Nombre Plantilla:</label>
             <input type="text" class="form-control" id="nombre_plantilla">
+          </div>
+          <div class="mb-3">
+            <label for="id_de_modelo_plantilla" class="col-form-label">Id de Modelo Plantilla:</label>
+            <input type="text" class="form-control" id="id_de_modelo_plantilla">
           </div>
           <!--          <div class="mb-3">-->
           <!--            <label for="especialidad_name" class="col-form-label">Especialidad:</label>-->
@@ -180,10 +188,15 @@
       const id = button.dataset.id;
 
       const nombrePlantilla = document.querySelector("#fila-" + id + " td:nth-child(2)").textContent;
+
+      const id_de_modelo_plantilla = document.querySelector("#fila-" + id + " td:nth-child(6)").textContent;
+
+
       // const nombreEspecialidad = document.querySelector("#fila-"+id+" td:nth-child(3)").textContent;
 
 
       console.log(nombrePlantilla);
+      console.log(id_de_modelo_plantilla);
       // console.log(nombreEspecialidad);
 
       const crearModal = bootstrap.Modal.getOrCreateInstance('#createModal');
@@ -191,6 +204,8 @@
 
 
       document.getElementById("nombre_plantilla").value = nombrePlantilla;
+      document.getElementById("id_de_modelo_plantilla").value = id_de_modelo_plantilla;
+
       document.getElementById("id_fila").value = id;
       // document.getElementById("id_fila").value = id;
       // document.getElementById("especialidad_name").value = nombreEspecialidad;
@@ -226,7 +241,7 @@
       crearModal.hide();
 
       var nuevoNombrePlantilla = document.getElementById("nombre_plantilla").value
-      const id_fila = document.getElementById("id_fila").value
+      const id_de_modelo_plantilla = document.getElementById("id_de_modelo_plantilla").value
 
       console.log(id_fila);
       // document.getElementById("especialidad_name").value
@@ -234,8 +249,32 @@
 
 
 
+      // var xmlhttp = new XMLHttpRequest();
+      // xmlhttp.open("POST", "/superadmin/guardarCambiosPlantilla", true);
+      // xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+      // xmlhttp.onreadystatechange = function () {
+      //
+      //   if (xmlhttp.readyState == XMLHttpRequest.DONE) {
+      //     if (xmlhttp.status == 200) {
+      //       // Mostrar mensaje de éxito
+      //       alert("Plantilla actualizada correctamente");
+      //       location.reload();
+      //
+      //
+      //     } else {
+      //       // Mostrar mensaje de error
+      //       alert("Ha ocurrido un error al actualizar la plantilla");
+      //     }
+      //   }
+      // };
+      //
+      // xmlhttp.send("nuevoNombrePlantilla=" + nuevoNombrePlantilla+"&id_fila="+id_fila);
+
+
+
+
       var xmlhttp = new XMLHttpRequest();
-      xmlhttp.open("POST", "/superadmin/guardarCambiosPlantilla", true);
+      xmlhttp.open("GET", "/superadmin/listarTitulos", true);
       xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
       xmlhttp.onreadystatechange = function () {
 
@@ -253,7 +292,7 @@
         }
       };
 
-      xmlhttp.send("nuevoNombrePlantilla=" + nuevoNombrePlantilla+"&id_fila="+id_fila);
+      xmlhttp.send("id_de_modelo_plantilla="+id_de_modelo_plantilla);
 
       // xmlhttp.send(datos);
 

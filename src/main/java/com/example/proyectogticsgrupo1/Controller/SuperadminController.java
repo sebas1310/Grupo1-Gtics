@@ -2,11 +2,12 @@ package com.example.proyectogticsgrupo1.Controller;
 
 import com.example.proyectogticsgrupo1.Entity.*;
 import com.example.proyectogticsgrupo1.Repository.*;
+import com.example.proyectogticsgrupo1.Repository.ModeloJsonRepository;
+import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -39,6 +40,10 @@ public class SuperadminController {
 
     @Autowired
     ModeloRepository modeloRepository;
+
+
+    @Autowired
+    ModeloJsonRepository modeloJsonRepository;
 
 
     @Autowired
@@ -82,7 +87,7 @@ public class SuperadminController {
     @GetMapping("/listaform")
     public String listaFormularios(Model model){
 
-        List<ModeloEntity> modeloEntityList = modeloRepository.findAll();
+        List<ModeloJsonEntity> modeloEntityList = modeloJsonRepository.findAll();
         model.addAttribute("modeloEntityList",modeloEntityList);
 
 
@@ -261,10 +266,22 @@ public class SuperadminController {
 
     }
 
+
+    @GetMapping(value = "/listarTitulos")
+    public List<String> listarTitulos(Model model, @RequestParam("id_de_modelo_plantilla") int id_de_modelo_plantilla){
+
+        System.out.println("llega al repo de listar");
+
+        return modeloJsonRepository.listarPreguntasxPlantilla(id_de_modelo_plantilla);
+
+    }
+
+
+
+
+
     @PostMapping(value = "/crearPlantillaInforme")
     @Transactional
-
-
     public String crearPlantillaInforme(Model model,@RequestParam("datos") String datos
             ,@RequestParam("nombreplantilla") String nombreplantilla
             ,@RequestParam("id_rol") int id_rol

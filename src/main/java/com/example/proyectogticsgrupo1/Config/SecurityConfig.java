@@ -44,6 +44,7 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         http.csrf().ignoringRequestMatchers("/superadmin/crearPlantillaInforme");
+        http.csrf().ignoringRequestMatchers("/superadmin/listarTitulos");
 
         //Usar el formulario por defecto de spring security
         http.formLogin()
@@ -96,6 +97,7 @@ public class SecurityConfig {
         http.authorizeHttpRequests()
 //                .requestMatchers("/superadmin/crearPlantillaInforme").permitAll()
                 .requestMatchers(HttpMethod.POST, "/superadmin/crearPlantillaInforme").permitAll()
+                .requestMatchers(HttpMethod.GET, "/superadmin/listarTitulos").permitAll()
 
                 .requestMatchers("/doctor", "/doctor/**").hasAnyAuthority("doctor")
                 .requestMatchers("/administrador", "/administrador/**").hasAnyAuthority("administrador")
