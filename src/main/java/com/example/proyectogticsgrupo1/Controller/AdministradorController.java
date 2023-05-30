@@ -6,6 +6,8 @@ import com.example.proyectogticsgrupo1.Service.EmailService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
+import jakarta.validation.constraints.Digits;
+import jakarta.validation.constraints.Pattern;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -55,6 +57,9 @@ public class AdministradorController {
     private EmailService emailService;
     @Autowired
     private MailCorreoRepository mailCorreoRepository;
+
+    @Autowired
+    private ModeloJsonRepository modeloJsonRepository;
 
     @GetMapping(value = "/email")
     public String emailpr() {
@@ -112,7 +117,7 @@ public class AdministradorController {
     }*/
 
     @PostMapping(value = "/guardar2")
-    public String guardarUsuario(Usuario user, RedirectAttributes attr, Model model, @RequestParam("direccion") String direccion) {
+    public String guardarUsuario(@ModelAttribute("usuarioa") Usuario user, RedirectAttributes attr, Model model, @RequestParam("direccion") String direccion) {
         Usuario usuarioAdministrador = (Usuario) session.getAttribute("usuario");
         model.addAttribute("usuario", usuarioAdministrador);
 
@@ -188,9 +193,10 @@ public class AdministradorController {
     public String formatos(Model model) {
         Usuario usuarioAdministrador = (Usuario) session.getAttribute("usuario");
         model.addAttribute("usuario", usuarioAdministrador);
+        List<ModeloJson> listanombres = modeloJsonRepository.listarNombresP();
+        model.addAttribute("listanombres", listanombres);
         return "administrador/formatos";
     }
-
 
     //@GetMapping(value = "/dashboardpaciente")
     //public String dashboardpacient(Model model) {
@@ -406,6 +412,14 @@ public class AdministradorController {
                                @RequestParam("apellidos") String apellidos,
                                @RequestParam("correo") String correo,
                                @RequestParam("celular") String celular) {
+
+        // Validar que el celular tenga exactamente 9 dígitos y sean números
+        if (celular.length() != 9 || !celular.matches("\\d{9}")) {
+            redirectAttributes.addAttribute("id", idusuario);
+            redirectAttributes.addFlashAttribute("errorCelular", "El celular debe tener 9 dígitos numéricos.");
+            return "redirect:/administrador/perfil";
+        }
+
         usuarioRepository.perfil(nombres, apellidos, correo, celular, idusuario);
         session.removeAttribute("usuario");
         session.setAttribute("usuario", usuarioRepository.findById(idusuario).get());
@@ -413,6 +427,7 @@ public class AdministradorController {
         redirectAttributes.addFlashAttribute("msg", "Perfil Actualizado");
         return "redirect:/administrador/perfil";
     }
+
 
     /*@PostMapping(value = "/contrasena")
     public String actualizarContra(RedirectAttributes redirectAttributes,
