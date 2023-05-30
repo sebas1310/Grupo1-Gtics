@@ -1,9 +1,6 @@
 package com.example.proyectogticsgrupo1.Entity;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Digits;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Positive;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -25,16 +22,17 @@ public class Usuario  implements Serializable {
 
     @Column(name = "nombres", nullable = false)
     @NotBlank
-    @Size(min = 3,max = 100, message = "El nombre no puede tener mas de 100 caracteres")
+    @Size(min = 3,max = 45, message = "El nombre no puede tener mas de 45 caracteres")
     private String nombres;
     @NotBlank
-    @Size(min = 3,max = 100, message = "El apellido no puede tener mas de 100 caracteres")
+    @Size(min = 3,max = 45, message = "El apellido no puede tener mas de 45 caracteres")
     private String apellidos;
 
     @Positive
     @Digits(integer = 8, fraction = 0, message = "El DNI debe tener 8 digitos")
     private String dni;
 
+    @Email
     @Column(name = "correo", nullable = false)
     private String correo;
 
@@ -48,9 +46,8 @@ public class Usuario  implements Serializable {
     @Digits(integer = 9, fraction = 0, message = "El celular debe tener 9 digitos")
     private String celular;
 
-    @NotBlank
     @Positive
-    @Digits(integer=2, fraction = 0)
+    @Digits(integer=2, fraction = 0, message = "La edad debe tener 2 digitos")
     private Integer edad;
 
     @Column(name = "estado_habilitado", nullable = false)

@@ -3,6 +3,7 @@ package com.example.proyectogticsgrupo1.Controller;
 import com.example.proyectogticsgrupo1.Entity.*;
 import com.example.proyectogticsgrupo1.Repository.*;
 import jakarta.servlet.http.HttpSession;
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,14 +49,15 @@ public class SuperadminController {
 
         //Optional<Usuario> optionalUsuario = usuarioRepository.findById(1);
         //Usuario usuario = optionalUsuario.get();
+        Usuario usuarioSpa = (Usuario) session.getAttribute("usuario");
+        Usuario superadmin = usuarioRepository.buscarPorId(usuarioSpa.getIdusuario());
 
-        Usuario usuario = (Usuario) session.getAttribute("usuario");
-        model.addAttribute("usuario",usuario);
+        model.addAttribute("usuario",superadmin);
 
         List<Usuario> listaUsuarios = usuarioRepository.findAll();
 
 
-        model.addAttribute("administradores", usuario);
+        model.addAttribute("administradores", superadmin);
 
         model.addAttribute("listaUsuarios", listaUsuarios);
 
@@ -103,14 +105,13 @@ public class SuperadminController {
         return "superadmin/users-profile_spa";
     }
     @GetMapping("/registraradministrativo")
-    public String registrarAdministrativo(@ModelAttribute("usuario") Usuario usuario, Model model, @RequestParam("t") String t){
-        System.out.println(t);
-        model.addAttribute("t",t);
+    public String registrarAdministrativo(@ModelAttribute("usuario") Usuario usuario, Model model){
+
         model.addAttribute("listasedes", sedeRepository.findAll());
         return "superadmin/pages-registrar-administrativo";
     }
     @GetMapping("/registraradministrador")
-    public String registrarAdministrador(@ModelAttribute("usuario") Usuario usuario1, Model model){
+    public String registrarAdministrador(@ModelAttribute("usuario") Usuario usuario, Model model){
 
         model.addAttribute("listasedes", sedeRepository.listaSedes());
 
@@ -163,13 +164,17 @@ public class SuperadminController {
     }
 
     @PostMapping("/save")
-    public String guardarAdministrador(@Valid Usuario usuario, BindingResult bindingResult, RedirectAttributes attr){
-        System.out.println(usuario.getCelular());
+    public String guardarAdministrador(@ModelAttribute("usuario") @Valid Usuario usuario, BindingResult bindingResult, RedirectAttributes attr, Model model){
+
+        System.out.println("sede" + usuario.getSede());
         usuario.setContrasena(RandomStringUtils.random(10, true, true));
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
         if(bindingResult.hasErrors()){
             attr.addFlashAttribute("msg", "Administrador presenta errores");
-            return "redirect:/superadmin/registraradministrador";
+            model.addAttribute("listasedes", sedeRepository.listaSedes());
+
+            return "superadmin/pages-registrar-adminitrador";
 
         }else{
             attr.addFlashAttribute("msg","Administrador actualizado");
@@ -202,13 +207,29 @@ public class SuperadminController {
 
     @GetMapping("/edit")
     public String editarUsuario(Model model, @RequestParam("id") int id){
+        Usuario usuarioSpa = (Usuario) session.getAttribute("usuario");
+
         Optional<Usuario> optionalUsuario = usuarioRepository.findById(id);
         if(optionalUsuario.isPresent()){
             Usuario usuario = optionalUsuario.get();
             model.addAttribute("usuario", usuario);
-            return "users-profile_spa";
+            return "superadmin/users-profile_spa";
         }else{
             return "redirect:/superadmin/index";
+        }
+    }
+
+    @GetMapping("/editarSeguro")
+    public String editarSeguros(@RequestParam("id") int id, Model model){
+        Usuario usuarioSpa = (Usuario) session.getAttribute("usuario");
+
+        Optional<Seguro> optSeguro = seguroRepository.findById(id);
+        if(optSeguro.isPresent()){
+            Seguro seguro = optSeguro.get();
+            model.addAttribute("seguro", seguro);
+            return "superadmin/editSeguro";
+        }else{
+            return "redirect:/seguros";
         }
     }
     @GetMapping("/reportes")
@@ -306,6 +327,7 @@ public class SuperadminController {
 
     @GetMapping("/notificaciones")
     public String historialNotificaciones(){
+
         return "superadmin/historial-notificaciones_spa";
     }
     @GetMapping("/perfilUsuario")
@@ -322,6 +344,7 @@ public class SuperadminController {
 
     @GetMapping("/seguros")
     public String seguro(Model model){
+
         List<Seguro> listSeguros = seguroRepository.findAll();
         model.addAttribute("listSeguros",listSeguros);
         return "superadmin/seguros_spa";
@@ -329,22 +352,25 @@ public class SuperadminController {
 
 
     @PostMapping("/cambiarContrasena")
-    public String cambiarContraseña(Model model, RedirectAttributes attr, @RequestParam("currentPassword") String currentPassword,
+    @Transactional
+    public String cambiarContraseña(Model model, RedirectAttributes attr,
+                                    @RequestParam("currentPassword") String currentPassword,
                                     @RequestParam("newPassword") String  newPassword,
                                     @RequestParam("renewpassword") String  renewpassword){
+        Usuario usuarioSpa = (Usuario) session.getAttribute("usuario");
+        Usuario superadmin = usuarioRepository.buscarPorId(usuarioSpa.getIdusuario());
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-        String contrasenaActual = currentPassword;
-        String nuevaContrasena = newPassword;
-        String nuevaContrasena_v2 = renewpassword;
+        if(passwordEncoder.matches(currentPassword, superadmin.getContrasena())){
+            String hashedNewPassword = passwordEncoder.encode(newPassword);
 
+            usuarioRepository.changePassword(hashedNewPassword,superadmin.getIdusuario());
 
-        if (nuevaContrasena.equals(contrasenaActual) && nuevaContrasena_v2.equals(renewpassword)) {
-            attr.addFlashAttribute("msg", "No se pudo actualizar la contraseña");
-        } else {
-            usuarioRepository.cambiarPassword(new BCryptPasswordEncoder().encode(nuevaContrasena));
-            attr.addFlashAttribute("msg", "Contraseña actualizada exitosamente");
+            attr.addFlashAttribute("psw1", "Contraseña actualizada");
+        }else {
+            attr.addFlashAttribute("psw2", "La contraseña actual es incorrecta");
+            return "redirect:/superadmin/perfil";
         }
-
         return "redirect:/superadmin/perfil";
     }
 }
