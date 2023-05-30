@@ -107,8 +107,8 @@ public class SecurityConfig {
 
 
 
-//                .anyRequest().permitAll()
-                .anyRequest().authenticated();
+                .anyRequest().permitAll();
+                //.anyRequest().authenticated();
 
 
         /*http.logout().logoutSuccessUrl("/").deleteCookies("JSESSIONID")
