@@ -5,6 +5,7 @@ import com.example.proyectogticsgrupo1.Entity.Eventocalendariodoctor;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -30,9 +31,47 @@ public interface EventocalendariodoctorRepository extends JpaRepository<Eventoca
             "SELECT DAYNAME(fecha) AS dia, DATE_FORMAT(horainicio, '%H:%i') AS inicio, DATE_FORMAT(horafinal, '%H:%i') AS fin \n" +
             "FROM eventocalendariodoctor \n" +
             "WHERE idtipohoracalendariodoctor=1 AND iddoctor=?1 AND fecha >= CURDATE() \n" +
-            "ORDER BY fecha ASC\n" +
-            "LIMIT 2; \n")
+            "ORDER BY fecha ASC\n;" )
     List<DiasProximosDoctor> getDiasProx(Integer id);
+
+    //lunes
+    @Query(nativeQuery = true, value = "SELECT *\n" +
+            "FROM eventocalendariodoctor\n" +
+            "WHERE fecha >= CURDATE() AND DAYOFWEEK(fecha) = 2 and idtipohoracalendariodoctor=1 and iddoctor=?1")
+    List<Eventocalendariodoctor> listalunes(Integer id);
+
+/*
+    @Query(nativeQuery = true, value = "SELECT *\n" +
+            "FROM eventocalendariodoctor\n" +
+            "WHERE fecha >= CURDATE() AND DAYOFWEEK(fecha) = 2 and idtipohoracalendariodoctor=1 and iddoctor=:id")
+    List<Eventocalendariodoctor> listalunes(@Param("id") Integer id);
+*/
+
+    @Query(nativeQuery = true, value = "SELECT *\n" +
+            "FROM eventocalendariodoctor\n" +
+            "WHERE fecha >= CURDATE() AND DAYOFWEEK(fecha) = 3 and idtipohoracalendariodoctor=1 and iddoctor=?1")
+    List<Eventocalendariodoctor> listaMartes(Integer id);
+
+    @Query(nativeQuery = true, value = "SELECT *\n" +
+            "FROM eventocalendariodoctor\n" +
+            "WHERE fecha >= CURDATE() AND DAYOFWEEK(fecha) = 4 and idtipohoracalendariodoctor=1 and iddoctor=?1")
+    List<Eventocalendariodoctor> listaMiercoles(Integer id);
+
+    @Query(nativeQuery = true, value = "SELECT *\n" +
+            "FROM eventocalendariodoctor\n" +
+            "WHERE fecha >= CURDATE() AND DAYOFWEEK(fecha) = 5 and idtipohoracalendariodoctor=1 and iddoctor=?1")
+    List<Eventocalendariodoctor> listaJueves(Integer id);
+
+    @Query(nativeQuery = true, value = "SELECT *\n" +
+            "FROM eventocalendariodoctor\n" +
+            "WHERE fecha >= CURDATE() AND DAYOFWEEK(fecha) = 6 and idtipohoracalendariodoctor=1 and iddoctor=?1")
+    List<Eventocalendariodoctor> listaViernes(Integer id);
+
+    @Query(nativeQuery = true, value = "SELECT *\n" +
+            "FROM eventocalendariodoctor\n" +
+            "WHERE fecha >= CURDATE() AND DAYOFWEEK(fecha) = 7 and idtipohoracalendariodoctor=1 and iddoctor=?1")
+    List<Eventocalendariodoctor> listaSabado(Integer id);
+
 
 }
 

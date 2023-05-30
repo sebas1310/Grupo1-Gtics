@@ -7,6 +7,7 @@ import jakarta.transaction.Transactional;
 import jdk.jfr.Event;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -397,9 +398,13 @@ public class DoctorController {
 
         Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
         Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
         model.addAttribute("doctor",doctor);
-        if(doctor.getUsuario().getContrasena().equals(contrasena)){
-            usuarioRepository.changePassword(renewpassword,doctor.getUsuario().getIdusuario());
+        if(passwordEncoder.matches(contrasena, doctor.getUsuario().getContrasena())){
+            String hashedNewPassword = passwordEncoder.encode(newpassword);
+
+            usuarioRepository.changePassword(hashedNewPassword,doctor.getUsuario().getIdusuario());
             attr.addFlashAttribute("psw1", "Contraseña actualizada");
         }else {
             attr.addFlashAttribute("psw2", "La contraseña actual es incorrecta");
