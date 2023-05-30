@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:insert="fragments/doctor/librerias.html :: cabecera (titulo = 'Calendario')">
 </head>
@@ -27,6 +27,7 @@
                 <li class="breadcrumb-item active">Calendario General</li>
             </ol>
         </nav>
+        <div th:if="${msg!=null}" th:text="${msg}" class="alert alert-success" role="alert"></div>
     </div><!-- End Page Title -->
 
     <section class="section">
@@ -42,7 +43,7 @@
                         <a class="btn btn-info" style="--bs-btn-padding-y: .60rem; --bs-btn-padding-x: 0.2cm;
                                 --bs-btn-font-size: .75rem;"></a><span class="card-text"> Refrigerio</span> <br><br>
                         <div class="justify-content-md-center">
-                            <button href="#" class="btn btn-outline-primary">Añadir al Calendario</button>
+                            <a th:href="@{'/doctor/calendario/agregar'}" class="btn btn-outline-primary">Añadir al Calendario</a>
                         </div>
                     </div>
                 </div>
@@ -110,16 +111,16 @@ font-size:11.0pt; font-weight:700; text-align:center; border-top:1.0pt solid rgb
                                 <td colspan=2 class=Sapro9927892 style="color:#06366C">Sábado</td>
                                 <td colspan=2 class=Sapro9927892 style="color:#06366C">Domingo</td>
                             </tr>
-                            <tr>
+                            <tr >
                                 <td class=Sapro10327892> </td>
                                 <td class=Sapro10427892> </td>
-                                <td class=Sapro9527892>1</td>
-                                <td class=Sapro9427892><a class="btn btn-warning" style="--bs-btn-padding-y: .30rem; --bs-btn-padding-x: 0.7cm;
-                                --bs-btn-font-size: .75rem;"></a>
+                                <td class=Sapro9527892></td>
+                                <td class=Sapro9427892>
                                     <a class="btn btn-warning" style="--bs-btn-padding-y: .30rem; --bs-btn-padding-x: 0.7cm;
                                 --bs-btn-font-size: .75rem;"></a>
                                     <a class="btn btn-success" style="--bs-btn-padding-y: .30rem; --bs-btn-padding-x: 0.7cm;
-                                --bs-btn-font-size: .75rem;"></a></td>
+                                --bs-btn-font-size: .75rem;"></a>
+                                </td>
                                 <td class=Sapro9527892>2</td>
                                 <td class=Sapro9427892><a class="btn btn-warning" style="--bs-btn-padding-y: .30rem; --bs-btn-padding-x: 0.7cm;
                                 --bs-btn-font-size: .75rem;"></a>
@@ -304,7 +305,7 @@ font-size:11.0pt; font-weight:700; text-align:center; border-top:1.0pt solid rgb
                                 <td class=Sapro10427892> </td>
                                 <td class=Sapro10427892> </td>
                                 <td class=Sapro11427892> </td>
-                            </tr>
+                            </tr>  -->
                             <tr>
                                 <td colspan=2 class=Sapro11527892></td>
                                 <td colspan=2 class=Sapro11727892></td>

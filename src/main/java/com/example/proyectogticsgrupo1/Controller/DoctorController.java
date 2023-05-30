@@ -2,6 +2,7 @@ package com.example.proyectogticsgrupo1.Controller;
 
 import com.example.proyectogticsgrupo1.Entity.*;
 import com.example.proyectogticsgrupo1.Repository.*;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 import jdk.jfr.Event;
@@ -13,6 +14,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,10 +43,19 @@ public class DoctorController {
     @Autowired
     MailCorreoRepository mailCorreoRepository;
 
+    @Autowired
+    UserRepository userRepository;
+
+    @Autowired
+    TablaDatosLlenosRepository tablaDatosLlenosRepository;
+
+    @Autowired
+    TipohoracalendariodoctorRepository tipohoracalendariodoctorRepository;
 
     public DoctorController(CitaRepository citaRepository, DoctorRepository doctorRepository, PacienteRepository pacienteRepository,
                             RecetaMedicaRepository recetaMedicaRepository, ReporteCitaRepository reporteCitaRepository,UsuarioRepository usuarioRepository,
                             BitacoraDeDiagnosticoRepository bitacoraDeDiagnosticoRepository,
+                            TipohoracalendariodoctorRepository tipohoracalendariodoctorRepository,
                             EventocalendariodoctorRepository eventocalendariodoctorRepository, CuestionarioRepository cuestionarioRepository, SedeRepository sedeRepository, BoletaDoctorRepository boletaDoctorRepository) {
 
         this.doctorRepository = doctorRepository;
@@ -57,6 +69,7 @@ public class DoctorController {
         this.cuestionarioRepository = cuestionarioRepository;
         this.sedeRepository = sedeRepository;
         this.boletaDoctorRepository = boletaDoctorRepository;
+        this.tipohoracalendariodoctorRepository = tipohoracalendariodoctorRepository ;
     }
 
     @Autowired
@@ -75,6 +88,19 @@ public class DoctorController {
             model.addAttribute("citasAgendadas",citasAgendadas1);
             return "doctor/dashboardDoc";
         }
+    @GetMapping("/dashboard/info")
+    public String infoDashboard(Model model, @RequestParam("id") int idPaciente) {
+
+        Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
+        Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
+        model.addAttribute("doctor",doctor);
+        Paciente paciente = pacienteRepository.buscarPacientePorID(idPaciente);
+        model.addAttribute("paciente", paciente);
+        List<Cita> citasAgendadas1 = citaRepository.buscarCitasAgendadasDoctor(doctor.getIddoctor());
+
+        model.addAttribute("citasAgendadas",citasAgendadas1);
+        return "doctor/infoDashboard";
+    }
 
     @GetMapping("/dashboard/diario")
     public String inicioDashboardDoctor2(Model model){
@@ -104,7 +130,6 @@ public class DoctorController {
             Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
             Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
             model.addAttribute("doctor",doctor);
-            //model.addAttribute("doctor", doctor1);
             model.addAttribute("pacientesAtendidosDoctor", citaRepository.pacientesAtendidosPorDoctor(doctor.getIddoctor()));
 
         return "doctor/pacientesAtendidos";
@@ -128,6 +153,7 @@ public class DoctorController {
     @Transactional
     public String guardarBitacora(RedirectAttributes redirectAttributes, @RequestParam("descripcion") String descripcion, @RequestParam("id") int idPaciente){
         bitacoraDeDiagnosticoRepository.guardarbitacora(descripcion,idPaciente);
+        redirectAttributes.addFlashAttribute("msg","Bitácora Guardada");
         redirectAttributes.addAttribute("id",idPaciente);
         return "redirect:/doctor/pacientesatendidos/verhistorial";
     }
@@ -138,6 +164,7 @@ public class DoctorController {
         BitacoraDeDiagnostico bitacora = bitacoraDeDiagnosticoRepository.buscarBitacoraDeDiagnosticoID(idBitacora);
         Integer idPaciente = bitacora.getPaciente().getIdpaciente();
         bitacoraDeDiagnosticoRepository.borrarbitacora(idBitacora);
+        redirectAttributes.addFlashAttribute("msg2","Bitácora Borrada");
         redirectAttributes.addAttribute("id",idPaciente);
         return "redirect:/doctor/pacientesatendidos/verhistorial";
     }
@@ -161,12 +188,12 @@ public class DoctorController {
             Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
             Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
             model.addAttribute("doctor",doctor);
-            Optional<Cita> optCita = citaRepository.findById(idCita);
-            Cita cita =optCita.get();
+            Cita cita = citaRepository.buscarCitaPorId(idCita);
+
             model.addAttribute("cita", cita);
             model.addAttribute("recetamedica", recetaMedicaRepository.buscarRecetaMedicaPorCita(idCita, idReceta));
             model.addAttribute("reportecita", reporteCitaRepository.buscarReporteCitaPorId(idCita));
-
+            //model.addAttribute("informemedico",tablaDatosLlenosRepository.obtenerArchivo());
         return "doctor/verCita";
     }
     @GetMapping("/pacientesatendidos/verhistorial/vercita/editarreceta")
@@ -193,6 +220,7 @@ public class DoctorController {
                                @RequestParam("descripcion") String descripcion){
         recetaMedicaRepository.actualizarReceta( medicamento, dosis, descripcion, idCita, idReceta);
         redirectAttributes.addAttribute("idReceta",idReceta);
+        redirectAttributes.addFlashAttribute("msg3","Receta Actualizada");
         redirectAttributes.addAttribute("id",idCita);
         return "redirect:/doctor/pacientesatendidos/verhistorial/vercita";
     }
@@ -222,6 +250,7 @@ public class DoctorController {
                                 @RequestParam("id") int idCita){
 
         recetaMedicaRepository.agregarReceta(medicamento,dosis,descripcion,idCita);
+        redirectAttributes.addFlashAttribute("msg","Receta Agregada");
         redirectAttributes.addAttribute("id",idCita);
         //redirectAttributes.addAttribute("idReceta",idReceta);
         return "redirect:/doctor/pacientesatendidos/verhistorial/vercita";
@@ -235,31 +264,82 @@ public class DoctorController {
         RecetaMedica receta = recetaMedicaRepository.buscarRecetaMedicaPorID(idReceta);
         Integer idCita = receta.getCita().getIdcita();
         recetaMedicaRepository.borrarReceta(idReceta);
+        redirectAttributes.addFlashAttribute("msg2","Receta Borrada");
         redirectAttributes.addAttribute("id",idCita);
         return "redirect:/doctor/pacientesatendidos/verhistorial/vercita";
         }
     @GetMapping("/pacientesatendidos/verhistorial/vercita/boletaMedicamento")
     public String verBoletaFarmacia(Model model,
-                                    @RequestParam("idCita") int idCita ){
+                                    @RequestParam("idCita") int idCita,
+                                    @RequestParam("idPaciente") int idPaciente ){
 
         Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
         Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
         model.addAttribute("doctor",doctor);
         List<RecetaMedica>  receta = recetaMedicaRepository.recetaMedicaPorCita(idCita);
         model.addAttribute("receta", receta);
+        Paciente paciente = pacienteRepository.buscarPacientePorID(idPaciente);
+        model.addAttribute("paciente", paciente);
 
         return "doctor/boletaFarmacia";
         }
-    @GetMapping("/calendario")
-    public String calendarioDoctor(Model model){
-        //List<Event> events =
-        //List<Eventocalendariodoctor> events = eventocalendariodoctorRepository.calendarioPorDoctor(idDoctor);
-        //model.addAttribute("events", events);
+
+    @GetMapping("/pacientesatendidos/verhistorial/vercita/boletaMedicamentoDelivery")
+    public String verBoletaDelivery(Model model,
+                                    @RequestParam("idCita") int idCita,
+                                    @RequestParam("idPaciente") int idPaciente,
+                                    RedirectAttributes redirectAttributes){
+
         Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
         Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
         model.addAttribute("doctor",doctor);
+        List<RecetaMedica>  receta = recetaMedicaRepository.recetaMedicaPorCita(idCita);
+        model.addAttribute("receta", receta);
+        Paciente paciente = pacienteRepository.buscarPacientePorID(idPaciente);
+        model.addAttribute("paciente", paciente);
+        Cita cita = citaRepository.buscarCitaPorId(idCita);
+        model.addAttribute("cita", cita);
+        redirectAttributes.addFlashAttribute("msg","Pedido programado para ser enviado");
+
+        return "doctor/boletaDelivery";
+    }
+    @GetMapping("/calendario")
+    public String calendarioDoctor(Model model){
+        Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
+        Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
+        List<Eventocalendariodoctor> eventos = eventocalendariodoctorRepository.calendarioPorDoctor(doctor.getIddoctor());
+        model.addAttribute("eventos", eventos);
+        model.addAttribute("doctor",doctor);
         return "doctor/calendarioDoc";
     }
+
+    @GetMapping(value = "/calendario/agregar")
+    public String agregarEvento(Model model){
+        //list<IncompatibleClassChangeError> lista = (11.1)
+        Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
+        Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
+        model.addAttribute("doctor",doctor);
+        model.addAttribute("tipocita",tipohoracalendariodoctorRepository.findAll());
+        return "doctor/anadirCalendario";
+    }
+
+    @Transactional
+    @PostMapping(value = "/calendario/guardar")
+    public String agregarEvento(Model model, @RequestParam("fecha") LocalDate fecha ,
+                                @RequestParam("horainicio") LocalTime horainicio ,
+                                @RequestParam("horafinal") LocalTime horafinal ,
+                                @RequestParam("descripcion") String descripcion,
+                                @RequestParam("idtipocalendario") Integer idtipocalendario,
+                                @RequestParam("iddoctor") Integer iddoctor,
+                                RedirectAttributes redirectAttributes){
+
+        Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
+        Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
+        Integer duracion = 1;
+        eventocalendariodoctorRepository.agregarEventoDoctor(idtipocalendario,fecha, horainicio, horafinal, duracion, descripcion,iddoctor);
+        redirectAttributes.addFlashAttribute("msg","Evento Añadido");
+        return "redirect:/doctor/calendario";
+}
 
     @GetMapping("/cuestionario")
     public String cuestionarioDoctor(Model model, @RequestParam("id") int idPaciente){
@@ -274,12 +354,15 @@ public class DoctorController {
         return "doctor/cuestionarioDoc";
     }
 
-    @PostMapping("/envioCuestionario")
+    @PostMapping("/enviocuestionario")
     public String enviarCuestionario(Model model, @RequestParam("pacienteId") int idP,
-                                                @RequestParam("docId") int idD ){
+                                                @RequestParam("docId") int idD,
+                                     RedirectAttributes redirectAttributes){
         Cuestionario nuevocuestionario = new Cuestionario();
-        cuestionarioRepository.save(nuevocuestionario);
-        return "redirect:/doctor/cuestionario";
+        //cuestionarioRepository.save(nuevocuestionario);
+        redirectAttributes.addFlashAttribute("msg","Cuestionario Enviado");
+        return "redirect:/doctor/dashboard";
+
     }
 
     @GetMapping("/perfil")
@@ -323,6 +406,7 @@ public class DoctorController {
             model.addAttribute("doctor",doctor);
             model.addAttribute("historialmensajes",mailCorreoRepository.buscarMensajePorAsunto(asunto));
             model.addAttribute("usuariorigen",usuarioRepository.usuarioDestino(idUsuarioOrigen));
+            model.addAttribute("asunto",asunto);
 
         return "doctor/responderMensajeDoc";
 }
@@ -344,8 +428,12 @@ public class DoctorController {
     @PostMapping("/mensajeria/enviarmensaje/envio")
     @Transactional
     //ResponseEntity<Void>
-    public String sendEmail(@RequestParam("correodestino") String correoDestino, @RequestParam("asunto") String asunto, @RequestParam("descripcion") String descripcion) {
+    public String sendEmail(RedirectAttributes redirectAttributes, @RequestParam("correodestino") String correoDestino,
+                            @RequestParam("asunto") String asunto, @RequestParam("descripcion") String descripcion,
+                            @RequestParam("idusuariodestino") int idUsuarioDestino , @RequestParam("idusuarioorigen") int idUsuarioOrigen) {
         emailService.sendEmail(correoDestino,asunto,descripcion);
+        mailCorreoRepository.guardarMensaje(asunto,descripcion,correoDestino,idUsuarioDestino ,idUsuarioOrigen);
+        redirectAttributes.addFlashAttribute("msg","Mensaje Enviado");
         return "redirect:/doctor/mensajeria";
         //return ResponseEntity.ok().build();
     }
@@ -360,12 +448,14 @@ public class DoctorController {
 
     @PostMapping("/perfil/editarperfil")
     @Transactional
-    public String actualizarPerfilDoctor(RedirectAttributes redirectAttributes,@RequestParam("id") int idDoctor,
+    public String actualizarPerfilDoctor(RedirectAttributes redirectAttributes,
                                          @RequestParam("idusuario") int idUsuario,@RequestParam("nombre") String nombres,
-                                         @RequestParam("apellido") String apellidos,@RequestParam("dni") String dni,
-                                         @RequestParam("correo") String correo){
-        usuarioRepository.actualizarPerfilDoctor(nombres,apellidos,dni,correo,idUsuario);
-        redirectAttributes.addAttribute("id",idDoctor);
+                                         @RequestParam("apellido") String apellidos, @RequestParam("correo") String correo,
+                                         @RequestParam("formacion") String formacion,
+                                         @RequestParam("capacitaciones") String capacitaciones){
+        usuarioRepository.actualizarPerfilDoctor(nombres,apellidos,correo,idUsuario);
+        doctorRepository.actualizarDoctor(formacion, capacitaciones, idUsuario);
+        redirectAttributes.addFlashAttribute("msg","Perfil Actualizado");
         return "redirect:/doctor/perfil";
     }
 
@@ -386,6 +476,7 @@ public class DoctorController {
         doctorRepository.cambiarSede(idS, idD);
         attr.addAttribute("id", idD);
         attr.addAttribute("iddoctor", idS);
+        attr.addFlashAttribute("msg","Sede Actualizada");
         return "redirect:/doctor/configuraciones";
     }
 
@@ -400,11 +491,10 @@ public class DoctorController {
         Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-        model.addAttribute("doctor",doctor);
+
         if(passwordEncoder.matches(contrasena, doctor.getUsuario().getContrasena())){
             String hashedNewPassword = passwordEncoder.encode(newpassword);
-
-            usuarioRepository.changePassword(hashedNewPassword,doctor.getUsuario().getIdusuario());
+            userRepository.changePassword(hashedNewPassword,doctor.getUsuario().getIdusuario());
             attr.addFlashAttribute("psw1", "Contraseña actualizada");
         }else {
             attr.addFlashAttribute("psw2", "La contraseña actual es incorrecta");

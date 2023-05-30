@@ -39,10 +39,12 @@
                     <div class="card-body">
                         <h5 class="card-title">Datos del Paciente</h5>
                         <h6 class="card-title">Cita 1</h6>
-                        <form class="row g-3">
-                            <input th:value="${paciente.getIdpaciente()}" name="id" type="hidden" />
-                            <!--
-                            <input th:value="${doc.getIdDoctor()}" name="id" type="hidden" /> -->
+                        <form method="post" th:action="@{'/doctor/enviocuestionario'}" class="row g-3">
+
+                            <input th:value="${paciente.getIdpaciente()}" name="pacienteId" type="hidden" />
+
+                            <input th:value="${doctor.iddoctor}" name="docId" type="hidden" />
+
                             <div class="col-md-6">
                                 <label for="nombre" class="form-label">Nombre del Paciente</label>
                                 <input th:value="|${paciente.usuario.nombres} ${paciente.usuario.apellidos}|" type="text" class="form-control" id="nombre" disabled readonly >

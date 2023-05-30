@@ -48,7 +48,7 @@
                                             <th style="text-align: center" scope="col">De:</th>
                                             <th style="text-align: center" scope="col">Asunto</th>
                                             <th style="text-align: center" scope="col">Descripcion</th>
-                                            <th style="text-align: center" scope="col">Fecha</th>
+                                            <th style="text-align: center" scope="col">Fecha y Hora</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -70,27 +70,19 @@
 
                                     <div class="col-md-6">
                                         <label for="email" class="form-label">Correo Destino</label>
-                                        <input th:value="${usuariorigen.getCorreo()}" type="text" name="correodestino" class="form-control" id="email"  ></div>
+                                        <input th:value="${usuariorigen.getCorreo()}" type="text" name="correodestino" class="form-control" id="email"  >
+                                    </div>
 
                                     <div class="col-md-6">
                                         <label for="asunt" class="form-label">Asunto</label>
-                                        <input type="text" name="asunto" class="form-control" id="asunt" >
+                                        <input th:value="${asunto}" type="text" name="asunto" class="form-control" id="asunt" >
                                     </div>
-
                                     <div class="col-md-6">
                                         <label for="description" class="form-label">Descripcion</label>
                                         <input type="text" name="descripcion" class="form-control" id="description" >
                                     </div>
-
-                                    <!--<div class="col-md-6">
-                                        <label for="ingresoplataforma" class="form-label">Apenas El Paciente Ingrese a la Plataforma</label>
-                                        <select class="form-select" id="ingresoplataforma" required>
-                                            <option selected disabled value="">Seleccione</option>
-                                            <option>Sí</option>
-                                            <option>No</option>
-                                        </select>
-                                    </div> -->
-
+                                    <input type="hidden" th:value="${usuariorigen.idusuario}" name="idusuariodestino" class="form-control" >
+                                    <input type="hidden" th:value="${session.usuario.idusuario}" name="idusuarioorigen" class="form-control" >
                                     <div class="d-grid gap-2 d-md-flex justify-content-md-center">
                                         <button class="btn btn-primary" type="submit">Enviar</button>
                                         <a th:href="@{'/doctor/mensajeria'}" class="btn btn-danger">Regresar</a>
@@ -101,8 +93,6 @@
                             </div>
                         </div>
                     </div>
-
-
                 </div>
                 </div>
                 </div>

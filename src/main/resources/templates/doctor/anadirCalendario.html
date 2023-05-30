@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="fragments/doctor/librerias.html :: cabecera (titulo = 'Calendario')">
+</head>
+<body>
+<!-- ======= Header ======= -->
+<header th:replace="fragments/doctor/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1',  nombre = |${doctor.usuario.nombres} ${doctor.usuario.apellidos}|, num_men = '2')">
+</header>
+<!-- End Header -->
+
+<!-- ======= Sidebar ======= -->
+<aside th:replace="fragments/doctor/aside.html :: sidebar (active = 'calendario')">
+</aside><!-- End Sidebar-->
+
+<!--Modal Cerrar Sesion-->
+<div th:replace="fragments/doctor/modalCerrarSesion.html::modal">
+
+</div>
+<!-- End Modal-->
+
+<main id="main" class="main">
+
+  <div class="pagetitle">
+    <h1>Calendario</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item active">Calendario General</li>
+      </ol>
+    </nav>
+  </div><!-- End Page Title -->
+
+  <section class="section">
+    <div class="row">
+      <div class="col-sm-4">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Opciones</h5>
+            <a class="btn btn-success" style="--bs-btn-padding-y: .60rem; --bs-btn-padding-x: 0.2cm;
+                                --bs-btn-font-size: .75rem;"></a><span class="card-text"> Disponibilidad</span><br>
+            <a class="btn btn-info" style="--bs-btn-padding-y: .60rem; --bs-btn-padding-x: 0.2cm;
+                                --bs-btn-font-size: .75rem;"></a><span class="card-text"> Refrigerio</span> <br><br>
+            <div class="justify-content-md-center">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-8 mb-3 mb-sm-0">
+        <div class="card">
+          <div class="card-body">
+            <!-- General Form Elements -->
+            <form method="post" th:action="@{'/doctor/calendario/guardar'}" >
+              <br>
+              <input th:value="${doctor.getIddoctor()}" name="iddoctor" type="hidden" />
+
+              <div class="mb-3 row">
+                <label for="fecha" class="col-sm-3 col-form-label"  style="font-weight: bold">Fecha</label>
+                <div class="col-sm-9">
+                  <input type="text" name="fecha" class="form-control" id="fecha">
+                </div>
+              </div>
+
+              <div class="row mb-3">
+                <label for="horainicio" class="col-sm-3 col-form-label" style="font-weight: bold">Hora Inicio</label>
+                <div class="col-sm-9">
+                  <select class="form-select" name="horainicio" id="horainicio" required>
+                    <option value="vacio" selected disabled>Seleccione Hora</option>
+                    <option> 10:00:00</option>
+                    <option> 11:00:00</option>
+                    <option> 12:00:00</option>
+                    <option> 13:00:00</option>
+                    <option> 14:00:00</option>
+                    <option> 15:00:00</option>
+                    <option> 16:00:00</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="row mb-3">
+                <label for="horafinal" class="col-sm-3 col-form-label"style="font-weight: bold">Hora Final</label>
+                <div class="col-sm-9">
+                  <select class="form-select" name="horafinal" id="horafinal" required>
+                    <option value="vacio" selected disabled>Seleccione Hora</option>
+                    <option> 11:00:00</option>
+                    <option> 12:00:00</option>
+                    <option> 13:00:00</option>
+                    <option> 14:00:00</option>
+                    <option> 15:00:00</option>
+                    <option> 16:00:00</option>
+                    <option> 17:00:00</option>
+                  </select>
+                </div>
+              </div>
+              <div class="mb-3 row">
+                <label for="descripcion" class="col-sm-3 col-form-label"  style="font-weight: bold">Descripcion</label>
+                <div class="col-sm-9">
+                  <input type="text" name="descripcion" class="form-control" id="descripcion">
+                </div>
+              </div>
+
+              <div class="row mb-3">
+                <label for="idtipocalendario" class="col-sm-3 col-form-label"style="font-weight: bold">Opciones</label>
+                <div class="col-sm-9">
+                  <select class="form-select" name="idtipocalendario" id="idtipocalendario" required>
+                    <option value="vacio" selected disabled>Seleccione</option>
+                    <option th:each="t:${tipocita}" th:text="${t.nombre}" th:value="${t.idtipohoracalendariodoctor}"></option>
+                  </select>
+                </div>
+              </div>
+
+
+              <div class="text-center">
+                <div class="text-center">
+                  <button type="submit" class="btn btn-warning">Añadir Opcion</button>
+                </div>
+              </div>
+
+            </form><!-- End General Form Elements -->
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+    </div>
+  </section>
+</main>
+
+<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+<!-- Vendor JS Files -->
+<script th:src="@{'/assets/vendor/apexcharts/apexcharts.min.js'}"></script>
+<script th:src="@{'/assets/vendor/bootstrap/js/bootstrap.bundle.min.js'}"></script>
+<script th:src="@{'/assets/vendor/chart.js/chart.min.js'}"></script>
+<script th:src="@{'/assets/vendor/echarts/echarts.min.js'}"></script>
+<script th:src="@{'/assets/vendor/quill/quill.min.js'}"></script>
+<script th:src="@{'/assets/vendor/simple-datatables/simple-datatables.js'}"></script>
+<script th:src="@{'/assets/vendor/tinymce/tinymce.min.js'}"></script>
+<script th:src="@{'/assets/vendor/php-email-form/validate.js'}"></script>
+
+<!-- Template Main JS File -->
+<script th:src="@{'/assets/js/main.js'}"></script>
+
+</body>
+
+</html>

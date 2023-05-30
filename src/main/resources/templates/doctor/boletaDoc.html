@@ -89,33 +89,34 @@
                                                 <tr>
                                                     <td> <span th:text="|S/. ${boletadoctor.getMonto()}|"></span></td>
                                                 </tr>
-                                                <tr>
-                                                    <td style="text-decoration: underline; cursor: pointer;" id="boletaPdf"><i class="bi bi-printer-fill"></i>Descargar Boleta</td>
-                                                </tr>
-                                                    <script>
-                                                        const generarPdf = () => {
-                                                            // Obtener la sección del historial clínico
-                                                            const boletaDoc = document.querySelector('#boletaDoctor');
-
-                                                            // Configurar opciones de PDF
-                                                            const pdfOptions = {
-                                                                margin: [0, 0, 0, 0],
-                                                                filename: 'boleta-doctor.pdf',
-                                                                image: { type: 'jpeg', quality: 0.98 },
-                                                                html2canvas: { scale: 2 },
-                                                                jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
-                                                            };
-
-                                                            // Crear PDF a partir del contenido de la sección
-                                                            html2pdf().set(pdfOptions).from(boletaDoc).save();
-                                                        }
-
-                                                        // Agregar controlador de eventos de clic al botón "PDF Historial Clínico"
-                                                        const boletaDocPdfBtn = document.querySelector('#boletaPdf');
-                                                        boletaDocPdfBtn.addEventListener('click', generarPdf);
-                                                    </script>
                                                 </tbody>
                                             </table>
+                                            <div class="text-center">
+                                                <p  style="text-decoration: underline; cursor: pointer;" id="boletaPdf"><i class="bi bi-printer-fill"></i>Descargar Boleta</p>
+                                            </div>
+
+                                            <script>
+                                                const generarPdf = () => {
+                                                    // Obtener la sección del historial clínico
+                                                    const boletaDoc = document.querySelector('#boletaDoctor');
+
+                                                    // Configurar opciones de PDF
+                                                    const pdfOptions = {
+                                                        margin: [0, 0, 0, 0],
+                                                        filename: 'boleta-doctor.pdf',
+                                                        image: { type: 'jpeg', quality: 0.98 },
+                                                        html2canvas: { scale: 2 },
+                                                        jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+                                                    };
+
+                                                    // Crear PDF a partir del contenido de la sección
+                                                    html2pdf().set(pdfOptions).from(boletaDoc).save();
+                                                }
+
+                                                // Agregar controlador de eventos de clic al botón "PDF Historial Clínico"
+                                                const boletaDocPdfBtn = document.querySelector('#boletaPdf');
+                                                boletaDocPdfBtn.addEventListener('click', generarPdf);
+                                            </script>
                                     </div>
                                 </div>
                             </div>

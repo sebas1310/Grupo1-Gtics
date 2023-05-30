@@ -29,7 +29,7 @@ public class BoletaPaciente {
     @JoinColumn(name = "idseguro")
     private Seguro seguro;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate fecha;
 
+    @Column(name = "monto",  nullable = false)
+    private Float monto;
 }

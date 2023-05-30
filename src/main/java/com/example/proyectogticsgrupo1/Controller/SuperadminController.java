@@ -2,10 +2,12 @@ package com.example.proyectogticsgrupo1.Controller;
 
 import com.example.proyectogticsgrupo1.Entity.*;
 import com.example.proyectogticsgrupo1.Repository.*;
+
 import com.example.proyectogticsgrupo1.Repository.ModeloJsonRepository;
 import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
+
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -58,7 +60,6 @@ public class SuperadminController {
 
     @Autowired
     private HttpSession session;
-
 
     @GetMapping("/index")
     public String inicioDashboardSuperadmin(Model model){
@@ -356,12 +357,14 @@ public class SuperadminController {
         }
 
 //        tablaDatosLlenosRepository.LlenadoDePlantilla(id_registro_nuevo,nombreplantilla,id_usuario,id_modelo,id_cita);
+
 //
 //
 //
 //        tablaDatosLlenosRepository.LlenadoDePlantilla(id_registro_nuevo,nombreplantilla,4,1,1);
 
         tablaDatosLlenosRepository.LlenadoDePlantilla(id_registro_nuevo+4,nombreplantilla,4,12,1);
+
 
 
 

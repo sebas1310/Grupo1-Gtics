@@ -36,7 +36,7 @@
           <div class="card align-center-md-6">
             <div class="card-body">
               <h5 class="card-title">Receta Médica</h5>
-              <form method="post" th:action="@{'/doctor/pacientesatendidos/verhistorial/vercita/actualizarreceta'}">
+              <form method="post" th:action="@{'/doctor/pacientesatendidos/verhistorial/vercita/actualizarreceta'}" onsubmit="return validateForm()">
                 <input th:value="${receta.getIdRecetaMedica()}" name="idReceta" type="hidden">
                 <input th:value="${cita.getIdcita()}" name="id" type="hidden">
                 <div class="content-md-6-center">
@@ -51,8 +51,8 @@
                 </div>
 
                 <div class="justify-content-md-6-center">
-                  <label for="description" class="form-label">Descripcion</label>
-                  <input type="text" name="descripcion" class="form-control" id="description"
+                  <label for="descripcion" class="form-label">Descripcion</label>
+                  <input type="text" name="descripcion" class="form-control" id="descripcion"
                          th:value="${receta.getDescripcion()}">
                 </div>
                 <br>
@@ -60,7 +60,31 @@
                   <button class="btn btn-primary" type="submit">Actualizar</button>
                   <button class="btn btn-danger" th:href="@{'/doctor/pacientesatendidos/verhistorial/vercita '+ '?id=' + ${doctor.iddoctor}}">Cancelar</button>
                 </div>
+                <div id="error-message2" class="alert alert-danger mt-3" style="display: none;"></div>
               </form>
+
+              <script>
+                function validateForm() {
+                  var medicamento = document.getElementById("medicamento").value.trim();
+                  var dosis = document.getElementById("dosis").value.trim();
+                  var descripcion = document.getElementById("descripcion").value.trim();
+
+                  if (medicamento === "" || dosis === "" || descripcion === "") {
+                    var errorMessage = document.getElementById("error-message2");
+                    errorMessage.style.display = "block";
+                    errorMessage.innerHTML = "No se permite campos en blanco";
+                    return false;
+                  }
+                  if (medicamento.length >= 100 || /^\s+$/.test(medicamento) || dosis.length >= 100 || /^\s+$/.test(dosis) || descripcion.length >= 100 || /^\s+$/.test(descripcion))
+                  {
+                    var errorMessage = document.getElementById("error-message2");
+                    errorMessage.style.display = "block";
+                    errorMessage.innerHTML = "El campo excede el número de caracteres permitidos";
+                    return false;
+                  }
+                  return true;
+                }
+              </script>
           </div>
         </div>
       </div>

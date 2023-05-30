@@ -6,6 +6,7 @@ import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -21,7 +22,7 @@ public class BitacoraDeDiagnostico {
     private String descripcion;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate fechayhora;
+    private LocalDateTime fechayhora;
 
     @ManyToOne
     @JoinColumn(name = "idpaciente")
