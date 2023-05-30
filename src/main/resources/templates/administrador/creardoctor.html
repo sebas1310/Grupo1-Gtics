@@ -57,15 +57,18 @@
                         <form class="row g-3"  method="post" th:action="@{/administrador/guardar3}" th:object="${usuario1}">
                             <div class="col-12">
                                 <label class="form-label">Nombres</label>
-                                <input type="text" class="form-control" th:field="*{nombres}" required>
+                                <input type="text" class="form-control" th:field="*{nombres}" th:classappend="${#fields.hasErrors('nombres')?'is-invalid':''}" required>
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('nombres')}" th:errors="*{nombres}"></div>
                             </div>
                             <div class="col-12">
                                 <label class="form-label">Apellidos</label>
-                                <input type="text" class="form-control" th:field="*{apellidos}" required>
+                                <input type="text" class="form-control" th:field="*{apellidos}" th:classappend="${#fields.hasErrors('apellidos')?'is-invalid':''}" required>
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('apellidos')}" th:errors="*{apellidos}"></div>
                             </div>
                             <div class="col-12">
                                 <label class="form-label">Correo</label>
-                                <input type="text" class="form-control" th:field="*{correo}" required>
+                                <input type="text" class="form-control" th:field="*{correo}" th:classappend="${#fields.hasErrors('correo')?'is-invalid':''}" required>
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('correo')}" th:errors="*{correo}"></div>
                             </div>
                             <div class="col-12">
                                 <label class="form-label">DNI</label>
