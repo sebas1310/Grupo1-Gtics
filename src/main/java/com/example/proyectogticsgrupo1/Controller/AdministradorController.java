@@ -354,7 +354,7 @@ public class AdministradorController {
     }
 
     @GetMapping(value = "/creardoctor")
-    public String crearDoctor(@ModelAttribute("especialidad") Especialidad especialidad, Model model) {
+    public String crearDoctor(@ModelAttribute("doctor") Usuario user,@ModelAttribute("especialidad") Especialidad especialidad, Model model) {
         Usuario usuarioAdministrador = (Usuario) session.getAttribute("usuario");
         model.addAttribute("usuario", usuarioAdministrador);
         model.addAttribute("listaEspecialidad", especialidadRepository.findAll());
@@ -364,7 +364,7 @@ public class AdministradorController {
 
 
     @PostMapping(value = "/guardar3")
-    public String guardarDoctor(@ModelAttribute("usuarioa") Usuario user, RedirectAttributes attr, Model model, @RequestParam("especialidad") int idEspecialidad) {
+    public String guardarDoctor(@ModelAttribute("doctor") Usuario user, RedirectAttributes attr, Model model, @RequestParam("especialidad") int idEspecialidad) {
         Usuario usuarioAdministrador = (Usuario) session.getAttribute("usuario");
         model.addAttribute("usuario", usuarioAdministrador);
         if (user.getIdusuario() == null) {
