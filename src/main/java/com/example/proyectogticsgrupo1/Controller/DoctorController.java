@@ -7,6 +7,7 @@ import jakarta.transaction.Transactional;
 import jdk.jfr.Event;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -38,6 +39,12 @@ public class DoctorController {
 
     @Autowired
     MailCorreoRepository mailCorreoRepository;
+
+    @Autowired
+    UserRepository userRepository;
+
+    @Autowired
+    TablaDatosLlenosRepository tablaDatosLlenosRepository;
 
 
     public DoctorController(CitaRepository citaRepository, DoctorRepository doctorRepository, PacienteRepository pacienteRepository,
@@ -166,7 +173,7 @@ public class DoctorController {
             model.addAttribute("cita", cita);
             model.addAttribute("recetamedica", recetaMedicaRepository.buscarRecetaMedicaPorCita(idCita, idReceta));
             model.addAttribute("reportecita", reporteCitaRepository.buscarReporteCitaPorId(idCita));
-
+            //model.addAttribute("informemedico",tablaDatosLlenosRepository.obtenerArchivo());
         return "doctor/verCita";
     }
     @GetMapping("/pacientesatendidos/verhistorial/vercita/editarreceta")
@@ -430,9 +437,13 @@ public class DoctorController {
 
         Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
         Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
-        model.addAttribute("doctor",doctor);
-        if(doctor.getUsuario().getContrasena().equals(contrasena)){
-            usuarioRepository.changePassword(renewpassword,doctor.getUsuario().getIdusuario());
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+        if(passwordEncoder.matches(contrasena, doctor.getUsuario().getContrasena())){
+            String hashedNewPassword = passwordEncoder.encode(newpassword);
+
+            userRepository.changePassword(hashedNewPassword,doctor.getUsuario().getIdusuario());
+
             attr.addFlashAttribute("psw1", "Contraseña actualizada");
         }else {
             attr.addFlashAttribute("psw2", "La contraseña actual es incorrecta");
