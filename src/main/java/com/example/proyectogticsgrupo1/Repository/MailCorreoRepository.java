@@ -12,6 +12,11 @@ public interface MailCorreoRepository extends JpaRepository <MailCorreo,Integer>
     @Query(value= "select * from mensaje where idusuariodestino = ?1 ",nativeQuery = true)
     List<MailCorreo> buscarMensajesRecibidosPorID (Integer idUsuarioDestino);
 
+    @Query(value= "select * from mensaje where idusuarioorigen = ?1 ",nativeQuery = true)
+    List<MailCorreo> buscarMensajesEnviadorPorID (Integer idUsuarioDestino);
+
+
+
     @Query(value= "select * from mensaje where idusuariodestino = ?1 or idusuarioorigen = ?1",nativeQuery = true)
     List<MailCorreo> buscarMensajesPorID (Integer idUsuario);
 

@@ -50,6 +50,9 @@ public class AdministradorController {
 
     @Autowired
     private EmailService emailService;
+    @Autowired
+    private MailCorreoRepository mailCorreoRepository;
+
     @GetMapping(value = "/email")
     public String emailpr(){
         String user = "angieealejandro@gmail.com";
@@ -306,14 +309,16 @@ public class AdministradorController {
     public String mensajes(Model model) {
         Usuario usuarioAdministrador = (Usuario) session.getAttribute("usuario");
         model.addAttribute("usuario", usuarioAdministrador);
-            return "administrador/mensajes";
+        model.addAttribute("listamensajes",mailCorreoRepository.buscarMensajesEnviadorPorID(usuarioAdministrador.getIdusuario()));
+        return "administrador/mensajes";
     }
 
     @GetMapping(value = "/chat")
-    public String chat(Model model) {
+    public String chat(Model model, @RequestParam("idM") int idMensaje) {
         Usuario usuarioAdministrador = (Usuario) session.getAttribute("usuario");
         model.addAttribute("usuario", usuarioAdministrador);
-            return "administrador/chat";
+        model.addAttribute("mensaje",mailCorreoRepository.buscarMensajePorID(idMensaje));
+        return "administrador/chat";
 
     }
 
