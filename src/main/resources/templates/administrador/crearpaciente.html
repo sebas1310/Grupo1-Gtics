@@ -53,6 +53,7 @@
 
             <div th:if="${msg != null}" th:text="${msg}" class="alert alert-success" role="alert"></div>
 
+
             <form class="row g-3" method="post" th:action="@{/administrador/guardar2}">
               <input th:value="${session.usuario.getIdusuario()}" name="id" type="hidden">
               <div class="col-12">
@@ -69,7 +70,8 @@
               </div>
               <div class="col-12">
                 <label class="form-label">DNI</label>
-                <input class="form-control" name="dni" required>
+                <div><input class="form-control" name="dni" required></div>
+                <div th:if="${error!=null}" th:text="${error}" class="alert alert-danger" role="alert"></div>
               </div>
               <div class="col-12">
                 <label class="form-label">Celular</label>
