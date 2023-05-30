@@ -314,6 +314,18 @@ public class DoctorController {
     }
 
     @GetMapping(value = "/calendario/agregar")
+    public String agregarEvento(Model model){
+        Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
+        Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
+        model.addAttribute("doctor",doctor);
+        List<Sede> listsede = sedeRepository.findAll();
+        model.addAttribute("sedesp", listsede);
+        model.addAttribute("tipocita",tipohoracalendariodoctorRepository.findAll());
+        return "doctor/anadirCalendario";
+    }
+
+    /*
+    @GetMapping(value = "/calendario/agregar")
     public String agregarEvento(Model model, @RequestParam("fecha") LocalDate fecha ,
                                 @RequestParam("horainicio") LocalTime horainicio ,
                                 @RequestParam("horafinal") LocalTime horafinal ,
@@ -321,9 +333,6 @@ public class DoctorController {
                                 @RequestParam("idtipocalendario") Integer idtipocalendario,
                                 @RequestParam("duracion") Integer duracion,
                                 @RequestParam("iddoctor") Integer iddoctor){
-        //Optional<Paciente> optionalPaciente = pacienteRepository.findById(1);
-        // Paciente paciente =  optionalPaciente.get();
-
         Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
         Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
         model.addAttribute("doctor",doctor);
@@ -332,8 +341,8 @@ public class DoctorController {
         model.addAttribute("tipocita",tipohoracalendariodoctorRepository.findAll());
         model.addAttribute("caldisponible", eventocalendariodoctorRepository.agregarEventoDoctor(fecha, horainicio,
                 horafinal, descripcion, idtipocalendario, duracion,iddoctor));
-        return "paciente/agendarCita";
-    }
+        return "doctor/anadirCalendario";
+        */
 
     @GetMapping("/cuestionario")
     public String cuestionarioDoctor(Model model, @RequestParam("id") int idPaciente){
