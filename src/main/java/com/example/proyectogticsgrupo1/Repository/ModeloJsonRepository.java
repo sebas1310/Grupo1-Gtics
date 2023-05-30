@@ -1,10 +1,13 @@
 package com.example.proyectogticsgrupo1.Repository;
 
+
+import com.example.proyectogticsgrupo1.Entity.ModeloJson;
 import com.example.proyectogticsgrupo1.Entity.ModeloJsonEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
+
 
 public interface ModeloJsonRepository extends JpaRepository<ModeloJsonEntity,Integer> {
     @Query(value = "SELECT titulos_modelo\n" +
@@ -23,4 +26,8 @@ public interface ModeloJsonRepository extends JpaRepository<ModeloJsonEntity,Int
             "\t\tFROM tabla_datos_llenos\n" +
             "    ) AS tabla_datos_llenos_inputs on tabla_datos_llenos_inputs.numero_dato = subquery1.numero_titulo", nativeQuery = true)
     List<String> listarPreguntasxPlantilla(int id_modelo_json);
+
+    @Query(value = "SELECT * from modelo_json", nativeQuery = true)
+    List<ModeloJson> listarNombresP();
 }
+

@@ -47,6 +47,10 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
     @Modifying
     @Query(nativeQuery = true, value = "UPDATE usuario SET contrasena = ?1 WHERE idusuario = ?2")
     void changePassword(String newpassword, Integer id);
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE usuario SET contrasena = ?1 WHERE idusuario = ?2", nativeQuery = true)
+    void cambioPassword(String newpassword, Integer id);
 
 
 

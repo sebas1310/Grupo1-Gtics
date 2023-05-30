@@ -8,14 +8,30 @@
 <body>
 
 <!-- ======= Header ======= -->
-<header th:replace="fragments/administrador/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1', nombre = 'L. Anderson', num_men = '3')">
+<header th:replace="fragments/administrador/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1',  nombre = ${session.usuario.nombres} + ' ' + ${session.usuario.apellidos} + ' ' + '(' + ${session.usuario.tipodeusuario.nombre.toUpperCase()} + ')', num_men = '2', sede = |${session.usuario.sede.nombre}|)">
 </header>
 <!-- End Header -->
 <!-- ======= Sidebar ======= -->
 <aside th:replace="fragments/administrador/aside.html :: sidebar (active = 'perfil')">
 </aside>
-<!--Modal Cerrar Sesion-->
-<div th:replace="fragments/administrador/modalCerrarSesion.html::modal">
+
+<!-- End Sidebar-->
+<div class="modal fade" id="verticalycentered" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">¿Seguro que deseas Salir?</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-footer">
+        <form th:action="@{/logout}" method="post">
+          <button type="submit" class="btn btn-success">Salir</button>
+        </form>                <button type="button" class="btn btn-secondary"><a style="color: white" th:href="@{/administrador/perfil}" >Cancelar</a></button>
+      </div>
+    </div>
+  </div>
+</div><!-- End Vertically centered Modal-->
+
 
 </div>
 <main id="main" class="main">
@@ -38,8 +54,10 @@
           <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
 
             <img th:src="@{/assets/img/messages-1.jpg}" alt="Profile" class="rounded-circle">
-            <h2><span th:text="${usuario.nombres} + ' ' + ${usuario.apellidos}"></span></h2>
-            <h3><span th:text="${#strings.capitalize(usuario.tipodeusuario.nombre)}"></span></h3>
+            <h2><span th:text="${session.usuario.nombres} + ' ' + ${session.usuario.apellidos}"></span></h2>
+            <h3><span th:text="${#strings.capitalize(session.usuario.tipodeusuario.nombre)}"></span></h3>
+            <div th:if="${psw1!=null}" th:text="${psw1}" class="alert alert-success" role="alert"></div>
+            <div th:if="${psw2!=null}" th:text="${psw2}" class="alert alert-danger" role="alert"></div>
           </div>
         </div>
 
@@ -72,33 +90,34 @@
                 <h5 class="card-title">Detalles del Perfil</h5>
 
                 <div class="row">
-                  <div class="col-lg-3 col-md-4 label ">Nombre</div>
-                  <div class="col-lg-9 col-md-8"><span th:text="${usuario.nombres} + ' ' + ${usuario.apellidos}"></span></div>
+                  <div class="col-lg-3 col-md-4 label ">Nombre Completo</div>
+                  <div class="col-lg-9 col-md-8"><span th:text="${session.usuario.nombres} + ' ' + ${session.usuario.apellidos}"></span></div>
                 </div>
 
                 <div class="row">
                   <div class="col-lg-3 col-md-4 label">DNI</div>
-                  <div class="col-lg-9 col-md-8"><span th:text="${usuario.dni}"></span></div>
+                  <div class="col-lg-9 col-md-8"><span th:text="${session.usuario.dni}"></span></div>
                 </div>
 
                 <div class="row">
                   <div class="col-lg-3 col-md-4 label">Correo</div>
-                  <div class="col-lg-9 col-md-8"><span th:text="${usuario.correo}"></span> </div>
+                  <div class="col-lg-9 col-md-8"><span th:text="${session.usuario.correo}"></span> </div>
                 </div>
 
                 <div class="row">
                   <div class="col-lg-3 col-md-4 label">Celular</div>
-                  <div class="col-lg-9 col-md-8"><span th:text="${usuario.celular}"></span></div>
+                  <div class="col-lg-9 col-md-8"><span th:text="${session.usuario.celular}"></span></div>
                 </div>
+
 
                 <div class="row">
                   <div class="col-lg-3 col-md-4 label">Edad</div>
-                  <div class="col-lg-9 col-md-8"><span th:text="${usuario.edad}"></span></div>
+                  <div class="col-lg-9 col-md-8"><span th:text="${session.usuario.edad}"></span></div>
                 </div>
 
                 <div class="row">
                   <div class="col-lg-3 col-md-4 label">Género</div>
-                  <div class="col-lg-9 col-md-8"><span th:text="${usuario.genero}"></span></div>
+                  <div class="col-lg-9 col-md-8"><span th:text="${session.usuario.genero}"></span></div>
                 </div>
 
 
@@ -119,32 +138,33 @@
                       </div>
                     </div>
                   </div>
-                  <input th:value="${usuario.getIdusuario()}" name="id" type="hidden">
+                  <input th:value="${session.usuario.getIdusuario()}" name="id" type="hidden">
+                  <input th:value="${session.usuario.getIdusuario()}" name="idusuario" type="hidden">
                   <div class="row mb-3">
                     <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Nombres</label>
                     <div class="col-md-8 col-lg-9">
-                      <input name="nombres" type="text" class="form-control" id="fullName" th:value="${usuario.getNombres()}">
+                      <input name="nombres" type="text" class="form-control" id="fullName" th:value="${session.usuario.getNombres()}">
                     </div>
                   </div>
 
                   <div class="row mb-3">
                     <label for="fullName2" class="col-md-4 col-lg-3 col-form-label">Apellidos</label>
                     <div class="col-md-8 col-lg-9">
-                      <input name="apellidos" type="text" class="form-control" id="fullName2" th:value="${usuario.getApellidos()}">
+                      <input name="apellidos" type="text" class="form-control" id="fullName2" th:value="${session.usuario.getApellidos()}">
                     </div>
                   </div>
 
                   <div class="row mb-3">
                     <label for="correo" class="col-md-4 col-lg-3 col-form-label">Correo</label>
                     <div class="col-md-8 col-lg-9">
-                      <input name="correo" type="text" class="form-control" id="correo" th:value="${usuario.getCorreo()}">
+                      <input name="correo" type="text" class="form-control" id="correo" th:value="${session.usuario.getCorreo()}">
                     </div>
                   </div>
 
                   <div class="row mb-3">
                     <label for="celular" class="col-md-4 col-lg-3 col-form-label">Celular</label>
                     <div class="col-md-8 col-lg-9">
-                      <input name="celular" type="text" class="form-control" id="celular" th:value="${usuario.getCelular()}">
+                      <input name="celular" type="text" class="form-control" id="celular" th:value="${session.usuario.getCelular()}">
                     </div>
                   </div>
                   <!-- <div class="row mb-3">
@@ -165,12 +185,12 @@
 
 
                 <!-- Cambio de contraseña Form -->
-                <form method="post" th:action="@{'/administrador/changecontrasena'}" onsubmit="return validateForm()">
-                  <input th:value="${usuario.getIdusuario()}" name="id" type="hidden">
+                <form method="post" th:action="@{'/administrador/changepassword'}" onsubmit="return validateForm()">
+                  <input th:value="${session.usuario.getIdusuario()}" name="id" type="hidden">
                   <div class="row mb-3">
                     <label for="contrasena" class="col-md-4 col-lg-3 col-form-label">Contraseña Actual</label>
                     <div class="col-md-8 col-lg-9">
-                      <input name="contrasena" type="password" class="form-control" id="contrasena" th:value="${usuario.getContrasena()}" readonly>
+                      <input name="contrasena" type="password" class="form-control" id="contrasena">
                     </div>
                   </div>
 

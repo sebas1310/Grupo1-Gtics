@@ -38,6 +38,16 @@ public interface PacienteRepository extends JpaRepository<Paciente, Integer> {
             "       INNER JOIN usuario u on p.idusuario = u.idusuario where c.idsede = ?1", nativeQuery = true)
     List<Paciente> listarPacienteporSede(int idsede);
 
+    @Query(value = "SELECT DISTINCT p.* FROM paciente p\n" +
+            "       INNER JOIN estadopaciente e ON p.idestadopaciente = e.idestadopaciente\n"+
+            "       INNER JOIN usuario u on p.idusuario = u.idusuario where u.sede_idsede = ?1 LIMIT 5", nativeQuery = true)
+    List<Paciente> listadopacientes(int idsede);
+
+    @Query(value = "SELECT DISTINCT p.* FROM paciente p\n" +
+            "       INNER JOIN estadopaciente e ON p.idestadopaciente = e.idestadopaciente\n"+
+            "       INNER JOIN usuario u on p.idusuario = u.idusuario where u.sede_idsede = ?1", nativeQuery = true)
+    List<Paciente> listadopacientesdashboard(int idsede);
+
     @Query(value = "SELECT DISTINCT p.* FROM cita c\n" +
             "       INNER JOIN paciente p ON c.paciente_idpaciente = p.idpaciente\n" +
             "       INNER JOIN estadopaciente e ON p.idestadopaciente = e.idestadopaciente\n"+
@@ -52,6 +62,11 @@ public interface PacienteRepository extends JpaRepository<Paciente, Integer> {
             "       INNER JOIN estadopaciente e ON p.idestadopaciente = e.idestadopaciente and e.nombre = 'Invitado'\n"+
             "       INNER JOIN usuario u on p.idusuario = u.idusuario where c.idsede = ?1", nativeQuery = true)
     List<Paciente> listarPacienteInvitado(int idsede);
+
+    @Query(value = "SELECT DISTINCT p.* FROM paciente p\n" +
+            "       INNER JOIN estadopaciente e ON p.idestadopaciente = e.idestadopaciente and e.nombre = 'Invitado'\n"+
+            "       INNER JOIN usuario u on p.idusuario = u.idusuario where u.sede_idsede = ?1", nativeQuery = true)
+    List<Paciente> listarpinvitado(int idsede);
 
     @Query(value = "SELECT DISTINCT p.* FROM cita c\n" +
             "INNER JOIN paciente p ON c.paciente_idpaciente = p.idpaciente\n " +

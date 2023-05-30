@@ -9,16 +9,35 @@
 <body>
 
 <!-- ======= Header ======= -->
-<header th:replace="fragments/administrador/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1', nombre = 'L. Anderson', num_men = '3')">
+<header th:replace="fragments/administrador/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1',  nombre = ${session.usuario.nombres} + ' ' + ${session.usuario.apellidos} + ' ' + '(' + ${session.usuario.tipodeusuario.nombre.toUpperCase()} + ')', num_men = '2', sede = |${session.usuario.sede.nombre}|)">
 </header>
 <!-- End Header -->
 <!-- ======= Sidebar ======= -->
 <aside th:replace="fragments/administrador/aside.html :: sidebar (active = 'formatos')">
 </aside>
+<<<<<<< HEAD
 <!--Modal Cerrar Sesion-->
 <div th:replace="fragments/administrador/modalCerrarSesion.html::modal">
 
 </div><!-- End Sidebar-->
+
+<div class="modal fade" id="verticalycentered" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">¿Seguro que deseas Salir?</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-footer">
+                <form th:action="@{/logout}" method="post">
+                    <button type="submit" class="btn btn-success">Salir</button>
+                </form>                <button type="button" class="btn btn-secondary"><a style="color: white" th:href="@{/administrador/formatos}" >Cancelar</a></button>
+            </div>
+        </div>
+    </div>
+</div><!-- End Vertically centered Modal-->
+<!-- End Sidebar-->
+
 <main id="main" class="main">
 
     <div class="pagetitle">
@@ -49,56 +68,13 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>Formato de Pago (actualidad)</td>
+                            <tr th:each="listanombresp, info: ${listanombres}">
+                                <th scope="row" th:text="${info.index + 1}"></th>
+                                <td th:text="${listanombresp.nombrePlantilla}"></td>
                                 <td><a th:href="@{'/administrador/vistaformato'}"><i class="bi bi-eye-fill"></i></a></td>
                             </tr>
-                            <tr>
-                                <th scope="row">2</th>
-                                <td>Formato de Satisfacción (actualidad)</td>
-                                <td><a th:href="@{'/administrador/vistaformato'}"><i class="bi bi-eye-fill"></i></a></td>
-                            </tr>
-                            <tr>
-                                <th scope="row">3</th>
-                                <td>Formato de reclamo (actualidad)</td>
-                                <td><a th:href="@{'/administrador/vistaformato'}"><i class="bi bi-eye-fill"></i></a></td>
-                            </tr>
-                            <tr>
-                                <th scope="row">4</th>
-                                <td>Formato de términos y condiciones (actualidad)</td>
-                                <td><a th:href="@{'/administrador/vistaformato'}"><i class="bi bi-eye-fill"></i></a></td>
-                            </tr>
-                            <tr>
-                                <th scope="row">5</th>
-                                <td>Formato de términos y condiciones 2021</td>
-                                <td><a th:href="@{'/administrador/vistaformato'}"><i class="bi bi-eye-fill"></i></a></td>
-                            </tr>
-                            <tr>
-                                <th scope="row">6</th>
-                                <td>Formatos de pago 2017</td>
-                                <td><a th:href="@{'/administrador/vistaformato'}"><i class="bi bi-eye-fill"></i></a></td>
-                            </tr>
-                            <tr>
-                                <th scope="row">7</th>
-                                <td>Formato de Satisfacción 2022</td>
-                                <td><a th:href="@{'/administrador/vistaformato'}"><i class="bi bi-eye-fill"></i></a></td>
-                            </tr>
-                            <tr>
-                                <th scope="row">8</th>
-                                <td>Formato de pago 2019</td>
-                                <td><a th:href="@{'/administrador/vistaformato'}"><i class="bi bi-eye-fill"></i></a></td>
-                            </tr>
-                            <tr>
-                                <th scope="row">9</th>
-                                <td>Formato de Inscripción 2020</td>
-                                <td><a th:href="@{'/administrador/vistaformato'}"><i class="bi bi-eye-fill"></i></a></td>
-                            </tr>
-                            <tr>
-                                <th scope="row">10</th>
-                                <td>Formato de Registro 2018</td>
-                                <td><a th:href="@{'/administrador/vistaformato'}"><i class="bi bi-eye-fill"></i></a></td>
-                            </tr>
+                            </tbody>
+
                             </tbody>
                         </table>
                         <!-- End Default Table Example -->

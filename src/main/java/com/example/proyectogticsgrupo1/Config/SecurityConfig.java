@@ -46,6 +46,7 @@ public class SecurityConfig {
         http.csrf().ignoringRequestMatchers("/superadmin/crearPlantillaInforme");
         http.csrf().ignoringRequestMatchers("/superadmin/listarTitulos");
 
+
         //Usar el formulario por defecto de spring security
         http.formLogin()
                 .loginPage("/")
@@ -97,7 +98,9 @@ public class SecurityConfig {
         http.authorizeHttpRequests()
 //                .requestMatchers("/superadmin/crearPlantillaInforme").permitAll()
                 .requestMatchers(HttpMethod.POST, "/superadmin/crearPlantillaInforme").permitAll()
+
                 .requestMatchers(HttpMethod.GET, "/superadmin/listarTitulos").permitAll()
+
 
                 .requestMatchers("/doctor", "/doctor/**").hasAnyAuthority("doctor")
                 .requestMatchers("/administrador", "/administrador/**").hasAnyAuthority("administrador")
@@ -110,7 +113,9 @@ public class SecurityConfig {
 
 
                 .anyRequest().permitAll();
+
                 //.anyRequest().authenticated();
+
 
 
         /*http.logout().logoutSuccessUrl("/").deleteCookies("JSESSIONID")
@@ -130,7 +135,7 @@ public class SecurityConfig {
 
         String sql1 = "SELECT correo,contrasena,estado_habilitado FROM usuario where correo = ? ";
         String sql2 = "SELECT u.correo, t.nombre FROM usuario u INNER JOIN tipodeusuario t ON (u.idtipodeusuario = t.idtipodeusuario) " +
-                      "WHERE u.correo = ? ";
+                "WHERE u.correo = ? ";
 
         jdbc.setUsersByUsernameQuery(sql1);
         jdbc.setAuthoritiesByUsernameQuery(sql2);
