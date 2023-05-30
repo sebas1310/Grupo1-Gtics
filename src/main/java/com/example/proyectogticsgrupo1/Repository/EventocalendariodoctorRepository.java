@@ -31,8 +31,7 @@ public interface EventocalendariodoctorRepository extends JpaRepository<Eventoca
             "SELECT DAYNAME(fecha) AS dia, DATE_FORMAT(horainicio, '%H:%i') AS inicio, DATE_FORMAT(horafinal, '%H:%i') AS fin \n" +
             "FROM eventocalendariodoctor \n" +
             "WHERE idtipohoracalendariodoctor=1 AND iddoctor=?1 AND fecha >= CURDATE() \n" +
-            "ORDER BY fecha ASC\n" +
-            "LIMIT 2; \n")
+            "ORDER BY fecha ASC\n;" )
     List<DiasProximosDoctor> getDiasProx(Integer id);
 
     //lunes

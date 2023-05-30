@@ -45,16 +45,25 @@
                   <td class="text-center">DIA</td>
                   <td class="text-center">HORA</td>
                 </tr>
+
                 <tr th:each="d:${dias}">
+                  <td class="text-center" >
+                    <span th:text="${T(com.example.proyectogticsgrupo1.translate.DayTranslator).translateDay(d.getDia())}"></span>
+                  </td>
+                  <td class="text-center" th:text="|${d.getInicio()}-${d.getFin()}|"></td>
+                </tr>
+               <!-- <tr th:each="d:${dias}">
                   <td th:text="${d.getDia()}"></td>
                   <td th:text="|${d.getInicio()}-${d.getFin()}|"></td>
-                </tr>
-                </tr>
+                </tr> -->
+
                 </tbody>
               </table>
             </div>
           </div>
         </div>
+
+
 
       </div>
       <div class="col-xl-8">
