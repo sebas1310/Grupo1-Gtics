@@ -14,7 +14,7 @@ public interface BoletaDoctorRepository extends JpaRepository<BoletaDoctor,Integ
     BoletaDoctor buscarBoletaDoctorCita(Integer idCita);
 
     @Modifying
-    @Query(value= "insert into boletadoctor (idcita,idpaciente,iddoctor,monto) values (?1,?2,?3,?4) ",nativeQuery = true)
-    void generarBoletaDoctorCita(Integer idCita, Integer idPaciente, Integer idDoctor, Float monto);
+    @Query(value= "insert into boletadoctor (idcita,idpaciente,idseguro,iddoctor,monto) values (?1,?2,?3,?4,?5) ",nativeQuery = true)
+    void generarBoletaDoctorCita(Integer idCita, Integer idPaciente, Integer idSeguro, Integer idDoctor, Float monto);
 
 }

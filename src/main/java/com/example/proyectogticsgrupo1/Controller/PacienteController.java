@@ -37,7 +37,14 @@ public class PacienteController {
     final CitaRepository citaRepository;
     final EventocalendariodoctorRepository eventocalendariodoctorRepository;
 
-    public PacienteController(SedeRepository sedeRepository, EspecialidadRepository especialidadRepository, DoctorRepository doctorRepository, UserRepository userRepository, PacienteRepository pacienteRepository, TipoCitaRepository tipoCitaRepository, CitaRepository citaRepository, EventocalendariodoctorRepository eventocalendariodoctorRepository) {
+    final BoletaDoctorRepository boletaDoctorRepository;
+
+    final SeguroRepository seguroRepository;
+
+    final BoletaPacienteRepository boletaPacienteRepository;
+
+    public PacienteController(SedeRepository sedeRepository, EspecialidadRepository especialidadRepository, DoctorRepository doctorRepository, UserRepository userRepository, PacienteRepository pacienteRepository, TipoCitaRepository tipoCitaRepository, CitaRepository citaRepository, EventocalendariodoctorRepository eventocalendariodoctorRepository,
+                              BoletaDoctorRepository boletaDoctorRepository,SeguroRepository seguroRepository,BoletaPacienteRepository boletaPacienteRepository) {
         this.sedeRepository = sedeRepository;
         this.especialidadRepository = especialidadRepository;
         this.doctorRepository = doctorRepository;
@@ -46,6 +53,9 @@ public class PacienteController {
         this.tipoCitaRepository = tipoCitaRepository;
         this.citaRepository = citaRepository;
         this.eventocalendariodoctorRepository = eventocalendariodoctorRepository;
+        this.boletaDoctorRepository = boletaDoctorRepository;
+        this.seguroRepository = seguroRepository;
+        this.boletaPacienteRepository = boletaPacienteRepository;
     }
 
     @Autowired
@@ -348,6 +358,14 @@ public class PacienteController {
                     if(flg){
                         System.out.println("llega aca prim");
                         citaRepository.agengedarcita(idsede, idesp,fecha, hora, hora.plusHours(1),60, idtipocita, idseguro, 1, 1,iddoctor);
+                        Double costoEspecialidad = especialidadRepository.getCosto(idesp);
+                        Double comisionDoctor = seguroRepository.getCosto(idseguro);
+                        Double coaseguroPaciente = seguroRepository.getCoaseguro(idseguro);
+                        Float montoDoctor = (float) (costoEspecialidad * comisionDoctor);
+                        Float montoPaciente = (float) (costoEspecialidad * coaseguroPaciente);
+                        Cita citaAgendada = citaRepository.citaAgendada(fecha,hora);
+                        boletaDoctorRepository.generarBoletaDoctorCita(citaAgendada.getIdcita(),paciente.getIdpaciente(),idseguro,iddoctor,montoDoctor);
+                        boletaPacienteRepository.generarBoletaPacienteCita(paciente.getIdpaciente(),citaAgendada.getIdcita(),idseguro,montoPaciente);
                         eventocalendariodoctorRepository.cambiarEstadoCalendario(iddoctor,fecha,hora);
                         if(idtipocita==1){
                             emailService.sendEmail(paciente.getUsuario().getCorreo(),"Confirmación de cita","Estimado usuario usted reservó una cita para el "+fecha.toString()+ ".\n"+"En la sede "+sedeRepository.findById(idsede).get().getNombre()+" ubicada " +sedeRepository.findById(idsede).get().getDireccion());

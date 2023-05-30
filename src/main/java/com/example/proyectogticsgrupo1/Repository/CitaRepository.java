@@ -62,6 +62,8 @@ public interface CitaRepository extends JpaRepository<Cita, Integer> {
             "order by concat(fecha, ' ' , horainicio )",nativeQuery = true)
     List<Cita> buscarCitasAgendadasDoctor (Integer idDoctor);
 
+    @Query(value= "select * from cita where fecha= ?1 and horainicio = ?2 ",nativeQuery = true)
+    Cita citaAgendada (LocalDate fecha, LocalTime horainicio);
 
 }
 
