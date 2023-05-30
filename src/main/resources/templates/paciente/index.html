@@ -2,12 +2,10 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:insert="fragmentsPacientes/librerias.html :: cabecera (titulo = 'Dashboard')">
 </head>
-
 <body>
-
 <!-- ======= Header ======= -->
 
-<header th:replace="fragmentsPacientes/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1', nombre = |${session.usuario.nombres} ${session.usuario.apellidos}|, num_men = '3')">
+<header th:replace="fragmentsPacientes/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1', nombre = |${session.usuario.nombres} ${session.usuario.apellidos} (${session.usuario.tipodeusuario.nombre.toUpperCase()})|, num_men = '3')">
 
 </header>
 <!-- End Header -->
@@ -29,7 +27,7 @@
 
       <div th:if="${msg2!=null}" th:text="${msg2}" class="alert alert-success" role="alert"></div>
 
-      <div th:if="${msg1!=null}" th:text="${msg1}" class="alert alert-danger" role="alert"></div>
+      <div th:if="${msg1!=null}" th:text="${msg1}" class="alert alert-success" role="alert"></div>
 
     </div><!-- End Page Title -->
 
@@ -93,7 +91,7 @@
                               </thead>
                               <tbody>
                               <tr th:each="doctor, ind:${docs}">
-                                <th scope="row"><img th:src="@{/assets/img/messages-1.jpg}" class="rounded-circle" > </th>
+                                <th scope="row"><img th:src="@{/assets/img/messages-1.jpg}" class="rounded-circle" style="width: 50px; height: 50px"  > </th>
                                 <td class="text-center" th:text="|${doctor.usuario.nombres} ${doctor.usuario.apellidos}|"></td>
                                 <td th:text="${doctor.especialidad.nombre}"></td>
                                 <td><a th:href="@{'/paciente/perfilDoctor?iddoc='+${doctor.iddoctor}}" class="text-primary">Ver Perfil</a></td>

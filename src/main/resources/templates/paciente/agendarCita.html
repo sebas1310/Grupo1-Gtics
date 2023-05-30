@@ -6,7 +6,7 @@
 <body>
 
 <!-- ======= Header ======= -->
-<header th:replace="fragmentsPacientes/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1', nombre = |${session.usuario.nombres} ${session.usuario.apellidos}|, num_men = '3')">
+<header th:replace="fragmentsPacientes/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1', nombre = |${session.usuario.nombres} ${session.usuario.apellidos}|,nombre = |${session.usuario.nombres} ${session.usuario.apellidos} (${session.usuario.tipodeusuario.nombre.toUpperCase()})|, num_men = '3')">
 </header>
 <!-- End Header -->
 
@@ -83,7 +83,7 @@
                 <div class="col-sm-9">
                   <select class="form-select" name="fecha" id="fecha" required>
                     <option value="vacio" selected disabled>Seleccione fecha</option>
-                    <option th:each="e:${caldisponible}" th:text="|${e.fecha} (${e.doctor.usuario.nombres} ${e.doctor.usuario.apellidos})|" th:value="${e.fecha}"></option>
+                    <option th:each="e:${caldisponible}" th:text="|${#temporals.format(e.fecha, 'dd-MM-yyyy')} (${e.doctor.usuario.nombres} ${e.doctor.usuario.apellidos})|" th:value="${e.fecha}"></option>
                   </select>
                 </div>
               </div>
