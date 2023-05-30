@@ -369,7 +369,10 @@ public class SuperadminController {
 
     @PostMapping(value = "/changepassword")
     @Transactional
-    public String changePassword(@RequestParam("id") int idusuario,@RequestParam("contrasena") String contrasena, @RequestParam("newpassword") String newpassword, @RequestParam("renewpassword") String renewpassword, RedirectAttributes redirectAttributes) {
+    public String changePassword(@RequestParam("id") int idusuario,
+                                 @RequestParam("contrasena") String contrasena,
+                                 @RequestParam("newpassword") String newpassword,
+                                 @RequestParam("renewpassword") String renewpassword, RedirectAttributes redirectAttributes) {
 
         Usuario superadmin = (Usuario) session.getAttribute("usuario");
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
@@ -381,6 +384,7 @@ public class SuperadminController {
             redirectAttributes.addFlashAttribute("psw1", "Contraseña actualizada");
 
         } else {
+            System.out.println("INCORRECTO");
             redirectAttributes.addFlashAttribute("psw2", "La contraseña es incorrecta");
         }
 

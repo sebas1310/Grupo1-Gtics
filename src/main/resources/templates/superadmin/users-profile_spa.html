@@ -37,7 +37,8 @@
               <img th:src="@{/assets/img/profile-img.jpg}" alt="Profile" class="rounded-circle">
               <h2 th:text="${superadminlog.nombres + ' ' + superadminlog.apellidos}"></h2>
               <h3>Super Admin</h3>
-
+              <div th:if="${psw2!=null}" th:text="${psw2}" class="alert alert-danger" role="alert"></div>
+              <div th:if="${psw1!=null}" th:text="${psw1}" class="alert alert-success" role="alert"></div>
             </div>
           </div>
 

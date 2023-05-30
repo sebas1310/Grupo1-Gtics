@@ -34,6 +34,8 @@
                         <img th:src="@{/assets/img/profile-img.jpg}" alt="Profile" class="rounded-circle">
                         <h2 th:text="${persona.nombres + ' ' + persona.apellidos}"></h2>
                         <h3 th:text="${persona.tipodeusuario.nombre}"></h3>
+                        <h1 th:text="${psw2}" class="alert alert-danger" role="alert"></h1>
+                        <div th:if="${psw1!=null}" th:text="${psw1}" class="alert alert-success" role="alert"></div>
 
                     </div>
                 </div>
