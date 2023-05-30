@@ -67,7 +67,8 @@ public class SuperadminController {
     }
     @GetMapping("/listaform")
     public String listaFormularios(Model model){
-
+        Usuario usuarioSpa = (Usuario) session.getAttribute("usuario");
+        Usuario superadmin = usuarioRepository.buscarPorId(usuarioSpa.getIdusuario());
         List<ModeloEntity> modeloEntityList = modeloRepository.findAll();
         model.addAttribute("modeloEntityList",modeloEntityList);
 
@@ -77,11 +78,13 @@ public class SuperadminController {
 
     @GetMapping("/chat")
     public String chats(){
+        Usuario usuarioSpa = (Usuario) session.getAttribute("usuario");
         return "/superadmin/chat_spa";
     }
 
     @GetMapping("/editarreportes")
     public String editarReportes(){
+        Usuario usuarioSpa = (Usuario) session.getAttribute("usuario");
         return "superadmin/editar-reportes_spa";
     }
     @GetMapping("/editarforms")
@@ -99,9 +102,13 @@ public class SuperadminController {
 
     @GetMapping("/perfil")
     public String perfilSuperAdmin(@ModelAttribute("superadminlog") Usuario usuario, Model model){
-        Optional<Usuario> optionalSuperadmin = usuarioRepository.findById(1);
-        usuario = optionalSuperadmin.get();
-        model.addAttribute("superadminlog", usuario);
+        Usuario usuarioSpa = (Usuario) session.getAttribute("usuario");
+        Usuario superadmin = usuarioRepository.buscarPorId(usuarioSpa.getIdusuario());
+
+        //Optional<Usuario> optionalSuperadmin = usuarioRepository.findById(1);
+        //usuario = optionalSuperadmin.get();
+
+        model.addAttribute("superadminlog", superadmin);
         return "superadmin/users-profile_spa";
     }
     @GetMapping("/registraradministrativo")
@@ -121,10 +128,14 @@ public class SuperadminController {
 
 
     @PostMapping("/superadmin/actualizarUser")
-    public String actualizarUser(Usuario usuario,RedirectAttributes attr){
+    public String actualizarUser(Usuario usuario,RedirectAttributes attr, Model model){
+        Usuario usuarioSpa = (Usuario) session.getAttribute("usuario");
+        Usuario superadmin = usuarioRepository.buscarPorId(usuarioSpa.getIdusuario());
 
         System.out.println(usuario.getNombres());
         System.out.println(usuario.getEstadohabilitado());
+
+        model.addAttribute("listasedes", sedeRepository.findAll());
 
         if (usuario.getEstadohabilitado() == 0){
             int habilitado = 0;
@@ -333,12 +344,16 @@ public class SuperadminController {
     }
     @GetMapping("/perfilUsuario")
     public String perfilUsuario(Model model,@RequestParam("id") int id){
+        Usuario usuarioSpa = (Usuario) session.getAttribute("usuario");
+       // Usuario superadmin = usuarioRepository.buscarPorId(usuarioSpa.getIdusuario());
+
+        model.addAttribute("listasedes", sedeRepository.findAll());
 
         Optional<Usuario> optionalUsuario = usuarioRepository.findById(id);
         Usuario usuario = optionalUsuario.get();
-
+        model.addAttribute("persona",usuario);
         System.out.println(id);
-        model.addAttribute("usuario", usuario);
+       // model.addAttribute("usuario", superadmin);
 
         return "superadmin/perfil-usuarios_spa";
     }
