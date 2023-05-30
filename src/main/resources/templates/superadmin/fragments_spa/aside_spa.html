@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+
+</head>
+<body>
+<aside th:fragment="sidebar (active)" id="sidebar" class="sidebar">
+    <ul class="sidebar-nav" id="sidebar-nav">
+
+        <li class="nav-item" th:classappend="${active == 'index' ? 'active':''}">
+            <a class="nav-link" th:classappend="${active != 'index' ? 'collapsed':''}" th:href="@{'/superadmin/index'}">
+                <i class="bi bi-house"></i>
+                <span>Dashboard</span>
+            </a>
+        </li><!-- End Dashboard Nav -->
+
+
+        <li class="nav-item" th:classappend="${active == 'lista_form' ? 'active':''}">
+            <a class="nav-link" th:classappend="${active != 'lista_form' ? 'collapsed':''}" th:href="@{'/superadmin/listaform'}">
+                <i class="bi bi-file-earmark-medical"></i><span>Plantillas</span>
+            </a>
+        </li>
+
+        <li class="nav-item" th:classappend="${active == 'seguros' ? 'active':''}">
+            <a class="nav-link" th:classappend="${active != 'seguros' ? 'collapsed':''}" th:href="@{'/superadmin/seguros'}">
+                <i class="bi bi-envelope-paper-heart"></i><span>Seguros</span>
+            </a>
+        </li>
+
+        <li class="nav-item" th:classappend="${active == 'registro' ? 'active':''}">
+            <a class="nav-link" th:classappend="${active != 'registro' ? 'collapsed':''}" th:href="@{'/superadmin/registro'}">
+                <i class="bi bi-card-checklist"></i><span>Registro</span>
+            </a>
+        </li>
+
+        <li class="nav-item" th:classappend="${active == 'perfil' ? 'active':''}">
+            <a class="nav-link" th:classappend="${active != 'perfil' ? 'collapsed':''}" th:href="@{'/superadmin/perfil'}">
+                <i class="bi bi-person"></i><span>Perfil</span>
+            </a>
+        </li><!-- End Components Nav -->
+
+
+        <br><br><br><br>
+        <br><br><br><br>
+        <br><br><br>
+        <br><br><br>
+        <li class="nav-heading"> ----------------------------------------------- </li>
+
+        <li class="nav-item" th:classappend="${active == 'configuracion' ? 'active':''}">
+            <a class="nav-link" th:classappend="${active != 'configuracion' ? 'collapsed':''}" th:href="@{'/superadmin/configuracion'}">
+                <i class="bi bi-gear"></i><span>Configuraciones</span>
+            </a>
+        </li>
+
+        <li class="nav-item" th:classappend="${active == 'cerrarsesion' ? 'active':''}">
+            <a class="nav-link" th:classappend="${active != 'cerrarsesion' ? 'collapsed':''}" th:href="@{'/iniciosesion'}">
+                <i class="bi bi-box-arrow-right"></i><span>Cerrar Sesión</span>
+            </a>
+        </li>
+
+    </ul>
+</aside><!-- End Sidebar-->
+
+<!--CERRAR SESION-->
+<div class="modal fade" id="verticalycentered" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">¿Seguro que deseas Salir?</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-bs-dismiss="modal"><a style="color: white" th:href="@{'/superadmin/index'}">Salir</button>
+                <button type="button" class="btn btn-secondary"><a style="color: white" th:href="@{'/superadmin'}" >Cancelar</a></button>
+            </div>
+        </div>
+    </div>
+</div><!-- End Vertically centered Modal-->
+</body>
+</html>
+
+
+

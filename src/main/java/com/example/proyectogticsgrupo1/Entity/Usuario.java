@@ -1,19 +1,18 @@
 package com.example.proyectogticsgrupo1.Entity;
-import java.sql.Blob;
-
 
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.sql.Blob;
-import java.util.List;
+import java.io.Serializable;
+
 
 @Getter
 @Setter
 @Entity
 @Table(name = "usuario")
-public class Usuario {
+public class Usuario  implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idusuario", nullable = false)
@@ -21,7 +20,6 @@ public class Usuario {
 
     @ManyToOne
     @JoinColumn(name = "idtipodeusuario", nullable = false)
-
     private Tipodeusuario tipodeusuario;
 
     @Column(name = "nombres", nullable = false)
@@ -37,7 +35,6 @@ public class Usuario {
     private String correo;
 
     @Column(name = "contrasena", nullable = false)
-
     private String contrasena;
 
     @Column(name = "genero", nullable = false)
@@ -60,8 +57,7 @@ public class Usuario {
     @JoinColumn(name = "especialidad_idespecialidad")
     private Especialidad especialidad;
 
-
-    /*@Column(name = "foto")
-    private Blob foto;*/
+    @Column(name = "sueldo")
+    private Double sueldo;
 
 }

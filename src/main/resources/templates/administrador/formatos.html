@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+
+<head th:insert="fragments/administrador/librerias.html :: cabecera (titulo = 'Formatos')">
+
+
+</head>
+
+<body>
+
+<!-- ======= Header ======= -->
+<header th:replace="fragments/administrador/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1', nombre = 'L. Anderson', num_men = '3')">
+</header>
+<!-- End Header -->
+<!-- ======= Sidebar ======= -->
+<aside th:replace="fragments/administrador/aside.html :: sidebar (active = 'formatos')">
+</aside>
+<!--Modal Cerrar Sesion-->
+<div th:replace="fragments/administrador/modalCerrarSesion.html::modal">
+
+</div><!-- End Sidebar-->
+<main id="main" class="main">
+
+    <div class="pagetitle">
+        <h1>Formatos</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a th:href="@{'/administrador/dashboard'}">Home</a></li>
+                <li class="breadcrumb-item active">Formatos</li>
+            </ol>
+        </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section">
+        <div class="row">
+            <div class="col-lg-20">
+
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Formatos</h5>
+
+                        <!-- Default Table -->
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Tipo de Formato</th>
+                                <th scope="col">Ver</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <th scope="row">1</th>
+                                <td>Formato de Pago (actualidad)</td>
+                                <td><a th:href="@{'/administrador/vistaformato'}"><i class="bi bi-eye-fill"></i></a></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">2</th>
+                                <td>Formato de Satisfacción (actualidad)</td>
+                                <td><a th:href="@{'/administrador/vistaformato'}"><i class="bi bi-eye-fill"></i></a></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">3</th>
+                                <td>Formato de reclamo (actualidad)</td>
+                                <td><a th:href="@{'/administrador/vistaformato'}"><i class="bi bi-eye-fill"></i></a></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">4</th>
+                                <td>Formato de términos y condiciones (actualidad)</td>
+                                <td><a th:href="@{'/administrador/vistaformato'}"><i class="bi bi-eye-fill"></i></a></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">5</th>
+                                <td>Formato de términos y condiciones 2021</td>
+                                <td><a th:href="@{'/administrador/vistaformato'}"><i class="bi bi-eye-fill"></i></a></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">6</th>
+                                <td>Formatos de pago 2017</td>
+                                <td><a th:href="@{'/administrador/vistaformato'}"><i class="bi bi-eye-fill"></i></a></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">7</th>
+                                <td>Formato de Satisfacción 2022</td>
+                                <td><a th:href="@{'/administrador/vistaformato'}"><i class="bi bi-eye-fill"></i></a></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">8</th>
+                                <td>Formato de pago 2019</td>
+                                <td><a th:href="@{'/administrador/vistaformato'}"><i class="bi bi-eye-fill"></i></a></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">9</th>
+                                <td>Formato de Inscripción 2020</td>
+                                <td><a th:href="@{'/administrador/vistaformato'}"><i class="bi bi-eye-fill"></i></a></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">10</th>
+                                <td>Formato de Registro 2018</td>
+                                <td><a th:href="@{'/administrador/vistaformato'}"><i class="bi bi-eye-fill"></i></a></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <!-- End Default Table Example -->
+                        <!-- Centered Pagination -->
+                        <nav aria-label="Page navigation example">
+                            <ul class="pagination justify-content-center">
+                                <li class="page-item">
+                                    <a class="page-link" href="#" aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span>
+                                    </a>
+                                </li>
+                                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                <li class="page-item">
+                                    <a class="page-link" href="#" aria-label="Next">
+                                        <span aria-hidden="true">&raquo;</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav><!-- End Centered Pagination -->
+
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+        </div>
+        </div>
+    </section>
+
+
+
+
+
+
+
+
+
+
+</main><!-- End #main -->
+
+<!-- ======= Footer ======= -->
+<footer id="footer" class="footer">
+    <div class="copyright">
+        &copy; Copyright <strong><span>ClinicaLAFE</span></strong>. All Rights Reserved
+    </div>
+    <div class="credits">
+        <!-- All the links in the footer should remain intact. -->
+        <!-- You can delete the links only if you purchased the pro version. -->
+        <!-- Licensing information: https://bootstrapmade.com/license/ -->
+        <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
+        Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+    </div>
+</footer><!-- End Footer -->
+
+<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+<!-- Vendor JS Files -->
+<script th:src="@{/assets/vendor/apexcharts/apexcharts.min.js}"></script>
+<script th:src="@{/assets/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/assets/vendor/chart.js/chart.min.js}"></script>
+<script th:src="@{/assets/vendor/echarts/echarts.min.js}"></script>
+<script th:src="@{/assets/vendor/quill/quill.min.js}"></script>
+<script th:src="@{/assets/vendor/simple-datatables/simple-datatables.js}"></script>
+<script th:src="@{/assets/vendor/tinymce/tinymce.min.js}"></script>
+<script th:src="@{/assets/vendor/php-email-form/validate.js}"></script>
+
+<!-- Template Main JS File -->
+<script th:src="@{/assets/js/main.js}"></script>
+
+</body>
+
+</html>

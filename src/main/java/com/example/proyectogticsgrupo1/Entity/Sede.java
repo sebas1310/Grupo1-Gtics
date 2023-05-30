@@ -4,14 +4,17 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+
+import java.io.Serializable;
 import java.sql.Blob;
-import java.util.List;
+
 
 @Getter
 @Setter
 @Entity
 @Table(name = "sede")
-public class Sede {
+public class Sede implements Serializable {
+
     @Id
     @GeneratedValue
     @Column(name = "idsede")
@@ -31,3 +34,4 @@ public class Sede {
     private Blob foto;*/
 
 }
+

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <style>
+    /* CSS styles for sidebar */
+    .sidebar {
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      z-index: 100;
+      padding-top: 4.5rem;
+      overflow-y: auto;
+      transition: all 0.3s;
+    }
+
+    .sidebar-nav {
+      position: relative;
+      width: 100%;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .nav-item {
+      position: relative;
+    }
+
+    .nav-link {
+      display: block;
+      padding: 0.5rem 1rem;
+      color: #ffffff;
+      text-decoration: none;
+      transition: all 0.3s;
+    }
+
+    .nav-item:not(.nav-heading) .nav-link {
+      padding-left: 2rem;
+    }
+
+    /* Other CSS styles */
+
+    body {
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Adjust bottom margin of sidebar to show "Cerrar Sesión" at the bottom */
+    .sidebar-bottom {
+      margin-top: auto;
+    }
+  </style>
+</head>
+<body>
+<aside th:fragment="sidebar (active)" id="sidebar" class="sidebar">
+  <ul class="sidebar-nav" id="sidebar-nav">
+
+    <li class="nav-item" th:classappend="${active == 'dashboard' ? 'inactive':''}">
+      <a class="nav-link" th:classappend="${active != 'dashboard' ? 'collapsed':''}" th:href="@{'/paciente/'}">
+        <i class="bi bi-house"></i>
+        <span>Dashboard</span>
+      </a>
+    </li><!-- End Dashboard Nav -->
+
+    <li class="nav-item" th:classappend="${active == 'perfil' ? 'active':''}">
+      <a class="nav-link" th:classappend="${active != 'perfil' ? 'collapsed':''}" th:href="@{'/paciente/perfil'}">
+        <i class="bi bi-person"></i>
+        <span>Perfil</span>
+      </a>
+    </li><!-- End Components Nav -->
+
+    <li class="nav-item" th:classappend="${active == 'agendar_cita' ? 'active':''}">
+      <a class="nav-link" th:classappend="${active != 'agendar_cita' ? 'collapsed':''}" th:href="@{'/paciente/agendarCita'}">
+        <i class="bi bi-calendar"></i><span>Agendar Cita</span>
+      </a>
+    </li><!-- End Forms Nav -->
+
+    <li class="nav-item" th:classappend="${active == 'historial' ? 'active':''}">
+      <a class="nav-link " th:classappend="${active != 'historial' ? 'collapsed':''}" th:href="@{'/paciente/historialCitas'}">
+        <i class="bi bi-calendar-check-fill"></i><span>Historial de citas</span>
+      </a>
+    </li><!-- End Tables Nav -->
+
+    <li class="nav-item" th:classappend="${active == 'pagos' ? 'active':''}">
+      <a class="nav-link" th:classappend="${active != 'pagos' ? 'collapsed':''}" th:href="@{'/paciente/pagos'}">
+        <i class="bi bi-credit-card-fill"></i><span>Pagos</span>
+      </a>
+    </li>
+
+    <li class="nav-heading"> ----------------------------------------------- </li>
+
+    <li class="nav-item">
+      <a class="nav-link collapsed" type="button" data-bs-toggle="modal" data-bs-target="#verticalycentered">
+        <i class="bi bi-box-arrow-in-right"></i>
+        <span>Cerrar Sesión</span>
+        <!-- Vertically centered Modal -->
+      </a>
+    </li>
+
+  </ul>
+</aside><!-- End Sidebar-->
+
+<!-- Adjust margin-top of sidebar to show "Cerrar Sesión" at the bottom -->
+<div class="sidebar-bottom"></div>
+
+</body>
+</html>

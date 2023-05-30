@@ -34,7 +34,7 @@
 <body>
 
 <!-- ======= Header ======= -->
-<header th:replace="fragments/administrativo/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1', nombre = 'L. Anderson', num_men = '3')">
+<header th:replace="fragments/administrativo/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1', nombre = |${session.usuario.nombres} ${session.usuario.apellidos}|, num_men = '3')">
 </header>
 <!-- End Header -->
 <!-- ======= Sidebar ======= -->
@@ -76,8 +76,8 @@
           <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
 
             <img th:src="@{/assets/img/messages-1.jpg}" alt="Profile" class="rounded-circle">
-            <h2><span th:text="${usuario.nombres} + ' ' + ${usuario.apellidos}"></span></h2>
-            <h3><span th:text="${#strings.capitalize(usuario.tipodeusuario.nombre)}"></span></h3>
+            <h2><span th:text="${session.usuario.nombres} + ' ' + ${session.usuario.apellidos}"></span></h2>
+            <h3><span th:text="${#strings.capitalize(session.usuario.tipodeusuario.nombre)}"></span></h3>
           </div>
         </div>
 
@@ -112,32 +112,32 @@
 
                 <div class="row">
                   <div class="col-lg-3 col-md-4 label ">Nombre</div>
-                  <div class="col-lg-9 col-md-8"><span th:text="${usuario.nombres} + ' ' + ${usuario.apellidos}"></span></div>
+                  <div class="col-lg-9 col-md-8"><span th:text="${session.usuario.nombres} + ' ' + ${session.usuario.apellidos}"></span></div>
                 </div>
 
                 <div class="row">
                   <div class="col-lg-3 col-md-4 label">DNI</div>
-                  <div class="col-lg-9 col-md-8"><span th:text="${usuario.dni}"></span></div>
+                  <div class="col-lg-9 col-md-8"><span th:text="${session.usuario.dni}"></span></div>
                 </div>
 
                 <div class="row">
                   <div class="col-lg-3 col-md-4 label">Correo</div>
-                  <div class="col-lg-9 col-md-8"><span th:text="${usuario.correo}"></span> </div>
+                  <div class="col-lg-9 col-md-8"><span th:text="${session.usuario.correo}"></span> </div>
                 </div>
 
                 <div class="row">
                   <div class="col-lg-3 col-md-4 label">Celular</div>
-                  <div class="col-lg-9 col-md-8"><span th:text="${usuario.celular}"></span></div>
+                  <div class="col-lg-9 col-md-8"><span th:text="${session.usuario.celular}"></span></div>
                 </div>
 
                 <div class="row">
                   <div class="col-lg-3 col-md-4 label">Edad</div>
-                  <div class="col-lg-9 col-md-8"><span th:text="${usuario.edad}"></span></div>
+                  <div class="col-lg-9 col-md-8"><span th:text="${session.usuario.edad}"></span></div>
                 </div>
 
                 <div class="row">
                   <div class="col-lg-3 col-md-4 label">Género</div>
-                  <div class="col-lg-9 col-md-8"><span th:text="${usuario.genero}"></span></div>
+                  <div class="col-lg-9 col-md-8"><span th:text="${session.usuario.genero}"></span></div>
                 </div>
 
 
@@ -159,32 +159,32 @@
                       </div>
                     </div>
                   </div>
-                  <input th:value="${usuario.getIdusuario()}" name="id" type="hidden">
+                  <input th:value="${session.usuario.getIdusuario()}" name="id" type="hidden">
                   <div class="row mb-3">
                     <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Nombres</label>
                     <div class="col-md-8 col-lg-9">
-                      <input name="nombres" type="text" class="form-control" id="fullName" th:value="${usuario.getNombres()}">
+                      <input name="nombres" type="text" class="form-control" id="fullName" th:value="${session.usuario.getNombres()}">
                     </div>
                   </div>
 
                   <div class="row mb-3">
                     <label for="fullName2" class="col-md-4 col-lg-3 col-form-label">Apellidos</label>
                     <div class="col-md-8 col-lg-9">
-                      <input name="apellidos" type="text" class="form-control" id="fullName2" th:value="${usuario.getApellidos()}">
+                      <input name="apellidos" type="text" class="form-control" id="fullName2" th:value="${session.usuario.getApellidos()}">
                     </div>
                   </div>
 
                   <div class="row mb-3">
                     <label for="correo" class="col-md-4 col-lg-3 col-form-label">Correo</label>
                     <div class="col-md-8 col-lg-9">
-                      <input name="correo" type="text" class="form-control" id="correo" th:value="${usuario.getCorreo()}">
+                      <input name="correo" type="text" class="form-control" id="correo" th:value="${session.usuario.getCorreo()}">
                     </div>
                   </div>
 
                   <div class="row mb-3">
                     <label for="celular" class="col-md-4 col-lg-3 col-form-label">Celular</label>
                     <div class="col-md-8 col-lg-9">
-                      <input name="celular" type="text" class="form-control" id="celular" th:value="${usuario.getCelular()}">
+                      <input name="celular" type="text" class="form-control" id="celular" th:value="${session.usuario.getCelular()}">
                     </div>
                   </div>
                   <!-- <div class="row mb-3">
@@ -204,11 +204,11 @@
               <div class="tab-pane fade pt-3" id="profile-change-password">
                 <!-- Change Password Form -->
                 <form form method="post" th:action="@{'/administrador/contrasena'}" >
-                  <input th:value="${usuario.getIdusuario()}" name="id" type="hidden">
+                  <input th:value="${session.usuario.getIdusuario()}" name="id" type="hidden">
                   <div class="row mb-3">
                     <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Actual Contraseña</label>
                     <div class="col-md-8 col-lg-9">
-                      <input name="password" type="password" class="form-control" id="currentPassword" th:value="${usuario.getContrasena()}">
+                      <input name="password" type="password" class="form-control" id="currentPassword" th:value="${session.usuario.getContrasena()}">
                     </div>
                   </div>
 
