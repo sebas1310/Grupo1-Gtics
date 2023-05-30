@@ -6,6 +6,7 @@ import com.example.proyectogticsgrupo1.Service.EmailService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.Pattern;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -26,7 +28,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Controller
-@RequestMapping(value="/administrador", method = RequestMethod.GET)
+@RequestMapping(value="/administrador")
 
 public class AdministradorController {
 
@@ -354,17 +356,16 @@ public class AdministradorController {
     }
 
     @GetMapping(value = "/creardoctor")
-    public String crearDoctor(@ModelAttribute("doctor") Usuario user,@ModelAttribute("especialidad") Especialidad especialidad, Model model) {
+    public String crearDoctor(@ModelAttribute("usuario1") Usuario usuario1, Model model) {
         Usuario usuarioAdministrador = (Usuario) session.getAttribute("usuario");
         model.addAttribute("usuario", usuarioAdministrador);
         model.addAttribute("listaEspecialidad", especialidadRepository.findAll());
         return "administrador/creardoctor";
-
     }
 
 
     @PostMapping(value = "/guardar3")
-    public String guardarDoctor(@ModelAttribute("doctor") Usuario user, RedirectAttributes attr, Model model, @RequestParam("especialidad") int idEspecialidad) {
+    public String guardarDoctor(@ModelAttribute("usuario1") @Valid Usuario user, BindingResult bindingResult, RedirectAttributes attr, Model model, @RequestParam("especialidad") int idEspecialidad) {
         Usuario usuarioAdministrador = (Usuario) session.getAttribute("usuario");
         model.addAttribute("usuario", usuarioAdministrador);
         if (user.getIdusuario() == null) {
@@ -372,30 +373,33 @@ public class AdministradorController {
         } else {
             attr.addFlashAttribute("msg", "Doctor actualizado exitosamente");
         }
-
-
-        Tipodeusuario tipodeusuario = new Tipodeusuario();
-        tipodeusuario.setIdtipodeusuario(5);
-        user.setEstadohabilitado(1);
-        user.setTipodeusuario(tipodeusuario);
-        Sede sede = new Sede();
-        sede.setIdsede(usuarioAdministrador.getSede().getIdsede());
-        user.setSede(sede);
-        user.setContrasena(generarContrasena(10));
-        usuarioRepository.save(user);
-        Doctor doctor = new Doctor();
-        doctor.setCmp(0);
-        doctor.setFormacion("-");
-        doctor.setRne(0);
-        doctor.setCapacitaciones("-");
-        doctor.setSede(sede);
-        Especialidad especialidad = new Especialidad();
-        especialidad.setIdespecialidad(idEspecialidad);
-        doctor.setEspecialidad(especialidad);
-        doctor.setUsuario(user);
-        doctor.setConsultorio("-");
-        doctorRepository.save(doctor);
-        return "redirect:/administrador/dashboarddoctor";
+        if(bindingResult.hasErrors()) {
+            model.addAttribute("listaEspecialidad", especialidadRepository.findAll());
+            return "administrador/creardoctor";
+        }else {
+            Tipodeusuario tipodeusuario = new Tipodeusuario();
+            tipodeusuario.setIdtipodeusuario(5);
+            user.setEstadohabilitado(1);
+            user.setTipodeusuario(tipodeusuario);
+            Sede sede = new Sede();
+            sede.setIdsede(usuarioAdministrador.getSede().getIdsede());
+            user.setSede(sede);
+            user.setContrasena(generarContrasena(10));
+            usuarioRepository.save(user);
+            Doctor doctor = new Doctor();
+            doctor.setCmp(0);
+            doctor.setFormacion("-");
+            doctor.setRne(0);
+            doctor.setCapacitaciones("-");
+            doctor.setSede(sede);
+            Especialidad especialidad = new Especialidad();
+            especialidad.setIdespecialidad(idEspecialidad);
+            doctor.setEspecialidad(especialidad);
+            doctor.setUsuario(user);
+            doctor.setConsultorio("-");
+            doctorRepository.save(doctor);
+            return "redirect:/administrador/dashboarddoctor";
+        }
     }
 
     @GetMapping(value = "/perfil")

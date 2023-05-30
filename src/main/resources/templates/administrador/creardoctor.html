@@ -54,37 +54,38 @@
                         <div th:if="${msg != null}" th:text="${msg}" class="alert alert-success" role="alert"></div>
 
 
-                        <form class="row g-3"  method="post" th:action="@{/administrador/guardar3}">
+                        <form class="row g-3"  method="post" th:action="@{/administrador/guardar3}" th:object="${usuario1}">
                             <div class="col-12">
                                 <label class="form-label">Nombres</label>
-                                <input type="text" class="form-control" name="nombres" required>
+                                <input type="text" class="form-control" th:field="*{nombres}" required>
                             </div>
                             <div class="col-12">
                                 <label class="form-label">Apellidos</label>
-                                <input type="text" class="form-control" name="apellidos" required>
+                                <input type="text" class="form-control" th:field="*{apellidos}" required>
                             </div>
                             <div class="col-12">
                                 <label class="form-label">Correo</label>
-                                <input type="text" class="form-control" name="correo" required>
+                                <input type="text" class="form-control" th:field="*{correo}" required>
                             </div>
                             <div class="col-12">
                                 <label class="form-label">DNI</label>
-                                <input type="dni" class="form-control" name="dni" required>
+                                <input  class="form-control" th:field="*{dni}" th:classappend="${#fields.hasErrors('dni')?'is-invalid':''}" required>
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('dni')}" th:errors="*{dni}"></div>
                             </div>
                             <div class="col-12">
-                                <label for="inputGenero" class="form-label">Género</label>
+                                <label class="form-label">Género</label>
                                 <div class="form-control">
-                                    <select class="form-control-plaintext " type="genero" id="inputGenero" name="genero" required>
+                                    <select class="form-control-plaintext " type="genero" th:name="genero"  required>
                                         <option disabled selected>Seleccionar</option>
-                                        <option value="Masculino">Masculino</option>
-                                        <option value="Femenino">Femenino</option>
+                                        <option th:value="Maculino">Masculino</option>
+                                        <option th:value="Femenino">Femenino</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="col-12">
-                                <label for="inputEspecialidad" class="form-label">Especialidad</label>
+                                <label class="form-label">Especialidad</label>
                                 <div class="form-control">
-                                    <select class="form-control-plaintext " id="inputEspecialidad" name="especialidad" th:value="*{especialidad.idespecialidad}" required>
+                                    <select class="form-control-plaintext " name="especialidad" required>
                                         <option disabled selected>Seleccionar</option>
                                         <option th:each="especialidad : ${listaEspecialidad}" th:value="${especialidad.idespecialidad}"
                                                 th:text="${especialidad.nombre}"></option>
@@ -93,11 +94,12 @@
                             </div>
                             <div class="col-12">
                                 <label class="form-label">Celular</label>
-                                <input type="dni" class="form-control" name="celular" required>
+                                <input class="form-control" th:field="*{celular}" th:classappend="${#fields.hasErrors('celular')?'is-invalid':''}" required>
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('celular')}" th:errors="*{celular}"></div>
                             </div>
                             <div class="col-12">
                                 <label class="form-label">Edad</label>
-                                <input type="dni" class="form-control" name="edad" required>
+                                <input class="form-control" th:field="*{edad}" required>
                             </div>
                             <div class="text-center">
                                 <button type="submit" class="btn btn-success" style="color: white">Guardar Cambios</button>
