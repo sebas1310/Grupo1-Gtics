@@ -13,7 +13,7 @@ import java.util.List;
 
 
 public interface EventocalendariodoctorRepository extends JpaRepository<Eventocalendariodoctor,Integer> {
-    @Query(nativeQuery = true, value = "select * from eventocalendariodoctor where iddoctor=?1 and idtipohoracalendariodoctor=1")
+    @Query(nativeQuery = true, value = "select * from eventocalendariodoctor where iddoctor=?1 and fecha >= CURDATE() ORDER BY fecha desc ")
     List<Eventocalendariodoctor> calendarioPorDoctor(Integer iddoc);
 
     @Query(nativeQuery = true, value = "select * from eventocalendariodoctor where idtipohoracalendariodoctor=1 and fecha >= CURDATE()")
@@ -40,7 +40,7 @@ public interface EventocalendariodoctorRepository extends JpaRepository<Eventoca
             "LIMIT 2; \n")
     List<DiasProximosDoctor> getDiasProx(Integer id);
 
-    @Query(nativeQuery = true, value = "select * from eventocalendariodoctor where iddoctor=?1 order by fecha")
+    @Query(nativeQuery = true, value = "select * from eventocalendariodoctor where iddoctor= ?1 order by fecha")
     List<Eventocalendariodoctor> eventosCalendarioDoctor(Integer iddoc);
 
 }
