@@ -7,6 +7,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -54,22 +57,22 @@ public class AdministradorController {
     private MailCorreoRepository mailCorreoRepository;
 
     @GetMapping(value = "/email")
-    public String emailpr(){
+    public String emailpr() {
         String user = "angieealejandro@gmail.com";
         String subj = "HOLA";
         String msj = "Pruebas de envio";
-        emailService.sendEmail(user,subj,msj);
+        emailService.sendEmail(user, subj, msj);
         return "redirect:/administrador";
     }
 
     @GetMapping("")
     public String administrador(Model model) {
-            Usuario usuarioAdministrador = (Usuario) session.getAttribute("usuario");
-            List<Paciente> listaPacientesSD = pacienteRepository.listadopacientes(usuarioAdministrador.getSede().getIdsede()); // a futuro cambiar
-            model.addAttribute("listaUsuariosPacientes", listaPacientesSD);
-            List<Doctor> listaDoctoresSD = doctorRepository.listarDoctorporSedeDashboard(usuarioAdministrador.getSede().getIdsede());
-            model.addAttribute("listaUsuarioDoctores", listaDoctoresSD);
-            model.addAttribute("usuario",usuarioAdministrador);
+        Usuario usuarioAdministrador = (Usuario) session.getAttribute("usuario");
+        List<Paciente> listaPacientesSD = pacienteRepository.listadopacientes(usuarioAdministrador.getSede().getIdsede()); // a futuro cambiar
+        model.addAttribute("listaUsuariosPacientes", listaPacientesSD);
+        List<Doctor> listaDoctoresSD = doctorRepository.listarDoctorporSedeDashboard(usuarioAdministrador.getSede().getIdsede());
+        model.addAttribute("listaUsuarioDoctores", listaDoctoresSD);
+        model.addAttribute("usuario", usuarioAdministrador);
         return "administrador/dashboard";
     }
 
@@ -77,15 +80,12 @@ public class AdministradorController {
     public String creandoPaciente(Model model) {
         Usuario usuarioAdministrador = (Usuario) session.getAttribute("usuario");
         model.addAttribute("usuario", usuarioAdministrador);
-            return "administrador/nuevopaciente";
+        return "administrador/nuevopaciente";
 
     }
 
 
-    @GetMapping(value = "/formcreando")
-    public String newPaciente() {
-        return "administrador/crearpaciente";
-    }
+
 
     /*@PostMapping(value = "/guardar2")
     public String guardarUsuario(Usuario user, RedirectAttributes attr, Model model, @RequestParam("contrasena2") String contrasena2){
@@ -112,9 +112,10 @@ public class AdministradorController {
     }*/
 
     @PostMapping(value = "/guardar2")
-    public String guardarUsuario(Usuario user, RedirectAttributes attr, Model model, @RequestParam("direccion") String direccion){
+    public String guardarUsuario(Usuario user, RedirectAttributes attr, Model model, @RequestParam("direccion") String direccion) {
         Usuario usuarioAdministrador = (Usuario) session.getAttribute("usuario");
-        model.addAttribute("usuario",usuarioAdministrador);
+        model.addAttribute("usuario", usuarioAdministrador);
+
         if (user.getIdusuario() == null) {
             attr.addFlashAttribute("pac", "Paciente creado exitosamente");
         } else {
@@ -129,6 +130,10 @@ public class AdministradorController {
         sede.setIdsede(usuarioAdministrador.getSede().getIdsede());
         user.setSede(sede);
         user.setContrasena(generarContrasena(10));
+        if (user.getDni().length() != 8) {
+            attr.addFlashAttribute("error", "El DNI debe tener 8 dígitos");
+            return "redirect:/administrador/crearpaciente"; // Especifica la URL a la que deseas redirigir en caso de error
+        }
         usuarioRepository.save(user);
         Paciente paciente = new Paciente();
         EstadoPaciente estadoPaciente = new EstadoPaciente();
@@ -142,7 +147,9 @@ public class AdministradorController {
         paciente.setUsuario(user);
         paciente.setCondicionenfermedad("-");
         pacienteRepository.save(paciente);
-        emailService.sendEmail(paciente.getUsuario().getCorreo(),"Confirmación de Registro","Estimado usuario usted ha sido registrado en: \n Sede "+usuarioAdministrador.getSede().getNombre()+"\n Ubicada en " +usuarioAdministrador.getSede().getDireccion());
+
+        emailService.sendEmail(paciente.getUsuario().getCorreo(), "Confirmación de Registro", "Estimado usuario, usted ha sido registrado en:\nSede " + usuarioAdministrador.getSede().getNombre() + "\nUbicada en " + usuarioAdministrador.getSede().getDireccion() + "\nTu contraseña por defecto es: " + paciente.getUsuario().getContrasena() + "\nIngresa aquí para cambiarla");
+
         return "redirect:/administrador/dashboardpaciente";
     }
 
@@ -162,8 +169,9 @@ public class AdministradorController {
     public String genCalendar(Model model) {
         Usuario usuarioAdministrador = (Usuario) session.getAttribute("usuario");
         model.addAttribute("usuario", usuarioAdministrador);
-            return "administrador/calendariogeneral";
+        return "administrador/calendariogeneral";
     }
+
     @GetMapping(value = "/calendariomarzo")
     public String MarzoCalendar() {
 
@@ -180,9 +188,8 @@ public class AdministradorController {
     public String formatos(Model model) {
         Usuario usuarioAdministrador = (Usuario) session.getAttribute("usuario");
         model.addAttribute("usuario", usuarioAdministrador);
-            return "administrador/formatos";
+        return "administrador/formatos";
     }
-
 
 
     //@GetMapping(value = "/dashboardpaciente")
@@ -218,12 +225,12 @@ public class AdministradorController {
 
     @PostMapping("/buscarInvitado")
     public String buscadorInvitados(@RequestParam("buscando") String buscando, RedirectAttributes redirectAttributes) {
-        redirectAttributes.addAttribute("buscando",buscando);
+        redirectAttributes.addAttribute("buscando", buscando);
         return "redirect:/administrador/porregistrar";
     }
 
     @GetMapping(value = "/dashboardpaciente")
-    public String listaCitas(Model model, @RequestParam(name="buscando",required = false) String buscando) {
+    public String listaCitas(Model model, @RequestParam(name = "buscando", required = false) String buscando) {
         Usuario usuarioAdministrador = (Usuario) session.getAttribute("usuario");
         model.addAttribute("usuario", usuarioAdministrador);
         List<Paciente> listaPacientesS = pacienteRepository.listadopacientesdashboard(usuarioAdministrador.getSede().getIdsede()); // a futuro cambiar
@@ -234,7 +241,7 @@ public class AdministradorController {
 
     @PostMapping("/buscarPaciente")
     public String buscadorPacientess(@RequestParam("buscando") String buscando, RedirectAttributes redirectAttributes) {
-        redirectAttributes.addAttribute("buscando",buscando);
+        redirectAttributes.addAttribute("buscando", buscando);
         return "redirect:/administrador/dashboardpaciente";
     }
 
@@ -249,7 +256,7 @@ public class AdministradorController {
 
     @PostMapping("/buscarDoctor")
     public String buscadorDoctor(@RequestParam("buscando") String buscando, RedirectAttributes redirectAttributes) {
-        redirectAttributes.addAttribute("buscando",buscando);
+        redirectAttributes.addAttribute("buscando", buscando);
         return "redirect:/administrador/dashboarddoctor";
     }
 
@@ -257,9 +264,9 @@ public class AdministradorController {
     public String config(Model model) {
         Usuario usuarioAdministrador = (Usuario) session.getAttribute("usuario");
         model.addAttribute("usuario", usuarioAdministrador);
-            Sede sede = sedeRepository.findByIdsede(usuarioAdministrador.getSede().getIdsede());
-            model.addAttribute("sede",sede);
-            return "administrador/configuraciones";
+        Sede sede = sedeRepository.findByIdsede(usuarioAdministrador.getSede().getIdsede());
+        model.addAttribute("sede", sede);
+        return "administrador/configuraciones";
 
     }
 
@@ -267,26 +274,26 @@ public class AdministradorController {
     public String dashboardfinanz(Model model) {
         Usuario usuarioAdministrador = (Usuario) session.getAttribute("usuario");
         model.addAttribute("usuario", usuarioAdministrador);
-            return "administrador/dashboardfinanzas";
+        return "administrador/dashboardfinanzas";
 
     }
 
     @GetMapping("/historialclinico")
-    public String historialClinico(Model model, @RequestParam("id") int idPaciente){
+    public String historialClinico(Model model, @RequestParam("id") int idPaciente) {
         Usuario usuarioAdministrador = (Usuario) session.getAttribute("usuario");
         model.addAttribute("usuario", usuarioAdministrador);
-            Paciente paciente = pacienteRepository.buscarPacientH(idPaciente);
-            model.addAttribute("paciente", paciente);
-            List<Cita> citasFuturas = citaRepository.findByPacienteAndFechaAfterOrderByFechaAsc(paciente, LocalDate.now());
-            model.addAttribute("citas", citasFuturas);
-            return "administrador/historialclinico";
+        Paciente paciente = pacienteRepository.buscarPacientH(idPaciente);
+        model.addAttribute("paciente", paciente);
+        List<Cita> citasFuturas = citaRepository.findByPacienteAndFechaAfterOrderByFechaAsc(paciente, LocalDate.now());
+        model.addAttribute("citas", citasFuturas);
+        return "administrador/historialclinico";
     }
 
     @GetMapping(value = "/crearpaciente")
     public String crearPaciente(@ModelAttribute("usuarioa") Usuario user, Model model) {
         Usuario usuarioAdministrador = (Usuario) session.getAttribute("usuario");
         model.addAttribute("usuario", usuarioAdministrador);
-            return "administrador/crearpaciente";
+        return "administrador/crearpaciente";
 
     }
 
@@ -294,7 +301,7 @@ public class AdministradorController {
     public String vistaForm(Model model) {
         Usuario usuarioAdministrador = (Usuario) session.getAttribute("usuario");
         model.addAttribute("usuario", usuarioAdministrador);
-            return "administrador/vistaformato";
+        return "administrador/vistaformato";
 
     }
 
@@ -302,14 +309,14 @@ public class AdministradorController {
     public String notif(Model model) {
         Usuario usuarioAdministrador = (Usuario) session.getAttribute("usuario");
         model.addAttribute("usuario", usuarioAdministrador);
-            return "administrador/notificaciones";
+        return "administrador/notificaciones";
     }
 
     @GetMapping(value = "/mensajes")
     public String mensajes(Model model) {
         Usuario usuarioAdministrador = (Usuario) session.getAttribute("usuario");
         model.addAttribute("usuario", usuarioAdministrador);
-        model.addAttribute("listamensajes",mailCorreoRepository.buscarMensajesEnviadorPorID(usuarioAdministrador.getIdusuario()));
+        model.addAttribute("listamensajes", mailCorreoRepository.buscarMensajesEnviadorPorID(usuarioAdministrador.getIdusuario()));
         return "administrador/mensajes";
     }
 
@@ -317,7 +324,7 @@ public class AdministradorController {
     public String chat(Model model, @RequestParam("idM") int idMensaje) {
         Usuario usuarioAdministrador = (Usuario) session.getAttribute("usuario");
         model.addAttribute("usuario", usuarioAdministrador);
-        model.addAttribute("mensaje",mailCorreoRepository.buscarMensajePorID(idMensaje));
+        model.addAttribute("mensaje", mailCorreoRepository.buscarMensajePorID(idMensaje));
         return "administrador/chat";
 
     }
@@ -327,9 +334,9 @@ public class AdministradorController {
     public String Detalles(Model model, @RequestParam("id") int idDoctor) {
         Usuario usuarioAdministrador = (Usuario) session.getAttribute("usuario");
         model.addAttribute("usuario", usuarioAdministrador);
-            Doctor doctor = doctorRepository.buscarDoctorH(idDoctor);
-            model.addAttribute("doctor",doctor);
-            return "administrador/detallesdoctor";
+        Doctor doctor = doctorRepository.buscarDoctorH(idDoctor);
+        model.addAttribute("doctor", doctor);
+        return "administrador/detallesdoctor";
 
     }
 
@@ -337,7 +344,7 @@ public class AdministradorController {
     public String VerCuestionario(Model model) {
         Usuario usuarioAdministrador = (Usuario) session.getAttribute("usuario");
         model.addAttribute("usuario", usuarioAdministrador);
-            return "administrador/vistacuestionario";
+        return "administrador/vistacuestionario";
     }
 
     @GetMapping(value = "/creardoctor")
@@ -351,9 +358,9 @@ public class AdministradorController {
 
 
     @PostMapping(value = "/guardar3")
-    public String guardarDoctor(@ModelAttribute("usuarioa") Usuario user, RedirectAttributes attr, Model model, @RequestParam("especialidad") int idEspecialidad){
-            Usuario usuarioAdministrador = (Usuario) session.getAttribute("usuario");
-            model.addAttribute("usuario",usuarioAdministrador);
+    public String guardarDoctor(@ModelAttribute("usuarioa") Usuario user, RedirectAttributes attr, Model model, @RequestParam("especialidad") int idEspecialidad) {
+        Usuario usuarioAdministrador = (Usuario) session.getAttribute("usuario");
+        model.addAttribute("usuario", usuarioAdministrador);
         if (user.getIdusuario() == null) {
             attr.addFlashAttribute("doc", "Doctor creado exitosamente");
         } else {
@@ -386,9 +393,9 @@ public class AdministradorController {
     }
 
     @GetMapping(value = "/perfil")
-    public String perfilPaciente(Model model){
+    public String perfilPaciente(Model model) {
         Usuario usuarioAdministrador = (Usuario) session.getAttribute("usuario");
-        model.addAttribute("usuario",usuarioAdministrador);
+        model.addAttribute("usuario", usuarioAdministrador);
         return "administrador/perfil";
     }
 
@@ -398,12 +405,12 @@ public class AdministradorController {
                                @RequestParam("nombres") String nombres,
                                @RequestParam("apellidos") String apellidos,
                                @RequestParam("correo") String correo,
-                               @RequestParam("celular") String celular){
-        usuarioRepository.perfil(nombres,apellidos,correo,celular,idusuario);
+                               @RequestParam("celular") String celular) {
+        usuarioRepository.perfil(nombres, apellidos, correo, celular, idusuario);
         session.removeAttribute("usuario");
         session.setAttribute("usuario", usuarioRepository.findById(idusuario).get());
-        redirectAttributes.addAttribute("id",idusuario);
-        redirectAttributes.addFlashAttribute("msg","Perfil Actualizado");
+        redirectAttributes.addAttribute("id", idusuario);
+        redirectAttributes.addFlashAttribute("msg", "Perfil Actualizado");
         return "redirect:/administrador/perfil";
     }
 
@@ -431,20 +438,27 @@ public class AdministradorController {
         return "redirect:/administrador/dashboarddoctor";
     }*/
 
-    @PostMapping(value = "/changecontrasena")
-    @Transactional
-    public String changePassword(Model model, @RequestParam("contrasena") String contrasena, @RequestParam("newpassword") String newpassword, @RequestParam("renewpassword") String renewpassword, RedirectAttributes redirectAttributes){
-        Usuario usuarioAdministrador = (Usuario) session.getAttribute("usuario");
-        model.addAttribute("usuario", usuarioAdministrador);
-        if(usuarioAdministrador.getContrasena().equals(contrasena)){
-            usuarioRepository.changePassword(renewpassword,usuarioAdministrador.getIdusuario());
-            session.removeAttribute("usuario");
-            session.setAttribute("usuario", usuarioRepository.findById(usuarioAdministrador.getIdusuario()).get());
-            redirectAttributes.addFlashAttribute("psw1", "Contraseña actualizada");
 
-        }else {
-            redirectAttributes.addFlashAttribute("psw2", "La contraseña actual es incorrecta");
+    @PostMapping(value = "/changepassword")
+    @Transactional
+    public String changePassword(@RequestParam("id") int idusuario,@RequestParam("contrasena") String contrasena, @RequestParam("newpassword") String newpassword, @RequestParam("renewpassword") String renewpassword, RedirectAttributes redirectAttributes) {
+
+        Usuario usuarioAdministrador = (Usuario) session.getAttribute("usuario");
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+
+        if (passwordEncoder.matches(contrasena, usuarioAdministrador.getContrasena())) {
+            String hashedNewPassword = passwordEncoder.encode(newpassword);
+
+            if (usuarioAdministrador.getContrasena().equals(contrasena)) {
+                usuarioRepository.changePassword(renewpassword, usuarioAdministrador.getIdusuario());
+                usuarioRepository.changePassword(hashedNewPassword, usuarioAdministrador.getIdusuario());
+                redirectAttributes.addFlashAttribute("psw1", "Contraseña actualizada");
+
+            } else {
+                redirectAttributes.addFlashAttribute("psw2", "La contraseña es incorrecta");
+            }
         }
-        return "redirect:/administrador/perfil";
-    }
+            return "redirect:/administrador/perfil";
+        }
 }
