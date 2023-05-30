@@ -81,6 +81,19 @@ public class DoctorController {
             model.addAttribute("citasAgendadas",citasAgendadas1);
             return "doctor/dashboardDoc";
         }
+    @GetMapping("/dashboard/info")
+    public String infoDashboard(Model model, @RequestParam("id") int idPaciente) {
+
+        Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
+        Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
+        model.addAttribute("doctor",doctor);
+        Paciente paciente = pacienteRepository.buscarPacientePorID(idPaciente);
+        model.addAttribute("paciente", paciente);
+        List<Cita> citasAgendadas1 = citaRepository.buscarCitasAgendadasDoctor(doctor.getIddoctor());
+
+        model.addAttribute("citasAgendadas",citasAgendadas1);
+        return "doctor/infoDashboard";
+    }
 
     @GetMapping("/dashboard/diario")
     public String inicioDashboardDoctor2(Model model){
@@ -168,8 +181,8 @@ public class DoctorController {
             Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
             Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
             model.addAttribute("doctor",doctor);
-            Optional<Cita> optCita = citaRepository.findById(idCita);
-            Cita cita =optCita.get();
+            Cita cita = citaRepository.buscarCitaPorId(idCita);
+
             model.addAttribute("cita", cita);
             model.addAttribute("recetamedica", recetaMedicaRepository.buscarRecetaMedicaPorCita(idCita, idReceta));
             model.addAttribute("reportecita", reporteCitaRepository.buscarReporteCitaPorId(idCita));
@@ -267,7 +280,8 @@ public class DoctorController {
     @GetMapping("/pacientesatendidos/verhistorial/vercita/boletaMedicamentoDelivery")
     public String verBoletaDelivery(Model model,
                                     @RequestParam("idCita") int idCita,
-                                    @RequestParam("idPaciente") int idPaciente ){
+                                    @RequestParam("idPaciente") int idPaciente,
+                                    RedirectAttributes redirectAttributes){
 
         Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
         Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
@@ -276,6 +290,9 @@ public class DoctorController {
         model.addAttribute("receta", receta);
         Paciente paciente = pacienteRepository.buscarPacientePorID(idPaciente);
         model.addAttribute("paciente", paciente);
+        Cita cita = citaRepository.buscarCitaPorId(idCita);
+        model.addAttribute("cita", cita);
+        redirectAttributes.addFlashAttribute("msg","Pedido programado para ser enviado");
 
         return "doctor/boletaDelivery";
     }

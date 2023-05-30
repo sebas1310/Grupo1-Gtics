@@ -26,8 +26,9 @@
     <nav>
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a th:href="@{'/doctor/pacientesatendidos'+ '?id=' + ${doctor.iddoctor}}">Pacientes Atendidos</a></li>
-        <li class="breadcrumb-item " >Historial Clínico</li>
+        <li class="breadcrumb-item " ><a th:href="@{'/doctor/pacientesatendidos/verhistorial'+ '?id=' + ${cita.idcita}}">Historial Clínico</li>
         <li class="breadcrumb-item active">Boleta</li>
+
       </ol>
     </nav>
   </div><!-- End Page Title -->
@@ -45,6 +46,7 @@
               <div class="ps-3">
                 <h6 class="card-title">Información Paciente</h6>
               </div>
+              <div th:if="${msg!=null}" th:text="${msg}" class="alert alert-success" role="alert"></div>
               <table class="table col-lg-20" >
                 <thead>
                 <tr>
@@ -60,6 +62,33 @@
                 </tr>
                 <tr>
                   <td> <span th:text="${paciente.getDireccion()}" ></span> </td>
+                </tr>
+                </tbody>
+              </table>
+              <div class="ps-3">
+                <h6 class="card-title">Información Cita</h6>
+              </div>
+              <table class="table col-lg-20" >
+                <thead>
+                <tr>
+                  <th scope="row">Doctor:</th>
+                </tr>
+                <tr>
+                  <td> <span th:text="|${cita.getDoctor().getUsuario().nombres} ${cita.getDoctor().getUsuario().getApellidos()}|"></span> </td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                  <th scope="row">Especialidad de Atención:</th>
+                </tr>
+                <tr>
+                  <td> <span th:text="${cita.getEspecialidad().getNombre()}" ></span> </td>
+                </tr>
+                <tr>
+                  <th scope="row">Sede de Atención:</th>
+                </tr>
+                <tr>
+                  <td> <span th:text="${cita.getSede().getNombre()}" ></span> </td>
                 </tr>
                 </tbody>
               </table>
@@ -82,8 +111,9 @@
                   </tbody>
                 </table>
               </div>
-              <div class="ps-3">
-                <h6 class="card-title">Pedido programado para enviar por delivery</h6>
+              <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+                <a th:href="@{'/doctor/pacientesatendidos/verhistorial/vercita'+ '?id=' + ${cita.getIdcita()}}" class="btn btn-primary ">Confirmar</a>
+                <a th:href="@{'/doctor/pacientesatendidos/verhistorial/vercita'+ '?id=' + ${cita.getIdcita()}}" class="btn btn-danger">Cancelar</a>
               </div>
             </div>
           </div>

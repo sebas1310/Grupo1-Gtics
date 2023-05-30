@@ -68,7 +68,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each=" citaagendada:${citasAgendadas}" th:id="'fila-' + ${citaagendada.idcita}">
+                <tr th:each=" citaagendada:${citasAgendadas}">
                   <td style="text-align: center" th:text="|${citaagendada.getFecha()}|"></td>
                   <td style="text-align: center" th:text="|${citaagendada.getHorainicio()} - ${citaagendada.getHorafinal()}|"></td>
                   <td style="text-align: center" th:text="|${citaagendada.getPaciente().getUsuario().getNombres()} ${citaagendada.getPaciente().getUsuario().getApellidos()}|"></td>
@@ -78,11 +78,7 @@
                     <td style="text-align: center"th:unless="${citaagendada.getTipoCita().getNombre() eq 'Presencial'}" > <a type="button" class="bi bi-camera-video"  href="https://pucp.zoom.us/j/91442275627?pwd=MjFjNGNTeXZEYVhzd3RKYmtVTzROQT09"></a> Iniciar </td>
                 </div>
                   <td style="text-align: center"> <a type="button" class="bi bi-journal-text"  th:href="@{'/doctor/cuestionario' + '?id=' + ${citaagendada.getPaciente().getIdpaciente()}}" ></a></td>
-                  <!-- <td style="text-align: center" > <a class="bi bi-eye-fill" data-bs-toggle="modal" th:data-id="${citaagendada.getPaciente().getIdpaciente()}" onclick="mostrarModal(this)" ></a></td> -->
-                  <td>
-                    <button type="button" class="btn btn-secondary button-edit" th:data-id="${citaagendada.getPaciente().getIdpaciente()}" onclick="mostrarModal(this)"><i
-                            class="bi bi-eye-fill"></i></button>
-                  </td>
+                  <td style="text-align: center" > <a class="bi bi-eye-fill" th:href="@{'/doctor/dashboard/info' + '?id=' + ${citaagendada.getPaciente().getIdpaciente()}}"></a></td>
                 </tr>
                <!--<tr>
                   <td style="text-align: center" scope="row">11:15 - 12:15 pm</td>
@@ -288,31 +284,7 @@
                 </div>
               </div>
             </div>
-      <script>
-        const modal = document.getElementById("modal");
-        const span = document.getElementsByClassName("close")[0];
 
-        // Función para mostrar el modal y los detalles del usuario seleccionado
-        function mostrarModal(button) {
-
-          const id = button.dataset.id;
-
-          const nombrePlantilla = document.querySelector("#fila-" + id + " td:nth-child(2)").textContent;
-          // const nombreEspecialidad = document.querySelector("#fila-"+id+" td:nth-child(3)").textContent;
-
-
-          console.log(nombrePlantilla);
-          // console.log(nombreEspecialidad);
-
-          const crearModal = bootstrap.Modal.getOrCreateInstance('#modal');
-          crearModal.show();
-
-
-          document.getElementById("nombre_plantilla").value = nombrePlantilla;
-          document.getElementById("id_fila").value = id;
-
-        };
-      </script>
           </div>
         </div><!-- FIN DEL MODAL -->
 
