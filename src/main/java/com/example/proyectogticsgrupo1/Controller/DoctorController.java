@@ -315,34 +315,31 @@ public class DoctorController {
 
     @GetMapping(value = "/calendario/agregar")
     public String agregarEvento(Model model){
+        //list<IncompatibleClassChangeError> lista = (11.1)
         Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
         Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
         model.addAttribute("doctor",doctor);
-        List<Sede> listsede = sedeRepository.findAll();
-        model.addAttribute("sedesp", listsede);
         model.addAttribute("tipocita",tipohoracalendariodoctorRepository.findAll());
         return "doctor/anadirCalendario";
     }
 
-    /*
-    @GetMapping(value = "/calendario/agregar")
+    @Transactional
+    @PostMapping(value = "/calendario/guardar")
     public String agregarEvento(Model model, @RequestParam("fecha") LocalDate fecha ,
                                 @RequestParam("horainicio") LocalTime horainicio ,
                                 @RequestParam("horafinal") LocalTime horafinal ,
                                 @RequestParam("descripcion") String descripcion,
                                 @RequestParam("idtipocalendario") Integer idtipocalendario,
-                                @RequestParam("duracion") Integer duracion,
-                                @RequestParam("iddoctor") Integer iddoctor){
+                                @RequestParam("iddoctor") Integer iddoctor,
+                                RedirectAttributes redirectAttributes){
+
         Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
         Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
-        model.addAttribute("doctor",doctor);
-        List<Sede> listsede = sedeRepository.findAll();
-        model.addAttribute("sedesparacitas", listsede);
-        model.addAttribute("tipocita",tipohoracalendariodoctorRepository.findAll());
-        model.addAttribute("caldisponible", eventocalendariodoctorRepository.agregarEventoDoctor(fecha, horainicio,
-                horafinal, descripcion, idtipocalendario, duracion,iddoctor));
-        return "doctor/anadirCalendario";
-        */
+        Integer duracion = 1;
+        eventocalendariodoctorRepository.agregarEventoDoctor(idtipocalendario,fecha, horainicio, horafinal, duracion, descripcion,iddoctor);
+        redirectAttributes.addFlashAttribute("msg","Evento Añadido");
+        return "redirect:/doctor/calendario";
+}
 
     @GetMapping("/cuestionario")
     public String cuestionarioDoctor(Model model, @RequestParam("id") int idPaciente){

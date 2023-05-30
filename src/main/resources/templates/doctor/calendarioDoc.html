@@ -27,6 +27,7 @@
                 <li class="breadcrumb-item active">Calendario General</li>
             </ol>
         </nav>
+        <div th:if="${msg!=null}" th:text="${msg}" class="alert alert-success" role="alert"></div>
     </div><!-- End Page Title -->
 
     <section class="section">
@@ -42,7 +43,7 @@
                         <a class="btn btn-info" style="--bs-btn-padding-y: .60rem; --bs-btn-padding-x: 0.2cm;
                                 --bs-btn-font-size: .75rem;"></a><span class="card-text"> Refrigerio</span> <br><br>
                         <div class="justify-content-md-center">
-                            <button href="#" class="btn btn-outline-primary">Añadir al Calendario</button>
+                            <a th:href="@{'/doctor/calendario/agregar'}" class="btn btn-outline-primary">Añadir al Calendario</a>
                         </div>
                     </div>
                 </div>

@@ -35,8 +35,6 @@
         <div class="card">
           <div class="card-body">
             <h5 class="card-title">Opciones</h5>
-            <a class="btn btn-warning" style="--bs-btn-padding-y: .60rem; --bs-btn-padding-x: 0.2cm;
-                                --bs-btn-font-size: .75rem;"></a><span class="card-text"> Citas</span><br>
             <a class="btn btn-success" style="--bs-btn-padding-y: .60rem; --bs-btn-padding-x: 0.2cm;
                                 --bs-btn-font-size: .75rem;"></a><span class="card-text"> Disponibilidad</span><br>
             <a class="btn btn-info" style="--bs-btn-padding-y: .60rem; --bs-btn-padding-x: 0.2cm;
@@ -50,66 +48,71 @@
         <div class="card">
           <div class="card-body">
             <!-- General Form Elements -->
-            <form method="post" th:action="@{'/doctor/calendario/agregar'}" >
+            <form method="post" th:action="@{'/doctor/calendario/guardar'}" >
               <br>
+              <input th:value="${doctor.getIddoctor()}" name="iddoctor" type="hidden" />
 
-              <div class="row mb-3">
-                <label for="fecha" class="col-sm-3 col-form-label"style="font-weight: bold">Fecha</label>
+              <div class="mb-3 row">
+                <label for="fecha" class="col-sm-3 col-form-label"  style="font-weight: bold">Fecha</label>
                 <div class="col-sm-9">
-                  <select class="form-select" name="fecha" id="fecha" required>
-                    <option value="vacio" selected disabled>Seleccione fecha</option>
-                    <option th:each="e:${caldisponible}" th:text="|${e.fecha} (${e.doctor.usuario.nombres} ${e.doctor.usuario.apellidos})|" th:value="${e.fecha}"></option>
-                  </select>
+                  <input type="text" name="fecha" class="form-control" id="fecha">
                 </div>
               </div>
 
               <div class="row mb-3">
-                <label for="hora" class="col-sm-3 col-form-label"style="font-weight: bold">Hora</label>
+                <label for="horainicio" class="col-sm-3 col-form-label" style="font-weight: bold">Hora Inicio</label>
                 <div class="col-sm-9">
-                  <select class="form-select" name="hora" id="hora" required>
+                  <select class="form-select" name="horainicio" id="horainicio" required>
                     <option value="vacio" selected disabled>Seleccione Hora</option>
-                    <option th:each="e:${caldisponible}" th:text="|${e.horainicio}-${e.horafinal} (${e.doctor.usuario.nombres} ${e.doctor.usuario.apellidos})|" th:value="${e.horainicio}"></option>
+                    <option> 10:00:00</option>
+                    <option> 11:00:00</option>
+                    <option> 12:00:00</option>
+                    <option> 13:00:00</option>
+                    <option> 14:00:00</option>
+                    <option> 15:00:00</option>
+                    <option> 16:00:00</option>
                   </select>
                 </div>
               </div>
 
               <div class="row mb-3">
-                <label class="col-sm-3 col-form-label"style="font-weight: bold">Tipo</label>
+                <label for="horafinal" class="col-sm-3 col-form-label"style="font-weight: bold">Hora Final</label>
                 <div class="col-sm-9">
-                  <select class="form-select" name="idtipocita" id="idtipocita" required>
-                    <option value="vacio" selected disabled>Seleccione tipo de cita</option>
-                    <option th:each="t:${tipocita}" th:text="${t.nombre}" th:value="${t.idtipocita}"></option>
+                  <select class="form-select" name="horafinal" id="horafinal" required>
+                    <option value="vacio" selected disabled>Seleccione Hora</option>
+                    <option> 11:00:00</option>
+                    <option> 12:00:00</option>
+                    <option> 13:00:00</option>
+                    <option> 14:00:00</option>
+                    <option> 15:00:00</option>
+                    <option> 16:00:00</option>
+                    <option> 17:00:00</option>
                   </select>
                 </div>
               </div>
-              <div class="row mb-3">
-                <label class="col-sm-3 col-form-label"style="font-weight: bold">Seguro</label>
+              <div class="mb-3 row">
+                <label for="descripcion" class="col-sm-3 col-form-label"  style="font-weight: bold">Descripcion</label>
                 <div class="col-sm-9">
-                  <input type="text" class="form-control" th:value="${pacientelog.seguro.nombre}" disabled required>
-                </div>
-                <div class="col-sm-9">
-                  <input type="text" class="form-control" name="idseguro" th:value="${pacientelog.seguro.idseguro}" hidden required>
-
+                  <input type="text" name="descripcion" class="form-control" id="descripcion">
                 </div>
               </div>
 
               <div class="row mb-3">
-                <label class="col-sm-3 col-form-label"style="font-weight: bold"></label>
+                <label for="idtipocalendario" class="col-sm-3 col-form-label"style="font-weight: bold">Opciones</label>
                 <div class="col-sm-9">
-                  <span th:text="|La comision que se paga con este seguro es ${pacientelog.seguro.getCoaseguro()}|"></span>
+                  <select class="form-select" name="idtipocalendario" id="idtipocalendario" required>
+                    <option value="vacio" selected disabled>Seleccione</option>
+                    <option th:each="t:${tipocita}" th:text="${t.nombre}" th:value="${t.idtipohoracalendariodoctor}"></option>
+                  </select>
                 </div>
-
               </div>
+
 
               <div class="text-center">
                 <div class="text-center">
-                  <button type="submit" class="btn btn-warning">Agendar Cita</button>
+                  <button type="submit" class="btn btn-warning">Añadir Opcion</button>
                 </div>
               </div>
-
-              <div th:if="${msg!=null}" th:text="${msg}" class="alert alert-danger" role="alert"></div>
-
-              <div id="error-message" class="alert alert-danger mt-3" style="display: none;"></div>
 
             </form><!-- End General Form Elements -->
           </div>
