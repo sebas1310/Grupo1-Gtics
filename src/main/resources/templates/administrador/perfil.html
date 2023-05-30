@@ -181,7 +181,7 @@
 
 
                 <!-- Cambio de contraseña Form -->
-                <form method="post" th:action="@{'/administrador/changecontrasena'}" onsubmit="return validateForm()">
+                <form method="post" th:action="@{'/administrador/changepassword'}" onsubmit="return validateForm()">
                   <input th:value="${session.usuario.getIdusuario()}" name="id" type="hidden">
                   <div class="row mb-3">
                     <label for="contrasena" class="col-md-4 col-lg-3 col-form-label">Contraseña Actual</label>

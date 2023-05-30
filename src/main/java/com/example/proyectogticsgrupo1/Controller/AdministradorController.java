@@ -450,15 +450,15 @@ public class AdministradorController {
         if (passwordEncoder.matches(contrasena, usuarioAdministrador.getContrasena())) {
             String hashedNewPassword = passwordEncoder.encode(newpassword);
 
-            if (usuarioAdministrador.getContrasena().equals(contrasena)) {
-                usuarioRepository.changePassword(renewpassword, usuarioAdministrador.getIdusuario());
+
+               //usuarioRepository.changePassword(renewpassword, usuarioAdministrador.getIdusuario());
                 usuarioRepository.changePassword(hashedNewPassword, usuarioAdministrador.getIdusuario());
                 redirectAttributes.addFlashAttribute("psw1", "Contraseña actualizada");
 
             } else {
                 redirectAttributes.addFlashAttribute("psw2", "La contraseña es incorrecta");
             }
-        }
+
             return "redirect:/administrador/perfil";
         }
 }
