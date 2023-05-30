@@ -398,6 +398,7 @@ public class AdministradorController {
             doctor.setUsuario(user);
             doctor.setConsultorio("-");
             doctorRepository.save(doctor);
+            emailService.sendEmail(doctor.getUsuario().getCorreo(), "Confirmación de Registro", "Estimado usuario, usted ha sido registrado en:\nSede " + usuarioAdministrador.getSede().getNombre() + "\nUbicada en " + usuarioAdministrador.getSede().getDireccion() + "\nTu contraseña por defecto es: " + doctor.getUsuario().getContrasena() + "\nIngresa aquí para cambiarla");
             return "redirect:/administrador/dashboarddoctor";
         }
     }
