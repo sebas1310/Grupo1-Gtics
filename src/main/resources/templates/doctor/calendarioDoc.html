@@ -48,6 +48,28 @@
                     </div>
                 </div>
             </div>
+            <div class="col-sm-4">
+                <div class="card">
+
+                    <table class="table ">
+                        <thead>
+                        <tr>
+                            <th style="text-align: center" scope="col">Fecha</th>
+                            <th style="text-align: center" scope="col">Hora</th>
+                            <th style="text-align: center" scope="col">Descripcion</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each=" evento :${eventos}">
+                            <td style="text-align: center" th:text="|${evento.getFecha()}|"></td>
+                            <td style="text-align: center" th:text="|${evento.getHorainicio()} - ${evento.getHorafinal()}|"></td>
+                            <td style="text-align: center" th:text="${evento.getTipohoracalendariodoctor().getNombre()}"></td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
             <div class="col-sm-8 mb-3 mb-sm-0">
                 <div class="card">
                     <div class="card-body">
