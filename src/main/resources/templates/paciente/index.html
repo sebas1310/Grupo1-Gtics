@@ -126,7 +126,7 @@
                   <h6>Filtro</h6>
                 </li>
 
-                <li><a class="dropdown-item" th:href="@{'/paciente/calendarioMensual'}">Vista Mensual</a></li>
+                <li><a class="dropdown-item" th:href="@{'/paciente/calendarioMensual'}">Vista Semanal</a></li>
               </ul>
             </div>
 
@@ -146,8 +146,6 @@
                     <td>
                       <button type="button"   class="btn btn-warning" data-toggle="modal" th:data-target="'#exampleModalCenter-' +${p.idcita}" th:text="${p.especialidad.nombre}">
                       </button>
-
-
 
                       <!-- Modal -->
                       <div class="modal fade" th:id="'exampleModalCenter-' + ${p.idcita}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
