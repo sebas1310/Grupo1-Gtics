@@ -54,6 +54,7 @@
             <div th:if="${msg != null}" th:text="${msg}" class="alert alert-success" role="alert"></div>
 
             <form class="row g-3" method="post" th:action="@{/administrador/guardar2}">
+              <input th:value="${session.usuario.getIdusuario()}" name="id" type="hidden">
               <div class="col-12">
                 <label class="form-label">Nombres</label>
                 <input type="nombres" class="form-control" name="nombres" required >

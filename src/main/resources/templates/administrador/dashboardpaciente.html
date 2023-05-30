@@ -52,6 +52,8 @@
                     <div class="card-body">
 
                         <h5 class="card-title">Pacientes</h5>
+                        <div th:if="${pac!=null}" th:text="${pac}" class="alert alert-success" role="alert"></div>
+
                         <!--<div class="search-bar">
                             <form class="search-form d-flex align-items-center col-lg bg-body-tertiary" method="post" th:action="@{/administrador/buscarPaciente}">
                                 <input name="id" th:value="${usuario.idusuario}" type="hidden">

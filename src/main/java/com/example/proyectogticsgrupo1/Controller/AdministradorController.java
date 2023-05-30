@@ -2,6 +2,7 @@ package com.example.proyectogticsgrupo1.Controller;
 
 import com.example.proyectogticsgrupo1.Entity.*;
 import com.example.proyectogticsgrupo1.Repository.*;
+import com.example.proyectogticsgrupo1.Service.EmailService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
@@ -46,6 +47,17 @@ public class AdministradorController {
 
     @Autowired
     private HttpSession session;
+
+    @Autowired
+    private EmailService emailService;
+    @GetMapping(value = "/email")
+    public String emailpr(){
+        String user = "angieealejandro@gmail.com";
+        String subj = "HOLA";
+        String msj = "Pruebas de envio";
+        emailService.sendEmail(user,subj,msj);
+        return "redirect:/administrador";
+    }
 
     @GetMapping("")
     public String administrador(Model model) {
@@ -101,10 +113,11 @@ public class AdministradorController {
         Usuario usuarioAdministrador = (Usuario) session.getAttribute("usuario");
         model.addAttribute("usuario",usuarioAdministrador);
         if (user.getIdusuario() == null) {
-            attr.addFlashAttribute("msg", "Paciente creado exitosamente");
+            attr.addFlashAttribute("pac", "Paciente creado exitosamente");
         } else {
             attr.addFlashAttribute("msg", "Paciente actualizado exitosamente");
         }
+
         Tipodeusuario tipodeusuario = new Tipodeusuario();
         tipodeusuario.setIdtipodeusuario(4);
         user.setEstadohabilitado(1);
@@ -126,7 +139,8 @@ public class AdministradorController {
         paciente.setUsuario(user);
         paciente.setCondicionenfermedad("-");
         pacienteRepository.save(paciente);
-        return "redirect:/administrador/crearpaciente";
+        emailService.sendEmail(paciente.getUsuario().getCorreo(),"Confirmación de Registro","Estimado usuario usted ha sido registrado en: \n Sede "+usuarioAdministrador.getSede().getNombre()+"\n Ubicada en " +usuarioAdministrador.getSede().getDireccion());
+        return "redirect:/administrador/dashboardpaciente";
     }
 
     public static String generarContrasena(int longitud) {
