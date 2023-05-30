@@ -110,16 +110,22 @@
                         </div>
                       </div>
                       <div>
-                        <form>
+                        <form th:action="@{'/paciente/reservar2'}" method="post">
                           <div class="form-group">
                             <label for="input1">DNI:</label>
-                            <input type="text" class="form-control" th:value="${pacientelog.usuario.dni}" disabled id="input1">
+                            <input type="text" class="form-control" th:value="${pacientelog.usuario.dni}" disabled>
                           </div>
                           <div class="form-group">
                             <label for="input2">Seguro:</label>
-                            <input type="text" class="form-control" th:value="${pacientelog.seguro.nombre}" disabled id="input2">
+                            <input type="text" class="form-control" th:value="${pacientelog.seguro.nombre}" disabled>
                           </div>
+                          <select class="form-select" name="idtipocita" id="idtipocita" required>
+                            <option value="vacio" selected disabled>Seleccione tipo de cita</option>
+                            <option th:each="t:${tipocita}" th:text="${t.nombre}" th:value="${t.idtipocita}"></option>
+                          </select>
+                          <input th:value="${p.ideventocalendariodoctor}" name="idev" hidden>
                           <br>
+
                           <div class="form-group d-flex justify-content-center">
                             <button type="submit" class="btn btn-primary">Reservar</button>
                           </div>
@@ -228,20 +234,27 @@
               </div>
             </div>
             <div>
-              <form>
+
+              <form th:action="@{'/paciente/reservar2'}" method="post">
                 <div class="form-group">
                   <label for="input1">DNI:</label>
-                  <input type="text" class="form-control" th:value="${pacientelog.usuario.dni}" disabled id="input1">
+                  <input type="text" class="form-control" th:value="${pacientelog.usuario.dni}" disabled>
                 </div>
                 <div class="form-group">
                   <label for="input2">Seguro:</label>
-                  <input type="text" class="form-control" th:value="${pacientelog.seguro.nombre}" disabled id="input2">
+                  <input type="text" class="form-control" th:value="${pacientelog.seguro.nombre}" disabled>
                 </div>
+                <select class="form-select" name="idtipocita" id="idtipocita" required>
+                  <option value="vacio" selected disabled>Seleccione tipo de cita</option>
+                  <option th:each="t:${tipocita}" th:text="${t.nombre}" th:value="${t.idtipocita}"></option>
+                </select>
+                <input th:value="${p.ideventocalendariodoctor}" name="idev" hidden>
                 <br>
                 <div class="form-group d-flex justify-content-center">
                   <button type="submit" class="btn btn-primary">Reservar</button>
                 </div>
               </form>
+
             </div>
             <br>
             <div class="modal-footer d-flex justify-content-center">
@@ -348,16 +361,22 @@
                         </div>
                       </div>
                       <div>
-                        <form>
+                        <form th:action="@{'/paciente/reservar2'}" method="post">
                           <div class="form-group">
                             <label for="input1">DNI:</label>
-                            <input type="text" class="form-control" th:value="${pacientelog.usuario.dni}" disabled id="input1">
+                            <input type="text" class="form-control" th:value="${pacientelog.usuario.dni}" disabled>
                           </div>
                           <div class="form-group">
                             <label for="input2">Seguro:</label>
-                            <input type="text" class="form-control" th:value="${pacientelog.seguro.nombre}" disabled id="input2">
+                            <input type="text" class="form-control" th:value="${pacientelog.seguro.nombre}" disabled>
                           </div>
+                          <select class="form-select" name="idtipocita" id="idtipocita" required>
+                            <option value="vacio" selected disabled>Seleccione tipo de cita</option>
+                            <option th:each="t:${tipocita}" th:text="${t.nombre}" th:value="${t.idtipocita}"></option>
+                          </select>
+                          <input th:value="${p.ideventocalendariodoctor}" name="idev" hidden>
                           <br>
+
                           <div class="form-group d-flex justify-content-center">
                             <button type="submit" class="btn btn-primary">Reservar</button>
                           </div>
@@ -465,16 +484,22 @@
                         </div>
                       </div>
                       <div>
-                        <form>
+                        <form th:action="@{'/paciente/reservar2'}" method="post">
                           <div class="form-group">
                             <label for="input1">DNI:</label>
-                            <input type="text" class="form-control" th:value="${pacientelog.usuario.dni}" disabled id="input1">
+                            <input type="text" class="form-control" th:value="${pacientelog.usuario.dni}" disabled>
                           </div>
                           <div class="form-group">
                             <label for="input2">Seguro:</label>
-                            <input type="text" class="form-control" th:value="${pacientelog.seguro.nombre}" disabled id="input2">
+                            <input type="text" class="form-control" th:value="${pacientelog.seguro.nombre}" disabled>
                           </div>
+                          <select class="form-select" name="idtipocita" id="idtipocita" required>
+                            <option value="vacio" selected disabled>Seleccione tipo de cita</option>
+                            <option th:each="t:${tipocita}" th:text="${t.nombre}" th:value="${t.idtipocita}"></option>
+                          </select>
+                          <input th:value="${p.ideventocalendariodoctor}" name="idev" hidden>
                           <br>
+
                           <div class="form-group d-flex justify-content-center">
                             <button type="submit" class="btn btn-primary">Reservar</button>
                           </div>
@@ -585,16 +610,22 @@
                         </div>
                       </div>
                       <div>
-                        <form>
+                        <form th:action="@{'/paciente/reservar2'}" method="post">
                           <div class="form-group">
                             <label for="input1">DNI:</label>
-                            <input type="text" class="form-control" th:value="${pacientelog.usuario.dni}" disabled id="input1">
+                            <input type="text" class="form-control" th:value="${pacientelog.usuario.dni}" disabled>
                           </div>
                           <div class="form-group">
                             <label for="input2">Seguro:</label>
-                            <input type="text" class="form-control" th:value="${pacientelog.seguro.nombre}" disabled id="input2">
+                            <input type="text" class="form-control" th:value="${pacientelog.seguro.nombre}" disabled>
                           </div>
+                          <select class="form-select" name="idtipocita" id="idtipocita" required>
+                            <option value="vacio" selected disabled>Seleccione tipo de cita</option>
+                            <option th:each="t:${tipocita}" th:text="${t.nombre}" th:value="${t.idtipocita}"></option>
+                          </select>
+                          <input th:value="${p.ideventocalendariodoctor}" name="idev" hidden>
                           <br>
+
                           <div class="form-group d-flex justify-content-center">
                             <button type="submit" class="btn btn-primary">Reservar</button>
                           </div>
@@ -704,16 +735,22 @@
                         </div>
                       </div>
                       <div>
-                        <form>
+                        <form th:action="@{'/paciente/reservar2'}" method="post">
                           <div class="form-group">
                             <label for="input1">DNI:</label>
-                            <input type="text" class="form-control" th:value="${pacientelog.usuario.dni}" disabled id="input1">
+                            <input type="text" class="form-control" th:value="${pacientelog.usuario.dni}" disabled>
                           </div>
                           <div class="form-group">
                             <label for="input2">Seguro:</label>
-                            <input type="text" class="form-control" th:value="${pacientelog.seguro.nombre}" disabled id="input2">
+                            <input type="text" class="form-control" th:value="${pacientelog.seguro.nombre}" disabled>
                           </div>
+                          <select class="form-select" name="idtipocita" id="idtipocita" required>
+                            <option value="vacio" selected disabled>Seleccione tipo de cita</option>
+                            <option th:each="t:${tipocita}" th:text="${t.nombre}" th:value="${t.idtipocita}"></option>
+                          </select>
+                          <input th:value="${p.ideventocalendariodoctor}" name="idev" hidden>
                           <br>
+
                           <div class="form-group d-flex justify-content-center">
                             <button type="submit" class="btn btn-primary">Reservar</button>
                           </div>

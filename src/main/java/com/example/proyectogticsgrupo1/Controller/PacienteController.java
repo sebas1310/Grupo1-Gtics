@@ -136,7 +136,6 @@ public class PacienteController {
     }
     @GetMapping(value = "/reservar2")
     public String selectDate(Model model, @RequestParam("iddoc") Integer id){
-        System.out.printf("entraaaaaza");
         //Optional<Paciente> optionalPaciente = pacienteRepository.findById(1);
         //Paciente paciente =  optionalPaciente.get();
 
@@ -145,7 +144,7 @@ public class PacienteController {
         Usuario usuario = (Usuario) session.getAttribute("usuario");
         Paciente paciente = pacienteRepository.pacXuser(usuario.getIdusuario());
 
-
+        model.addAttribute("tipocita",tipoCitaRepository.findAll());
         model.addAttribute("lunes",eventocalendariodoctorRepository.listalunes(doc.getIddoctor()));
         model.addAttribute("martes",eventocalendariodoctorRepository.listaMartes(id));
         model.addAttribute("miercoles",eventocalendariodoctorRepository.listaMiercoles(id));
@@ -363,7 +362,7 @@ public class PacienteController {
                     }
                     if(flg){
                         System.out.println("llega aca prim");
-                        citaRepository.agengedarcita(idsede, idesp,fecha, hora, hora.plusHours(1),60, idtipocita, idseguro, 1, 1,iddoctor);
+                        citaRepository.agengedarcita(idsede, idesp,fecha, hora, hora.plusHours(1),60, idtipocita, idseguro, 1, paciente.getIdpaciente(),iddoctor);
                         eventocalendariodoctorRepository.cambiarEstadoCalendario(iddoctor,fecha,hora);
                         if(idtipocita==1){
                             emailService.sendEmail(paciente.getUsuario().getCorreo(),"Confirmación de cita","Estimado usuario usted reservó una cita para el "+fecha.toString()+ ".\n"+"En la sede "+sedeRepository.findById(idsede).get().getNombre()+" ubicada " +sedeRepository.findById(idsede).get().getDireccion());
@@ -409,6 +408,43 @@ public class PacienteController {
             redirectAttributes.addFlashAttribute("msj",costos);
         }
         return "redirect:/paciente/pagos";
+    }
+
+    @PostMapping(value = "/reservar2")
+    @Transactional
+    public String reserva2 (@RequestParam("idev") Integer idev, @RequestParam("idtipocita") Integer idtipocita, RedirectAttributes redirectAttributes){
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        Paciente paciente = pacienteRepository.pacXuser(usuario.getIdusuario());
+        Eventocalendariodoctor eventocalendariodoctor = eventocalendariodoctorRepository.findById(idev).get();
+        Doctor doc = doctorRepository.findById(eventocalendariodoctor.getDoctor().getIddoctor()).get();
+        System.out.println("entraaa\n");
+        System.out.println("doctooooor");
+        System.out.println(doc.getIddoctor());
+        citaRepository.agengedarcita(doc.getSede().getIdsede(),
+                doc.getEspecialidad().getIdespecialidad(),
+                eventocalendariodoctor.getFecha(),
+                eventocalendariodoctor.getHorainicio(),
+                eventocalendariodoctor.getHorainicio().plusHours(1),
+                60,
+                idtipocita,
+                paciente.getIdpaciente(),
+                1,
+                paciente.getIdpaciente(),
+                doc.getIddoctor());
+        eventocalendariodoctorRepository.cambiarEstadoCalendario(doc.getIddoctor(),
+                eventocalendariodoctor.getFecha(),
+                eventocalendariodoctor.getHorainicio());
+
+        if(idtipocita==1){
+            emailService.sendEmail(paciente.getUsuario().getCorreo(),"Confirmación de cita","Estimado usuario usted reservó una cita para el "+eventocalendariodoctor.getFecha().toString()+ ".\n"+"En la sede "+sedeRepository.findById(doc.getSede().getIdsede()).get().getNombre()+" ubicada " +sedeRepository.findById(doc.getSede().getIdsede()).get().getDireccion());
+
+        }else{
+            emailService.sendEmail(paciente.getUsuario().getCorreo(),"Confirmación de cita","Estimado usuario usted reservó una cita virtual para el "+eventocalendariodoctor.getFecha().toString()+ ".\n"+"El link para la sesion de zoom es el siguiente: " +doc.getZoom());
+
+        }
+        redirectAttributes.addFlashAttribute("msg1", "Ha reservado una cita con éxito");
+
+        return "redirect:/paciente/";
     }
 
 }
