@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:insert="superadmin/fragments_spa/librerias_spa.html :: cabecera (titulo = 'editarform')">
+<head th:insert="~{superadmin/fragments_spa/librerias_spa.html :: cabecera (titulo = 'editarform')}">
 </head>
 
 <body>
 
 <!-- ======= Header ======= -->
-<header th:replace="superadmin/fragments_spa/header_spa.html :: header(num_not = '3', num_form = '2 ', por_canc = '1', nombre = 'A. Jauregui', num_men = '3')">
+<header th:replace="~{superadmin/fragments_spa/header_spa.html :: header(num_not = '3', num_form = '2 ', por_canc = '1', nombre = 'A. Jauregui', num_men = '3')}">
 </header>
 <!-- End Header -->
 
 <!-- ======= Sidebar ======= -->
-<aside th:replace="superadmin/fragments_spa/aside_spa.html :: sidebar (active = 'editarform')">
+<aside th:replace="~{superadmin/fragments_spa/aside_spa.html :: sidebar (active = 'editarform')}">
 </aside>
 <!-- End Sidebar-->
 
@@ -212,17 +212,17 @@
                 }
             };
 
-            // xmlhttp.send("datos=" + datos +"&nombreplantilla="+nombreplantilla+"&id_rol="+id_rol+"&id_especialidad="+id_especialidad+"&nro_inputs="+nro_inputs+"&tipo_plantilla="+tipo_plantilla);
-            // // xmlhttp.send(datos);
+            xmlhttp.send("datos=" + datos +"&nombreplantilla="+nombreplantilla+"&id_rol="+id_rol+"&id_especialidad="+id_especialidad+"&nro_inputs="+nro_inputs+"&tipo_plantilla="+tipo_plantilla);
+            // xmlhttp.send(datos);
 
-            var parametros = "datos=" + encodeURIComponent(datos) +
-                "&nombreplantilla=" + encodeURIComponent(nombreplantilla) +
-                "&id_rol=" + encodeURIComponent(id_rol) +
-                "&id_especialidad=" + encodeURIComponent(id_especialidad) +
-                "&nro_inputs=" + encodeURIComponent(nro_inputs) +
-                "&tipo_plantilla=" + encodeURIComponent(tipo_plantilla);
-
-            xmlhttp.send(parametros);
+            // var parametros = "datos=" + encodeURIComponent(datos) +
+            //     "&nombreplantilla=" + encodeURIComponent(nombreplantilla) +
+            //     "&id_rol=" + encodeURIComponent(id_rol) +
+            //     "&id_especialidad=" + encodeURIComponent(id_especialidad) +
+            //     "&nro_inputs=" + encodeURIComponent(nro_inputs) +
+            //     "&tipo_plantilla=" + encodeURIComponent(tipo_plantilla);
+            //
+            // xmlhttp.send(parametros);
 
         }
     </script>

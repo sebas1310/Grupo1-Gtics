@@ -6,15 +6,18 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Random;
 import java.util.regex.Pattern;
 
 @Controller
@@ -44,6 +47,9 @@ public class SuperadminController {
     @Autowired
     TablaTitulosInputsRepository tablaTitulosInputsRepository;
 
+    @Autowired
+    UserRepository userRepository;
+
 
     @Autowired
     private HttpSession session;
@@ -53,7 +59,10 @@ public class SuperadminController {
     public String inicioDashboardSuperadmin(Model model){
 
 
-        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        Usuario usuario_spa = (Usuario) session.getAttribute("usuario");
+        System.out.println(usuario_spa.getTipodeusuario().getNombre().getClass());
+        System.out.println(usuario_spa.getTipodeusuario().getNombre());
+        Usuario spa_user = userRepository.buscarSuperadminPorIdUsuario(usuario_spa.getIdusuario());
 
 //        Optional<Usuario> optionalUsuario = usuarioRepository.findById(1);
 //        Usuario usuario = optionalUsuario.get();
@@ -62,7 +71,7 @@ public class SuperadminController {
         List<Usuario> listaUsuarios = usuarioRepository.findAll();
 
 
-        model.addAttribute("administradores", usuario);
+        model.addAttribute("administradores", spa_user);
 
         model.addAttribute("listaUsuarios", listaUsuarios);
 
@@ -75,6 +84,20 @@ public class SuperadminController {
 
         List<ModeloEntity> modeloEntityList = modeloRepository.findAll();
         model.addAttribute("modeloEntityList",modeloEntityList);
+
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        String username = userDetails.getUsername();
+        String rol = userDetails.getAuthorities().toString();
+        String password = userDetails.getPassword();
+
+        System.out.println(username);
+        System.out.println(rol.getClass());
+        System.out.println(rol);
+        System.out.println(password);
+
+        model.addAttribute("rol_user_autorizado",rol);
 
 
         return "superadmin/lista_plantillas_spa";
@@ -238,7 +261,7 @@ public class SuperadminController {
 
     }
 
-    @PostMapping("/crearPlantillaInforme")
+    @PostMapping(value = "/crearPlantillaInforme")
     @Transactional
     public String crearPlantillaInforme(Model model,@RequestParam("datos") String datos
             ,@RequestParam("nombreplantilla") String nombreplantilla
@@ -314,8 +337,13 @@ public class SuperadminController {
         }
 
 //        tablaDatosLlenosRepository.LlenadoDePlantilla(id_registro_nuevo,nombreplantilla,id_usuario,id_modelo,id_cita);
-        tablaDatosLlenosRepository.LlenadoDePlantilla(id_registro_nuevo+2,nombreplantilla,4,7,1);
+//
+//
+//
+//        tablaDatosLlenosRepository.LlenadoDePlantilla(id_registro_nuevo,nombreplantilla,4,1,1);
 
+//        tablaDatosLlenosRepository.LlenadoDePlantilla(id_registro_nuevo+1,nombreplantilla,4,id_registro_nuevo+1,1);
+//
 
 
         //////////////////////////////////////
