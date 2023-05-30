@@ -105,6 +105,8 @@ public class SecurityConfig {
                 //.requestMatchers("/shipper", "/shipper/**").hasAuthority("admin")
                 //Dejar accesible a todos los usuarios cualquier otra ruta con anyRequest()
 
+
+
 //                .anyRequest().permitAll()
                 .anyRequest().authenticated();
 

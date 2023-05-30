@@ -263,6 +263,8 @@ public class SuperadminController {
 
     @PostMapping(value = "/crearPlantillaInforme")
     @Transactional
+
+
     public String crearPlantillaInforme(Model model,@RequestParam("datos") String datos
             ,@RequestParam("nombreplantilla") String nombreplantilla
             ,@RequestParam("id_rol") int id_rol
