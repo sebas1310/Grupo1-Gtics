@@ -115,14 +115,12 @@
                             <div class="row mb-3">
                                 <label  class="form-label">Sede</label>
                                 <div class="col-sm-10">
-                                    <select  class="form-select" id="category" th:name="idsede">
+                                    <select  class="form-select" th:name="sede.idsede">
                                         <option th:each="sede : ${listasedes}" th:text="${sede.getNombre()}"
                                                 th:value="${sede.getIdsede()}"></option>
                                     </select>
                                 </div>
                             </div>
-
-
 
                             <input type="hidden" th:name="estadohabilitado" th:value="1">
                             <input type="hidden" th:name="tipodeusuario.idtipodeusuario" th:value="2">

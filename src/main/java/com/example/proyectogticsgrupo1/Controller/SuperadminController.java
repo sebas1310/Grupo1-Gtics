@@ -178,6 +178,7 @@ public class SuperadminController {
 
         }else{
             attr.addFlashAttribute("msg","Administrador actualizado");
+            usuario.setContrasena(passwordEncoder.encode(usuario.getContrasena()));
             usuarioRepository.save(usuario);
             return "redirect:/superadmin/index";
 
@@ -351,26 +352,23 @@ public class SuperadminController {
     }
 
 
-    @PostMapping("/cambiarContrasena")
+    @PostMapping(value = "/changepassword")
     @Transactional
-    public String cambiarContraseña(Model model, RedirectAttributes attr,
-                                    @RequestParam("currentPassword") String currentPassword,
-                                    @RequestParam("newPassword") String  newPassword,
-                                    @RequestParam("renewpassword") String  renewpassword){
-        Usuario usuarioSpa = (Usuario) session.getAttribute("usuario");
-        Usuario superadmin = usuarioRepository.buscarPorId(usuarioSpa.getIdusuario());
+    public String changePassword(@RequestParam("id") int idusuario,@RequestParam("contrasena") String contrasena, @RequestParam("newpassword") String newpassword, @RequestParam("renewpassword") String renewpassword, RedirectAttributes redirectAttributes) {
+
+        Usuario superadmin = (Usuario) session.getAttribute("usuario");
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-        if(passwordEncoder.matches(currentPassword, superadmin.getContrasena())){
-            String hashedNewPassword = passwordEncoder.encode(newPassword);
+        if (passwordEncoder.matches(contrasena, superadmin.getContrasena())) {
+            String hashedNewPassword = passwordEncoder.encode(newpassword);
 
-            usuarioRepository.changePassword(hashedNewPassword,superadmin.getIdusuario());
+            usuarioRepository.changePassword(hashedNewPassword, superadmin.getIdusuario());
+            redirectAttributes.addFlashAttribute("psw1", "Contraseña actualizada");
 
-            attr.addFlashAttribute("psw1", "Contraseña actualizada");
-        }else {
-            attr.addFlashAttribute("psw2", "La contraseña actual es incorrecta");
-            return "redirect:/superadmin/perfil";
+        } else {
+            redirectAttributes.addFlashAttribute("psw2", "La contraseña es incorrecta");
         }
+
         return "redirect:/superadmin/perfil";
     }
 }
