@@ -136,13 +136,22 @@ public class PacienteController {
     }
     @GetMapping(value = "/reservar2")
     public String selectDate(Model model, @RequestParam("iddoc") Integer id){
-        System.out.println("llega doctor?: " + id);
+        System.out.printf("entraaaaaza");
         //Optional<Paciente> optionalPaciente = pacienteRepository.findById(1);
         //Paciente paciente =  optionalPaciente.get();
+
+        Doctor doc = doctorRepository.buscarDoctorPorId(id);
 
         Usuario usuario = (Usuario) session.getAttribute("usuario");
         Paciente paciente = pacienteRepository.pacXuser(usuario.getIdusuario());
 
+
+        model.addAttribute("lunes",eventocalendariodoctorRepository.listalunes(doc.getIddoctor()));
+        model.addAttribute("martes",eventocalendariodoctorRepository.listaMartes(id));
+        model.addAttribute("miercoles",eventocalendariodoctorRepository.listaMiercoles(id));
+        model.addAttribute("jueves",eventocalendariodoctorRepository.listaJueves(id));
+        model.addAttribute("viernes",eventocalendariodoctorRepository.listaViernes(id));
+        model.addAttribute("sabado",eventocalendariodoctorRepository.listaSabado(id));
 
         model.addAttribute("pacientelog",paciente);
         //Eventocalendariodoctor eventocalendariodoctor = eventocalendariodoctorRepository.calendarioPorDoctor(id);

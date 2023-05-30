@@ -24,245 +24,622 @@
   </div>
   <section class="section profile">
     <div class="card d-flex justify-content-center">
-      <div class="card-body">
+
+
+      <div class="card-body pb-0">
+        <h5 class="card-title">Lunes</h5>
         <div class="table-responsive">
-          <div class="d-flex justify-content-between align-items-center">
-            <h3 id="currentWeekLabel"></h3>
-          </div>
           <table class="table  table-bordered">
             <thead>
-            <tr >
-              <th></th>
-              <th class="text-center">Lunes</th>
-              <th class="text-center">Martes</th>
-              <th class="text-center">Miércoles</th>
-              <th class="text-center">Jueves</th>
-              <th class="text-center">Viernes</th>
-              <th class="text-center">Sábado</th>
-              <th class="text-center">Domingo</th>
+            <tr>
+              <th class="text-center">Hora</th>
+              <th class="text-center">Disponibilidad</th>
             </tr>
             </thead>
-            <tbody>
-            <tr>
-              <td>8:00</td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-            </tr>
-            <tr>
-              <td>9:00</td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
+            <tbody class="text-center">
+            <tr th:each="p,idx:${lunes}">
+              <td th:text="|${p.horainicio} - ${p.horafinal}|"></td>
               <td>
-                <button type="button"  style="background-color: darkseagreen" class="btn" data-toggle="modal" data-target="#exampleModalCenter">
-                  Disponible
+                <button type="button"   class="btn btn-warning" data-toggle="modal" th:data-target="'#exampleModalCenter-' +${p.ideventocalendariodoctor}" th:text="Disponible">
                 </button>
-              </td>
-              <td></td>
-              <td></td>
-            </tr>
-            <tr>
-              <td>10:00</td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-            </tr>
-            <tr>
-              <td>11:00</td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-            </tr>
-            <tr>
-              <td>12:00</td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-            </tr>
-            <tr>
-              <td>13:00</td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-            </tr>
-            <tr>
-              <td>14:00</td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-            </tr>
-            <tr>
-              <td>15:00</td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-            </tr>
-            <tr>
-              <td>16:00</td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-            </tr>
-            <tr>
-              <td>17:00</td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-            </tr>
-            <tr>
-              <td>18:00</td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-            </tr>
-            <tr>
-              <td>19:00</td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-            </tr>
-            <tr>
-              <td>20:00</td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-            </tr>
-            <tr>
-              <td>21:00</td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-            </tr>
 
-            </tbody>
-          </table>
-        </div>
-        <!-- Modal -->
-        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-          <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">Cita Presencial</h5>
-              </div>
-              <div class="modal-body">
-                <div class="d-flex align-items-center">
-                  <p class="ml-3 mb-0">Doctor: </p>
-                  <p class="ml-3 mb-0" th:text="|${calendario.doctor.usuario.nombres} ${calendario.doctor.usuario.apellidos}|"></p>
-                </div>
-                <div class="d-flex align-items-center">
-                  <i class="bi bi-geo-alt-fill"></i>
-                  <p class="ml-3 mb-0" th:text="${calendario.doctor.sede.nombre}"></p>
-                </div>
-              </div>
-              <div class="d-inline-block w-auto mx-auto">
-                <div class="card bg-light d-flex align-items-center">
-                    <h2 th:text="${calendario.fecha}"></h2>
-                      <div class="card-body">
-                        <div class="row">
-                          <div class="col">
-                            <div class="p-3">
-                              Duración
-                            </div>
-                            <div class="p-3">
-                              <p th:text="|${calendario.duracion} hora(s)|"></p>
-                            </div>
+
+
+                <!-- Modal -->
+                <div class="modal fade" th:id="'exampleModalCenter-' + ${p.ideventocalendariodoctor}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                  <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                      <div style="background-color: #ffd966" class="modal-header">
+                        <h5 class="modal-title " style="font-weight: bold" id="exampleModalLongTitle"></h5>
+
+                        <div class="d-flex align-items-center">
+                          <i class="bi bi-geo-alt-fill"></i>
+                          <p class="ml-3 mb-0" th:text="${p.doctor.sede.nombre}"></p>
+                        </div>
+                      </div>
+                      <div class="modal-body">
+
+                        <div class="d-flex align-items-center">
+                          <div class="col-lg-8">
+                            <table>
+                              <tr>
+                                <td>
+                                  <p  class="ml-3 mb-0" >Doctor:</p>
+                                </td>
+                                <td>
+                                  <p  class="ml-3 mb-0"  th:text="|${p.doctor.usuario.nombres} ${p.doctor.usuario.apellidos}|"></p>
+                                </td>
+
+                              </tr>
+                            </table>
+
                           </div>
-                          <div class="col">
-                            <div class="p-3">
-                              Inicio:
-                            </div>
-                            <div class="p-3">
-                              <p th:text="${calendario.horainicio}"></p>
-                            </div>
-                          </div>
-                          <div class="col">
-                            <div class="p-3">
-                             Fin:
-                            </div>
-                            <div class="p-3">
-                              <p th:text="${calendario.horafinal}"></p>
+                        </div>
+                      </div>
+                      <div class="d-inline-block w-auto mx-auto">
+                        <div class="card bg-light d-flex align-items-center">
+                          <h2 th:text="${p.fecha}"></h2>
+                          <div class="card-body">
+                            <div class="row">
+                              <div class="col">
+                                <div class="p-3">
+                                  Duración
+                                </div>
+                                <div class="p-3">
+                                  <p th:text="|${p.duracion} hora(s)|"></p>
+                                </div>
+                              </div>
+                              <div class="col">
+                                <div class="p-3">
+                                  Inicio:
+                                </div>
+                                <div class="p-3">
+                                  <p th:text="${p.horainicio}"></p>
+                                </div>
+                              </div>
+                              <div class="col">
+                                <div class="p-3">
+                                  Fin:
+                                </div>
+                                <div class="p-3">
+                                  <p th:text="${p.horafinal}"></p>
+                                </div>
+                              </div>
                             </div>
                           </div>
                         </div>
                       </div>
+                      <br>
+                      <div class="modal-footer d-flex justify-content-center">
+                        <button type="button" class="btn btn-warning" data-dismiss="modal">Cerrar</button>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <form>
-                  <div class="form-group">
-                    <label for="input1">DNI:</label>
-                    <input type="text" class="form-control" th:value="${pacientelog.usuario.dni}" disabled id="input1">
-                  </div>
-                  <div class="form-group">
-                    <label for="input2">Seguro:</label>
-                    <input type="text" class="form-control" th:value="${pacientelog.seguro.nombre}" disabled id="input2">
-                  </div>
-                  <br>
-                  <div class="form-group d-flex justify-content-center">
-                    <button type="submit" class="btn btn-primary">Reservar</button>
-                  </div>
-                </form>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    <!-- End Website Traffic -->
+
+
+
+
+
+      <!-- inicio-->
+
+      <div class="card-body pb-0">
+        <h5 class="card-title">Martes</h5>
+        <div class="table-responsive">
+          <table class="table  table-bordered">
+            <thead>
+            <tr>
+              <th class="text-center">Hora</th>
+              <th class="text-center">Disponibilidad</th>
+            </tr>
+            </thead>
+            <tbody class="text-center">
+            <tr th:each="p,idx:${martes}">
+              <td th:text="|${p.horainicio} - ${p.horafinal}|"></td>
+              <td>
+                <button type="button"   class="btn btn-warning" data-toggle="modal" th:data-target="'#exampleModalCenter-' +${p.ideventocalendariodoctor}" th:text="Disponible">
+                </button>
+
+               <!-- Modal-->
+      <div class="modal fade" th:id="'exampleModalCenter-' + ${p.ideventocalendariodoctor}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div style="background-color: #ffd966" class="modal-header">
+              <h5 class="modal-title " style="font-weight: bold" id="exampleModalLongTitle"></h5>
+
+              <div class="d-flex align-items-center">
+                <i class="bi bi-geo-alt-fill"></i>
+                <p class="ml-3 mb-0" th:text="${p.doctor.sede.nombre}"></p>
               </div>
-              <br>
-              <div class="modal-footer d-flex justify-content-center">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+            </div>
+            <div class="modal-body">
+
+              <div class="d-flex align-items-center">
+                <div class="col-lg-8">
+                  <table>
+                    <tr>
+                      <td>
+                        <p  class="ml-3 mb-0" >Doctor:</p>
+                      </td>
+                      <td>
+                        <p  class="ml-3 mb-0"  th:text="|${p.doctor.usuario.nombres} ${p.doctor.usuario.apellidos}|"></p>
+                      </td>
+
+                    </tr>
+                  </table>
+
+                </div>
               </div>
+            </div>
+            <div class="d-inline-block w-auto mx-auto">
+              <div class="card bg-light d-flex align-items-center">
+                <h2 th:text="${p.fecha}"></h2>
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col">
+                      <div class="p-3">
+                        Duración
+                      </div>
+                      <div class="p-3">
+                        <p th:text="|${p.duracion} hora(s)|"></p>
+                      </div>
+                    </div>
+                    <div class="col">
+                      <div class="p-3">
+                        Inicio:
+                      </div>
+                      <div class="p-3">
+                        <p th:text="${p.horainicio}"></p>
+                      </div>
+                    </div>
+                    <div class="col">
+                      <div class="p-3">
+                        Fin:
+                      </div>
+                      <div class="p-3">
+                        <p th:text="${p.horafinal}"></p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <br>
+            <div class="modal-footer d-flex justify-content-center">
+              <button type="button" class="btn btn-warning" data-dismiss="modal">Cerrar</button>
             </div>
           </div>
         </div>
       </div>
+      </td>
+      </tr>
+      </tbody>
+      </table>
+    </div>
+    </div>
+
+      <!--final-->
+
+
+
+
+
+
+      <!-- inicio-->
+
+      <div class="card-body pb-0">
+        <h5 class="card-title">Miercoles</h5>
+        <div class="table-responsive">
+          <table class="table  table-bordered">
+            <thead>
+            <tr>
+              <th class="text-center">Hora</th>
+              <th class="text-center">Disponibilidad</th>
+            </tr>
+            </thead>
+            <tbody class="text-center">
+            <tr th:each="p,idx:${miercoles}">
+              <td th:text="|${p.horainicio} - ${p.horafinal}|"></td>
+              <td>
+                <button type="button"   class="btn btn-warning" data-toggle="modal" th:data-target="'#exampleModalCenter-' +${p.ideventocalendariodoctor}" th:text="Disponible">
+                </button>
+
+                <!-- Modal-->
+                <div class="modal fade" th:id="'exampleModalCenter-' + ${p.ideventocalendariodoctor}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                  <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                      <div style="background-color: #ffd966" class="modal-header">
+                        <h5 class="modal-title " style="font-weight: bold" id="exampleModalLongTitle"></h5>
+
+                        <div class="d-flex align-items-center">
+                          <i class="bi bi-geo-alt-fill"></i>
+                          <p class="ml-3 mb-0" th:text="${p.doctor.sede.nombre}"></p>
+                        </div>
+                      </div>
+                      <div class="modal-body">
+
+                        <div class="d-flex align-items-center">
+                          <div class="col-lg-8">
+                            <table>
+                              <tr>
+                                <td>
+                                  <p  class="ml-3 mb-0" >Doctor:</p>
+                                </td>
+                                <td>
+                                  <p  class="ml-3 mb-0"  th:text="|${p.doctor.usuario.nombres} ${p.doctor.usuario.apellidos}|"></p>
+                                </td>
+
+                              </tr>
+                            </table>
+
+                          </div>
+                        </div>
+                      </div>
+                      <div class="d-inline-block w-auto mx-auto">
+                        <div class="card bg-light d-flex align-items-center">
+                          <h2 th:text="${p.fecha}"></h2>
+                          <div class="card-body">
+                            <div class="row">
+                              <div class="col">
+                                <div class="p-3">
+                                  Duración
+                                </div>
+                                <div class="p-3">
+                                  <p th:text="|${p.duracion} hora(s)|"></p>
+                                </div>
+                              </div>
+                              <div class="col">
+                                <div class="p-3">
+                                  Inicio:
+                                </div>
+                                <div class="p-3">
+                                  <p th:text="${p.horainicio}"></p>
+                                </div>
+                              </div>
+                              <div class="col">
+                                <div class="p-3">
+                                  Fin:
+                                </div>
+                                <div class="p-3">
+                                  <p th:text="${p.horafinal}"></p>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <br>
+                      <div class="modal-footer d-flex justify-content-center">
+                        <button type="button" class="btn btn-warning" data-dismiss="modal">Cerrar</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!--final-->
+
+
+
+      <!-- inicio-->
+
+      <div class="card-body pb-0">
+        <h5 class="card-title">Jueves</h5>
+        <div class="table-responsive">
+          <table class="table  table-bordered">
+            <thead>
+            <tr>
+              <th class="text-center">Hora</th>
+              <th class="text-center">Disponibilidad</th>
+            </tr>
+            </thead>
+            <tbody class="text-center">
+            <tr th:each="p,idx:${jueves}">
+              <td th:text="|${p.horainicio} - ${p.horafinal}|"></td>
+              <td>
+                <button type="button"   class="btn btn-warning" data-toggle="modal" th:data-target="'#exampleModalCenter-' +${p.ideventocalendariodoctor}" th:text="Disponible">
+                </button>
+
+                <!-- Modal-->
+                <div class="modal fade" th:id="'exampleModalCenter-' + ${p.ideventocalendariodoctor}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                  <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                      <div style="background-color: #ffd966" class="modal-header">
+                        <h5 class="modal-title " style="font-weight: bold" id="exampleModalLongTitle"></h5>
+
+                        <div class="d-flex align-items-center">
+                          <i class="bi bi-geo-alt-fill"></i>
+                          <p class="ml-3 mb-0" th:text="${p.doctor.sede.nombre}"></p>
+                        </div>
+                      </div>
+                      <div class="modal-body">
+
+                        <div class="d-flex align-items-center">
+                          <div class="col-lg-8">
+                            <table>
+                              <tr>
+                                <td>
+                                  <p  class="ml-3 mb-0" >Doctor:</p>
+                                </td>
+                                <td>
+                                  <p  class="ml-3 mb-0"  th:text="|${p.doctor.usuario.nombres} ${p.doctor.usuario.apellidos}|"></p>
+                                </td>
+
+                              </tr>
+                            </table>
+
+                          </div>
+                        </div>
+                      </div>
+                      <div class="d-inline-block w-auto mx-auto">
+                        <div class="card bg-light d-flex align-items-center">
+                          <h2 th:text="${p.fecha}"></h2>
+                          <div class="card-body">
+                            <div class="row">
+                              <div class="col">
+                                <div class="p-3">
+                                  Duración
+                                </div>
+                                <div class="p-3">
+                                  <p th:text="|${p.duracion} hora(s)|"></p>
+                                </div>
+                              </div>
+                              <div class="col">
+                                <div class="p-3">
+                                  Inicio:
+                                </div>
+                                <div class="p-3">
+                                  <p th:text="${p.horainicio}"></p>
+                                </div>
+                              </div>
+                              <div class="col">
+                                <div class="p-3">
+                                  Fin:
+                                </div>
+                                <div class="p-3">
+                                  <p th:text="${p.horafinal}"></p>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <br>
+                      <div class="modal-footer d-flex justify-content-center">
+                        <button type="button" class="btn btn-warning" data-dismiss="modal">Cerrar</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!--final-->
+
+
+
+
+
+
+      <!-- inicio-->
+
+      <div class="card-body pb-0">
+        <h5 class="card-title">Viernes</h5>
+        <div class="table-responsive">
+          <table class="table  table-bordered">
+            <thead>
+            <tr>
+              <th class="text-center">Hora</th>
+              <th class="text-center">Disponibilidad</th>
+            </tr>
+            </thead>
+            <tbody class="text-center">
+            <tr th:each="p,idx:${viernes}">
+              <td th:text="|${p.horainicio} - ${p.horafinal}|"></td>
+              <td>
+                <button type="button"   class="btn btn-warning" data-toggle="modal" th:data-target="'#exampleModalCenter-' +${p.ideventocalendariodoctor}" th:text="Disponible">
+                </button>
+
+                <!-- Modal-->
+                <div class="modal fade" th:id="'exampleModalCenter-' + ${p.ideventocalendariodoctor}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                  <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                      <div style="background-color: #ffd966" class="modal-header">
+                        <h5 class="modal-title " style="font-weight: bold" id="exampleModalLongTitle"></h5>
+
+                        <div class="d-flex align-items-center">
+                          <i class="bi bi-geo-alt-fill"></i>
+                          <p class="ml-3 mb-0" th:text="${p.doctor.sede.nombre}"></p>
+                        </div>
+                      </div>
+                      <div class="modal-body">
+
+                        <div class="d-flex align-items-center">
+                          <div class="col-lg-8">
+                            <table>
+                              <tr>
+                                <td>
+                                  <p  class="ml-3 mb-0" >Doctor:</p>
+                                </td>
+                                <td>
+                                  <p  class="ml-3 mb-0"  th:text="|${p.doctor.usuario.nombres} ${p.doctor.usuario.apellidos}|"></p>
+                                </td>
+
+                              </tr>
+                            </table>
+
+                          </div>
+                        </div>
+                      </div>
+                      <div class="d-inline-block w-auto mx-auto">
+                        <div class="card bg-light d-flex align-items-center">
+                          <h2 th:text="${p.fecha}"></h2>
+                          <div class="card-body">
+                            <div class="row">
+                              <div class="col">
+                                <div class="p-3">
+                                  Duración
+                                </div>
+                                <div class="p-3">
+                                  <p th:text="|${p.duracion} hora(s)|"></p>
+                                </div>
+                              </div>
+                              <div class="col">
+                                <div class="p-3">
+                                  Inicio:
+                                </div>
+                                <div class="p-3">
+                                  <p th:text="${p.horainicio}"></p>
+                                </div>
+                              </div>
+                              <div class="col">
+                                <div class="p-3">
+                                  Fin:
+                                </div>
+                                <div class="p-3">
+                                  <p th:text="${p.horafinal}"></p>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <br>
+                      <div class="modal-footer d-flex justify-content-center">
+                        <button type="button" class="btn btn-warning" data-dismiss="modal">Cerrar</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!--final-->
+
+
+
+
+
+      <!-- inicio-->
+
+      <div class="card-body pb-0">
+        <h5 class="card-title">Sabado</h5>
+        <div class="table-responsive">
+          <table class="table  table-bordered">
+            <thead>
+            <tr>
+              <th class="text-center">Hora</th>
+              <th class="text-center">Disponibilidad</th>
+            </tr>
+            </thead>
+            <tbody class="text-center">
+            <tr th:each="p,idx:${sabado}">
+              <td th:text="|${p.horainicio} - ${p.horafinal}|"></td>
+              <td>
+                <button type="button"   class="btn btn-warning" data-toggle="modal" th:data-target="'#exampleModalCenter-' +${p.ideventocalendariodoctor}" th:text="Disponible">
+                </button>
+
+                <!-- Modal-->
+                <div class="modal fade" th:id="'exampleModalCenter-' + ${p.ideventocalendariodoctor}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                  <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                      <div style="background-color: #ffd966" class="modal-header">
+                        <h5 class="modal-title " style="font-weight: bold" id="exampleModalLongTitle"></h5>
+
+                        <div class="d-flex align-items-center">
+                          <i class="bi bi-geo-alt-fill"></i>
+                          <p class="ml-3 mb-0" th:text="${p.doctor.sede.nombre}"></p>
+                        </div>
+                      </div>
+                      <div class="modal-body">
+
+                        <div class="d-flex align-items-center">
+                          <div class="col-lg-8">
+                            <table>
+                              <tr>
+                                <td>
+                                  <p  class="ml-3 mb-0" >Doctor:</p>
+                                </td>
+                                <td>
+                                  <p  class="ml-3 mb-0"  th:text="|${p.doctor.usuario.nombres} ${p.doctor.usuario.apellidos}|"></p>
+                                </td>
+
+                              </tr>
+                            </table>
+
+                          </div>
+                        </div>
+                      </div>
+                      <div class="d-inline-block w-auto mx-auto">
+                        <div class="card bg-light d-flex align-items-center">
+                          <h2 th:text="${p.fecha}"></h2>
+                          <div class="card-body">
+                            <div class="row">
+                              <div class="col">
+                                <div class="p-3">
+                                  Duración
+                                </div>
+                                <div class="p-3">
+                                  <p th:text="|${p.duracion} hora(s)|"></p>
+                                </div>
+                              </div>
+                              <div class="col">
+                                <div class="p-3">
+                                  Inicio:
+                                </div>
+                                <div class="p-3">
+                                  <p th:text="${p.horainicio}"></p>
+                                </div>
+                              </div>
+                              <div class="col">
+                                <div class="p-3">
+                                  Fin:
+                                </div>
+                                <div class="p-3">
+                                  <p th:text="${p.horafinal}"></p>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <br>
+                      <div class="modal-footer d-flex justify-content-center">
+                        <button type="button" class="btn btn-warning" data-dismiss="modal">Cerrar</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!--final-->
+
+
     </div>
   </section>
 
