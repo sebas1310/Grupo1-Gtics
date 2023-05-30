@@ -40,12 +40,12 @@
             <tr th:each="p,idx:${lunes}">
               <td th:text="|${p.horainicio} - ${p.horafinal}|"></td>
               <td>
-                <button type="button"   class="btn btn-warning" data-toggle="modal" th:data-target="'#exampleModalCenter-' +${p.ideventocalendariodoctor}" th:text="Disponible">
+                <button type="button"   class="btn btn-success" data-toggle="modal" th:data-target="'#exampleModalCenter-' +${p.ideventocalendariodoctor}" th:text="Disponible">
                 </button>
 
 
 
-                <!-- Modal -->
+                <!-- Modal lunes -->
                 <div class="modal fade" th:id="'exampleModalCenter-' + ${p.ideventocalendariodoctor}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                   <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content">
@@ -109,6 +109,22 @@
                           </div>
                         </div>
                       </div>
+                      <div>
+                        <form>
+                          <div class="form-group">
+                            <label for="input1">DNI:</label>
+                            <input type="text" class="form-control" th:value="${pacientelog.usuario.dni}" disabled id="input1">
+                          </div>
+                          <div class="form-group">
+                            <label for="input2">Seguro:</label>
+                            <input type="text" class="form-control" th:value="${pacientelog.seguro.nombre}" disabled id="input2">
+                          </div>
+                          <br>
+                          <div class="form-group d-flex justify-content-center">
+                            <button type="submit" class="btn btn-primary">Reservar</button>
+                          </div>
+                        </form>
+                      </div>
                       <br>
                       <div class="modal-footer d-flex justify-content-center">
                         <button type="button" class="btn btn-warning" data-dismiss="modal">Cerrar</button>
@@ -144,10 +160,10 @@
             <tr th:each="p,idx:${martes}">
               <td th:text="|${p.horainicio} - ${p.horafinal}|"></td>
               <td>
-                <button type="button"   class="btn btn-warning" data-toggle="modal" th:data-target="'#exampleModalCenter-' +${p.ideventocalendariodoctor}" th:text="Disponible">
+                <button type="button"   class="btn btn-success" data-toggle="modal" th:data-target="'#exampleModalCenter-' +${p.ideventocalendariodoctor}" th:text="Disponible">
                 </button>
 
-               <!-- Modal-->
+               <!-- Modal martes -->
       <div class="modal fade" th:id="'exampleModalCenter-' + ${p.ideventocalendariodoctor}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
           <div class="modal-content">
@@ -211,6 +227,22 @@
                 </div>
               </div>
             </div>
+            <div>
+              <form>
+                <div class="form-group">
+                  <label for="input1">DNI:</label>
+                  <input type="text" class="form-control" th:value="${pacientelog.usuario.dni}" disabled id="input1">
+                </div>
+                <div class="form-group">
+                  <label for="input2">Seguro:</label>
+                  <input type="text" class="form-control" th:value="${pacientelog.seguro.nombre}" disabled id="input2">
+                </div>
+                <br>
+                <div class="form-group d-flex justify-content-center">
+                  <button type="submit" class="btn btn-primary">Reservar</button>
+                </div>
+              </form>
+            </div>
             <br>
             <div class="modal-footer d-flex justify-content-center">
               <button type="button" class="btn btn-warning" data-dismiss="modal">Cerrar</button>
@@ -248,7 +280,7 @@
             <tr th:each="p,idx:${miercoles}">
               <td th:text="|${p.horainicio} - ${p.horafinal}|"></td>
               <td>
-                <button type="button"   class="btn btn-warning" data-toggle="modal" th:data-target="'#exampleModalCenter-' +${p.ideventocalendariodoctor}" th:text="Disponible">
+                <button type="button"   class="btn btn-success" data-toggle="modal" th:data-target="'#exampleModalCenter-' +${p.ideventocalendariodoctor}" th:text="Disponible">
                 </button>
 
                 <!-- Modal-->
@@ -314,6 +346,22 @@
                             </div>
                           </div>
                         </div>
+                      </div>
+                      <div>
+                        <form>
+                          <div class="form-group">
+                            <label for="input1">DNI:</label>
+                            <input type="text" class="form-control" th:value="${pacientelog.usuario.dni}" disabled id="input1">
+                          </div>
+                          <div class="form-group">
+                            <label for="input2">Seguro:</label>
+                            <input type="text" class="form-control" th:value="${pacientelog.seguro.nombre}" disabled id="input2">
+                          </div>
+                          <br>
+                          <div class="form-group d-flex justify-content-center">
+                            <button type="submit" class="btn btn-primary">Reservar</button>
+                          </div>
+                        </form>
                       </div>
                       <br>
                       <div class="modal-footer d-flex justify-content-center">
@@ -349,10 +397,10 @@
             <tr th:each="p,idx:${jueves}">
               <td th:text="|${p.horainicio} - ${p.horafinal}|"></td>
               <td>
-                <button type="button"   class="btn btn-warning" data-toggle="modal" th:data-target="'#exampleModalCenter-' +${p.ideventocalendariodoctor}" th:text="Disponible">
+                <button type="button"   class="btn btn-success" data-toggle="modal" th:data-target="'#exampleModalCenter-' +${p.ideventocalendariodoctor}" th:text="Disponible">
                 </button>
 
-                <!-- Modal-->
+                <!-- Modal miercoles-->
                 <div class="modal fade" th:id="'exampleModalCenter-' + ${p.ideventocalendariodoctor}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                   <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content">
@@ -415,6 +463,22 @@
                             </div>
                           </div>
                         </div>
+                      </div>
+                      <div>
+                        <form>
+                          <div class="form-group">
+                            <label for="input1">DNI:</label>
+                            <input type="text" class="form-control" th:value="${pacientelog.usuario.dni}" disabled id="input1">
+                          </div>
+                          <div class="form-group">
+                            <label for="input2">Seguro:</label>
+                            <input type="text" class="form-control" th:value="${pacientelog.seguro.nombre}" disabled id="input2">
+                          </div>
+                          <br>
+                          <div class="form-group d-flex justify-content-center">
+                            <button type="submit" class="btn btn-primary">Reservar</button>
+                          </div>
+                        </form>
                       </div>
                       <br>
                       <div class="modal-footer d-flex justify-content-center">
@@ -453,10 +517,10 @@
             <tr th:each="p,idx:${viernes}">
               <td th:text="|${p.horainicio} - ${p.horafinal}|"></td>
               <td>
-                <button type="button"   class="btn btn-warning" data-toggle="modal" th:data-target="'#exampleModalCenter-' +${p.ideventocalendariodoctor}" th:text="Disponible">
+                <button type="button"   class="btn btn-success" data-toggle="modal" th:data-target="'#exampleModalCenter-' +${p.ideventocalendariodoctor}" th:text="Disponible">
                 </button>
 
-                <!-- Modal-->
+                <!-- Modal Viernes-->
                 <div class="modal fade" th:id="'exampleModalCenter-' + ${p.ideventocalendariodoctor}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                   <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content">
@@ -519,6 +583,22 @@
                             </div>
                           </div>
                         </div>
+                      </div>
+                      <div>
+                        <form>
+                          <div class="form-group">
+                            <label for="input1">DNI:</label>
+                            <input type="text" class="form-control" th:value="${pacientelog.usuario.dni}" disabled id="input1">
+                          </div>
+                          <div class="form-group">
+                            <label for="input2">Seguro:</label>
+                            <input type="text" class="form-control" th:value="${pacientelog.seguro.nombre}" disabled id="input2">
+                          </div>
+                          <br>
+                          <div class="form-group d-flex justify-content-center">
+                            <button type="submit" class="btn btn-primary">Reservar</button>
+                          </div>
+                        </form>
                       </div>
                       <br>
                       <div class="modal-footer d-flex justify-content-center">
@@ -556,10 +636,10 @@
             <tr th:each="p,idx:${sabado}">
               <td th:text="|${p.horainicio} - ${p.horafinal}|"></td>
               <td>
-                <button type="button"   class="btn btn-warning" data-toggle="modal" th:data-target="'#exampleModalCenter-' +${p.ideventocalendariodoctor}" th:text="Disponible">
+                <button type="button"   class="btn btn-success" data-toggle="modal" th:data-target="'#exampleModalCenter-' +${p.ideventocalendariodoctor}" th:text="Disponible">
                 </button>
 
-                <!-- Modal-->
+                <!-- Modal Sabado-->
                 <div class="modal fade" th:id="'exampleModalCenter-' + ${p.ideventocalendariodoctor}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                   <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content">
@@ -623,6 +703,22 @@
                           </div>
                         </div>
                       </div>
+                      <div>
+                        <form>
+                          <div class="form-group">
+                            <label for="input1">DNI:</label>
+                            <input type="text" class="form-control" th:value="${pacientelog.usuario.dni}" disabled id="input1">
+                          </div>
+                          <div class="form-group">
+                            <label for="input2">Seguro:</label>
+                            <input type="text" class="form-control" th:value="${pacientelog.seguro.nombre}" disabled id="input2">
+                          </div>
+                          <br>
+                          <div class="form-group d-flex justify-content-center">
+                            <button type="submit" class="btn btn-primary">Reservar</button>
+                          </div>
+                        </form>
+                      </div>
                       <br>
                       <div class="modal-footer d-flex justify-content-center">
                         <button type="button" class="btn btn-warning" data-dismiss="modal">Cerrar</button>
@@ -638,6 +734,11 @@
       </div>
 
       <!--final-->
+
+
+
+
+
 
 
     </div>
