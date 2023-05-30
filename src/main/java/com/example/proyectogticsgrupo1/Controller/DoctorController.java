@@ -69,7 +69,7 @@ public class DoctorController {
         this.cuestionarioRepository = cuestionarioRepository;
         this.sedeRepository = sedeRepository;
         this.boletaDoctorRepository = boletaDoctorRepository;
-        this.tipohoracalendariodoctorRepository;
+        this.tipohoracalendariodoctorRepository = tipohoracalendariodoctorRepository ;
     }
 
     @Autowired
