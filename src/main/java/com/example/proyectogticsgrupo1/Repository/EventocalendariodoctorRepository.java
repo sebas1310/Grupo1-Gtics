@@ -23,6 +23,12 @@ public interface EventocalendariodoctorRepository extends JpaRepository<Eventoca
     List<Eventocalendariodoctor> calendarioFecha(LocalDate fecha, Integer iddoc);
 
     @Modifying
+    @Query(nativeQuery = true, value = "insert into eventocalendariodoctor (fecha, horainicio, horafinal, descripcion, \n" +
+            "idtipohoracalendariodoctor, duracion, iddoctor) values (?1,?2,?3,?4,?5,?6,?7)")
+    void agregarEventoDoctor(LocalDate fecha, LocalTime horainicio, LocalTime horafinal, String descripcion,
+                             Integer idtipocalendario, Integer duracion, Integer iddoctor );
+
+    @Modifying
     @Query(nativeQuery = true, value = "UPDATE eventocalendariodoctor SET idtipohoracalendariodoctor = 3, descripcion='ocupado' WHERE iddoctor=?1 and fecha=?2 and horainicio=?3")
     void cambiarEstadoCalendario(Integer iddoc, LocalDate fecha, LocalTime horain);
 

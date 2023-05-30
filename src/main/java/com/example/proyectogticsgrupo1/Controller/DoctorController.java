@@ -2,6 +2,7 @@ package com.example.proyectogticsgrupo1.Controller;
 
 import com.example.proyectogticsgrupo1.Entity.*;
 import com.example.proyectogticsgrupo1.Repository.*;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 import jdk.jfr.Event;
@@ -13,6 +14,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -46,10 +49,13 @@ public class DoctorController {
     @Autowired
     TablaDatosLlenosRepository tablaDatosLlenosRepository;
 
+    @Autowired
+    TipohoracalendariodoctorRepository tipohoracalendariodoctorRepository;
 
     public DoctorController(CitaRepository citaRepository, DoctorRepository doctorRepository, PacienteRepository pacienteRepository,
                             RecetaMedicaRepository recetaMedicaRepository, ReporteCitaRepository reporteCitaRepository,UsuarioRepository usuarioRepository,
                             BitacoraDeDiagnosticoRepository bitacoraDeDiagnosticoRepository,
+                            TipohoracalendariodoctorRepository tipohoracalendariodoctorRepository,
                             EventocalendariodoctorRepository eventocalendariodoctorRepository, CuestionarioRepository cuestionarioRepository, SedeRepository sedeRepository, BoletaDoctorRepository boletaDoctorRepository) {
 
         this.doctorRepository = doctorRepository;
@@ -63,6 +69,7 @@ public class DoctorController {
         this.cuestionarioRepository = cuestionarioRepository;
         this.sedeRepository = sedeRepository;
         this.boletaDoctorRepository = boletaDoctorRepository;
+        this.tipohoracalendariodoctorRepository;
     }
 
     @Autowired
@@ -304,6 +311,28 @@ public class DoctorController {
         model.addAttribute("eventos", eventos);
         model.addAttribute("doctor",doctor);
         return "doctor/calendarioDoc";
+    }
+
+    @GetMapping(value = "/calendario/agregar")
+    public String agregarEvento(Model model, @RequestParam("fecha") LocalDate fecha ,
+                                @RequestParam("horainicio") LocalTime horainicio ,
+                                @RequestParam("horafinal") LocalTime horafinal ,
+                                @RequestParam("descripcion") String descripcion,
+                                @RequestParam("idtipocalendario") Integer idtipocalendario,
+                                @RequestParam("duracion") Integer duracion,
+                                @RequestParam("iddoctor") Integer iddoctor){
+        //Optional<Paciente> optionalPaciente = pacienteRepository.findById(1);
+        // Paciente paciente =  optionalPaciente.get();
+
+        Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
+        Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
+        model.addAttribute("doctor",doctor);
+        List<Sede> listsede = sedeRepository.findAll();
+        model.addAttribute("sedesparacitas", listsede);
+        model.addAttribute("tipocita",tipohoracalendariodoctorRepository.findAll());
+        model.addAttribute("caldisponible", eventocalendariodoctorRepository.agregarEventoDoctor(fecha, horainicio,
+                horafinal, descripcion, idtipocalendario, duracion,iddoctor));
+        return "paciente/agendarCita";
     }
 
     @GetMapping("/cuestionario")
