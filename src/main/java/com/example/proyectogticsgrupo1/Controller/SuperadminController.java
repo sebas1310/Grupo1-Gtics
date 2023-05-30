@@ -266,11 +266,13 @@ public class SuperadminController {
 
     }
 
-
+    @ResponseBody
     @GetMapping(value = "/listarTitulos")
     public List<String> listarTitulos(Model model, @RequestParam("id_de_modelo_plantilla") int id_de_modelo_plantilla){
 
         System.out.println("llega al repo de listar");
+
+//        int id_model = Integer.parseInt(id_de_modelo_plantilla);
 
         return modeloJsonRepository.listarPreguntasxPlantilla(id_de_modelo_plantilla);
 
