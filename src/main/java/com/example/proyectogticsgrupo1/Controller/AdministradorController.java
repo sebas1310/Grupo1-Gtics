@@ -119,7 +119,7 @@ public class AdministradorController {
     }*/
 
     @PostMapping(value = "/guardar2")
-    public String guardarUsuario(@ModelAttribute("usuarioa") Usuario user, RedirectAttributes attr, Model model, @RequestParam("direccion") String direccion) {
+    public String guardarUsuario(@ModelAttribute("usuario2") @Valid Usuario user,BindingResult bindingResult, RedirectAttributes attr, Model model, @RequestParam("direccion") String direccion) {
         Usuario usuarioAdministrador = (Usuario) session.getAttribute("usuario");
         model.addAttribute("usuario", usuarioAdministrador);
 
@@ -129,34 +129,33 @@ public class AdministradorController {
             attr.addFlashAttribute("msg", "Paciente actualizado exitosamente");
         }
 
-        Tipodeusuario tipodeusuario = new Tipodeusuario();
-        tipodeusuario.setIdtipodeusuario(4);
-        user.setEstadohabilitado(1);
-        user.setTipodeusuario(tipodeusuario);
-        Sede sede = new Sede();
-        sede.setIdsede(usuarioAdministrador.getSede().getIdsede());
-        user.setSede(sede);
-        user.setContrasena(generarContrasena(10));
-        if (user.getDni().length() != 8) {
-            attr.addFlashAttribute("error", "El DNI debe tener 8 dígitos");
-            return "redirect:/administrador/crearpaciente"; // Especifica la URL a la que deseas redirigir en caso de error
+        if(bindingResult.hasErrors()) {
+            model.addAttribute("direccion", direccion);
+            return "administrador/crearpaciente";
+        }else {
+            Tipodeusuario tipodeusuario = new Tipodeusuario();
+            tipodeusuario.setIdtipodeusuario(4);
+            user.setEstadohabilitado(1);
+            user.setTipodeusuario(tipodeusuario);
+            Sede sede = new Sede();
+            sede.setIdsede(usuarioAdministrador.getSede().getIdsede());
+            user.setSede(sede);
+            user.setContrasena(generarContrasena(10));
+            usuarioRepository.save(user);
+            Paciente paciente = new Paciente();
+            EstadoPaciente estadoPaciente = new EstadoPaciente();
+            estadoPaciente.setIdestadopaciente(1);
+            paciente.setEstadoPaciente(estadoPaciente);
+            paciente.setDireccion(direccion);
+            paciente.setConsentimientos(0);
+            Seguro seguro = new Seguro();
+            seguro.setIdseguro(7);
+            paciente.setSeguro(seguro);
+            paciente.setUsuario(user);
+            paciente.setCondicionenfermedad("-");
+            pacienteRepository.save(paciente);
+            emailService.sendEmail(paciente.getUsuario().getCorreo(), "Confirmación de Registro", "Estimado usuario, usted ha sido registrado en:\nSede " + usuarioAdministrador.getSede().getNombre() + "\nUbicada en " + usuarioAdministrador.getSede().getDireccion() + "\nTu contraseña por defecto es: " + paciente.getUsuario().getContrasena() + "\nIngresa aquí para cambiarla");
         }
-        usuarioRepository.save(user);
-        Paciente paciente = new Paciente();
-        EstadoPaciente estadoPaciente = new EstadoPaciente();
-        estadoPaciente.setIdestadopaciente(1);
-        paciente.setEstadoPaciente(estadoPaciente);
-        paciente.setDireccion(direccion);
-        paciente.setConsentimientos(0);
-        Seguro seguro = new Seguro();
-        seguro.setIdseguro(7);
-        paciente.setSeguro(seguro);
-        paciente.setUsuario(user);
-        paciente.setCondicionenfermedad("-");
-        pacienteRepository.save(paciente);
-
-        emailService.sendEmail(paciente.getUsuario().getCorreo(), "Confirmación de Registro", "Estimado usuario, usted ha sido registrado en:\nSede " + usuarioAdministrador.getSede().getNombre() + "\nUbicada en " + usuarioAdministrador.getSede().getDireccion() + "\nTu contraseña por defecto es: " + paciente.getUsuario().getContrasena() + "\nIngresa aquí para cambiarla");
-
         return "redirect:/administrador/dashboardpaciente";
     }
 
@@ -298,7 +297,7 @@ public class AdministradorController {
     }
 
     @GetMapping(value = "/crearpaciente")
-    public String crearPaciente(@ModelAttribute("usuarioa") Usuario user, Model model) {
+    public String crearPaciente(@ModelAttribute("usuario2") Usuario usuario2, Model model) {
         Usuario usuarioAdministrador = (Usuario) session.getAttribute("usuario");
         model.addAttribute("usuario", usuarioAdministrador);
         return "administrador/crearpaciente";

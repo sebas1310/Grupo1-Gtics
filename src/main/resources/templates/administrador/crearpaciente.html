@@ -54,32 +54,37 @@
             <div th:if="${msg != null}" th:text="${msg}" class="alert alert-success" role="alert"></div>
 
 
-            <form class="row g-3" method="post" th:action="@{/administrador/guardar2}">
+            <form class="row g-3" method="post" th:action="@{/administrador/guardar2}" th:object="${usuario2}">
               <input th:value="${session.usuario.getIdusuario()}" name="id" type="hidden">
               <div class="col-12">
                 <label class="form-label">Nombres</label>
-                <input type="nombres" class="form-control" name="nombres" required >
+                <input type="text" class="form-control" th:field="*{nombres}" th:classappend="${#fields.hasErrors('nombres')?'is-invalid':''}" required>
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('nombres')}" th:errors="*{nombres}"></div>
               </div>
               <div class="col-12">
                 <label  class="form-label">Apellidos</label>
-                <input  class="form-control" name="apellidos" required>
+                <input type="text" class="form-control" th:field="*{apellidos}" th:classappend="${#fields.hasErrors('apellidos')?'is-invalid':''}" required>
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('apellidos')}" th:errors="*{apellidos}"></div>
               </div>
               <div class="col-12">
                 <label class="form-label">Correo</label>
-                <input  class="form-control" name="correo" required>
+                <input type="text" class="form-control" th:field="*{correo}" th:classappend="${#fields.hasErrors('correo')?'is-invalid':''}" required>
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('correo')}" th:errors="*{correo}"></div>
               </div>
               <div class="col-12">
                 <label class="form-label">DNI</label>
-                <div><input class="form-control" name="dni" required></div>
-                <div th:if="${error!=null}" th:text="${error}" class="alert alert-danger" role="alert"></div>
+                <input  class="form-control" th:field="*{dni}" th:classappend="${#fields.hasErrors('dni')?'is-invalid':''}" required>
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('dni')}" th:errors="*{dni}"></div>
               </div>
               <div class="col-12">
                 <label class="form-label">Celular</label>
-                <input class="form-control" name="celular" required>
+                <input class="form-control" th:field="*{celular}" th:classappend="${#fields.hasErrors('celular')?'is-invalid':''}" required>
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('celular')}" th:errors="*{celular}"></div>
               </div>
               <div class="col-12">
                 <label class="form-label">Edad</label>
-                <input class="form-control" name="edad" required>
+                <input class="form-control" th:field="*{edad}" th:classappend="${#fields.hasErrors('edad')?'is-invalid':''}" required>
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('edad')}" th:errors="*{edad}"></div>
               </div>
               <div class="col-12">
                 <label for="genero" class="form-label">Género</label>
