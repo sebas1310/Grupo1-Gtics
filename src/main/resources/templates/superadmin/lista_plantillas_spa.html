@@ -107,6 +107,7 @@
             <label for="id_de_modelo_plantilla" class="col-form-label">Id de Modelo Plantilla:</label>
             <input type="text" class="form-control" id="id_de_modelo_plantilla">
           </div>
+          <div id="contenedorDivs"></div>
           <!--          <div class="mb-3">-->
           <!--            <label for="especialidad_name" class="col-form-label">Especialidad:</label>-->
           <!--            <input type="text" class="form-control" id="especialidad_name">-->
@@ -192,19 +193,36 @@
       const id_de_modelo_plantilla = document.querySelector("#fila-" + id + " td:nth-child(6)").textContent;
 
 
+
+
       // const nombreEspecialidad = document.querySelector("#fila-"+id+" td:nth-child(3)").textContent;
 
 
       console.log(nombrePlantilla);
-      console.log(id_de_modelo_plantilla);
+
       // console.log(nombreEspecialidad);
 
       const crearModal = bootstrap.Modal.getOrCreateInstance('#createModal');
       crearModal.show();
 
 
+
+
+
       document.getElementById("nombre_plantilla").value = nombrePlantilla;
       document.getElementById("id_de_modelo_plantilla").value = id_de_modelo_plantilla;
+
+
+
+
+
+      console.log(id_de_modelo_plantilla);
+
+
+
+
+
+
 
       document.getElementById("id_fila").value = id;
       // document.getElementById("id_fila").value = id;
@@ -234,16 +252,86 @@
       //     modal.style.display = "none";
       //   }
       // };
+
+
+
+        var xmlhttp = new XMLHttpRequest();
+        var url = "/superadmin/listarTitulos?id_de_modelo_plantilla=" + encodeURIComponent(id_de_modelo_plantilla);
+        xmlhttp.open("GET", url, true);
+        xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xmlhttp.onreadystatechange = function () {
+
+            if (xmlhttp.readyState == XMLHttpRequest.DONE) {
+                if (xmlhttp.status == 200) {
+
+                  // Obtener la respuesta del controlador
+                  var response = xmlhttp.responseText;
+                  // Parsear la respuesta JSON a una lista
+                  var lista = JSON.parse(response);
+                  // Obtener el contenedor donde se mostrarán los inputs y labels
+                  var contenedor = document.getElementById("contenedorDivs");
+
+                  // Limpiar el contenedor antes de agregar los nuevos elementos
+                  contenedor.innerHTML = "";
+
+                  // Iterar sobre la lista y crear los inputs y labels correspondientes
+                  for (var i = 0; i < lista.length; i++) {
+  // Crear un nuevo label
+                      var label = document.createElement("label");
+  // Asignar las clases de Bootstrap al label
+                      label.classList.add("col-form-label");
+  // Asignar el texto del label con el título de la pregunta
+                      label.textContent = "Pregunta " + (i+1);
+  // Agregar el label al contenedor
+                      contenedor.appendChild(label);
+
+  // Crear un nuevo input
+                      var input = document.createElement("input");
+  // Asignar las clases de Bootstrap al input
+                      input.classList.add("form-control");
+  // Asignar el valor del input con el elemento de la lista
+                      input.value = lista[i];
+  // Agregar un atributo name al input para identificarlo en el formulario
+                      input.setAttribute("name", "elemento_" + i);
+  // Agregar el input al contenedor
+                      contenedor.appendChild(input);
+                  }
+
+
+                    // Mostrar mensaje de éxito
+                    // alert("Plantilla actualizada correctamente");
+                    // location.reload();
+
+
+                } else {
+                    // Mostrar mensaje de error
+                    alert("Ha ocurrido un error al actualizar la plantilla");
+                }
+            }
+        };
+
+        xmlhttp.send();
+
+        // xmlhttp.send("id_de_modelo_plantilla="+id_de_modelo_plantilla);
+
+
+        // var params = "id_de_modelo_plantilla=" + encodeURIComponent(id_de_modelo_plantilla);
+        // xmlhttp.send(params);
+
+
     };
 
     function ModificarForm() {
       const crearModal = bootstrap.Modal.getOrCreateInstance('#createModal');
       crearModal.hide();
 
-      var nuevoNombrePlantilla = document.getElementById("nombre_plantilla").value
-      const id_de_modelo_plantilla = document.getElementById("id_de_modelo_plantilla").value
+      // var nuevoNombrePlantilla = document.getElementById("nombre_plantilla").value
+      // const id_de_modelo_plantilla = document.getElementById("id_de_modelo_plantilla").value
+      //
+      // console.log(id_fila);
 
-      console.log(id_fila);
+
+
       // document.getElementById("especialidad_name").value
 
 
@@ -273,26 +361,7 @@
 
 
 
-      var xmlhttp = new XMLHttpRequest();
-      xmlhttp.open("GET", "/superadmin/listarTitulos", true);
-      xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-      xmlhttp.onreadystatechange = function () {
 
-        if (xmlhttp.readyState == XMLHttpRequest.DONE) {
-          if (xmlhttp.status == 200) {
-            // Mostrar mensaje de éxito
-            alert("Plantilla actualizada correctamente");
-            location.reload();
-
-
-          } else {
-            // Mostrar mensaje de error
-            alert("Ha ocurrido un error al actualizar la plantilla");
-          }
-        }
-      };
-
-      xmlhttp.send("id_de_modelo_plantilla="+id_de_modelo_plantilla);
 
       // xmlhttp.send(datos);
 
