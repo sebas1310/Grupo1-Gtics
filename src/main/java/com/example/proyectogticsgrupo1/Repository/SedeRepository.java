@@ -10,6 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.List;
+
 public interface SedeRepository extends JpaRepository<Sede, Integer> {
 
     @Query(value = "SELECT * FROM sede where idsede = ?1",nativeQuery = true)
@@ -17,6 +19,8 @@ public interface SedeRepository extends JpaRepository<Sede, Integer> {
 
     Sede findByIdsede(int idsede);
 
+    @Query(value = "SELECT * from sede where idsede not in (select usuario.sede_idsede from usuario where usuario.idtipodeusuario = 2)", nativeQuery = true)
+    List<Sede> listaSedes();
 
     @Query(value= "select * from sede where idsede = ?1 ",nativeQuery = true)
     Sede buscarSedePorId (Integer idSede);

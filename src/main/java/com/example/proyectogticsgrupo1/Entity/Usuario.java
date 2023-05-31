@@ -58,7 +58,7 @@ public class Usuario  implements Serializable {
     private Integer estadohabilitado;
 
     @ManyToOne
-    @JoinColumn(name = "sede_idsede")
+    @JoinColumn(name = "sede_idsede", nullable = false)
     private Sede sede;
 
     @ManyToOne

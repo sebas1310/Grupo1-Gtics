@@ -13,7 +13,9 @@
 <!-- ======= Sidebar ======= -->
 <aside th:replace="superadmin/fragments_spa/aside_spa.html :: sidebar (active = 'miperfil')">
 </aside>
-<!-- End Sidebar-->
+<div th:replace="superadmin/fragments_spa/modalCerrarSesion.html::modal">
+
+</div>
 
   <main id="main" class="main">
 
@@ -35,7 +37,8 @@
               <img th:src="@{/assets/img/profile-img.jpg}" alt="Profile" class="rounded-circle">
               <h2 th:text="${superadminlog.nombres + ' ' + superadminlog.apellidos}"></h2>
               <h3>Super Admin</h3>
-
+              <div th:if="${psw2!=null}" th:text="${psw2}" class="alert alert-danger" role="alert"></div>
+              <div th:if="${psw1!=null}" th:text="${psw1}" class="alert alert-success" role="alert"></div>
             </div>
           </div>
 
@@ -187,8 +190,9 @@
 
                 <div class="tab-pane fade pt-3" id="profile-change-password">
                   <!-- Change Password Form -->
-                  <form method="post" th:action="@{/superadmin/cambiarContraseña}">
-
+                  <!-- Cambio de contraseña Form -->
+                  <form method="post" th:action="@{'/superadmin/changepassword'}" onsubmit="return validateForm()">
+                    <input th:value="${session.usuario.getIdusuario()}" name="id" type="hidden">
                     <div class="row mb-3">
                       <label for="contrasena" class="col-md-4 col-lg-3 col-form-label">Contraseña Actual</label>
                       <div class="col-md-8 col-lg-9">
@@ -197,22 +201,23 @@
                     </div>
 
                     <div class="row mb-3">
-                      <label for="newPassword" class="col-md-4 col-lg-3 col-form-label">Nueva Contraseña</label>
+                      <label for="newPassword" class="col-md-4 col-lg-3 col-form-label" >Nueva Contraseña</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="newPassword" type="password" class="form-control" id="newPassword">
+                        <input name="newpassword" type="password" class="form-control" id="newPassword">
                       </div>
                     </div>
 
                     <div class="row mb-3">
-                      <label for="renewPassword" class="col-md-4 col-lg-3 col-form-label">Repetir Contraseña</label>
+                      <label for="renewPassword" class="col-md-4 col-lg-3 col-form-label">Confirmar nueva contraseña</label>
                       <div class="col-md-8 col-lg-9">
                         <input name="renewpassword" type="password" class="form-control" id="renewPassword">
                       </div>
                     </div>
 
                     <div class="text-center">
-                      <button type="submit" class="btn btn-primary">Cambiar Contraseña</button>
+                      <button type="submit" class="btn btn-success">Cambiar Contraseña</button>
                     </div>
+                    <div id="error-message" class="alert alert-danger mt-3" style="display: none;"></div>
                   </form><!-- End Change Password Form -->
 
                   <!-- Funcion para validar -->

@@ -6,7 +6,7 @@
 <body>
 
 <!-- ======= Header ======= -->
-<header th:replace="superadmin/fragments_spa/header_spa.html :: header(num_not = '3', num_form = '2 ', por_canc = '1', nombre = 'A. Jauregui', num_men = '3')">
+<header th:replace="superadmin/fragments_spa/header_spa.html :: header(num_not = '3', num_form = '2 ', por_canc = '1', nombre = |${session.usuario.nombres} ${session.usuario.apellidos}|, num_men = '3')">
 </header>
 <!-- End Header -->
 
@@ -14,21 +14,9 @@
 <aside th:replace="superadmin/fragments_spa/aside_spa.html :: sidebar (active = 'perfilusuario')">
 </aside>
 <!-- End Sidebar-->
+<div th:replace="superadmin/fragments_spa/modalCerrarSesion.html::modal">
 
-<div class="modal fade" id="verticalycentered" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">¿Seguro que deseas Salir?</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-success" data-bs-dismiss="modal"><a style="color: white" href="inicio.html" >Salir</button>
-                <button type="button" class="btn btn-secondary"><a style="color: white" href="perfil.html" >Cancelar</a></button>
-            </div>
-        </div>
-    </div>
-</div><!-- End Vertically centered Modal-->
+</div>
 <main id="main" class="main">
 
     <div class="pagetitle">
@@ -44,8 +32,10 @@
                     <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
 
                         <img th:src="@{/assets/img/profile-img.jpg}" alt="Profile" class="rounded-circle">
-                        <h2 th:text="${usuario.nombres + ' ' + usuario.apellidos}"></h2>
-                        <h3 th:text="${usuario.tipodeusuario.nombre}"></h3>
+                        <h2 th:text="${persona.nombres + ' ' + persona.apellidos}"></h2>
+                        <h3 th:text="${persona.tipodeusuario.nombre}"></h3>
+                        <h1 th:text="${psw2}" class="alert alert-danger" role="alert"></h1>
+                        <div th:if="${psw1!=null}" th:text="${psw1}" class="alert alert-success" role="alert"></div>
 
                     </div>
                 </div>
@@ -89,32 +79,32 @@
 
                                 <div class="row">
                                     <div class="col-lg-3 col-md-4 label" >Nombres</div>
-                                    <div class="col-lg-9 col-md-8" th:text="${usuario.nombres}"></div>
+                                    <div class="col-lg-9 col-md-8" th:text="${persona.nombres}"></div>
                                 </div>
 
                                 <div class="row">
                                     <div class="col-lg-3 col-md-4 label">Apellidos</div>
-                                    <div class="col-lg-9 col-md-8" th:text="${usuario.apellidos}"></div>
+                                    <div class="col-lg-9 col-md-8" th:text="${persona.apellidos}"></div>
                                 </div>
 
                                 <div class="row">
                                     <div class="col-lg-3 col-md-4 label">Correo</div>
-                                    <div class="col-lg-9 col-md-8" th:text="${usuario.correo}"></div>
+                                    <div class="col-lg-9 col-md-8" th:text="${persona.correo}"></div>
                                 </div>
 
                                 <div class="row">
                                     <div class="col-lg-3 col-md-4 label">DNI</div>
-                                    <div class="col-lg-9 col-md-8" th:text="${usuario.dni}"></div>
+                                    <div class="col-lg-9 col-md-8" th:text="${persona.dni}"></div>
                                 </div>
 
                                 <div class="row">
                                     <div class="col-lg-3 col-md-4 label">Edad</div>
-                                    <div class="col-lg-9 col-md-8" th:text="${usuario.edad}"></div>
+                                    <div class="col-lg-9 col-md-8" th:text="${persona.edad}"></div>
                                 </div>
 
                                 <div class="row">
                                     <div class="col-lg-3 col-md-4 label">Celular</div>
-                                    <div class="col-lg-9 col-md-8" th:text="${usuario.celular}"></div>
+                                    <div class="col-lg-9 col-md-8" th:text="${persona.celular}"></div>
                                 </div>
 
                             </div>
@@ -122,9 +112,9 @@
                             <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
 
                                 <!-- Profile Edit Form -->
-                                <form method="post" th:action="@{'superadmin/actualizarUser'}" th:object="${usuario}" class="mt-2">
+                                <form method="post" th:action="@{'superadmin/actualizarUser'}" th:object="${persona}" class="mt-2">
 
-                                    <input name="idusuario" type="hidden" class="form-control" id="idusuario" th:value="${usuario.idusuario}" th:field="${usuario.idusuario}">
+                                    <input name="idusuario" type="hidden" class="form-control" id="idusuario" th:value="${persona.idusuario}" th:field="${persona.idusuario}">
 
 
                                     <div class="row mb-3">
@@ -142,7 +132,7 @@
                                     <div class="row mb-3">
                                         <label for="nombre" class="col-md-4 col-lg-3 col-form-label">Nombre</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <input name="fullName" type="text" class="form-control" id="nombre" th:value="${usuario.nombres}" th:field="${usuario.nombres}">
+                                            <input name="fullName" type="text" class="form-control" id="nombre" th:value="${persona.nombres}" th:field="${persona.nombres}">
                                         </div>
 
 
@@ -150,7 +140,7 @@
                                     <div class="row mb-3">
                                         <label for="apellido" class="col-md-4 col-lg-3 col-form-label">Apellidos</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <input name="fullName" type="text" class="form-control" id="apellido" th:value="${usuario.apellidos}" th:field="${usuario.apellidos}">
+                                            <input name="fullName" type="text" class="form-control" id="apellido" th:value="${persona.apellidos}" th:field="${persona.apellidos}">
                                         </div>
 
                                     </div>
@@ -158,21 +148,21 @@
                                     <div class="row mb-3">
                                         <label for="Email" class="col-md-4 col-lg-3 col-form-label">Correo</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <input name="email" type="email" class="form-control" id="Email" th:value="${usuario.correo}" th:field="${usuario.correo}">
+                                            <input name="email" type="email" class="form-control" id="Email" th:value="${persona.correo}" th:field="${persona.correo}">
                                         </div>
                                     </div>
 
                                     <div class="row mb-3">
                                         <label for="dni" class="col-md-4 col-lg-3 col-form-label">DNI</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <input name="company" type="text" class="form-control" id="dni" th:value="${usuario.dni}" th:field="${usuario.dni}">
+                                            <input name="company" type="text" class="form-control" id="dni" th:value="${persona.dni}" th:field="${persona.dni}">
                                         </div>
                                     </div>
 
                                     <div class="row mb-3">
                                         <label for="edad" class="col-md-4 col-lg-3 col-form-label">Edad</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <input name="edad" type="text" class="form-control" id="edad" th:value="${usuario.edad}" th:field="${usuario.edad}">
+                                            <input name="edad" type="text" class="form-control" id="edad" th:value="${persona.edad}" th:field="${persona.edad}">
                                         </div>
                                     </div>
 
@@ -180,12 +170,10 @@
                                     <div class="row mb-3">
                                         <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Celular</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <input name="phone" type="text" class="form-control" id="Phone" th:value="${usuario.celular}" th:field="${usuario.celular}">
+                                            <input name="phone" type="text" class="form-control" id="Phone" th:value="${persona.celular}" th:field="${persona.celular}">
                                         </div>
                                     </div>
 
-
-<!--
 
 <!--                                    <div class="form-check form-switch">-->
 <!--                                        <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" th:checked='false' th:field="${usuario.estadohabilitado}" th:value="${usuario.estadohabilitado != null} ? ${usuario.estadohabilitado} : '0'" >-->
@@ -194,7 +182,7 @@
 
                                     <div class="row mb-3">
                                         <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Estado Habilitado</label>
-                                        <select class="col-md-8 col-lg-9 form-control"  th:value="${usuario.estadohabilitado}" th:field="${usuario.estadohabilitado}">
+                                        <select class="col-md-8 col-lg-9 form-control"  th:value="${persona.estadohabilitado}" th:field="${persona.estadohabilitado}">
                                             <option value="1">Activo</option>
                                             <option value="0">Inactivo</option>
 <!--                                            <option th:each="option : ${options}"-->
@@ -206,24 +194,30 @@
                                     </div>
 
 
-
-
-
-
-
-
+                                    <div th:if="${persona.tipodeusuario.idtipodeusuario != 4}" class="row mb-3">
+                                        <label  class="form-label">Sede</label>
+                                        <div class="col-sm-10">
+                                            <select  class="form-select" id="category" th:name="sede.idsede">
+                                                <option th:each="sede : ${listasedes}" th:text="${sede.getNombre()}"
+                                                        th:value="${sede.getIdsede()}"></option>
+                                            </select>
+                                        </div>
+                                    </div>
                                     <div class="text-center">
                                         <button type="submit" class="btn btn-primary">Guardar Cambios</button>
                                     </div>
+
+
                                 </form><!-- End Profile Edit Form -->
 
                             </div>
 
-
                             <div class="tab-pane fade pt-3" id="profile-change-password">
-                                <!-- Change Password Form -->
-                                <form method="post" th:action="@{/superadmin/cambiarContraseña}">
 
+
+                                <!-- Cambio de contraseña Form -->
+                                <form method="post" th:action="@{'/superadmin/changepassword'}" onsubmit="return validateForm()">
+                                    <input th:value="${session.usuario.getIdusuario()}" name="id" type="hidden">
                                     <div class="row mb-3">
                                         <label for="contrasena" class="col-md-4 col-lg-3 col-form-label">Contraseña Actual</label>
                                         <div class="col-md-8 col-lg-9">
@@ -232,23 +226,56 @@
                                     </div>
 
                                     <div class="row mb-3">
-                                        <label for="newPassword" class="col-md-4 col-lg-3 col-form-label">Nueva Contraseña</label>
+                                        <label for="newPassword" class="col-md-4 col-lg-3 col-form-label" >Nueva Contraseña</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <input name="newPassword" type="password" class="form-control" id="newPassword">
+                                            <input name="newpassword" type="password" class="form-control" id="newPassword">
                                         </div>
                                     </div>
 
                                     <div class="row mb-3">
-                                        <label for="renewPassword" class="col-md-4 col-lg-3 col-form-label">Repetir Contraseña</label>
+                                        <label for="renewPassword" class="col-md-4 col-lg-3 col-form-label">Confirmar nueva contraseña</label>
                                         <div class="col-md-8 col-lg-9">
                                             <input name="renewpassword" type="password" class="form-control" id="renewPassword">
                                         </div>
                                     </div>
 
                                     <div class="text-center">
-                                        <button type="submit" class="btn btn-primary">Cambiar Contraseña</button>
+                                        <button type="submit" class="btn btn-success">Cambiar Contraseña</button>
                                     </div>
+                                    <div id="error-message" class="alert alert-danger mt-3" style="display: none;"></div>
                                 </form><!-- End Change Password Form -->
+
+                                <!-- Funcion para validar -->
+                                <script>
+                                    function validateForm() {
+                                        var password = document.getElementById("contrasena").value;
+                                        var newPassword = document.getElementById("newPassword").value;
+                                        var renewPassword = document.getElementById("renewPassword").value;
+
+                                        if (password === "" || newPassword === "" || renewPassword === "") {
+                                            var errorMessage = document.getElementById("error-message");
+                                            errorMessage.style.display = "block";
+                                            errorMessage.innerHTML = "Debe completar todos los campos";
+                                            return false;
+                                        }
+                                        if (password === newPassword ) {
+                                            var errorMessage = document.getElementById("error-message");
+                                            errorMessage.style.display = "block";
+                                            errorMessage.innerHTML = "La nueva contraseña no puede ser igual a la anterior";
+                                            return false;
+                                        }
+                                        if (renewPassword != newPassword ) {
+                                            var errorMessage = document.getElementById("error-message");
+                                            errorMessage.style.display = "block";
+                                            errorMessage.innerHTML = "No coinciden las contraseñas";
+                                            return false;
+                                        }
+
+
+                                        return true;
+                                    }
+                                </script>
+                                <!-- FIN Funcion para validar -->
 
                             </div>
 

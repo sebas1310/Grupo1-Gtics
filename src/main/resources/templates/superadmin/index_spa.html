@@ -1,51 +1,25 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-<!--<head th:insert="superadmin/fragments_spa/librerias_spa.html :: cabecera (titulo = 'index')">-->
-<!--</head>-->
+<head th:insert="superadmin/fragments_spa/librerias_spa.html :: cabecera (titulo = 'index')">
+</head>
 
-<!--<body>-->
+<body>
 
-<!--&lt;!&ndash; ======= Header ======= &ndash;&gt;-->
-<!--<header th:replace="superadmin/fragments_spa/header_spa.html :: header(num_not = '3', num_form = '2 ', por_canc = '1', nombre = 'A. Jauregui', num_men = '3')">-->
-<!--</header>-->
-<!--&lt;!&ndash; End Header &ndash;&gt;-->
+<!-- ======= Header ======= -->
+<header th:replace="superadmin/fragments_spa/header_spa.html :: header(num_not = '3', num_form = '2 ', por_canc = '1', nombre = 'A. Jauregui', num_men = '3')">
+</header>
+<!-- End Header -->
 
-<!--&lt;!&ndash; ======= Sidebar ======= &ndash;&gt;-->
-<!--<aside th:replace="superadmin/fragments_spa/aside_spa.html :: sidebar (active = 'index')">-->
-<!--</aside>-->
+<!-- ======= Sidebar ======= -->
+<aside th:replace="superadmin/fragments_spa/aside_spa.html :: sidebar (active = 'index')">
+</aside>
 
-  <head th:insert="~{superadmin/fragments_spa/librerias_spa.html :: cabecera (titulo = 'index')}">
-  </head>
-  <body>
-    <!-- ======= Header ======= -->
-    <header th:replace="~{superadmin/fragments_spa/header_spa.html :: header(num_not = '3', num_form = '2 ', por_canc = '1', nombre = |${session.usuario.nombres} ${session.usuario.apellidos}|, num_men = '3')}">
-    </header>
-    <!-- End Header -->
-    <!-- ======= Sidebar ======= -->
-    <aside th:replace="~{superadmin/fragments_spa/aside_spa.html:: sidebar (active = 'index')}">
-    </aside><!-- End Sidebar-->
+<div th:replace="superadmin/fragments_spa/modalCerrarSesion.html::modal">
 
-<!--    &lt;!&ndash;Modal Cerrar Sesion&ndash;&gt;-->
-<!--    <div th:replace="fragments/doctor/modalCerrarSesion.html::modal">-->
-
-
+</div>
 <!-- End Sidebar-->
 
-<div class="modal fade" id="verticalycentered" tabindex="-1">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">¿Seguro que deseas Salir?</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-success" data-bs-dismiss="modal"><a style="color: white" th:href="@{'/superadmin/index'}" >Salir</a></button>
-        <button type="button" class="btn btn-secondary"><a style="color: white" th:href="@{'/superadmin/index'}" >Cancelar</a></button>
-      </div>
-    </div>
-  </div>
-</div><!-- End Vertically centered Modal-->
   <main id="main" class="main">
 
     <div class="pagetitle">
