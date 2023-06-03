@@ -51,7 +51,7 @@ public class Usuario  implements Serializable {
 
     @NotNull
     @Positive
-    @Digits(integer=2, fraction = 0, message = "La edad debe ser un numero")
+    @Digits(integer=2, fraction = 0)
     private Integer edad;
 
     @Column(name = "estado_habilitado", nullable = false)
