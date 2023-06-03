@@ -387,7 +387,10 @@ public class AdministradorController {
             Sede sede = new Sede();
             sede.setIdsede(usuarioAdministrador.getSede().getIdsede());
             user.setSede(sede);
-            user.setContrasena(generarContrasena(10));
+            String contrasenaGenerada = generarContrasena(10);
+            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+            String contrasenaCifrada = passwordEncoder.encode(contrasenaGenerada);
+            user.setContrasena(contrasenaCifrada);
             usuarioRepository.save(user);
             Doctor doctor = new Doctor();
             doctor.setCmp(0);
@@ -401,7 +404,7 @@ public class AdministradorController {
             doctor.setUsuario(user);
             doctor.setConsultorio("-");
             doctorRepository.save(doctor);
-            emailService.sendEmail(doctor.getUsuario().getCorreo(), "Confirmación de Registro", "Estimado usuario, usted ha sido registrado en:\nSede " + usuarioAdministrador.getSede().getNombre() + "\nUbicada en " + usuarioAdministrador.getSede().getDireccion() + "\nTu contraseña por defecto es: " + doctor.getUsuario().getContrasena() + "\nIngresa aquí para cambiarla");
+            emailService.sendEmail(doctor.getUsuario().getCorreo(), "Confirmación de Registro", "Estimado usuario, usted ha sido registrado en:\nSede " + usuarioAdministrador.getSede().getNombre() + "\nUbicada en " + usuarioAdministrador.getSede().getDireccion() + "\nTu contraseña por defecto es: " + contrasenaGenerada + "\nIngresa aquí para cambiarla");
             return "redirect:/administrador/dashboarddoctor";
         }
     }
