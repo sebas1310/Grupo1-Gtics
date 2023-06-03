@@ -244,11 +244,10 @@ public class SuperadminController {
 
         }else{
             attr.addFlashAttribute("msg","Administrador actualizado");
-            usuario.setContrasena(passwordEncoder.encode(usuario.getContrasena()));
 
             String contrasenaGenerada = generarContrasena(10);
 
-            usuario.setContrasena(passwordEncoder.encode(usuario.getContrasena()));
+            usuario.setContrasena(passwordEncoder.encode(contrasenaGenerada));
             usuarioRepository.save(usuario);
             emailService.sendEmail(usuario.getCorreo(), "Confirmación de Registro", "Estimado usuario, usted ha sido registrado en:\nSede " + usuario.getSede().getNombre() + "\nUbicada en " + usuario.getSede().getDireccion() + "\nTu contraseña por defecto es: " + contrasenaGenerada + "\nIngresa aquí para cambiarla: ");
             return "redirect:/superadmin/index";
