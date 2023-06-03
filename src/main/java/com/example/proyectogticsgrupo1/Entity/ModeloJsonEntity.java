@@ -3,7 +3,7 @@ package com.example.proyectogticsgrupo1.Entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "modelo_json", schema = "bdclinicag1", catalog = "")
+@Table(name = "modelo_json", schema = "bdclinicag1_v2", catalog = "")
 public class ModeloJsonEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id

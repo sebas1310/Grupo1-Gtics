@@ -28,7 +28,7 @@ public interface ModeloJsonRepository extends JpaRepository<ModeloJsonEntity,Int
     List<String> listarPreguntasxPlantilla(int id_modelo_json);
 
     @Query(value = "SELECT * from modelo_json", nativeQuery = true)
-    List<ModeloJson> listarNombresP();
+    List<ModeloJsonEntity> listarNombresP();
 
     @Query(value="select * from modelo_json where informe=1 and idtipodeusuario=5 and idespecialidad = ?1 ",nativeQuery = true)
     ModeloJson informeMedico(Integer idespecialidad);

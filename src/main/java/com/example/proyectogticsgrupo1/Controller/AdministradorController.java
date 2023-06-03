@@ -198,7 +198,7 @@ public class AdministradorController {
     public String formatos(Model model) {
         Usuario usuarioAdministrador = (Usuario) session.getAttribute("usuario");
         model.addAttribute("usuario", usuarioAdministrador);
-        List<ModeloJson> listanombres = modeloJsonRepository.listarNombresP();
+        List<ModeloJsonEntity> listanombres = modeloJsonRepository.listarNombresP();
         model.addAttribute("listanombres", listanombres);
         return "administrador/formatos";
     }
