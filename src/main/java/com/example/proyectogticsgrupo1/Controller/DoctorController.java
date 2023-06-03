@@ -52,6 +52,9 @@ public class DoctorController {
     @Autowired
     TipohoracalendariodoctorRepository tipohoracalendariodoctorRepository;
 
+    @Autowired
+    ModeloJsonRepository modeloJsonRepository;
+
     public DoctorController(CitaRepository citaRepository, DoctorRepository doctorRepository, PacienteRepository pacienteRepository,
                             RecetaMedicaRepository recetaMedicaRepository, ReporteCitaRepository reporteCitaRepository,UsuarioRepository usuarioRepository,
                             BitacoraDeDiagnosticoRepository bitacoraDeDiagnosticoRepository,
@@ -192,8 +195,10 @@ public class DoctorController {
 
             model.addAttribute("cita", cita);
             model.addAttribute("recetamedica", recetaMedicaRepository.buscarRecetaMedicaPorCita(idCita, idReceta));
-            model.addAttribute("reportecita", reporteCitaRepository.buscarReporteCitaPorId(idCita));
-            //model.addAttribute("informemedico",tablaDatosLlenosRepository.obtenerArchivo());
+            //obtenemos el modelo del informe y luego se enviarán los datos desde la vista para llenar en la tabla "datos_json"
+            ModeloJson informe = modeloJsonRepository.informeMedico(doctor.getEspecialidad().getIdespecialidad());
+            model.addAttribute("informemedico",informe);
+            model.addAttribute("listapreguntasinforme",modeloJsonRepository.listarPreguntasxPlantilla(informe.getId()));
         return "doctor/verCita";
     }
     @GetMapping("/pacientesatendidos/verhistorial/vercita/editarreceta")
