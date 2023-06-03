@@ -1,12 +1,15 @@
 package com.example.proyectogticsgrupo1.Repository;
 
 
+import com.example.proyectogticsgrupo1.Entity.ModeloJson;
 import com.example.proyectogticsgrupo1.Entity.TablaDatosLlenos;
 import com.example.proyectogticsgrupo1.Entity.TablaTitulosInputs;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 public interface TablaDatosLlenosRepository extends JpaRepository<TablaDatosLlenos,Integer> {
 
@@ -45,6 +48,19 @@ public interface TablaDatosLlenosRepository extends JpaRepository<TablaDatosLlen
     @Transactional
     @Query(value="delete from tabla_datos_llenos",nativeQuery = true)
     void BorrarDatosDeInput();
+
+
+    @Query(value="SELECT keys_2.col_name\n" +
+            "FROM modelo_json,\n" +
+            "     JSON_TABLE(JSON_KEYS(modelo_json.datos), '$[*]'\n" +
+            "        COLUMNS (\n" +
+            "            col_name VARCHAR(255) PATH '$'\n" +
+            "        )\n" +
+            "     ) AS keys_2\n" +
+            "WHERE modelo_json.id = ?1  ",nativeQuery = true)
+
+    List<String> listaPreguntasInformeMedico(int idModeloJson);
+
 
 
 }
