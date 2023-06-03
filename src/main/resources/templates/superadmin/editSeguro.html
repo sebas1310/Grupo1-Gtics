@@ -39,36 +39,30 @@
         <div class="col-12">
             <div class="card recent-sales overflow-auto">
                 <div class="card-body">
-                    <h5 class="card-title">Lista de Seguros</h5>
+                    <h5 class="card-title">Editar Seguros</h5>
 
 
-                    <table class="table table-borderless datatable">
-                        <thead>
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Nombre</th>
-                                <th scope="col">Paciente Porcentaje</th>
-                                <th scope="col">Doctor Porcentaje</th>
-                                <th></th>
+                    <form method="post" th:action="@{/superadmin/saveSeguro}" th:object="${seguro}" class="mt-2">
+                        <input th:field="*{idseguro}" name="id" type="hidden"/>
 
+                        <div class="mb-3">
+                            <label class="form-label">Nombre</label>
+                            <input th:field="*{nombre}" type="text" class="form-control">
+                        </div>
 
-                            </tr>
-                        </thead>
-                        <tbody>
+                        <div class="mb-3">
+                            <label class="form-label">Paciente Porcentaje</label>
+                            <input th:field="${seguro.coaseguro}" type="text" class="form-control">
+                        </div>
 
-                            <tr th:each="seguro, info : ${listSeguros}" th:id="'fila-' + ${info.index}">
-                                <td th:text="${info.index + 1}"></td>
-                                <td th:text="${seguro.nombre}"></td>
-                                <td th:text="${seguro.coaseguro}"></td>
-                                <td th:text="${seguro.comisiondoctor}"></td>
-                                <td><a class="btn btn-primary"
-                                       th:href="@{'/superadmin/editarSeguro?id=' + ${seguro.idseguro}}">Editar</a>
-                                </td>
-                            </tr>
+                        <div class="mb-3">
+                            <label class="form-label">Comisión Doctor</label>
+                            <input th:field="${seguro.comisiondoctor}" type="text" class="form-control">
+                        </div>
 
-                        </tbody>
-
-                    </table>
+                        <a th:href="@{/superadmin/seguros}" class="btn btn-danger">Cancelar</a>
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                    </form>
 
 
                 </div>

@@ -339,7 +339,7 @@ public class DoctorController {
         eventocalendariodoctorRepository.agregarEventoDoctor(idtipocalendario,fecha, horainicio, horafinal, duracion, descripcion,iddoctor);
         redirectAttributes.addFlashAttribute("msg","Evento Añadido");
         return "redirect:/doctor/calendario";
-}
+    }
 
     @GetMapping("/cuestionario")
     public String cuestionarioDoctor(Model model, @RequestParam("id") int idPaciente){
