@@ -4,6 +4,7 @@ import com.example.proyectogticsgrupo1.Entity.*;
 import com.example.proyectogticsgrupo1.Repository.*;
 
 import com.example.proyectogticsgrupo1.Repository.ModeloJsonRepository;
+import com.example.proyectogticsgrupo1.Service.EmailService;
 import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
@@ -24,11 +25,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 import java.util.regex.Pattern;
 
 @Controller
 @RequestMapping(value = "/superadmin")
 public class SuperadminController {
+    private static final String CHARACTERS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+";
 
     @Autowired
     UsuarioRepository usuarioRepository;
@@ -59,11 +62,20 @@ public class SuperadminController {
 
     @Autowired
     UserRepository userRepository;
-
+    @Autowired
+    private EmailService emailService;
 
     @Autowired
     private HttpSession session;
 
+    @GetMapping(value = "/email")
+    public String emailpr() {
+        String user = "alexia_jg@outlook.es";
+        String subj = "jjj";
+        String msj = "Pruebas de envio";
+        emailService.sendEmail(user, subj, msj);
+        return "redirect:/index";
+    }
     @GetMapping("/index")
     public String inicioDashboardSuperadmin(Model model){
 
@@ -206,6 +218,17 @@ public class SuperadminController {
         return "redirect:/superadmin/seguros";
     }
 
+    public static String generarContrasena(int longitud) {
+        StringBuilder sb = new StringBuilder(longitud);
+        Random random = new Random();
+
+        for (int i = 0; i < longitud; i++) {
+            int index = random.nextInt(CHARACTERS.length());
+            sb.append(CHARACTERS.charAt(index));
+        }
+
+        return sb.toString();
+    }
     @PostMapping("/save")
     public String guardarAdministrador(@ModelAttribute("usuario") @Valid Usuario usuario, BindingResult bindingResult, RedirectAttributes attr, Model model){
 
@@ -222,13 +245,16 @@ public class SuperadminController {
         }else{
             attr.addFlashAttribute("msg","Administrador actualizado");
             usuario.setContrasena(passwordEncoder.encode(usuario.getContrasena()));
+
+            String contrasenaGenerada = generarContrasena(10);
+
+            usuario.setContrasena(passwordEncoder.encode(usuario.getContrasena()));
             usuarioRepository.save(usuario);
+            emailService.sendEmail(usuario.getCorreo(), "Confirmación de Registro", "Estimado usuario, usted ha sido registrado en:\nSede " + usuario.getSede().getNombre() + "\nUbicada en " + usuario.getSede().getDireccion() + "\nTu contraseña por defecto es: " + contrasenaGenerada + "\nIngresa aquí para cambiarla: ");
             return "redirect:/superadmin/index";
 
         }
     }
-
-
 
 
     @GetMapping("/delete")
