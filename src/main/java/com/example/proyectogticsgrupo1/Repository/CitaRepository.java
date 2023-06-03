@@ -37,19 +37,22 @@ public interface CitaRepository extends JpaRepository<Cita, Integer> {
 
     List<Cita> findByPacienteAndFechaAfterOrderByFechaAsc(Paciente paciente, LocalDate fechaactual);
 
+
     /*@Query(value= "select * from cita where doctor_iddoctor= ?1 and concat(fecha, ' ' , horainicio , ' ', horafinal) <=current_timestamp()\n" +
             "order by concat(fecha, ' ' , horainicio ) DESC",nativeQuery = true)
     List<Cita> pacientesAtendidosPorDoctor(Integer idDoctor);*/
 
-    @Query(value= "select c.idcita as 'IDCita' , max(fecha) as 'UltimaFecha' ,c.paciente_idpaciente as 'IDPaciente', concat(u.nombres,' ',u.apellidos) as 'NombrePaciente', t.nombre as 'TipoCita' from cita c \n" +
-            "inner join paciente p on c.paciente_idpaciente = p.idpaciente \n" +
-            "inner join usuario u on p.idusuario = u.idusuario \n" +
-            "inner join tipocita t on c.idtipocita = t.idtipocita \n" +
-            "where doctor_iddoctor= ?1 and fecha <= current_date() \n" +
-            "group by paciente_idpaciente\n" +
-            "order by fecha ", nativeQuery = true)
 
+    @Query(value = "SELECT c.idcita AS 'IDCita', MAX(fecha) AS 'UltimaFecha', c.paciente_idpaciente AS 'IDPaciente', CONCAT(u.nombres, ' ', u.apellidos) AS 'NombrePaciente', t.nombre AS 'TipoCita' " +
+            "FROM cita c " +
+            "INNER JOIN paciente p ON c.paciente_idpaciente = p.idpaciente " +
+            "INNER JOIN usuario u ON p.idusuario = u.idusuario " +
+            "INNER JOIN tipocita t ON c.idtipocita = t.idtipocita " +
+            "WHERE c.doctor_iddoctor = ?1 AND fecha <= CURRENT_DATE() " +
+            "GROUP BY c.idcita, c.paciente_idpaciente, CONCAT(u.nombres, ' ', u.apellidos), t.nombre " +
+            "ORDER BY MAX(fecha)", nativeQuery = true)
     List<PacientesAtendidos> pacientesAtendidosPorDoctor(Integer idDoctor);
+
 
 
     @Query(value= "select * from cita where paciente_idpaciente= ?1 and doctor_iddoctor = ?2 ",nativeQuery = true)

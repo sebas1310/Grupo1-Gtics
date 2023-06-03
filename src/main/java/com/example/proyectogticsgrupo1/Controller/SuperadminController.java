@@ -2,17 +2,28 @@ package com.example.proyectogticsgrupo1.Controller;
 
 import com.example.proyectogticsgrupo1.Entity.*;
 import com.example.proyectogticsgrupo1.Repository.*;
+
+import com.example.proyectogticsgrupo1.Repository.ModeloJsonRepository;
+import jakarta.servlet.ServletOutputStream;
+import jakarta.servlet.http.HttpSession;
+import jakarta.transaction.Transactional;
+
+import jakarta.validation.Valid;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Random;
 import java.util.regex.Pattern;
 
 @Controller
@@ -35,24 +46,38 @@ public class SuperadminController {
     @Autowired
     ModeloRepository modeloRepository;
 
+
+    @Autowired
+    ModeloJsonRepository modeloJsonRepository;
+
+
     @Autowired
     TablaDatosLlenosRepository tablaDatosLlenosRepository;
 
     @Autowired
     TablaTitulosInputsRepository tablaTitulosInputsRepository;
 
+    @Autowired
+    UserRepository userRepository;
+
+
+    @Autowired
+    private HttpSession session;
 
     @GetMapping("/index")
     public String inicioDashboardSuperadmin(Model model){
 
-        Optional<Usuario> optionalUsuario = usuarioRepository.findById(1);
-        Usuario usuario = optionalUsuario.get();
+        //Optional<Usuario> optionalUsuario = usuarioRepository.findById(1);
+        //Usuario usuario = optionalUsuario.get();
+        Usuario usuarioSpa = (Usuario) session.getAttribute("usuario");
+        Usuario superadmin = usuarioRepository.buscarPorId(usuarioSpa.getIdusuario());
 
+        model.addAttribute("usuario",superadmin);
 
         List<Usuario> listaUsuarios = usuarioRepository.findAll();
 
 
-        model.addAttribute("administradores", usuario);
+        model.addAttribute("administradores", superadmin);
 
         model.addAttribute("listaUsuarios", listaUsuarios);
 
@@ -63,8 +88,22 @@ public class SuperadminController {
     @GetMapping("/listaform")
     public String listaFormularios(Model model){
 
-        List<ModeloEntity> modeloEntityList = modeloRepository.findAll();
+        List<ModeloJsonEntity> modeloEntityList = modeloJsonRepository.findAll();
         model.addAttribute("modeloEntityList",modeloEntityList);
+
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        String username = userDetails.getUsername();
+        String rol = userDetails.getAuthorities().toString();
+        String password = userDetails.getPassword();
+
+        System.out.println(username);
+        System.out.println(rol.getClass());
+        System.out.println(rol);
+        System.out.println(password);
+
+        model.addAttribute("rol_user_autorizado",rol);
 
 
         return "superadmin/lista_plantillas_spa";
@@ -94,29 +133,41 @@ public class SuperadminController {
 
     @GetMapping("/perfil")
     public String perfilSuperAdmin(@ModelAttribute("superadminlog") Usuario usuario, Model model){
-        Optional<Usuario> optionalSuperadmin = usuarioRepository.findById(1);
-        usuario = optionalSuperadmin.get();
-        model.addAttribute("superadminlog", usuario);
+        Usuario usuarioSpa = (Usuario) session.getAttribute("usuario");
+        Usuario superadmin = usuarioRepository.buscarPorId(usuarioSpa.getIdusuario());
+
+        //Optional<Usuario> optionalSuperadmin = usuarioRepository.findById(1);
+        //usuario = optionalSuperadmin.get();
+
+        model.addAttribute("superadminlog", superadmin);
         return "superadmin/users-profile_spa";
     }
+
     @GetMapping("/registraradministrativo")
-    public String registrarAdministrativo(@ModelAttribute("usuario") Usuario usuario, Model model, @RequestParam("t") String t){
-        System.out.println(t);
-        model.addAttribute("t",t);
+    public String registrarAdministrativo(@ModelAttribute("usuario") Usuario usuario, Model model){
+
+        model.addAttribute("listasedes", sedeRepository.findAll());
         return "superadmin/pages-registrar-administrativo";
     }
     @GetMapping("/registraradministrador")
-    public String registrarAdministrador(@ModelAttribute("usuario") Usuario usuario,Model model){
+    public String registrarAdministrador(@ModelAttribute("usuario") Usuario usuario, Model model){
+
+        model.addAttribute("listasedes", sedeRepository.listaSedes());
+
         return "superadmin/pages-registrar-adminitrador";
     }
 
 
 
     @PostMapping("/superadmin/actualizarUser")
-    public String actualizarUser(Usuario usuario,RedirectAttributes attr){
+    public String actualizarUser(Usuario usuario,RedirectAttributes attr, Model model){
+        Usuario usuarioSpa = (Usuario) session.getAttribute("usuario");
+        Usuario superadmin = usuarioRepository.buscarPorId(usuarioSpa.getIdusuario());
 
         System.out.println(usuario.getNombres());
         System.out.println(usuario.getEstadohabilitado());
+
+        model.addAttribute("listasedes", sedeRepository.findAll());
 
         if (usuario.getEstadohabilitado() == 0){
             int habilitado = 0;
@@ -131,7 +182,7 @@ public class SuperadminController {
         if(usuario.getIdusuario()!=null){
             attr.addFlashAttribute("msg", "Usuario actualizado exitosamente");
         }
-;
+        ;
         return "redirect:/superadmin/index";
     }
 
@@ -145,18 +196,36 @@ public class SuperadminController {
         return "redirect:/superadmin/perfil";
     }
 
-    @PostMapping("/save")
-    public String guardarAdministrador(Usuario usuario, RedirectAttributes attr){
-        System.out.println(usuario.getCelular());
-        usuario.setContrasena(RandomStringUtils.random(10, true, true));
+    @PostMapping("/saveSeguro")
+    public String guardarSeguro(Seguro seguro, RedirectAttributes attr){
+        System.out.println("id"+seguro.getNombre());
 
-        if(usuario.getIdusuario()==null){
-            attr.addFlashAttribute("msg", "Administrador creado exitosamente");
+        attr.addFlashAttribute("msg","Seguro actualizado actualizado");
+
+        seguroRepository.save(seguro);
+        return "redirect:/superadmin/seguros";
+    }
+
+    @PostMapping("/save")
+    public String guardarAdministrador(@ModelAttribute("usuario") @Valid Usuario usuario, BindingResult bindingResult, RedirectAttributes attr, Model model){
+
+        System.out.println("sede" + usuario.getSede());
+        usuario.setContrasena(RandomStringUtils.random(10, true, true));
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+        if(bindingResult.hasErrors()){
+            attr.addFlashAttribute("msg", "Administrador presenta errores");
+            model.addAttribute("listasedes", sedeRepository.listaSedes());
+
+            return "superadmin/pages-registrar-adminitrador";
+
         }else{
             attr.addFlashAttribute("msg","Administrador actualizado");
+            usuario.setContrasena(passwordEncoder.encode(usuario.getContrasena()));
+            usuarioRepository.save(usuario);
+            return "redirect:/superadmin/index";
+
         }
-        usuarioRepository.save(usuario);
-        return "redirect:/superadmin/registro";
     }
 
 
@@ -182,15 +251,35 @@ public class SuperadminController {
 
     @GetMapping("/edit")
     public String editarUsuario(Model model, @RequestParam("id") int id){
+        Usuario usuarioSpa = (Usuario) session.getAttribute("usuario");
+
         Optional<Usuario> optionalUsuario = usuarioRepository.findById(id);
         if(optionalUsuario.isPresent()){
             Usuario usuario = optionalUsuario.get();
             model.addAttribute("usuario", usuario);
-            return "users-profile_spa";
+            return "superadmin/users-profile_spa";
         }else{
             return "redirect:/superadmin/index";
         }
     }
+
+    @GetMapping("/editarSeguro")
+    public String editarSeguros(@RequestParam("id") int id, Model model){
+        Usuario usuarioSpa = (Usuario) session.getAttribute("usuario");
+
+        Optional<Seguro> optSeguro = seguroRepository.findById(id);
+        if(optSeguro.isPresent()){
+            Seguro seguro = optSeguro.get();
+            model.addAttribute("seguro", seguro);
+            return "superadmin/editSeguro";
+        }else{
+            return "redirect:/seguros";
+        }
+    }
+
+
+
+
     @GetMapping("/reportes")
     public String listaReportes(){
         return "superadmin/tables-general_spa";
@@ -228,14 +317,31 @@ public class SuperadminController {
 
     }
 
-    @PostMapping("/crearPlantillaInforme")
+    @ResponseBody
+    @GetMapping(value = "/listarTitulos")
+    public List<String> listarTitulos(Model model, @RequestParam("id_de_modelo_plantilla") int id_de_modelo_plantilla){
+
+        System.out.println("llega al repo de listar");
+
+//        int id_model = Integer.parseInt(id_de_modelo_plantilla);
+
+        return modeloJsonRepository.listarPreguntasxPlantilla(id_de_modelo_plantilla);
+
+    }
+
+
+
+
+
+    @PostMapping(value = "/crearPlantillaInforme")
+    @Transactional
     public String crearPlantillaInforme(Model model,@RequestParam("datos") String datos
             ,@RequestParam("nombreplantilla") String nombreplantilla
             ,@RequestParam("id_rol") int id_rol
             ,@RequestParam("id_especialidad") int id_especialidad
             ,@RequestParam("nro_inputs") int nro_inputs
             ,@RequestParam("tipo_plantilla") String tipo_plantilla
-            ){
+    ){
 //        , RedirectAttributes attr
 
 //        ,@RequestParam("nombreplantilla") String nombreplantilla
@@ -303,7 +409,14 @@ public class SuperadminController {
         }
 
 //        tablaDatosLlenosRepository.LlenadoDePlantilla(id_registro_nuevo,nombreplantilla,id_usuario,id_modelo,id_cita);
-        tablaDatosLlenosRepository.LlenadoDePlantilla(id_registro_nuevo,nombreplantilla,4,7,1);
+
+//
+//
+//
+//        tablaDatosLlenosRepository.LlenadoDePlantilla(id_registro_nuevo,nombreplantilla,4,1,1);
+
+        tablaDatosLlenosRepository.LlenadoDePlantilla(id_registro_nuevo+4,nombreplantilla,4,12,1);
+
 
 
 
@@ -325,18 +438,24 @@ public class SuperadminController {
         return "redirect:/superadmin/nuevoform";
     }
 
+
     @GetMapping("/notificaciones")
     public String historialNotificaciones(){
         return "superadmin/historial-notificaciones_spa";
     }
+
     @GetMapping("/perfilUsuario")
     public String perfilUsuario(Model model,@RequestParam("id") int id){
+        Usuario usuarioSpa = (Usuario) session.getAttribute("usuario");
+        // Usuario superadmin = usuarioRepository.buscarPorId(usuarioSpa.getIdusuario());
+
+        model.addAttribute("listasedes", sedeRepository.findAll());
 
         Optional<Usuario> optionalUsuario = usuarioRepository.findById(id);
         Usuario usuario = optionalUsuario.get();
-
+        model.addAttribute("persona",usuario);
         System.out.println(id);
-        model.addAttribute("usuario", usuario);
+        // model.addAttribute("usuario", superadmin);
 
         return "superadmin/perfil-usuarios_spa";
     }
@@ -349,26 +468,26 @@ public class SuperadminController {
     }
 
 
-    @PostMapping("/cambiarContrasena")
-    public String cambiarContraseña(Model model, RedirectAttributes attr, @RequestParam("currentPassword") String currentPassword,
-                                    @RequestParam("newPassword") String  newPassword,
-                                    @RequestParam("renewpassword") String  renewpassword){
+    @PostMapping(value = "/changepassword")
+    @Transactional
+    public String changePassword(@RequestParam("id") int idusuario,
+                                 @RequestParam("contrasena") String contrasena,
+                                 @RequestParam("newpassword") String newpassword,
+                                 @RequestParam("renewpassword") String renewpassword, RedirectAttributes redirectAttributes) {
 
-        String contrasenaActual = currentPassword;
-        String nuevaContrasena = newPassword;
-        String nuevaContrasena_v2 = renewpassword;
+        Usuario superadmin = (Usuario) session.getAttribute("usuario");
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
+        if (passwordEncoder.matches(contrasena, superadmin.getContrasena())) {
+            String hashedNewPassword = passwordEncoder.encode(newpassword);
 
+            usuarioRepository.changePassword(hashedNewPassword, superadmin.getIdusuario());
+            redirectAttributes.addFlashAttribute("psw1", "Contraseña actualizada");
 
-
-        if (nuevaContrasena == contrasenaActual && nuevaContrasena_v2 == renewpassword) {
-            attr.addFlashAttribute("msg", "No se pudo actualizar la contraseña");
         } else {
-            usuarioRepository.cambiarPassword(nuevaContrasena);
-            attr.addFlashAttribute("msg", "Contraseña actualizada exitosamente");
+            System.out.println("INCORRECTO");
+            redirectAttributes.addFlashAttribute("psw2", "La contraseña es incorrecta");
         }
-
-
 
         return "redirect:/superadmin/perfil";
     }

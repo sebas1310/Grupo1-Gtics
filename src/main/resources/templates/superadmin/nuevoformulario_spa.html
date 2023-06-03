@@ -1,20 +1,22 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:insert="superadmin/fragments_spa/librerias_spa.html :: cabecera (titulo = 'editarform')">
+<head th:insert="~{superadmin/fragments_spa/librerias_spa.html :: cabecera (titulo = 'editarform')}">
 </head>
 
 <body>
 
 <!-- ======= Header ======= -->
-<header th:replace="superadmin/fragments_spa/header_spa.html :: header(num_not = '3', num_form = '2 ', por_canc = '1', nombre = 'A. Jauregui', num_men = '3')">
+<header th:replace="~{superadmin/fragments_spa/header_spa.html :: header(num_not = '3', num_form = '2 ', por_canc = '1', nombre = 'A. Jauregui', num_men = '3')}">
 </header>
 <!-- End Header -->
 
 <!-- ======= Sidebar ======= -->
-<aside th:replace="superadmin/fragments_spa/aside_spa.html :: sidebar (active = 'editarform')">
+<aside th:replace="~{superadmin/fragments_spa/aside_spa.html :: sidebar (active = 'editarform')}">
 </aside>
 <!-- End Sidebar-->
+<div th:replace="superadmin/fragments_spa/modalCerrarSesion.html::modal">
 
+</div>
 <main id="main" class="main">
 
 <!--    <div class="alert alert-success" role="alert" th:if="${msg != null}" th:text="${msg}">-->
@@ -70,7 +72,7 @@
                         <button class="btn btn-primary" id="botonAgregar" onclick="enviarFormulario()" style="color: white">Agregar input</button>
                         <button class="btn btn-dark" id="enviarConcat" onclick="envioStringConcat()" type="submit" style="color: white">Guardar Plantilla - Informe</button>
 <!--                        onclick="envioStringConcat()"-->
-                        <button type="button" class="btn btn-secondary" onclick="envioStringConcat()"><a style="color: white" th:href="@{'/superadmin/listaform'}" >Cancelar</a></button>
+                        <button type="button" class="btn btn-secondary"><a style="color: white" th:href="@{'/superadmin/listaform'}" >Cancelar</a></button>
 <!--                        <button type="submit" onclick="envioStringConcat()" value="Enviar"></button>-->
                     </form>
                 </div>
@@ -191,6 +193,14 @@
 
                 console.log("Estado actual: " + xmlhttp.readyState);
                 console.log("Código de estado HTTP: " + xmlhttp.status);
+                console.log("datos " + datos);
+                console.log("nombreplantilla " + nombreplantilla);
+                console.log("id_rol " + id_rol);
+                console.log("id_especialidad " + id_especialidad);
+                console.log("nro_inputs " + nro_inputs);
+                console.log("tipo_plantilla " + tipo_plantilla);
+
+
                 if (xmlhttp.readyState == XMLHttpRequest.DONE) {
                     if (xmlhttp.status == 200) {
                         // Mostrar mensaje de éxito
@@ -206,6 +216,15 @@
 
             xmlhttp.send("datos=" + datos +"&nombreplantilla="+nombreplantilla+"&id_rol="+id_rol+"&id_especialidad="+id_especialidad+"&nro_inputs="+nro_inputs+"&tipo_plantilla="+tipo_plantilla);
             // xmlhttp.send(datos);
+
+            // var parametros = "datos=" + encodeURIComponent(datos) +
+            //     "&nombreplantilla=" + encodeURIComponent(nombreplantilla) +
+            //     "&id_rol=" + encodeURIComponent(id_rol) +
+            //     "&id_especialidad=" + encodeURIComponent(id_especialidad) +
+            //     "&nro_inputs=" + encodeURIComponent(nro_inputs) +
+            //     "&tipo_plantilla=" + encodeURIComponent(tipo_plantilla);
+            //
+            // xmlhttp.send(parametros);
 
         }
     </script>

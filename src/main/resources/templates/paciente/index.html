@@ -2,12 +2,10 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:insert="fragmentsPacientes/librerias.html :: cabecera (titulo = 'Dashboard')">
 </head>
-
 <body>
-
 <!-- ======= Header ======= -->
 
-<header th:replace="fragmentsPacientes/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1', nombre = |${session.usuario.nombres} ${session.usuario.apellidos}|, num_men = '3')">
+<header th:replace="fragmentsPacientes/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1', nombre = |${session.usuario.nombres} ${session.usuario.apellidos} (${session.usuario.tipodeusuario.nombre.toUpperCase()})|, num_men = '3')">
 
 </header>
 <!-- End Header -->
@@ -29,7 +27,7 @@
 
       <div th:if="${msg2!=null}" th:text="${msg2}" class="alert alert-success" role="alert"></div>
 
-      <div th:if="${msg1!=null}" th:text="${msg1}" class="alert alert-danger" role="alert"></div>
+      <div th:if="${msg1!=null}" th:text="${msg1}" class="alert alert-success" role="alert"></div>
 
     </div><!-- End Page Title -->
 
@@ -93,10 +91,10 @@
                               </thead>
                               <tbody>
                               <tr th:each="doctor, ind:${docs}">
-                                <th scope="row"><img th:src="@{/assets/img/messages-1.jpg}" class="rounded-circle" > </th>
+                                <th class="text-center" scope="row"><img th:src="@{/assets/img/messages-1.jpg}" class="rounded-circle" style="width: 50px; height: 50px"  > </th>
                                 <td class="text-center" th:text="|${doctor.usuario.nombres} ${doctor.usuario.apellidos}|"></td>
-                                <td th:text="${doctor.especialidad.nombre}"></td>
-                                <td><a th:href="@{'/paciente/perfilDoctor?iddoc='+${doctor.iddoctor}}" class="text-primary">Ver Perfil</a></td>
+                                <td class="text-center" th:text="${doctor.especialidad.nombre}"></td>
+                                <td class="text-center" ><a th:href="@{'/paciente/perfilDoctor?iddoc='+${doctor.iddoctor}}" class="text-primary">Ver Perfil</a></td>
                               </tr>
                               </tbody>
                             </table>
@@ -128,7 +126,7 @@
                   <h6>Filtro</h6>
                 </li>
 
-                <li><a class="dropdown-item" th:href="@{'/paciente/calendarioMensual'}">Vista Mensual</a></li>
+                <li><a class="dropdown-item" th:href="@{'/paciente/calendarioMensual'}">Vista Semanal</a></li>
               </ul>
             </div>
 
@@ -149,8 +147,6 @@
                       <button type="button"   class="btn btn-warning" data-toggle="modal" th:data-target="'#exampleModalCenter-' +${p.idcita}" th:text="${p.especialidad.nombre}">
                       </button>
 
-
-
                       <!-- Modal -->
                       <div class="modal fade" th:id="'exampleModalCenter-' + ${p.idcita}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -159,7 +155,7 @@
                               <h5 class="modal-title " style="font-weight: bold" id="exampleModalLongTitle" th:text="|Cita ${p.tipoCita.nombre}|"></h5>
 
                               <div class="d-flex align-items-center">
-                                <i class="bi bi-geo-alt-fill"></i>
+                                <i class="bi bi-geo-alt-fill"></i> &nbsp
                                 <p class="ml-3 mb-0" th:text="${p.doctor.sede.nombre}"></p>
                               </div>
                             </div>
@@ -170,7 +166,7 @@
                                   <table>
                                     <tr>
                                       <td>
-                                        <p  class="ml-3 mb-0" >Doctor:</p>
+                                        <p  style="font-weight: bold" class="ml-3 mb-0" >Doctor:</p>
                                       </td>
                                       <td>
                                         <p  class="ml-3 mb-0"  th:text="|${p.doctor.usuario.nombres} ${p.doctor.usuario.apellidos}|"></p>
@@ -193,7 +189,7 @@
                             </div>
                             <div class="d-inline-block w-auto mx-auto">
                               <div class="card bg-light d-flex align-items-center">
-                                <h2 th:text="${p.fecha}"></h2>
+                                <h2 th:text="${#temporals.format(p.fecha,'dd-MM-yyyy') }"></h2>
                                 <div class="card-body">
                                   <div class="row">
                                     <div class="col">
@@ -201,7 +197,7 @@
                                         Duración
                                       </div>
                                       <div class="p-3">
-                                        <p th:text="|${p.duracion} hora(s)|"></p>
+                                        <p th:text="|${p.duracion} Hora|"></p>
                                       </div>
                                     </div>
                                     <div class="col">

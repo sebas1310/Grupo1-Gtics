@@ -29,7 +29,7 @@ public class Paciente implements Serializable {
     private Seguro seguro;
 
 
-    @Column(name = "alergias", nullable = false)
+    @Column(name = "alergias")
     private String alergias;
 
     @Column(name = "consentimientos", nullable = false)

@@ -1,10 +1,13 @@
 package com.example.proyectogticsgrupo1.Repository;
 
 import com.example.proyectogticsgrupo1.Entity.ModeloEntity;
+import com.example.proyectogticsgrupo1.Entity.Paciente;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 public interface ModeloRepository extends JpaRepository<ModeloEntity,Integer> {
 
@@ -40,4 +43,11 @@ public interface ModeloRepository extends JpaRepository<ModeloEntity,Integer> {
     @Transactional
     @Query(value="UPDATE modelo SET nombre = ?1 WHERE idmodelo = ?2",nativeQuery = true)
     void actualizarPlantilla(String nuevoNbrPlantilla,int id_modelo);
+
+
+
+
+
+
+
 }

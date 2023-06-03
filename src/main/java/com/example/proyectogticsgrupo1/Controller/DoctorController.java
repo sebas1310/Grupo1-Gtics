@@ -339,7 +339,7 @@ public class DoctorController {
         eventocalendariodoctorRepository.agregarEventoDoctor(idtipocalendario,fecha, horainicio, horafinal, duracion, descripcion,iddoctor);
         redirectAttributes.addFlashAttribute("msg","Evento Añadido");
         return "redirect:/doctor/calendario";
-}
+    }
 
     @GetMapping("/cuestionario")
     public String cuestionarioDoctor(Model model, @RequestParam("id") int idPaciente){
@@ -491,11 +491,10 @@ public class DoctorController {
         Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
+
         if(passwordEncoder.matches(contrasena, doctor.getUsuario().getContrasena())){
             String hashedNewPassword = passwordEncoder.encode(newpassword);
-
             userRepository.changePassword(hashedNewPassword,doctor.getUsuario().getIdusuario());
-
             attr.addFlashAttribute("psw1", "Contraseña actualizada");
         }else {
             attr.addFlashAttribute("psw2", "La contraseña actual es incorrecta");

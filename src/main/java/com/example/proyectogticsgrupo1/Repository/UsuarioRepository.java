@@ -48,6 +48,12 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
     @Query(nativeQuery = true, value = "UPDATE usuario SET contrasena = ?1 WHERE idusuario = ?2")
     void changePassword(String newpassword, Integer id);
 
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE usuario SET contrasena = ?1 WHERE idusuario = ?2", nativeQuery = true)
+    void cambioPassword(String newpassword, Integer id);
+
+
 
 
     @Modifying
@@ -58,6 +64,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
     @Modifying
     @Query(value= "update usuario set nombres= ?1 ,apellidos= ?2, correo = ?3 where idusuario= ?4 ",nativeQuery = true)
     void actualizarPerfilDoctor (String nombres, String apellidos, String correo, Integer idUsuario);
+
 
     @Modifying
     @Transactional

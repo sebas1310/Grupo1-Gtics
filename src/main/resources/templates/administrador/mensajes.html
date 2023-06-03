@@ -7,29 +7,43 @@
 <body>
 
 <!-- ======= Header ======= -->
-<header th:replace="fragments/administrador/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1', nombre = 'L. Anderson', num_men = '3')">
+<header th:replace="fragments/administrador/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1',  nombre = ${session.usuario.nombres} + ' ' + ${session.usuario.apellidos} + ' ' + '(' + ${session.usuario.tipodeusuario.nombre.toUpperCase()} + ')', num_men = '2', sede = |${session.usuario.sede.nombre}|)">
 </header>
 <!-- End Header -->
 <!-- ======= Sidebar ======= -->
 <aside th:replace="fragments/administrador/aside.html :: sidebar (active = 'dashboard')">
 </aside>
 <!-- End Sidebar-->
-<!--Modal Cerrar Sesion-->
-<div th:replace="fragments/administrador/modalCerrarSesion.html::modal">
+
+<div class="modal fade" id="verticalycentered" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">¿Seguro que deseas Salir?</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-footer">
+        <form th:action="@{/logout}" method="post">
+          <button type="submit" class="btn btn-success">Salir</button>
+        </form>                <button type="button" class="btn btn-secondary"><a style="color: white" th:href="@{/administrador/mensajes}" >Cancelar</a></button>
+      </div>
+    </div>
+  </div>
+</div><!-- End Vertically centered Modal-->
 
 </div>
 <main id="main" class="main">
 
   <div class="pagetitle">
-    <h1>Dashboard</h1>
+    <h1>Mensajería</h1>
     <nav>
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a th:href="@{'/administrador/dashboard'}">Home</a></li>
-        <li class="breadcrumb-item active">Dashboard</li>
-        <li class="breadcrumb-item active">Mensajes</li>
-      </ol>
+      <!--<ol class="breadcrumb">
+          <li class="breadcrumb-item"><a th:href="@{'/doctor/pacientesatendidos'}">Pacientes Atendidos</a></li>
+          <li class="breadcrumb-item active">Historial Clínico</li>
+      </ol>-->
     </nav>
-  </div><!-- End Page Title -->
+  </div>
+  <!-- End Page Title -->
 
   <section class="section">
     <div class="row">
@@ -37,79 +51,36 @@
 
         <div class="card">
           <div class="card-body">
-            <h5 class="card-title">Historial de mensajes</h5>
+            <h5 class="card-title">Mensajes Enviados</h5>
+            <div th:if="${msg!=null}" th:text="${msg}" class="alert alert-success" role="alert"></div>
 
             <!-- Default Table -->
-            <table class="table">
+            <table class="table table-borderless datatable">
               <thead>
               <tr>
-                <th scope="col">Mensajes</th>
-                <th scope="col">Nombre</th>
-                <th scope="col">Foto</th>
-                <th scope="col">Hora</th>
+                <th style="text-align: center" scope="col">Para</th>
+                <th style="text-align: center" scope="col">Asunto</th>
+                <th style="text-align: center" scope="col">Descripcion</th>
+                <th style="text-align: center" scope="col">Fecha y Hora</th>
+                <th style="text-align: center" scope="col">Mensaje</th>
               </tr>
               </thead>
               <tbody>
-              <tr>
-                <td>Quae dolorem earum veritatis oditseno<div>fnfggjjjjjjvfncsffjgnjngjvfgngjsnfjbngjfnvd</div><div>fnfggjjjjjjvfncsffjgnjngjvfgngjsnfjbngjfnvd</div></td>
-                <td><a th:href="@{'/administrador/chat'}">Andreina Bravo Torres</a></td>
-                <td><img th:src="@{/assets/img/messages-1.jpg}" alt="" class="rounded-circle"></td>
-                <td>21:04:06 17/8/23</td>
+              <tr th:each=" mensaje : ${listamensajes}">
+                <td style="text-align: center" th:text="|${mensaje.getUsuarioDestino().getNombres()} ${mensaje.getUsuarioDestino().getApellidos()} ${mensaje.getUsuarioDestino().getTipodeusuario().getNombre()}|"></td>
+                <td style="text-align: center" th:text="${mensaje.getAsunto()}"></td>
+                <td style="text-align: center" th:text="${mensaje.getDescripcion()}"></td>
+                <td style="text-align: center" th:text="|${mensaje.getFecha()} ${mensaje.getHora()}|"></td>
+                <td>
+                  <a th:href="@{'/administrador/chat'+'?idM=' + ${mensaje.getIdMensaje()}}" class="btn btn-danger">Visualizar</a></td>
               </tr>
-              <tr>
-                <td>Quae dolorem earum veritatis oditseno<div>fnfggjjjjjjvfncsffjgnjngjvfgngjsnfjbngjfnvd</div><div>fnfggjjjjjjvfncsffjgnjngjvfgngjsnfjbngjfnvd</div></td>
-                <td><a th:href="@{'/administrador/chat'}">Andreina Bravo Torres</a></td>
-                <td><img th:src="@{/assets/img/messages-2.jpg}" alt="" class="rounded-circle"></td>
-                <td>21:04:06 17/8/23</td>
               </tr>
-              <tr>
-                <td>Quae dolorem earum veritatis oditseno<div>fnfggjjjjjjvfncsffjgnjngjvfgngjsnfjbngjfnvd</div><div>fnfggjjjjjjvfncsffjgnjngjvfgngjsnfjbngjfnvd</div></td>
-                <td><a th:href="@{'/administrador/chat'}">Andreina Bravo Torres</a></td>
-                <td><img th:src="@{/assets/img/messages-2.jpg}" alt="" class="rounded-circle"></td>
-                <td>21:04:06 17/8/23</td>
-              </tr>
-              <tr>
-                <td>Quae dolorem earum veritatis oditseno<div>fnfggjjjjjjvfncsffjgnjngjvfgngjsnfjbngjfnvd</div><div>fnfggjjjjjjvfncsffjgnjngjvfgngjsnfjbngjfnvd</div></td>
-                <td><a th:href="@{'/administrador/chat'}">Andreina Bravo Torres</a></td>
-                <td><img th:src="@{/assets/img/messages-1.jpg}" alt="" class="rounded-circle"></td>
-                <td>21:04:06 17/8/23</td>
-              </tr>
-              <tr>
-                <td>Quae dolorem earum veritatis oditseno<div>fnfggjjjjjjvfncsffjgnjngjvfgngjsnfjbngjfnvd</div><div>fnfggjjjjjjvfncsffjgnjngjvfgngjsnfjbngjfnvd</div></td>
-                <td><a th:href="@{'/administrador/chat'}">Andreina Bravo Torres</a></td>
-                <td><img th:src="@{/assets/img/messages-2.jpg}" alt="" class="rounded-circle"></td>
-                <td>21:04:06 17/8/23</td>
-              </tr>
-              <tr>
-                <td>Quae dolorem earum veritatis oditseno<div>fnfggjjjjjjvfncsffjgnjngjvfgngjsnfjbngjfnvd</div><div>fnfggjjjjjjvfncsffjgnjngjvfgngjsnfjbngjfnvd</div></td>
-                <td><a th:href="@{'/administrador/chat'}">Andreina Bravo Torres</a></td>
-                <td><img th:src="@{/assets/img/messages-2.jpg}" alt="" class="rounded-circle"></td>
-                <td>21:04:06 17/8/23</td>
-              </tr>
+
 
               </tbody>
             </table>
             <!-- End Default Table Example -->
 
-
-            <!-- Centered Pagination -->
-            <nav aria-label="Page navigation example">
-              <ul class="pagination justify-content-center">
-                <li class="page-item">
-                  <a class="page-link" href="#" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                  </a>
-                </li>
-                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item">
-                  <a class="page-link" href="#" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                  </a>
-                </li>
-              </ul>
-            </nav><!-- End Centered Pagination -->
 
           </div>
         </div>
@@ -120,46 +91,24 @@
     </div>
     </div>
   </section>
-
-
-
-
-
-
-
-
-
-
 </main><!-- End #main -->
 
-<!-- ======= Footer ======= -->
-<footer id="footer" class="footer">
-  <div class="copyright">
-    &copy; Copyright <strong><span>ClinicaLAFE</span></strong>. All Rights Reserved
-  </div>
-  <div class="credits">
-    <!-- All the links in the footer should remain intact. -->
-    <!-- You can delete the links only if you purchased the pro version. -->
-    <!-- Licensing information: https://bootstrapmade.com/license/ -->
-    <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
-    Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
-  </div>
-</footer><!-- End Footer -->
+
 
 <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
 <!-- Vendor JS Files -->
-<script th:src="@{/assets/vendor/apexcharts/apexcharts.min.js}"></script>
-<script th:src="@{/assets/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
-<script th:src="@{/assets/vendor/chart.js/chart.min.js}"></script>
-<script th:src="@{/assets/vendor/echarts/echarts.min.js}"></script>
-<script th:src="@{/assets/vendor/quill/quill.min.js}"></script>
-<script th:src="@{/assets/vendor/simple-datatables/simple-datatables.js}"></script>
-<script th:src="@{/assets/vendor/tinymce/tinymce.min.js}"></script>
-<script th:src="@{/assets/vendor/php-email-form/validate.js}"></script>
+<script th:src="@{'/assets/vendor/apexcharts/apexcharts.min.js'}"></script>
+<script th:src="@{'/assets/vendor/bootstrap/js/bootstrap.bundle.min.js'}"></script>
+<script th:src="@{'/assets/vendor/chart.js/chart.min.js'}"></script>
+<script th:src="@{'/assets/vendor/echarts/echarts.min.js'}"></script>
+<script th:src="@{'/assets/vendor/quill/quill.min.js'}"></script>
+<script th:src="@{'/assets/vendor/simple-datatables/simple-datatables.js'}"></script>
+<script th:src="@{'/assets/vendor/tinymce/tinymce.min.js'}"></script>
+<script th:src="@{'/assets/vendor/php-email-form/validate.js'}"></script>
 
 <!-- Template Main JS File -->
-<script th:src="@{/assets/js/main.js}"></script>
+<script th:src="@{'/assets/js/main.js'}"></script>
 
 </body>
 

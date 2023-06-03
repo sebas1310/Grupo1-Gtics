@@ -7,7 +7,7 @@
 <body>
 
 <!-- ======= Header ======= -->
-<header th:replace="fragments/administrador/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1', nombre = 'L. Anderson', num_men = '3')">
+<header th:replace="fragments/administrador/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1',  nombre = ${session.usuario.nombres} + ' ' + ${session.usuario.apellidos}, num_men = '2', sede = |${session.usuario.sede.nombre}|)">
 </header>
 <!-- End Header -->
 
@@ -15,8 +15,26 @@
 <aside th:replace="fragments/administrador/aside.html :: sidebar (active = 'crearpaciente')">
 </aside>
 <!-- End Sidebar-->
+<<<<<<< HEAD
 <!--Modal Cerrar Sesion-->
 <div th:replace="fragments/administrador/modalCerrarSesion.html::modal">
+=======
+<div class="modal fade" id="verticalycentered" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">¿Seguro que deseas Salir?</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-footer">
+                <form th:action="@{/logout}" method="post">
+                    <button type="submit" class="btn btn-success">Salir</button>
+                </form>                <button type="button" class="btn btn-secondary"><a style="color: white" th:href="@{/administrador/creardoctor}" >Cancelar</a></button>
+            </div>
+        </div>
+    </div>
+</div><!-- End Vertically centered Modal-->
+>>>>>>> develop_admi
 
 </div>
 <main id="main" class="main">
@@ -42,37 +60,41 @@
                         <div th:if="${msg != null}" th:text="${msg}" class="alert alert-success" role="alert"></div>
 
 
-                        <form class="row g-3"  method="post" th:action="@{/administrador/guardar3}">
+                        <form class="row g-3"  method="post" th:action="@{/administrador/guardar3}" th:object="${usuario1}">
                             <div class="col-12">
                                 <label class="form-label">Nombres</label>
-                                <input type="text" class="form-control" name="nombres" required>
+                                <input type="text" class="form-control" th:field="*{nombres}" th:classappend="${#fields.hasErrors('nombres')?'is-invalid':''}" required>
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('nombres')}" th:errors="*{nombres}"></div>
                             </div>
                             <div class="col-12">
                                 <label class="form-label">Apellidos</label>
-                                <input type="text" class="form-control" name="apellidos" required>
+                                <input type="text" class="form-control" th:field="*{apellidos}" th:classappend="${#fields.hasErrors('apellidos')?'is-invalid':''}" required>
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('apellidos')}" th:errors="*{apellidos}"></div>
                             </div>
                             <div class="col-12">
                                 <label class="form-label">Correo</label>
-                                <input type="text" class="form-control" name="correo" required>
+                                <input type="text" class="form-control" th:field="*{correo}" th:classappend="${#fields.hasErrors('correo')?'is-invalid':''}" required>
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('correo')}" th:errors="*{correo}"></div>
                             </div>
                             <div class="col-12">
                                 <label class="form-label">DNI</label>
-                                <input type="dni" class="form-control" name="dni" required>
+                                <input  class="form-control" th:field="*{dni}" th:classappend="${#fields.hasErrors('dni')?'is-invalid':''}" required>
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('dni')}" th:errors="*{dni}"></div>
                             </div>
                             <div class="col-12">
-                                <label for="inputGenero" class="form-label">Género</label>
+                                <label class="form-label">Género</label>
                                 <div class="form-control">
-                                    <select class="form-control-plaintext " type="genero" id="inputGenero" name="genero" required>
+                                    <select class="form-control-plaintext " type="genero" th:name="genero"  required>
                                         <option disabled selected>Seleccionar</option>
-                                        <option value="Masculino">Masculino</option>
-                                        <option value="Femenino">Femenino</option>
+                                        <option th:value="Maculino">Masculino</option>
+                                        <option th:value="Femenino">Femenino</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="col-12">
-                                <label for="inputEspecialidad" class="form-label">Especialidad</label>
+                                <label class="form-label">Especialidad</label>
                                 <div class="form-control">
-                                    <select class="form-control-plaintext " id="inputEspecialidad" name="especialidad" th:value="*{especialidad.idespecialidad}" required>
+                                    <select class="form-control-plaintext " name="especialidad" required>
                                         <option disabled selected>Seleccionar</option>
                                         <option th:each="especialidad : ${listaEspecialidad}" th:value="${especialidad.idespecialidad}"
                                                 th:text="${especialidad.nombre}"></option>
@@ -81,11 +103,13 @@
                             </div>
                             <div class="col-12">
                                 <label class="form-label">Celular</label>
-                                <input type="dni" class="form-control" name="celular" required>
+                                <input class="form-control" th:field="*{celular}" th:classappend="${#fields.hasErrors('celular')?'is-invalid':''}" required>
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('celular')}" th:errors="*{celular}"></div>
                             </div>
                             <div class="col-12">
                                 <label class="form-label">Edad</label>
-                                <input type="dni" class="form-control" name="edad" required>
+                                <input class="form-control" th:field="*{edad}" th:classappend="${#fields.hasErrors('edad')?'is-invalid':''}" required>
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('edad')}" th:errors="*{edad}"></div>
                             </div>
                             <div class="text-center">
                                 <button type="submit" class="btn btn-success" style="color: white">Guardar Cambios</button>
@@ -114,19 +138,6 @@
 
 </main><!-- End #main -->
 
-<!-- ======= Footer ======= -->
-<footer id="footer" class="footer">
-    <div class="copyright">
-        &copy; Copyright <strong><span>ClinicaLAFE</span></strong>. All Rights Reserved
-    </div>
-    <div class="credits">
-        <!-- All the links in the footer should remain intact. -->
-        <!-- You can delete the links only if you purchased the pro version. -->
-        <!-- Licensing information: https://bootstrapmade.com/license/ -->
-        <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
-        Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
-    </div>
-</footer><!-- End Footer -->
 
 <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
