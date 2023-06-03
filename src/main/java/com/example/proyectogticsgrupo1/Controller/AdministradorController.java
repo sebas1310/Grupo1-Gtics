@@ -140,7 +140,10 @@ public class AdministradorController {
             Sede sede = new Sede();
             sede.setIdsede(usuarioAdministrador.getSede().getIdsede());
             user.setSede(sede);
-            user.setContrasena(generarContrasena(10));
+            String contrasenaGenerada = generarContrasena(10);
+            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+            String contrasenaCifrada = passwordEncoder.encode(contrasenaGenerada);
+            user.setContrasena(contrasenaCifrada);
             usuarioRepository.save(user);
             Paciente paciente = new Paciente();
             EstadoPaciente estadoPaciente = new EstadoPaciente();
@@ -154,7 +157,7 @@ public class AdministradorController {
             paciente.setUsuario(user);
             paciente.setCondicionenfermedad("-");
             pacienteRepository.save(paciente);
-            emailService.sendEmail(paciente.getUsuario().getCorreo(), "Confirmación de Registro", "Estimado usuario, usted ha sido registrado en:\nSede " + usuarioAdministrador.getSede().getNombre() + "\nUbicada en " + usuarioAdministrador.getSede().getDireccion() + "\nTu contraseña por defecto es: " + paciente.getUsuario().getContrasena() + "\nIngresa aquí para cambiarla");
+            emailService.sendEmail(paciente.getUsuario().getCorreo(), "Confirmación de Registro", "Estimado usuario, usted ha sido registrado en:\nSede " + usuarioAdministrador.getSede().getNombre() + "\nUbicada en " + usuarioAdministrador.getSede().getDireccion() + "\nTu contraseña por defecto es: " + contrasenaGenerada + "\nIngresa aquí para cambiarla");
         }
         return "redirect:/administrador/dashboardpaciente";
     }
@@ -170,6 +173,7 @@ public class AdministradorController {
 
         return sb.toString();
     }
+
 
     @GetMapping(value = "/calendariogeneral")
     public String genCalendar(Model model) {
