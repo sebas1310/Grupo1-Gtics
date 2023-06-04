@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+
+<head th:insert="fragments/administrativo/librerias.html :: cabecera (titulo = 'Perfil')">
+
+</head>
+
+<body>
+
+<!-- ======= Header ======= -->
+<header th:replace="fragments/administrativo/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1',  nombre = ${session.usuario.nombres} + ' ' + ${session.usuario.apellidos} + ' ' + '(' + ${session.usuario.tipodeusuario.nombre.toUpperCase()} + ')', num_men = '2', especialidad = |${session.usuario.especialidad.nombre}|)">
+</header>
+<!-- End Header -->
+<!-- ======= Sidebar ======= -->
+<aside th:replace="fragments/administrativo/aside.html :: sidebar (active = 'registro')">
+</aside>
+
+<!-- End Sidebar-->
+<div th:replace="fragments/administrativo/modalCerrarSesion.html::modal">
+
+</div>
+<!-- End Modal-->
+
+
+<main id="main" class="main">
+
+  <div class="pagetitle">
+    <h1>Formulario de Registro</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a th:href="@{'/administrativo/dashboard'}" >Home</a></li>
+        <li class="breadcrumb-item active">Nuevo Paciente</li>
+      </ol>
+    </nav>
+  </div><!-- End Page Title -->
+
+  <section class="section">
+    <div class="row">
+      <div class="col-lg-20">
+
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Formulario</h5>
+            <h6 class="card-title">Por favor llenar los datos obligatorios para paciente:</h6>
+
+            <form class="row g-3">
+              <div class="col-12">
+                <label for="inputName4" class="form-label">Nombres:</label>
+                <input type="text" class="form-control" id="inputName4">
+              </div>
+              <div class="col-12">
+                <label for="inputLastName4" class="form-label">Apellidos:</label>
+                <input type="text" class="form-control" id="inputLastName4">
+              </div>
+              <div class="col-12">
+                <label for="inputDNI4" class="form-label">DNI:</label>
+                <input type="email" class="form-control" id="inputDNI4">
+              </div>
+              <div class="col-12">
+                <label for="inputGender4" class="form-label">Genero:</label>
+                <input type="text" class="form-control" id="inputGender4">
+              </div>
+              <div class="col-12">
+                <label for="inputTelephone4" class="form-label">Correo:</label>
+                <input type="text" class="form-control" id="inputTelephone4">
+              </div>
+
+              <div class="col-12">
+                <label for="inputPassword4" class="form-label">Contraseña:</label>
+                <input type="password" class="form-control" id="inputPassword4">
+              </div>
+              <div class="col-12">
+                <label for="inputRPassword4" class="form-label">Repetir Contraseña:</label>
+                <input type="password" class="form-control" id="inputRPassword4">
+              </div>
+              <div class="col-12">
+                <label for="inputRPassword4" class="form-label">Celular:</label>
+                <input type="password" class="form-control" id="inputRPassword4">
+              </div>
+              <div class="mb-3">
+                <label for="sede" class="form-label">Sede:</label>
+                <select name="sede" id="sede" class="form-select">
+                  <option th:each="sede : ${listaSedes}"
+                          th:value="${sede.idsede}"
+                          th:text="${sede.nombre}"></option>
+                </select>
+
+              </div>
+              <div class="mb-3">
+                <label for="especialidad" class="form-label">Especialidad:</label>
+                <select name="especialidad" id="especialidad" class="form-select">
+                  <option th:each="especialidada : ${listaEspecialidadaes}"
+                          th:value="${especialidad.idespecialidad}"
+                          th:text="${especialidad.nombre}"></option>
+                </select>
+
+              </div>
+              <div class="text-center">
+                <button type="submit" class="btn btn-warning" ><a th:href="@{'/administrativo/dashboardpacientes'}" >Enviar registro por correo  <i class="bi bi-google"></i></a></button>
+                <button type="reset" class="btn btn-secondary"><a th:href="@{'/administrativo/nuevopaciente'}" >Cancelar</a></button>
+              </div>
+            </form><!-- Vertical Form -->
+
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+    </div>
+    </div>
+  </section>
+
+
+
+
+
+
+
+
+
+
+</main><!-- End #main -->
+
+<!-- ======= Footer ======= -->
+<footer id="footer" class="footer">
+  <div class="copyright">
+    &copy; Copyright <strong><span>ClinicaLAFE</span></strong>. All Rights Reserved
+  </div>
+  <div class="credits">
+    <!-- All the links in the footer should remain intact. -->
+    <!-- You can delete the links only if you purchased the pro version. -->
+    <!-- Licensing information: https://bootstrapmade.com/license/ -->
+    <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
+    Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+  </div>
+</footer><!-- End Footer -->
+
+<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+<!-- Vendor JS Files -->
+<script th:src="@{'/assets/vendor/apexcharts/apexcharts.min.js'}"></script>
+<script th:src="@{'/assets/vendor/bootstrap/js/bootstrap.bundle.min.js'}"></script>
+<script th:src="@{'/assets/vendor/chart.js/chart.min.js'}"></script>
+<script th:src="@{'/assets/vendor/echarts/echarts.min.js'}"></script>
+<script th:src="@{'/assets/vendor/quill/quill.min.js'}"></script>
+<script th:src="@{'/assets/vendor/simple-datatables/simple-datatables.js'}"></script>
+<script th:src="@{'/assets/vendor/tinymce/tinymce.min.js'}"></script>
+<script th:src="@{'/assets/vendor/php-email-form/validate.js'}"></script>
+
+<!-- Template Main JS File -->
+<script th:src="@{'/assets/js/main.js'}"></script>
+
+</body>
+
+</html>
+

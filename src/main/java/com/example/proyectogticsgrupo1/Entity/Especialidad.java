@@ -4,12 +4,15 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+
 import java.io.Serializable;
+
 
 @Getter
 @Setter
 @Entity
 @Table(name = "especialidad")
+
 public class Especialidad implements Serializable {
 
     @Id
@@ -23,5 +26,7 @@ public class Especialidad implements Serializable {
     @Column(name = "costo", nullable = false)
     private Double costo;
 
+
 }
+
 

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+
+<head th:insert="fragments/administrativo/librerias.html :: cabecera (titulo = 'Perfil')">
+
+</head>
+
+<body>
+
+<!-- ======= Header ======= -->
+<header th:replace="fragments/administrativo/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1',  nombre = ${session.usuario.nombres} + ' ' + ${session.usuario.apellidos} + ' ' + '(' + ${session.usuario.tipodeusuario.nombre.toUpperCase()} + ')', num_men = '2', especialidad = |${session.usuario.especialidad.nombre}|)">
+</header>
+<!-- End Header -->
+<!-- ======= Sidebar ======= -->
+<aside th:replace="fragments/administrativo/aside.html :: sidebar (active = 'registro')">
+</aside>
+
+<!-- End Sidebar-->
+<div th:replace="fragments/administrativo/modalCerrarSesion.html::modal">
+
+</div>
+<!-- End Modal-->
+
+<main id="main" class="main">
+
+    <div class="pagetitle">
+        <h1>Formulario Referido</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item active">Nuevo Paciente</li>
+            </ol>
+        </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section">
+        <div class="row">
+            <div class="col-lg-20">
+
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Formulario</h5>
+
+                        <h6 class="card-title">Elegir los campos a editar</h6>
+
+                        <form method="post" th:action="@{/paciente/guardareditar}" class="mt-2">
+                            <input type="hidden" class="form-control" name="id" id="id" th:value="${paciente.idpaciente}">
+
+                            <div class="mb-3">
+                                <label for="nombres" class="form-label">Nombres:</label>
+                                <input type="text" class="form-control" name="nombres" id="nombres" th:value="${paciente.usuario.nombres}">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="apellidos" class="form-label">Apellidos:</label>
+                                <input type="text" class="form-control" name="apellidos" id="apellidos" th:value="${paciente.usuario.apellidos}">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="dni" class="form-label">DNI:</label>
+                                <input type="text" class="form-control" name="dni" id="dni" th:value="${paciente.usuario.dni}">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Correo:</label>
+                                <input type="text" class="form-control" name="email" id="email" th:value="${paciente.usuario.correo}">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="contrasena" class="form-label">Contrasena:</label>
+                                <input type="text" class="form-control" name="contrasena" id="contrasena" th:value="${paciente.usuario.contrasena}">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="genero" class="form-label">Genero:</label>
+                                <input type="text" class="form-control" name="genero" id="genero" th:value="${paciente.usuario.genero}">
+                            </div>
+
+                            <div action="upload.php" method="post" enctype="multipart/form-data">
+                                Seleccionar Imagen:
+                                <input type="file" name="fileToUpload" id="fileToUpload" th:value="${paciente.usuario.foto}>
+                                <input type="submit" value="Subir Imagen" name="submit">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="celular" class="form-label">Celular:</label>
+                                <input type="text" class="form-control" name="celular" id="celular" th:value="${paciente.usuario.celular}">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="edad" class="form-label">Edad:</label>
+                                <input type="text" class="form-control" name="edad" id="edad" th:value="${paciente.usuario.edad}">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="sede" class="form-label">Puesto:</label>
+                                <select name="sede" id="sede" class="form-select">
+                                    <option th:each="sede : ${listaSede}"
+                                            th:value="${sede.idsede}"
+                                            th:text="${sede.nombre}"
+                                            th:selected="${paciente.usuario.sede_idsede == sede.idsede}"></option>
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="especialidad" class="form-label">Puesto:</label>
+                                <select name="especialidad" id="especialidad" class="form-select">
+                                    <option th:each="especialidad : ${listaEspecialidad}"
+                                            th:value="${especialidad.idespecialidad}"
+                                            th:text="${especialidad.nombre}"
+                                            th:selected="${paciente.usuario.especialidad_idespecialidad == especialidad.idespecialidad}"></option>
+                                </select>
+                            </div>
+
+                            <a th:href="@{/administrativo/dashboardpaciente}" class="btn btn-danger">Cancelar</a>
+                            <button type="submit" class="btn btn-primary">Editar</button>
+
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+        </div>
+        </div>
+    </section>
+
+</main><!-- End #main -->
+
+<!-- ======= Footer ======= -->
+<footer id="footer" class="footer">
+    <div class="copyright">
+        &copy; Copyright <strong><span>ClinicaLAFE</span></strong>. All Rights Reserved
+    </div>
+    <div class="credits">
+        <!-- All the links in the footer should remain intact. -->
+        <!-- You can delete the links only if you purchased the pro version. -->
+        <!-- Licensing information: https://bootstrapmade.com/license/ -->
+        <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
+        Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+    </div>
+</footer><!-- End Footer -->
+
+<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+<!-- Vendor JS Files -->
+<script th:src="@{'/assets/vendor/apexcharts/apexcharts.min.js'}"></script>
+<script th:src="@{'/assets/vendor/bootstrap/js/bootstrap.bundle.min.js'}"></script>
+<script th:src="@{'/assets/vendor/chart.js/chart.min.js'}"></script>
+<script th:src="@{'/assets/vendor/echarts/echarts.min.js'}"></script>
+<script th:src="@{'/assets/vendor/quill/quill.min.js'}"></script>
+<script th:src="@{'/assets/vendor/simple-datatables/simple-datatables.js'}"></script>
+<script th:src="@{'/assets/vendor/tinymce/tinymce.min.js'}"></script>
+<script th:src="@{'/assets/vendor/php-email-form/validate.js'}"></script>
+
+<!-- Template Main JS File -->
+<script th:src="@{'/assets/js/main.js'}"></script>
+
+</body>
+
+</html>
+

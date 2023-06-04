@@ -1,0 +1,86 @@
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+
+<head th:insert="fragments/administrativo/librerias.html :: cabecera (titulo = 'Perfil')">
+
+</head>
+
+<body>
+
+<!-- ======= Header ======= -->
+<header th:replace="fragments/administrativo/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1',  nombre = ${session.usuario.nombres} + ' ' + ${session.usuario.apellidos} + ' ' + '(' + ${session.usuario.tipodeusuario.nombre.toUpperCase()} + ')', num_men = '2', especialidad = |${session.usuario.especialidad.nombre}|)">
+</header>
+<!-- End Header -->
+<!-- ======= Sidebar ======= -->
+<aside th:replace="fragments/administrativo/aside.html :: sidebar (active = 'dashboard')">
+</aside>
+
+<!-- End Sidebar-->
+<div th:replace="fragments/administrativo/modalCerrarSesion.html::modal">
+
+</div>
+<!-- End Modal-->
+<main id="main" class="main">
+
+    <div class="pagetitle">
+        <h1>Mensajería</h1>
+        <nav>
+            <!--<ol class="breadcrumb">
+                <li class="breadcrumb-item"><a th:href="@{'/doctor/dashboard'}">Dashboard</a></li>
+                <li class="breadcrumb-item active">Cuestionarios</li>
+            </ol> -->
+        </nav>
+    </div>
+    <!-- End Page Title -->
+
+    <section class="section ">
+        <div class="row">
+
+            <!-- Right side columns -->
+            <div class="col-lg">
+                <!-- Bitacora -->
+                <div class="card recent-sales overflow-auto">
+                    <div class="card-body">
+                        <h5 class="card-title">Enviar Mensaje</h5>
+                        <form method="post" th:action="@{'/administrativo/mensajeria/enviarmensaje/envio'}" class="row g-3">
+
+                            <!--<input th:value="${usuario.getIdUsuario()}" name="idUsuario" type="hidden" > -->
+
+                            <div class="col-md-6">
+                                <label for="email" class="form-label">Correo Destino</label>
+                                <input type="text" name="correodestino" class="form-control" id="email" >
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="asunt" class="form-label">Asunto</label>
+                                <input type="text" name="asunto" class="form-control" id="asunt" >
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="description" class="form-label">Descripcion</label>
+                                <input type="text" name="descripcion" class="form-control" id="description" >
+                            </div>
+
+                            <!--<div class="col-md-6">
+                                <label for="ingresoplataforma" class="form-label">Apenas El Paciente Ingrese a la Plataforma</label>
+                                <select class="form-select" id="ingresoplataforma" required>
+                                    <option selected disabled value="">Seleccione</option>
+                                    <option>Sí</option>
+                                    <option>No</option>
+                                </select>
+                            </div> -->
+
+                            <div class="d-grid gap d-md-flex justify-content-md-center">
+                                <button class="btn btn-primary" type="submit">Enviar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </section>
+</main><!-- End #main -->
+</body>
+</html>

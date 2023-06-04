@@ -81,7 +81,7 @@ public class SecurityConfig {
                         }else if (rol.equals("superadmin")) {
                             response.sendRedirect("/superadmin/index");
                         }else if (rol.equals("administrativo")) {
-                            response.sendRedirect("/administrativo");
+                            response.sendRedirect("/administrativo/dashboard");
                         }else {
                             response.sendRedirect("/");
                         }

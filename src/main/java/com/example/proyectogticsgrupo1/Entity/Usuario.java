@@ -4,10 +4,13 @@ import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.Setter;
+
+import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.UniqueElements;
 
 import java.io.Serializable;
+import java.util.Base64;
 
 @Getter
 @Setter
@@ -66,5 +69,8 @@ public class Usuario  implements Serializable {
 
     @Column(name = "sueldo")
     private Double sueldo;
+
+
+
 
 }

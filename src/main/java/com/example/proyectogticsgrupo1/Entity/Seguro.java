@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+
 import java.io.Serializable;
 
 @Getter
@@ -25,5 +26,4 @@ public class Seguro implements Serializable {
      @Column(name = "comisiondoctor")
     private Double comisiondoctor;
 }
-
 
