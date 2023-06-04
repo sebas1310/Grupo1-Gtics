@@ -204,11 +204,22 @@ public class DoctorController {
             Cita cita = citaRepository.buscarCitaPorId(idCita);
             model.addAttribute("cita", cita);
             model.addAttribute("recetamedica", recetaMedicaRepository.buscarRecetaMedicaPorCita(idCita, idReceta));
-            //obtenemos el modelo del informe y luego se enviarán los datos desde la vista para llenar en la tabla "datos_json"
-            //ModeloJson informe = modeloJsonRepository.informeMedico(doctor.getEspecialidad().getIdespecialidad());
-            //model.addAttribute("informemedico",informe);
-            //model.addAttribute("listapreguntasinforme",modeloJsonRepository.listarPreguntasxPlantilla(informe.getId()));
         return "doctor/verCita";
+    }
+
+    @GetMapping("/pacientesatendidos/verhistorial/vercita/verinformemedico")
+    public String verInformeMedico(Model model, @RequestParam("id") int idCita) {
+
+        Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
+        Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
+        model.addAttribute("doctor",doctor);
+        Cita cita = citaRepository.buscarCitaPorId(idCita);
+        model.addAttribute("cita", cita);
+        //obtenemos el id del modelo del informe y luego se enviarán los datos desde la vista para llenar en la tabla "datos_json"
+        int informeId = modeloJsonRepository.informeMedicoId(doctor.getEspecialidad().getIdespecialidad());
+        //model.addAttribute("informemedico",informe);
+        model.addAttribute("listapreguntasinforme",modeloJsonRepository.listarPreguntasxPlantilla(informeId));
+        return "doctor/verInformeMedico";
     }
     @GetMapping("/pacientesatendidos/verhistorial/vercita/editarreceta")
     public String verEditarReceta(Model model, @RequestParam("idReceta") int idReceta,
