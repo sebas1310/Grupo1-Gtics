@@ -1,65 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-  <meta charset="utf-8">
-  <meta content="width=device-width, initial-scale=1.0" name="viewport">
-
-  <title>Users / Profile - NiceAdmin Bootstrap Template</title>
-  <meta content="" name="description">
-  <meta content="" name="keywords">
-
-  <!-- Favicons -->
-  <link th:href="@{assets/img/favicon.png}" rel="icon">
-  <link th:href="@{assets/img/apple-touch-icon.png}" rel="apple-touch-icon">
-
-  <!-- Google Fonts -->
-  <link href="https://fonts.gstatic.com" rel="preconnect">
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
-
-  <!-- Vendor CSS Files -->
-  <link th:href="@{/assets/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
-  <link th:href="@{/assets/vendor/bootstrap-icons/bootstrap-icons.css}" rel="stylesheet">
-  <link th:href="@{assets/vendor/boxicons/css/boxicons.min.css}" rel="stylesheet">
-  <link th:href="@{/assets/vendor/quill/quill.snow.css}" rel="stylesheet">
-  <link th:href="@{/assets/vendor/quill/quill.bubble.css}" rel="stylesheet">
-  <link th:href="@{/assets/vendor/remixicon/remixicon.css}" rel="stylesheet">
-  <link th:href="@{/assets/vendor/simple-datatables/style.css}" rel="stylesheet">
-
-  <!-- Template Main CSS File -->
-  <link th:href="@{/assets/css/style.css}" rel="stylesheet">
+<head th:insert="fragments/administrativo/librerias.html :: cabecera (titulo = 'Perfil')">
 
 </head>
 
 <body>
 
 <!-- ======= Header ======= -->
-<header th:replace="fragments/administrativo/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1', nombre = |${session.usuario.nombres} ${session.usuario.apellidos}|, num_men = '3')">
+<header th:replace="fragments/administrativo/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1',  nombre = ${session.usuario.nombres} + ' ' + ${session.usuario.apellidos} + ' ' + '(' + ${session.usuario.tipodeusuario.nombre.toUpperCase()} + ')', num_men = '2', sede = |${session.usuario.sede.nombre}|)">
 </header>
 <!-- End Header -->
 <!-- ======= Sidebar ======= -->
 <aside th:replace="fragments/administrativo/aside.html :: sidebar (active = 'perfil')">
 </aside>
+
 <!-- End Sidebar-->
-<!--Modal Cerrar Sesion-->
 <div th:replace="fragments/administrativo/modalCerrarSesion.html::modal">
 
 </div>
-
-<div class="modal fade" id="verticalycentered" tabindex="-1">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">¿Seguro que deseas Salir?</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-success" data-bs-dismiss="modal"><a style="color: white" th:href="@{'/administrador/inicio'}" >Salir</a></button>
-        <button type="button" class="btn btn-secondary"><a style="color: white" th:href="@{'/administrativo/perfil'}" >Cancelar</a></button>
-      </div>
-    </div>
-  </div>
-</div><!-- End Vertically centered Modal-->
+<!-- End Modal-->
 
 <main id="main" class="main">
 
@@ -67,7 +27,7 @@
     <h1>Profile</h1>
     <nav>
       <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a th:href="@{'/administrativo/index'}">Home</a></li>
+        <li class="breadcrumb-item"><a th:href="@{'/administrativo/dashboard'}">Home</a></li>
         <li class="breadcrumb-item active">Perfil</li>
       </ol>
     </nav>
@@ -83,9 +43,10 @@
             <img th:src="@{/assets/img/messages-1.jpg}" alt="Profile" class="rounded-circle">
             <h2><span th:text="${session.usuario.nombres} + ' ' + ${session.usuario.apellidos}"></span></h2>
             <h3><span th:text="${#strings.capitalize(session.usuario.tipodeusuario.nombre)}"></span></h3>
+            <div th:if="${psw1!=null}" th:text="${psw1}" class="alert alert-success" role="alert"></div>
+            <div th:if="${psw2!=null}" th:text="${psw2}" class="alert alert-danger" role="alert"></div>
           </div>
         </div>
-
 
       </div>
 
@@ -116,7 +77,7 @@
                 <h5 class="card-title">Detalles del Perfil</h5>
 
                 <div class="row">
-                  <div class="col-lg-3 col-md-4 label ">Nombre</div>
+                  <div class="col-lg-3 col-md-4 label ">Nombre Completo</div>
                   <div class="col-lg-9 col-md-8"><span th:text="${session.usuario.nombres} + ' ' + ${session.usuario.apellidos}"></span></div>
                 </div>
 
@@ -135,6 +96,7 @@
                   <div class="col-lg-9 col-md-8"><span th:text="${session.usuario.celular}"></span></div>
                 </div>
 
+
                 <div class="row">
                   <div class="col-lg-3 col-md-4 label">Edad</div>
                   <div class="col-lg-9 col-md-8"><span th:text="${session.usuario.edad}"></span></div>
@@ -149,11 +111,10 @@
 
               </div>
 
-
               <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
 
                 <!-- Profile Edit Form -->
-                <form method="post" th:action="@{'/administrador/editarperfil'}">
+                <form method="post" th:action="@{'/administrativo/editarperfil'}">
                   <div class="row mb-3">
                     <label for="profile-edit" class="col-md-4 col-lg-3 col-form-label">Imagen de Perfil</label>
                     <div class="col-md-8 col-lg-9">
@@ -165,6 +126,7 @@
                     </div>
                   </div>
                   <input th:value="${session.usuario.getIdusuario()}" name="id" type="hidden">
+                  <input th:value="${session.usuario.getIdusuario()}" name="idusuario" type="hidden">
                   <div class="row mb-3">
                     <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Nombres</label>
                     <div class="col-md-8 col-lg-9">
@@ -207,25 +169,27 @@
               </div>
 
               <div class="tab-pane fade pt-3" id="profile-change-password">
-                <!-- Change Password Form -->
-                <form form method="post" th:action="@{'/administrador/contrasena'}" >
+
+
+                <!-- Cambio de contraseña Form -->
+                <form method="post" th:action="@{'/administrativo/changepassword'}" onsubmit="return validateForm()">
                   <input th:value="${session.usuario.getIdusuario()}" name="id" type="hidden">
                   <div class="row mb-3">
-                    <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Actual Contraseña</label>
+                    <label for="contrasena" class="col-md-4 col-lg-3 col-form-label">Contraseña Actual</label>
                     <div class="col-md-8 col-lg-9">
-                      <input name="password" type="password" class="form-control" id="currentPassword" th:value="${session.usuario.getContrasena()}">
+                      <input name="contrasena" type="password" class="form-control" id="contrasena">
                     </div>
                   </div>
 
                   <div class="row mb-3">
-                    <label for="newPassword" class="col-md-4 col-lg-3 col-form-label">Nueva Contraseña</label>
+                    <label for="newPassword" class="col-md-4 col-lg-3 col-form-label" >Nueva Contraseña</label>
                     <div class="col-md-8 col-lg-9">
-                      <input name="contrasena" type="password" class="form-control" id="newPassword">
+                      <input name="newpassword" type="password" class="form-control" id="newPassword">
                     </div>
                   </div>
 
                   <div class="row mb-3">
-                    <label for="renewPassword" class="col-md-4 col-lg-3 col-form-label">Confirmar Contraseña</label>
+                    <label for="renewPassword" class="col-md-4 col-lg-3 col-form-label">Confirmar nueva contraseña</label>
                     <div class="col-md-8 col-lg-9">
                       <input name="renewpassword" type="password" class="form-control" id="renewPassword">
                     </div>
@@ -234,9 +198,46 @@
                   <div class="text-center">
                     <button type="submit" class="btn btn-success">Cambiar Contraseña</button>
                   </div>
+                  <div id="error-message" class="alert alert-danger mt-3" style="display: none;"></div>
                 </form><!-- End Change Password Form -->
 
+                <!-- Funcion para validar -->
+                <script>
+                  function validateForm() {
+                    var password = document.getElementById("contrasena").value;
+                    var newPassword = document.getElementById("newPassword").value;
+                    var renewPassword = document.getElementById("renewPassword").value;
+
+                    if (password === "" || newPassword === "" || renewPassword === "") {
+                      var errorMessage = document.getElementById("error-message");
+                      errorMessage.style.display = "block";
+                      errorMessage.innerHTML = "Debe completar todos los campos";
+                      return false;
+                    }
+                    if (password === newPassword ) {
+                      var errorMessage = document.getElementById("error-message");
+                      errorMessage.style.display = "block";
+                      errorMessage.innerHTML = "La nueva contraseña no puede ser igual a la anterior";
+                      return false;
+                    }
+                    if (renewPassword != newPassword ) {
+                      var errorMessage = document.getElementById("error-message");
+                      errorMessage.style.display = "block";
+                      errorMessage.innerHTML = "No coinciden las contraseñas";
+                      return false;
+                    }
+
+
+                    return true;
+                  }
+                </script>
+                <!-- FIN Funcion para validar -->
+
               </div>
+
+
+
+
 
             </div><!-- End Bordered Tabs -->
 
@@ -248,20 +249,6 @@
   </section>
 
 </main><!-- End #main -->
-
-<!-- ======= Footer ======= -->
-<footer id="footer" class="footer">
-  <div class="copyright">
-    &copy; Copyright <strong><span>NiceAdmin</span></strong>. All Rights Reserved
-  </div>
-  <div class="credits">
-    <!-- All the links in the footer should remain intact. -->
-    <!-- You can delete the links only if you purchased the pro version. -->
-    <!-- Licensing information: https://bootstrapmade.com/license/ -->
-    <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
-    Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
-  </div>
-</footer><!-- End Footer -->
 
 <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
