@@ -16,21 +16,10 @@
 </aside>
 <!-- End Sidebar-->
 
-<div class="modal fade" id="verticalycentered" tabindex="-1">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">¿Seguro que deseas Salir?</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-footer">
-        <form th:action="@{/logout}" method="post">
-          <button type="submit" class="btn btn-success">Salir</button>
-        </form>                <button type="button" class="btn btn-secondary"><a style="color: white" th:href="@{/administrador/vistaformato}" >Cancelar</a></button>
-      </div>
-    </div>
-  </div>
-</div><!-- End Vertically centered Modal-->
+<div th:replace="fragments/administrador/modalCerrarSesion.html::modal">
+
+</div>
+<!-- End Modal-->
 
 <main id="main" class="main">
 
@@ -216,19 +205,6 @@
 
 </main><!-- End #main -->
 
-<!-- ======= Footer ======= -->
-<footer id="footer" class="footer">
-  <div class="copyright">
-    &copy; Copyright <strong><span>ClinicaLAFE</span></strong>. All Rights Reserved
-  </div>
-  <div class="credits">
-    <!-- All the links in the footer should remain intact. -->
-    <!-- You can delete the links only if you purchased the pro version. -->
-    <!-- Licensing information: https://bootstrapmade.com/license/ -->
-    <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
-    Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
-  </div>
-</footer><!-- End Footer -->
 
 <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 

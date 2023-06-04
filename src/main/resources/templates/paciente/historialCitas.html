@@ -66,51 +66,14 @@
                     <td class="text-center"  th:text="${list.tipoCita.nombre}"></td>
                     <td class="text-center" >
                       <!-- Data-bs-target: indica el id del modal a desplegarse-->
-                      <button type="button" class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#receta_modal">
+                      <a type="button" class="btn btn-outline-warning" th:href="@{'/paciente/receta?idcita='+${list.idcita}}">
                         <i class="bi bi-capsule-pill"></i>
-                      </button>
-                      <div class="modal fade" id="receta_modal" tabindex="-1">
-                        <div class="modal-dialog modal-dialog-centered">
-                          <div class="modal-content">
-                            <div class="modal-header">
-                              <h5 class="modal-title">Receta</h5>
-                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-                            </div>
-                            <div class="modal-body text-center">
-                              <img th:src="@{/assets/img/receta.jpeg}" class="justify-content-md-center ">
-
-                            </div>
-                            <div class="modal-footer">
-                              <a th:href="@{/assets/img/receta.jpeg}" download="receta_cita1"  type="button" class="btn btn-outline-warning" >Descargar</a>
-                              <button type="button" class="btn btn-warning" data-bs-dismiss="modal">Cerrar</button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
+                      </a>
                     </td>
                     <td class="text-center" >
-                      <button type="button" class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#recibo_modal">
+                      <a type="button" class="btn btn-outline-warning" th:href="@{'/paciente/boleta?idcita='+${list.idcita}}">
                         <i class="bi bi-receipt"></i>
-                      </button>
-                      <div class="modal fade" id="recibo_modal" tabindex="-1">
-                        <div class="modal-dialog modal-dialog-centered">
-                          <div class="modal-content">
-                            <div class="modal-header">
-                              <h5 class="modal-title">Recibo</h5>
-                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-                            </div>
-                            <div class="modal-body text-center">
-                              <img th:src="@{/assets/img/recibo.png}" class="justify-content-md-center ">
-
-                            </div>
-                            <div class="modal-footer">
-                              <a th:href="@{/assets/img/recibo.png}" download="recibo_cita1"  type="button" class="btn btn-outline-warning" >Descargar</a>
-                              <button type="button" class="btn btn-warning" data-bs-dismiss="modal">Cerrar</button>
-
-                            </div>
-                          </div>
-                        </div>
-                      </div>
+                      </a>
                     </td>
                   </tr>
                   </tbody>

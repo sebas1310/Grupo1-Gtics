@@ -46,7 +46,6 @@
               <div class="ps-3">
                 <h6 class="card-title">Información Paciente</h6>
               </div>
-              <div th:if="${msg!=null}" th:text="${msg}" class="alert alert-success" role="alert"></div>
               <table class="table col-lg-20" >
                 <thead>
                 <tr>
@@ -112,7 +111,11 @@
                 </table>
               </div>
               <div class="d-grid gap-2 d-md-flex justify-content-md-center">
-                <a th:href="@{'/doctor/pacientesatendidos/verhistorial/vercita'+ '?id=' + ${cita.getIdcita()}}" class="btn btn-primary ">Confirmar</a>
+                <form th:action="@{'/doctor/pacientesatendidos/verhistorial/vercita/boletaMedicamentoDelivery/confirmar'}" method="post">
+                  <input name="id" th:value="${cita.getIdcita()}" type="hidden" class="form-control">
+                <!--<a th:action="@{'/doctor/pacientesatendidos/verhistorial/vercita'+ '?id=' + ${cita.getIdcita()}}" class="btn btn-primary ">Confirmar</a> -->
+                  <button type="submit" class="btn btn-primary ">Confirmar</button>
+                </form>
                 <a th:href="@{'/doctor/pacientesatendidos/verhistorial/vercita'+ '?id=' + ${cita.getIdcita()}}" class="btn btn-danger">Cancelar</a>
               </div>
             </div>

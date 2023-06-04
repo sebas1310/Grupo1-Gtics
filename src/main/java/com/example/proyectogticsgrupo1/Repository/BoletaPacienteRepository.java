@@ -10,4 +10,7 @@ public interface BoletaPacienteRepository extends JpaRepository<BoletaPaciente,I
     @Modifying
     @Query(value= "insert into boletapaciente (idpaciente,idcita,idseguro,monto) values (?1,?2,?3,?4) ",nativeQuery = true)
     void generarBoletaPacienteCita(Integer idPaciente, Integer idCita,Integer idSeguro, Float monto);
+
+    @Query(value = "SELECT * FROM boletapaciente where idcita=?1", nativeQuery = true)
+    BoletaPaciente getBoletaCita(Integer id);
 }

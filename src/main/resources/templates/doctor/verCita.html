@@ -30,6 +30,11 @@
         </ol>
         </nav>
     </div>
+
+    <div th:if="${msg4!=null}" th:text="${msg}" class="alert alert-success" role="alert"></div>
+
+    <a th:href="@{'/doctor/pacientesatendidos/verhistorial/vercita/verinformemedico'+ '?id=' + ${cita.getIdcita()}}" class="btn btn-danger">Llenar Informe</a>
+    <br>
     <section class="section ">
         <div class="col-lg">
            <div class="row">
@@ -44,6 +49,7 @@
                                <li>Fecha: <span th:text="${cita.getFecha()}"></span></li>
                                <li>Modalidad: <span th:text="${cita.getTipoCita().getNombre()}"></span></li>
                                <li>Especialidad: <span th:text="${cita.getSeguro().getNombre()}"></span></li>
+                               <li>Estado: <span th:text="${cita.getEstadoCita().getNombre()}"></span></li>
                            </div>
                        </div>
                    </div> <!--End Informacion -->
@@ -157,6 +163,35 @@
                                        Enviar Por Delivery
                                    </a>
                                </div>
+
+                              <!-- <div class="col-12">
+                                   <div class="card recent-sales overflow-auto">
+                                       <div class="card-body">
+                                           <h5 class="card-title">Informe Médico</h5>
+
+                                           <div th:if="${msg!=null}" th:text="${msg}" class="alert alert-success" role="alert"></div>
+
+                                           <div th:if="${msg2!=null}" th:text="${msg2}" class="alert alert-danger" role="alert"></div>
+
+                                           <div th:if="${msg3!=null}" th:text="${msg3}" class="alert alert-success" role="alert"></div>
+
+                                           <table class="table">
+                                               <thead class="table-light">
+                                               <tr>
+                                                   <th style="text-align: center" scope="col">Informe Médico</th>
+                                                   <th style="text-align: center" scope="col">Preguntas</th>
+                                               </tr>
+                                               </thead>
+                                               <tbody>
+                                               <tr>
+                                                   <th style="text-align: center" th:text="${informemedico.getNombrePlantilla()}" scope="row"></th>
+                                                   <td style="text-align: center" th:text="${informemedico.getDatos()}"></td>
+                                               </tr>
+                                               </tbody>
+                                           </table>
+                                           </div>
+                                   </div>
+                                   </div> -->
                                <div class="modal fade" id="verticalycentered" tabindex="-1">
                                    <div class="modal-dialog modal-dialog-centered">
                                        <div class="modal-content">

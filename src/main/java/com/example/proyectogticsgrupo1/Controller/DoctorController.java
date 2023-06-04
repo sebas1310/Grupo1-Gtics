@@ -52,6 +52,9 @@ public class DoctorController {
     @Autowired
     TipohoracalendariodoctorRepository tipohoracalendariodoctorRepository;
 
+    @Autowired
+    ModeloJsonRepository modeloJsonRepository;
+
     public DoctorController(CitaRepository citaRepository, DoctorRepository doctorRepository, PacienteRepository pacienteRepository,
                             RecetaMedicaRepository recetaMedicaRepository, ReporteCitaRepository reporteCitaRepository,UsuarioRepository usuarioRepository,
                             BitacoraDeDiagnosticoRepository bitacoraDeDiagnosticoRepository,
@@ -143,9 +146,19 @@ public class DoctorController {
             model.addAttribute("doctor",doctor);
             Paciente paciente1 = pacienteRepository.buscarPacientePorID(idPaciente);
             model.addAttribute("paciente", paciente1);
-            model.addAttribute("citaspaciente", citaRepository.citasPorPaciente(idPaciente,doctor.getIddoctor()));
+            List<Cita> listaCitasPaciente = citaRepository.citasPorPaciente(idPaciente,doctor.getIddoctor());
+            for (Cita cita:listaCitasPaciente){
+                //primero se verifica si la fecha de la cita coincide con el dia actual
+                if(cita.getFecha().equals(LocalDate.now())){
+                    //si coincide ,entonces vemos si su hora final es menor a la hora actual
+                    if(LocalTime.now().isAfter(cita.getHorafinal())){
+                        //si es verdad , entonces se actualiza el estado de la cita a "finalizada"
+                        citaRepository.actualizarEstadoCita(6,cita.getIdcita());
+                    }
+                }
+            }
+            model.addAttribute("citaspaciente", listaCitasPaciente);
             model.addAttribute("bitacoradiagnostico", bitacoraDeDiagnosticoRepository.bitacoraDeDiagnostico(idPaciente));
-
             return "doctor/verHistorial";
     }
 
@@ -189,12 +202,24 @@ public class DoctorController {
             Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
             model.addAttribute("doctor",doctor);
             Cita cita = citaRepository.buscarCitaPorId(idCita);
-
             model.addAttribute("cita", cita);
             model.addAttribute("recetamedica", recetaMedicaRepository.buscarRecetaMedicaPorCita(idCita, idReceta));
-            model.addAttribute("reportecita", reporteCitaRepository.buscarReporteCitaPorId(idCita));
-            //model.addAttribute("informemedico",tablaDatosLlenosRepository.obtenerArchivo());
         return "doctor/verCita";
+    }
+
+    @GetMapping("/pacientesatendidos/verhistorial/vercita/verinformemedico")
+    public String verInformeMedico(Model model, @RequestParam("id") int idCita) {
+
+        Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
+        Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
+        model.addAttribute("doctor",doctor);
+        Cita cita = citaRepository.buscarCitaPorId(idCita);
+        model.addAttribute("cita", cita);
+        //obtenemos el id del modelo del informe y luego se enviarán los datos desde la vista para llenar en la tabla "datos_json"
+        int informeId = modeloJsonRepository.informeMedicoId(doctor.getEspecialidad().getIdespecialidad());
+        //model.addAttribute("informemedico",informe);
+        model.addAttribute("listapreguntasinforme",modeloJsonRepository.listarPreguntasxPlantilla(informeId));
+        return "doctor/verInformeMedico";
     }
     @GetMapping("/pacientesatendidos/verhistorial/vercita/editarreceta")
     public String verEditarReceta(Model model, @RequestParam("idReceta") int idReceta,
@@ -350,19 +375,25 @@ public class DoctorController {
             Paciente paciente1 = pacienteRepository.buscarPacientePorID(idPaciente);
             List<Paciente> lista = pacienteRepository.findAll();
             model.addAttribute("paciente", paciente1);
+            int cuestionarioMedicoId = modeloJsonRepository.cuestionarioMedicoId(doctor.getEspecialidad().getIdespecialidad());
+            //model.addAttribute("informemedico",informe);
+            model.addAttribute("listapreguntascuestionario",modeloJsonRepository.listarPreguntasxPlantilla(cuestionarioMedicoId));
 
         return "doctor/cuestionarioDoc";
     }
 
     @PostMapping("/enviocuestionario")
-    public String enviarCuestionario(Model model, @RequestParam("pacienteId") int idP,
-                                                @RequestParam("docId") int idD,
+    @Transactional
+    public String enviarCuestionario(Model model, @RequestParam("mostrarautomatico") int mostrarautomatico,
+                                     @RequestParam("idespecialidad") Integer idespecialidad,
+                                     @RequestParam("correodestino") String correodestino,
                                      RedirectAttributes redirectAttributes){
-        Cuestionario nuevocuestionario = new Cuestionario();
-        //cuestionarioRepository.save(nuevocuestionario);
+        modeloJsonRepository.mostrarCuestionarioAutomatico(mostrarautomatico,idespecialidad);
+        String asunto = "Envio de Cuestionario";
+        String descripcion = "Estimado Paciente se le asignó un cuestionario para llenar antes de su siguiente cita, gracias";
+        emailService.sendEmail(correodestino,asunto,descripcion);
         redirectAttributes.addFlashAttribute("msg","Cuestionario Enviado");
         return "redirect:/doctor/dashboard";
-
     }
 
     @GetMapping("/perfil")
@@ -433,6 +464,10 @@ public class DoctorController {
                             @RequestParam("idusuariodestino") int idUsuarioDestino , @RequestParam("idusuarioorigen") int idUsuarioOrigen) {
         emailService.sendEmail(correoDestino,asunto,descripcion);
         mailCorreoRepository.guardarMensaje(asunto,descripcion,correoDestino,idUsuarioDestino ,idUsuarioOrigen);
+        Optional<Paciente> optPaciente = Optional.ofNullable(pacienteRepository.buscarPacientePorIdUsuario(idUsuarioDestino));
+        if(optPaciente.isPresent()){
+            pacienteRepository.actualizarEstadoPaciente(6,optPaciente.get().getIdpaciente());
+        }
         redirectAttributes.addFlashAttribute("msg","Mensaje Enviado");
         return "redirect:/doctor/mensajeria";
         //return ResponseEntity.ok().build();

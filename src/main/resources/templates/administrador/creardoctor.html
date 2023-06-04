@@ -12,29 +12,12 @@
 <!-- End Header -->
 
 <!-- ======= Sidebar ======= -->
-<aside th:replace="fragments/administrador/aside.html :: sidebar (active = 'crearpaciente')">
+<aside th:replace="fragments/administrador/aside.html :: sidebar (active = 'creardoctor')">
 </aside>
 <!-- End Sidebar-->
-<<<<<<< HEAD
+
 <!--Modal Cerrar Sesion-->
 <div th:replace="fragments/administrador/modalCerrarSesion.html::modal">
-=======
-<div class="modal fade" id="verticalycentered" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">¿Seguro que deseas Salir?</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-footer">
-                <form th:action="@{/logout}" method="post">
-                    <button type="submit" class="btn btn-success">Salir</button>
-                </form>                <button type="button" class="btn btn-secondary"><a style="color: white" th:href="@{/administrador/creardoctor}" >Cancelar</a></button>
-            </div>
-        </div>
-    </div>
-</div><!-- End Vertically centered Modal-->
->>>>>>> develop_admi
 
 </div>
 <main id="main" class="main">
@@ -44,7 +27,7 @@
         <nav>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a th:href="@{'/administrador/dashboard'}">Home</a></li>
-                <li class="breadcrumb-item active">Nuevo Paciente</li>
+                <li class="breadcrumb-item active">Nuevo Doctor</li>
             </ol>
         </nav>
     </div><!-- End Page Title -->
@@ -107,7 +90,7 @@
                                 <div class="invalid-feedback" th:if="${#fields.hasErrors('celular')}" th:errors="*{celular}"></div>
                             </div>
                             <div class="col-12">
-                                <label class="form-label">Edad</label>
+                                <label class="form-label">Edad (en años)</label>
                                 <input class="form-control" th:field="*{edad}" th:classappend="${#fields.hasErrors('edad')?'is-invalid':''}" required>
                                 <div class="invalid-feedback" th:if="${#fields.hasErrors('edad')}" th:errors="*{edad}"></div>
                             </div>

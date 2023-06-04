@@ -123,6 +123,21 @@ public class AdministradorController {
         Usuario usuarioAdministrador = (Usuario) session.getAttribute("usuario");
         model.addAttribute("usuario", usuarioAdministrador);
 
+        Usuario existingUser = usuarioRepository.findByDni(user.getDni());
+        if (existingUser != null && !existingUser.getIdusuario().equals(user.getIdusuario())) {
+            bindingResult.rejectValue("dni", "error.dni", "Ya existe un usuario con este DNI");
+        }
+
+        Usuario existingUserCelular = usuarioRepository.findByCelular(user.getCelular());
+        if (existingUserCelular != null && !existingUserCelular.getIdusuario().equals(user.getIdusuario())) {
+            bindingResult.rejectValue("celular", "error.celular", "Ya existe un usuario con este número de celular");
+        }
+
+        Usuario existingUserCorreo = usuarioRepository.findByCorreo(user.getCorreo());
+        if (existingUserCorreo != null && !existingUserCorreo.getIdusuario().equals(user.getIdusuario())) {
+            bindingResult.rejectValue("correo", "error.correo", "Ya existe un usuario con este correo electrónico");
+        }
+
         if (user.getIdusuario() == null) {
             attr.addFlashAttribute("pac", "Paciente creado exitosamente");
         } else {
@@ -140,7 +155,10 @@ public class AdministradorController {
             Sede sede = new Sede();
             sede.setIdsede(usuarioAdministrador.getSede().getIdsede());
             user.setSede(sede);
-            user.setContrasena(generarContrasena(10));
+            String contrasenaGenerada = generarContrasena(10);
+            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+            String contrasenaCifrada = passwordEncoder.encode(contrasenaGenerada);
+            user.setContrasena(contrasenaCifrada);
             usuarioRepository.save(user);
             Paciente paciente = new Paciente();
             EstadoPaciente estadoPaciente = new EstadoPaciente();
@@ -154,7 +172,7 @@ public class AdministradorController {
             paciente.setUsuario(user);
             paciente.setCondicionenfermedad("-");
             pacienteRepository.save(paciente);
-            emailService.sendEmail(paciente.getUsuario().getCorreo(), "Confirmación de Registro", "Estimado usuario, usted ha sido registrado en:\nSede " + usuarioAdministrador.getSede().getNombre() + "\nUbicada en " + usuarioAdministrador.getSede().getDireccion() + "\nTu contraseña por defecto es: " + paciente.getUsuario().getContrasena() + "\nIngresa aquí para cambiarla");
+            emailService.sendEmail(paciente.getUsuario().getCorreo(), "Confirmación de Registro", "Estimado usuario, usted ha sido registrado en:\nSede " + usuarioAdministrador.getSede().getNombre() + "\nUbicada en " + usuarioAdministrador.getSede().getDireccion() + "\nTu contraseña por defecto es: " + contrasenaGenerada + "\nIngresa aquí para cambiarla");
         }
         return "redirect:/administrador/dashboardpaciente";
     }
@@ -170,6 +188,7 @@ public class AdministradorController {
 
         return sb.toString();
     }
+
 
     @GetMapping(value = "/calendariogeneral")
     public String genCalendar(Model model) {
@@ -194,7 +213,7 @@ public class AdministradorController {
     public String formatos(Model model) {
         Usuario usuarioAdministrador = (Usuario) session.getAttribute("usuario");
         model.addAttribute("usuario", usuarioAdministrador);
-        List<ModeloJson> listanombres = modeloJsonRepository.listarNombresP();
+        List<ModeloJsonEntity> listanombres = modeloJsonRepository.listarNombresP();
         model.addAttribute("listanombres", listanombres);
         return "administrador/formatos";
     }
@@ -383,7 +402,10 @@ public class AdministradorController {
             Sede sede = new Sede();
             sede.setIdsede(usuarioAdministrador.getSede().getIdsede());
             user.setSede(sede);
-            user.setContrasena(generarContrasena(10));
+            String contrasenaGenerada = generarContrasena(10);
+            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+            String contrasenaCifrada = passwordEncoder.encode(contrasenaGenerada);
+            user.setContrasena(contrasenaCifrada);
             usuarioRepository.save(user);
             Doctor doctor = new Doctor();
             doctor.setCmp(0);
@@ -397,10 +419,11 @@ public class AdministradorController {
             doctor.setUsuario(user);
             doctor.setConsultorio("-");
             doctorRepository.save(doctor);
-            emailService.sendEmail(doctor.getUsuario().getCorreo(), "Confirmación de Registro", "Estimado usuario, usted ha sido registrado en:\nSede " + usuarioAdministrador.getSede().getNombre() + "\nUbicada en " + usuarioAdministrador.getSede().getDireccion() + "\nTu contraseña por defecto es: " + doctor.getUsuario().getContrasena() + "\nIngresa aquí para cambiarla");
+            emailService.sendEmail(doctor.getUsuario().getCorreo(), "Confirmación de Registro", "Estimado usuario, usted ha sido registrado en:\nSede " + usuarioAdministrador.getSede().getNombre() + "\nUbicada en " + usuarioAdministrador.getSede().getDireccion() + "\nTu contraseña por defecto es: " + contrasenaGenerada + "\nIngresa aquí para cambiarla");
             return "redirect:/administrador/dashboarddoctor";
         }
     }
+
 
     @GetMapping(value = "/perfil")
     public String perfilPaciente(Model model) {
@@ -470,14 +493,14 @@ public class AdministradorController {
             String hashedNewPassword = passwordEncoder.encode(newpassword);
 
 
-               //usuarioRepository.changePassword(renewpassword, usuarioAdministrador.getIdusuario());
-                usuarioRepository.changePassword(hashedNewPassword, usuarioAdministrador.getIdusuario());
-                redirectAttributes.addFlashAttribute("psw1", "Contraseña actualizada");
+            //usuarioRepository.changePassword(renewpassword, usuarioAdministrador.getIdusuario());
+            usuarioRepository.changePassword(hashedNewPassword, usuarioAdministrador.getIdusuario());
+            redirectAttributes.addFlashAttribute("psw1", "Contraseña actualizada");
 
-            } else {
-                redirectAttributes.addFlashAttribute("psw2", "La contraseña es incorrecta");
-            }
-
-            return "redirect:/administrador/perfil";
+        } else {
+            redirectAttributes.addFlashAttribute("psw2", "La contraseña es incorrecta");
         }
+
+        return "redirect:/administrador/perfil";
+    }
 }
