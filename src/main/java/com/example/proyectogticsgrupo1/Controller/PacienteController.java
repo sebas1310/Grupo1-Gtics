@@ -5,11 +5,8 @@ import com.example.proyectogticsgrupo1.Repository.*;
 import com.example.proyectogticsgrupo1.Service.EmailService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
-import jakarta.websocket.Session;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,7 +14,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.thymeleaf.model.IModel;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -33,6 +29,9 @@ public class PacienteController {
     final EspecialidadRepository especialidadRepository;
     final DoctorRepository doctorRepository;
     final UserRepository userRepository;
+    final NotificacionesRepository notificacionesRepository;
+
+    final RecetaMedicaRepository recetaMedicaRepository;
 
     @Autowired
     final PacienteRepository pacienteRepository;
@@ -46,12 +45,14 @@ public class PacienteController {
 
     final BoletaPacienteRepository boletaPacienteRepository;
 
-    public PacienteController(SedeRepository sedeRepository, EspecialidadRepository especialidadRepository, DoctorRepository doctorRepository, UserRepository userRepository, PacienteRepository pacienteRepository, TipoCitaRepository tipoCitaRepository, CitaRepository citaRepository, EventocalendariodoctorRepository eventocalendariodoctorRepository,
-                              BoletaDoctorRepository boletaDoctorRepository,SeguroRepository seguroRepository,BoletaPacienteRepository boletaPacienteRepository) {
+    public PacienteController(SedeRepository sedeRepository, EspecialidadRepository especialidadRepository, DoctorRepository doctorRepository, UserRepository userRepository, NotificacionesRepository notificacionesRepository, RecetaMedicaRepository recetaMedicaRepository, PacienteRepository pacienteRepository, TipoCitaRepository tipoCitaRepository, CitaRepository citaRepository, EventocalendariodoctorRepository eventocalendariodoctorRepository,
+                              BoletaDoctorRepository boletaDoctorRepository, SeguroRepository seguroRepository, BoletaPacienteRepository boletaPacienteRepository) {
         this.sedeRepository = sedeRepository;
         this.especialidadRepository = especialidadRepository;
         this.doctorRepository = doctorRepository;
         this.userRepository = userRepository;
+        this.notificacionesRepository = notificacionesRepository;
+        this.recetaMedicaRepository = recetaMedicaRepository;
         this.pacienteRepository = pacienteRepository;
         this.tipoCitaRepository = tipoCitaRepository;
         this.citaRepository = citaRepository;
@@ -265,6 +266,56 @@ public class PacienteController {
         return "paciente/mensajes";
     }
 
+
+    @GetMapping(value ="/receta")
+    public String receta(@RequestParam("idcita") String idstr, Model model){
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        Paciente paciente = pacienteRepository.pacXuser(usuario.getIdusuario());
+        try {
+            Integer id = Integer.parseInt(idstr);
+            Optional<Cita> optional = citaRepository.findById(id);
+            if(optional.isPresent()){
+                Cita cita = optional.get();
+                List<RecetaMedica> listarecetaMedica = recetaMedicaRepository.recetaMedicaPorCita(cita.getIdcita());
+                model.addAttribute("recetas",listarecetaMedica);
+                model.addAttribute("pacientelog",paciente);
+                return "paciente/recetasPaciente";
+            }
+            else {
+                return "redirect:/paciente/historialCitas";
+            }
+        }
+        catch (NumberFormatException e){
+            return "redirect:/paciente/historialCitas";
+        }
+    }
+
+
+
+    @GetMapping(value ="/boleta")
+    public String boletas(@RequestParam("idcita") String idstr, Model model){
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        Paciente paciente = pacienteRepository.pacXuser(usuario.getIdusuario());
+        try {
+            Integer id = Integer.parseInt(idstr);
+            Optional<Cita> optional = citaRepository.findById(id);
+            if(optional.isPresent()){
+                Cita cita = optional.get();
+                BoletaPaciente boletaPaciente = boletaPacienteRepository.getBoletaCita(cita.getIdcita());
+                model.addAttribute("boletapac",boletaPaciente);
+                model.addAttribute("pacientelog",paciente);
+                return "paciente/boletaCita";
+            }
+            else {
+                return "redirect:/paciente/historialCitas";
+            }
+        }
+        catch (NumberFormatException e){
+            return "redirect:/paciente/historialCitas";
+        }
+    }
+
+
     @GetMapping(value = "/notificaciones")
     public String notif(Model model) {
         //Optional<Paciente> optionalPaciente = pacienteRepository.findById(1);
@@ -272,9 +323,8 @@ public class PacienteController {
 
         Usuario usuario = (Usuario) session.getAttribute("usuario");
         Paciente paciente = pacienteRepository.pacXuser(usuario.getIdusuario());
-
+        model.addAttribute("notificaciones",notificacionesRepository.notificacionesPorUsuario(usuario.getIdusuario()));
         model.addAttribute("pacientelog",paciente);
-
         return "paciente/notificaciones";
     }
 
@@ -372,7 +422,6 @@ public class PacienteController {
                     }
                     if(flg){
                         System.out.println("llega aca prim");
-
                         citaRepository.agengedarcita(idsede, idesp,fecha, hora, hora.plusHours(1),60, idtipocita, idseguro, 1, paciente.getIdpaciente(),iddoctor);
                         Double costoEspecialidad = especialidadRepository.getCosto(idesp);
                         Double comisionDoctor = seguroRepository.getCosto(idseguro);
@@ -383,6 +432,9 @@ public class PacienteController {
                         boletaDoctorRepository.generarBoletaDoctorCita(citaAgendada.getIdcita(),paciente.getIdpaciente(),idseguro,iddoctor,montoDoctor);
                         boletaPacienteRepository.generarBoletaPacienteCita(paciente.getIdpaciente(),citaAgendada.getIdcita(),idseguro,montoPaciente);
                         eventocalendariodoctorRepository.cambiarEstadoCalendario(iddoctor,fecha,hora);
+                        String content = "Usted reservó una cita para "+ fecha+ "en la siguiente hora: " + hora + " En la especialiad de " + especialidadRepository.findById(idesp).get().getNombre() + ".";
+                        String titulo = "Cita reservada con exito";
+                        notificacionesRepository.notificarcita(usuario.getIdusuario(),content,titulo);
                         if(idtipocita==1){
                             emailService.sendEmail(paciente.getUsuario().getCorreo(),"Confirmación de cita","Estimado usuario usted reservó una cita para el "+fecha.toString()+ ".\n"+"En la sede "+sedeRepository.findById(idsede).get().getNombre()+" ubicada " +sedeRepository.findById(idsede).get().getDireccion());
 
@@ -453,6 +505,22 @@ public class PacienteController {
         eventocalendariodoctorRepository.cambiarEstadoCalendario(doc.getIddoctor(),
                 eventocalendariodoctor.getFecha(),
                 eventocalendariodoctor.getHorainicio());
+
+
+        Double costoEspecialidad = especialidadRepository.getCosto(doc.getEspecialidad().getIdespecialidad());
+        Double comisionDoctor = seguroRepository.getCosto(paciente.getSeguro().getIdseguro());
+        Double coaseguroPaciente = seguroRepository.getCoaseguro(paciente.getSeguro().getIdseguro());
+        Float montoDoctor = (float) (costoEspecialidad * comisionDoctor);
+        Float montoPaciente = (float) (costoEspecialidad * coaseguroPaciente);
+        Cita citaAgendada = citaRepository.citaAgendada(eventocalendariodoctor.getFecha(),eventocalendariodoctor.getHorainicio());
+        boletaDoctorRepository.generarBoletaDoctorCita(citaAgendada.getIdcita(),paciente.getIdpaciente(),doc.getEspecialidad().getIdespecialidad(),doc.getIddoctor(),montoDoctor);
+        boletaPacienteRepository.generarBoletaPacienteCita(paciente.getIdpaciente(),citaAgendada.getIdcita(),doc.getEspecialidad().getIdespecialidad(),montoPaciente);
+
+
+        String content = "Usted reservó una cita para "+ eventocalendariodoctor.getFecha()+ "en la siguiente hora: " + eventocalendariodoctor.getHorainicio() + " En la especialiad de " + doc.getEspecialidad().getNombre() + ".";
+        String titulo = "Cita reservada con exito";
+        notificacionesRepository.notificarcita(usuario.getIdusuario(),content,titulo);
+
 
         if(idtipocita==1){
             emailService.sendEmail(paciente.getUsuario().getCorreo(),"Confirmación de cita","Estimado usuario usted reservó una cita para el "+eventocalendariodoctor.getFecha().toString()+ ".\n"+"En la sede "+sedeRepository.findById(doc.getSede().getIdsede()).get().getNombre()+" ubicada " +sedeRepository.findById(doc.getSede().getIdsede()).get().getDireccion());
