@@ -15,28 +15,12 @@
 <!-- ======= Sidebar ======= -->
 <aside th:replace="fragments/administrador/aside.html :: sidebar (active = 'formatos')">
 </aside>
-<<<<<<< HEAD
+
 <!--Modal Cerrar Sesion-->
 <div th:replace="fragments/administrador/modalCerrarSesion.html::modal">
 
 </div><!-- End Sidebar-->
 
-<div class="modal fade" id="verticalycentered" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">¿Seguro que deseas Salir?</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-footer">
-                <form th:action="@{/logout}" method="post">
-                    <button type="submit" class="btn btn-success">Salir</button>
-                </form>                <button type="button" class="btn btn-secondary"><a style="color: white" th:href="@{/administrador/formatos}" >Cancelar</a></button>
-            </div>
-        </div>
-    </div>
-</div><!-- End Vertically centered Modal-->
-<!-- End Sidebar-->
 
 <main id="main" class="main">
 
