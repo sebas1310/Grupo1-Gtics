@@ -3,7 +3,9 @@ package com.example.proyectogticsgrupo1.Repository;
 
 import com.example.proyectogticsgrupo1.Entity.ModeloJson;
 import com.example.proyectogticsgrupo1.Entity.ModeloJsonEntity;
+import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
@@ -32,5 +34,13 @@ public interface ModeloJsonRepository extends JpaRepository<ModeloJsonEntity,Int
 
     @Query(value="select id from modelo_json where informe=1 and idtipodeusuario=5 and idespecialidad = ?1 ",nativeQuery = true)
     int informeMedicoId(Integer idespecialidad);
+
+    @Query(value="select id from modelo_json where cuestionario=1 and idtipodeusuario=4 and idespecialidad = ?1 ",nativeQuery = true)
+    int cuestionarioMedicoId(Integer idespecialidad);
+
+    @Modifying
+    @Transactional
+    @Query(value="update modelo_json set mostrarautomatico = ?1 where cuestionario=1 and idtipodeusuario=4 and idespecialidad = ?2 ",nativeQuery = true)
+    void mostrarCuestionarioAutomatico(int mostrarautomatico,Integer idespecialidad);
 }
 

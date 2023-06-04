@@ -375,19 +375,25 @@ public class DoctorController {
             Paciente paciente1 = pacienteRepository.buscarPacientePorID(idPaciente);
             List<Paciente> lista = pacienteRepository.findAll();
             model.addAttribute("paciente", paciente1);
+            int cuestionarioMedicoId = modeloJsonRepository.cuestionarioMedicoId(doctor.getEspecialidad().getIdespecialidad());
+            //model.addAttribute("informemedico",informe);
+            model.addAttribute("listapreguntascuestionario",modeloJsonRepository.listarPreguntasxPlantilla(cuestionarioMedicoId));
 
         return "doctor/cuestionarioDoc";
     }
 
     @PostMapping("/enviocuestionario")
-    public String enviarCuestionario(Model model, @RequestParam("pacienteId") int idP,
-                                                @RequestParam("docId") int idD,
+    @Transactional
+    public String enviarCuestionario(Model model, @RequestParam("mostrarautomatico") int mostrarautomatico,
+                                     @RequestParam("idespecialidad") Integer idespecialidad,
+                                     @RequestParam("correodestino") String correodestino,
                                      RedirectAttributes redirectAttributes){
-        Cuestionario nuevocuestionario = new Cuestionario();
-        //cuestionarioRepository.save(nuevocuestionario);
+        modeloJsonRepository.mostrarCuestionarioAutomatico(mostrarautomatico,idespecialidad);
+        String asunto = "Envio de Cuestionario";
+        String descripcion = "Estimado Paciente se le asignó un cuestionario para llenar antes de su siguiente cita, gracias";
+        emailService.sendEmail(correodestino,asunto,descripcion);
         redirectAttributes.addFlashAttribute("msg","Cuestionario Enviado");
         return "redirect:/doctor/dashboard";
-
     }
 
     @GetMapping("/perfil")
