@@ -1,11 +1,13 @@
 package com.example.proyectogticsgrupo1.Entity;
 import jakarta.persistence.*;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.Setter;
 
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.UniqueElements;
 
 import java.io.Serializable;
 import java.util.Base64;
@@ -32,9 +34,7 @@ public class Usuario  implements Serializable {
     @Size(min = 3,max = 45, message = "El apellido no puede tener mas de 100 caracteres")
     private String apellidos;
 
-    @Positive
-    @Digits(integer = 8, fraction = 0)
-    @Length(min = 8, max = 8, message = "El DNI debe tener 8 dígitos")
+    @Pattern(regexp = "^(?!00000000$)[0-9]{8}$", message = "El DNI debe tener 8 dígitos numéricos y no se acepta 00000000")
     private String dni;
 
     @Column(name = "correo", nullable = false)
@@ -45,16 +45,15 @@ public class Usuario  implements Serializable {
     private String contrasena;
 
     @Column(name = "genero", nullable = false)
+    @NotNull(message = "Debes seleccionar un género")
     private String genero;
 
-    @Positive
-    @Digits(integer = 9, fraction = 0)
-    @Length(min = 9, max = 9, message = "El celular debe tener 9 digitos")
+
+    @Pattern(regexp = "^(9)[0-9]{8}$", message = "El número de celular debe empezar con '9' y tener 9 dígitos numéricos")
     private String celular;
 
-    @NotNull
-    @Positive
-    @Digits(integer=2, fraction = 0)
+    @Min(value = 0, message = "La edad no puede ser negativa")
+    @Max(value = 999, message = "La edad debe máximo tener 3 dígitos")
     private Integer edad;
 
     @Column(name = "estado_habilitado", nullable = false)

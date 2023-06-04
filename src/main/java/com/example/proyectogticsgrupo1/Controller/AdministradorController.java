@@ -123,6 +123,21 @@ public class AdministradorController {
         Usuario usuarioAdministrador = (Usuario) session.getAttribute("usuario");
         model.addAttribute("usuario", usuarioAdministrador);
 
+        Usuario existingUser = usuarioRepository.findByDni(user.getDni());
+        if (existingUser != null && !existingUser.getIdusuario().equals(user.getIdusuario())) {
+            bindingResult.rejectValue("dni", "error.dni", "Ya existe un usuario con este DNI");
+        }
+
+        Usuario existingUserCelular = usuarioRepository.findByCelular(user.getCelular());
+        if (existingUserCelular != null && !existingUserCelular.getIdusuario().equals(user.getIdusuario())) {
+            bindingResult.rejectValue("celular", "error.celular", "Ya existe un usuario con este número de celular");
+        }
+
+        Usuario existingUserCorreo = usuarioRepository.findByCorreo(user.getCorreo());
+        if (existingUserCorreo != null && !existingUserCorreo.getIdusuario().equals(user.getIdusuario())) {
+            bindingResult.rejectValue("correo", "error.correo", "Ya existe un usuario con este correo electrónico");
+        }
+
         if (user.getIdusuario() == null) {
             attr.addFlashAttribute("pac", "Paciente creado exitosamente");
         } else {
@@ -371,6 +386,22 @@ public class AdministradorController {
     public String guardarDoctor(@ModelAttribute("usuario1") @Valid Usuario user, BindingResult bindingResult, RedirectAttributes attr, Model model, @RequestParam("especialidad") int idEspecialidad) {
         Usuario usuarioAdministrador = (Usuario) session.getAttribute("usuario");
         model.addAttribute("usuario", usuarioAdministrador);
+
+        Usuario existingUser = usuarioRepository.findByDni(user.getDni());
+        if (existingUser != null && !existingUser.getIdusuario().equals(user.getIdusuario())) {
+            bindingResult.rejectValue("dni", "error.dni", "Ya existe un usuario con este DNI");
+        }
+
+        Usuario existingUserCelular = usuarioRepository.findByCelular(user.getCelular());
+        if (existingUserCelular != null && !existingUserCelular.getIdusuario().equals(user.getIdusuario())) {
+            bindingResult.rejectValue("celular", "error.celular", "Ya existe un usuario con este número de celular");
+        }
+
+        Usuario existingUserCorreo = usuarioRepository.findByCorreo(user.getCorreo());
+        if (existingUserCorreo != null && !existingUserCorreo.getIdusuario().equals(user.getIdusuario())) {
+            bindingResult.rejectValue("correo", "error.correo", "Ya existe un usuario con este correo electrónico");
+        }
+
         if (user.getIdusuario() == null) {
             attr.addFlashAttribute("doc", "Doctor creado exitosamente");
         } else {

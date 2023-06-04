@@ -17,6 +17,10 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
 
     public Usuario findByCorreo(String correo);
 
+    public Usuario findByDni(String dni);
+
+    public Usuario findByCelular(String celular);
+
 
     @Query(value= "select * from usuario where correo = ?1 and contrasena = ?2 ",nativeQuery = true)
     Usuario validarLoginDeUsuario (String correo, String contrasena);

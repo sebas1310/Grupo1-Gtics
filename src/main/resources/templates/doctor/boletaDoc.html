@@ -72,6 +72,12 @@
                                                     <td> <span th:text="${boletadoctor.getCita().getFecha()}"></span> </td>
                                                 </tr>
                                                 <tr>
+                                                    <th scope="row">Hora:</th>
+                                                </tr>
+                                                <tr>
+                                                    <td> <span th:text="|${boletadoctor.getCita().getHorainicio()} - ${boletadoctor.getCita().getHorafinal()}|"></span> </td>
+                                                </tr>
+                                                <tr>
                                                     <th scope="row">Motivo:</th>
                                                 </tr>
                                                 <tr>
