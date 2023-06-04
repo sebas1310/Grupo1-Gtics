@@ -42,6 +42,7 @@ public class Usuario  implements Serializable {
     private String contrasena;
 
     @Column(name = "genero", nullable = false)
+    @NotNull(message = "Debes seleccionar un género")
     private String genero;
 
 
