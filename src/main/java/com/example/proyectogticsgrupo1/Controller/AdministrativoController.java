@@ -8,6 +8,7 @@ import com.example.proyectogticsgrupo1.Repository.UsuarioRepository;
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.Banner;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,14 +35,15 @@ public class AdministrativoController {
 
     @GetMapping(value = "/dashboard")
     public String dashboard(Model model){
-        Usuario usuario = (Usuario) session.getAttribute("usuario");
-
+        Usuario usuarioAdministrativo = (Usuario) session.getAttribute("usuario");
+        model.addAttribute("usuario", usuarioAdministrativo);
         return"administrativo/dashboard";
     }
 
     @GetMapping(value = "/crearpaciente")
-    public String crearPaciente(){
-        Usuario usuario = (Usuario) session.getAttribute("usuario");
+    public String crearPaciente(Model model){
+        Usuario usuarioAdministrativo = (Usuario) session.getAttribute("usuario");
+        model.addAttribute("usuario", usuarioAdministrativo);
         return"administrativo/crearpaciente";
     }
 
@@ -52,43 +54,50 @@ public class AdministrativoController {
     }
 
     @GetMapping(value = "/dashboardpacientes")
-    public String dashPac(){
-        Usuario usuario = (Usuario) session.getAttribute("usuario");
+    public String dashPac(Model model){
+        Usuario usuarioAdministrativo = (Usuario) session.getAttribute("usuario");
+        model.addAttribute("usuario", usuarioAdministrativo);
         return"administrativo/dashboardpaciente";
     }
 
     @GetMapping(value = "/formularioreferido")
-    public String formRef(){
-        Usuario usuario = (Usuario) session.getAttribute("usuario");
+    public String formRef(Model model){
+        Usuario usuarioAdministrativo = (Usuario) session.getAttribute("usuario");
+        model.addAttribute("usuario", usuarioAdministrativo);
         return"administrativo/formularioreferido";
     }
 
     @GetMapping(value = "/invitar")
-    public String invitar(){
-        Usuario usuario = (Usuario) session.getAttribute("usuario");
+    public String invitar(Model model){
+        Usuario usuarioAdministrativo = (Usuario) session.getAttribute("usuario");
+        model.addAttribute("usuario", usuarioAdministrativo);
         return "invitarpaciente";
     }
 
     @GetMapping(value = "/mensajes")
-    public String mensajes(){
-        Usuario usuario = (Usuario) session.getAttribute("usuario");
+    public String mensajes(Model model){
+        Usuario usuarioAdministrativo = (Usuario) session.getAttribute("usuario");
+        model.addAttribute("usuario", usuarioAdministrativo);
         return"administrativo/mensajes";
     }
 
     @GetMapping(value = "/notificaciones")
-    public String notificaciones(){
-        Usuario usuario = (Usuario) session.getAttribute("usuario");
+    public String notificaciones(Model model){
+        Usuario usuarioAdministrativo = (Usuario) session.getAttribute("usuario");
+        model.addAttribute("usuario", usuarioAdministrativo);
         return"administrativo/notificaciones";
     }
 
     @GetMapping(value = "/nuevopaciente")
-    public String nuevoPaciente(){
-        Usuario usuario = (Usuario) session.getAttribute("usuario");
+    public String nuevoPaciente(Model model){
+        Usuario usuarioAdministrativo = (Usuario) session.getAttribute("usuario");
+        model.addAttribute("usuario", usuarioAdministrativo);
         return"administrativo/nuevopaciente";
     }
     @GetMapping(value = "/chat")
-    public String chat(){
-        Usuario usuario = (Usuario) session.getAttribute("usuario");
+    public String chat(Model model){
+        Usuario usuarioAdministrativo = (Usuario) session.getAttribute("usuario");
+        model.addAttribute("usuario", usuarioAdministrativo);
         return "administrativo/chat";
     }
 
@@ -116,8 +125,9 @@ public class AdministrativoController {
     }
 
     @GetMapping(value = "/detallesdoctor")
-    public String detallesDoctor(){
-        Usuario usuario = (Usuario) session.getAttribute("usuario");
+    public String detallesDoctor(Model model){
+        Usuario usuarioAdministrativo = (Usuario) session.getAttribute("usuario");
+        model.addAttribute("usuario", usuarioAdministrativo);
         return "administrativo/detallesdoctor";
     }
 
@@ -153,9 +163,9 @@ public class AdministrativoController {
     }
 
     @GetMapping(value = "/configuracion")
-    public String conf(){
-
-        Usuario usuario = (Usuario) session.getAttribute("usuario");
+    public String conf(Model model){
+        Usuario usuarioAdministrativo = (Usuario) session.getAttribute("usuario");
+        model.addAttribute("usuario", usuarioAdministrativo);
         return "administrativo/configuraciones";
     }
 

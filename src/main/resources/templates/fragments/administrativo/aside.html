@@ -8,15 +8,15 @@
 
   <ul class="sidebar-nav" id="sidebar-nav">
 
-    <li class="nav-item" th:classappend="${active == 'index' ? 'active':''}">
-      <a class="nav-link" th:classappend="${active != 'index' ? 'collapsed':''}" th:href="@{'/administrativo/dashboard'}">
+    <li class="nav-item" th:classappend="${active == 'dashboard' ? 'active':''}">
+      <a class="nav-link" th:classappend="${active != 'dashboard' ? 'collapsed':''}" th:href="@{'/administrativo/dashboard'}">
         <i class="bi bi-house"></i>
         <span>Dashboard</span>
       </a>
     </li>
 
-    <li class="nav-item" th:classappend="${active == 'nuevopaciente' ? 'active':''}">
-      <a class="nav-link" th:classappend="${active != 'nuevopaciente' ? 'collapsed':''}" th:href="@{'/administrativo/nuevopaciente'}">
+    <li class="nav-item" th:classappend="${active == 'registrar' ? 'active':''}">
+      <a class="nav-link" th:classappend="${active != 'registrar' ? 'collapsed':''}" th:href="@{'/administrativo/nuevopaciente'}">
         <i class="bi bi-card-checklist"></i><span>Registrar</span>
       </a>
     </li>
@@ -33,8 +33,8 @@
     <br><br><br>
     <li class="nav-heading"> ----------------------------------------------- </li>
 
-    <li class="nav-item" th:classappend="${active == 'configuracion' ? 'active':''}">
-      <a class="nav-link" th:classappend="${active != 'configuracion' ? 'collapsed':''}" th:href="@{'/administrativo/configuracion'}">
+    <li class="nav-item" th:classappend="${active == 'configuraciones' ? 'active':''}">
+      <a class="nav-link" th:classappend="${active != 'configuraciones' ? 'collapsed':''}" th:href="@{'/administrativo/configuracion'}">
         <i class="bi bi-gear"></i><span>Configuraciones</span>
       </a>
     </li>

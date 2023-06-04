@@ -1,22 +1,25 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:insert="superadmin/fragments_spa/librerias_spa.html :: cabecera (titulo = 'configuraciones')">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+
+<head th:insert="fragments/administrativo/librerias.html :: cabecera (titulo = 'Perfil')">
+
 </head>
 
 <body>
 
 <!-- ======= Header ======= -->
-<header th:replace="fragments/administrativo/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1', nombre = |${session.usuario.nombres} ${session.usuario.apellidos}|, num_men = '3')">
+<header th:replace="fragments/administrativo/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1',  nombre = ${session.usuario.nombres} + ' ' + ${session.usuario.apellidos} + ' ' + '(' + ${session.usuario.tipodeusuario.nombre.toUpperCase()} + ')', num_men = '2', especialidad = |${session.usuario.especialidad.nombre}|)">
 </header>
 <!-- End Header -->
-
 <!-- ======= Sidebar ======= -->
-<aside th:replace="superadmin/fragments_spa/aside_spa.html :: sidebar (active = 'configuraciones')">
+<aside th:replace="fragments/administrativo/aside.html :: sidebar (active = 'configuraciones')">
 </aside>
-<!--Modal Cerrar Sesion-->
+
+<!-- End Sidebar-->
 <div th:replace="fragments/administrativo/modalCerrarSesion.html::modal">
 
 </div>
+<!-- End Modal-->
 
 <main id="main" class="main">
 
