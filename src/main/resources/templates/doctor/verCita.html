@@ -45,6 +45,7 @@
                                <li>Fecha: <span th:text="${cita.getFecha()}"></span></li>
                                <li>Modalidad: <span th:text="${cita.getTipoCita().getNombre()}"></span></li>
                                <li>Especialidad: <span th:text="${cita.getSeguro().getNombre()}"></span></li>
+                               <li>Estado: <span th:text="${cita.getEstadoCita().getNombre()}"></span></li>
                            </div>
                        </div>
                    </div> <!--End Informacion -->

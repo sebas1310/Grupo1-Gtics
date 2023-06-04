@@ -3,6 +3,7 @@ package com.example.proyectogticsgrupo1.Repository;
 import com.example.proyectogticsgrupo1.DTO.PacientesAtendidos;
 import com.example.proyectogticsgrupo1.Entity.Cita;
 import com.example.proyectogticsgrupo1.Entity.Paciente;
+import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -67,6 +68,11 @@ public interface CitaRepository extends JpaRepository<Cita, Integer> {
 
     @Query(value= "select * from cita where fecha= ?1 and horainicio = ?2 ",nativeQuery = true)
     Cita citaAgendada (LocalDate fecha, LocalTime horainicio);
+
+    @Transactional
+    @Modifying
+    @Query(value= "update cita set idestadocita = ?1 where idcita = ?2 ",nativeQuery = true)
+    void actualizarEstadoCita(Integer idestadocita,Integer idcita);
 
 }
 

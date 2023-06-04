@@ -94,6 +94,16 @@ public interface PacienteRepository extends JpaRepository<Paciente, Integer> {
     @Query(value = "select * from paciente where idpaciente= ?1", nativeQuery = true)
     Paciente buscarPacientePorID(Integer idPaciente);
 
+    @Transactional
+    @Modifying
+    @Query(value = "UPDATE paciente SET idestadopaciente = ?1 where idpaciente = ?2", nativeQuery = true)
+    void actualizarEstadoPaciente(Integer idestadopaciente, Integer idpaciente);
+
+    @Query(value = "select * from paciente where idusuario= ?1", nativeQuery = true)
+    Paciente buscarPacientePorIdUsuario(Integer idUsuario);
+
+
+
 
 }
 

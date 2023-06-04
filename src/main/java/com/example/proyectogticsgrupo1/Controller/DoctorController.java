@@ -146,9 +146,19 @@ public class DoctorController {
             model.addAttribute("doctor",doctor);
             Paciente paciente1 = pacienteRepository.buscarPacientePorID(idPaciente);
             model.addAttribute("paciente", paciente1);
-            model.addAttribute("citaspaciente", citaRepository.citasPorPaciente(idPaciente,doctor.getIddoctor()));
+            List<Cita> listaCitasPaciente = citaRepository.citasPorPaciente(idPaciente,doctor.getIddoctor());
+            for (Cita cita:listaCitasPaciente){
+                //primero se verifica si la fecha de la cita coincide con el dia actual
+                if(cita.getFecha().equals(LocalDate.now())){
+                    //si coincide ,entonces vemos si su hora final es menor a la hora actual
+                    if(LocalTime.now().isAfter(cita.getHorafinal())){
+                        //si es verdad , entonces se actualiza el estado de la cita a "finalizada"
+                        citaRepository.actualizarEstadoCita(6,cita.getIdcita());
+                    }
+                }
+            }
+            model.addAttribute("citaspaciente", listaCitasPaciente);
             model.addAttribute("bitacoradiagnostico", bitacoraDeDiagnosticoRepository.bitacoraDeDiagnostico(idPaciente));
-
             return "doctor/verHistorial";
     }
 
@@ -192,13 +202,12 @@ public class DoctorController {
             Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
             model.addAttribute("doctor",doctor);
             Cita cita = citaRepository.buscarCitaPorId(idCita);
-
             model.addAttribute("cita", cita);
             model.addAttribute("recetamedica", recetaMedicaRepository.buscarRecetaMedicaPorCita(idCita, idReceta));
             //obtenemos el modelo del informe y luego se enviarán los datos desde la vista para llenar en la tabla "datos_json"
-            ModeloJson informe = modeloJsonRepository.informeMedico(doctor.getEspecialidad().getIdespecialidad());
-            model.addAttribute("informemedico",informe);
-            model.addAttribute("listapreguntasinforme",modeloJsonRepository.listarPreguntasxPlantilla(informe.getId()));
+            //ModeloJson informe = modeloJsonRepository.informeMedico(doctor.getEspecialidad().getIdespecialidad());
+            //model.addAttribute("informemedico",informe);
+            //model.addAttribute("listapreguntasinforme",modeloJsonRepository.listarPreguntasxPlantilla(informe.getId()));
         return "doctor/verCita";
     }
     @GetMapping("/pacientesatendidos/verhistorial/vercita/editarreceta")
@@ -438,6 +447,10 @@ public class DoctorController {
                             @RequestParam("idusuariodestino") int idUsuarioDestino , @RequestParam("idusuarioorigen") int idUsuarioOrigen) {
         emailService.sendEmail(correoDestino,asunto,descripcion);
         mailCorreoRepository.guardarMensaje(asunto,descripcion,correoDestino,idUsuarioDestino ,idUsuarioOrigen);
+        Optional<Paciente> optPaciente = Optional.ofNullable(pacienteRepository.buscarPacientePorIdUsuario(idUsuarioDestino));
+        if(optPaciente.isPresent()){
+            pacienteRepository.actualizarEstadoPaciente(6,optPaciente.get().getIdpaciente());
+        }
         redirectAttributes.addFlashAttribute("msg","Mensaje Enviado");
         return "redirect:/doctor/mensajeria";
         //return ResponseEntity.ok().build();
