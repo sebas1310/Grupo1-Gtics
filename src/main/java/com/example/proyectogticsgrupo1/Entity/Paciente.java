@@ -2,6 +2,7 @@ package com.example.proyectogticsgrupo1.Entity;
 
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
 import lombok.Setter;
 

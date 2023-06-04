@@ -65,26 +65,6 @@
                                 <div class="invalid-feedback" th:if="${#fields.hasErrors('dni')}" th:errors="*{dni}"></div>
                             </div>
                             <div class="col-12">
-                                <label class="form-label">Género</label>
-                                <div class="form-control">
-                                    <select class="form-control-plaintext " type="genero" th:name="genero"  required>
-                                        <option disabled selected>Seleccionar</option>
-                                        <option th:value="Maculino">Masculino</option>
-                                        <option th:value="Femenino">Femenino</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-12">
-                                <label class="form-label">Especialidad</label>
-                                <div class="form-control">
-                                    <select class="form-control-plaintext " name="especialidad" required>
-                                        <option disabled selected>Seleccionar</option>
-                                        <option th:each="especialidad : ${listaEspecialidad}" th:value="${especialidad.idespecialidad}"
-                                                th:text="${especialidad.nombre}"></option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-12">
                                 <label class="form-label">Celular</label>
                                 <input class="form-control" th:field="*{celular}" th:classappend="${#fields.hasErrors('celular')?'is-invalid':''}" required>
                                 <div class="invalid-feedback" th:if="${#fields.hasErrors('celular')}" th:errors="*{celular}"></div>
@@ -93,6 +73,23 @@
                                 <label class="form-label">Edad (en años)</label>
                                 <input class="form-control" th:field="*{edad}" th:classappend="${#fields.hasErrors('edad')?'is-invalid':''}" required>
                                 <div class="invalid-feedback" th:if="${#fields.hasErrors('edad')}" th:errors="*{edad}"></div>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label">Género</label>
+                                <select class="form-control" th:field="*{genero}" th:classappend="${#fields.hasErrors('genero') ? 'is-invalid' : ''}" required>
+                                    <option value="" th:selected="${genero == null}">Selecciona una opción</option>
+                                    <option value="M">Masculino</option>
+                                    <option value="F">Femenino</option>
+                                </select>
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('genero')}" th:errors="*{genero}"></div>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label">Especialidad</label>
+                                <select class="form-control" name="especialidad" required>
+                                    <option value="" >Selecciona una opción</option>
+                                    <option th:each="especialidad : ${listaEspecialidad}" th:value="${especialidad.idespecialidad}"
+                                                th:text="${especialidad.nombre}"></option>
+                                </select>
                             </div>
                             <div class="text-center">
                                 <button type="submit" class="btn btn-success" style="color: white">Guardar Cambios</button>
