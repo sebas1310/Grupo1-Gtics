@@ -43,123 +43,30 @@
             <h5 class="card-title">Historial de notificaciones</h5>
 
             <!-- Default Table -->
-            <table class="table">
+            <table class="table table-borderless datatable">
               <thead>
               <tr>
-                <th scope="col">Notificacion</th>
-                <th scope="col">Tipo</th>
-                <th scope="col">Hora</th>
+                <th></th>
+                <th class="text-center" scope="col">#</th>
+                <th class="text-center" scope="col">Titulo</th>
+                <th class="text-center" scope="col">Mensaje</th>
+                <th class="text-center" scope="col">Fecha</th>
               </tr>
               </thead>
               <tbody>
-              <tr>
-                <td>Quae dolorem earum veritatis oditseno</td>
-                <td><i class="bi bi-info-circle text-primary"></i></td>
-                <td>21:04:06 17/8/23</td>
+              <tr class="text-center" th:each="n,idx:${notificaciones}">
+                <td th:text="${idx.index+1}"></td>
+                <td th:text="${n.titulo}"></td>
+                <td th:text="${n.contenido}"></td>
+                <td th:text="|${n.fecha} ${n.hora}|"></td>
               </tr>
-              <tr><td>Quae dolorem earum veritatis oditseno</td>
-                <td><i class="bi bi-x-circle text-danger"></i></td>
-                <td>21:04:06 17/8/23</td>
-              </tr>
-              <tr>
-                <td>Quae dolorem earum veritatis oditseno</td>
-                <td><i class="bi bi-check-circle text-success"></i></td>
-                <td>21:04:06 17/8/23</td>
-
-              </tr>
-              <tr>
-                <td>Quae dolorem earum veritatis oditseno</td>
-                <td><i class="bi bi-check-circle text-success"></i></td>
-                <td>21:04:06 17/8/23</td>
-
-              </tr>
-              <tr>
-                <td>Quae dolorem earum veritatis oditseno</td>
-                <td><i class="bi bi-info-circle text-primary"></i></td>
-                <td>21:04:06 17/8/23</td>
-              </tr>
-              <tr><td>Quae dolorem earum veritatis oditseno</td>
-                <td><i class="bi bi-x-circle text-danger"></i></td>
-                <td>21:04:06 17/8/23</td>
-              </tr>
-              <tr>
-                <td>Quae dolorem earum veritatis oditseno</td>
-                <td><i class="bi bi-check-circle text-success"></i></td>
-                <td>21:04:06 17/8/23</td>
-
-              </tr>
-              <tr>
-                <td>Quae dolorem earum veritatis oditseno</td>
-                <td><i class="bi bi-check-circle text-success"></i></td>
-                <td>21:04:06 17/8/23</td>
-
-              </tr>
-              <tr>
-                <td>Quae dolorem earum veritatis oditseno</td>
-                <td><i class="bi bi-info-circle text-primary"></i></td>
-                <td>21:04:06 17/8/23</td>
-              </tr>
-              <tr><td>Quae dolorem earum veritatis oditseno</td>
-                <td><i class="bi bi-x-circle text-danger"></i></td>
-                <td>21:04:06 17/8/23</td>
-              </tr>
-              <tr>
-                <td>Quae dolorem earum veritatis oditseno</td>
-                <td><i class="bi bi-check-circle text-success"></i></td>
-                <td>21:04:06 17/8/23</td>
-
-              </tr>
-              <tr>
-                <td>Quae dolorem earum veritatis oditseno</td>
-                <td><i class="bi bi-check-circle text-success"></i></td>
-                <td>21:04:06 17/8/23</td>
-
-              </tr>
-              <tr>
-                <td>Quae dolorem earum veritatis oditseno</td>
-                <td><i class="bi bi-info-circle text-primary"></i></td>
-                <td>21:04:06 17/8/23</td>
-              </tr>
-              <tr><td>Quae dolorem earum veritatis oditseno</td>
-                <td><i class="bi bi-x-circle text-danger"></i></td>
-                <td>21:04:06 17/8/23</td>
-              </tr>
-              <tr>
-                <td>Quae dolorem earum veritatis oditseno</td>
-                <td><i class="bi bi-check-circle text-success"></i></td>
-                <td>21:04:06 17/8/23</td>
-
-              </tr>
-              <tr>
-                <td>Quae dolorem earum veritatis oditseno</td>
-                <td><i class="bi bi-check-circle text-success"></i></td>
-                <td>21:04:06 17/8/23</td>
-
-              </tr>
-
               </tbody>
             </table>
             <!-- End Default Table Example -->
 
 
             <!-- Centered Pagination -->
-            <nav aria-label="Page navigation example">
-              <ul class="pagination justify-content-center">
-                <li class="page-item">
-                  <a class="page-link" href="#" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                  </a>
-                </li>
-                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item">
-                  <a class="page-link" href="#" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                  </a>
-                </li>
-              </ul>
-            </nav><!-- End Centered Pagination -->
+
 
           </div>
         </div>
