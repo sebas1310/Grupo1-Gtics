@@ -330,6 +330,22 @@ public class SuperadminController {
     }
 
 
+    @ResponseBody
+    @PostMapping(value = "/BorrarPlantilla")
+    public int BorrarPlantilla(Model model,@RequestParam("id_de_modelo_plantilla") int id_de_modelo_plantilla
+    ){
+        System.out.println("llega al repo de borrado");
+        System.out.println(id_de_modelo_plantilla);
+
+//        modeloJsonRepository.borrarPlantillas(id_de_modelo_plantilla);
+
+
+
+        return modeloJsonRepository.borrarPlantillas(id_de_modelo_plantilla);
+
+    }
+
+
 
 
 

@@ -42,5 +42,11 @@ public interface ModeloJsonRepository extends JpaRepository<ModeloJsonEntity,Int
     @Transactional
     @Query(value="update modelo_json set mostrarautomatico = ?1 where cuestionario=1 and idtipodeusuario=4 and idespecialidad = ?2 ",nativeQuery = true)
     void mostrarCuestionarioAutomatico(int mostrarautomatico,Integer idespecialidad);
+
+
+    @Modifying
+    @Transactional
+    @Query(value="delete from modelo_json where  id = ?1 ",nativeQuery = true)
+    Integer borrarPlantillas(int id_de_modelo_plantilla);
 }
 
