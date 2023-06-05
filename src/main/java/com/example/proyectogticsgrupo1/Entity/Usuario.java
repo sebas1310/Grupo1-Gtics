@@ -29,9 +29,11 @@ public class Usuario  implements Serializable {
     @Column(name = "nombres", nullable = false)
     @NotBlank
     @Size(min = 3,max = 45, message = "El nombre no puede tener mas de 100 caracteres")
+    @Pattern(regexp = "[A-Za-zñÑáéíóúÁÉÍÓÚüÜ\\s]+", message = "El nombre solo puede contener letras")
     private String nombres;
     @NotBlank
     @Size(min = 3,max = 45, message = "El apellido no puede tener mas de 100 caracteres")
+    @Pattern(regexp = "[A-Za-zñÑáéíóúÁÉÍÓÚüÜ\\s]+", message = "El nombre solo puede contener letras")
     private String apellidos;
 
     @Pattern(regexp = "^(?!00000000$)[0-9]{8}$", message = "El DNI debe tener 8 dígitos numéricos y no se acepta 00000000")
