@@ -112,10 +112,11 @@
               </div>
               <div class="d-grid gap-2 d-md-flex justify-content-md-center">
                 <form th:action="@{'/doctor/pacientesatendidos/verhistorial/vercita/boletaMedicamentoDelivery/confirmar'}" method="post">
-                  <input name="id" th:value="${cita.getIdcita()}" type="hidden" class="form-control">
+                  <input th:value="${cita.getIdcita()}" name="id" type="hidden" >
                 <!--<a th:action="@{'/doctor/pacientesatendidos/verhistorial/vercita'+ '?id=' + ${cita.getIdcita()}}" class="btn btn-primary ">Confirmar</a> -->
                   <button type="submit" class="btn btn-primary ">Confirmar</button>
                 </form>
+                <!--<a th:href="@{'/doctor/pacientesatendidos/verhistorial/vercita'+ '?id=' + ${cita.getIdcita()}+'&msg5=Delivery Confirmado'}" class="btn btn-danger">Confirmar</a> -->
                 <a th:href="@{'/doctor/pacientesatendidos/verhistorial/vercita'+ '?id=' + ${cita.getIdcita()}}" class="btn btn-danger">Cancelar</a>
               </div>
             </div>

@@ -526,7 +526,7 @@ public class SuperadminController {
 //        tablaDatosLlenosRepository.LlenadoDePlantilla(id_registro_nuevo,nombreplantilla,4,1,1);
 
         tablaDatosLlenosRepository.LlenadoDePlantilla(id_registro_nuevo+4,nombreplantilla,4,12,1);
-
+        //para llenar en datos_json
 
 
 
@@ -542,6 +542,7 @@ public class SuperadminController {
         //BORRADO DE LA TABLA DE TITULOS.
 
         tablaTitulosInputsRepository.BorrarTitulosInput();
+        //jalar para borrar
         tablaDatosLlenosRepository.BorrarDatosDeInput();
 
 
