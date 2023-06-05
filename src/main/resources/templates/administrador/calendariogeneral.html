@@ -25,197 +25,151 @@
     <h1>Calendario General</h1>
     <nav>
       <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a th:href="@{/administrador/dashboard}">Home</a></li>
+        <li class="breadcrumb-item"><a th:href="@{'/administrador'}">Home</a></li>
         <li class="breadcrumb-item active">Calendario General</li>
       </ol>
     </nav>
   </div><!-- End Page Title -->
 
-  <section class="section">
-    <div class="row">
-      <div class="col-lg-20">
-
-        <div class="card">
-          <div class="card-body">
-            <h5 class="card-title">Ver por: <select name="select">
-              <option value="value1">Doctor</option>
-              <option value="value2" selected>Especialidad</option>
-            </select> <td> <button class="btn btn-outline-success" type="submit">Filtrar</i></button></td>
-            </h5>
-
-
-
-            <!-- Calendario Febrero 2022Cortesia de WinCalendar.com -->
-            <style>   .monthNoCol { width: 3.2%}   .monthTxtCol { width: 10.9%;}  .pnmlink{ color: grey; font-size:1.5em; }  #Calendar {font-family:Arial, sans-serif; border-collapse: collapse; width:100%; table-layout:fixed;}  #Calendar h1 {font-size:12.0pt; font-weight:400; margin-top:0px; margin-bottom:0.1em;  font-weight:normal;}  .Saprorar{display:inline-block; width: 2em; height: 0; border-style: solid; border-width: 7px 0 12px 20px; border-color: transparent transparent transparent grey; margin:0 0.15em;}  .Saprolar{display:inline-block; width: 2em; height: 0; border-style: solid; border-width: 7px 20px 10px 0; border-color: transparent grey transparent transparent; margin:0 0.15em;}  #Calendar tr { height:1.2em; }  #Calendar tr:nth-child(even) {vertical-align:top; height:1.5em; }  #Calendar tr:nth-child(odd) {vertical-align:middle;}  #Calendar tr:first-child { height:1.7em; vertical-align:bottom; }  #Calendar tr:nth-child(2) {vertical-align:bottom; height:1.2em;}  #Calendar tr:first-child td:first-child { -moz-border-radius-topleft: 11px; -webkit-border-top-left-radius: 11px; border-top-left-radius: 11px;}  #Calendar tr:first-child td:last-child { -moz-border-radius-topright: 11px; -webkit-border-top-right-radius: 11px;  border-top-right-radius: 11px; }  #Calendar tr:not(:first-child) td:last-child { border-right:1.5pt solid #B7B7B773; }  #Calendar tr:last-child td:last-child {vertical-align:bottom;}  .Sapro9027892{color:black; font-size:11.0pt; text-align:center; border-top:1.0pt solid rgba(183,183,183,0.45); border-left:1.0pt solid rgba(183,183,183,0.45); background:white; }  .Sapro9127892{color:rgba(183,183,183,0.45); font-size:0.8em; text-align:left; border-top:1.0pt solid rgba(183,183,183,0.45); background:white; }  .Sapro9227892{color:rgba(183,183,183,0.45); font-size:0.8em; text-align:left; border-top:1.0pt solid rgba(183,183,183,0.45); border-right:1.5pt solid whitesmoke; background:white; }  .Sapro9327892{color:black; font-size:11.0pt; text-align:center; border-top:1.0pt solid rgba(183,183,183,0.45); border-left:1.5pt solid rgba(183,183,183,0.45); }  .Sapro9427892{color:gray; font-size:0.8em; text-align:left; border-top:1.0pt solid rgba(183,183,183,0.45); }  .Sapro9527892{color:black; font-size:11.0pt; text-align:center; border-top:1.0pt solid rgba(183,183,183,0.45); border-left:1.0pt solid rgba(183,183,183,0.45); }  .Sapro9627892{font-size:12.0pt; }  .Sapro9727892{color:black; font-size:11.0pt; font-weight:700; text-align:center; border-top:1.0pt solid rgba(183,183,183,0.45); border-right:1.0pt solid rgba(183,183,183,0.45); border-left:1.5pt solid rgba(183,183,183,0.45); background: white; }  .Sapro9827892{color:black; font-size:11.0pt; font-weight:700; text-align:center; border-top:1.0pt solid rgba(183,183,183,0.45); border-right:1.0pt solid rgba(183,183,183,0.45); border-left:1.0pt solid rgba(183,183,183,0.45); background:white; }  .Sapro9927892{color:black; font-size:11.0pt; font-weight:700; text-align:center; border-top:1.0pt solid rgba(183,183,183,0.45); border-right:1.0pt solid rgba(183,183,183,0.45); border-left:1.0pt solid rgba(183,183,183,0.45); background:white; }  .Sapro10127892{color:rgba(183,183,183,0.45); font-size:6.0pt; text-align:left; border-bottom:1.5pt solid rgba(183,183,183,0.45); background:white; }  .Sapro10327892{font-size:0.8em; text-align:left; border-top:1.0pt solid rgba(183,183,183,0.45); border-left:1.5pt solid rgba(183,183,183,0.45); background:white; }  .Sapro10427892{font-size:0.8em; text-align:left; border-top:1.0pt solid rgba(183,183,183,0.45); background:white; }  .Sapro10527892{font-size:0.8em; text-align:left; border-left:1.5pt solid rgba(183,183,183,0.45); background:white; }  .Sapro10727892{font-size:0.8em; text-align:left; border-left:1.0pt solid rgba(183,183,183,0.45) }  .Sapro10927892{font-size:0.8em; text-align:left; border-left:1.0pt solid rgba(183,183,183,0.45); background:white; }  .Sapro11227892{font-size:0.8em; text-align:left; border-left:1.5pt solid rgba(183,183,183,0.45); }  .Sapro11327892{font-size:0.8em; text-align:left; border-top:1.0pt solid rgba(183,183,183,0.45); border-left:1.0pt solid rgba(183,183,183,0.45); background:white; }  .Sapro11427892{font-size:0.8em; text-align:left; border-top:1.0pt solid rgba(183,183,183,0.45); border-right:1.5pt solid rgba(183,183,183,0.45); background:white; }  .Sapro11527892{font-size:0.8em; text-align:left; border-bottom:1.5pt solid rgba(183,183,183,0.45); border-left:1.5pt solid rgba(183,183,183,0.45); }  .Sapro11727892{font-size:0.8em; text-align:left; border-bottom:1.5pt solid rgba(183,183,183,0.45); border-left:1.0pt solid rgba(183,183,183,0.45); background:white; }  .Sapro11827892{font-size:0.8em; text-align:left; border-bottom:1.5pt solid rgba(183,183,183,0.45); background:white; }  .Sapro12027892{color:grey; font-size:12.0pt; text-align:center; border-bottom:1.0pt solid rgba(183,183,183,0.45); background: rgba(183,183,183,0.45); }  .Sapro12127892{color:grey; font-size:0.8em; text-align:right; border-bottom:1.0pt solid rgba(183,183,183,0.45); background:rgba(183,183,183,0.45); }  .Sapro12327892{color:grey; font-size:0.8em; text-align:left; border-bottom:1.0pt solid rgba(183,183,183,0.45); background:rgba(183,183,183,0.45); } </style>
-            <table id='Calendar' style="height:550px" data-month=202202 border=0 cellpadding=0 cellspacing=0>
-              <colgroup>
-                <col class='monthNoCol'><col class='monthTxtCol'>
-                <col class='monthNoCol'><col class='monthTxtCol'>
-                <col class='monthNoCol'><col class='monthTxtCol'>
-                <col class='monthNoCol'><col class='monthTxtCol'>
-                <col class='monthNoCol'><col class='monthTxtCol'>
-                <col class='monthNoCol'><col class='monthTxtCol'>
-                <col class='monthNoCol'><col class='monthTxtCol'>
-              </colgroup>
-              <tr class=Sapro9627892>
-                <td colspan=4 class=Sapro12327892><a th:href="@{/administrador/calendariomarzo}" title="Enero 2023"><div class="Saprolar"></div><span class="pnmlink">Mar 2023</span></a></td>
-                <td colspan=6 class=Sapro12027892><h2>ABRIL 2023</h2></td>
-                <td colspan=4 class=Sapro12127892><a th:href="@{/administrador/calendariomayo}" title="Marzo 2022"><span class="pnmlink">May 2023</span><div class="Saprorar"></div></a></td>
-              </tr>
-              <tr>
-                <td colspan=2 class=Sapro9727892>Lunes</td>
-                <td colspan=2 class=Sapro9827892>Martes</td>
-                <td colspan=2 class=Sapro9827892>Miércoles</td>
-                <td colspan=2 class=Sapro9827892>Jueves</td>
-                <td colspan=2 class=Sapro9827892>Viernes</td>
-                <td colspan=2 class=Sapro9927892>Sábado</td>
-                <td colspan=2 class=Sapro9927892>Domingo</td>
-              </tr>
-              <tr>
-                <td class=Sapro10327892></td>
-                <td class=Sapro10427892></td>
-                <td class=Sapro9527892>1</td>
-                <td class=Sapro9427892>Cirugia</td>
-                <td class=Sapro9527892>2</td>
-                <td class=Sapro9427892></td>
-                <td class=Sapro9527892>3</td>
-                <td class=Sapro9427892>Pediatria</td>
-                <td class=Sapro9527892>4</td>
-                <td class=Sapro9427892>Cardiologia</td>
-                <td class=Sapro9027892>5</td>
-                <td class=Sapro9127892></td>
-                <td class=Sapro9027892>6</td>
-                <td class=Sapro9227892></td>
-              </tr>
-              <tr>
-                <td colspan=2 class=Sapro10527892></td>
-                <td colspan=2 class=Sapro10727892></td>
-                <td colspan=2 class=Sapro10727892></td>
-                <td colspan=2 class=Sapro10727892></td>
-                <td colspan=2 class=Sapro10727892></td>
-                <td colspan=2 class=Sapro10927892></td>
-                <td colspan=2 class=Sapro10927892></td>
-              </tr>
-              <tr>
-                <td class=Sapro9327892>7</td>
-                <td class=Sapro9427892></td>
-                <td class=Sapro9527892>8</td>
-                <td class=Sapro9427892></td>
-                <td class=Sapro9527892>9</td>
-                <td class=Sapro9427892>Pediatria</td>
-                <td class=Sapro9527892>10</td>
-                <td class=Sapro9427892></td>
-                <td class=Sapro9527892>11</td>
-                <td class=Sapro9427892></td>
-                <td class=Sapro9027892>12</td>
-                <td class=Sapro9127892></td>
-                <td class=Sapro9027892>13</td>
-                <td class=Sapro9227892></td>
-              </tr>
-              <tr>
-                <td colspan=2 class=Sapro11227892></td>
-                <td colspan=2 class=Sapro10727892></td>
-                <td colspan=2 class=Sapro10727892></td>
-                <td colspan=2 class=Sapro10727892></td>
-                <td colspan=2 class=Sapro10727892></td>
-                <td colspan=2 class=Sapro10927892></td>
-                <td colspan=2 class=Sapro10927892></td>
-              </tr>
-              <tr>
-                <td class=Sapro9327892>14</td>
-                <td class=Sapro9427892></td>
-                <td class=Sapro9527892>15</td>
-                <td class=Sapro9427892></td>
-                <td class=Sapro9527892>16</td>
-                <td class=Sapro9427892>Pediatria</td>
-                <td class=Sapro9527892>17</td>
-                <td class=Sapro9427892></td>
-                <td class=Sapro9527892>18</td>
-                <td class=Sapro9427892></td>
-                <td class=Sapro9027892>19</td>
-                <td class=Sapro9127892></td>
-                <td class=Sapro9027892>20</td>
-                <td class=Sapro9227892></td>
-              </tr>
-              <tr>
-                <td colspan=2 class=Sapro11227892></td>
-                <td colspan=2 class=Sapro10727892></td>
-                <td colspan=2 class=Sapro10727892></td>
-                <td colspan=2 class=Sapro10727892></td>
-                <td colspan=2 class=Sapro10727892></td>
-                <td colspan=2 class=Sapro10927892></td>
-                <td colspan=2 class=Sapro10927892></td>
-              </tr>
-              <tr>
-                <td class=Sapro9327892>21</td>
-                <td class=Sapro9427892></td>
-                <td class=Sapro9527892>22</td>
-                <td class=Sapro9427892></td>
-                <td class=Sapro9527892>23</td>
-                <td class=Sapro9427892>Pediatria</td>
-                <td class=Sapro9527892>24</td>
-                <td class=Sapro9427892></td>
-                <td class=Sapro9527892>25</td>
-                <td class=Sapro9427892></td>
-                <td class=Sapro9027892>26</td>
-                <td class=Sapro9127892></td>
-                <td class=Sapro9027892>27</td>
-                <td class=Sapro9227892></td>
-              </tr>
-              <tr>
-                <td colspan=2 class=Sapro11227892></td>
-                <td colspan=2 class=Sapro10727892></td>
-                <td colspan=2 class=Sapro10727892></td>
-                <td colspan=2 class=Sapro10727892></td>
-                <td colspan=2 class=Sapro10727892></td>
-                <td colspan=2 class=Sapro10927892></td>
-                <td colspan=2 class=Sapro10927892></td>
-              </tr>
-              <tr>
-                <td class=Sapro9327892>28</td>
-                <td class=Sapro9427892></td>
-                <td class=Sapro11327892></td>
-                <td class=Sapro10427892></td>
-                <td class=Sapro10427892></td>
-                <td class=Sapro10427892></td>
-                <td class=Sapro10427892></td>
-                <td class=Sapro10427892></td>
-                <td class=Sapro10427892></td>
-                <td class=Sapro10427892></td>
-                <td class=Sapro10427892></td>
-                <td class=Sapro10427892></td>
-                <td class=Sapro10427892></td>
-                <td class=Sapro11427892></td>
-              </tr>
-              <tr>
-                <td colspan=2 class=Sapro11527892></td>
-                <td colspan=2 class=Sapro11727892></td>
-                <td colspan=2 class=Sapro11827892></td>
-                <td colspan=2 class=Sapro11827892></td>
-                <td colspan=2 class=Sapro11827892></td>
-                <td colspan=2 class=Sapro11827892></td>
-                <td colspan=2 class=Sapro10127892><a th:href="@{https://www.wincalendar.com/es/Creador-De-Calendario}" title="Creador de Calendario"></a></td>
-              </tr>
-
-            </table>
-
-
+  <section class="section profile">
+    <div class="card d-flex justify-content-center">
+      <!-- Mis citas -->
+      <div class="card-body">
+        <div class="d-flex justify-content-center align-items-center">
+          <h2 id="currentMonthLabel" class="card-title mr-2" style="margin-right: 10px; text-transform: uppercase; font-size: 30px;"></h2>
+          <h2 class="card-title mr-2" style="font-size: 30px;" id="currentYearLabel"></h2>
+        </div>
+        <div class="table-responsive">
+          <div class="d-flex justify-content-between align-items-center">
+            <h3 id="currentWeekLabel"></h3>
+          </div>
+          <table class="table table-bordered" onsubmit="return updateCalendar()">
+            <thead>
+            <tr>
+              <th class="text-center week-day" id="day1">Domingo</th>
+              <th class="text-center" id="day2">Lunes</th>
+              <th class="text-center" id="day3">Martes</th>
+              <th class="text-center" id="day4">Miércoles</th>
+              <th class="text-center" id="day5">Jueves</th>
+              <th class="text-center" id="day6">Viernes</th>
+              <th class="text-center" id="day7">Sábado</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <td th:each="cita : ${citas}">
+                <span th:text="${cita.fecha}"></span><br>
+                <span th:text="${cita.nombreCliente}"></span>
+              </td>
+            </tr>
+            <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Información de la Cita</h5>
+              </div>
+              <div class="modal-body">
+                <!-- Contenido del modal -->
+              </div>
+              <div class="modal-footer d-flex justify-content-center">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-
-
-    </div>
-    </div>
     </div>
   </section>
 
+  <script>
+    function updateCalendar() {
+      // Obtener la fecha actual
+      var currentDate = new Date();
+
+      var daysOfWeek = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
+
+      // Obtener el nombre del mes actual
+      var currentMonth = currentDate.toLocaleString("default", { month: "long" });
+
+      // Obtener el año actual
+      var currentYear = currentDate.getFullYear();
+
+      // Mostrar el mes y año actual en los elementos correspondientes
+      var currentMonthLabel = document.getElementById("currentMonthLabel");
+      var currentYearLabel = document.getElementById("currentYearLabel");
+      currentMonthLabel.textContent = currentMonth;
+      currentYearLabel.textContent = currentYear;
+
+      // Obtener el número de días en el mes actual
+      var daysInMonth = new Date(currentYear, currentDate.getMonth() + 1, 0).getDate();
+
+      // Obtener el primer día de la semana del mes actual
+      var firstDay = new Date(currentYear, currentDate.getMonth(), 1).getDay();
+
+      // Obtener referencia a la tabla del calendario
+      var calendarTable = document.querySelector(".table-bordered");
+
+      // Obtener todas las celdas de la tabla (excepto la primera fila de encabezados)
+      var cells = calendarTable.getElementsByTagName("td");
+
+      // Limpiar el contenido de todas las celdas
+      for (var i = 0; i < cells.length; i++) {
+        cells[i].textContent = "";
+      }
+
+      // Llenar las celdas con los días del mes actual
+      var day = 1;
+      for (var i = firstDay; i <= firstDay + daysInMonth; i++) {
+        cells[i].textContent = day;
+        day++;
+      }
 
 
+    }
 
-
-
-
+    // Llamar a la función para inicializar el calendario
+    updateCalendar();
+  </script>
 
 
 
