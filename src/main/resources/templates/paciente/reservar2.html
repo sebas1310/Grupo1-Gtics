@@ -21,12 +21,17 @@
 
   <div class="pagetitle">
     <h1>Seleccione horario</h1>
-    <br>
-    <h5 th:text="${nombre_mes}"></h5>
+
+    <h5 th:text="${T(com.example.proyectogticsgrupo1.translate.MonthTranslator).translateMonth(nombre_mes)}"></h5>
+
     <p th:text="|Semana ${(inicioSemana)} - ${finSemana} |"></p>
 
+    <a th:if="${prev_semana < 4 }" th:href="@{'/paciente/reservar2?iddoc='+ ${doc.iddoctor}+ '&semana=' + ${prev_semana + 1}}" class="btn btn-warning">Siguiente Semana</a>
 
-    <a th:href="@{'/paciente/reservar2?iddoc='+ ${doc.iddoctor}+ '&semana=' + 1}" class="btn btn-primary">Siguiente Semana</a>
+    <a th:if="${prev_semana > 0}" th:href="@{'/paciente/reservar2?iddoc=' + ${doc.iddoctor} + '&semana=' + ${prev_semana - 1}}" class="btn btn-outline-warning">Semana Anterior</a>
+    <br>
+    <div th:if="${msg2!=null}" th:text="${msg2}" class="alert alert-danger" role="alert"></div>
+
 
 
   </div>
