@@ -47,7 +47,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
     @Transactional
     @Modifying
     @Query(value= "update usuario set nombres= ?1 ,apellidos= ?2, correo=?3, celular=?4 where idusuario=?5 ",nativeQuery = true)
-    void perfil(String nombres, String apellidos, String correo, String celular,int idusuario);
+    void perfil(String nombres, String apellidos, String correo, String celular, int idusuario);
 
     @Transactional
     @Modifying

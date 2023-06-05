@@ -266,6 +266,48 @@ public class PacienteController {
         return "paciente/mensajes";
     }
 
+    @Autowired
+    private DatosJsonRepository datosJsonRepository;
+
+    @GetMapping(value = "/cuestionarios")
+    public String cuestionarios(Model model){
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        Paciente paciente = pacienteRepository.pacXuser(usuario.getIdusuario());
+
+        List<DatosJsonEntity> listadatos = datosJsonRepository.findAll();
+        List<DatosJsonEntity> misCuestionarios = new ArrayList<>();
+        for(DatosJsonEntity d : listadatos){
+            if(d.getCita().getPaciente().getIdpaciente()==paciente.getIdpaciente() && d.getCita().getFecha().isAfter(LocalDate.now())){
+                misCuestionarios.add(d);
+            }
+        }
+        model.addAttribute("cuestionarios",misCuestionarios);
+        model.addAttribute("pacientelog",paciente);
+        return "paciente/cuestionariosPaciente";
+    }
+
+
+    @GetMapping(value = "/formCuestionario")
+    public String formCuestinario(@RequestParam("idcuest") String idstr,Model model){
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        Paciente paciente = pacienteRepository.pacXuser(usuario.getIdusuario());
+        try {
+            Integer id = Integer.parseInt(idstr);
+            Optional<DatosJsonEntity> optional = datosJsonRepository.findById(id);
+            if(optional.isPresent()){
+                DatosJsonEntity datos = optional.get();
+                model.addAttribute("datos",datos);
+                model.addAttribute("pacientelog",paciente);
+                return "paciente/formCuestionario";
+            }
+            else {
+                return "redirect:/paciente/cuestionarios";
+            }
+        }
+        catch (NumberFormatException e){
+            return "redirect:/paciente/cuestionarios";
+        }
+    }
 
     @GetMapping(value ="/receta")
     public String receta(@RequestParam("idcita") String idstr, Model model){
@@ -488,8 +530,7 @@ public class PacienteController {
         Paciente paciente = pacienteRepository.pacXuser(usuario.getIdusuario());
         Eventocalendariodoctor eventocalendariodoctor = eventocalendariodoctorRepository.findById(idev).get();
         Doctor doc = doctorRepository.findById(eventocalendariodoctor.getDoctor().getIddoctor()).get();
-        System.out.println("entraaa\n");
-        System.out.println("doctooooor");
+
         System.out.println(doc.getIddoctor());
         citaRepository.agengedarcita(doc.getSede().getIdsede(),
                 doc.getEspecialidad().getIdespecialidad(),
