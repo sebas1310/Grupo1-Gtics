@@ -145,22 +145,34 @@ public class PacienteController {
         return "paciente/tipocita";
     }
     @GetMapping(value = "/reservar2")
-    public String selectDate(Model model, @RequestParam("iddoc") Integer id){
+    public String selectDate(Model model, @RequestParam("iddoc") Integer id, @RequestParam("semana") Integer semana){
         //Optional<Paciente> optionalPaciente = pacienteRepository.findById(1);
         //Paciente paciente =  optionalPaciente.get();
+
+
 
         Doctor doc = doctorRepository.buscarDoctorPorId(id);
 
         Usuario usuario = (Usuario) session.getAttribute("usuario");
         Paciente paciente = pacienteRepository.pacXuser(usuario.getIdusuario());
+        System.out.println(id.getClass());
 
+        System.out.println();
+        System.out.println(semana.getClass());
+
+
+        model.addAttribute("doc", doc);
         model.addAttribute("tipocita",tipoCitaRepository.findAll());
-        model.addAttribute("lunes",eventocalendariodoctorRepository.listalunes(doc.getIddoctor()));
-        model.addAttribute("martes",eventocalendariodoctorRepository.listaMartes(id));
-        model.addAttribute("miercoles",eventocalendariodoctorRepository.listaMiercoles(id));
-        model.addAttribute("jueves",eventocalendariodoctorRepository.listaJueves(id));
-        model.addAttribute("viernes",eventocalendariodoctorRepository.listaViernes(id));
-        model.addAttribute("sabado",eventocalendariodoctorRepository.listaSabado(id));
+        model.addAttribute("lunes",eventocalendariodoctorRepository.listaLunes(doc.getIddoctor(), semana));
+        model.addAttribute("martes",eventocalendariodoctorRepository.listaLunes(id, semana));
+        model.addAttribute("miercoles",eventocalendariodoctorRepository.listaLunes(id, semana));
+        model.addAttribute("jueves",eventocalendariodoctorRepository.listaLunes(id, semana));
+        model.addAttribute("viernes",eventocalendariodoctorRepository.listaLunes(id, semana));
+        model.addAttribute("sabado",eventocalendariodoctorRepository.listaLunes(id, semana));
+        model.addAttribute("inicioSemana", eventocalendariodoctorRepository.obtnerInicioSemana(semana));
+        System.out.println(eventocalendariodoctorRepository.obtnerInicioSemana(semana).getClass());
+        model.addAttribute("finSemana", eventocalendariodoctorRepository.obtenerFinSemana(semana));
+        model.addAttribute("nombre_mes", eventocalendariodoctorRepository.obtenerMes(semana));
 
         model.addAttribute("pacientelog",paciente);
         //Eventocalendariodoctor eventocalendariodoctor = eventocalendariodoctorRepository.calendarioPorDoctor(id);

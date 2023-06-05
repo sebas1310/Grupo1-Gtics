@@ -2,11 +2,14 @@ package com.example.proyectogticsgrupo1.Repository;
 
 import com.example.proyectogticsgrupo1.DTO.DiasProximosDoctor;
 import com.example.proyectogticsgrupo1.Entity.Eventocalendariodoctor;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.sql.Date;
+import java.text.DateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -42,11 +45,19 @@ public interface EventocalendariodoctorRepository extends JpaRepository<Eventoca
     List<DiasProximosDoctor> getDiasProx(Integer id);
 
     //lunes
-    @Query(nativeQuery = true, value = "SELECT *\n" +
+
+
+     @Query(nativeQuery = true, value = "SELECT * FROM eventocalendariodoctor WHERE YEARWEEK(fecha) = YEARWEEK(CURDATE()) + (?2)  AND DAYOFWEEK(fecha) = 2\n " +
+            "AND  DATE(fecha) > DATE(DATE_ADD(CURDATE(), INTERVAL 1 DAY))\n " +
+            "and idtipohoracalendariodoctor = 1 and iddoctor= ?1 ")
+    List<Eventocalendariodoctor> listaLunes( Integer id, Integer semana);
+/*
+   @Query(nativeQuery = true, value = "SELECT *\n" +
             "FROM eventocalendariodoctor\n" +
             "WHERE YEARWEEK(fecha) = YEARWEEK(CURDATE()) AND DAYOFWEEK(fecha)=2 and idtipohoracalendariodoctor=1 and iddoctor=?1")
-    List<Eventocalendariodoctor> listalunes(Integer id);
+    List<Eventocalendariodoctor> listaLunes(Integer id);
 
+*/
 /*
     @Query(nativeQuery = true, value = "SELECT *\n" +
             "FROM eventocalendariodoctor\n" +
@@ -54,30 +65,46 @@ public interface EventocalendariodoctorRepository extends JpaRepository<Eventoca
     List<Eventocalendariodoctor> listalunes(@Param("id") Integer id);
 */
 
-    @Query(nativeQuery = true, value = "SELECT *\n" +
-            "FROM eventocalendariodoctor\n" +
-            "WHERE YEARWEEK(fecha) = YEARWEEK(CURDATE()) AND DAYOFWEEK(fecha) = 3 and idtipohoracalendariodoctor=1 and iddoctor=?1")
-    List<Eventocalendariodoctor> listaMartes(Integer id);
+    @Query(nativeQuery = true, value = "SELECT * FROM eventocalendariodoctor WHERE YEARWEEK(fecha) = YEARWEEK(CURDATE()) + ?1 AND DAYOFWEEK(fecha) = 3\n" +
+            "AND  (DATE(fecha) > DATE(DATE_ADD(CURDATE(), INTERVAL 1 DAY)))\n" +
+            "and idtipohoracalendariodoctor = 1 and iddoctor = ?2;")
+    List<Eventocalendariodoctor> listaMartes(Integer id, Integer semana);
 
-    @Query(nativeQuery = true, value = "SELECT *\n" +
-            "FROM eventocalendariodoctor\n" +
-            "WHERE YEARWEEK(fecha) = YEARWEEK(CURDATE()) AND DAYOFWEEK(fecha) = 4 and idtipohoracalendariodoctor=1 and iddoctor=?1")
-    List<Eventocalendariodoctor> listaMiercoles(Integer id);
+    @Query(nativeQuery = true, value = "SELECT * FROM eventocalendariodoctor WHERE YEARWEEK(fecha) = YEARWEEK(CURDATE()) + ?1 AND DAYOFWEEK(fecha) = 4\n" +
+            "AND  (DATE(fecha) > DATE(DATE_ADD(CURDATE(), INTERVAL 1 DAY)))\n" +
+            "and idtipohoracalendariodoctor = 1 and iddoctor = ?2;")
+    List<Eventocalendariodoctor> listaMiercoles(Integer id, Integer semana);
 
-    @Query(nativeQuery = true, value = "SELECT *\n" +
-            "FROM eventocalendariodoctor\n" +
-            "WHERE YEARWEEK(fecha) = YEARWEEK(CURDATE()) AND DAYOFWEEK(fecha) = 5 and idtipohoracalendariodoctor=1 and iddoctor=?1")
-    List<Eventocalendariodoctor> listaJueves(Integer id);
 
-    @Query(nativeQuery = true, value = "SELECT *\n" +
-            "FROM eventocalendariodoctor\n" +
-            "WHERE YEARWEEK(fecha) = YEARWEEK(CURDATE()) AND DAYOFWEEK(fecha) = 6 and idtipohoracalendariodoctor=1 and iddoctor=?1")
-    List<Eventocalendariodoctor> listaViernes(Integer id);
 
-    @Query(nativeQuery = true, value = "SELECT *\n" +
-            "FROM eventocalendariodoctor\n" +
-            "WHERE YEARWEEK(fecha) = YEARWEEK(CURDATE()) AND DAYOFWEEK(fecha) = 7 and idtipohoracalendariodoctor=1 and iddoctor=?1")
-    List<Eventocalendariodoctor> listaSabado(Integer id);
+    @Query(nativeQuery = true, value = "SELECT * FROM eventocalendariodoctor WHERE YEARWEEK(fecha) = YEARWEEK(CURDATE()) + ?1 AND DAYOFWEEK(fecha) = 5\n" +
+            "AND  (DATE(fecha) > DATE(DATE_ADD(CURDATE(), INTERVAL 1 DAY)))\n" +
+            "and idtipohoracalendariodoctor = 1 and iddoctor = ?2;")
+    List<Eventocalendariodoctor> listaJueves(Integer id, Integer semana);
+
+    @Query(nativeQuery = true, value = "SELECT * FROM eventocalendariodoctor WHERE YEARWEEK(fecha) = YEARWEEK(CURDATE()) + ?1 AND DAYOFWEEK(fecha) = 6\n" +
+            "AND  (DATE(fecha) > DATE(DATE_ADD(CURDATE(), INTERVAL 1 DAY)))\n" +
+            "and idtipohoracalendariodoctor = 1 and iddoctor = ?2;")
+    List<Eventocalendariodoctor> listaViernes(Integer id, Integer semana);
+
+    @Query(nativeQuery = true, value = "SELECT * FROM eventocalendariodoctor WHERE YEARWEEK(fecha) = YEARWEEK(CURDATE()) + ?1 AND DAYOFWEEK(fecha) = 7\n" +
+            "AND  (DATE(fecha) > DATE(DATE_ADD(CURDATE(), INTERVAL 1 DAY)))\n" +
+            "and idtipohoracalendariodoctor = 1 and iddoctor = ?2;")
+    List<Eventocalendariodoctor> listaSabado(Integer id, Integer semana);
+
+    @Query(nativeQuery = true, value = "SELECT DATE_ADD(MAKEDATE(YEAR(CURDATE()), 1) + INTERVAL WEEK(CURDATE()) + (-2 + ?1) WEEK, INTERVAL (WEEKDAY(MAKEDATE(YEAR(CURDATE()), 1) + INTERVAL WEEK(CURDATE()) + ?1 WEEK) + 1) DAY) AS start_date;")
+    java.sql.Date obtnerInicioSemana(Integer numSemana);
+
+   /* @Query(nativeQuery = true, value ="SELECT\n" +
+            "DATE_ADD(MAKEDATE(YEAR(CURDATE()), 1) + INTERVAL WEEK(CURDATE()) - (2) WEEK, INTERVAL (WEEKDAY(MAKEDATE(YEAR(CURDATE()), 1) + INTERVAL WEEK(CURDATE()) + ?1 WEEK) + 7) DAY) AS end_date;\n" )
+    Date obtenerFinSemana(Integer numSemxana);
+    */
+    @Query(nativeQuery = true, value = "SELECT DATE_ADD(MAKEDATE(YEAR(CURDATE()), 1) + INTERVAL WEEK(CURDATE()) + (-2+ ?1) WEEK, INTERVAL (WEEKDAY(MAKEDATE(YEAR(CURDATE()), 1) + INTERVAL WEEK(CURDATE()) + ?1 WEEK) + 7) DAY) AS end_date;")
+    java.sql.Date obtenerFinSemana(Integer numSemana);
+
+    @Query(nativeQuery = true, value = "SELECT MONTHNAME(MAKEDATE(YEAR(CURDATE()), 1) + INTERVAL WEEK(CURDATE()) + ?1 WEEK) AS month_name;")
+    String obtenerMes(Integer numWeek);
+
 
 
 

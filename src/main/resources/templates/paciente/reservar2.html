@@ -21,6 +21,13 @@
 
   <div class="pagetitle">
     <h1>Seleccione horario</h1>
+    <br>
+    <h5 th:text="${nombre_mes}"></h5>
+    <p th:text="|Semana ${(inicioSemana)} - ${finSemana} |"></p>
+
+
+    <a th:href="@{'/paciente/reservar2?iddoc='+ ${doc.iddoctor}+ '&semana=' + 1}" class="btn btn-primary">Siguiente Semana</a>
+
   </div>
 
   <section class="section profile">
