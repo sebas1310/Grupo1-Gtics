@@ -38,6 +38,9 @@ public interface ModeloJsonRepository extends JpaRepository<ModeloJsonEntity,Int
     @Query(value="select id from modelo_json where cuestionario=1 and idtipodeusuario=4 and idespecialidad = ?1 ",nativeQuery = true)
     int cuestionarioMedicoId(Integer idespecialidad);
 
+    @Query(value = "SELECT * from modelo_json where id = ?1", nativeQuery = true)
+    ModeloJsonEntity buscarModeloEdit(int id_modelo);
+
     @Modifying
     @Transactional
     @Query(value="update modelo_json set mostrarautomatico = ?1 where cuestionario=1 and idtipodeusuario=4 and idespecialidad = ?2 ",nativeQuery = true)
@@ -46,7 +49,15 @@ public interface ModeloJsonRepository extends JpaRepository<ModeloJsonEntity,Int
 
     @Modifying
     @Transactional
-    @Query(value="delete from modelo_json where  id = ?1 ",nativeQuery = true)
+    @Query(value="update modelo_json set habilitado = 0 where  id = ?1 ",nativeQuery = true)
     Integer borrarPlantillas(int id_de_modelo_plantilla);
+
+
+
+    @Query(value = "SELECT * from modelo_json where habilitado = 1 order by nombre_plantilla asc", nativeQuery = true)
+    List<ModeloJsonEntity> listarPlantillas();
+
+
+
 }
 

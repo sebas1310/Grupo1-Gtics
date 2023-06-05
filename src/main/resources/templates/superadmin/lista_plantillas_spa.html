@@ -143,13 +143,12 @@
         <div class="modal-body">
           <p>¿Estás seguro de que deseas borrar este elemento?</p>
           <div class="mb-3">
-            <label for="id_de_modelo_plantilla_del" class="col-form-label">Id de Modelo Plantilla:</label>
-            <input type="text" class="form-control" id="id_de_modelo_plantilla_del">
+            <label for="id_de_modelo_plantilla_del" class="col-form-label" hidden>Id de Modelo Plantilla:</label>
+            <input type="text" class="form-control" id="id_de_modelo_plantilla_del" hidden>
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-<!--          <button type="button" class="btn btn-danger">Borrar</button>-->
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
           <button type="button" class="btn btn-danger" onclick="EliminarPlantilla(this)">Borrar</button>
         </div>
       </div>
@@ -373,7 +372,7 @@
   // Asignar el valor del input con el elemento de la lista
                       input.value = lista[i];
   // Agregar un atributo name al input para identificarlo en el formulario
-                      input.setAttribute("name", "elemento_" + i);
+                      input.setAttribute("id", "elemento_" + i);
   // Agregar el input al contenedor
                       contenedor.appendChild(input);
                   }
@@ -403,41 +402,56 @@
     };
 
     function ModificarForm() {
-      const crearModal = bootstrap.Modal.getOrCreateInstance('#createModal');
-      crearModal.hide();
 
-      // var nuevoNombrePlantilla = document.getElementById("nombre_plantilla").value
-      // const id_de_modelo_plantilla = document.getElementById("id_de_modelo_plantilla").value
-      //
-      // console.log(id_fila);
+
+      const id_de_modelo_plantilla_2 = document.getElementById("id_de_modelo_plantilla").value
+
+      console.log(id_de_modelo_plantilla_2);
 
 
 
-      // document.getElementById("especialidad_name").value
+      var inputs = document.getElementById("contenedorDivs").querySelectorAll("input.form-control");
+      var valores = [];
+
+
+      valores.push(id_de_modelo_plantilla_2)
+
+      for (var i = 0; i < inputs.length; i++) {
+        var valor = inputs[i].value;
+        valores.push(valor);
+      }
 
 
 
+      console.log(valores);
 
-      // var xmlhttp = new XMLHttpRequest();
-      // xmlhttp.open("POST", "/superadmin/guardarCambiosPlantilla", true);
-      // xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-      // xmlhttp.onreadystatechange = function () {
-      //
-      //   if (xmlhttp.readyState == XMLHttpRequest.DONE) {
-      //     if (xmlhttp.status == 200) {
-      //       // Mostrar mensaje de éxito
-      //       alert("Plantilla actualizada correctamente");
-      //       location.reload();
-      //
-      //
-      //     } else {
-      //       // Mostrar mensaje de error
-      //       alert("Ha ocurrido un error al actualizar la plantilla");
-      //     }
-      //   }
-      // };
-      //
-      // xmlhttp.send("nuevoNombrePlantilla=" + nuevoNombrePlantilla+"&id_fila="+id_fila);
+
+
+      // const crearModal = bootstrap.Modal.getOrCreateInstance('#createModal');
+      // crearModal.hide();
+
+
+      var xmlhttp = new XMLHttpRequest();
+      var url = "/superadmin/modificarPlantilla?valores=" + encodeURIComponent(valores);
+      xmlhttp.open("POST", url, true);
+      xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+      xmlhttp.onreadystatechange = function () {
+
+        if (xmlhttp.readyState == XMLHttpRequest.DONE) {
+          if (xmlhttp.status == 200) {
+            // Mostrar mensaje de éxito
+            alert("Plantilla editada correctamente");
+            location.reload();
+
+
+          } else {
+            // Mostrar mensaje de error
+            alert("Ha ocurrido un error al actualizar la plantilla");
+          }
+        }
+      };
+
+      xmlhttp.send();
 
 
 

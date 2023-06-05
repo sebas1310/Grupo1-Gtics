@@ -88,7 +88,7 @@ public class SuperadminController {
     @GetMapping("/listaform")
     public String listaFormularios(Model model){
 
-        List<ModeloJsonEntity> modeloEntityList = modeloJsonRepository.findAll();
+        List<ModeloJsonEntity> modeloEntityList = modeloJsonRepository.listarPlantillas();
         model.addAttribute("modeloEntityList",modeloEntityList);
 
 
@@ -344,6 +344,100 @@ public class SuperadminController {
         return modeloJsonRepository.borrarPlantillas(id_de_modelo_plantilla);
 
     }
+
+
+
+    @ResponseBody
+    @PostMapping(value = "/modificarPlantilla")
+    public String modificarPlantilla(Model model, @RequestParam("valores") List<String> valores){
+        System.out.println("llega al repo de modificar");
+        System.out.println(valores);
+
+
+        String primerValor_id = valores.get(0);
+
+        System.out.println(primerValor_id);
+
+        valores.remove(0);
+
+        int primerValorInt_id = Integer.parseInt(String.valueOf(primerValor_id));
+
+
+
+        ModeloJsonEntity EncontrarModelo = modeloJsonRepository.buscarModeloEdit(primerValorInt_id);
+
+
+        String nbr_plantilla = EncontrarModelo.getNombrePlantilla();
+        int id_especialidad = EncontrarModelo.getEspecialidad().getIdespecialidad();
+        int id_tipo_usuario = EncontrarModelo.getTipodeusuario().getIdtipodeusuario();
+        Byte flg_formulario = EncontrarModelo.getFormulario();
+        Byte flg_cuestionario = EncontrarModelo.getCuestionario();
+
+//        if(EncontrarModelo.getCuestionario() ==null){
+
+
+        Byte flg_informe = EncontrarModelo.getInforme();
+
+        System.out.println("nbr_plantilla="+nbr_plantilla);
+        System.out.println("id_especialidad="+id_especialidad);
+        System.out.println("id_tipo_usuario="+id_tipo_usuario);
+        System.out.println("flg_formulario="+flg_formulario);
+        System.out.println("flg_cuestionario="+flg_cuestionario);
+        System.out.println("flg_informe="+flg_informe);
+
+
+        modeloJsonRepository.borrarPlantillas(primerValorInt_id);
+
+
+        for (int i = 0; i < valores.size(); i++) {
+            String pregunta = valores.get(i);
+            System.out.println("pregunta:"+ pregunta);
+            tablaTitulosInputsRepository.agregarNombreTitulos(pregunta);
+
+        }
+
+
+
+        if(flg_formulario != null){
+            tablaTitulosInputsRepository.agregarNuevoFormulario(nbr_plantilla,id_tipo_usuario,id_especialidad,1);
+
+        } else if (flg_informe != null) {
+            tablaTitulosInputsRepository.agregarNuevoInforme(nbr_plantilla,id_tipo_usuario,id_especialidad,1);
+
+        } else if (flg_cuestionario != null) {
+            tablaTitulosInputsRepository.agregarNuevoCuestionario(nbr_plantilla,id_tipo_usuario,id_especialidad,1);
+
+        }
+
+
+
+
+
+        tablaTitulosInputsRepository.BorrarTitulosInput();
+
+
+
+        //sacar valores del registro con el id(flags)
+        //deletear
+        //insertar en tabla flotante las preguntas y volver a crear el registro con el id eliminado
+
+
+
+
+
+
+
+
+
+//        modeloJsonRepository.borrarPlantillas(id_de_modelo_plantilla);
+
+
+
+        return "hola";
+
+    }
+
+
 
 
 
