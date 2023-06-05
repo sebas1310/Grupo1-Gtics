@@ -53,7 +53,7 @@
                                             </thead>
                                             <tbody>
                                                 <tr th:each=" paciente:${pacientesAtendidosDoctor}">
-                                                    <td style="text-align: center" th:text="${paciente.getUltimaFecha()}"></td>
+                                                    <td style="text-align: center"  th:text="${#temporals.format(paciente.getUltimaFecha(), 'dd-MM-yyyy')}" ></td>
                                                     <td style="text-align: center" th:text="${paciente.getNombrePaciente()}"></td>
                                                     <td style="text-align: center" th:text="${paciente.getTipoCita()}"></td>
                                                     <td style="text-align: center"> <a type="button" class="bi bi-journal-text"  th:href="@{'/doctor/cuestionario' + '?id=' + ${paciente.getIDPaciente()}}" ></a></td>

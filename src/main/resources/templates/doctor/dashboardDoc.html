@@ -69,7 +69,7 @@
                 </thead>
                 <tbody>
                 <tr th:each=" citaagendada:${citasAgendadas}">
-                  <td style="text-align: center" th:text="|${citaagendada.getFecha()}|"></td>
+                  <td style="text-align: center"  th:text="${#temporals.format(citaagendada.getFecha(), 'dd-MM-yyyy')}"></td>
                   <td style="text-align: center" th:text="|${citaagendada.getHorainicio()} - ${citaagendada.getHorafinal()}|"></td>
                   <td style="text-align: center" th:text="|${citaagendada.getPaciente().getUsuario().getNombres()} ${citaagendada.getPaciente().getUsuario().getApellidos()}|"></td>
                   <td style="text-align: center" th:text="${citaagendada.getTipoCita().getNombre()}"></td>

@@ -197,7 +197,7 @@
                                                 {
                                                     var errorMessage = document.getElementById("error-message2");
                                                     errorMessage.style.display = "block";
-                                                    errorMessage.innerHTML = "El campo nombre/apellido excede el número de letras permitidas";
+                                                    errorMessage.innerHTML = "El campo excede el número de letras permitidas";
                                                     return false;
                                                 }
 
@@ -205,7 +205,7 @@
                                                 {
                                                     var errorMessage = document.getElementById("error-message2");
                                                     errorMessage.style.display = "block";
-                                                    errorMessage.innerHTML = "El campo nombre/apellido debe tener como mínimo 3 letras";
+                                                    errorMessage.innerHTML = "El campo debe tener como mínimo 3 letras";
                                                     return false;
                                                 }
                                                 else if (/^([0-9])*$/.test(nombre) || /^([0-9])*$/.test(apellido))
