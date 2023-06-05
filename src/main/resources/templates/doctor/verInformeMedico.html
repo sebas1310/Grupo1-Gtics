@@ -32,19 +32,24 @@
     </div>
     <!--<div th:if="${msg4!=null}" th:text="${msg}" class="alert alert-success" role="alert"></div> -->
     <section class="section ">
-        <div class="col-lg">
+        <div class="col-lg">x
             <div class="row">
                 <div class="col">
                     <div class="card info-card customers-card">
                         <div class="card-body">
                             <h5 class="card-title">Informe Médico</h5>
                             <div th:id="idinformelleno">
+                            <input th:id="idinformemodelo" th:value="${idinforme}" class="form-control" type="hidden">
                             <div class="row mb-3" th:each="pregunta:${listapreguntasinforme}">
                                 <label for="nombre" class="col-md-4 col-lg-3 col-form-label" th:text="${pregunta}"></label>
-                                <input name="nombre" type="text" class="form-control" id="nombre">
+                                <input name="nombre" type="text" class="form-control" id="nombre" th:text="">
                             </div>
+                                <input th:value="${doctor.usuario.getIdusuario()}" class="form-control" type="hidden">
+                                <input th:value="${cita.getIdcita()}" class="form-control" type="hidden">
+                                <button type="submit" class="btn btn-primary" onclick="ModificarForm()">Guardar</button>
                             </div>
-                            <button class="btn btn-primary" type="submit">Guardar</button>
+                            <!--<button type="submit" class="btn btn-primary" onclick="ModificarForm()">Guardar</button> -->
+                            <!--<button class="btn btn-primary" type="submit">Guardar</button> -->
                         </div>
                     </div>
 
@@ -80,6 +85,65 @@
 
 <!-- Template Main JS File -->
 <script th:src="@{'/assets/js/main.js'}"></script>
+
+<script>
+function ModificarForm() {
+
+//id modelo
+const id_de_modelo_plantilla_2 = document.getElementById("idinformemodelo").value
+
+console.log(id_de_modelo_plantilla_2);
+
+
+//id div - contenedor
+var inputs = document.getElementById("idinformelleno").querySelectorAll("input.form-control");
+var valores = [];
+
+//se agrega primero el id del informe
+valores.push(id_de_modelo_plantilla_2)
+
+//y luego la lista de inputs llenos
+for (var i = 0; i < inputs.length; i++) {
+var valor = inputs[i].value;
+valores.push(valor);
+}
+
+
+
+console.log(valores);
+
+
+
+// const crearModal = bootstrap.Modal.getOrCreateInstance('#createModal');
+// crearModal.hide();
+
+
+var xmlhttp = new XMLHttpRequest();
+var url = "/doctor/pacientesatendidos/verhistorial/vercita/verinformemedico/guardar?valores=" + encodeURIComponent(valores);
+xmlhttp.open("POST", url, true);
+xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+xmlhttp.onreadystatechange = function () {
+
+if (xmlhttp.readyState == XMLHttpRequest.DONE) {
+if (xmlhttp.status == 200) {
+// Mostrar mensaje de éxito
+alert("Datos Guardados");
+location.reload();
+
+
+} else {
+// Mostrar mensaje de error
+alert("Ha ocurrido un error al llenar el informe");
+}
+}
+};
+
+xmlhttp.send();
+
+// xmlhttp.send(datos);
+
+};
+</script>
 
 </body>
 
