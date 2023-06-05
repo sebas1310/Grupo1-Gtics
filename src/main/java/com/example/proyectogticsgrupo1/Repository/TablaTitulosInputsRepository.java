@@ -23,22 +23,43 @@ public interface TablaTitulosInputsRepository extends JpaRepository<TablaTitulos
 
     @Modifying
     @Transactional
-    @Query(value="INSERT INTO modelo_json (nombre_plantilla,idtipodeusuario,idespecialidad,formulario, datos)\n" +
-            "    SELECT nombre_plantilla,?2,?3,?4, datos_json FROM (SELECT ?1 as nombre_plantilla, JSON_OBJECTAGG(nombre_titulos, '') AS datos_json FROM tabla_titulos_inputs) AS temp",nativeQuery = true)
+    @Query(value="INSERT INTO modelo_json (nombre_plantilla,idtipodeusuario,idespecialidad,formulario, datos,habilitado)\n" +
+            "    SELECT nombre_plantilla,?2,?3,?4, datos_json,1 FROM (SELECT ?1 as nombre_plantilla, JSON_OBJECTAGG(nombre_titulos, '') AS datos_json FROM tabla_titulos_inputs) AS temp",nativeQuery = true)
     void agregarNuevoFormulario(String nombre_plantilla,int id_rol,int id_especialidad,int tipo_plantilla);
 
     @Modifying
     @Transactional
-    @Query(value="INSERT INTO modelo_json (nombre_plantilla,idtipodeusuario,idespecialidad,informe, datos)\n" +
-            "    SELECT nombre_plantilla,?2,?3,?4, datos_json FROM (SELECT ?1 as nombre_plantilla, JSON_OBJECTAGG(nombre_titulos, '') AS datos_json FROM tabla_titulos_inputs) AS temp",nativeQuery = true)
+    @Query(value="INSERT INTO modelo_json (nombre_plantilla,idtipodeusuario,idespecialidad,informe, datos,habilitado)\n" +
+            "    SELECT nombre_plantilla,?2,?3,?4, datos_json,1 FROM (SELECT ?1 as nombre_plantilla, JSON_OBJECTAGG(nombre_titulos, '') AS datos_json FROM tabla_titulos_inputs) AS temp",nativeQuery = true)
     void agregarNuevoInforme(String nombre_plantilla,int id_rol,int id_especialidad,int tipo_plantilla);
 
 
     @Modifying
     @Transactional
-    @Query(value="INSERT INTO modelo_json (nombre_plantilla,idtipodeusuario,idespecialidad,cuestionario, datos)\n" +
-            "    SELECT nombre_plantilla,?2,?3,?4, datos_json FROM (SELECT ?1 as nombre_plantilla, JSON_OBJECTAGG(nombre_titulos, '') AS datos_json FROM tabla_titulos_inputs) AS temp",nativeQuery = true)
+    @Query(value="INSERT INTO modelo_json (nombre_plantilla,idtipodeusuario,idespecialidad,cuestionario, datos,habilitado)\n" +
+            "    SELECT nombre_plantilla,?2,?3,?4, datos_json,1 FROM (SELECT ?1 as nombre_plantilla, JSON_OBJECTAGG(nombre_titulos, '') AS datos_json FROM tabla_titulos_inputs) AS temp",nativeQuery = true)
     void agregarNuevoCuestionario(String nombre_plantilla,int id_rol,int id_especialidad,int tipo_plantilla);
+
+
+
+    @Modifying
+    @Transactional
+    @Query(value="INSERT INTO modelo_json (id,nombre_plantilla,idtipodeusuario,idespecialidad,formulario, datos)\n" +
+            "    SELECT ?5,nombre_plantilla,?2,?3,?4, datos_json FROM (SELECT ?1 as nombre_plantilla, JSON_OBJECTAGG(nombre_titulos, '') AS datos_json FROM tabla_titulos_inputs) AS temp",nativeQuery = true)
+    void agregarNuevoFormulario_2(String nombre_plantilla,int id_rol,int id_especialidad,int tipo_plantilla,int primerValorInt_id);
+
+    @Modifying
+    @Transactional
+    @Query(value="INSERT INTO modelo_json (id,nombre_plantilla,idtipodeusuario,idespecialidad,informe, datos)\n" +
+            "    SELECT ?5,nombre_plantilla,?2,?3,?4, datos_json FROM (SELECT ?1 as nombre_plantilla, JSON_OBJECTAGG(nombre_titulos, '') AS datos_json FROM tabla_titulos_inputs) AS temp",nativeQuery = true)
+    void agregarNuevoInforme_2(String nombre_plantilla,int id_rol,int id_especialidad,int tipo_plantilla,int primerValorInt_id);
+
+
+    @Modifying
+    @Transactional
+    @Query(value="INSERT INTO modelo_json (id,nombre_plantilla,idtipodeusuario,idespecialidad,cuestionario, datos)\n" +
+            "    SELECT ?5,nombre_plantilla,?2,?3,?4, datos_json FROM (SELECT ?1 as nombre_plantilla, JSON_OBJECTAGG(nombre_titulos, '') AS datos_json FROM tabla_titulos_inputs) AS temp",nativeQuery = true)
+    void agregarNuevoCuestionario_2(String nombre_plantilla,int id_rol,int id_especialidad,int tipo_plantilla,int primerValorInt_id);
 
 
 

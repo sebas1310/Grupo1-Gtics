@@ -45,6 +45,15 @@ public class SecurityConfig {
 
         http.csrf().ignoringRequestMatchers("/superadmin/crearPlantillaInforme");
         http.csrf().ignoringRequestMatchers("/superadmin/listarTitulos");
+        http.csrf().ignoringRequestMatchers("/superadmin/BorrarPlantilla");
+
+        http.csrf().ignoringRequestMatchers("/superadmin/modificarPlantilla");
+
+
+
+
+
+
 
 
         //Usar el formulario por defecto de spring security
@@ -100,6 +109,12 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.POST, "/superadmin/crearPlantillaInforme").permitAll()
 
                 .requestMatchers(HttpMethod.GET, "/superadmin/listarTitulos").permitAll()
+
+                .requestMatchers(HttpMethod.GET, "/superadmin/BorrarPlantilla").permitAll()
+
+                .requestMatchers(HttpMethod.GET, "/superadmin/modificarPlantilla").permitAll()
+
+
 
 
                 .requestMatchers("/doctor", "/doctor/**").hasAnyAuthority("doctor")

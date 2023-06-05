@@ -74,6 +74,12 @@ public interface CitaRepository extends JpaRepository<Cita, Integer> {
     @Query(value= "update cita set idestadocita = ?1 where idcita = ?2 ",nativeQuery = true)
     void actualizarEstadoCita(Integer idestadocita,Integer idcita);
 
+    @Query(value = "SELECT * FROM cita WHERE idsede = ?1 AND DATE_FORMAT(fecha, '%Y-%m-%d') = ?2", nativeQuery = true)
+    List<Cita> citaPorSede(Integer idsede, String fecha);
+
+
+
+
 }
 
 

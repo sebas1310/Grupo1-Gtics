@@ -11,6 +11,9 @@ import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.Pattern;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -22,10 +25,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.print.Doc;
 import java.time.LocalDate;
-import java.util.Random;
-
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Controller
 @RequestMapping(value="/administrador")
@@ -62,6 +62,10 @@ public class AdministradorController {
 
     @Autowired
     private ModeloJsonRepository modeloJsonRepository;
+
+    @Autowired
+    private NotificacionesRepository notificacionesRepository;
+
 
     @GetMapping(value = "/email")
     public String emailpr() {
@@ -119,6 +123,7 @@ public class AdministradorController {
     }*/
 
     @PostMapping(value = "/guardar2")
+    @Transactional
     public String guardarUsuario(@ModelAttribute("usuario2") @Valid Usuario user,BindingResult bindingResult, RedirectAttributes attr, Model model, @RequestParam("direccion") String direccion) {
         Usuario usuarioAdministrador = (Usuario) session.getAttribute("usuario");
         model.addAttribute("usuario", usuarioAdministrador);
@@ -172,6 +177,9 @@ public class AdministradorController {
             paciente.setUsuario(user);
             paciente.setCondicionenfermedad("-");
             pacienteRepository.save(paciente);
+            String content = "Usted registro un usuario de TIPO: PACIENTE, con CORREO: " + paciente.getUsuario().getCorreo() ;
+            String titulo = "Usuario creado con exito";
+            notificacionesRepository.notificarCreacion(usuarioAdministrador.getIdusuario(),content,titulo);
             emailService.sendEmail(paciente.getUsuario().getCorreo(), "Confirmación de Registro", "Estimado usuario, usted ha sido registrado en:\nSede " + usuarioAdministrador.getSede().getNombre() + "\nUbicada en " + usuarioAdministrador.getSede().getDireccion() + "\nTu contraseña por defecto es: " + contrasenaGenerada + "\nIngresa aquí para cambiarla");
         }
         return "redirect:/administrador/dashboardpaciente";
@@ -194,6 +202,21 @@ public class AdministradorController {
     public String genCalendar(Model model) {
         Usuario usuarioAdministrador = (Usuario) session.getAttribute("usuario");
         model.addAttribute("usuario", usuarioAdministrador);
+
+        // Obtener la fecha actual
+        Date currentDate = new Date();
+
+        // Obtener el día de la semana actual (Domingo = 1, Lunes = 2, ..., Sábado = 7)
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(currentDate);
+        String currentDayOfWeek = String.valueOf(calendar.get(Calendar.DAY_OF_WEEK));
+
+        // Obtener las citas de la sede para el día correspondiente
+        List<Cita> citas = citaRepository.citaPorSede(usuarioAdministrador.getIdusuario(), currentDayOfWeek);
+
+        // Pasar las citas al modelo
+        model.addAttribute("citas", citas);
+
         return "administrador/calendariogeneral";
     }
 
@@ -213,8 +236,9 @@ public class AdministradorController {
     public String formatos(Model model) {
         Usuario usuarioAdministrador = (Usuario) session.getAttribute("usuario");
         model.addAttribute("usuario", usuarioAdministrador);
-        List<ModeloJsonEntity> listanombres = modeloJsonRepository.listarNombresP();
-        model.addAttribute("listanombres", listanombres);
+        List<ModeloJsonEntity> modeloEntityList = modeloJsonRepository.findAll();
+        model.addAttribute("modeloEntityList",modeloEntityList);
+
         return "administrador/formatos";
     }
 
@@ -335,8 +359,10 @@ public class AdministradorController {
     public String notif(Model model) {
         Usuario usuarioAdministrador = (Usuario) session.getAttribute("usuario");
         model.addAttribute("usuario", usuarioAdministrador);
+        model.addAttribute("notificaciones",notificacionesRepository.notificacionesPorUsuario(usuarioAdministrador.getIdusuario()));
         return "administrador/notificaciones";
     }
+
 
     @GetMapping(value = "/mensajes")
     public String mensajes(Model model) {
@@ -435,6 +461,9 @@ public class AdministradorController {
             doctor.setUsuario(user);
             doctor.setConsultorio("-");
             doctorRepository.save(doctor);
+            String content = "Usted registro un usuario de TIPO: DOCTOR, con CORREO: " + doctor.getUsuario().getCorreo() ;
+            String titulo = "Usuario creado con exito";
+            notificacionesRepository.notificarCreacion(usuarioAdministrador.getIdusuario(),content,titulo);
             emailService.sendEmail(doctor.getUsuario().getCorreo(), "Confirmación de Registro", "Estimado usuario, usted ha sido registrado en:\nSede " + usuarioAdministrador.getSede().getNombre() + "\nUbicada en " + usuarioAdministrador.getSede().getDireccion() + "\nTu contraseña por defecto es: " + contrasenaGenerada + "\nIngresa aquí para cambiarla");
             return "redirect:/administrador/dashboarddoctor";
         }

@@ -33,6 +33,8 @@
 
     <div th:if="${msg4!=null}" th:text="${msg}" class="alert alert-success" role="alert"></div>
 
+    <div th:if="${msg5!=null}" th:text="${msg5}" class="alert alert-success" role="alert"></div>
+
     <a th:href="@{'/doctor/pacientesatendidos/verhistorial/vercita/verinformemedico'+ '?id=' + ${cita.getIdcita()}}" class="btn btn-danger">Llenar Informe</a>
     <br>
     <section class="section ">

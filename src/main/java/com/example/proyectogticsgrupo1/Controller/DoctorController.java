@@ -219,6 +219,7 @@ public class DoctorController {
         int informeId = modeloJsonRepository.informeMedicoId(doctor.getEspecialidad().getIdespecialidad());
         //model.addAttribute("informemedico",informe);
         model.addAttribute("listapreguntasinforme",modeloJsonRepository.listarPreguntasxPlantilla(informeId));
+        model.addAttribute("idinforme",informeId);
         return "doctor/verInformeMedico";
     }
     @GetMapping("/pacientesatendidos/verhistorial/vercita/editarreceta")
@@ -328,6 +329,16 @@ public class DoctorController {
 
         return "doctor/boletaDelivery";
     }
+
+    @Transactional
+    @PostMapping("/pacientesatendidos/verhistorial/vercita/boletaMedicamentoDelivery/confirmar")
+    public String confirmarEnvio(@RequestParam("id") int idcita,RedirectAttributes redirectAttributes){
+        redirectAttributes.addFlashAttribute("msg5","Delivery Confirmado");
+        redirectAttributes.addAttribute("id",idcita);
+        return "redirect:/doctor/pacientesatendidos/verhistorial/vercita";
+    }
+
+
     @GetMapping("/calendario")
     public String calendarioDoctor(Model model){
         Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
@@ -384,11 +395,11 @@ public class DoctorController {
 
     @PostMapping("/enviocuestionario")
     @Transactional
-    public String enviarCuestionario(Model model, @RequestParam("mostrarautomatico") int mostrarautomatico,
+    public String enviarCuestionario(Model model, @RequestParam("mostrar_automatico") int mostrar_automatico,
                                      @RequestParam("idespecialidad") Integer idespecialidad,
                                      @RequestParam("correodestino") String correodestino,
                                      RedirectAttributes redirectAttributes){
-        modeloJsonRepository.mostrarCuestionarioAutomatico(mostrarautomatico,idespecialidad);
+        modeloJsonRepository.mostrarCuestionarioAutomatico(mostrar_automatico,idespecialidad);
         String asunto = "Envio de Cuestionario";
         String descripcion = "Estimado Paciente se le asignó un cuestionario para llenar antes de su siguiente cita, gracias";
         emailService.sendEmail(correodestino,asunto,descripcion);
