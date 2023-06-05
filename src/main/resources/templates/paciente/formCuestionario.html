@@ -1,11 +1,78 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Cuestionario</title>
+<head th:insert="fragments/doctor/librerias.html :: cabecera (titulo = ' Cuestionario')">
 </head>
 <body>
-<h1>cuestionario</h1>
-<h2 th:text="${datos.datosLlenos}"></h2>
+<!-- ======= Header ======= -->
+<header th:replace="fragmentsPacientes/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1', nombre = |${session.usuario.nombres} ${session.usuario.apellidos} (${session.usuario.tipodeusuario.nombre.toUpperCase()})|, num_men = '3')">
+</header>
+<!-- End Header -->
+
+<!-- ======= Sidebar ======= -->
+<aside th:replace="fragmentsPacientes/aside.html :: sidebar (active = 'Cuestionarios')">
+</aside>
+<!-- End Sidebar-->
+
+<!--Modal Cerrar Sesion-->
+<div th:replace="fragmentsPacientes/modalCerrarSesion.html::modal">
+
+</div>
+<!-- End Modal-->
+
+<main id="main" class="main">
+    <div class="pagetitle">
+        <h1>Cuestionario</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item active">Cuestionarios</li>
+            </ol>
+        </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section ">
+        <div class="row">
+
+            <!-- Right side columns -->
+            <div class="col-lg">
+                <!-- Bitacora -->
+                <div class="card recent-sales overflow-auto">
+                    <div class="card-body">
+                        <h5 class="card-title" th:text="|Cuestionario Médico - ${datos.cita.especialidad.nombre}|">Cuestionario Médico</h5>
+                        <form method="post" th:action="@{'/paciente/respuestas'}">
+                            <input type="hidden" th:value="${datos.id}" name="idcuest"/>
+                            <div class="row mb-3" th:each="pregunta,indice:${listapreguntascuestionario}">
+                                <label class="card-title" th:text="|Pregunta ${indice.index+1}:|"></label>
+                                <label class="col-md-4 col-lg-3 col-form-label" th:text="${pregunta}"></label>
+                                <input type="text" th:name="'respuesta' + ${indice.index}" class="form-control" />
+                            </div>
+                            <br>
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary">Enviar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </section>
+</main><!-- End #main -->
+
+<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+<!-- Vendor JS Files -->
+<script th:src="@{'/assets/vendor/apexcharts/apexcharts.min.js'}"></script>
+<script th:src="@{'/assets/vendor/bootstrap/js/bootstrap.bundle.min.js'}"></script>
+<script th:src="@{'/assets/vendor/chart.js/chart.min.js'}"></script>
+<script th:src="@{'/assets/vendor/echarts/echarts.min.js'}"></script>
+<script th:src="@{'/assets/vendor/quill/quill.min.js'}"></script>
+<script th:src="@{'/assets/vendor/simple-datatables/simple-datatables.js'}"></script>
+<script th:src="@{'/assets/vendor/tinymce/tinymce.min.js'}"></script>
+<script th:src="@{'/assets/vendor/php-email-form/validate.js'}"></script>
+
+<!-- Template Main JS File -->
+<script th:src="@{'/assets/js/main.js'}"></script>
+
 </body>
+
+
 </html>

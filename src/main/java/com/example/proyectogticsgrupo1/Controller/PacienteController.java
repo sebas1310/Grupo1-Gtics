@@ -3,6 +3,7 @@ package com.example.proyectogticsgrupo1.Controller;
 import com.example.proyectogticsgrupo1.Entity.*;
 import com.example.proyectogticsgrupo1.Repository.*;
 import com.example.proyectogticsgrupo1.Service.EmailService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -288,6 +289,7 @@ public class PacienteController {
 
         List<DatosJsonEntity> listadatos = datosJsonRepository.findAll();
         List<DatosJsonEntity> misCuestionarios = new ArrayList<>();
+
         for(DatosJsonEntity d : listadatos){
             if(d.getCita().getPaciente().getIdpaciente()==paciente.getIdpaciente() && d.getCita().getFecha().isAfter(LocalDate.now())){
                 misCuestionarios.add(d);
@@ -298,6 +300,9 @@ public class PacienteController {
         return "paciente/cuestionariosPaciente";
     }
 
+
+    @Autowired
+    private  ModeloJsonRepository modeloJsonRepository;
 
     @GetMapping(value = "/formCuestionario")
     public String formCuestinario(@RequestParam("idcuest") String idstr,Model model){
@@ -310,6 +315,8 @@ public class PacienteController {
                 DatosJsonEntity datos = optional.get();
                 model.addAttribute("datos",datos);
                 model.addAttribute("pacientelog",paciente);
+                int cuestionarioMedicoId = modeloJsonRepository.cuestionarioMedicoId(datos.getCita().getEspecialidad().getIdespecialidad());
+                model.addAttribute("listapreguntascuestionario",modeloJsonRepository.listarPreguntasxPlantilla(cuestionarioMedicoId));
                 return "paciente/formCuestionario";
             }
             else {
@@ -320,6 +327,31 @@ public class PacienteController {
             return "redirect:/paciente/cuestionarios";
         }
     }
+
+
+    @PostMapping(value = "/respuestas")
+    public String respuestasCuestionarios(HttpServletRequest request,@RequestParam("idcuest") String idstr){
+        Enumeration<String> parameterNames = request.getParameterNames();
+        Integer id = Integer.parseInt(idstr);
+        Optional<DatosJsonEntity> optional = datosJsonRepository.findById(id);
+        DatosJsonEntity datos = optional.get();
+
+        int cuestionarioMedicoId = modeloJsonRepository.cuestionarioMedicoId(datos.getCita().getEspecialidad().getIdespecialidad());
+        for(String k :   modeloJsonRepository.listarPreguntasxPlantilla(cuestionarioMedicoId)){
+            System.out.println(k);
+        }
+
+
+        while (parameterNames.hasMoreElements()) {
+            String parameterName = parameterNames.nextElement();
+            if (parameterName.startsWith("respuesta")) {
+                String respuesta = request.getParameter(parameterName);
+                System.out.println(respuesta);
+            }
+        }
+        return "paciente/pruebas";
+    }
+
 
     @GetMapping(value ="/receta")
     public String receta(@RequestParam("idcita") String idstr, Model model){
@@ -333,6 +365,7 @@ public class PacienteController {
                 List<RecetaMedica> listarecetaMedica = recetaMedicaRepository.recetaMedicaPorCita(cita.getIdcita());
                 model.addAttribute("recetas",listarecetaMedica);
                 model.addAttribute("pacientelog",paciente);
+
                 return "paciente/recetasPaciente";
             }
             else {
