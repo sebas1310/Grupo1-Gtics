@@ -257,7 +257,7 @@ public class SuperadminController {
                         String contrasenaGenerada = generarContrasena(10);
                         usuario.setContrasena(passwordEncoder.encode(contrasenaGenerada));
                         usuarioRepository.save(usuario);
-                        emailService.sendEmail(usuario.getCorreo(), "Confirmación de Registro", "Estimado usuario, usted ha sido registrado en:\nSede " + usuario.getSede().getNombre() + "\nUbicada en " + usuario.getSede().getDireccion() + "\nTu contraseña por defecto es: " + contrasenaGenerada + "\nIngresa aquí para cambiarla: ");
+                        emailService.sendEmail(usuario.getCorreo(), "Confirmación de Registro", "Estimado usuario, usted ha sido registrado en Clinica LA FE y su contraseña por defecto es: " + contrasenaGenerada );
                         return "redirect:/superadmin/index";
                     }else{
                         bindingResult.rejectValue("correo", "error.correo", "Ya existe un usuario con este correo electrónico");
@@ -644,8 +644,8 @@ public class SuperadminController {
                 String hashedNewPassword = passwordEncoder.encode(newpassword);
 
                 usuarioRepository.changePassword(hashedNewPassword, usuario.getIdusuario());
+                emailService.sendEmail(usuario.getCorreo(), "Cambio de Contraseña", "Estimado usuario, hemos reestablecido su contraseña, la cual ahora es: " + usuario.getContrasena());
                 redirectAttributes.addFlashAttribute("psw3", "Contraseña actualizada");
-
             } else {
                 System.out.println("INCORRECTO");
                 redirectAttributes.addFlashAttribute("psw4", "La contraseña es incorrecta");
