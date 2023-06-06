@@ -51,7 +51,7 @@
 
                         <div class="d-flex justify-content-center py-4">
                             <a th:href="@{/pages-login}" class="logo d-flex align-items-center w-auto">
-                                <img th:src="@{assets/img/logo}" alt="">
+                                <img th:src="@{'/assets/img/logo.png'}" alt="">
                                 <span class="d-none d-lg-block">Clínica LA FE</span>
                             </a>
                         </div><!-- End Logo -->
@@ -68,7 +68,7 @@
 
                                 </div>
 
-                                <h5 class="text-center ">Ingresa tu DNI y correo, te enviaremos un link para que puedas cambiar tu contraseña</h5>
+                                <h6 class="text-center ">Ingresa tu DNI y correo, te enviaremos un link para que puedas cambiar tu contraseña</h6>
 
 
                                 <form class="row g-3" method="post" th:action="@{'/enviarcorreo'}" onsubmit="return validateForm1()">
