@@ -1,6 +1,7 @@
 package com.example.proyectogticsgrupo1.Controller;
 
 import com.example.proyectogticsgrupo1.Entity.*;
+import com.example.proyectogticsgrupo1.Repository.PacienteRepository;
 import com.example.proyectogticsgrupo1.Repository.SedeRepository;
 import com.example.proyectogticsgrupo1.Repository.UsuarioRepository;
 import com.example.proyectogticsgrupo1.Service.EmailService;
@@ -22,6 +23,7 @@ public class LoginController {
     final UsuarioRepository usuarioRepository;
 
     @Autowired
+    PacienteRepository pacienteRepository;
     private EmailService emailService;
 
 
@@ -32,6 +34,7 @@ public class LoginController {
     @Autowired
     SedeRepository sedeRepository;
 
+
     @GetMapping(value = {"/"})
     public String inicioSesion(){
 
@@ -39,29 +42,12 @@ public class LoginController {
     }
 //    superadmin/pages-login_spa
 
-    /* @PostMapping(value = {"/validacionusuario"})
-    public String validacionDeUsuario(@RequestParam("correo") String correo , @RequestParam("contrasena") String contrasena){
-        Optional<Usuario> optionalUsuario = Optional.ofNullable(usuarioRepository.validarLoginDeUsuario(correo, contrasena));
-
-        return "superadmin/pages-login_spa";
-    } */
-
     @PostMapping(value = "/registro")
     public String registro(@ModelAttribute("usuario") @Valid Usuario usuario, BindingResult bindingResult,
-                           RedirectAttributes attr, Model model){
-
-        System.out.println("llegue");
+                           RedirectAttributes attr, Model model, @RequestParam("direccion") String direccion){
         if(bindingResult.hasErrors()){
-            System.out.println("Usuario: "+ usuario.getDni());
-            System.out.println("Usuario: "+ usuario.getCorreo());
-            System.out.println("Usuario: "+ usuario.getEdad());
-            System.out.println("Usuario: "+ usuario.getSede().getNombre());
-            System.out.println("Usuario: "+ usuario.getNombres());
-            System.out.println("Usuario" + usuario.getGenero());
-            System.out.println("Usuario: "+ usuario.getApellidos());
-            System.out.println("Usuario: "+ usuario.getContrasena());
-
             attr.addFlashAttribute("msg", "presenta errores");
+
             model.addAttribute("listasedes", sedeRepository.findAll());
 
             attr.addFlashAttribute("usuario", usuario);
@@ -76,10 +62,25 @@ public class LoginController {
             if(existingUserDni == null){
                 if(existingUserCelular == null){
                     if(existingUserCorreo==null){
+
+
                         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
                         String hashedNewPassword = passwordEncoder.encode(usuario.getContrasena());
                         usuario.setContrasena(hashedNewPassword);
                         usuarioRepository.save(usuario);
+
+                        Paciente paciente = new Paciente();
+                        EstadoPaciente estadoPaciente = new EstadoPaciente();
+                        estadoPaciente.setIdestadopaciente(1);
+                        paciente.setEstadoPaciente(estadoPaciente);
+                        paciente.setDireccion(direccion);
+                        paciente.setConsentimientos(0);
+                        Seguro seguro = new Seguro();
+                        seguro.setIdseguro(7);
+                        paciente.setSeguro(seguro);
+                        paciente.setUsuario(usuario);
+                        paciente.setCondicionenfermedad("-");
+                        pacienteRepository.save(paciente);
                         return "redirect:/";
 
                     }else{
