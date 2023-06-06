@@ -55,7 +55,8 @@
               <div class="mb-3 row">
                 <label for="fecha" class="col-sm-3 col-form-label"  style="font-weight: bold">Fecha</label>
                 <div class="col-sm-9">
-                  <input type="text" name="fecha" class="form-control" id="fecha" th:value="${fecha}" readonly>
+                  <input type="text" name="fecha" class="form-control" id="fecha"
+                         th:value="${#temporals.format(fecha, 'dd-MM-yyyy')}" readonly>
                 </div>
               </div>
 
@@ -119,33 +120,31 @@
                   errorMessage.innerHTML = "Complete todos los campos requeridos";
                   return false;
                 }
-
-                if (horainicio !== "" && horafinal !== "" && idtipocalendario == '1') {
+                else if (horainicio !== "" && horafinal !== "" && idtipocalendario == '1') {
                   var tiempo1 = parseInt(horainicio.split(":")[0]);
                   var tiempo2 = parseInt(horafinal.split(":")[0]);
                   var diferencia = Math.abs(tiempo1 - tiempo2);
 
-                  if (diferencia >= 1) {
+                  if (diferencia > 1) {
                     var errorMessage = document.getElementById("error-message2");
                     errorMessage.style.display = "block";
                     errorMessage.innerHTML = "No debe exceder de 1 hora para sus citas";
                     return false;
                   }
                 }
-                if (horainicio !== "" && horafinal !== "" && idtipocalendario == '2') {
+                else if (horainicio !== "" && horafinal !== "" && idtipocalendario == '2') {
                   var tiempo1 = parseInt(horainicio.split(":")[0]);
                   var tiempo2 = parseInt(horafinal.split(":")[0]);
                   var diferencia = Math.abs(tiempo1 - tiempo2);
 
-                  if (diferencia >= 2) {
+                  if (diferencia > 2) {
                     var errorMessage = document.getElementById("error-message2");
                     errorMessage.style.display = "block";
                     errorMessage.innerHTML = "No debe exceder de 2 horas para su refrigerio";
                     return false;
                   }
                 }
-
-                if (descripcion.length >= 30 || /^\s+$/.test(descripcion))
+                else if (descripcion.length >= 30 || /^\s+$/.test(descripcion))
                 {
                   var errorMessage = document.getElementById("error-message2");
                   errorMessage.style.display = "block";
