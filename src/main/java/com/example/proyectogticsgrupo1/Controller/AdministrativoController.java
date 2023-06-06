@@ -240,11 +240,16 @@ public class AdministrativoController {
         return "administrativo/configuraciones";
     }
 
+
     @PostMapping(value = "/enviarcorreoadministrativo")
+    @Transactional
     public String enviarCorreo(@RequestParam("nombres") String nombres, @RequestParam("dni") String dni,
-                               @RequestParam("correo") String correo, RedirectAttributes redirectAttributes) {
+                               @RequestParam("correo") String correo, RedirectAttributes redirectAttributes, Model model) {
         // Verificar si existe un usuario con el mismo DNI
         Usuario usuarioDni = usuarioRepository.findByDni(dni);
+
+        Usuario usuarioAdministrativo = (Usuario) session.getAttribute("usuario");
+        model.addAttribute("usuario", usuarioAdministrativo);
 
         // Verificar si existe un usuario con el mismo correo electrónico
         Usuario usuarioCorreo = usuarioRepository.findByCorreo(correo);
@@ -259,7 +264,9 @@ public class AdministrativoController {
             // Lógica para enviar el correo electrónico
             emailService.sendEmail(correo, "Invitación",
                     "Estimado usuario, usted ha sido invitado a la plataforma de Clínica LA FE:\nIngresa aquí para registrarte: http://localhost:8081/");
-
+            String content = "Usted invito un usuario con CORREO: " + correo ;
+            String titulo = "Invitación enviada existosamente";
+            notificacionesRepository.notificarCreacion2(usuarioAdministrativo.getIdusuario(),content,titulo);
             redirectAttributes.addFlashAttribute("ms1", "El correo ha sido enviado exitosamente");
         }
 

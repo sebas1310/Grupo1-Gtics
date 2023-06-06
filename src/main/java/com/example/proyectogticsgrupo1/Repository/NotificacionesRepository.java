@@ -22,6 +22,12 @@ public interface NotificacionesRepository extends JpaRepository<Notificaciones,I
     @Query(value = "INSERT INTO notificaciones (idusuariodestino,contenido,titulo,fecha,hora) " +
             "VALUES (?1,?2,?3,CURRENT_DATE,CURRENT_TIME)",nativeQuery = true)
     void notificarCreacion(Integer iddestino,String contenido, String titulo);
+    @Modifying
+    @Query(value = "INSERT INTO notificaciones (idusuariodestino,contenido,titulo,fecha,hora) " +
+            "VALUES (?1,?2,?3,CURRENT_DATE,CURRENT_TIME)",nativeQuery = true)
+    void notificarCreacion2(Integer iddestino,String contenido, String titulo);
+
+
 
 
 
