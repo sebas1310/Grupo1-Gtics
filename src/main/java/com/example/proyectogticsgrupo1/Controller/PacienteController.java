@@ -263,6 +263,9 @@ public class PacienteController {
         //Optional<Paciente> optionalPaciente = pacienteRepository.findById(1);
         //Paciente paciente =  optionalPaciente.get();
         model.addAttribute("pacientelog",paciente);
+
+
+
         return "paciente/perfil";
     }
 
@@ -342,19 +345,99 @@ public class PacienteController {
         return "paciente/historialCitas";
     }
 
-    @GetMapping(value = "/calendarioMensual")
-    public String calendarioMensual(Model model){
+    @GetMapping(value = "/calendarioSemanal")
+    public String calendarioMensual(Model model, @RequestParam("semana") Integer semana, RedirectAttributes redirectAttributes){
 
         Usuario usuario = (Usuario) session.getAttribute("usuario");
         Paciente paciente = pacienteRepository.pacXuser(usuario.getIdusuario());
 
         //Optional<Paciente> optionalPaciente = pacienteRepository.findById(1);
         //Paciente paciente =  optionalPaciente.get();
-        if(citaRepository.citasJueves()!=null){
-            model.addAttribute("cjeuves", citaRepository.citasJueves());
+        int id=paciente.getIdpaciente();
+
+
+
+        int semana_equivocada = 0;
+
+
+        if (semana == 0){
+
+            model.addAttribute("prev_semana", semana);
+            model.addAttribute("lunes",citaRepository.listaLunes(id));
+            model.addAttribute("martes",citaRepository.listaMartes(id));
+            model.addAttribute("miercoles",citaRepository.listaMiercoles(id));
+            model.addAttribute("jueves",citaRepository.listaJueves(id));
+            model.addAttribute("viernes",citaRepository.listaViernes(id));
+            model.addAttribute("sabado",citaRepository.listaSabados(id));
+        } else if (semana == 1) {
+
+            model.addAttribute("prev_semana", semana);
+            model.addAttribute("lunes",citaRepository.listaLunescitas1(id));
+            model.addAttribute("martes",citaRepository.listaMartescitas1(id));
+            model.addAttribute("miercoles",citaRepository.listaMiercolescitas1(id));
+            model.addAttribute("jueves",citaRepository.listaJuevescitas1(id));
+            model.addAttribute("viernes",citaRepository.listaViernescitas1(id));
+            model.addAttribute("sabado",citaRepository.listaSabadoscitas1(id));
+        } else if (semana == 2) {
+
+            model.addAttribute("prev_semana", semana);
+            model.addAttribute("lunes",citaRepository.listaLunescita2(id));
+            model.addAttribute("martes",citaRepository.listaMartescitas2(id));
+            model.addAttribute("miercoles",citaRepository.listaMiercolescitas2(id));
+            model.addAttribute("jueves",citaRepository.listaJuevescitas2(id));
+            model.addAttribute("viernes",citaRepository.listaViernescitas2(id));
+            model.addAttribute("sabado",citaRepository.listaSabadoscitas2(id));
+
+        } else if (semana == 3) {
+
+            model.addAttribute("prev_semana", semana);
+            model.addAttribute("lunes",citaRepository.listaLunescitas3(id));
+            model.addAttribute("martes",citaRepository.listaMartescitas3(id));
+            model.addAttribute("miercoles",citaRepository.listaMiercolescitas3(id));
+            model.addAttribute("jueves",citaRepository.listaJuevescitas3(id));
+            model.addAttribute("viernes",citaRepository.listaViernescitas3(id));
+            model.addAttribute("sabado",citaRepository.listaSabadoscitas3(id));
+
+
+        } else if (semana == 4) {
+
+            model.addAttribute("prev_semana", semana);
+            model.addAttribute("lunes",citaRepository.listaLunescitas4(id));
+            model.addAttribute("martes",citaRepository.listaMartescitas4(id));
+            model.addAttribute("miercoles",citaRepository.listaMiercolescitas4(id));
+            model.addAttribute("jueves",citaRepository.listaJuevescitas4(id));
+            model.addAttribute("viernes",citaRepository.listaViernescitas4(id));
+            model.addAttribute("sabado",citaRepository.listaSabadoscitas4(id));
+        } else if ( semana > 4  || semana < 0){
+
+            semana = 0;
+            semana_equivocada = 1;
+
+
+            model.addAttribute("prev_semana", semana);
+            model.addAttribute("lunes",citaRepository.listaLunes(id));
+            model.addAttribute("martes",citaRepository.listaMartes(id));
+            model.addAttribute("miercoles",citaRepository.listaMiercoles(id));
+            model.addAttribute("jueves",citaRepository.listaJueves(id));
+            model.addAttribute("viernes",citaRepository.listaViernes(id));
+            model.addAttribute("sabado",citaRepository.listaSabados(id));
+
         }
+
+        if(semana_equivocada == 1){
+
+            redirectAttributes.addFlashAttribute("msg2","Solo puede reservar citas para un mes como máximo");
+
+        }
+
+        model.addAttribute("inicioSemana", citaRepository.obtnerInicioSemanacita(semana));
+        model.addAttribute("finSemana", citaRepository.obtenerFinSemanacita(semana));
+        model.addAttribute("nombre_mes", citaRepository.obtenerMescita(semana));
+
+
+
         model.addAttribute("pacientelog",paciente);
-        return "paciente/calendarioMensual";
+        return "paciente/calendarioSemanal";
 
     }
 
@@ -548,8 +631,6 @@ public class PacienteController {
         Usuario usuario = (Usuario) session.getAttribute("usuario");
         Paciente paciente = pacienteRepository.pacXuser(usuario.getIdusuario());
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-
-
 
         if(passwordEncoder.matches(contrasena, paciente.getUsuario().getContrasena())){
             String hashedNewPassword = passwordEncoder.encode(newpassword);

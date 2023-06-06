@@ -63,7 +63,6 @@ public class LoginController {
             if(existingUserDni == null){
                 if(existingUserCelular == null){
                     if(existingUserCorreo==null){
-
                         usuarioRepository.save(usuario);
                         return "redirect://";
 
@@ -88,6 +87,12 @@ public class LoginController {
     public String cambiarContra(){
 
         return "cambiarcontrasena";
+    }
+
+    @GetMapping(value = "/error")
+    public String error(){
+
+        return "error";
     }
 
     @GetMapping(value = "/cambiarcontrasena2")
