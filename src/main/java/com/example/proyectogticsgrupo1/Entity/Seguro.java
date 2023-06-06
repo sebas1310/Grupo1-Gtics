@@ -22,7 +22,7 @@ public class Seguro implements Serializable {
     private String  nombre;
     @Positive
     @Max(value = 50)
-    @Min(value = 50)
+    @Min(value = 0)
     private float coaseguro;
     @Positive
     @Max(value = 50)
