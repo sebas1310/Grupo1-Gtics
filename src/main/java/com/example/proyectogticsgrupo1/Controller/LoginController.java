@@ -45,7 +45,7 @@ public class LoginController {
     } */
 
     @PostMapping(value = "/registro")
-    public String registro(@ModelAttribute("nuevousuario") @Valid Usuario usuario, BindingResult bindingResult,
+    public String registro(@ModelAttribute("usuario") @Valid Usuario usuario, BindingResult bindingResult,
                            RedirectAttributes attr, Model model){
 
         if(bindingResult.hasErrors()){
@@ -61,8 +61,9 @@ public class LoginController {
             if(existingUserDni == null){
                 if(existingUserCelular == null){
                     if(existingUserCorreo==null){
+
                         usuarioRepository.save(usuario);
-                        return "superadmin/pages-login_spa";
+                        return "redirect://";
 
                     }else{
                         bindingResult.rejectValue("correo", "error.correo", "Ya existe un usuario con este correo electrónico");

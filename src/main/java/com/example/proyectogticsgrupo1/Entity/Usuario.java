@@ -55,7 +55,7 @@ public class Usuario  implements Serializable {
     private String celular;
 
     @Min(value = 0, message = "La edad no puede ser negativa")
-    @Max(value = 999, message = "La edad debe máximo tener 3 dígitos")
+    @Max(value = 100, message = "La edad debe máximo tener 3 dígitos")
     private Integer edad;
 
     @Column(name = "estado_habilitado", nullable = false)
