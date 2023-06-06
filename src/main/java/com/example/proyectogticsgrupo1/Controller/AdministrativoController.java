@@ -1,5 +1,6 @@
 package com.example.proyectogticsgrupo1.Controller;
 
+import com.example.proyectogticsgrupo1.Entity.Doctor;
 import com.example.proyectogticsgrupo1.Entity.Paciente;
 import com.example.proyectogticsgrupo1.Entity.Usuario;
 import com.example.proyectogticsgrupo1.Repository.DoctorRepository;
@@ -18,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.List;
+
 @Controller
 @RequestMapping(value = "/administrativo")
 public class AdministrativoController {
@@ -32,12 +35,15 @@ public class AdministrativoController {
     @Autowired
     private HttpSession session;
 
-
-    @GetMapping(value = "/dashboard")
-    public String dashboard(Model model){
+    @GetMapping("/dashboard")
+    public String administrador(Model model) {
         Usuario usuarioAdministrativo = (Usuario) session.getAttribute("usuario");
+        List<Paciente> listaPacientesSD = pacienteRepository.listarPacienteporSedeyEspecialidadDashboard(usuarioAdministrativo.getSede().getIdsede(), usuarioAdministrativo.getEspecialidad().getIdespecialidad()); // a futuro cambiar
+        model.addAttribute("listaUsuariosPacientes", listaPacientesSD);
+        List<Doctor> listaDoctoresSD = doctorRepository.listarDoctorporSedeyEspecialidadDashboard(usuarioAdministrativo.getSede().getIdsede(),usuarioAdministrativo.getEspecialidad().getIdespecialidad());
+        model.addAttribute("listaUsuarioDoctores", listaDoctoresSD);
         model.addAttribute("usuario", usuarioAdministrativo);
-        return"administrativo/dashboard";
+        return "administrativo/dashboard";
     }
 
     @GetMapping(value = "/crearpaciente")
