@@ -40,31 +40,73 @@
         <div class="card">
           <div class="card-body">
             <h5 class="card-title">Formulario</h5>
+            <div th:if="${ms1!=null}" th:text="${ms1}" class="alert alert-success" role="alert"></div>
+            <div th:if="${ms2!=null}" th:text="${ms2}" class="alert alert-danger" role="alert"></div>
+            <div th:if="${ms3!=null}" th:text="${ms3}" class="alert alert-danger" role="alert"></div>
 
-            <form class="row g-3">
+            <form class="row g-3" method="post" th:action="@{'/administrativo/enviarcorreoadministrativo'}"  onsubmit="return validateFormAdminsitrativo()">
               <div class="col-12">
-                <label for="inputNanme4" class="form-label">Nombre del Paciente</label>
-                <input type="text" class="form-control" id="inputNanme4">
+                <label for="nombres" class="form-label">Nombre completo del paciente</label>
+                <div class="col-12">
+                  <input name="nombres" type="text" class="form-control" id="nombres" required>
+                </div>
               </div>
               <div class="col-12">
-                <label for="inputDni4" class="form-label">Dni</label>
-                <input type="dni" class="form-control" id="inputDni4">
+                <label for="dni" class="form-label">DNI</label>
+                <div class="col-12">
+                  <input name="dni" type="text" class="form-control" id="dni" required>
+                </div>
               </div>
               <div class="col-12">
-                <label for="inputCorreo4" class="form-label">Correo</label>
-                <input type="text" class="form-control" id="inputCorreo4">
+                <label for="correo" class="form-label">Correo</label>
+                <div class="col-12">
+                  <input name="correo" type="text" class="form-control" id="correo" required>
+                </div>
               </div>
               <div class="text-center">
-                <button type="submit" class="btn btn-warning" style="background-color:rgb(231,154,110)" ><a style="color: white" th:href="@{'/administrativo/dashboardpacientes'}">Enviar Formulario</a></button>
+                <button type="submit" class="btn btn-warning" style="background-color:rgb(231,154,110)" ><a style="color: white">Enviar Formulario</a></button>
                 <button type="reset" class="btn btn-secondary"><a style="color: white" th:href="@{'/administrativo/nuevopaciente'}">Cancelar</a></button>
               </div>
-            </form><!-- Vertical Form -->
+              <div id="error-message" class="alert alert-danger mt-3" style="display: none;"></div>
+            </form>
+            <script>
+              function validateFormAdminsitrativo() {
+                var dni = document.getElementById("dni").value;
+                var correo = document.getElementById("correo").value;
+
+                // Validar completar todos los campos
+                if (dni === "" || correo === "") {
+                  var errorMessage = document.getElementById("error-message");
+                  errorMessage.style.display = "block";
+                  errorMessage.innerHTML = "Debe completar todos los campos";
+                  return false;
+                }
+
+                // Validar formato de correo electrónico
+                var emailRegex = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/;
+                if (!emailRegex.test(correo)) {
+                  var errorMessage = document.getElementById("error-message");
+                  errorMessage.style.display = "block";
+                  errorMessage.innerHTML = "El campo correo debe tener un formato de dirección de correo electrónico válido";
+                  return false;
+                }
+
+                // Validar DNI como número de 8 dígitos
+                var dniRegex = /^\d{8}$/;
+                if (!dniRegex.test(dni)) {
+                  var errorMessage = document.getElementById("error-message");
+                  errorMessage.style.display = "block";
+                  errorMessage.innerHTML = "El campo DNI debe contener exactamente 8 dígitos numéricos";
+                  return false;
+                }
+
+                return true;
+              }
+            </script>
 
           </div>
         </div>
       </div>
-
-
     </div>
     </div>
     </div>

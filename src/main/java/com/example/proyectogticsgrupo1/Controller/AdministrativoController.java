@@ -240,4 +240,32 @@ public class AdministrativoController {
         return "administrativo/configuraciones";
     }
 
+    @PostMapping(value = "/enviarcorreoadministrativo")
+    public String enviarCorreo(@RequestParam("nombres") String nombres, @RequestParam("dni") String dni,
+                               @RequestParam("correo") String correo, RedirectAttributes redirectAttributes) {
+        // Verificar si existe un usuario con el mismo DNI
+        Usuario usuarioDni = usuarioRepository.findByDni(dni);
+
+        // Verificar si existe un usuario con el mismo correo electrónico
+        Usuario usuarioCorreo = usuarioRepository.findByCorreo(correo);
+
+        if (usuarioDni != null && usuarioCorreo != null) {
+            redirectAttributes.addFlashAttribute("ms2", "No se pudo enviar el correo, ya existe un usuario con este DNI y correo electrónico");
+        } else if (usuarioDni != null) {
+            redirectAttributes.addFlashAttribute("ms2", "No se pudo enviar el correo, ya existe un usuario con este DNI");
+        } else if (usuarioCorreo != null) {
+            redirectAttributes.addFlashAttribute("ms2", "No se pudo enviar el correo, ya existe un usuario con este correo electrónico");
+        } else {
+            // Lógica para enviar el correo electrónico
+            emailService.sendEmail(correo, "Invitación",
+                    "Estimado usuario, usted ha sido invitado a la plataforma de Clínica LA FE:\nIngresa aquí para registrarte: http://localhost:8081/");
+
+            redirectAttributes.addFlashAttribute("ms1", "El correo ha sido enviado exitosamente");
+        }
+
+        return "redirect:/administrativo/crearpaciente";
+    }
+
+
+
 }
