@@ -1,5 +1,6 @@
 package com.example.proyectogticsgrupo1.Controller;
 
+import com.example.proyectogticsgrupo1.DTO.InformesMedicos;
 import com.example.proyectogticsgrupo1.Entity.*;
 import com.example.proyectogticsgrupo1.Repository.*;
 import jakarta.persistence.criteria.CriteriaBuilder;
@@ -210,7 +211,7 @@ public class DoctorController {
         return "doctor/verCita";
     }
 
-    @GetMapping("/pacientesatendidos/verhistorial/vercita/verinformemedico")
+    @GetMapping("/pacientesatendidos/verhistorial/vercita/verinformesmedico")
     public String verInformeMedico(Model model, @RequestParam("id") int idCita) {
 
         Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
@@ -219,14 +220,29 @@ public class DoctorController {
         Cita cita = citaRepository.buscarCitaPorId(idCita);
         model.addAttribute("cita", cita);
         //obtenemos el id del modelo del informe y luego se enviarán los datos desde la vista para llenar en la tabla "datos_json"
-        int informeId = modeloJsonRepository.informeMedicoId(doctor.getEspecialidad().getIdespecialidad());
+        List<InformesMedicos> informesMedicos = modeloJsonRepository.obtenerInformesMedico(doctor.getEspecialidad().getIdespecialidad());
+        //model.addAttribute("informemedico",informe);
+        model.addAttribute("informesmedicos",informesMedicos);
+        return "doctor/verInformesMedico";
+    }
+
+    @GetMapping("/pacientesatendidos/verhistorial/vercita/verinformesmedico/llenarinforme")
+    public String verInformeMedico(Model model, @RequestParam("id") int idCita,@RequestParam("idinforme") int informeId) {
+
+        Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
+        Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
+        model.addAttribute("doctor",doctor);
+        Cita cita = citaRepository.buscarCitaPorId(idCita);
+        model.addAttribute("cita", cita);
+        //obtenemos el id del modelo del informe y luego se enviarán los datos desde la vista para llenar en la tabla "datos_json"
+        //int informeId = modeloJsonRepository.informeMedicoId(doctor.getEspecialidad().getIdespecialidad());
         //model.addAttribute("informemedico",informe);
         model.addAttribute("listapreguntasinforme",modeloJsonRepository.listarPreguntasxPlantilla(informeId));
         model.addAttribute("idinforme",informeId);
-        return "doctor/verInformeMedico";
+        return "doctor/llenarInforme";
     }
 
-    //@ResponseBody
+
     @Transactional
     @PostMapping(value = "/pacientesatendidos/verhistorial/vercita/verinformemedico/guardar")
     public String modificarPlantilla(Model model, @RequestParam("valores") List<String> valores,
@@ -268,8 +284,10 @@ public class DoctorController {
 
 
         Byte flg_informe = EncontrarModelo.getInforme();
-        String idusuario = valores.get(6);
-        String idcita = valores.get(7);
+
+        int tamano_valores= valores.size();
+        String idusuario = valores.get(tamano_valores-2);
+        String idcita = valores.get(tamano_valores-1);
 
         int idCita = Integer.parseInt(String.valueOf(idcita));
 
@@ -471,12 +489,15 @@ public class DoctorController {
     }
 
     @GetMapping(value = "/calendario/agregar")
-    public String agregarEvento(Model model){
-        //list<IncompatibleClassChangeError> lista = (11.1)
+    public String agregarEvento(Model model, @RequestParam ("iddoctor") int iddoctor ){
+
         Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
         Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
-        model.addAttribute("doctor",doctor);
-        model.addAttribute("tipocita",tipohoracalendariodoctorRepository.findAll());
+
+        model.addAttribute("horasDisponibles", eventocalendariodoctorRepository.horasDeCitas(iddoctor));
+        model.addAttribute("doctor", doctor);
+
+        model.addAttribute("tipocita", tipohoracalendariodoctorRepository.findAll());
         return "doctor/anadirCalendario";
     }
 

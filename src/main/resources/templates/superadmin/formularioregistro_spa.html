@@ -64,37 +64,44 @@
                                     <p class="text-center small">Ingresa tus datos para crear una cuenta</p>
                                 </div>
 
-                                <form class="row g-3 needs-validation" novalidate>
-                                    <div class="col-12">
-                                        <label for="yourName" class="form-label">Nombres</label>
-                                        <input type="text" name="name" class="form-control" id="yourName" required>
-                                        <div class="invalid-feedback">Please, enter your name!</div>
-                                    </div>
-                                    <div class="col-12">
-                                        <label for="yourSurname" class="form-label">Apellidos</label>
-                                        <input type="text" name="apellido" class="form-control" id="yourSurname" required>
-                                        <div class="invalid-feedback">Please, enter your surname!</div>
-                                    </div>
-                                    <div class="col-12">
-                                        <label for="yourDni" class="form-label">DNI</label>
-                                        <input type="text" name="dni" class="form-control" id="yourDni" required>
-                                        <div class="invalid-feedback">Please, enter your surname!</div>
-                                    </div>
+                                <form method="post" th:action="@{'/registro'}" th:object="${nuevousuario}" class="mt-2">
 
-                                    <div class="col-12">
-                                        <label for="yourEmail" class="form-label">Email</label>
-                                        <input type="email" name="email" class="form-control" id="yourEmail" required>
-                                        <div class="invalid-feedback">Please enter a valid Email adddress!</div>
-                                    </div>
-
-                                    <div class="col-12">
-                                        <label for="yourUsername" class="form-label">Usuario</label>
-                                        <div class="input-group has-validation">
-                                            <span class="input-group-text" id="inputGroupPrepend">@</span>
-                                            <input type="text" name="username" class="form-control" id="yourUsername" required>
-                                            <div class="invalid-feedback">Please choose a username.</div>
+                                    <div class="row mb-3">
+                                        <label class="col-form-label">Nombre</label>
+                                        <div class="col-sm-10">
+                                            <input th:field="*{nombres}" class="form-control" type="text" th:classappend="${#fields.hasErrors('nombres')?'is-invalid':''}" required>
+                                            <div class="invalid-feedback" th:if="${#fields.hasErrors('nombres')}"
+                                                 th:errors="*{nombres}" ></div>
                                         </div>
                                     </div>
+
+                                    <div class="row mb-3">
+                                        <label class=" col-form-label">Apellidos</label>
+                                        <div class="col-sm-10">
+                                            <input th:field="*{apellidos}" class="form-control" type="text" th:classappend="${#fields.hasErrors('apellidos')?'is-invalid':''}" required>
+                                            <div class="invalid-feedback" th:if="${#fields.hasErrors('apellidos')}"
+                                                 th:errors="*{apellidos}" ></div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row mb-3">
+                                        <label class="col-form-label">Correo</label>
+                                        <div class="col-sm-10">
+                                            <input th:field="*{correo}" class="form-control" type="email" th:classappend="${#fields.hasErrors('correo')?'is-invalid':''}" required>
+                                            <div class="invalid-feedback" th:if="${#fields.hasErrors('correo')}"
+                                                 th:errors="*{correo}" ></div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row mb-3">
+                                        <label class="col-form-label">DNI</label>
+                                        <div class="col-sm-10">
+                                            <input th:field="*{dni}" class="form-control" type="number" th:classappend="${#fields.hasErrors('dni')?'is-invalid':''}" required>
+                                            <div class="invalid-feedback" th:if="${#fields.hasErrors('dni')}"
+                                                 th:errors="*{dni}" ></div>
+                                        </div>
+                                    </div>
+
 
                                     <div class="col-12">
                                         <label for="yourPassword" class="form-label">Contraseña</label>
@@ -108,12 +115,14 @@
                                         <div class="invalid-feedback">Please enter your password!</div>
                                     </div>
 
+                                    <div class="text-center">
+                                        <button type="submit" class="btn btn-success" style="color: white">Guardar Cambios</button>
+                                        <button type="reset" class="btn btn-secondary"><a style="color: white" th:href="@{'/'}">Cancelar</a></button>
+                                    </div>
+
 
                                     <div class="col-12">
-                                        <a th:href="@{/iniciosesion}" class="btn btn-primary w-100" type="submit">Create Account</a>
-                                    </div>
-                                    <div class="col-12">
-                                        <p class="small mb-0">¿Ya tienes una cuenta? <a th:href="@{/iniciosesion}">Login</a></p>
+                                        <p class="small mb-0">¿Ya tienes una cuenta? <a th:href="@{/}">Login</a></p>
                                     </div>
                                 </form>
 

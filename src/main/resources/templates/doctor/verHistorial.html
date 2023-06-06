@@ -84,7 +84,7 @@
                                             <tbody>
                                                 <tr th:each=" cita,indice:${citaspaciente}">
                                                     <th style="text-align: center" th:text="${indice.index+1}" scope="row"></th>
-                                                    <td style="text-align: center" th:text="${cita.getFecha()}"></td>
+                                                    <td style="text-align: center"  th:text="${#temporals.format(cita.getFecha(), 'dd-MM-yyyy')}"></td>
                                                     <td style="text-align: center" th:text="${cita.getTipoCita().getNombre()}"></td>
                                                     <td style="text-align: center"> <a th:href="@{'/doctor/pacientesatendidos/verhistorial/boleta' + '?id=' + ${cita.getIdcita()}}" class="bi bi-eye-fill"><!-- class="bi bi-printer-fill" download="boleta.pdf" --> </a> </td>
                                                     <td style="text-align: center"> <a type="button" class="bi bi-eye-fill" th:href="@{'/doctor/pacientesatendidos/verhistorial/vercita'+ '?id=' + ${cita.getIdcita()}}"></a> </td>

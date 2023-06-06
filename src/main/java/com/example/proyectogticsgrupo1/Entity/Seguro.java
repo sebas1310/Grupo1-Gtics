@@ -1,6 +1,7 @@
 package com.example.proyectogticsgrupo1.Entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,14 +17,16 @@ public class Seguro implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idseguro")
     private Integer idseguro;
-
-    @Column(name = "nombre")
+    @Size(min = 3,max = 45, message = "El nombre no puede tener mas de 45 caracteres")
+    @Pattern(regexp = "[A-Za-zñÑáéíóúÁÉÍÓÚüÜ\\s]+", message = "El nombre solo puede contener letras")
     private String  nombre;
-
-    @Column(name = "coaseguro")
-    private Double coaseguro;
-
-     @Column(name = "comisiondoctor")
-    private Double comisiondoctor;
+    @Positive
+    @Max(value = 50)
+    @Min(value = 0)
+    private float coaseguro;
+    @Positive
+    @Max(value = 50)
+    @Min(value = 0)
+    private float comisiondoctor;
 }
 

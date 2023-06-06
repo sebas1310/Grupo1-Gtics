@@ -4,6 +4,7 @@ import com.example.proyectogticsgrupo1.Entity.*;
 import com.example.proyectogticsgrupo1.Repository.*;
 
 import com.example.proyectogticsgrupo1.Repository.ModeloJsonRepository;
+import com.example.proyectogticsgrupo1.Service.EmailService;
 import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
@@ -24,11 +25,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 import java.util.regex.Pattern;
 
 @Controller
 @RequestMapping(value = "/superadmin")
 public class SuperadminController {
+    private static final String CHARACTERS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+";
 
     @Autowired
     UsuarioRepository usuarioRepository;
@@ -59,11 +62,20 @@ public class SuperadminController {
 
     @Autowired
     UserRepository userRepository;
-
+    @Autowired
+    private EmailService emailService;
 
     @Autowired
     private HttpSession session;
 
+    @GetMapping(value = "/email")
+    public String emailpr() {
+        String user = "alexia_jg@outlook.es";
+        String subj = "jjj";
+        String msj = "Pruebas de envio";
+        emailService.sendEmail(user, subj, msj);
+        return "redirect:/index";
+    }
     @GetMapping("/index")
     public String inicioDashboardSuperadmin(Model model){
 
@@ -197,15 +209,29 @@ public class SuperadminController {
     }
 
     @PostMapping("/saveSeguro")
-    public String guardarSeguro(Seguro seguro, RedirectAttributes attr){
+    public String guardarSeguro(@ModelAttribute("seguro") @Valid Seguro seguro, BindingResult bindingResult,
+                                Model model, RedirectAttributes attr){
         System.out.println("id"+seguro.getNombre());
+        if(bindingResult.hasErrors()){
+            return "superadmin/editSeguro";
+        }else{
+            seguroRepository.save(seguro);
+            return "redirect:/superadmin/seguros";
 
-        attr.addFlashAttribute("msg","Seguro actualizado actualizado");
-
-        seguroRepository.save(seguro);
-        return "redirect:/superadmin/seguros";
+        }
     }
 
+    public static String generarContrasena(int longitud) {
+        StringBuilder sb = new StringBuilder(longitud);
+        Random random = new Random();
+
+        for (int i = 0; i < longitud; i++) {
+            int index = random.nextInt(CHARACTERS.length());
+            sb.append(CHARACTERS.charAt(index));
+        }
+
+        return sb.toString();
+    }
     @PostMapping("/save")
     public String guardarAdministrador(@ModelAttribute("usuario") @Valid Usuario usuario, BindingResult bindingResult, RedirectAttributes attr, Model model){
 
@@ -214,21 +240,42 @@ public class SuperadminController {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
         if(bindingResult.hasErrors()){
-            attr.addFlashAttribute("msg", "Administrador presenta errores");
-            model.addAttribute("listasedes", sedeRepository.listaSedes());
 
+            model.addAttribute("listasedes", sedeRepository.listaSedes());
             return "superadmin/pages-registrar-adminitrador";
 
         }else{
-            attr.addFlashAttribute("msg","Administrador actualizado");
-            usuario.setContrasena(passwordEncoder.encode(usuario.getContrasena()));
-            usuarioRepository.save(usuario);
-            return "redirect:/superadmin/index";
 
+            Usuario existingUserDni = usuarioRepository.findByDni(usuario.getDni());
+            Usuario existingUserCelular = usuarioRepository.findByCelular(usuario.getCelular());
+            Usuario existingUserCorreo = usuarioRepository.findByCorreo(usuario.getCorreo());
+
+            if(existingUserDni == null){
+                if(existingUserCelular == null){
+                    if(existingUserCorreo==null){
+                        attr.addFlashAttribute("msg","Administrador creado");
+                        String contrasenaGenerada = generarContrasena(10);
+                        usuario.setContrasena(passwordEncoder.encode(contrasenaGenerada));
+                        usuarioRepository.save(usuario);
+                        emailService.sendEmail(usuario.getCorreo(), "Confirmación de Registro", "Estimado usuario, usted ha sido registrado en:\nSede " + usuario.getSede().getNombre() + "\nUbicada en " + usuario.getSede().getDireccion() + "\nTu contraseña por defecto es: " + contrasenaGenerada + "\nIngresa aquí para cambiarla: ");
+                        return "redirect:/superadmin/index";
+                    }else{
+                        bindingResult.rejectValue("correo", "error.correo", "Ya existe un usuario con este correo electrónico");
+                        model.addAttribute("listasedes", sedeRepository.listaSedes());
+                        return "superadmin/pages-registrar-adminitrador";
+                    }
+                }else{
+                    bindingResult.rejectValue("celular", "error.celular", "Ya existe un usuario con este número de celular");
+                    model.addAttribute("listasedes", sedeRepository.listaSedes());
+                    return "superadmin/pages-registrar-adminitrador";
+                }
+            }else{
+                bindingResult.rejectValue("dni", "error.dni", "Ya existe un usuario con este DNI");
+                model.addAttribute("listasedes", sedeRepository.listaSedes());
+                return "superadmin/pages-registrar-adminitrador";
+            }
         }
     }
-
-
 
 
     @GetMapping("/delete")

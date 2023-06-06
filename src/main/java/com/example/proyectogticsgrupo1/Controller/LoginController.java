@@ -3,12 +3,12 @@ package com.example.proyectogticsgrupo1.Controller;
 import com.example.proyectogticsgrupo1.Entity.Usuario;
 import com.example.proyectogticsgrupo1.Repository.UsuarioRepository;
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -22,6 +22,7 @@ public class LoginController {
     public LoginController(UsuarioRepository usuarioRepository){
         this.usuarioRepository = usuarioRepository;
     }
+
     @GetMapping(value = {"/"})
     public String inicioSesion(){
 
@@ -36,10 +37,40 @@ public class LoginController {
         return "superadmin/pages-login_spa";
     } */
 
-    @GetMapping(value = "/registro")
-    public String registro(){
+    @PostMapping(value = "/registro")
+    public String registro(@ModelAttribute("nuevousuario") @Valid Usuario usuario, BindingResult bindingResult, RedirectAttributes attr, Model model){
 
-        return "superadmin/pages-register_spa";
+        if(bindingResult.hasErrors()){
+            attr.addFlashAttribute("msg", "presenta errores");
+
+            return "superadmin/formularioregistro_spa";
+
+        }else{
+            Usuario existingUserDni = usuarioRepository.findByDni(usuario.getDni());
+            Usuario existingUserCelular = usuarioRepository.findByCelular(usuario.getCelular());
+            Usuario existingUserCorreo = usuarioRepository.findByCorreo(usuario.getCorreo());
+
+            if(existingUserDni == null){
+                if(existingUserCelular == null){
+                    if(existingUserCorreo==null){
+                        usuarioRepository.save(usuario);
+                        return "superadmin/pages-login_spa";
+
+                    }else{
+                        bindingResult.rejectValue("correo", "error.correo", "Ya existe un usuario con este correo electrónico");
+                        return "superadmin/formularioregistro_spa";
+                    }
+                }else{
+                    bindingResult.rejectValue("celular", "error.celular", "Ya existe un usuario con este número de celular");
+                    return "superadmin/formularioregistro_spa";
+                }
+            }else{
+                bindingResult.rejectValue("dni", "error.dni", "Ya existe un usuario con este DNI");
+                return "superadmin/formularioregistro_spa";
+            }
+        }
+
+
     }
 
     @GetMapping(value = "/cambiarcontrasena")

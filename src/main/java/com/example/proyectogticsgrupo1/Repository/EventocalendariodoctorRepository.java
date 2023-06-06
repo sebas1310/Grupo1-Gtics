@@ -1,5 +1,6 @@
 package com.example.proyectogticsgrupo1.Repository;
 
+import com.example.proyectogticsgrupo1.DTO.CalendarioHora;
 import com.example.proyectogticsgrupo1.DTO.DiasProximosDoctor;
 import com.example.proyectogticsgrupo1.Entity.Eventocalendariodoctor;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -19,6 +20,11 @@ public interface EventocalendariodoctorRepository extends JpaRepository<Eventoca
 
     @Query(nativeQuery = true, value = "select * from eventocalendariodoctor where idtipohoracalendariodoctor=1 and fecha >= CURDATE()")
     List<Eventocalendariodoctor> calendarioDoctorDisponible();
+
+    @Query(nativeQuery = true, value = "SELECT horainicio FROM eventocalendariodoctor where \n" +
+            "((idtipohoracalendariodoctor = '3' and iddoctor = ?1 and fecha = '2023-05-05') \n" +
+            "and horainicio not in ('11:00:00', '12:00:00', '13:00:00'))")
+    List<CalendarioHora> horasDeCitas(Integer iddoctor);
 
     @Query(nativeQuery = true, value = "select * from eventocalendariodoctor where fecha=?1 and iddoctor=?2 and idtipohoracalendariodoctor=1")
     List<Eventocalendariodoctor> calendarioFecha(LocalDate fecha, Integer iddoc);
