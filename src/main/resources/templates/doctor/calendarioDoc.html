@@ -49,16 +49,19 @@
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">Añadir Calendario</h5>
-                        <div class="mb-3 row">
-                            <label for="fecha" class="col-sm-3 col-form-label"  style="font-weight: bold">Fecha</label>
-                            <div class="col-sm-9">
-                                <input type="date" name="fecha" class="form-control" id="fecha">
+                        <form method="post" th:action="@{'/doctor/calendario/agregar'}" >
+                            <div class="mb-3 row">
+                                <input th:value="${doctor.getIddoctor()}" name="iddoctor" type="hidden" />
+                                <label for="fecha" class="col-sm-3 col-form-label"  style="font-weight: bold">Fecha</label>
+                                <div class="col-sm-9">
+                                    <input type="date" name="fecha" class="form-control" id="fecha">
+                                </div>
                             </div>
-                        </div>
-                        <br>
-                        <div class="text-center">
-                            <a th:href="@{'/doctor/calendario/agregar' + '?iddoctor=' + ${doctor.getIddoctor()}}" class="btn btn-primary">Continuar</a>
-                        </div>
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary">Continuar</button>
+                            </div>
+                        </form>
+
                     </div>
                 </div>
             </div>
