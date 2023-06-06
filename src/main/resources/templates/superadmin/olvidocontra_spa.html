@@ -47,7 +47,7 @@
         <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
             <div class="container">
                 <div class="row justify-content-center">
-                    <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
+                    <div class="col-lg-12 col-md-6 d-flex flex-column align-items-center justify-content-center">
 
                         <div class="d-flex justify-content-center py-4">
                             <a th:href="@{/pages-login}" class="logo d-flex align-items-center w-auto">
@@ -56,31 +56,27 @@
                             </a>
                         </div><!-- End Logo -->
 
-                        <div class="card mb-3">
-
+                        <div class="col-sm-5 mb-5 mb-sm-0">
+                        <div class="card">
                             <div class="card-body">
-
                                 <div class="pt-4 pb-2">
                                     <h5 class="card-title text-center pb-0 fs-4">Olvido de Contraseña</h5>
                                     <div th:if="${ms1!=null}" th:text="${ms1}" class="alert alert-success" role="alert"></div>
                                     <div th:if="${ms2!=null}" th:text="${ms2}" class="alert alert-danger" role="alert"></div>
                                     <div th:if="${ms3!=null}" th:text="${ms3}" class="alert alert-danger" role="alert"></div>
-
+                                    <p class="text-center ">Ingresa tu DNI y correo, te enviaremos un link para que puedas cambiar tu contraseña</p>
                                 </div>
 
-                                <h6 class="text-center ">Ingresa tu DNI y correo, te enviaremos un link para que puedas cambiar tu contraseña</h6>
-
-
-                                <form class="row g-3" method="post" th:action="@{'/enviarcorreo'}" onsubmit="return validateForm1()">
-                                    <div class="col-12">
+                                <form method="post" th:action="@{'/enviarcorreo'}" onsubmit="return validateForm1()" >
+                                    <div class="row mb-3">
                                         <label for="dni" class="form-label">DNI</label>
-                                        <div class="col-12">
+                                        <div class="col">
                                             <input name="dni" type="text" class="form-control" id="dni" required>
                                         </div>
                                     </div>
-                                    <div class="col-12">
+                                    <div class="row mb-3">
                                         <label for="correo" class="form-label">Correo</label>
-                                        <div class="col-12">
+                                        <div class="col">
                                             <input name="correo" type="text" class="form-control" id="correo" required>
                                         </div>
                                     </div>
@@ -131,9 +127,10 @@
                             </div>
                         </div>
 
-
                     </div>
                 </div>
+                </div>
+
             </div>
 
         </section>
