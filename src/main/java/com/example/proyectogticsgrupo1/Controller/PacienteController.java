@@ -620,12 +620,16 @@ public class PacienteController {
                         Float montoDoctor = (float) (costoEspecialidad * comisionDoctor);
                         Float montoPaciente = (float) (costoEspecialidad * coaseguroPaciente);
                         Cita citaAgendada = citaRepository.citaAgendada(fecha,hora);
+                        Doctor doctor = doctorRepository.buscarDoctorPorId(iddoctor);
                         boletaDoctorRepository.generarBoletaDoctorCita(citaAgendada.getIdcita(),paciente.getIdpaciente(),idseguro,iddoctor,montoDoctor);
                         boletaPacienteRepository.generarBoletaPacienteCita(paciente.getIdpaciente(),citaAgendada.getIdcita(),idseguro,montoPaciente);
                         eventocalendariodoctorRepository.cambiarEstadoCalendario(iddoctor,fecha,hora);
-                        String content = "Usted reservó una cita para "+ fecha+ "en la siguiente hora: " + hora + " En la especialiad de " + especialidadRepository.findById(idesp).get().getNombre() + ".";
+                        String content = "Usted reservó una cita para "+ fecha+ " en la siguiente hora: " + hora + " En la especialiad de " + especialidadRepository.findById(idesp).get().getNombre() + ".";
                         String titulo = "Cita reservada con exito";
+                        String content2 = "Estimado doctor, tiene una cita programada para el "+ fecha+ " en la siguiente hora: " + hora +" con el paciente : "+paciente.getUsuario().getNombres()+" "+paciente.getUsuario().getApellidos()+ "";
+                        String titulo2= "Cita Programa para " +fecha+ "";
                         notificacionesRepository.notificarcita(usuario.getIdusuario(),content,titulo);
+                        notificacionesRepository.notificarcita(doctor.getUsuario().getIdusuario(),content2,titulo2);
                         if(idtipocita==1){
                             emailService.sendEmail(paciente.getUsuario().getCorreo(),"Confirmación de cita","Estimado usuario usted reservó una cita para el "+fecha.toString()+ ".\n"+"En la sede "+sedeRepository.findById(idsede).get().getNombre()+" ubicada " +sedeRepository.findById(idsede).get().getDireccion());
 

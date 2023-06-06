@@ -40,7 +40,7 @@
 
               <form th:action="${'/doctor/guardarSede'}" method="post" class="col-4">
                <div class="mb-3">
-                 <input th:value="${doctor.getIddoctor()}" name="id" type="hidden" />
+                 <input th:value="${doctor.getIddoctor()}" name="id" type="hidden" >
                 <label form="nombre" class="form-label">Cambiar Sede</label>
               </div>
               <select class="form-select" name="idsede" >
