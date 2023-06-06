@@ -42,12 +42,27 @@
                                 --bs-btn-font-size: .75rem;"></a><span class="card-text"> Disponibilidad</span><br>
                         <a class="btn btn-info" style="--bs-btn-padding-y: .60rem; --bs-btn-padding-x: 0.2cm;
                                 --bs-btn-font-size: .75rem;"></a><span class="card-text"> Refrigerio</span> <br><br>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Añadir Calendario</h5>
+                        <div class="mb-3 row">
+                            <label for="fecha" class="col-sm-3 col-form-label"  style="font-weight: bold">Fecha</label>
+                            <div class="col-sm-9">
+                                <input type="date" name="fecha" class="form-control" id="fecha">
+                            </div>
+                        </div>
+                        <br>
                         <div class="text-center">
-                            <a th:href="@{'/doctor/calendario/agregar'}" class="btn btn-outline-primary">Añadir al Calendario</a>
+                            <a th:href="@{'/doctor/calendario/agregar' + '?iddoctor=' + ${doctor.getIddoctor()}}" class="btn btn-primary">Continuar</a>
                         </div>
                     </div>
                 </div>
             </div>
+            <!--
             <div class="col-sm-6">
                 <div class="card">
                     <div class="card-body">
@@ -71,7 +86,7 @@
                     </table>
                     </div>
                 </div>
-            </div>
+            </div>  -->
             <div class="col-sm-12 mb-5 mb-sm-0">
                 <div class="card">
                     <div class="card-body">

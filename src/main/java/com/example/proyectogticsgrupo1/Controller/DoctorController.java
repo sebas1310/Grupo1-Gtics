@@ -489,12 +489,15 @@ public class DoctorController {
     }
 
     @GetMapping(value = "/calendario/agregar")
-    public String agregarEvento(Model model){
-        //list<IncompatibleClassChangeError> lista = (11.1)
+    public String agregarEvento(Model model, @RequestParam ("iddoctor") int iddoctor ){
+
         Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
         Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
-        model.addAttribute("doctor",doctor);
-        model.addAttribute("tipocita",tipohoracalendariodoctorRepository.findAll());
+
+        model.addAttribute("horasDisponibles", eventocalendariodoctorRepository.horasDeCitas(iddoctor));
+        model.addAttribute("doctor", doctor);
+
+        model.addAttribute("tipocita", tipohoracalendariodoctorRepository.findAll());
         return "doctor/anadirCalendario";
     }
 
