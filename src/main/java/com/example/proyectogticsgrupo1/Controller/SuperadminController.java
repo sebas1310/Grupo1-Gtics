@@ -22,6 +22,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.beans.Encoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -644,7 +645,7 @@ public class SuperadminController {
                 String hashedNewPassword = passwordEncoder.encode(newpassword);
 
                 usuarioRepository.changePassword(hashedNewPassword, usuario.getIdusuario());
-                emailService.sendEmail(usuario.getCorreo(), "Cambio de Contraseña", "Estimado usuario, hemos reestablecido su contraseña, la cual ahora es: " + usuario.getContrasena());
+                emailService.sendEmail(usuario.getCorreo(), "Cambio de Contraseña", "Estimado usuario, hemos reestablecido su contraseña, la cual ahora es: " + passwordEncoder.encode(usuario.getContrasena()));
                 redirectAttributes.addFlashAttribute("psw3", "Contraseña actualizada");
             } else {
                 System.out.println("INCORRECTO");
