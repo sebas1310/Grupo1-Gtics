@@ -88,12 +88,13 @@
                                             <div class="col-lg-9 col-md-8"><span th:text="${doctor.getUsuario().getCorreo()}"></span> </div>
                                         </div>
                                         <div class="row">
-                                            <div class="col-lg-3 col-md-4 label">Formacion</div>
+                                            <div class="col-lg-3 col-md-4 label">Formación</div>
                                             <div class="col-lg-9 col-md-8"><span th:text="${doctor.getFormacion()}"></span></div>
                                         </div>
                                         <div class="row">
                                             <div class="col-lg-3 col-md-4 label">Capacitaciones</div>
-                                            <div class="col-lg-9 col-md-8"><span th:text="${doctor.getCapacitaciones()}"></span></div>
+                                            <div class="col-lg-9 col-md-8"><li th:each="capacitacion : ${#strings.arraySplit(doctor.getCapacitaciones(), '[,.]')}"
+                                                                                 th:text="${#strings.capitalize(capacitacion)}"></li></div>
                                         </div>
 
                                         <div class="row">
@@ -148,16 +149,18 @@
                                             </div>
 
                                             <div class="row mb-3">
-                                                <label for="formacion" class="col-md-4 col-lg-3 col-form-label">Formacion</label>
+                                                <label for="formacion" class="col-md-4 col-lg-3 col-form-label">Formación</label>
                                                 <div class="col-md-8 col-lg-9">
-                                                    <input name="formacion" type="text" class="form-control" id="formacion" th:value="${doctor.getFormacion()}">
+                                                    <textarea name="formacion" type="text" rows="3" class="form-control" id="formacion"  th:text="${doctor.getFormacion()}"
+                                                              th:value="${doctor.getFormacion()}" style="height: 90px;"></textarea>
                                                 </div>
                                             </div>
 
                                             <div class="row mb-3">
                                                 <label for="capacitaciones" class="col-md-4 col-lg-3 col-form-label">Capacitaciones</label>
-                                                <div class="col-md-8 col-lg-9">
-                                                    <input name="capacitaciones" type="text" class="form-control" id="capacitaciones" th:value="${doctor.getCapacitaciones()}">
+                                                <div class="col-md-8 col-lg-9" >
+                                                    <textarea name="capacitaciones" type="text" class="form-control overflow-visible" id="capacitaciones" th:text="${doctor.getCapacitaciones()}"
+                                                              th:value="${doctor.getCapacitaciones()}" style="height: 110px;" ></textarea>
 
                                                 </div>
                                             </div>
@@ -207,6 +210,7 @@
                                                     errorMessage.style.display = "block";
                                                     errorMessage.innerHTML = "El campo debe tener como mínimo 3 letras";
                                                     return false;
+
                                                 }
                                                 else if (/^([0-9])*$/.test(nombre) || /^([0-9])*$/.test(apellido))
                                                 {

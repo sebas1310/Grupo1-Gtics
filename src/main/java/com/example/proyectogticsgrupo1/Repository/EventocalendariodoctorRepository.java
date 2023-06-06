@@ -24,16 +24,17 @@ public interface EventocalendariodoctorRepository extends JpaRepository<Eventoca
     @Query(nativeQuery = true, value = "SELECT * FROM (SELECT '09:00:00' AS hora UNION ALL SELECT '10:00:00' UNION ALL SELECT '11:00:00' " +
             "UNION ALL SELECT '12:00:00' UNION ALL SELECT '13:00:00' UNION ALL SELECT '14:00:00' UNION ALL SELECT '15:00:00' " +
             "UNION ALL SELECT '16:00:00' UNION ALL SELECT '17:00:00' UNION ALL SELECT '18:00:00' UNION ALL SELECT '19:00:00' " +
-            "UNION ALL SELECT '20:00:00' UNION ALL SELECT '21:00:00') AS horarios " +
+            "UNION ALL SELECT '20:00:00') AS horarios " +
             "WHERE hora NOT IN (SELECT horainicio FROM bdclinicag1_v2.eventocalendariodoctor where " +
-            "(idtipohoracalendariodoctor = '3' and iddoctor = ?1 and fecha = ?2))")
+            "(iddoctor = ?1 and fecha = ?2))")
+
     List<String> horasDeCitasInicio(Integer iddoctor, LocalDate fecha);
-    @Query(nativeQuery = true, value = "SELECT * FROM (SELECT '09:00:00' AS hora UNION ALL SELECT '10:00:00' UNION ALL SELECT '11:00:00' " +
+    @Query(nativeQuery = true, value = "SELECT * FROM (SELECT '10:00:00' AS hora UNION ALL SELECT '11:00:00' " +
             "UNION ALL SELECT '12:00:00' UNION ALL SELECT '13:00:00' UNION ALL SELECT '14:00:00' UNION ALL SELECT '15:00:00' " +
             "UNION ALL SELECT '16:00:00' UNION ALL SELECT '17:00:00' UNION ALL SELECT '18:00:00' UNION ALL SELECT '19:00:00' " +
             "UNION ALL SELECT '20:00:00' UNION ALL SELECT '21:00:00') AS horarios " +
             "WHERE hora NOT IN (SELECT horafinal FROM bdclinicag1_v2.eventocalendariodoctor where " +
-            "(idtipohoracalendariodoctor = '3' and iddoctor = ?1 and fecha = ?2))")
+            "(iddoctor = ?1 and fecha = ?2))")
     List<String> horasDeCitasFinal(Integer iddoctor, LocalDate fecha);
 
     @Query(nativeQuery = true, value = "select * from eventocalendariodoctor where fecha=?1 and iddoctor=?2 and idtipohoracalendariodoctor=1")
