@@ -49,6 +49,8 @@ public class SecurityConfig {
 
         http.csrf().ignoringRequestMatchers("/superadmin/modificarPlantilla");
 
+        http.csrf().ignoringRequestMatchers("doctor/pacientesatendidos/verhistorial/vercita/verinformemedico/guardar");
+
 
 
 
@@ -113,6 +115,8 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.GET, "/superadmin/BorrarPlantilla").permitAll()
 
                 .requestMatchers(HttpMethod.GET, "/superadmin/modificarPlantilla").permitAll()
+
+                .requestMatchers(HttpMethod.GET, "/doctor/pacientesatendidos/verhistorial/vercita/verinformemedico/guardar").permitAll()
 
 
 

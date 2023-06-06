@@ -3,6 +3,7 @@ package com.example.proyectogticsgrupo1.Controller;
 import com.example.proyectogticsgrupo1.Entity.*;
 import com.example.proyectogticsgrupo1.Repository.*;
 import com.example.proyectogticsgrupo1.Service.EmailService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -146,22 +147,94 @@ public class PacienteController {
         return "paciente/tipocita";
     }
     @GetMapping(value = "/reservar2")
-    public String selectDate(Model model, @RequestParam("iddoc") Integer id){
+    public String selectDate(Model model, @RequestParam("iddoc") Integer id, @RequestParam("semana") Integer semana, RedirectAttributes redirectAttributes){
         //Optional<Paciente> optionalPaciente = pacienteRepository.findById(1);
         //Paciente paciente =  optionalPaciente.get();
 
         Doctor doc = doctorRepository.buscarDoctorPorId(id);
-
         Usuario usuario = (Usuario) session.getAttribute("usuario");
         Paciente paciente = pacienteRepository.pacXuser(usuario.getIdusuario());
 
+        model.addAttribute("doc", doc);
         model.addAttribute("tipocita",tipoCitaRepository.findAll());
-        model.addAttribute("lunes",eventocalendariodoctorRepository.listalunes(doc.getIddoctor()));
-        model.addAttribute("martes",eventocalendariodoctorRepository.listaMartes(id));
-        model.addAttribute("miercoles",eventocalendariodoctorRepository.listaMiercoles(id));
-        model.addAttribute("jueves",eventocalendariodoctorRepository.listaJueves(id));
-        model.addAttribute("viernes",eventocalendariodoctorRepository.listaViernes(id));
-        model.addAttribute("sabado",eventocalendariodoctorRepository.listaSabado(id));
+
+        int semana_equivocada = 0;
+
+
+        if (semana == 0){
+
+            model.addAttribute("prev_semana", semana);
+            model.addAttribute("lunes",eventocalendariodoctorRepository.listaLunes(doc.getIddoctor()));
+            model.addAttribute("martes",eventocalendariodoctorRepository.listaMartes(id));
+            model.addAttribute("miercoles",eventocalendariodoctorRepository.listaMiercoles(id));
+            model.addAttribute("jueves",eventocalendariodoctorRepository.listaJueves(id));
+            model.addAttribute("viernes",eventocalendariodoctorRepository.listaViernes(id));
+            model.addAttribute("sabado",eventocalendariodoctorRepository.listaSabados(id));
+        } else if (semana == 1) {
+
+            model.addAttribute("prev_semana", semana);
+            model.addAttribute("lunes",eventocalendariodoctorRepository.listaLunes1(doc.getIddoctor()));
+            model.addAttribute("martes",eventocalendariodoctorRepository.listaMartes1(id));
+            model.addAttribute("miercoles",eventocalendariodoctorRepository.listaMiercoles1(id));
+            model.addAttribute("jueves",eventocalendariodoctorRepository.listaJueves1(id));
+            model.addAttribute("viernes",eventocalendariodoctorRepository.listaViernes1(id));
+            model.addAttribute("sabado",eventocalendariodoctorRepository.listaSabados1(id));
+        } else if (semana == 2) {
+
+            model.addAttribute("prev_semana", semana);
+            model.addAttribute("lunes",eventocalendariodoctorRepository.listaLunes2(doc.getIddoctor()));
+            model.addAttribute("martes",eventocalendariodoctorRepository.listaMartes2(id));
+            model.addAttribute("miercoles",eventocalendariodoctorRepository.listaMiercoles2(id));
+            model.addAttribute("jueves",eventocalendariodoctorRepository.listaJueves2(id));
+            model.addAttribute("viernes",eventocalendariodoctorRepository.listaViernes2(id));
+            model.addAttribute("sabado",eventocalendariodoctorRepository.listaSabados2(id));
+
+        } else if (semana == 3) {
+
+            model.addAttribute("prev_semana", semana);
+            model.addAttribute("lunes",eventocalendariodoctorRepository.listaLunes3(doc.getIddoctor()));
+            model.addAttribute("martes",eventocalendariodoctorRepository.listaMartes3(id));
+            model.addAttribute("miercoles",eventocalendariodoctorRepository.listaMiercoles3(id));
+            model.addAttribute("jueves",eventocalendariodoctorRepository.listaJueves3(id));
+            model.addAttribute("viernes",eventocalendariodoctorRepository.listaViernes3(id));
+            model.addAttribute("sabado",eventocalendariodoctorRepository.listaSabados3(id));
+
+
+        } else if (semana == 4) {
+
+            model.addAttribute("prev_semana", semana);
+            model.addAttribute("lunes",eventocalendariodoctorRepository.listaLunes4(doc.getIddoctor()));
+            model.addAttribute("martes",eventocalendariodoctorRepository.listaMartes4(id));
+            model.addAttribute("miercoles",eventocalendariodoctorRepository.listaMiercoles4(id));
+            model.addAttribute("jueves",eventocalendariodoctorRepository.listaJueves4(id));
+            model.addAttribute("viernes",eventocalendariodoctorRepository.listaViernes4(id));
+            model.addAttribute("sabado",eventocalendariodoctorRepository.listaSabados4(id));
+        } else if ( semana > 4  || semana < 0){
+
+            semana = 0;
+            semana_equivocada = 1;
+
+
+            model.addAttribute("prev_semana", semana);
+            model.addAttribute("lunes",eventocalendariodoctorRepository.listaLunes(doc.getIddoctor()));
+            model.addAttribute("martes",eventocalendariodoctorRepository.listaMartes(id));
+            model.addAttribute("miercoles",eventocalendariodoctorRepository.listaMiercoles(id));
+            model.addAttribute("jueves",eventocalendariodoctorRepository.listaJueves(id));
+            model.addAttribute("viernes",eventocalendariodoctorRepository.listaViernes(id));
+            model.addAttribute("sabado",eventocalendariodoctorRepository.listaSabados(id));
+
+        }
+
+        if(semana_equivocada == 1){
+
+            redirectAttributes.addFlashAttribute("msg2","Solo puede reservar citas para un mes como máximo");
+
+        }
+
+        model.addAttribute("inicioSemana", eventocalendariodoctorRepository.obtnerInicioSemana(semana));
+        System.out.println(eventocalendariodoctorRepository.obtnerInicioSemana(semana).getClass());
+        model.addAttribute("finSemana", eventocalendariodoctorRepository.obtenerFinSemana(semana));
+        model.addAttribute("nombre_mes", eventocalendariodoctorRepository.obtenerMes(semana));
 
         model.addAttribute("pacientelog",paciente);
         //Eventocalendariodoctor eventocalendariodoctor = eventocalendariodoctorRepository.calendarioPorDoctor(id);
@@ -276,6 +349,7 @@ public class PacienteController {
 
         List<DatosJsonEntity> listadatos = datosJsonRepository.findAll();
         List<DatosJsonEntity> misCuestionarios = new ArrayList<>();
+
         for(DatosJsonEntity d : listadatos){
             if(d.getCita().getPaciente().getIdpaciente()==paciente.getIdpaciente() && d.getCita().getFecha().isAfter(LocalDate.now())){
                 misCuestionarios.add(d);
@@ -286,6 +360,9 @@ public class PacienteController {
         return "paciente/cuestionariosPaciente";
     }
 
+
+    @Autowired
+    private  ModeloJsonRepository modeloJsonRepository;
 
     @GetMapping(value = "/formCuestionario")
     public String formCuestinario(@RequestParam("idcuest") String idstr,Model model){
@@ -298,6 +375,8 @@ public class PacienteController {
                 DatosJsonEntity datos = optional.get();
                 model.addAttribute("datos",datos);
                 model.addAttribute("pacientelog",paciente);
+                int cuestionarioMedicoId = modeloJsonRepository.cuestionarioMedicoId(datos.getCita().getEspecialidad().getIdespecialidad());
+                model.addAttribute("listapreguntascuestionario",modeloJsonRepository.listarPreguntasxPlantilla(cuestionarioMedicoId));
                 return "paciente/formCuestionario";
             }
             else {
@@ -308,6 +387,31 @@ public class PacienteController {
             return "redirect:/paciente/cuestionarios";
         }
     }
+
+
+    @PostMapping(value = "/respuestas")
+    public String respuestasCuestionarios(HttpServletRequest request,@RequestParam("idcuest") String idstr){
+        Enumeration<String> parameterNames = request.getParameterNames();
+        Integer id = Integer.parseInt(idstr);
+        Optional<DatosJsonEntity> optional = datosJsonRepository.findById(id);
+        DatosJsonEntity datos = optional.get();
+
+        int cuestionarioMedicoId = modeloJsonRepository.cuestionarioMedicoId(datos.getCita().getEspecialidad().getIdespecialidad());
+        for(String k :   modeloJsonRepository.listarPreguntasxPlantilla(cuestionarioMedicoId)){
+            System.out.println(k);
+        }
+
+
+        while (parameterNames.hasMoreElements()) {
+            String parameterName = parameterNames.nextElement();
+            if (parameterName.startsWith("respuesta")) {
+                String respuesta = request.getParameter(parameterName);
+                System.out.println(respuesta);
+            }
+        }
+        return "paciente/pruebas";
+    }
+
 
     @GetMapping(value ="/receta")
     public String receta(@RequestParam("idcita") String idstr, Model model){
@@ -321,6 +425,7 @@ public class PacienteController {
                 List<RecetaMedica> listarecetaMedica = recetaMedicaRepository.recetaMedicaPorCita(cita.getIdcita());
                 model.addAttribute("recetas",listarecetaMedica);
                 model.addAttribute("pacientelog",paciente);
+
                 return "paciente/recetasPaciente";
             }
             else {
