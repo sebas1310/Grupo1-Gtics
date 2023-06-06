@@ -81,22 +81,25 @@
 
                 <div class="row">
                   <div class="col-lg-3 col-md-4 label" style="font-weight: bold">Formación: </div>
-                  <p th:text="${doc.formacion}"></p>
+                  <div class="col-lg-9 col-md-8" th:text="${doc.formacion}"></div>
                 </div>
                 <div class="row">
                   <div class="col-lg-3 col-md-4 label" style="font-weight: bold">Capacitaciones:</div>
-                  <table>
-                    <tbody >
-                    <tr>
-                      <ul class="list-group col-lg-4 col-md-4 label ">
-                        <li th:each="capacitacion : ${#strings.arraySplit(doc.capacitaciones, '[,.]')}" th:text="${#strings.capitalize(capacitacion)}"></li>
+                  <div class="col-lg-9 col-md-8" >
+                    <table>
+                      <tbody >
+                      <tr>
+                        <ul class="list-group col-lg-4 col-md-4 label ">
+                          <li th:each="capacitacion : ${#strings.arraySplit(doc.capacitaciones, '[,.]')}" th:text="${#strings.capitalize(capacitacion)}"></li>
 
-                      </ul>
+                        </ul>
 
-                    </tr>
-                    </tbody>
-                  </table>
-                </div>
+                      </tr>
+                      </tbody>
+                    </table>
+
+                  </div>
+                  </div>
                 <div class="row">
                   <div class="text-center">
                     <a th:href="@{'/paciente/reservar2?iddoc='+ ${doc.iddoctor}+ '&semana=' + 0}" class="btn btn-outline-warning ">Reservar cita</a>
