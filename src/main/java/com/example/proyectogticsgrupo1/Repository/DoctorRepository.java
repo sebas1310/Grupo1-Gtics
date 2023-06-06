@@ -43,6 +43,9 @@ public interface DoctorRepository extends JpaRepository<Doctor, Integer>{
     @Query(value = "SELECT * from doctor where idsede = ?1 and idespecialidad = ?2 LIMIT 5", nativeQuery = true)
     List<Doctor> listarDoctorporSedeyEspecialidadDashboard(int idsede, int idespecialidad);
 
+    @Query(value = "SELECT * from doctor where idsede = ?1 and idespecialidad = ?2", nativeQuery = true)
+    List<Doctor> listarDoctorporSedeyEspecialidadDashboardDoctores(int idsede, int idespecialidad);
+
     @Query(value = "SELECT DISTINCT d.* FROM doctor d\n" +
             "            INNER JOIN usuario u on d.idusuario = u.idusuario\n" +
             "            INNER JOIN especialidad e on d.idespecialidad = e.idespecialidad\n" +

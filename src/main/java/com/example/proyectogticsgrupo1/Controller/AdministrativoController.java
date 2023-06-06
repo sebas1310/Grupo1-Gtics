@@ -3,9 +3,7 @@ package com.example.proyectogticsgrupo1.Controller;
 import com.example.proyectogticsgrupo1.Entity.Doctor;
 import com.example.proyectogticsgrupo1.Entity.Paciente;
 import com.example.proyectogticsgrupo1.Entity.Usuario;
-import com.example.proyectogticsgrupo1.Repository.DoctorRepository;
-import com.example.proyectogticsgrupo1.Repository.PacienteRepository;
-import com.example.proyectogticsgrupo1.Repository.UsuarioRepository;
+import com.example.proyectogticsgrupo1.Repository.*;
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +31,12 @@ public class AdministrativoController {
     DoctorRepository doctorRepository;
 
     @Autowired
+    MailCorreoRepository mailCorreoRepository;
+
+    @Autowired
+    private NotificacionesRepository notificacionesRepository;
+
+    @Autowired
     private HttpSession session;
 
     @GetMapping("/dashboard")
@@ -54,17 +58,25 @@ public class AdministrativoController {
     }
 
     @GetMapping(value = "/dashboarddoctores")
-    public String dashDoc(){
-        Usuario usuario = (Usuario) session.getAttribute("usuario");
+    public String dashDoc(Model model){
+        Usuario usuarioAdministrativo = (Usuario) session.getAttribute("usuario");
+        List<Doctor> listaDoctorSD = doctorRepository.listarDoctorporSedeyEspecialidadDashboardDoctores(usuarioAdministrativo.getSede().getIdsede(), usuarioAdministrativo.getEspecialidad().getIdespecialidad()); // a futuro cambiar
+        model.addAttribute("listaUsuariosDoctores", listaDoctorSD);
+        model.addAttribute("usuario", usuarioAdministrativo);
         return"administrativo/dashboarddoctores";
     }
 
     @GetMapping(value = "/dashboardpacientes")
     public String dashPac(Model model){
         Usuario usuarioAdministrativo = (Usuario) session.getAttribute("usuario");
+        List<Paciente> listaPacientesSD = pacienteRepository.listarPacienteporSedeyEspecialidadDashboardPacientes(usuarioAdministrativo.getSede().getIdsede(), usuarioAdministrativo.getEspecialidad().getIdespecialidad()); // a futuro cambiar
+        model.addAttribute("listaUsuariosPacientes", listaPacientesSD);
         model.addAttribute("usuario", usuarioAdministrativo);
         return"administrativo/dashboardpaciente";
     }
+
+
+
 
     @GetMapping(value = "/formularioreferido")
     public String formRef(Model model){
@@ -84,14 +96,17 @@ public class AdministrativoController {
     public String mensajes(Model model){
         Usuario usuarioAdministrativo = (Usuario) session.getAttribute("usuario");
         model.addAttribute("usuario", usuarioAdministrativo);
+        model.addAttribute("listamensajes", mailCorreoRepository.buscarMensajesEnviadorPorID(usuarioAdministrativo.getIdusuario()));
+
         return"administrativo/mensajes";
     }
 
     @GetMapping(value = "/notificaciones")
-    public String notificaciones(Model model){
+    public String notif(Model model) {
         Usuario usuarioAdministrativo = (Usuario) session.getAttribute("usuario");
         model.addAttribute("usuario", usuarioAdministrativo);
-        return"administrativo/notificaciones";
+        model.addAttribute("notificaciones",notificacionesRepository.notificacionesPorUsuario(usuarioAdministrativo.getIdusuario()));
+        return "administrativo/notificaciones";
     }
 
     @GetMapping(value = "/nuevopaciente")

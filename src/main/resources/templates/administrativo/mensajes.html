@@ -25,13 +25,15 @@
 <main id="main" class="main">
 
     <div class="pagetitle">
-        <h1>Dashboard</h1>
+        <h1>Mensajes</h1>
         <nav>
             <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a th:href="@{'/administrativo'}">Home</a></li>
                 <li class="breadcrumb-item active">Mensajes</li>
             </ol>
         </nav>
-    </div><!-- End Page Title -->
+    </div>
+    <!-- End Page Title -->
 
     <section class="section">
         <div class="row">
@@ -39,50 +41,36 @@
 
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">Historial de mensajes</h5>
+                        <h5 class="card-title">Mensajes Enviados y Recibidos</h5>
+                        <div th:if="${msg!=null}" th:text="${msg}" class="alert alert-success" role="alert"></div>
 
                         <!-- Default Table -->
-                        <table class="table">
+                        <table class="table table-borderless datatable">
                             <thead>
                             <tr>
-                                <th scope="col">Mensajes</th>
-                                <th scope="col">Nombre</th>
-                                <th scope="col">Hora</th>
+                                <th style="text-align: center" scope="col">De:</th>
+                                <th style="text-align: center" scope="col">Para:</th>
+                                <th style="text-align: center" scope="col">Asunto</th>
+                                <th style="text-align: center" scope="col">Descripcion</th>
+                                <th style="text-align: center" scope="col">Fecha y Hora</th>
                             </tr>
                             </thead>
                             <tbody>
-
-                            <tr th:each="mensaje : ${listaMensajes}">
-                                <td th:text="${info.index + 1}"></td>
-                                <td th:text="${mensaje.usuario.nombres} + ' ' + ${mensaje.usuario.apellidos}"></td>
-                                <td><img th:src="@{'/assets/img/messages-1.jpg'}" alt="" class="rounded-circle"></td>
-                                <td th:text="${mensaje.fecha} + ' ' + {mensaje.hora}"></td>
-
+                            <tr th:each=" mensaje : ${listamensajes}">
+                                <td style="text-align: center" th:text="|${mensaje.getUsuarioOrigen().getNombres()} ${mensaje.getUsuarioOrigen().getApellidos()} ${mensaje.getUsuarioOrigen().getTipodeusuario().getNombre()}|"></td>
+                                <td style="text-align: center" th:text="|${mensaje.getUsuarioDestino().getNombres()} ${mensaje.getUsuarioDestino().getApellidos()} ${mensaje.getUsuarioDestino().getTipodeusuario().getNombre()}|"></td>
+                                <td style="text-align: center" th:text="${mensaje.getAsunto()}"></td>
+                                <td style="text-align: center" th:text="${mensaje.getDescripcion()}"></td>
+                                <td style="text-align: center" th:text="|${mensaje.getFecha()} ${mensaje.getHora()}|"></td>
                             </tr>
+                            <button type="submit" class="btn btn-success" style="background-color:rgb(231,154,110); border-color:rgb(231,154,110) "><a style="color: white" th:href="@{'/administrador/chat'}">Enviar Mensaje</a></button>
+
 
                             </tbody>
                         </table>
                         <!-- End Default Table Example -->
 
 
-                        <!-- Centered Pagination -->
-                        <nav aria-label="Page navigation example">
-                            <ul class="pagination justify-content-center">
-                                <li class="page-item">
-                                    <a class="page-link" href="#" aria-label="Previous">
-                                        <span aria-hidden="true">&laquo;</span>
-                                    </a>
-                                </li>
-                                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#" aria-label="Next">
-                                        <span aria-hidden="true">&raquo;</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </nav><!-- End Centered Pagination -->
 
                     </div>
                 </div>
@@ -93,31 +81,7 @@
         </div>
         </div>
     </section>
-
-
-
-
-
-
-
-
-
-
 </main><!-- End #main -->
-
-<!-- ======= Footer ======= -->
-<footer id="footer" class="footer">
-    <div class="copyright">
-        &copy; Copyright <strong><span>ClinicaLAFE</span></strong>. All Rights Reserved
-    </div>
-    <div class="credits">
-        <!-- All the links in the footer should remain intact. -->
-        <!-- You can delete the links only if you purchased the pro version. -->
-        <!-- Licensing information: https://bootstrapmade.com/license/ -->
-        <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
-        Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
-    </div>
-</footer><!-- End Footer -->
 
 <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
