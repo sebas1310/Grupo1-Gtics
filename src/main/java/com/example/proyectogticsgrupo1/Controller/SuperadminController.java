@@ -658,8 +658,6 @@ public class SuperadminController {
         return "redirect:/superadmin/perfilUsuario?id=" + idusuario;
     }
 
-
-
     @PostMapping(value = "/cambiarcontrasena")
     @Transactional
     public String changePassword(@RequestParam("id") int idusuario,
