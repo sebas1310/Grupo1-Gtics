@@ -1,5 +1,6 @@
 package com.example.proyectogticsgrupo1.Repository;
 
+import com.example.proyectogticsgrupo1.Entity.Doctor;
 import com.example.proyectogticsgrupo1.Entity.Paciente;
 import com.example.proyectogticsgrupo1.Entity.Usuario;
 import jakarta.transaction.Transactional;
@@ -9,6 +10,7 @@ import org.springframework.data.jpa.repository.Modifying;
 
 import org.springframework.data.jpa.repository.Query;
 
+import javax.print.Doc;
 import java.util.List;
 
 public interface PacienteRepository extends JpaRepository<Paciente, Integer> {
@@ -101,6 +103,7 @@ public interface PacienteRepository extends JpaRepository<Paciente, Integer> {
 
     @Query(value = "select * from paciente where idusuario= ?1", nativeQuery = true)
     Paciente buscarPacientePorIdUsuario(Integer idUsuario);
+
 
 
 

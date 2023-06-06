@@ -17,6 +17,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -488,15 +489,18 @@ public class DoctorController {
         return "doctor/calendarioDoc";
     }
 
-    @GetMapping(value = "/calendario/agregar")
-    public String agregarEvento(Model model, @RequestParam ("iddoctor") int iddoctor ){
+    @PostMapping(value = "/calendario/agregar")
+    public String agregarEvento(Model model, @RequestParam ("iddoctor") int iddoctor, @RequestParam("fecha") LocalDate fecha){
 
         Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
         Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
-
-        model.addAttribute("horasDisponibles", eventocalendariodoctorRepository.horasDeCitas(iddoctor));
+        //DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        // Convertir la cadena de caracteres a LocalDate
+        //LocalDate date = LocalDate.parse(dateString, formatter);
+        model.addAttribute("horasDisponiblesInicio", eventocalendariodoctorRepository.horasDeCitasInicio(iddoctor, fecha));
+        model.addAttribute("horasDisponiblesFinal", eventocalendariodoctorRepository.horasDeCitasFinal(iddoctor, fecha));
         model.addAttribute("doctor", doctor);
-
+        model.addAttribute("fecha", fecha);
         model.addAttribute("tipocita", tipohoracalendariodoctorRepository.findAll());
         return "doctor/anadirCalendario";
     }

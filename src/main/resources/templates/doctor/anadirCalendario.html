@@ -55,7 +55,7 @@
               <div class="mb-3 row">
                 <label for="fecha" class="col-sm-3 col-form-label"  style="font-weight: bold">Fecha</label>
                 <div class="col-sm-9">
-                  <input type="text" name="fecha" class="form-control" id="fecha">
+                  <input type="text" name="fecha" class="form-control" id="fecha" th:value="${fecha}" readonly>
                 </div>
               </div>
 
@@ -64,7 +64,7 @@
                 <div class="col-sm-9">
                   <select class="form-select" name="horainicio" id="horainicio" required>
                     <option value="vacio" selected disabled>Seleccione Hora</option>
-                    <option th:each="h: ${horasDisponibles}" th:text="${h.getHoraInicio()}" th:value="${h.getHoraInicio()}"> </option>
+                    <option th:each="h: ${horasDisponiblesInicio}" th:text="${h}" th:value="${h}"> </option>
                   </select>
                 </div>
               </div>
@@ -74,7 +74,7 @@
                 <div class="col-sm-9">
                   <select class="form-select" name="horafinal" id="horafinal" required>
                     <option value="vacio" selected disabled>Seleccione Hora</option>
-                    <option th:each="h: ${horasDisponibles}" th:text="${h.getHoraInicio()}" th:value="${h.getHoraInicio()}"> </option>
+                    <option th:each="h: ${horasDisponiblesFinal}" th:text="${h}" th:value="${h}"> </option>
                   </select>
                 </div>
               </div>
