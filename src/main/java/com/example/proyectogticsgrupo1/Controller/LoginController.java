@@ -63,7 +63,6 @@ public class LoginController {
             if(existingUserDni == null){
                 if(existingUserCelular == null){
                     if(existingUserCorreo==null){
-
                         usuarioRepository.save(usuario);
                         return "redirect://";
 

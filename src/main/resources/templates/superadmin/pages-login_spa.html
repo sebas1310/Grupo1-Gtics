@@ -39,7 +39,7 @@
       <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
         <div class="container">
           <div class="row justify-content-center">
-            <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
+            <div class="col-lg-12 col-md-6 d-flex flex-column align-items-center justify-content-center">
 
               <div class="d-flex justify-content-center py-4">
                 <a th:href="@{'/iniciosesion'}" class="logo d-flex align-items-center w-auto">
@@ -86,22 +86,21 @@
                   </form>
                     <br>
                     <div class="col-12">
-                      <center><p class="small mb-0">¿Olvidaste tu contraseña? <a th:href="@{/olvidocontra}">Ingresa Aquí</a></p></center>
+                      <center><p class="small mb-0">¿Olvidaste tu contraseña? <a th:href="@{/olvidocontra}">Ingresa Aquí</a> </p></center>
                     </div>
                   <br>
                     <div class="col-12">
-                      <p class="small mb-0" style="color: #0d4ac4; font-size: 15px">¿No tienes una cuenta? Crea una con tu cuenta gmail: </p>
+                      <p class="small mb-0" style="color: #0d4ac4; font-size: 15px">¿No tienes una cuenta? <a th:href="@{/formRegistro}">Ingresa Aquí</a> </p>
                     </div>
                   <br>
+                  <!--
                     <div class="col-12">
                       <button class="btn btn-outline-secondary w-100" type="button">Gmail Account <i class="bi bi-google"></i></button>
                     </div>
-                    <!--<div class="col-12">
+                    <div class="col-12">
                       <p class="small mb-0" style="color: #0d4ac4; font-size: 15px">Si cuentas con celular, escanea el QR que te lleva al formulario de registro </p>
                     </div> -->
-                    <div class="col-12">
-                      <center><a th:href="@{/formRegistro}"><i class="bi bi-qr-code-scan" style="font-size: 100px"></i></a></center>
-                    </div>
+
 
                 </div>
               </div>
