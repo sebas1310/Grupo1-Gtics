@@ -129,64 +129,7 @@
                                 </div>
                               </div>
                             </div>
-                              <!--End Informacion -->
-                            <!-- Historial de citas -->
-                            <!--<div class="col-12">
-                              <div class="card recent-sales overflow-auto">
-                                <div class="card-body">
-                                  <h5 class="card-title">Historial de Citas</h5>
 
-                                  <table class="table">
-                                    <thead class="table-light">
-                                    <tr>
-                                      <th style="text-align: center" scope="col"># Cita</th>
-                                      <th style="text-align: center" scope="col">Fecha</th>
-                                      <th style="text-align: center" scope="col">Modalidad</th>
-                                      <th style="text-align: center" scope="col">Ver Mas</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr>
-                                      <th style="text-align: center" scope="row">1</th>
-                                      <td style="text-align: center">31/03/2023</td>
-                                      <td style="text-align: center">Presencial</td>
-                                      <td style="text-align: center" > <a class="bi bi-eye-fill" data-bs-toggle="modal" href="#modal2" role="button"></a></td>
-                                    </tr>
-                                    <tr>
-                                      <th style="text-align: center" scope="row">2</th>
-                                      <td style="text-align: center">02/04/2023</td>
-                                      <td style="text-align: center">Virtual</td>
-                                      <td style="text-align: center" > <a class="bi bi-eye-fill" data-bs-toggle="modal" href="#modal2" role="button"></a></td>
-
-                                    </tr>
-                                    </tbody>
-                                  </table>
-                                  End Historial
-                                </div>
-                              </div>  -->
-                              <!-- Bitacora -->
-                              <!-- <div class="card recent-sales overflow-auto">
-                                <div class="card-body">
-                                  <h5 class="card-title">Bitacora de Diagnostico</h5>
-
-                                  <div class="card">
-                                    <div class="card-header">
-                                      Dr. Rodriguez
-                                    </div>
-                                    <div class="card-body">
-                                      <p class="card-text">xxxxxxxxxxxxxxx</p>
-                                    </div>
-                                  </div>
-                                  <div class="card">
-                                    <div class="card-header">
-                                      Dr. Fernandez
-                                    </div>
-                                    <div class="card-body">
-                                      <p class="card-text">xxxxxxxxxxxxxxx</p>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div> -->
                             </div>
                           </div><!-- End Left side columns -->
                         </div>
@@ -289,35 +232,21 @@
         </div><!-- FIN DEL MODAL -->
 
         <!-- CALENDARIO  -->
-        <div class="card">
-          <div class="filter">
-            <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-              <li class="dropdown-header text-start">
-                <h6>Filtro</h6>
-              </li>
-
-              <li><a class="dropdown-item" th:href="@{'/doctor/dashboard'}">Semanal</a></li>
-              <li><a class="dropdown-item" th:href="@{'/doctor/dashboard/diario'}" >Diario</a></li>
-              <li><a class="dropdown-item" th:href="@{'/doctor/dashboard/mensual'}">Mensual</a></li>
-            </ul>
-          </div>
-
-          <div class="card-body">
-            <h5 class="card-title">Calendario <span>| Semanal</span></h5>
 
               <div class="col-sm-12 mb-5 mb-sm-0">
                   <div class="card">
                       <div class="card-body">
+                        <h5 class="card-title">Calendario Mensual</h5>
                           <br>
                           <!-- Calendario Febrero 2022Cortesia de WinCalendar.com -->
                           <style>   .monthNoCol { width: 3.2%}   .monthTxtCol { width: 10.9%;}  .pnmlink{ color: grey; font-size:1.5em; }
                           #Calendar {font-family:Arial, sans-serif; border-collapse: collapse; width:100%; table-layout:fixed;}
                           #Calendar h1 {font-size:12.0pt; font-weight:400; margin-top:0px; margin-bottom:0.1em;  font-weight:normal;}
                           .Saprorar{display:inline-block; width: 2em; height: 0; border-style: solid; border-width: 10px 0 12px 20px;
-                              border-color: transparent transparent transparent #06366C; margin:0 0.15em;}  .Saprolar{display:inline-block;
-                                                                                                                width: 2em; height: 0; border-style: solid; border-width: 10px 20px 10px 0; border-color: transparent #06366C transparent transparent;
-                                                                                                                margin:0 0.15em;}  #Calendar tr { height:3em; }
+                              border-color: transparent transparent transparent #06366C; margin:0 0.15em;}
+                          .Saprolar{display:inline-block;
+                            width: 2em; height: 0; border-style: solid; border-width: 10px 20px 10px 0; border-color: transparent #06366C transparent transparent;
+                            margin:0 0.15em;}  #Calendar tr { height:3em; }
                           #Calendar tr:nth-child(even) {vertical-align:top; height:1.5em; }
                           #Calendar tr:nth-child(odd) {vertical-align:middle;}
                           #Calendar tr:first-child { height:1.7em; vertical-align:bottom; }
@@ -330,12 +259,13 @@
                           #Calendar tr:last-child td:last-child {vertical-align:bottom;}
                           .Sapro9027892{color:black; font-size:11.0pt; text-align:center; border-top:1.0pt solid rgba(183,183,183,0.45);
                               border-left:1.0pt solid rgba(183,183,183,0.45); background:white; }  .Sapro9127892{color:rgba(183,183,183,0.45);
-                                                                                                       font-size:0.8em; text-align:left; border-top:1.0pt solid rgba(183,183,183,0.45); background:white; }  .Sapro9227892{color:rgba(183,183,183,0.45); font-size:0.8em; text-align:left; border-top:1.0pt solid rgba(183,183,183,0.45); border-right:1.5pt solid whitesmoke; background:white;
+                          font-size:0.8em; text-align:left; border-top:1.0pt solid rgba(183,183,183,0.45); background:white; }
+                          .Sapro9227892{color:rgba(183,183,183,0.45); font-size:0.8em; text-align:left; border-top:1.0pt solid rgba(183,183,183,0.45); border-right:1.5pt solid whitesmoke; background:white;
                                                                                                                                                                                                              }  .Sapro9327892{color:black; font-size:11.0pt; text-align:center; border-top:1.0pt solid rgba(183,183,183,0.45); border-left:1.5pt solid rgba(183,183,183,0.45); }  .Sapro9427892{color:gray; font-size:0.8em; text-align:left; border-top:1.0pt solid rgba(183,183,183,0.45); }
                           .Sapro9527892{color:black; font-size:11.0pt; text-align:center; border-top:1.0pt solid rgba(183,183,183,0.45);
                               border-left:1.0pt solid rgba(183,183,183,0.45); }  .Sapro9627892{font-size:12.0pt; }  .Sapro9727892{color:black;
-                                                                                                                        font-size:11.0pt; font-weight:700; text-align:center; border-top:1.0pt solid rgba(183,183,183,0.45); border-right:1.0pt solid rgba(183,183,183,0.45);
-                                                                                                                        border-left:1.5pt solid rgba(183,183,183,0.45); background: white; }  .Sapro9827892{color:black;
+                          font-size:11.0pt; font-weight:700; text-align:center; border-top:1.0pt solid rgba(183,183,183,0.45); border-right:1.0pt solid rgba(183,183,183,0.45);
+                          border-left:1.5pt solid rgba(183,183,183,0.45); background: white; }  .Sapro9827892{color:black;
                                                                                                                                                                                                   font-size:11.0pt; font-weight:700; text-align:center; border-top:1.0pt solid rgba(183,183,183,0.45); border-right:1.0pt solid rgba(183,183,183,0.45); border-left:1.0pt solid rgba(183,183,183,0.45);
                                                                                                                                                                                                   background:white; }  .Sapro9927892{color:black; font-size:11.0pt; font-weight:700; text-align:center; border-top:1.0pt solid rgba(183,183,183,0.45); border-right:1.0pt solid rgba(183,183,183,0.45);
                                                                                                                                                                                                                            border-left:1.0pt solid rgba(183,183,183,0.45); background:white; }  .Sapro10127892{color:rgba(183,183,183,0.45); font-size:6.0pt; text-align:left; border-bottom:1.5pt solid rgba(183,183,183,0.45); background:white; }  .Sapro10327892{font-size:0.8em; text-align:left;
@@ -356,9 +286,9 @@
                                   <col class='monthNoCol'><col class='monthTxtCol'>
                               </colgroup>
                               <tr class=Sapro9627892>
-                                  <td colspan=4 class=Sapro12327892 style="color:#06366C"><a th:href="@{/administrador/calendariomarzo}" title="Enero 2023"><div class="Saprolar" style="color:#06366C"></div></a></td>
+                                  <td colspan=4 class=Sapro12327892 style="color:#06366C"><a title="Enero 2023"><div class="Saprolar" style="color:#06366C"></div></a></td>
                                   <td colspan=6 class=Sapro12027892 style="color:#06366C"><h2><b>JUNIO 2023</b></h2></td>
-                                  <td colspan=4 class=Sapro12127892><a th:href="@{/administrador/calendariomayo}" title="Marzo 2022"><div  class="Saprorar" style="color:#06366C"></div></a></td>
+                                  <td colspan=4 class=Sapro12127892><a title="Marzo 2022"><div  class="Saprorar" style="color:#06366C"></div></a></td>
                               </tr>
                               <tr>
                                   <td colspan=2 class=Sapro9727892 style="color:#06366C">Lunes</td>
@@ -700,9 +630,6 @@
             </table> -->
             <!-- End Bordered Table -->
 
-
-          </div>
-        </div><!-- End Recent Activity -->
 
       </div><!-- End Right side columns -->
 
