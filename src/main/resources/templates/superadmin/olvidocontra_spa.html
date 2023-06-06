@@ -61,56 +61,72 @@
                             <div class="card-body">
 
                                 <div class="pt-4 pb-2">
-                                    <h5 class="card-title text-center pb-0 fs-4">Cambiar Contraseña</h5>
+                                    <h5 class="card-title text-center pb-0 fs-4">Olvido de Contraseña</h5>
+                                    <div th:if="${ms1!=null}" th:text="${ms1}" class="alert alert-success" role="alert"></div>
+                                    <div th:if="${ms2!=null}" th:text="${ms2}" class="alert alert-danger" role="alert"></div>
+                                    <div th:if="${ms3!=null}" th:text="${ms3}" class="alert alert-danger" role="alert"></div>
+
                                 </div>
 
-                                <form class="row g-3 needs-validation" novalidate>
-                                    <div class="col-12">
-                                        <label for="yourName" class="form-label">Nombre</label>
-                                        <input type="text" name="name" class="form-control" id="yourName" required>
-                                        <div class="invalid-feedback">Please, enter your name!</div>
-                                    </div>
-                                    <div class="col-12">
-                                        <label for="yourSurname" class="form-label">Apellidos</label>
-                                        <input type="text" name="surname" class="form-control" id="yourSurname" required>
-                                        <div class="invalid-feedback">Please, enter your Surname!</div>
-                                    </div>
-                                    <div class="col-12">
-                                        <label for="yourDni" class="form-label">DNI</label>
-                                        <input type="text" name="dni" class="form-control" id="yourDni" required>
-                                        <div class="invalid-feedback">Please, enter your Dni!</div>
-                                    </div>
+                                <h5 class="text-center ">Ingresa tu DNI y correo, te enviaremos un link para que puedas cambiar tu contraseña</h5>
 
-                                    <div class="col-12">
-                                        <label for="yourEmail" class="form-label">Email</label>
-                                        <input type="email" name="email" class="form-control" id="yourEmail" required>
-                                        <div class="invalid-feedback">Please enter a valid Email adddress!</div>
-                                    </div>
 
+                                <form class="row g-3" method="post" th:action="@{'/enviarcorreo'}" onsubmit="return validateForm1()">
                                     <div class="col-12">
-                                        <label for="yourUsername" class="form-label">Usuario</label>
-                                        <div class="input-group has-validation">
-                                            <span class="input-group-text" id="inputGroupPrepend">@</span>
-                                            <input type="text" name="username" class="form-control" id="yourUsername" required>
-                                            <div class="invalid-feedback">Please choose a username.</div>
+                                        <label for="dni" class="form-label">DNI</label>
+                                        <div class="col-12">
+                                            <input name="dni" type="text" class="form-control" id="dni" required>
                                         </div>
                                     </div>
-
                                     <div class="col-12">
-                                        <label for="yourPassword" class="form-label">Nueva Contraseña</label>
-                                        <input type="password" name="password" class="form-control" id="yourPassword" required>
-                                        <div class="invalid-feedback">Please enter your password!</div>
+                                        <label for="correo" class="form-label">Correo</label>
+                                        <div class="col-12">
+                                            <input name="correo" type="text" class="form-control" id="correo" required>
+                                        </div>
                                     </div>
-                                    <div class="col-12">
-                                        <label for="yourRepeatPasswd" class="form-label">Repetir Contraseña</label>
-                                        <input type="password" name="password" class="form-control" id="yourRepeatPasswd" required>
-                                        <div class="invalid-feedback">Please enter your password!</div>
+                                    <div class="text-center">
+                                        <button type="submit" class="btn btn-primary w-100">Enviar Correo</button>
                                     </div>
-
-                                    <div class="col-12">
-                                        <a th:href="@{/iniciosesion}" class="btn btn-primary w-100" type="submit">Guardar Contraseña</a>
+                                    <div id="error-message" class="alert alert-danger mt-3" style="display: none;"></div>
+                                    <div class="text-center mt-3">
+                                        <a th:href="@{/}">Ir al inicio de sesión</a>
                                     </div>
                                 </form>
+                                <script>
+                                    function validateForm1() {
+                                        var dni = document.getElementById("dni").value;
+                                        var correo = document.getElementById("correo").value;
+
+                                        // Validar completar todos los campos
+                                        if (dni === "" || correo === "") {
+                                            var errorMessage = document.getElementById("error-message");
+                                            errorMessage.style.display = "block";
+                                            errorMessage.innerHTML = "Debe completar todos los campos";
+                                            return false;
+                                        }
+
+                                        // Validar formato de correo electrónico
+                                        var emailRegex = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/;
+                                        if (!emailRegex.test(correo)) {
+                                            var errorMessage = document.getElementById("error-message");
+                                            errorMessage.style.display = "block";
+                                            errorMessage.innerHTML = "El campo correo debe tener un formato de dirección de correo electrónico válido";
+                                            return false;
+                                        }
+
+                                        // Validar DNI como número de 8 dígitos
+                                        var dniRegex = /^\d{8}$/;
+                                        if (!dniRegex.test(dni)) {
+                                            var errorMessage = document.getElementById("error-message");
+                                            errorMessage.style.display = "block";
+                                            errorMessage.innerHTML = "El campo DNI debe contener exactamente 8 dígitos numéricos";
+                                            return false;
+                                        }
+
+                                        return true;
+                                    }
+                                </script>
+
 
                             </div>
                         </div>

@@ -63,21 +63,14 @@
                                 <div class="pt-4 pb-2">
                                     <h5 class="card-title text-center pb-0 fs-4">Cambiar Contraseña</h5>
                                     <div th:if="${psw1!=null}" th:text="${psw1}" class="alert alert-success" role="alert"></div>
-                                    <div th:if="${psw2!=null}" th:text="${psw2} " class="alert alert-danger" role="alert"></div>
                                     <div th:if="${psw3!=null}" th:text="${psw3}" class="alert alert-danger" role="alert"></div>
                                 </div>
 
-                                <form class="row g-3" method="post" th:action="@{'/changepassword'}" onsubmit="return validateForm()">
+                                <form class="row g-3" method="post" th:action="@{'/changepassword2'}" onsubmit="return validateForm()">
                                     <div class="col-12">
                                         <label for="correo" class="form-label">Correo</label>
                                         <div class="col-12">
                                             <input name="correo" type="email" class="form-control" id="correo">
-                                        </div>
-                                    </div>
-                                    <div class="col-12">
-                                        <label for="contrasena" class="form-label">Contraseña Actual</label>
-                                        <div class="col-12">
-                                            <input name="contrasena" type="password" class="form-control" id="contrasena">
                                         </div>
                                     </div>
                                     <div class="col-12">
@@ -105,31 +98,22 @@
 
                                 <script>
                                     function validateForm() {
-                                        var password = document.getElementById("contrasena").value;
                                         var newPassword = document.getElementById("newPassword").value;
                                         var renewPassword = document.getElementById("renewPassword").value;
 
-                                        if (password === "" || newPassword === "" || renewPassword === "") {
+                                        if (newPassword === "" || renewPassword === "") {
                                             var errorMessage = document.getElementById("error-message");
                                             errorMessage.style.display = "block";
                                             errorMessage.innerHTML = "Debe completar todos los campos";
                                             return false;
                                         }
-                                        if (password === newPassword ) {
-                                            var errorMessage = document.getElementById("error-message");
-                                            errorMessage.style.display = "block";
-                                            errorMessage.innerHTML = "La nueva contraseña no puede ser igual a la anterior";
-                                            return false;
-                                        }
+
                                         if (renewPassword != newPassword ) {
                                             var errorMessage = document.getElementById("error-message");
                                             errorMessage.style.display = "block";
                                             errorMessage.innerHTML = "No coinciden las contraseñas";
                                             return false;
                                         }
-
-
-
                                         return true;
                                     }
                                 </script>
