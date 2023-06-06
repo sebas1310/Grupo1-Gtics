@@ -737,6 +737,17 @@ public class DoctorController {
             return "doctor/enviarMensajeDoc";
     }
 
+    @GetMapping("/mensajeria/veradministrativos")
+    public String enviarMensaje2Doctor(Model model) {
+
+        Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
+        Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
+        model.addAttribute("doctor",doctor);
+        model.addAttribute("administrativos",usuarioRepository.listaAdministrativos(usuarioDoctor.getSede().getIdsede(),usuarioDoctor.getEspecialidad().getIdespecialidad()));
+
+        return "doctor/veradministrativos";
+    }
+
     @PostMapping("/mensajeria/enviarmensaje/envio")
     @Transactional
     //ResponseEntity<Void>

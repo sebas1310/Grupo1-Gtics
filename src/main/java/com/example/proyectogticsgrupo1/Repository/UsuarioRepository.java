@@ -93,6 +93,12 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
     @Query(value= "select * from usuario where idusuario = ?1 ",nativeQuery = true)
     Usuario usuarioDestino (Integer idUsuarioOrigen);
 
+
+
+    @Query(value=" select * from usuario where idtipodeusuario = 3 and sede_idsede= ?1 and especialidad_idespecialidad = ?2 ",nativeQuery = true)
+    List<Usuario> listaAdministrativos (Integer idsede, Integer idespecialidad);
+
+
 }
 
 
