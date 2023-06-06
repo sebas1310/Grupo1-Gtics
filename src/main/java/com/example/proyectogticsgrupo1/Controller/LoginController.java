@@ -39,28 +39,10 @@ public class LoginController {
     }
 //    superadmin/pages-login_spa
 
-    /* @PostMapping(value = {"/validacionusuario"})
-    public String validacionDeUsuario(@RequestParam("correo") String correo , @RequestParam("contrasena") String contrasena){
-        Optional<Usuario> optionalUsuario = Optional.ofNullable(usuarioRepository.validarLoginDeUsuario(correo, contrasena));
-
-        return "superadmin/pages-login_spa";
-    } */
-
     @PostMapping(value = "/registro")
     public String registro(@ModelAttribute("usuario") @Valid Usuario usuario, BindingResult bindingResult,
                            RedirectAttributes attr, Model model){
-
-        System.out.println("llegue");
         if(bindingResult.hasErrors()){
-            System.out.println("Usuario: "+ usuario.getDni());
-            System.out.println("Usuario: "+ usuario.getCorreo());
-            System.out.println("Usuario: "+ usuario.getEdad());
-            System.out.println("Usuario: "+ usuario.getSede().getNombre());
-            System.out.println("Usuario: "+ usuario.getNombres());
-            System.out.println("Usuario" + usuario.getGenero());
-            System.out.println("Usuario: "+ usuario.getApellidos());
-            System.out.println("Usuario: "+ usuario.getContrasena());
-
             attr.addFlashAttribute("msg", "presenta errores");
             model.addAttribute("listasedes", sedeRepository.findAll());
 

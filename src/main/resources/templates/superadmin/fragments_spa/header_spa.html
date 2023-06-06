@@ -7,22 +7,32 @@
 <header th:fragment="header(num_not, num_form, por_canc, nombre, num_men)" id="header" class="header fixed-top d-flex align-items-center" style="background-color:#668cff">
 
     <div class="d-flex align-items-center justify-content-between">
+
+        <i class="bi bi-list toggle-sidebar-btn"></i> &nbsp &nbsp
+
         <a th:href="@{'/superadmin/index'}"class="logo d-flex align-items-center">
-            <img th:src="@{/assets/img/logo.png}" alt="" th:href="@{'/superadmin/index'}">
             <span class="d-none d-lg-block" style="color: white" th:href="@{'/superadmin/index'}">Clínica LA FE</span>
+
+            <img th:src="@{/assets/img/logo.png}" alt="" th:href="@{'/superadmin/index'}">
         </a>
-        <i class="bi bi-list toggle-sidebar-btn"></i>
+
     </div><!-- End Logo -->
 
     <nav class="header-nav ms-auto">
         <ul class="d-flex align-items-center">
+            <!---
             <li class="nav-item dropdown ">
+
                 <a class="nav-link nav-icon" th:href="@{'/superadmin/notificaciones'}" >
+
                     <i class="bi bi-bell"></i> </a>
+
             </li>
+
+            --->
             <li class="nav-item dropdown">
             <li class="nav-item dropdown pe-3">
-                <a class="nav-link nav-profile d-flex align-items-center pe-0" th:href="@{'/superadmin/index'}" >
+                <a class="nav-link nav-profile d-flex align-items-center pe-0" th:href="@{'/superadmin/perfil'}" >
                     <img th:src="@{/assets/img/profile-img.jpg}" alt="Profile" class="rounded-circle">
                     <span th:text="${nombre}" class="d-none d-md-block  ps-2"></span>
                 </a><!-- End Profile Iamge Icon -->
