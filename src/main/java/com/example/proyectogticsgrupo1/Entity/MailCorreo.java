@@ -10,7 +10,7 @@ import java.time.LocalTime;
 @Getter
 @Setter
 @Entity
-@Table(name = "mensajes")
+@Table(name = "mensaje")
 
 public class MailCorreo {
 

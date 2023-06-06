@@ -51,7 +51,6 @@
                 <th style="text-align: center" scope="col">Asunto</th>
                 <th style="text-align: center" scope="col">Descripcion</th>
                 <th style="text-align: center" scope="col">Fecha y Hora</th>
-                <th style="text-align: center" scope="col">Mensaje</th>
               </tr>
               </thead>
               <tbody>
@@ -60,15 +59,14 @@
                 <td style="text-align: center" th:text="${mensaje.getAsunto()}"></td>
                 <td style="text-align: center" th:text="${mensaje.getDescripcion()}"></td>
                 <td style="text-align: center" th:text="|${mensaje.getFecha()} ${mensaje.getHora()}|"></td>
-                <td>
-                  <a th:href="@{'/administrador/chat'+'?idM=' + ${mensaje.getIdMensaje()}}" class="btn btn-danger">Visualizar</a></td>
               </tr>
-              </tr>
+              <button type="submit" class="btn btn-success"><a style="color: white" th:href="@{'/administrador/chat'}">Enviar Mensaje</a></button>
 
 
               </tbody>
             </table>
             <!-- End Default Table Example -->
+
 
 
           </div>

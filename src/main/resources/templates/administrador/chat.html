@@ -26,7 +26,7 @@
 <main id="main" class="main">
 
     <div class="pagetitle">
-        <h1>Mensajería</h1>
+        <h1>Envío de mensajes</h1>
     <nav>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a th:href="@{'/administrador'}">Home</a></li>
@@ -43,31 +43,53 @@
 
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">Mensaje Recibido</h5>
-
+                        <h5 class="card-title">Redacción del mensaje</h5>
+                        <div th:if="${mp1!=null}" th:text="${mp1}" class="alert alert-success" role="alert"></div>
+                        <div th:if="${mp2!=null}" th:text="${mp2}" class="alert alert-danger" role="alert"></div>
                         <!-- Default Table -->
-                        <table class="table">
-                            <thead>
-                            <tr>
-                                <th style="text-align: center" scope="col">De:</th>
-                                <th style="text-align: center" scope="col">Asunto</th>
-                                <th style="text-align: center" scope="col">Descripcion</th>
-                                <th style="text-align: center" scope="col">Fecha</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <td style="text-align: center" th:text="|${mensaje.getUsuarioDestino().getNombres()} ${mensaje.getUsuarioDestino().getApellidos()} ${mensaje.getUsuarioDestino().getTipodeusuario().getNombre()}|"></td>
-                                <td style="text-align: center" th:text="${mensaje.getAsunto()}"></td>
-                                <td style="text-align: center" th:text="${mensaje.getDescripcion()}"></td>
-                                <td style="text-align: center" th:text="|${mensaje.getFecha()} ${mensaje.getHora()}|"></td>
-                            </tr>
+                        <form class="row g-3" method="post" th:action="@{/administrador/enviarmensaje}" onsubmit="return validarFormulario()">
+                            <div class="col-12">
+                                <label class="form-label">Asunto</label>
+                                <input type="text" class="form-control" name="asunto" required>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label">Descripción</label>
+                                <textarea class="form-control" rows="5" name="descripcion" required></textarea>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label">Para: (escribe un correo)</label>
+                                <input type="text" class="form-control" name="correo" required>
+                                <div id="error-message" class="invalid-feedback" style="display: none;"></div>
+                            </div>
 
-                            </tbody>
-                        </table>
-                        <div class="d-grid gap d-md-flex justify-content-md-center">
-                            <a th:href="@{'/administrador/mensajes'}" class="btn btn-danger">Regresar</a>
-                        </div>
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-success" style="color: white">Enviar</button>
+                                <button type="reset" class="btn btn-secondary">
+                                    <a style="color: white" th:href="@{/administrador/mensajes}">Cancelar</a>
+                                </button>
+                            </div>
+                        </form>
+
+                        <script>
+                            function validarFormulario() {
+                                var correoInput = document.getElementsByName("correo")[0];
+                                var correo = correoInput.value.trim();
+                                var emailRegex = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/;
+
+                                if (!emailRegex.test(correo)) {
+                                    var errorMessage = document.querySelector(".invalid-feedback");
+                                    errorMessage.style.display = "block";
+                                    errorMessage.innerHTML = "El campo correo debe tener un formato de dirección de correo electrónico válido";
+                                    return false;
+                                }
+
+                                // El formulario se envía si pasa la validación
+                                return true;
+                            }
+                        </script>
+
+
+
                         <!-- End Default Table Example -->
 
 

@@ -25,6 +25,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.print.Doc;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.*;
 
 @Controller
@@ -382,10 +383,9 @@ public class AdministradorController {
     }
 
     @GetMapping(value = "/chat")
-    public String chat(Model model, @RequestParam("idM") int idMensaje) {
+    public String chat(Model model) {
         Usuario usuarioAdministrador = (Usuario) session.getAttribute("usuario");
         model.addAttribute("usuario", usuarioAdministrador);
-        model.addAttribute("mensaje", mailCorreoRepository.buscarMensajePorID(idMensaje));
         return "administrador/chat";
 
     }
@@ -551,4 +551,49 @@ public class AdministradorController {
 
         return "redirect:/administrador/perfil";
     }
+
+    @PostMapping(value = "/enviarmensaje")
+    public String enviarMensaje(@RequestParam("correo") String correo,
+                                @RequestParam("asunto") String asunto,
+                                @RequestParam("descripcion") String descripcion,
+                                RedirectAttributes redirectAttributes) {
+        // Verificar si el correo existe en la base de datos
+        Usuario usuario = usuarioRepository.findByCorreo(correo);
+
+        if (usuario != null) {
+            // Crear un nuevo mensaje y asignar los valores
+            MailCorreo mensaje = new MailCorreo();
+            mensaje.setAsunto(asunto);
+            mensaje.setDescripcion(descripcion);
+            mensaje.setCorreodestino(correo);
+            mensaje.setCorreo(usuario.getCorreo());
+            Usuario usuarioo = new Usuario();
+            usuarioo.setIdusuario(2);
+            mensaje.setUsuarioOrigen(usuarioo);
+            Usuario usuariod = new Usuario();
+            usuariod.setIdusuario(usuario.getIdusuario());
+            mensaje.setUsuarioDestino(usuariod);
+            // Establecer la fecha y hora actual
+            mensaje.setFecha(LocalDate.now());
+            mensaje.setHora(LocalTime.now());
+            mensaje.setPassword("1234");
+
+            // Guardar el mensaje en la base de datos
+            mailCorreoRepository.save(mensaje);
+
+            // Lógica para enviar el correo electrónico
+            String mensajeCorreo = "Asunto: " + asunto + "\nDescripción: " + descripcion;
+            emailService.sendEmail(correo, "Mensaje de Contacto", mensajeCorreo);
+
+            redirectAttributes.addFlashAttribute("mp1", "El correo ha sido enviado exitosamente");
+        } else {
+            redirectAttributes.addFlashAttribute("mp2", "No se puede comunicar con el correo ingresado");
+        }
+
+        return "redirect:/administrador/chat";
+    }
+
+
+
+
 }

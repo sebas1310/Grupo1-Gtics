@@ -71,23 +71,9 @@
                             <tr>
                                 <th scope="row">Cuestionarios</th>
                             </tr>
-                            <tr>
-                                <td>Neurología</td>
-                                <td><a th:href="@{'/administrador/vistacuestionario'}"><i class="bi bi-eye-fill"></i></a></td>
-                                </td>
+                            <tr th:each="cuestionarios : ${citas}">
+                                <td th:text="${cita.fecha} + '/' + ${cita.horainicio} + '-' + ${cita.horafinal} + '/' + ${cita.especialidad.nombre}"></td>
                             </tr>
-                            <tr>
-                                <td>Cardiología</td>
-                                <td><a th:href="@{'/administrador/vistacuestionario'}"><i class="bi bi-eye-fill"></i></a></td>
-                            </tr>
-                            <tr>
-                                <th scope="col">Formularios</th>
-                            </tr>
-                            <tr>
-                                <td> Registro</a></td>
-                                <td><i class="bi bi-journal-text"></i></td>
-                            </tr>
-
                             <tr>
                                 <th scope="row">Consentimientos</th>
                             </tr>
