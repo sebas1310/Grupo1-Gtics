@@ -34,7 +34,7 @@
       <div class="col-sm-4">
         <div class="card">
           <div class="card-body">
-            <h5 class="card-title">Opciones</h5>
+            <h5 class="card-title">Opciones disponibles a escoger</h5>
             <a class="btn btn-success" style="--bs-btn-padding-y: .60rem; --bs-btn-padding-x: 0.2cm;
                                 --bs-btn-font-size: .75rem;"></a><span class="card-text"> Disponibilidad</span><br>
             <a class="btn btn-info" style="--bs-btn-padding-y: .60rem; --bs-btn-padding-x: 0.2cm;
@@ -48,7 +48,7 @@
         <div class="card">
           <div class="card-body">
             <!-- General Form Elements -->
-            <form method="post" th:action="@{'/doctor/calendario/guardar'}" >
+            <form method="post" th:action="@{'/doctor/calendario/guardar'}"  onsubmit="return validateForm2()" >
               <br>
               <input th:value="${doctor.getIddoctor()}" name="iddoctor" type="hidden" />
 
@@ -99,10 +99,71 @@
               <div class="text-center">
                 <div class="text-center">
                   <button type="submit" class="btn btn-warning">Añadir Opcion</button>
+                  <button type="button" class="btn btn-danger"><a style="color: white" th:href="@{'/doctor/calendario'}" >Cancelar</a></button>
+                  <div id="error-message2" class="alert alert-danger mt-3" style="display: none;"></div>
                 </div>
               </div>
-
             </form>
+            <!-- Funcion para validar -->
+
+            <script>
+              function validateForm2() {
+                var horainicio = document.getElementById("horainicio").value;
+                var horafinal = document.getElementById("horafinal").value;
+                var descripcion = document.getElementById("descripcion").value.trim();
+                var idtipocalendario = document.getElementById("idtipocalendario").value;
+
+                if (horainicio === "" || horafinal === "" || descripcion === "" || idtipocalendario === "" ) {
+                  var errorMessage = document.getElementById("error-message2");
+                  errorMessage.style.display = "block";
+                  errorMessage.innerHTML = "Complete todos los campos requeridos";
+                  return false;
+                }
+
+                if (horainicio !== "" && horafinal !== "" && idtipocalendario == '1') {
+                  var tiempo1 = parseInt(horainicio.split(":")[0]);
+                  var tiempo2 = parseInt(horafinal.split(":")[0]);
+                  var diferencia = Math.abs(tiempo1 - tiempo2);
+
+                  if (diferencia >= 1) {
+                    var errorMessage = document.getElementById("error-message2");
+                    errorMessage.style.display = "block";
+                    errorMessage.innerHTML = "No debe exceder de 1 hora para sus citas";
+                    return false;
+                  }
+                }
+                if (horainicio !== "" && horafinal !== "" && idtipocalendario == '2') {
+                  var tiempo1 = parseInt(horainicio.split(":")[0]);
+                  var tiempo2 = parseInt(horafinal.split(":")[0]);
+                  var diferencia = Math.abs(tiempo1 - tiempo2);
+
+                  if (diferencia >= 2) {
+                    var errorMessage = document.getElementById("error-message2");
+                    errorMessage.style.display = "block";
+                    errorMessage.innerHTML = "No debe exceder de 2 horas para su refrigerio";
+                    return false;
+                  }
+                }
+
+                if (descripcion.length >= 30 || /^\s+$/.test(descripcion))
+                {
+                  var errorMessage = document.getElementById("error-message2");
+                  errorMessage.style.display = "block";
+                  errorMessage.innerHTML = "El campo excede el número de caracteres permitidos";
+                  return false;
+                }
+
+                else if (descripcion.length <= 2 || /^\s+$/.test(descripcion))
+                {
+                  var errorMessage = document.getElementById("error-message2");
+                  errorMessage.style.display = "block";
+                  errorMessage.innerHTML = "El campo debe tener como mínimo 3 caracteres";
+                  return false;
+                }
+                return true;
+              }
+            </script>
+            <!-- FIN Funcion para validar -->
           </div>
         </div>
       </div>

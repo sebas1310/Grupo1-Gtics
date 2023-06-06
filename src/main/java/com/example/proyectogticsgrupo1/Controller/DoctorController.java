@@ -518,6 +518,7 @@ public class DoctorController {
                                 @RequestParam("iddoctor") Integer iddoctor,
                                 RedirectAttributes redirectAttributes){
 
+
         Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
         Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
         Integer duracion = 1;
@@ -735,6 +736,17 @@ public class DoctorController {
                 return "doctor/enviarMensajeDoc";
             }
             return "doctor/enviarMensajeDoc";
+    }
+
+    @GetMapping("/mensajeria/veradministrativos")
+    public String enviarMensaje2Doctor(Model model) {
+
+        Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
+        Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
+        model.addAttribute("doctor",doctor);
+        model.addAttribute("administrativos",usuarioRepository.listaAdministrativos(usuarioDoctor.getSede().getIdsede(),usuarioDoctor.getEspecialidad().getIdespecialidad()));
+
+        return "doctor/veradministrativos";
     }
 
     @PostMapping("/mensajeria/enviarmensaje/envio")
