@@ -53,8 +53,14 @@ public interface PacienteRepository extends JpaRepository<Paciente, Integer> {
     @Query(value = "SELECT DISTINCT p.* FROM cita c\n" +
             "       INNER JOIN paciente p ON c.paciente_idpaciente = p.idpaciente\n" +
             "       INNER JOIN estadopaciente e ON p.idestadopaciente = e.idestadopaciente\n"+
-            "       INNER JOIN usuario u on p.idusuario = u.idusuario where c.idsede = ?1 LIMIT 5", nativeQuery = true)
-    List<Paciente> listarPacienteporSedeDashboard(int idsede);
+            "       INNER JOIN usuario u on p.idusuario = u.idusuario where c.idsede = ?1 and c.idespecialidad = ?2 LIMIT 5", nativeQuery = true)
+    List<Paciente> listarPacienteporSedeyEspecialidadDashboard(int idsede, int idespecialidad);
+
+    @Query(value = "SELECT DISTINCT p.* FROM cita c\n" +
+            "       INNER JOIN paciente p ON c.paciente_idpaciente = p.idpaciente\n" +
+            "       INNER JOIN estadopaciente e ON p.idestadopaciente = e.idestadopaciente\n"+
+            "       INNER JOIN usuario u on p.idusuario = u.idusuario where c.idsede = ?1 and c.idespecialidad = ?2", nativeQuery = true)
+    List<Paciente> listarPacienteporSedeyEspecialidadDashboardPacientes(int idsede, int idespecialidad);
 
     @Query(value = "select * from paciente where idpaciente= ?1", nativeQuery = true)
     Paciente buscarPacientH(Integer idPaciente);

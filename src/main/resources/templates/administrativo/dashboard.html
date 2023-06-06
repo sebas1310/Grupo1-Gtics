@@ -33,7 +33,7 @@
 
                 <div class="card">
                     <div class="card-body">
-                        <a class="card-title" th:href="@{'/administrativo/dashboardpacientes'}">Pacientes (Pediatria)</a>
+                        <a class="card-title" th:text=" 'Pacientes ('+ ${session.usuario.especialidad.nombre} +')'" th:href="@{'/administrativo/dashboardpacientes'}"></a>
 
                         <!-- Default Table -->
                         <table class="table">
@@ -41,40 +41,14 @@
                             <tr>
                                 <th scope="col">#</th>
                                 <th scope="col">Nombre</th>
-                                <th scope="col">Forma de Registro</th>
                                 <th scope="col">Estado</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>Lorena Vela Sulca</td>
-                                <td>Referido</td>
-                                <td>Registrado</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">2</th>
-                                <td>Antonio Miranda Camarena</td>
-                                <td>AutoRegistro</td>
-                                <td>En Consulta</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">3</th>
-                                <td>Carlos Ayala Zapata</td>
-                                <td>Referido</td>
-                                <td>Registrado</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">4</th>
-                                <td>Daniela Ricra Perez</td>
-                                <td>Referido</td>
-                                <td>Activo</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">5</th>
-                                <td>Tracy Cotera Galvan</td>
-                                <td>Autoregistro</td>
-                                <td>Invitado</td>
+                            <tr th:each="usuariop, info: ${listaUsuariosPacientes}">
+                                <th scope="row" th:text="${info.index + 1}"></th>
+                                <td th:text="${usuariop.usuario.nombres} + ' ' + ${usuariop.usuario.apellidos}"></td>
+                                <td th:text="${usuariop.estadoPaciente.nombre}"></td>
                             </tr>
                             </tbody>
                         </table>
@@ -84,55 +58,25 @@
 
                 <div class="card">
                     <div class="card-body">
-                        <a class="card-title" th:href="@{'/administrativo/dashboarddoctores'}">Doctores (Pediatria)</a>
+                        <a class="card-title" th:text=" 'Doctores ('+ ${session.usuario.especialidad.nombre} +')'" th:href="@{'/administrativo/dashboarddoctores'}"></a>
 
                         <!-- Default Table -->
                         <table class="table">
                             <thead>
                             <tr>
                                 <th scope="col">#</th>
-                                <th scope="col">Name</th>
+                                <th scope="col">Nombre</th>
                                 <th scope="col">Correo</th>
-                                <th scope="col">Chat</th>
+                                <th scope="col">Mensaje</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tbody>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>Brandon Jacob Joese</td>
-                                <td>ejm@pucp.edu.pe</td>
-                                <td><i class="bi bi-chat-dots-fill"></i></td>
-                            </tr>
-                            <tr>
-                                <th scope="row">2</th>
-                                <td>Bridie Kessler Garly</td>
-                                <td>ejm@pucp.edu.pe</td>
-                                <td><i class="bi bi-chat-dots-fill"></i></td>
-                            </tr>
-                            <tr>
-                                <th scope="row">3</th>
-                                <td>Ashleigh Langosh Selben</td>
-                                <td>ejm@pucp.edu.pe</td>
-                                <td><i class="bi bi-chat-dots-fill"></i></td>
-                            </tr>
-                            <tr>
-                                <th scope="row">4</th>
-                                <td>Angus Grady Sesvev</td>
-                                <td>ejm@pucp.edu.pe</td>
-                                <td><i class="bi bi-chat-dots-fill"></i></td>
-                            </tr>
-                            <tr>
-                                <th scope="row">5</th>
-                                <td>Raheem Lehner Leyer</td>
-                                <td>ejm@pucp.edu.pe</td>
-                                <td><i class="bi bi-chat-dots-fill"></i></td>
-                            </tr>
-                            <tr>
-                                <th scope="row">6</th>
-                                <td>Antounu Merind Seder</td>
-                                <td>ejm@pucp.edu.pe</td>
-                                <td><i class="bi bi-chat-dots-fill"></i></td>
+                            <tr th:each="usuariod, info: ${listaUsuarioDoctores}">
+                                <th scope="row" th:text="${info.index + 1}"></th>
+                                <td th:text="${usuariod.usuario.nombres} + ' ' + ${usuariod.usuario.apellidos}"></td>
+                                <td th:text="${usuariod.usuario.correo}"></td>
+                                <td><a th:href="@{/administrativo/mensajes}"><i class="bi bi-chat-dots-fill"></i></a></td>
+
                             </tr>
                             </tbody>
                         </table>
@@ -150,19 +94,6 @@
 
 </main><!-- End #main -->
 
-<!-- ======= Footer ======= -->
-<footer id="footer" class="footer">
-    <div class="copyright">
-        &copy; Copyright <strong><span>NiceAdmin</span></strong>. All Rights Reserved
-    </div>
-    <div class="credits">
-        <!-- All the links in the footer should remain intact. -->
-        <!-- You can delete the links only if you purchased the pro version. -->
-        <!-- Licensing information: https://bootstrapmade.com/license/ -->
-        <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
-        Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
-    </div>
-</footer><!-- End Footer -->
 
 <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 

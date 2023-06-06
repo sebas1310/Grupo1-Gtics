@@ -24,13 +24,16 @@
 <main id="main" class="main">
 
   <div class="pagetitle">
-    <h1>Dashboard</h1>
+    <h1>Envío de mensajes</h1>
     <nav>
       <ol class="breadcrumb">
-        <li class="breadcrumb-item active">Chat</li>
+        <li class="breadcrumb-item"><a th:href="@{'/administrativo/dashboard'}">Home</a></li>
+        <li class="breadcrumb-item active">Mensajería</li>
       </ol>
     </nav>
-  </div><!-- End Page Title -->
+  </div>
+
+  <!-- End Page Title -->
 
   <section class="section">
     <div class="row">
@@ -38,105 +41,54 @@
 
         <div class="card">
           <div class="card-body">
-            <h5 class="card-title">Chat</h5>
-            <div class="container">
-              <div class="row clearfix">
-                <div class="col-lg-12">
-                  <div class="card chat-app">
-                    <div id="plist" class="people-list">
-                      <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Search...">
-                      </div>
-                      <ul class="list-unstyled chat-list mt-2 mb-0">
-                        <li class="clearfix">
-                          <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="avatar">
-                          <div class="about">
-                            <div class="name">Vincent Porter</div>
-                            <div class="status"> <i class="fa fa-circle offline"></i> left 7 mins ago </div>
-                          </div>
-                        </li>
-                        <li class="clearfix active">
-                          <img th:src="@{'/assets/img/messages-1.jpg'}" alt="avatar" class="rounded-circle">
-                          <div class="about">
-                            <div class="name">Andreina Bravo Torres</div>
-                            <div class="status"> <i class="fa fa-circle online"></i> online </div>
-                          </div>
-                        </li>
-                        <li class="clearfix">
-                          <img src="https://bootdey.com/img/Content/avatar/avatar3.png" alt="avatar">
-                          <div class="about">
-                            <div class="name">Mike Thomas</div>
-                            <div class="status"> <i class="fa fa-circle online"></i> online </div>
-                          </div>
-                        </li>
-                        <li class="clearfix">
-                          <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="avatar">
-                          <div class="about">
-                            <div class="name">Christian Kelly</div>
-                            <div class="status"> <i class="fa fa-circle offline"></i> left 10 hours ago </div>
-                          </div>
-                        </li>
-                        <li class="clearfix">
-                          <img src="https://bootdey.com/img/Content/avatar/avatar8.png" alt="avatar">
-                          <div class="about">
-                            <div class="name">Monica Ward</div>
-                            <div class="status"> <i class="fa fa-circle online"></i> online </div>
-                          </div>
-                        </li>
-                        <li class="clearfix">
-                          <img src="https://bootdey.com/img/Content/avatar/avatar3.png" alt="avatar">
-                          <div class="about">
-                            <div class="name">Dean Henry</div>
-                            <div class="status"> <i class="fa fa-circle offline"></i> offline since Oct 28 </div>
-                          </div>
-                        </li>
-                      </ul>
-                    </div>
-                    <div class="chat">
-                      <div class="chat-header clearfix">
-                        <div class="row">
-                          <div class="col-lg-6">
-                            <a href="javascript:void(0);" data-toggle="modal" data-target="#view_info">
-                              <img th:src="@{'//img/messages-1.jpg'}" alt="avatar" class="rounded-circle">  </a>
-                            <div class="chat-about">
-                              <h6 class="m-b-0">Andreina Bravo Torres</h6>
-                              <small>Last seen: 2 hours ago</small>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="chat-history">
-                        <ul class="m-b-0">
-                          <li class="clearfix">
-                            <div class="message other-message float-right"> Hi Andreina, how are you? How is the project coming along? </div>
-                          </li>
-                          <li class="clearfix">
-                            <div class="message-data">
-                              <span class="message-data-time">10:12 AM, Today</span>
-                            </div>
-                            <div class="message my-message">Are we meeting today?</div>
-                          </li>
-                          <li class="clearfix">
-                            <div class="message-data">
-                              <span class="message-data-time">10:15 AM, Today</span>
-                            </div>
-                            <div class="message my-message">Project has been already finished and I have results to show you.</div>
-                          </li>
-                        </ul>
-                      </div>
-                      <div class="chat-message clearfix">
-                        <div class="input-group mb-0">
-                          <input type="text" class="form-control" placeholder="Enter text here...">
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
+            <h5 class="card-title">Redacción del mensaje</h5>
+            <div th:if="${mp1!=null}" th:text="${mp1}" class="alert alert-success" role="alert"></div>
+            <div th:if="${mp2!=null}" th:text="${mp2}" class="alert alert-danger" role="alert"></div>
             <!-- Default Table -->
+            <form class="row g-3" method="post" th:action="@{/administrativo/enviarmensaje}" onsubmit="return validarFormulario()">
+              <div class="col-12">
+                <label class="form-label">Asunto</label>
+                <input type="text" class="form-control" name="asunto" required>
+              </div>
+              <div class="col-12">
+                <label class="form-label">Descripción</label>
+                <textarea class="form-control" rows="5" name="descripcion" required></textarea>
+              </div>
+              <div class="col-12">
+                <label class="form-label">Para: (escribe un correo)</label>
+                <input type="text" class="form-control" name="correo" required>
+                <div id="error-message" class="invalid-feedback" style="display: none;"></div>
+              </div>
 
+              <div class="text-center">
+                <button type="submit" class="btn btn-success" style="background-color:rgb(231,154,110); border-color:rgb(231,154,110) ">Enviar</button>
+                <button type="reset" class="btn btn-secondary">
+                  <a style="color: white" th:href="@{/administrativo/mensajes}">Cancelar</a>
+                </button>
+              </div>
+            </form>
+
+            <script>
+              function validarFormulario() {
+                var correoInput = document.getElementsByName("correo")[0];
+                var correo = correoInput.value.trim();
+                var emailRegex = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/;
+
+                if (!emailRegex.test(correo)) {
+                  var errorMessage = document.querySelector(".invalid-feedback");
+                  errorMessage.style.display = "block";
+                  errorMessage.innerHTML = "El campo correo debe tener un formato de dirección de correo electrónico válido";
+                  return false;
+                }
+
+                // El formulario se envía si pasa la validación
+                return true;
+              }
+            </script>
+
+
+
+            <!-- End Default Table Example -->
 
 
             <!-- Centered Pagination -->
@@ -150,24 +102,9 @@
     </div>
     </div>
   </section>
-
-
-
 </main><!-- End #main -->
 
-<!-- ======= Footer ======= -->
-<footer id="footer" class="footer">
-  <div class="copyright">
-    &copy; Copyright <strong><span>ClinicaLAFE</span></strong>. All Rights Reserved
-  </div>
-  <div class="credits">
-    <!-- All the links in the footer should remain intact. -->
-    <!-- You can delete the links only if you purchased the pro version. -->
-    <!-- Licensing information: https://bootstrapmade.com/license/ -->
-    <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
-    Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
-  </div>
-</footer><!-- End Footer -->
+
 
 <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 

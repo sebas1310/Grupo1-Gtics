@@ -1,10 +1,11 @@
 package com.example.proyectogticsgrupo1.Controller;
 
+import com.example.proyectogticsgrupo1.Entity.Doctor;
+import com.example.proyectogticsgrupo1.Entity.MailCorreo;
 import com.example.proyectogticsgrupo1.Entity.Paciente;
 import com.example.proyectogticsgrupo1.Entity.Usuario;
-import com.example.proyectogticsgrupo1.Repository.DoctorRepository;
-import com.example.proyectogticsgrupo1.Repository.PacienteRepository;
-import com.example.proyectogticsgrupo1.Repository.UsuarioRepository;
+import com.example.proyectogticsgrupo1.Repository.*;
+import com.example.proyectogticsgrupo1.Service.EmailService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.List;
+
 @Controller
 @RequestMapping(value = "/administrativo")
 public class AdministrativoController {
@@ -30,14 +35,26 @@ public class AdministrativoController {
     DoctorRepository doctorRepository;
 
     @Autowired
+    private EmailService emailService;
+
+    @Autowired
+    MailCorreoRepository mailCorreoRepository;
+
+    @Autowired
+    private NotificacionesRepository notificacionesRepository;
+
+    @Autowired
     private HttpSession session;
 
-
-    @GetMapping(value = "/dashboard")
-    public String dashboard(Model model){
+    @GetMapping("/dashboard")
+    public String administrador(Model model) {
         Usuario usuarioAdministrativo = (Usuario) session.getAttribute("usuario");
+        List<Paciente> listaPacientesSD = pacienteRepository.listarPacienteporSedeyEspecialidadDashboard(usuarioAdministrativo.getSede().getIdsede(), usuarioAdministrativo.getEspecialidad().getIdespecialidad()); // a futuro cambiar
+        model.addAttribute("listaUsuariosPacientes", listaPacientesSD);
+        List<Doctor> listaDoctoresSD = doctorRepository.listarDoctorporSedeyEspecialidadDashboard(usuarioAdministrativo.getSede().getIdsede(),usuarioAdministrativo.getEspecialidad().getIdespecialidad());
+        model.addAttribute("listaUsuarioDoctores", listaDoctoresSD);
         model.addAttribute("usuario", usuarioAdministrativo);
-        return"administrativo/dashboard";
+        return "administrativo/dashboard";
     }
 
     @GetMapping(value = "/crearpaciente")
@@ -48,17 +65,25 @@ public class AdministrativoController {
     }
 
     @GetMapping(value = "/dashboarddoctores")
-    public String dashDoc(){
-        Usuario usuario = (Usuario) session.getAttribute("usuario");
+    public String dashDoc(Model model){
+        Usuario usuarioAdministrativo = (Usuario) session.getAttribute("usuario");
+        List<Doctor> listaDoctorSD = doctorRepository.listarDoctorporSedeyEspecialidadDashboardDoctores(usuarioAdministrativo.getSede().getIdsede(), usuarioAdministrativo.getEspecialidad().getIdespecialidad()); // a futuro cambiar
+        model.addAttribute("listaUsuariosDoctores", listaDoctorSD);
+        model.addAttribute("usuario", usuarioAdministrativo);
         return"administrativo/dashboarddoctores";
     }
 
     @GetMapping(value = "/dashboardpacientes")
     public String dashPac(Model model){
         Usuario usuarioAdministrativo = (Usuario) session.getAttribute("usuario");
+        List<Paciente> listaPacientesSD = pacienteRepository.listarPacienteporSedeyEspecialidadDashboardPacientes(usuarioAdministrativo.getSede().getIdsede(), usuarioAdministrativo.getEspecialidad().getIdespecialidad()); // a futuro cambiar
+        model.addAttribute("listaUsuariosPacientes", listaPacientesSD);
         model.addAttribute("usuario", usuarioAdministrativo);
         return"administrativo/dashboardpaciente";
     }
+
+
+
 
     @GetMapping(value = "/formularioreferido")
     public String formRef(Model model){
@@ -78,14 +103,17 @@ public class AdministrativoController {
     public String mensajes(Model model){
         Usuario usuarioAdministrativo = (Usuario) session.getAttribute("usuario");
         model.addAttribute("usuario", usuarioAdministrativo);
+        model.addAttribute("listamensajes", mailCorreoRepository.buscarMensajesEnviadosyRecibidos(usuarioAdministrativo.getIdusuario(),usuarioAdministrativo.getIdusuario()));
+
         return"administrativo/mensajes";
     }
 
     @GetMapping(value = "/notificaciones")
-    public String notificaciones(Model model){
+    public String notif(Model model) {
         Usuario usuarioAdministrativo = (Usuario) session.getAttribute("usuario");
         model.addAttribute("usuario", usuarioAdministrativo);
-        return"administrativo/notificaciones";
+        model.addAttribute("notificaciones",notificacionesRepository.notificacionesPorUsuario(usuarioAdministrativo.getIdusuario()));
+        return "administrativo/notificaciones";
     }
 
     @GetMapping(value = "/nuevopaciente")
@@ -99,6 +127,49 @@ public class AdministrativoController {
         Usuario usuarioAdministrativo = (Usuario) session.getAttribute("usuario");
         model.addAttribute("usuario", usuarioAdministrativo);
         return "administrativo/chat";
+    }
+
+    @PostMapping(value = "/enviarmensaje")
+    public String enviarMensaje(@RequestParam("correo") String correo,
+                                @RequestParam("asunto") String asunto,
+                                @RequestParam("descripcion") String descripcion,
+                                RedirectAttributes redirectAttributes, Model model) {
+        // Verificar si el correo existe en la base de datos
+        Usuario usuario = usuarioRepository.findByCorreo(correo);
+        Usuario usuarioAdministrativo = (Usuario) session.getAttribute("usuario");
+        model.addAttribute("usuario", usuarioAdministrativo);
+
+        if (usuario != null) {
+            // Crear un nuevo mensaje y asignar los valores
+            MailCorreo mensaje = new MailCorreo();
+            mensaje.setAsunto(asunto);
+            mensaje.setDescripcion(descripcion);
+            mensaje.setCorreodestino(correo);
+            mensaje.setCorreo(usuario.getCorreo());
+            Usuario usuarioo = new Usuario();
+            usuarioo.setIdusuario(usuarioAdministrativo.getIdusuario());
+            mensaje.setUsuarioOrigen(usuarioo);
+            Usuario usuariod = new Usuario();
+            usuariod.setIdusuario(usuario.getIdusuario());
+            mensaje.setUsuarioDestino(usuariod);
+            // Establecer la fecha y hora actual
+            mensaje.setFecha(LocalDate.now());
+            mensaje.setHora(LocalTime.now());
+            mensaje.setPassword("1234");
+
+            // Guardar el mensaje en la base de datos
+            mailCorreoRepository.save(mensaje);
+
+            // Lógica para enviar el correo electrónico
+            String mensajeCorreo = "Asunto: " + asunto + "\nDescripción: " + descripcion;
+            emailService.sendEmail(correo, "Mensaje de Contacto", mensajeCorreo);
+
+            redirectAttributes.addFlashAttribute("mp1", "El correo ha sido enviado exitosamente");
+        } else {
+            redirectAttributes.addFlashAttribute("mp2", "No se puede comunicar con el correo ingresado");
+        }
+
+        return "redirect:/administrativo/chat";
     }
 
     @PostMapping(value = "/changepassword")
@@ -168,5 +239,33 @@ public class AdministrativoController {
         model.addAttribute("usuario", usuarioAdministrativo);
         return "administrativo/configuraciones";
     }
+
+    @PostMapping(value = "/enviarcorreoadministrativo")
+    public String enviarCorreo(@RequestParam("nombres") String nombres, @RequestParam("dni") String dni,
+                               @RequestParam("correo") String correo, RedirectAttributes redirectAttributes) {
+        // Verificar si existe un usuario con el mismo DNI
+        Usuario usuarioDni = usuarioRepository.findByDni(dni);
+
+        // Verificar si existe un usuario con el mismo correo electrónico
+        Usuario usuarioCorreo = usuarioRepository.findByCorreo(correo);
+
+        if (usuarioDni != null && usuarioCorreo != null) {
+            redirectAttributes.addFlashAttribute("ms2", "No se pudo enviar el correo, ya existe un usuario con este DNI y correo electrónico");
+        } else if (usuarioDni != null) {
+            redirectAttributes.addFlashAttribute("ms2", "No se pudo enviar el correo, ya existe un usuario con este DNI");
+        } else if (usuarioCorreo != null) {
+            redirectAttributes.addFlashAttribute("ms2", "No se pudo enviar el correo, ya existe un usuario con este correo electrónico");
+        } else {
+            // Lógica para enviar el correo electrónico
+            emailService.sendEmail(correo, "Invitación",
+                    "Estimado usuario, usted ha sido invitado a la plataforma de Clínica LA FE:\nIngresa aquí para registrarte: http://localhost:8081/");
+
+            redirectAttributes.addFlashAttribute("ms1", "El correo ha sido enviado exitosamente");
+        }
+
+        return "redirect:/administrativo/crearpaciente";
+    }
+
+
 
 }

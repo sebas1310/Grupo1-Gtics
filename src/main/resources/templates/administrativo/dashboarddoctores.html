@@ -39,57 +39,38 @@
 
                 <div class="card">
                     <div class="card-body">
+
                         <h5 class="card-title">Doctores</h5>
+                        <div th:if="${pac!=null}" th:text="${pac}" class="alert alert-success" role="alert"></div>
+
+                        <!--<div class="search-bar">
+                            <form class="search-form d-flex align-items-center col-lg bg-body-tertiary" method="post" th:action="@{/administrador/buscarPaciente}">
+                                <input name="id" th:value="${usuario.idusuario}" type="hidden">
+                                <input class="form-control me-2" type="search" placeholder="Buscar Paciente" aria-label="Search" name="buscando">
+                                <button class="btn btn-outline-success" type="submit" style="margin-right: 10px"><i class="bi bi-search"></i></button>
+                                <span><a class="btn btn-outline-danger" th:href="@{/administrador/dashboardpaciente}">Limpiar</i></a></span>
+                            </form>
+                        </div>--><!-- End Search Bar -->
 
                         <!-- Default Table -->
-                        <table class="table">
+                        <table class="table table-borderless datatable">
                             <thead>
                             <tr>
                                 <th scope="col">#</th>
                                 <th scope="col">Nombre</th>
-                                <th scope="col">Especialidad</th>
                                 <th scope="col">Correo</th>
-                                <th scope="col">Chat</th>
+                                <th scope="col">Mensaje</th>
                             </tr>
                             </thead>
                             <tbody>
-
-
-                            <tr th:each="doctor: ${listaDoctores}">
-
-                                <td th:text="${info.index + 1}"></td>
-                                <td th:href="@{'/administrativo/detallesdoctor'}" th:text="${doctor.usuario.nombres} + ' ' + ${doctor.usuario.apellidos}"></td>
-                                <td th:text="${doctor.especialidad.nombre}"></td>
-                                <td th:text="${doctor.usuario.correo}"></td>
-
-                                <td><a class="btn btn-primary" th:href="@{'/empleado/editar' + '?id=' + ${empleado.employee_id}}">Editar</a>
-                                </td>
-                                <td><a th:href="@{'/administrativo/chat' + '?id=' + ${doctor.iddoctor}}"><i class="bi bi-chat-dots-fill"></i></a></td>
-                                </td>
+                            <tr th:each="usuariod, info: ${listaUsuariosDoctores}">
+                                <th scope="row" th:text="${info.index + 1}"></th>
+                                <td th:text="${usuariod.usuario.nombres} + ' ' + ${usuariod.usuario.apellidos}"></td>
+                                <td th:text="${usuariod.usuario.correo}"></td>
+                                <td><a th:href="@{/administrativo/mensajes}"><i class="bi bi-chat-dots-fill"></i></a></td>
                             </tr>
-
-
-                        </tbody>
+                            </tbody>
                         </table>
-                        <!-- End Default Table Example -->
-                        <!-- Centered Pagination -->
-                        <nav aria-label="Page navigation example">
-                            <ul class="pagination justify-content-center">
-                                <li class="page-item">
-                                    <a class="page-link" href="#" aria-label="Previous">
-                                        <span aria-hidden="true">&laquo;</span>
-                                    </a>
-                                </li>
-                                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#" aria-label="Next">
-                                        <span aria-hidden="true">&raquo;</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </nav><!-- End Centered Pagination -->
 
                     </div>
                 </div>
@@ -99,6 +80,7 @@
         </div>
         </div>
         </div>
+
     </section>
 
 
@@ -110,21 +92,8 @@
 
 
 
-</main><!-- End #main -->
 
-<!-- ======= Footer ======= -->
-<footer id="footer" class="footer">
-    <div class="copyright">
-        &copy; Copyright <strong><span>ClinicaLAFE</span></strong>. All Rights Reserved
-    </div>
-    <div class="credits">
-        <!-- All the links in the footer should remain intact. -->
-        <!-- You can delete the links only if you purchased the pro version. -->
-        <!-- Licensing information: https://bootstrapmade.com/license/ -->
-        <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
-        Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
-    </div>
-</footer><!-- End Footer -->
+</main><!-- End #main -->
 
 <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 

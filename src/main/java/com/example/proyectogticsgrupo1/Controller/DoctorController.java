@@ -60,6 +60,9 @@ public class DoctorController {
     @Autowired
     TablaTitulosInputsRepository tablaTitulosInputsRepository;
 
+    @Autowired
+    NotificacionesRepository notificacionesRepository;
+
     public DoctorController(CitaRepository citaRepository, DoctorRepository doctorRepository, PacienteRepository pacienteRepository,
                             RecetaMedicaRepository recetaMedicaRepository, ReporteCitaRepository reporteCitaRepository,UsuarioRepository usuarioRepository,
                             BitacoraDeDiagnosticoRepository bitacoraDeDiagnosticoRepository,
@@ -734,6 +737,17 @@ public class DoctorController {
             return "doctor/enviarMensajeDoc";
     }
 
+    @GetMapping("/mensajeria/veradministrativos")
+    public String enviarMensaje2Doctor(Model model) {
+
+        Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
+        Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
+        model.addAttribute("doctor",doctor);
+        model.addAttribute("administrativos",usuarioRepository.listaAdministrativos(usuarioDoctor.getSede().getIdsede(),usuarioDoctor.getEspecialidad().getIdespecialidad()));
+
+        return "doctor/veradministrativos";
+    }
+
     @PostMapping("/mensajeria/enviarmensaje/envio")
     @Transactional
     //ResponseEntity<Void>
@@ -756,6 +770,7 @@ public class DoctorController {
         Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
         Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
         model.addAttribute("doctor",doctor);
+        model.addAttribute("notificaciones",notificacionesRepository.notificacionesPorUsuario(doctor.getUsuario().getIdusuario()));
         return "doctor/notificacionesDoc";
     }
 
@@ -786,9 +801,15 @@ public class DoctorController {
     @PostMapping("/guardarSede")
     public String guardarSede(RedirectAttributes attr, @RequestParam("idsede") int idS,
                               @RequestParam("id") int idD){
+
         doctorRepository.cambiarSede(idS, idD);
-        attr.addAttribute("id", idD);
-        attr.addAttribute("iddoctor", idS);
+        Doctor doctor = doctorRepository.buscarDoctorPorId(idD);
+        Sede sede = sedeRepository.buscarSedePorId(idS);
+        String content="Estimado Doctor(a): "+doctor.getUsuario().getNombres()+" "+doctor.getUsuario().getApellidos()+ " se realizó su cambio de sede a" +sede.getNombre()+ "";
+        String titulo="Cambio de Sede a: "+sede.getNombre()+ "";
+        //notificacionesRepository.notificarCreacion(doctor.getUsuario().getIdusuario(),content,titulo);
+        //attr.addAttribute("id", idD);
+        //attr.addAttribute("iddoctor", idS);
         attr.addFlashAttribute("msg","Sede Actualizada");
         return "redirect:/doctor/configuraciones";
     }

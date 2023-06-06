@@ -1,6 +1,7 @@
 package com.example.proyectogticsgrupo1.Controller;
 
 import com.example.proyectogticsgrupo1.Entity.*;
+import com.example.proyectogticsgrupo1.Repository.SedeRepository;
 import com.example.proyectogticsgrupo1.Repository.UsuarioRepository;
 import com.example.proyectogticsgrupo1.Service.EmailService;
 import jakarta.transaction.Transactional;
@@ -28,7 +29,8 @@ public class LoginController {
         this.usuarioRepository = usuarioRepository;
     }
 
-
+    @Autowired
+    SedeRepository sedeRepository;
 
     @GetMapping(value = {"/"})
     public String inicioSesion(){
@@ -101,7 +103,8 @@ public class LoginController {
     }
 
     @GetMapping(value = "/formRegistro")
-    public String formRegistro(){
+    public String formRegistro(@ModelAttribute("usuario") Usuario usuario, Model model){
+        model.addAttribute("listasedes", sedeRepository.findAll());
 
         return "superadmin/formularioregistro_spa";
     }
