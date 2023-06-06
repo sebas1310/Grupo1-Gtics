@@ -89,6 +89,12 @@ public class LoginController {
         return "cambiarcontrasena";
     }
 
+    @GetMapping(value = "/error")
+    public String error(){
+
+        return "error";
+    }
+
     @GetMapping(value = "/cambiarcontrasena2")
     public String cambiarContra2(){
 
