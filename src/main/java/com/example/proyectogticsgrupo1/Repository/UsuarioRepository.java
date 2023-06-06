@@ -7,6 +7,7 @@ import com.example.proyectogticsgrupo1.Entity.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 
@@ -23,6 +24,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
     public Usuario findByDni(String dni);
 
     public Usuario findByCelular(String celular);
+
 
 
     @Query(value= "select * from usuario where correo = ?1 and contrasena = ?2 ",nativeQuery = true)
@@ -53,6 +55,12 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
     @Modifying
     @Query(value = "update usuario set contrasena = ?1 where idusuario = ?2", nativeQuery = true)
     void actualizarcontrasena(String contrasena, int idusuario);
+
+
+    @Query(value = "SELECT COUNT(*) > 0 FROM usuarios WHERE correo = :correo", nativeQuery = true)
+    boolean existeUsuarioPorCorreo(@Param("correo") String correo);
+
+
 
 
     @Modifying
