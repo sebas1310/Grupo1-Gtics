@@ -38,8 +38,8 @@
                         <div class="card">
                             <div class="card-body">
                                 <h5 class="card-title">Mensajes Recibidos</h5>
+                                    <a th:href="@{'/doctor/mensajeria/veradministrativos'}" class="btn btn-success">Nuevo Mensaje</a>
 
-                                <a th:href="@{'/doctor/mensajeria/veradministrativos'}" class="btn btn-danger">Enviar Mensaje</a>
 
                                 <div th:if="${msg!=null}" th:text="${msg}" class="alert alert-success" role="alert"></div>
 
