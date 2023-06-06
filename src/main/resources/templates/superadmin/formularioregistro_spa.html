@@ -70,7 +70,7 @@
                                     <div class="row mb-3">
                                         <label class="col-form-label">Nombre</label>
                                         <div class="col-sm-10">
-                                            <input type="text" class="form-control" th:field="*{nombres}" th:classappend="${#fields.hasErrors('nombres')?'is-invalid':''}" required>
+                                            <input type="text" class="form-control" th:field="*{nombres}" th:classappend="${(#fields.hasErrors('nombres')?'is-invalid':'')}" required>
                                             <div class="invalid-feedback" th:if="${#fields.hasErrors('nombres')}" th:errors="*{nombres}" ></div>
                                         </div>
                                     </div>
