@@ -55,7 +55,7 @@
                             </a>
                         </div><!-- End Logo -->
 
-                        <div class="col-sm-12 mb-5 mb-sm-0">
+                        <div class="col-sm-8 mb-5 mb-sm-0">
 
                             <div class="card">
 
@@ -123,7 +123,7 @@
                                     </div>
 
                                     <div class="row mb-3">
-                                        <label class="col-sm-3 col-form-label">Genero</label>
+                                        <label class="col-sm-6 col-form-label">Genero</label>
                                         <div class="col-sm-12">
                                             <select name="genero" class="form-select" required>
                                                 <option th:value="Masculino">Masculino</option>
@@ -133,7 +133,7 @@
                                     </div>
 
                                     <div class="row mb-3">
-                                        <label  class="col-sm-3 col-form-label">Sede</label>
+                                        <label  class="col-sm-6 col-form-label">Sede</label>
                                         <div class="col-sm-12">
                                             <select  class="form-select" th:name="sede.idsede">
                                                 <option th:each="sede : ${listasedes}" th:text="${sede.getNombre()}"
@@ -143,13 +143,13 @@
                                     </div>
 
                                     <div class="col-12">
-                                        <label for="newPassword" class="col-sm-3 col-form-labell">Contraseña</label>
+                                        <label for="newPassword" class="col-sm-6 col-form-labell">Contraseña</label>
                                         <input type="password" name="newPassword" class="form-control" id="newPassword" required>
                                         <div class="invalid-feedback">Por favor ingrese una contraseña</div>
                                     </div>
 
                                     <div class="col-12">
-                                        <label for="repeatPassw" class="col-sm-3 col-form-label">Confirmar Contraseña</label>
+                                        <label for="repeatPassw" class="col-sm-6 col-form-label">Confirmar Contraseña</label>
                                         <input type="password" name="renewPassword" class="form-control" id="repeatPassw" required>
                                         <div class="invalid-feedback">Ingrese de nuevo su contraseña</div>
                                     </div>

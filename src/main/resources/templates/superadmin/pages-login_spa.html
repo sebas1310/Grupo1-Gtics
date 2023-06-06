@@ -48,10 +48,10 @@
                 </a>
               </div><!-- End Logo -->
 
-              <div class="card mb-3">
+              <div class="col-sm-5 mb-5 mb-sm-0">
 
-                <div class="card-body">
-
+                <div class="card">
+                  <div class="card-body">
                   <div class="pt-4 pb-2">
                     <h5 class="card-title text-center pb-0 fs-4">Inicio de Sesión</h5>
                     <p class="text-center small">Coloca tu usuario y contraseña</p>
@@ -59,8 +59,8 @@
 
                   <form method="post" th:action="@{/validacionusuario}" >
 
-                    <div class="col-12">
-                      <label for="yourUsername" class="form-label">Correo</label>
+                    <div class="row mb-3">
+                      <label for="yourUsername" class="col-sm-6 col-form-label">Correo</label>
                       <div class="input-group has-validation">
                         <input type="text" name="correo" class="form-control" id="yourUsername" required >
                         <!--div class="invalid-feedback">Please enter your username.</div> -->
@@ -69,11 +69,15 @@
 
                     <br>
 
-                    <div class="col-12">
-                      <label for="yourPassword" class="form-label">Contraseña</label>
+                    <div class="row mb-3">
+                      <label for="yourPassword" class="col-sm-6 col-form-label">Contraseña</label>
+                      <div class="input-group has-validation">
+
                       <input type="password" name="contrasena" class="form-control" id="yourPassword" required>
                       <!--<div class="invalid-feedback">Please enter your password!</div> -->
+                      </div>
                     </div>
+
                     <br>
 
                       <div th:if="${param.error}" class="alert alert-danger small" role="alert">Acceso denegado</div>
@@ -104,7 +108,7 @@
 
                 </div>
               </div>
-
+            </div>
             </div>
           </div>
         </div>
