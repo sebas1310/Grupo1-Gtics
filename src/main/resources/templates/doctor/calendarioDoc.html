@@ -49,7 +49,7 @@
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">Añadir Calendario</h5>
-                        <form method="post" th:action="@{'/doctor/calendario/agregar'}" >
+                        <form method="post" th:action="@{'/doctor/calendario/agregar'}" onsubmit="return validateForm2()" >
                             <div class="mb-3 row">
                                 <input th:value="${doctor.getIddoctor()}" name="iddoctor" type="hidden" />
                                 <label for="fecha" class="col-sm-3 col-form-label"  style="font-weight: bold">Fecha</label>
@@ -59,12 +59,26 @@
                             </div>
                             <div class="text-center">
                                 <button type="submit" class="btn btn-primary">Continuar</button>
+                                <div id="error-message2" class="alert alert-danger mt-3" style="display: none;"></div>
                             </div>
                         </form>
-
                     </div>
                 </div>
             </div>
+            <!-- Funcion para validar -->
+            <script>
+                function validateForm2() {
+                    var fecha = document.getElementById("fecha").value.trim();
+
+                    if (fecha === "" ) {
+                        var errorMessage = document.getElementById("error-message2");
+                        errorMessage.style.display = "block";
+                        errorMessage.innerHTML = "Complete el campo requerido";
+                        return false;
+                    }
+                    return true;
+                }
+            </script>
             <!--
             <div class="col-sm-6">
                 <div class="card">
