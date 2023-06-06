@@ -45,10 +45,10 @@
                     <table class="table table-borderless datatable">
                         <thead>
                             <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Nombre</th>
-                                <th scope="col">Paciente Porcentaje</th>
-                                <th scope="col">Doctor Porcentaje</th>
+                                <th class="text-center" scope="col">#</th>
+                                <th class="text-center" scope="col">Nombre</th>
+                                <th class="text-center" scope="col">Paciente Porcentaje</th>
+                                <th class="text-center" scope="col">Doctor Porcentaje</th>
                                 <th></th>
 
 
@@ -57,11 +57,11 @@
                         <tbody>
 
                             <tr th:each="seguro, info : ${listSeguros}" th:id="'fila-' + ${info.index}">
-                                <td th:text="${info.index + 1}"></td>
-                                <td th:text="${seguro.nombre}"></td>
-                                <td th:text="${seguro.coaseguro}"></td>
-                                <td th:text="${seguro.comisiondoctor}"></td>
-                                <td><a class="btn btn-primary"
+                                <td class="text-center" th:text="${info.index + 1}"></td>
+                                <td class="text-center" th:text="${seguro.nombre}"></td>
+                                <td class="text-center" th:text="${seguro.coaseguro}"></td>
+                                <td class="text-center" th:text="${seguro.comisiondoctor}"></td>
+                                <td class="text-center" ><a class="btn btn-primary"
                                        th:href="@{'/superadmin/editarSeguro?id=' + ${seguro.idseguro}}">Editar</a>
                                 </td>
                             </tr>

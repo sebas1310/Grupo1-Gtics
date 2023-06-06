@@ -47,20 +47,20 @@
                   <table class="table table-borderless datatable">
                     <thead>
                       <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Nombres</th>
-                        <th scope="col">Rol</th>
-                        <th scope="col">Editar</th>
-                        <th scope="col">Estado</th>
+                        <th class="text-center" scope="col">#</th>
+                        <th class="text-center" scope="col">Nombres</th>
+                        <th class="text-center" scope="col">Rol</th>
+                        <th class="text-center" scope="col">Editar</th>
+                        <th class="text-center" scope="col">Estado</th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr th:each="usuario, info : ${listaUsuarios}">
-                        <td th:text="${info.index + 1}"></td>
-                        <td th:text="${usuario.nombres + ' ' +usuario.apellidos}"></td>
-                        <td th:text="${usuario.getTipodeusuario().nombre}"></td>
-                        <td><a th:href="@{'/superadmin/perfilUsuario?id=' + ${usuario.idusuario}}" class="btn" style="background-color:#668cff">Acceder</a></td>
-                        <td><span th:if="${usuario.estadohabilitado == 1}" class="badge bg-success">Activo</span>
+                        <td class="text-center" th:text="${info.index + 1}"></td>
+                        <td class="text-center" th:text="${usuario.nombres + ' ' +usuario.apellidos}"></td>
+                        <td  class="text-center" th:text="${usuario.getTipodeusuario().nombre}"></td>
+                        <td class="text-center" ><a th:href="@{'/superadmin/perfilUsuario?id=' + ${usuario.idusuario}}" class="btn" style="background-color:#668cff">Acceder</a></td>
+                        <td class="text-center" ><span th:if="${usuario.estadohabilitado == 1}" class="badge bg-success">Activo</span>
                           <span th:if="${usuario.estadohabilitado == 0}"class="badge bg-danger">Inactivo</span></td>
                       </tr>
 

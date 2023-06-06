@@ -645,7 +645,7 @@ public class SuperadminController {
                 String hashedNewPassword = passwordEncoder.encode(newpassword);
 
                 usuarioRepository.changePassword(hashedNewPassword, usuario.getIdusuario());
-                emailService.sendEmail(usuario.getCorreo(), "Cambio de Contraseña", "Estimado usuario, hemos reestablecido su contraseña, la cual ahora es: " + passwordEncoder.encode(usuario.getContrasena()));
+                emailService.sendEmail(usuario.getCorreo(), "Cambio de Contraseña", "Estimado usuario, hemos reestablecido su contraseña, la cual ahora es: " + newpassword);
                 redirectAttributes.addFlashAttribute("psw3", "Contraseña actualizada");
             } else {
                 System.out.println("INCORRECTO");
