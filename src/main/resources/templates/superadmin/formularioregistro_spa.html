@@ -135,7 +135,7 @@
                                     <div class="row mb-3">
                                         <label  class="col-sm-6 col-form-label">Sede</label>
                                         <div class="col-sm-12">
-                                            <select  class="form-select" th:name="sede.idsede">
+                                            <select  class="form-select" name="sede">
                                                 <option th:each="sede : ${listasedes}" th:text="${sede.getNombre()}"
                                                         th:value="${sede.getIdsede()}"></option>
                                             </select>
@@ -144,15 +144,16 @@
 
                                     <div class="col-12">
                                         <label for="newPassword" class="col-sm-6 col-form-labell">Contraseña</label>
-                                        <input type="password" name="newPassword" class="form-control" id="newPassword" required>
+                                        <input type="password" name="contrasena" class="form-control" id="newPassword" required>
                                         <div class="invalid-feedback">Por favor ingrese una contraseña</div>
                                     </div>
 
                                     <div class="col-12">
-                                        <label for="repeatPassw" class="col-sm-6 col-form-label">Confirmar Contraseña</label>
-                                        <input type="password" name="renewPassword" class="form-control" id="repeatPassw" required>
+                                        <label for="renewPassword" class="col-sm-6 col-form-label">Confirmar Contraseña</label>
+                                        <input type="password" name="renewPassword" class="form-control" id="renewPassword" required>
                                         <div class="invalid-feedback">Ingrese de nuevo su contraseña</div>
                                     </div>
+                                    <div id="error-message" style="display: none"></div>
 
                                     <input type="hidden" th:name="estadohabilitado" th:value="1">
                                     <input type="hidden" th:name="tipodeusuario.idtipodeusuario" th:value="4">
@@ -167,29 +168,6 @@
 
 
                                 </form>
-                                <!-- Funcion para validar -->
-                                <script>
-                                    function validateForm() {
-                                        var newPassword = document.getElementById("newPassword").value;
-                                        var renewPassword = document.getElementById("renewPassword").value;
-
-                                        if (newPassword === "" || renewPassword === "") {
-                                            var errorMessage = document.getElementById("error-message");
-                                            errorMessage.style.display = "block";
-                                            errorMessage.innerHTML = "Debe completar todos los campos";
-                                            return false;
-                                        }
-
-                                        if (renewPassword != newPassword ) {
-                                            var errorMessage = document.getElementById("error-message");
-                                            errorMessage.style.display = "block";
-                                            errorMessage.innerHTML = "No coinciden las contraseñas";
-                                            return false;
-                                        }
-
-                                        return true;
-                                    }
-                                </script>
                                 </div>
                             </div>
                         </div>
@@ -207,6 +185,27 @@
 <a class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
 <!-- Vendor JS Files -->
+
+<!-- Funcion para validar -->
+<script>
+    function validateForm() {
+        let newPassword = document.getElementById("newPassword").value;
+        let renewPassword = document.getElementById("renewPassword").value;
+        if (newPassword === "" || renewPassword === "") {
+            let errorMessage = document.getElementById("error-message");
+            errorMessage.style.display = "block";
+            errorMessage.innerHTML = "Debe completar todos los campos";
+            return false;
+        }
+        if (renewPassword != newPassword ) {
+            let errorMessage = document.getElementById("error-message");
+            errorMessage.style.display = "block";
+            errorMessage.innerHTML = "No coinciden las contraseñas";
+            return false;
+        }
+        return true;
+    }
+</script>
 <script th:src="@{'/assets/vendor/apexcharts/apexcharts.min.js'}"></script>
 <script th:src="@{'/assets/vendor/bootstrap/js/bootstrap.bundle.min.js'}"></script>
 <script th:src="@{'/assets/vendor/chart.js/chart.min.js'}"></script>

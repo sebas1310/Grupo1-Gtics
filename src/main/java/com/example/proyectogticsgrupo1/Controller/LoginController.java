@@ -50,12 +50,25 @@ public class LoginController {
     public String registro(@ModelAttribute("usuario") @Valid Usuario usuario, BindingResult bindingResult,
                            RedirectAttributes attr, Model model){
 
+        System.out.println("llegue");
         if(bindingResult.hasErrors()){
-            attr.addFlashAttribute("msg", "presenta errores");
+            System.out.println("Usuario: "+ usuario.getDni());
+            System.out.println("Usuario: "+ usuario.getCorreo());
+            System.out.println("Usuario: "+ usuario.getEdad());
+            System.out.println("Usuario: "+ usuario.getSede().getNombre());
+            System.out.println("Usuario: "+ usuario.getNombres());
+            System.out.println("Usuario" + usuario.getGenero());
+            System.out.println("Usuario: "+ usuario.getApellidos());
+            System.out.println("Usuario: "+ usuario.getContrasena());
 
+            attr.addFlashAttribute("msg", "presenta errores");
+            model.addAttribute("listasedes", sedeRepository.findAll());
+
+            attr.addFlashAttribute("usuario", usuario);
             return "superadmin/formularioregistro_spa";
 
         }else{
+
             Usuario existingUserDni = usuarioRepository.findByDni(usuario.getDni());
             Usuario existingUserCelular = usuarioRepository.findByCelular(usuario.getCelular());
             Usuario existingUserCorreo = usuarioRepository.findByCorreo(usuario.getCorreo());
@@ -63,18 +76,24 @@ public class LoginController {
             if(existingUserDni == null){
                 if(existingUserCelular == null){
                     if(existingUserCorreo==null){
+                        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+                        String hashedNewPassword = passwordEncoder.encode(usuario.getContrasena());
+                        usuario.setContrasena(hashedNewPassword);
                         usuarioRepository.save(usuario);
-                        return "redirect://";
+                        return "redirect:/";
 
                     }else{
+                        model.addAttribute("listasedes", sedeRepository.findAll());
                         bindingResult.rejectValue("correo", "error.correo", "Ya existe un usuario con este correo electrónico");
                         return "superadmin/formularioregistro_spa";
                     }
                 }else{
+                    model.addAttribute("listasedes", sedeRepository.findAll());
                     bindingResult.rejectValue("celular", "error.celular", "Ya existe un usuario con este número de celular");
                     return "superadmin/formularioregistro_spa";
                 }
             }else{
+                model.addAttribute("listasedes", sedeRepository.findAll());
                 bindingResult.rejectValue("dni", "error.dni", "Ya existe un usuario con este DNI");
                 return "superadmin/formularioregistro_spa";
             }
