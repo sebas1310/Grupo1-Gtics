@@ -42,22 +42,28 @@
                     <h5 class="card-title">Editar Seguros</h5>
 
 
-                    <form method="post" th:action="@{/superadmin/saveSeguro}" th:object="${seguro}" class="mt-2">
+                    <form method="post" th:action="@{'/superadmin/saveSeguro'}" th:object="${seguro}" class="mt-2">
                         <input th:field="*{idseguro}" name="id" type="hidden"/>
 
                         <div class="mb-3">
                             <label class="form-label">Nombre</label>
-                            <input th:field="*{nombre}" type="text" class="form-control">
+                            <input th:field="*{nombre}" type="text" class="form-control" th:classappend="${#fields.hasErrors('nombre')?'is-invalid':''}" required>
+                            <div class="invalid-feedback" th:if="${#fields.hasErrors('nombre')}"
+                                 th:errors="*{nombre}" ></div>
                         </div>
 
                         <div class="mb-3">
                             <label class="form-label">Paciente Porcentaje</label>
-                            <input th:field="${seguro.coaseguro}" type="text" class="form-control">
+                            <input th:field="${seguro.coaseguro}" type="text" class="form-control" th:classappend="${#fields.hasErrors('coaseguro')?'is-invalid':''}" required>
+                            <div class="invalid-feedback" th:if="${#fields.hasErrors('coaseguro')}"
+                                 th:errors="*{coaseguro}" ></div>
                         </div>
 
                         <div class="mb-3">
                             <label class="form-label">Comisión Doctor</label>
-                            <input th:field="${seguro.comisiondoctor}" type="text" class="form-control">
+                            <input th:field="${seguro.comisiondoctor}" type="text" class="form-control" th:classappend="${#fields.hasErrors('comisiondoctor')?'is-invalid':''}" required>
+                            <div class="invalid-feedback" th:if="${#fields.hasErrors('comisiondoctor')}"
+                                 th:errors="*{comisiondoctor}" ></div>
                         </div>
 
                         <a th:href="@{/superadmin/seguros}" class="btn btn-danger">Cancelar</a>
