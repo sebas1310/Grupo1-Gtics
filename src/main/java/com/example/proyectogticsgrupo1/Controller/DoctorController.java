@@ -518,6 +518,7 @@ public class DoctorController {
                                 @RequestParam("iddoctor") Integer iddoctor,
                                 RedirectAttributes redirectAttributes){
 
+
         Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
         Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
         Integer duracion = 1;

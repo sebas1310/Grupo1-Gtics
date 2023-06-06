@@ -27,6 +27,7 @@ public interface EventocalendariodoctorRepository extends JpaRepository<Eventoca
             "UNION ALL SELECT '20:00:00') AS horarios " +
             "WHERE hora NOT IN (SELECT horainicio FROM bdclinicag1_v2.eventocalendariodoctor where " +
             "(iddoctor = ?1 and fecha = ?2))")
+
     List<String> horasDeCitasInicio(Integer iddoctor, LocalDate fecha);
     @Query(nativeQuery = true, value = "SELECT * FROM (SELECT '10:00:00' AS hora UNION ALL SELECT '11:00:00' " +
             "UNION ALL SELECT '12:00:00' UNION ALL SELECT '13:00:00' UNION ALL SELECT '14:00:00' UNION ALL SELECT '15:00:00' " +
