@@ -105,13 +105,13 @@
 
                                     <div class="col-12">
                                         <label for="yourPassword" class="form-label">Contraseña</label>
-                                        <input type="password" name="password" class="form-control" id="yourPassword" required>
+                                        <input type="password" name="newPassword" class="form-control" id="yourPassword" required>
                                         <div class="invalid-feedback">Please enter your password!</div>
                                     </div>
 
                                     <div class="col-12">
                                         <label for="repeatPassw" class="form-label">Confirmar Contraseña</label>
-                                        <input type="password" name="password" class="form-control" id="repeatPassw" required>
+                                        <input type="password" name="renewPassword" class="form-control" id="repeatPassw" required>
                                         <div class="invalid-feedback">Please enter your password!</div>
                                     </div>
 
@@ -125,7 +125,29 @@
                                         <p class="small mb-0">¿Ya tienes una cuenta? <a th:href="@{/}">Login</a></p>
                                     </div>
                                 </form>
+                                <!-- Funcion para validar -->
+                                <script>
+                                    function validateForm() {
+                                        var newPassword = document.getElementById("newPassword").value;
+                                        var renewPassword = document.getElementById("renewPassword").value;
 
+                                        if (newPassword === "" || renewPassword === "") {
+                                            var errorMessage = document.getElementById("error-message");
+                                            errorMessage.style.display = "block";
+                                            errorMessage.innerHTML = "Debe completar todos los campos";
+                                            return false;
+                                        }
+
+                                        if (renewPassword != newPassword ) {
+                                            var errorMessage = document.getElementById("error-message");
+                                            errorMessage.style.display = "block";
+                                            errorMessage.innerHTML = "No coinciden las contraseñas";
+                                            return false;
+                                        }
+
+                                        return true;
+                                    }
+                                </script>
                             </div>
                         </div>
 

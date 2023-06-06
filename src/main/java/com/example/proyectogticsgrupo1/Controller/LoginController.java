@@ -39,7 +39,8 @@ public class LoginController {
     } */
 
     @PostMapping(value = "/registro")
-    public String registro(@ModelAttribute("nuevousuario") @Valid Usuario usuario, BindingResult bindingResult, RedirectAttributes attr, Model model){
+    public String registro(@ModelAttribute("nuevousuario") @Valid Usuario usuario, BindingResult bindingResult,
+                           RedirectAttributes attr, Model model){
 
         if(bindingResult.hasErrors()){
             attr.addFlashAttribute("msg", "presenta errores");

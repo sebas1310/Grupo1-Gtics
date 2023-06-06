@@ -34,8 +34,8 @@
                         <img th:src="@{/assets/img/profile-img.jpg}" alt="Profile" class="rounded-circle">
                         <h2 th:text="${persona.nombres + ' ' + persona.apellidos}"></h2>
                         <h3 th:text="${persona.tipodeusuario.nombre}"></h3>
-                        <div th:if="${psw2!=null}" th:text="${psw2}" class="alert alert-danger" role="alert"></div>
-                        <div th:if="${psw1!=null}" th:text="${psw1}" class="alert alert-success" role="alert"></div>
+                        <div th:if="${psw3!=null}" th:text="${psw3}" class="alert alert-success" role="alert"></div>
+                        <div th:if="${psw4!=null}" th:text="${psw4}" class="alert alert-danger" role="alert"></div>
                     </div>
                 </div>
 
@@ -131,7 +131,8 @@
                                     <div class="row mb-3">
                                         <label for="nombre" class="col-md-4 col-lg-3 col-form-label">Nombre</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <input name="fullName" type="text" class="form-control" id="nombre" th:value="${persona.nombres}" th:field="${persona.nombres}" th:classappend="${#fields.hasErrors('nombres')?'is-invalid':''}" required>
+                                            <input name="fullName" type="text" class="form-control" id="nombre"  th:field="${persona.nombres}"
+                                                   th:classappend="${#fields.hasErrors('nombres')?'is-invalid':''}" required>
                                             <div class="invalid-feedback" th:if="${#fields.hasErrors('nombres')}"
                                                  th:errors="*{nombres}" ></div>
                                         </div>
@@ -140,7 +141,8 @@
                                     <div class="row mb-3">
                                         <label for="apellido" class="col-md-4 col-lg-3 col-form-label">Apellidos</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <input name="fullName" type="text" class="form-control" id="apellido" th:value="${persona.apellidos}" th:field="${persona.apellidos}" th:classappend="${#fields.hasErrors('apellidos')?'is-invalid':''}" required>
+                                            <input name="fullName" type="text" class="form-control" id="apellido"  th:field="${persona.apellidos}"
+                                                   th:classappend="${#fields.hasErrors('apellidos')?'is-invalid':''}" required>
                                             <div class="invalid-feedback" th:if="${#fields.hasErrors('apellidos')}"
                                                  th:errors="*{apellidos}" ></div>
                                         </div>
@@ -149,7 +151,8 @@
                                     <div class="row mb-3">
                                         <label for="Email" class="col-md-4 col-lg-3 col-form-label">Correo</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <input name="email" type="email" class="form-control" id="Email" th:value="${persona.correo}" th:field="${persona.correo}" th:classappend="${#fields.hasErrors('correo')?'is-invalid':''}" required>
+                                            <input name="email" type="email" class="form-control" id="Email"  th:field="${persona.correo}"
+                                                   th:classappend="${#fields.hasErrors('correo')?'is-invalid':''}" required>
                                             <div class="invalid-feedback" th:if="${#fields.hasErrors('correo')}"
                                                  th:errors="*{correo}" ></div>
                                         </div>
@@ -158,7 +161,8 @@
                                     <div class="row mb-3">
                                         <label for="dni" class="col-md-4 col-lg-3 col-form-label">DNI</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <input name="company" type="text" class="form-control" id="dni" th:value="${persona.dni}" th:field="${persona.dni}" th:classappend="${#fields.hasErrors('dni')?'is-invalid':''}" required>
+                                            <input name="company" type="text" class="form-control" id="dni"  th:field="${persona.dni}"
+                                                   th:classappend="${#fields.hasErrors('dni')?'is-invalid':''}" required>
                                             <div class="invalid-feedback" th:if="${#fields.hasErrors('dni')}"
                                                  th:errors="*{dni}" ></div>
                                         </div>
@@ -167,7 +171,8 @@
                                     <div class="row mb-3">
                                         <label for="edad" class="col-md-4 col-lg-3 col-form-label">Edad</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <input name="edad" type="text" class="form-control" id="edad" th:value="${persona.edad}" th:field="${persona.edad}" th:classappend="${#fields.hasErrors('edad')?'is-invalid':''}" required>
+                                            <input name="edad" type="text" class="form-control" id="edad"  th:field="${persona.edad}"
+                                                   th:classappend="${#fields.hasErrors('edad')?'is-invalid':''}" required>
                                             <div class="invalid-feedback" th:if="${#fields.hasErrors('edad')}"
                                                  th:errors="*{edad}" ></div>
                                         </div>
@@ -177,7 +182,8 @@
                                     <div class="row mb-3">
                                         <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Celular</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <input name="phone" type="text" class="form-control" id="Phone" th:value="${persona.celular}" th:field="${persona.celular}" th:classappend="${#fields.hasErrors('celular')?'is-invalid':''}" required>
+                                            <input name="phone" type="text" class="form-control" id="Phone"  th:field="${persona.celular}"
+                                                   th:classappend="${#fields.hasErrors('celular')?'is-invalid':''}" required>
                                             <div class="invalid-feedback" th:if="${#fields.hasErrors('celular')}"
                                                  th:errors="*{celular}" ></div>
                                         </div>
@@ -202,18 +208,8 @@
                                         </select>
                                     </div>
 
-                                    <!---
-                                    <div th:if="${persona.tipodeusuario.idtipodeusuario != 4}" class="row mb-3">
-                                        <label  class="form-label">Sede</label>
-                                        <div class="col-sm-10">
-                                            <select  class="form-select" id="category" th:value="${sede.idsede}">
-                                                <option th:each="sede : ${listasedes}" th:text="${sede.getNombre()}"
-                                                        th:value="${sede.getIdsede()}"></option>
-                                            </select>
-                                        </div>
-                                    </div>
 
-                                    --->
+
                                     <div class="text-center">
                                         <button type="submit" class="btn btn-primary">Guardar Cambios</button>
                                     </div>
@@ -227,26 +223,26 @@
 
 
                                 <!-- Cambio de contraseña Form -->
-                                <form method="post" th:action="@{'/superadmin/changepassword'}" onsubmit="return validateForm()">
-                                    <input th:value="${session.usuario.getIdusuario()}" name="id" type="hidden">
+                                <form method="post" th:action="@{'/superadmin/changepasswordusuarios'}" onsubmit="return validateForm()">
+                                    <input th:value="${persona.idusuario}" name="id" type="hidden">
                                     <div class="row mb-3">
-                                        <label for="contrasena" class="col-md-4 col-lg-3 col-form-label">Contraseña Actual</label>
+                                        <label for="contrasena1" class="col-md-4 col-lg-3 col-form-label">Contraseña Actual</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <input name="contrasena" type="password" class="form-control" id="contrasena">
+                                            <input name="contrasena1" type="password" class="form-control" id="contrasena1">
                                         </div>
                                     </div>
 
                                     <div class="row mb-3">
-                                        <label for="newPassword" class="col-md-4 col-lg-3 col-form-label" >Nueva Contraseña</label>
+                                        <label for="newPassword2" class="col-md-4 col-lg-3 col-form-label" >Nueva Contraseña</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <input name="newpassword" type="password" class="form-control" id="newPassword">
+                                            <input name="newpassword2" type="password" class="form-control" id="newPassword2">
                                         </div>
                                     </div>
 
                                     <div class="row mb-3">
-                                        <label for="renewPassword" class="col-md-4 col-lg-3 col-form-label">Confirmar nueva contraseña</label>
+                                        <label for="renewPassword3" class="col-md-4 col-lg-3 col-form-label">Confirmar nueva contraseña</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <input name="renewpassword" type="password" class="form-control" id="renewPassword">
+                                            <input name="renewpassword3" type="password" class="form-control" id="renewPassword3">
                                         </div>
                                     </div>
 
@@ -259,9 +255,9 @@
                                 <!-- Funcion para validar -->
                                 <script>
                                     function validateForm() {
-                                        var password = document.getElementById("contrasena").value;
-                                        var newPassword = document.getElementById("newPassword").value;
-                                        var renewPassword = document.getElementById("renewPassword").value;
+                                        var password = document.getElementById("contrasena1").value;
+                                        var newPassword = document.getElementById("newPassword2").value;
+                                        var renewPassword = document.getElementById("renewPassword3").value;
 
                                         if (password === "" || newPassword === "" || renewPassword === "") {
                                             var errorMessage = document.getElementById("error-message");

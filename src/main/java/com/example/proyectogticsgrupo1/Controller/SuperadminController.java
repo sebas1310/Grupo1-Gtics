@@ -625,8 +625,42 @@ public class SuperadminController {
         return "superadmin/seguros_spa";
     }
 
+    @PostMapping(value = "/changepasswordusuarios")
+    @Transactional
+    public String changePasswordUsuarios(@RequestParam("id") int idusuario,
+                                 @RequestParam("contrasena1") String contrasena,
+                                 @RequestParam("newpassword2") String newpassword,
+                                 @RequestParam("renewpassword3") String renewpassword, RedirectAttributes redirectAttributes) {
 
-    @PostMapping(value = "/changepassword")
+        Optional<Usuario> optionalUsuario = usuarioRepository.findById(idusuario);
+
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+        if(optionalUsuario.isPresent()){
+
+            Usuario usuario = optionalUsuario.get();
+
+            if (passwordEncoder.matches(contrasena, usuario.getContrasena())) {
+                String hashedNewPassword = passwordEncoder.encode(newpassword);
+
+                usuarioRepository.changePassword(hashedNewPassword, usuario.getIdusuario());
+                redirectAttributes.addFlashAttribute("psw3", "Contraseña actualizada");
+
+            } else {
+                System.out.println("INCORRECTO");
+                redirectAttributes.addFlashAttribute("psw4", "La contraseña es incorrecta");
+            }
+
+        }else{
+
+        }
+
+        return "redirect:/superadmin/perfilUsuario?id=" + idusuario;
+    }
+
+
+
+    @PostMapping(value = "/cambiarcontrasena")
     @Transactional
     public String changePassword(@RequestParam("id") int idusuario,
                                  @RequestParam("contrasena") String contrasena,
