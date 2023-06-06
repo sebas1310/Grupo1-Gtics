@@ -180,7 +180,7 @@ public class AdministradorController {
             String content = "Usted registro un usuario de TIPO: PACIENTE, con CORREO: " + paciente.getUsuario().getCorreo() ;
             String titulo = "Usuario creado con exito";
             notificacionesRepository.notificarCreacion(usuarioAdministrador.getIdusuario(),content,titulo);
-            emailService.sendEmail(paciente.getUsuario().getCorreo(), "Confirmación de Registro", "Estimado usuario, usted ha sido registrado en:\nSede " + usuarioAdministrador.getSede().getNombre() + "\nUbicada en " + usuarioAdministrador.getSede().getDireccion() + "\nTu contraseña por defecto es: " + contrasenaGenerada + "\nIngresa aquí para cambiarla");
+            emailService.sendEmail(paciente.getUsuario().getCorreo(), "Confirmación de Registro", "Estimado usuario, usted ha sido registrado en:\nSede " + usuarioAdministrador.getSede().getNombre() + "\nUbicada en " + usuarioAdministrador.getSede().getDireccion() + "\nTu contraseña por defecto es: " + contrasenaGenerada + "\nIngresa"+ "aquí" +"para cambiarla : http://localhost:8081/cambiarcontrasena");
         }
         return "redirect:/administrador/dashboardpaciente";
     }
@@ -214,11 +214,20 @@ public class AdministradorController {
         // Obtener las citas de la sede para el día correspondiente
         List<Cita> citas = citaRepository.citaPorSede(usuarioAdministrador.getIdusuario(), currentDayOfWeek);
 
-        // Pasar las citas al modelo
+        // Obtener las especialidades de las citas
+        List<Especialidad> especialidades = new ArrayList<>();
+        for (Cita cita : citas) {
+            Especialidad especialidad = especialidadRepository.findByIdespecialidad(cita.getEspecialidad().getIdespecialidad());
+            especialidades.add(especialidad);
+        }
+
+        // Pasar las citas y las especialidades al modelo
         model.addAttribute("citas", citas);
+        model.addAttribute("especialidades", especialidades);
 
         return "administrador/calendariogeneral";
     }
+
 
     @GetMapping(value = "/calendariomarzo")
     public String MarzoCalendar() {
@@ -464,7 +473,7 @@ public class AdministradorController {
             String content = "Usted registro un usuario de TIPO: DOCTOR, con CORREO: " + doctor.getUsuario().getCorreo() ;
             String titulo = "Usuario creado con exito";
             notificacionesRepository.notificarCreacion(usuarioAdministrador.getIdusuario(),content,titulo);
-            emailService.sendEmail(doctor.getUsuario().getCorreo(), "Confirmación de Registro", "Estimado usuario, usted ha sido registrado en:\nSede " + usuarioAdministrador.getSede().getNombre() + "\nUbicada en " + usuarioAdministrador.getSede().getDireccion() + "\nTu contraseña por defecto es: " + contrasenaGenerada + "\nIngresa aquí para cambiarla");
+            emailService.sendEmail(doctor.getUsuario().getCorreo(), "Confirmación de Registro", "Estimado usuario, usted ha sido registrado en:\nSede " + usuarioAdministrador.getSede().getNombre() + "\nUbicada en " + usuarioAdministrador.getSede().getDireccion() + "\nTu contraseña por defecto es: " + contrasenaGenerada + "\nIngresa"+ " aquí" +"para cambiarla : http://localhost:8081/cambiarcontrasena");
             return "redirect:/administrador/dashboarddoctor";
         }
     }
@@ -485,12 +494,6 @@ public class AdministradorController {
                                @RequestParam("correo") String correo,
                                @RequestParam("celular") String celular) {
 
-        // Validar que el celular tenga exactamente 9 dígitos y sean números
-        if (celular.length() != 9 || !celular.matches("\\d{9}")) {
-            redirectAttributes.addAttribute("id", idusuario);
-            redirectAttributes.addFlashAttribute("errorCelular", "El celular debe tener 9 dígitos numéricos.");
-            return "redirect:/administrador/perfil";
-        }
 
         usuarioRepository.perfil(nombres, apellidos, correo, celular, idusuario);
         session.removeAttribute("usuario");

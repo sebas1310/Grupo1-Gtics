@@ -57,10 +57,19 @@
             </thead>
             <tbody>
             <tr>
-              <td th:each="cita : ${citas}">
+              <td th:each="cita, citaIndex : ${citas}">
                 <span th:text="${cita.fecha}"></span><br>
-                <span th:text="${cita.nombreCliente}"></span>
+                <span th:text="${especialidades[citaIndex.index].nombre}"></span>
               </td>
+            </tr>
+            <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
             </tr>
             <tr>
               <td></td>

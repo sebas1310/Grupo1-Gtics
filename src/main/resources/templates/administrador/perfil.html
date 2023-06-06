@@ -32,6 +32,7 @@
       </ol>
     </nav>
   </div><!-- End Page Title -->
+  <div th:if="${msg!=null}" th:text="${msg}" class="alert alert-success" role="alert"></div>
 
   <section class="section profile">
     <div class="row">
@@ -114,7 +115,7 @@
               <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
 
                 <!-- Profile Edit Form -->
-                <form method="post" th:action="@{'/administrador/editarperfil'}">
+                <form method="post" th:action="@{'/administrador/editarperfil'}" onsubmit="return validate()">
                   <div class="row mb-3">
                     <label for="profile-edit" class="col-md-4 col-lg-3 col-form-label">Imagen de Perfil</label>
                     <div class="col-md-8 col-lg-9">
@@ -128,28 +129,28 @@
                   <input th:value="${session.usuario.getIdusuario()}" name="id" type="hidden">
                   <input th:value="${session.usuario.getIdusuario()}" name="idusuario" type="hidden">
                   <div class="row mb-3">
-                    <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Nombres</label>
+                    <label class="col-md-4 col-lg-3 col-form-label">Nombres</label>
                     <div class="col-md-8 col-lg-9">
-                      <input name="nombres" type="text" class="form-control" id="fullName" th:value="${session.usuario.getNombres()}">
+                      <input name="nombres" type="text" class="form-control" id="nombres" th:value="${session.usuario.getNombres()}">
                     </div>
                   </div>
 
                   <div class="row mb-3">
-                    <label for="fullName2" class="col-md-4 col-lg-3 col-form-label">Apellidos</label>
+                    <label class="col-md-4 col-lg-3 col-form-label">Apellidos</label>
                     <div class="col-md-8 col-lg-9">
-                      <input name="apellidos" type="text" class="form-control" id="fullName2" th:value="${session.usuario.getApellidos()}">
+                      <input name="apellidos" type="text" class="form-control" id="apellidos" th:value="${session.usuario.getApellidos()}">
                     </div>
                   </div>
 
                   <div class="row mb-3">
-                    <label for="correo" class="col-md-4 col-lg-3 col-form-label">Correo</label>
+                    <label  class="col-md-4 col-lg-3 col-form-label">Correo</label>
                     <div class="col-md-8 col-lg-9">
                       <input name="correo" type="text" class="form-control" id="correo" th:value="${session.usuario.getCorreo()}">
                     </div>
                   </div>
 
                   <div class="row mb-3">
-                    <label for="celular" class="col-md-4 col-lg-3 col-form-label">Celular</label>
+                    <label class="col-md-4 col-lg-3 col-form-label">Celular</label>
                     <div class="col-md-8 col-lg-9">
                       <input name="celular" type="text" class="form-control" id="celular" th:value="${session.usuario.getCelular()}">
                     </div>
@@ -163,8 +164,59 @@
 
                   <div class="text-center">
                     <button type="submit" class="btn btn-success">Guardar Cambios</button>
+                    <div id="error-message2" class="alert alert-danger mt-3" style="display: none;"></div>
                   </div>
                 </form><!-- End ProfileEditForm-->
+
+                <!-- Funcion para validar -->
+                <script>
+                  function validate() {
+                    var nombre = document.getElementById("nombres").value.trim();
+                    var apellido = document.getElementById("apellidos").value.trim();
+                    var correo = document.getElementById("correo").value.trim();
+                    var celular = document.getElementById("celular").value.trim();
+
+                    if (nombre === "" || apellido === "" || correo === "" || celular === "") {
+                      var errorMessage = document.getElementById("error-message2");
+                      errorMessage.style.display = "block";
+                      errorMessage.innerHTML = "Complete el campo requerido";
+                      return false;
+                    }
+
+                    if (nombre.length >= 25 || /^\s+$/.test(nombre) || apellido.length >= 25 || /^\s+$/.test(apellido)) {
+                      var errorMessage = document.getElementById("error-message2");
+                      errorMessage.style.display = "block";
+                      errorMessage.innerHTML = "El campo nombre/apellido excede el número de letras permitidas";
+                      return false;
+                    } else if (nombre.length <= 2 || /^\s+$/.test(nombre) || apellido.length <= 2 || /^\s+$/.test(apellido)) {
+                      var errorMessage = document.getElementById("error-message2");
+                      errorMessage.style.display = "block";
+                      errorMessage.innerHTML = "El campo nombre/apellido debe tener como mínimo 3 letras";
+                      return false;
+                    } else if (/^([0-9])*$/.test(nombre) || /^([0-9])*$/.test(apellido)) {
+                      var errorMessage = document.getElementById("error-message2");
+                      errorMessage.style.display = "block";
+                      errorMessage.innerHTML = "Los campos de Nombre y/o Apellido no permiten números";
+                      return false;
+                    } else if (!/^9\d{8}$/.test(celular)) {
+                      var errorMessage = document.getElementById("error-message2");
+                      errorMessage.style.display = "block";
+                      errorMessage.innerHTML = "El número de celular debe empezar con '9' y tener 9 dígitos numéricos";
+                      return false;
+                    } else if (!/^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/.test(correo)) {
+                      var errorMessage = document.getElementById("error-message2");
+                      errorMessage.style.display = "block";
+                      errorMessage.innerHTML = "El campo correo debe tener un formato de dirección de correo electrónico válido";
+                      return false;
+                    }
+
+                    return true;
+                  }
+                </script>
+
+
+
+                <!-- FIN Funcion para validar -->
 
               </div>
 
