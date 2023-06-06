@@ -77,7 +77,7 @@
                   <td style="text-align: center" th:if="${citaagendada.getTipoCita().getNombre() eq 'Presencial'}" th:text="${citaagendada.getEstadoCita().getNombre()}"></td>
                     <td style="text-align: center"th:unless="${citaagendada.getTipoCita().getNombre() eq 'Presencial'}" > <a type="button" class="bi bi-camera-video"  href="https://pucp.zoom.us/j/91442275627?pwd=MjFjNGNTeXZEYVhzd3RKYmtVTzROQT09"></a> Iniciar </td>
                 </div>
-                  <td style="text-align: center"> <a type="button" class="bi bi-journal-text"  th:href="@{'/doctor/cuestionario' + '?id=' + ${citaagendada.getPaciente().getIdpaciente()}}" ></a></td>
+                  <td style="text-align: center"> <a type="button" class="bi bi-journal-text"  th:href="@{'/doctor/cuestionario' + '?id=' + ${citaagendada.getPaciente().getIdpaciente()}+'&idcita=' + ${citaagendada.getIdcita()}}"></a></td>
                   <td style="text-align: center" > <a class="bi bi-eye-fill" th:href="@{'/doctor/dashboard/info' + '?id=' + ${citaagendada.getPaciente().getIdpaciente()}}"></a></td>
                 </tr>
                <!--<tr>
