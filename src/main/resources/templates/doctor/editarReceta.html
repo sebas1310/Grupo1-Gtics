@@ -25,7 +25,7 @@
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a th:href="@{'/doctor/pacientesatendidos'+ '?id=' + ${doctor.iddoctor}}">Pacientes Atendidos</a></li>
         <li class="breadcrumb-item"><a th:href="@{'/doctor/pacientesatendidos/verhistorial' + '?id=' + ${doctor.iddoctor}}">Historial Clínico</a></li>
-        <li class="breadcrumb-item "><a >Cita 1</a></li>
+        <li class="breadcrumb-item "><a th:href="@{'/doctor/pacientesatendidos/verhistorial/vercita'+ '?id=' + ${cita.getIdcita()}}"  >Cita 1</a></li>
         <li class="breadcrumb-item active">Receta Medica</li>
       </ol>
     </nav>
@@ -36,7 +36,7 @@
           <div class="card align-center-md-6">
             <div class="card-body">
               <h5 class="card-title">Receta Médica</h5>
-              <form method="post" th:action="@{'/doctor/pacientesatendidos/verhistorial/vercita/actualizarreceta'}" onsubmit="return validateForm()">
+              <form method="post" th:action="@{'/doctor/pacientesatendidos/verhistorial/vercita/actualizarreceta'}"  onsubmit="return validateForm()">
                 <input th:value="${receta.getIdRecetaMedica()}" name="idReceta" type="hidden">
                 <input th:value="${cita.getIdcita()}" name="id" type="hidden">
                 <div class="content-md-6-center">
@@ -58,11 +58,9 @@
                 <br>
                 <div class="d-grid gap-2 d-md-flex justify-content-md-center">
                   <button class="btn btn-primary" type="submit">Actualizar</button>
-                  <button class="btn btn-danger" th:href="@{'/doctor/pacientesatendidos/verhistorial/vercita '+ '?id=' + ${doctor.iddoctor}}">Cancelar</button>
-                </div>
-                <div id="error-message2" class="alert alert-danger mt-3" style="display: none;"></div>
+                  <div id="error-message2" class="alert alert-danger mt-3" style="display: none;"></div>
+                  </div>
               </form>
-
               <script>
                 function validateForm() {
                   var medicamento = document.getElementById("medicamento").value.trim();
@@ -75,11 +73,18 @@
                     errorMessage.innerHTML = "No se permite campos en blanco";
                     return false;
                   }
-                  if (medicamento.length >= 100 || /^\s+$/.test(medicamento) || dosis.length >= 100 || /^\s+$/.test(dosis) || descripcion.length >= 100 || /^\s+$/.test(descripcion))
+                  else if (medicamento.length >= 100 || /^\s+$/.test(medicamento) || dosis.length >= 100 || /^\s+$/.test(dosis) || descripcion.length >= 100 || /^\s+$/.test(descripcion))
                   {
                     var errorMessage = document.getElementById("error-message2");
                     errorMessage.style.display = "block";
                     errorMessage.innerHTML = "El campo excede el número de caracteres permitidos";
+                    return false;
+                  }
+                  else if (medicamento.length <=2 || /^\s+$/.test(medicamento) || dosis.length <=2 || /^\s+$/.test(dosis) || descripcion.length <=2 || /^\s+$/.test(descripcion))
+                  {
+                    var errorMessage = document.getElementById("error-message2");
+                    errorMessage.style.display = "block";
+                    errorMessage.innerHTML = "Cada campo debe tener minimo 3 caracteres";
                     return false;
                   }
                   return true;
@@ -88,6 +93,9 @@
           </div>
         </div>
       </div>
+    </div>
+    <div class="d-grid gap d-md-flex justify-content-md-center">
+      <a type= "buttun" class="btn btn-danger" th:href="@{'/doctor/pacientesatendidos/verhistorial/vercita'+ '?id=' + ${cita.getIdcita()}}" >Cancelar</a>
     </div>
   </section>
 </main><!-- End #main -->

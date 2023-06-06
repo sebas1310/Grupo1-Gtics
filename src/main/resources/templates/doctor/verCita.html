@@ -35,7 +35,7 @@
 
     <div th:if="${msg5!=null}" th:text="${msg5}" class="alert alert-success" role="alert"></div>
 
-    <a th:href="@{'/doctor/pacientesatendidos/verhistorial/vercita/verinformemedico'+ '?id=' + ${cita.getIdcita()}}" class="btn btn-danger">Llenar Informe</a>
+    <a th:href="@{'/doctor/pacientesatendidos/verhistorial/vercita/verinformesmedico'+ '?id=' + ${cita.getIdcita()}}" class="btn btn-danger">Llenar Informe</a>
     <br>
     <section class="section ">
         <div class="col-lg">
@@ -48,7 +48,7 @@
                            <div class="ps-3">
                                <li>Paciente: <span th:text="|${cita.getPaciente().getUsuario().getNombres()} ${cita.getPaciente().getUsuario().getApellidos()}|"></span></li>
                                <li>Edad: <span th:text="${cita.getPaciente().getUsuario().getEdad()}"></span> años</li>
-                               <li>Fecha: <span th:text="${cita.getFecha()}"></span></li>
+                               <li>Fecha: <span  th:text="${#temporals.format(cita.getFecha(), 'dd-MM-yyyy')}"></span></li>
                                <li>Modalidad: <span th:text="${cita.getTipoCita().getNombre()}"></span></li>
                                <li>Especialidad: <span th:text="${cita.getSeguro().getNombre()}"></span></li>
                                <li>Estado: <span th:text="${cita.getEstadoCita().getNombre()}"></span></li>
@@ -59,14 +59,13 @@
                    <div class="col-12">
                        <div class="card recent-sales overflow-auto">
                            <div class="card-body">
-                               <h5 class="card-title">Receta Médica</h5>
+                               <h5 class="card-title" >Receta Médica</h5>
 
                                <div th:if="${msg!=null}" th:text="${msg}" class="alert alert-success" role="alert"></div>
 
                                <div th:if="${msg2!=null}" th:text="${msg2}" class="alert alert-danger" role="alert"></div>
 
                                <div th:if="${msg3!=null}" th:text="${msg3}" class="alert alert-success" role="alert"></div>
-
                                <table class="table">
                                    <thead class="table-light">
                                    <tr>
@@ -93,160 +92,19 @@
                                    </tr>
                                    </tbody>
                                </table>
-
-                               <!-- Modal editar -->
-                               <div th:each=" recetam : ${recetamedica}" class="modal fade" id="modal" tabindex="-1" aria-hidden="true" >
-                                   <div class="modal-dialog modal-dialog-centered">
-                                       <div class="modal-content">
-                                           <div class="modal-header">
-                                               <h5 class="modal-title">Receta Médica</h5>
-                                               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                           </div>
-                                           <div class="modal-body">
-                                               <form method="post" th:action="@{'/doctor/pacientesatendidos/verhistorial/vercita/editarreceta'}" >
-                                                   <input th:value="${recetam.getIdRecetaMedica()}" name="idReceta" type="hidden">
-                                                   <input th:value="${cita.getIdcita()}" name="idCita" type="hidden">
-
-                                                   <div class="row mb-3">
-                                                       <label for="medicamento" class="col-md-4 col-lg-3 col-form-label">Medicamento</label>
-                                                       <div class="col-md-8 col-lg-9">
-                                                           <input name="medicamento" type="text" class="form-control" id="medicamento"
-                                                                  th:value="${recetam.medicamento}">
-                                                       </div>
-                                                   </div>
-                                                   <div class="row mb-3">
-                                                       <label for="dosis" class="col-md-4 col-lg-3 col-form-label">Dosis</label>
-                                                       <div class="col-md-8 col-lg-9">
-                                                           <input name="dosis" type="text" class="form-control" id="dosis"
-                                                                  th:value="${recetam.dosis}">
-                                                       </div>
-                                                   </div>
-                                                   <div class="row mb-3">
-                                                       <label for="descripcion" class="col-md-4 col-lg-3 col-form-label">Descripcion</label>
-                                                       <div class="col-md-8 col-lg-9">
-                                                           <input name="descripcion" type="text" class="form-control" id="descripcion"
-                                                                  th:value="${recetam.descripcion}">
-                                                       </div>
-                                                   </div>
-                                                   <br>
-                                                   <!--
-                                                   <div class="form-floating">
-                                                   <div class="form-check-center">
-                                                       <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault2">
-                                                       <label class="form-check-label" for="flexCheckDefault2">Generar Boleta Farmacia</label>
-                                                   </div>
-                                                   <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked3" checked>
-                                                        <label class="form-check-label" for="flexCheckChecked3">Mandar Delivery</label>
-                                                   </div>
-                                                   <br>-->
-                                                   <br>
-                                                   <div class="d-grid gap d-md-flex justify-content-md-center">
-                                                       <button type="submit" class="btn btn-primary">Actualizar</button>
-                                                   </div>
-                                               </form>
-                                               <script>
-
-                                               </script>
-                                           </div>
-                                       </div>
-                                   </div>
-                               </div><!-- End  Modal-->
-                               <!--Modal Añadir Receta-->
-                               <div class="d-grid gap-2 d-md-flex justify-content-md-center">
-                                   <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#verticalycentered">
+                               <!-- Añadir Receta-->
+                               <div class="d-grid gap-2 d-md-flex justify-content-md-center" >
+                                   <a type="button" class="btn btn-outline-primary" th:href="@{'/doctor/pacientesatendidos/verhistorial/vercita/anadir?id=' + ${cita.getIdcita()}}">
                                        Añadir Receta
-                                   </button>
+                                   </a>
                                    <br>
                                    <a th:if="${cita.getTipoCita().getIdtipocita() eq 1}"type="button" th:href="@{'/doctor/pacientesatendidos/verhistorial/vercita/boletaMedicamento?idCita=' + ${cita.getIdcita()} + '&idPaciente=' + ${cita.getPaciente().getIdpaciente()}}" class="btn btn-outline-primary" >
-                                           Generar Boleta Farmacia
+                                       Generar Boleta Farmacia
                                    </a>
                                    <a th:unless="${cita.getTipoCita().getIdtipocita() eq 1}" type="button" th:href="@{'/doctor/pacientesatendidos/verhistorial/vercita/boletaMedicamentoDelivery?idCita=' + ${cita.getIdcita()} + '&idPaciente=' + ${cita.getPaciente().getIdpaciente()}}" class="btn btn-outline-primary" >
                                        Enviar Por Delivery
                                    </a>
                                </div>
-
-                              <!-- <div class="col-12">
-                                   <div class="card recent-sales overflow-auto">
-                                       <div class="card-body">
-                                           <h5 class="card-title">Informe Médico</h5>
-
-                                           <div th:if="${msg!=null}" th:text="${msg}" class="alert alert-success" role="alert"></div>
-
-                                           <div th:if="${msg2!=null}" th:text="${msg2}" class="alert alert-danger" role="alert"></div>
-
-                                           <div th:if="${msg3!=null}" th:text="${msg3}" class="alert alert-success" role="alert"></div>
-
-                                           <table class="table">
-                                               <thead class="table-light">
-                                               <tr>
-                                                   <th style="text-align: center" scope="col">Informe Médico</th>
-                                                   <th style="text-align: center" scope="col">Preguntas</th>
-                                               </tr>
-                                               </thead>
-                                               <tbody>
-                                               <tr>
-                                                   <th style="text-align: center" th:text="${informemedico.getNombrePlantilla()}" scope="row"></th>
-                                                   <td style="text-align: center" th:text="${informemedico.getDatos()}"></td>
-                                               </tr>
-                                               </tbody>
-                                           </table>
-                                           </div>
-                                   </div>
-                                   </div> -->
-                               <div class="modal fade" id="verticalycentered" tabindex="-1">
-                                   <div class="modal-dialog modal-dialog-centered">
-                                       <div class="modal-content">
-                                           <div class="modal-header">
-                                               <h5 class="modal-title">Receta Médica</h5>
-                                               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                           </div>
-                                           <div class="modal-body">
-                                               <form method="post" th:action="@{'/doctor/pacientesatendidos/verhistorial/vercita/guardarreceta'}" onsubmit="return validateForm()">
-                                                   <input th:each=" recetame : ${recetamedica}" th:value="${recetame.idRecetaMedica}" name="idReceta" type="hidden" />
-                                                   <input th:value="${cita.getIdcita()}" name="id" type="hidden" />
-
-                                                   <div class="form-floating">
-                                                       <input name="medicamento" class="form-control" type="text" placeholder="Leave a comment here" id="floatingTextarea1">
-                                                       <label for="floatingTextarea1">Medicamento</label>
-                                                       <br>
-                                                   </div >
-                                                   <div class="form-floating">
-                                                       <input name="dosis" class="form-control" type="text" placeholder="Leave a comment here" id="floatingTextarea2">
-                                                       <label for="floatingTextarea2">Dosis</label>
-                                                       <br>
-                                                   </div >
-                                                   <div class="form-floating">
-                                                       <input name="descripcion" class="form-control" type="text" placeholder="Leave a comment here" id="floatingTextarea3">
-                                                       <label for="floatingTextarea3">Descripcion</label>
-                                                       <br>
-                                                   </div >
-
-                                                   <div class="text-center">
-                                                       <button  type="submit" class="btn btn-primary">Guardar</button>
-                                                       <div id="error-message2" class="alert alert-danger mt-3" style="display: none;"></div>
-                                                   </div>
-                                               </form>
-                                               <script>
-                                                   function validateForm() {
-                                                       var medicamento = document.getElementById("medicamento").value.trim();
-                                                       var dosis = document.getElementById("dosis").value.trim();
-                                                       var descripcion = document.getElementById("descripcion").value.trim();
-
-                                                       if (medicamento === "" || dosis === "" || descripcion === "") {
-                                                           var errorMessage = document.getElementById("error-message2");
-                                                           errorMessage.style.display = "block";
-                                                           errorMessage.innerHTML = "Complete el/los campo/s requerido";
-                                                           return false;
-                                                       }
-
-                                                       return true;
-                                                   }
-                                               </script>
-                                           </div>
-                                       </div>
-                                   </div>
-                               </div><!--End Modal-->
                            </div>
                        </div>
                    </div>
