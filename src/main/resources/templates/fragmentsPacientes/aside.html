@@ -75,6 +75,12 @@
       </a>
     </li><!-- End Forms Nav -->
 
+    <li class="nav-item" th:classappend="${active == 'agendar_cita3' ? 'active':''}">
+      <a class="nav-link" th:classappend="${active != 'agendar_cita3' ? 'collapsed':''}" th:href="@{'/paciente/agendarCita_Sede'}">
+        <i class="bi bi-calendar"></i><span>Agendar Cita2</span>
+      </a>
+    </li><!-- End Forms Nav -->
+
     <li class="nav-item" th:classappend="${active == 'historial' ? 'active':''}">
       <a class="nav-link " th:classappend="${active != 'historial' ? 'collapsed':''}" th:href="@{'/paciente/historialCitas'}">
         <i class="bi bi-calendar-check-fill"></i><span>Historial de citas</span>
@@ -93,7 +99,7 @@
       </a>
     </li>
 
-    <li class="nav-heading"> ----------------------------------------------- </li>
+    <li class="nav-heading"> --------------------------------------------------- </li>
 
     <li class="nav-item">
       <a class="nav-link collapsed" type="button" data-bs-toggle="modal" data-bs-target="#verticalycentered">

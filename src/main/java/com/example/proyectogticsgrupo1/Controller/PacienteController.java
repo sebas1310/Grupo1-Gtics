@@ -148,8 +148,6 @@ public class PacienteController {
     }
     @GetMapping(value = "/reservar2")
     public String selectDate(Model model, @RequestParam("iddoc") Integer id, @RequestParam("semana") Integer semana, RedirectAttributes redirectAttributes){
-        //Optional<Paciente> optionalPaciente = pacienteRepository.findById(1);
-        //Paciente paciente =  optionalPaciente.get();
 
         Doctor doc = doctorRepository.buscarDoctorPorId(id);
         Usuario usuario = (Usuario) session.getAttribute("usuario");
@@ -286,6 +284,52 @@ public class PacienteController {
         model.addAttribute("caldisponible", eventocalendariodoctorRepository.calendarioDoctorDisponible());
         return "paciente/agendarCita";
     }
+
+    @GetMapping(value = "/agendarCita_Sede")
+    public String agendarCita2(Model model){
+
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        Paciente paciente = pacienteRepository.pacXuser(usuario.getIdusuario());
+
+        List<Sede> listsede = sedeRepository.findAll();
+        model.addAttribute("sedesparacitas", listsede);
+
+        return "paciente/agendarCita_Sede";
+    }
+
+    @GetMapping(value = "/agendarCita_Esp")
+    public String agendarCita3(Model model, @RequestParam("idsede") Integer id){
+
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        Paciente paciente = pacienteRepository.pacXuser(usuario.getIdusuario());
+
+        Sede sede = sedeRepository.findByIdsede(id);
+
+        model.addAttribute("sede", sede);
+
+        List<Especialidad> listespecialidad = especialidadRepository.listaEspxSede(id);
+        model.addAttribute("especialidades", listespecialidad);
+
+        return "paciente/agendarCita_Esp";
+    }
+    @GetMapping(value = "/agendarCita_Doc")
+    public String agendarCita4(Model model, @RequestParam("idsede") Integer idsede, @RequestParam("idesp") Integer idesp){
+
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        Paciente paciente = pacienteRepository.pacXuser(usuario.getIdusuario());
+
+        Sede sede = sedeRepository.findByIdsede(idsede);
+        model.addAttribute("sede", sede);
+
+        Especialidad especialidad = especialidadRepository.findByIdespecialidad(idesp);
+        model.addAttribute("especialidad", especialidad);
+
+        List<Doctor> listdoctor = doctorRepository.DoctorxEspxSede(idsede, idesp);
+        model.addAttribute("doctores", listdoctor);
+
+        return "paciente/agendarCita_Doc";
+    }
+
     @GetMapping(value = "/historialCitas")
     public String historialCitas(Model model){
         //Optional<Paciente> optionalPaciente = pacienteRepository.findById(1);

@@ -23,6 +23,8 @@ public interface DoctorRepository extends JpaRepository<Doctor, Integer>{
     @Query(value = "SELECT * from doctor where idsede = ?1", nativeQuery=true)
     List<Doctor> doctoresPorEsp(int idsede);
 
+    @Query(nativeQuery = true, value = "SELECT * FROM doctor where idsede = ?1 and idespecialidad = ?2")
+    List<Doctor> DoctorxEspxSede(int idSede, int idEsp);
 
     /*@Query(value="select u.nombres,u.apellidos,e.nombre from usuario u "+
             "join doctor d on d.idusuario = u.idusuario "+
