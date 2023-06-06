@@ -68,7 +68,7 @@
               </li>
 
               <li class="nav-item">
-                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-change-password">Cambiar Contraseñas</button>
+                <button class=" nav-link"  data-bs-toggle="tab" href="#profile-change-password" data-bs-target="#profile-change-password" >Cambiar Contraseñas</button>
               </li>
 
             </ul>
@@ -244,6 +244,7 @@
                     <label for="contrasena" class="col-md-4 col-lg-3 col-form-label">Contraseña Actual</label>
                     <div class="col-md-8 col-lg-9">
                       <input name="contrasena" type="password" class="form-control" id="contrasena">
+
                     </div>
                   </div>
 
@@ -261,10 +262,14 @@
                     </div>
                   </div>
 
+
                   <div class="text-center">
                     <button type="submit" class="btn btn-outline-warning">Cambiar Contraseña</button>
                   </div>
                   <div id="error-message" class="alert alert-danger mt-3" style="display: none;"></div>
+                  <div id="flash-psw2" th:if="${psw2!=null}" class="alert alert-danger mt-3" style="display: none;"></div>
+
+
                 </form><!-- End Change Password Form -->
 
                 <!-- Funcion para validar -->
@@ -273,6 +278,8 @@
                     var password = document.getElementById("contrasena").value;
                     var newPassword = document.getElementById("newPassword").value;
                     var renewPassword = document.getElementById("renewPassword").value;
+                    var flashPsw2 = document.getElementById("flash-psw2");
+
 
                     if (password === "" || newPassword === "" || renewPassword === "") {
                       var errorMessage = document.getElementById("error-message");
@@ -292,6 +299,13 @@
                       errorMessage.innerHTML = "No coinciden las contraseñas";
                       return false;
                     }
+                    if (flashPsw2 && flashPsw2.value === "true") {
+                      var errorMessage = document.getElementById("error-message");
+                      errorMessage.style.display = "block";
+                      errorMessage.innerHTML = "La contraseña es incorrecta";
+                      return false;
+                    }
+
 
 
                     return true;

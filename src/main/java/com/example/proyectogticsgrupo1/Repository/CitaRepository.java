@@ -78,6 +78,146 @@ public interface CitaRepository extends JpaRepository<Cita, Integer> {
     List<Cita> citaPorSede(Integer idsede, String fecha);
 
 
+    //-------------Misma semana------------------------//
+    @Query(nativeQuery = true, value = "SELECT * FROM cita WHERE YEARWEEK(fecha) = YEARWEEK(CURDATE()) + 0  AND DAYOFWEEK(fecha) = 2\n" +
+            "            AND  time(horainicio) > curtime() \n" +
+            "\t\t\tand paciente_idpaciente = ?1")
+    List<Cita> listaLunes(Integer id);
+    @Query(nativeQuery = true, value = "SELECT * FROM cita WHERE YEARWEEK(fecha) = YEARWEEK(CURDATE()) + 0  AND DAYOFWEEK(fecha) = 3\n" +
+            "            AND  time(horainicio) > curtime() \n" +
+            "\t\t\tand paciente_idpaciente = ?1")
+    List<Cita> listaMartes(Integer id);
+    @Query(nativeQuery = true, value = "SELECT * FROM cita WHERE YEARWEEK(fecha) = YEARWEEK(CURDATE()) + 0  AND DAYOFWEEK(fecha) = 4\n" +
+            "            AND  time(horainicio) > curtime() \n" +
+            "\t\t\tand paciente_idpaciente = ?1")
+    List<Cita> listaMiercoles(Integer id);
+    @Query(nativeQuery = true, value = "SELECT * FROM cita WHERE YEARWEEK(fecha) = YEARWEEK(CURDATE()) + 0  AND DAYOFWEEK(fecha) = 5\n" +
+            "            AND  time(horainicio) > curtime() \n" +
+            "\t\t\tand paciente_idpaciente = ?1")
+    List<Cita> listaJueves(Integer id);
+    @Query(nativeQuery = true, value = "SELECT * FROM cita WHERE YEARWEEK(fecha) = YEARWEEK(CURDATE()) + 0  AND DAYOFWEEK(fecha) = 6\n" +
+            "            AND  time(horainicio) > curtime() \n" +
+            "\t\t\tand paciente_idpaciente = ?1")
+    List<Cita> listaViernes(Integer id);
+    @Query(nativeQuery = true, value = "SELECT * FROM cita WHERE YEARWEEK(fecha) = YEARWEEK(CURDATE()) + 0  AND DAYOFWEEK(fecha) = 7\n" +
+            "            AND  time(horainicio) > curtime() \n" +
+            "\t\t\tand paciente_idpaciente = ?1")
+    List<Cita> listaSabados(Integer id);
+
+    //-------------Siguiente semana------------------------//
+    @Query(nativeQuery = true, value = "SELECT * FROM cita WHERE YEARWEEK(fecha) = YEARWEEK(CURDATE()) + 1  AND DAYOFWEEK(fecha) = 2\n" +
+            "            AND  time(horainicio) > curtime() \n" +
+            "\t\t\tand paciente_idpaciente = ?1")
+    List<Cita> listaLunescitas1(Integer id);
+    @Query(nativeQuery = true, value = "SELECT * FROM cita WHERE YEARWEEK(fecha) = YEARWEEK(CURDATE()) + 1  AND DAYOFWEEK(fecha) = 3\n" +
+            "            AND  time(horainicio) > curtime() \n" +
+            "\t\t\tand paciente_idpaciente = ?1")
+    List<Cita> listaMartescitas1(Integer id);
+    @Query(nativeQuery = true, value = "SELECT * FROM cita WHERE YEARWEEK(fecha) = YEARWEEK(CURDATE()) + 1  AND DAYOFWEEK(fecha) = 4\n" +
+            "            AND  time(horainicio) > curtime() \n" +
+            "\t\t\tand paciente_idpaciente =?1")
+    List<Cita> listaMiercolescitas1(Integer id);
+    @Query(nativeQuery = true, value = "SELECT * FROM cita WHERE YEARWEEK(fecha) = YEARWEEK(CURDATE()) + 1  AND DAYOFWEEK(fecha) = 5\n" +
+            "            AND  time(horainicio) > curtime() \n" +
+            "\t\t\tand paciente_idpaciente = ?1")
+    List<Cita> listaJuevescitas1(Integer id);
+    @Query(nativeQuery = true, value = "SELECT * FROM cita WHERE YEARWEEK(fecha) = YEARWEEK(CURDATE()) + 1  AND DAYOFWEEK(fecha) = 6\n" +
+            "            AND  time(horainicio) > curtime() \n" +
+            "\t\t\tand paciente_idpaciente = ?1")
+    List<Cita> listaViernescitas1(Integer id);
+    @Query(nativeQuery = true, value = "SELECT * FROM cita WHERE YEARWEEK(fecha) = YEARWEEK(CURDATE()) + 1  AND DAYOFWEEK(fecha) = 7\n" +
+            "            AND  time(horainicio) > curtime() \n" +
+            "\t\t\tand paciente_idpaciente = ?1")
+    List<Cita> listaSabadoscitas1(Integer id);
+
+    //-------------a 2 semanas------------------------//
+    @Query(nativeQuery = true, value = "SELECT * FROM cita WHERE YEARWEEK(fecha) = YEARWEEK(CURDATE()) + 2  AND DAYOFWEEK(fecha) = 2\n" +
+            "            AND  time(horainicio) > curtime() \n" +
+            "\t\t\tand paciente_idpaciente = ?1")
+    List<Cita> listaLunescita2(Integer id);
+    @Query(nativeQuery = true, value = "SELECT * FROM cita WHERE YEARWEEK(fecha) = YEARWEEK(CURDATE()) + 2  AND DAYOFWEEK(fecha) = 3\n" +
+            "            AND  time(horainicio) > curtime() \n" +
+            "\t\t\tand paciente_idpaciente = ?1")
+    List<Cita> listaMartescitas2(Integer id);
+    @Query(nativeQuery = true, value = "SELECT * FROM cita WHERE YEARWEEK(fecha) = YEARWEEK(CURDATE()) + 2  AND DAYOFWEEK(fecha) = 4\n" +
+            "            AND  time(horainicio) > curtime() \n" +
+            "\t\t\tand paciente_idpaciente =?1")
+    List<Cita> listaMiercolescitas2(Integer id);
+    @Query(nativeQuery = true, value = "SELECT * FROM cita WHERE YEARWEEK(fecha) = YEARWEEK(CURDATE()) + 2  AND DAYOFWEEK(fecha) = 5\n" +
+            "            AND  time(horainicio) > curtime() \n" +
+            "\t\t\tand paciente_idpaciente = ?1")
+    List<Cita> listaJuevescitas2(Integer id);
+    @Query(nativeQuery = true, value = "SELECT * FROM cita WHERE YEARWEEK(fecha) = YEARWEEK(CURDATE()) + 2  AND DAYOFWEEK(fecha) = 6\n" +
+            "            AND  time(horainicio) > curtime() \n" +
+            "\t\t\tand paciente_idpaciente = ?1")
+    List<Cita> listaViernescitas2(Integer id);
+    @Query(nativeQuery = true, value = "SELECT * FROM cita WHERE YEARWEEK(fecha) = YEARWEEK(CURDATE()) + 2  AND DAYOFWEEK(fecha) = 7\n" +
+            "            AND  time(horainicio) > curtime() \n" +
+            "\t\t\tand paciente_idpaciente = ?1")
+    List<Cita> listaSabadoscitas2(Integer id);
+
+    //-------------A 3 semanas------------------------//
+    @Query(nativeQuery = true, value = "SELECT * FROM cita WHERE YEARWEEK(fecha) = YEARWEEK(CURDATE()) + 3  AND DAYOFWEEK(fecha) = 2\n" +
+            "            AND  time(horainicio) > curtime() \n" +
+            "\t\t\tand paciente_idpaciente = ?1")
+    List<Cita> listaLunescitas3(Integer id);
+    @Query(nativeQuery = true, value = "SELECT * FROM cita WHERE YEARWEEK(fecha) = YEARWEEK(CURDATE()) + 3  AND DAYOFWEEK(fecha) = 3\n" +
+            "            AND  time(horainicio) > curtime() \n" +
+            "\t\t\tand paciente_idpaciente = ?1")
+    List<Cita> listaMartescitas3(Integer id);
+    @Query(nativeQuery = true, value = "SELECT * FROM cita WHERE YEARWEEK(fecha) = YEARWEEK(CURDATE()) + 3  AND DAYOFWEEK(fecha) = 4\n" +
+            "            AND  time(horainicio) > curtime() \n" +
+            "\t\t\tand paciente_idpaciente =?1")
+    List<Cita> listaMiercolescitas3(Integer id);
+    @Query(nativeQuery = true, value = "SELECT * FROM cita WHERE YEARWEEK(fecha) = YEARWEEK(CURDATE()) + 3  AND DAYOFWEEK(fecha) = 5\n" +
+            "            AND  time(horainicio) > curtime() \n" +
+            "\t\t\tand paciente_idpaciente = ?1")
+    List<Cita> listaJuevescitas3(Integer id);
+    @Query(nativeQuery = true, value = "SELECT * FROM cita WHERE YEARWEEK(fecha) = YEARWEEK(CURDATE()) + 3  AND DAYOFWEEK(fecha) = 6\n" +
+            "            AND  time(horainicio) > curtime() \n" +
+            "\t\t\tand paciente_idpaciente = ?1")
+    List<Cita> listaViernescitas3(Integer id);
+    @Query(nativeQuery = true, value = "SELECT * FROM cita WHERE YEARWEEK(fecha) = YEARWEEK(CURDATE()) + 3  AND DAYOFWEEK(fecha) = 7\n" +
+            "            AND  time(horainicio) > curtime() \n" +
+            "\t\t\tand paciente_idpaciente = ?1")
+    List<Cita> listaSabadoscitas3(Integer id);
+
+    //-------------A 4 semanas------------------------//
+    @Query(nativeQuery = true, value = "SELECT * FROM cita WHERE YEARWEEK(fecha) = YEARWEEK(CURDATE()) + 4  AND DAYOFWEEK(fecha) = 2\n" +
+            "            AND  time(horainicio) > curtime() \n" +
+            "\t\t\tand paciente_idpaciente = ?1")
+    List<Cita> listaLunescitas4(Integer id);
+    @Query(nativeQuery = true, value = "SELECT * FROM cita WHERE YEARWEEK(fecha) = YEARWEEK(CURDATE()) + 4  AND DAYOFWEEK(fecha) = 3\n" +
+            "            AND  time(horainicio) > curtime() \n" +
+            "\t\t\tand paciente_idpaciente = ?1")
+    List<Cita> listaMartescitas4(Integer id);
+    @Query(nativeQuery = true, value = "SELECT * FROM cita WHERE YEARWEEK(fecha) = YEARWEEK(CURDATE()) + 4  AND DAYOFWEEK(fecha) = 4\n" +
+            "            AND  time(horainicio) > curtime() \n" +
+            "\t\t\tand paciente_idpaciente =?1")
+    List<Cita> listaMiercolescitas4(Integer id);
+    @Query(nativeQuery = true, value = "SELECT * FROM cita WHERE YEARWEEK(fecha) = YEARWEEK(CURDATE()) + 4  AND DAYOFWEEK(fecha) = 5\n" +
+            "            AND  time(horainicio) > curtime() \n" +
+            "\t\t\tand paciente_idpaciente = ?1")
+    List<Cita> listaJuevescitas4(Integer id);
+    @Query(nativeQuery = true, value = "SELECT * FROM cita WHERE YEARWEEK(fecha) = YEARWEEK(CURDATE()) + 4  AND DAYOFWEEK(fecha) = 6\n" +
+            "            AND  time(horainicio) > curtime() \n" +
+            "\t\t\tand paciente_idpaciente = ?1")
+    List<Cita> listaViernescitas4(Integer id);
+    @Query(nativeQuery = true, value = "SELECT * FROM cita WHERE YEARWEEK(fecha) = YEARWEEK(CURDATE()) + 4  AND DAYOFWEEK(fecha) = 7\n" +
+            "            AND  time(horainicio) > curtime() \n" +
+            "\t\t\tand paciente_idpaciente = ?1")
+    List<Cita> listaSabadoscitas4(Integer id);
+
+    @Query(nativeQuery = true, value = "SELECT DATE_ADD(MAKEDATE(YEAR(CURDATE()), 1) + INTERVAL WEEK(CURDATE()) + (-2 + ?1) WEEK, INTERVAL (WEEKDAY(MAKEDATE(YEAR(CURDATE()), 1) + INTERVAL WEEK(CURDATE()) + ?1 WEEK) + 1) DAY) AS start_date;")
+    java.sql.Date obtnerInicioSemanacita(Integer numSemana);
+
+    @Query(nativeQuery = true, value = "SELECT DATE_ADD(MAKEDATE(YEAR(CURDATE()), 1) + INTERVAL WEEK(CURDATE()) + (-2+ ?1) WEEK, INTERVAL (WEEKDAY(MAKEDATE(YEAR(CURDATE()), 1) + INTERVAL WEEK(CURDATE()) + ?1 WEEK) + 7) DAY) AS end_date;")
+    java.sql.Date obtenerFinSemanacita(Integer numSemana);
+
+    @Query(nativeQuery = true, value = "SELECT MONTHNAME(MAKEDATE(YEAR(CURDATE()), 1) + INTERVAL WEEK(CURDATE()) + ?1 WEEK) AS month_name;")
+    String obtenerMescita(Integer numWeek);
+
+
 
 
 }
