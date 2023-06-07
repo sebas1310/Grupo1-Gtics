@@ -408,6 +408,16 @@ public class DoctorController {
 
     }
 
+    @GetMapping("/pacientesatendidos/verhistorial/vercita/anadir")
+    public String anadirReceta(Model model, @RequestParam("id") int idCita){
+        Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
+        Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
+        model.addAttribute("doctor",doctor);
+        Cita cita = citaRepository.buscarCitaPorId(idCita);
+        model.addAttribute("cita", cita);
+        return "doctor/anadirReceta";
+    }
+
     //consultar si se puede sacar idReceta
     @PostMapping("/pacientesatendidos/verhistorial/vercita/guardarreceta")
     @Transactional

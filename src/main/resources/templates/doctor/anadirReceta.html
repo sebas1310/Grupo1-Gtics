@@ -26,6 +26,7 @@
         <li class="breadcrumb-item"><a th:href="@{'/doctor/pacientesatendidos'+ '?id=' + ${doctor.iddoctor}}">Pacientes Atendidos</a></li>
         <li class="breadcrumb-item"><a th:href="@{'/doctor/pacientesatendidos/verhistorial' + '?id=' + ${doctor.iddoctor}}">Historial Clínico</a></li>
         <li class="breadcrumb-item " ><a th:href="@{'/doctor/pacientesatendidos/verhistorial/vercita'+ '?id=' + ${cita.getIdcita()}}" >Cita </a> <span th:text="${cita.getIdcita()}" ></span> </li>
+
         <li class="breadcrumb-item active">Receta Medica</li>
       </ol>
     </nav>
