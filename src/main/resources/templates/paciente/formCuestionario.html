@@ -4,7 +4,7 @@
 </head>
 <body>
 <!-- ======= Header ======= -->
-<header th:replace="fragmentsPacientes/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1', nombre = |${session.usuario.nombres} ${session.usuario.apellidos} (${session.usuario.tipodeusuario.nombre.toUpperCase()})|, num_men = '3')">
+<header th:replace="fragmentsPacientes/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1', nombre = |${session.usuario.nombres} ${session.usuario.apellidos} (${session.usuario.tipodeusuario.nombre.toUpperCase()})|, num_men = '3', id=${pacientelog.usuario.idusuario})">
 </header>
 <!-- End Header -->
 
@@ -37,19 +37,20 @@
                 <!-- Bitacora -->
                 <div class="card recent-sales overflow-auto">
                     <div class="card-body">
-                        <h5 class="card-title" th:text="|Cuestionario Médico - ${datos.cita.especialidad.nombre}|">Cuestionario Médico</h5>
-                        <form method="post" th:action="@{'/paciente/respuestas'}">
-                            <input type="hidden" th:value="${datos.id}" name="idcuest"/>
+                        <div id="contenedorDivs">
+<!--                        <h5 class="card-title" th:text="|Cuestionario Médico - ${datos.cita.especialidad.nombre}|">Cuestionario Médico</h5>-->
                             <div class="row mb-3" th:each="pregunta,indice:${listapreguntascuestionario}">
+                                <input type="hidden" th:value="${id_cuest}" name="idcuest" id="idcuest"/>
                                 <label class="card-title" th:text="|Pregunta ${indice.index+1}:|"></label>
                                 <label class="col-md-4 col-lg-3 col-form-label" th:text="${pregunta}"></label>
                                 <input type="text" th:name="'respuesta' + ${indice.index}" class="form-control" />
                             </div>
                             <br>
                             <div class="text-center">
-                                <button type="submit" class="btn btn-primary">Enviar</button>
+                                <button type="submit" class="btn btn-primary" onclick="EnviarForm(this)">Enviar</button>
+
                             </div>
-                        </form>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -57,6 +58,68 @@
         </div>
     </section>
 </main><!-- End #main -->
+
+    <script>
+
+        function EnviarForm() {
+
+            //id modelo
+            const idcuest = document.getElementById("idcuest").value
+
+            console.log(idcuest);
+
+
+            //id div - contenedor
+            var inputs = document.getElementById("contenedorDivs").querySelectorAll("input.form-control");
+            var valores = [];
+
+
+            valores.push(idcuest)
+
+            for (var i = 0; i < inputs.length; i++) {
+                var valor = inputs[i].value;
+                valores.push(valor);
+            }
+
+
+
+            console.log(valores);
+
+
+
+            // const crearModal = bootstrap.Modal.getOrCreateInstance('#createModal');
+            // crearModal.hide();
+
+
+            var xmlhttp_2 = new XMLHttpRequest();
+            var url = "/doctor/llenarCuestionario?valores=" + encodeURIComponent(valores);
+            xmlhttp_2.open("POST", url, true);
+            xmlhttp_2.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xmlhttp_2.onreadystatechange = function () {
+
+                if (xmlhttp_2.readyState == XMLHttpRequest.DONE) {
+                    if (xmlhttp_2.status == 200) {
+                        // Mostrar mensaje de éxito
+                        alert("Plantilla editada correctamente");
+                        location.reload();
+
+
+                    } else {
+                        // Mostrar mensaje de error
+                        alert("Ha ocurrido un error al actualizar la plantilla");
+                    }
+                }
+            };
+
+            xmlhttp_2.send();
+
+
+
+        };
+
+
+    </script>
+
 
 <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 <!-- Vendor JS Files -->
@@ -71,6 +134,8 @@
 
 <!-- Template Main JS File -->
 <script th:src="@{'/assets/js/main.js'}"></script>
+
+
 
 </body>
 

@@ -7,7 +7,7 @@
 <body>
 
 <!-- ======= Header ======= -->
-<header th:replace="fragmentsPacientes/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1', nombre = |${session.usuario.nombres} ${session.usuario.apellidos} (${session.usuario.tipodeusuario.nombre.toUpperCase()})|, num_men = '3')">
+<header th:replace="fragmentsPacientes/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1', nombre = |${session.usuario.nombres} ${session.usuario.apellidos} (${session.usuario.tipodeusuario.nombre.toUpperCase()})|, num_men = '3', id=${pacientelog.usuario.idusuario})">
 </header>
 <!-- End Header -->
 
@@ -159,7 +159,8 @@
                         <div class="form-group">
                           <input type="file" name="file" accept="image/*" class="form-control-file">
                         </div>
-                        <button type="submit" class="btn btn-primary">Upload image</button>
+                        <br>
+                        <button type="submit" class="btn btn-warning">Subir foto</button>&nbsp<span style="font-size: small; color: gray">De preferencia la imagen debe pesar menos de 64 KB</span>
                       </form>
                     </div>
                   </div>
@@ -167,7 +168,7 @@
                   <div class="row mb-3">
 
                         <div class="row mb-3">
-                          <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Ingresar Poliza de seguro</label>
+                          <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Ingresar Poliza de Seguro</label>
                           <div class="col-md-8 col-lg-9">
 
                             <div class="row mb-3">

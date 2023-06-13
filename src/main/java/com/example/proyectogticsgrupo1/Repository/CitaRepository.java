@@ -191,6 +191,10 @@ public interface CitaRepository extends JpaRepository<Cita, Integer> {
     String obtenerMescita(Integer numWeek);
 
 
+    @Query(value = "SELECT * from cita where paciente_idpaciente = ?1", nativeQuery = true)
+    List<Cita> citasxUsuario(int idusuario);
+
+
 
 
 }

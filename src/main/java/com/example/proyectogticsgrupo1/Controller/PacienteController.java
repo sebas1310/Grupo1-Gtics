@@ -1,5 +1,6 @@
 package com.example.proyectogticsgrupo1.Controller;
 
+import com.example.proyectogticsgrupo1.DTO.ModeloPorCita;
 import com.example.proyectogticsgrupo1.Entity.*;
 import com.example.proyectogticsgrupo1.Repository.*;
 import com.example.proyectogticsgrupo1.Service.EmailService;
@@ -10,10 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -45,6 +43,11 @@ public class PacienteController {
     final SeguroRepository seguroRepository;
 
     final BoletaPacienteRepository boletaPacienteRepository;
+
+    @Autowired
+    TablaDatosLlenosRepository tablaDatosLlenosRepository;
+    TablaDatosLlenos tablaDatosLlenos;
+
 
     public PacienteController(SedeRepository sedeRepository, EspecialidadRepository especialidadRepository, DoctorRepository doctorRepository, UserRepository userRepository, NotificacionesRepository notificacionesRepository, RecetaMedicaRepository recetaMedicaRepository, PacienteRepository pacienteRepository, TipoCitaRepository tipoCitaRepository, CitaRepository citaRepository, EventocalendariodoctorRepository eventocalendariodoctorRepository,
                               BoletaDoctorRepository boletaDoctorRepository, SeguroRepository seguroRepository, BoletaPacienteRepository boletaPacienteRepository) {
@@ -472,19 +475,68 @@ public class PacienteController {
     @GetMapping(value = "/cuestionarios")
     public String cuestionarios(Model model){
         Usuario usuario = (Usuario) session.getAttribute("usuario");
+
+        int id_user = usuario.getIdusuario();
+        int id_tipo_user = usuario.getTipodeusuario().getIdtipodeusuario();
+
+        System.out.println(id_user);
+        System.out.println(id_tipo_user);
+
+
+
         Paciente paciente = pacienteRepository.pacXuser(usuario.getIdusuario());
 
-        List<DatosJsonEntity> listadatos = datosJsonRepository.findAll();
-        List<DatosJsonEntity> misCuestionarios = new ArrayList<>();
+        System.out.println(paciente);
 
-        for(DatosJsonEntity d : listadatos){
-            if(d.getCita().getPaciente().getIdpaciente()==paciente.getIdpaciente() && d.getCita().getFecha().isAfter(LocalDate.now())){
-                misCuestionarios.add(d);
+        List<Cita> listaCitas = citaRepository.citasxUsuario(paciente.getIdpaciente());
+
+        System.out.println(listaCitas);
+
+
+//        List<ModeloPorCita> listaModelosxCita = modeloJsonRepository.consultarModelo(cita_unica.getIdcita());
+        List<ModeloJsonEntity> listamodelos = new ArrayList<>();
+
+        for(Cita cita_unica: listaCitas){
+            System.out.println(cita_unica);
+            Integer id_modelo = modeloJsonRepository.consultarModelo(cita_unica.getIdcita());
+            System.out.println(id_modelo);
+            if (id_modelo != null){
+                ModeloJsonEntity modelo_cuestionario_2 = modeloJsonRepository.listaCuestionarios(id_modelo);
+
+                listamodelos.add(modelo_cuestionario_2);
+
+
+
             }
+
         }
-        model.addAttribute("cuestionarios",misCuestionarios);
+
+        model.addAttribute("list_cuestionario_2",listamodelos);
+
         model.addAttribute("pacientelog",paciente);
+
         return "paciente/cuestionariosPaciente";
+
+
+
+
+
+
+
+
+
+//        List<DatosJsonEntity> listadatos = datosJsonRepository.findAll();
+//        List<DatosJsonEntity> misCuestionarios = new ArrayList<>();
+//
+//        for(DatosJsonEntity d : listadatos){
+//            if(d.getCita().getPaciente().getIdpaciente()==paciente.getIdpaciente() && d.getCita().getFecha().isAfter(LocalDate.now())){
+//                misCuestionarios.add(d);
+//            }
+//        }
+//
+//
+//        model.addAttribute("cuestionarios",misCuestionarios);
+//        model.addAttribute("pacientelog",paciente);
     }
 
 
@@ -495,24 +547,137 @@ public class PacienteController {
     public String formCuestinario(@RequestParam("idcuest") String idstr,Model model){
         Usuario usuario = (Usuario) session.getAttribute("usuario");
         Paciente paciente = pacienteRepository.pacXuser(usuario.getIdusuario());
+
+
+//        ModeloJsonEntity modelo_cuestionario_2 = modeloJsonRepository.listaCuestionarios(idcuest);
+
+
+
+
+
+
         try {
             Integer id = Integer.parseInt(idstr);
-            Optional<DatosJsonEntity> optional = datosJsonRepository.findById(id);
-            if(optional.isPresent()){
-                DatosJsonEntity datos = optional.get();
-                model.addAttribute("datos",datos);
+//            Optional<DatosJsonEntity> optional = datosJsonRepository.findById(id);
+//            if(optional.isPresent()){
+//                DatosJsonEntity datos = optional.get();
+//                model.addAttribute("datos",datos);
                 model.addAttribute("pacientelog",paciente);
-                int cuestionarioMedicoId = modeloJsonRepository.cuestionarioMedicoId(datos.getCita().getEspecialidad().getIdespecialidad());
-                model.addAttribute("listapreguntascuestionario",modeloJsonRepository.listarPreguntasxPlantilla(cuestionarioMedicoId));
+                model.addAttribute("id_cuest",id);
+//                int cuestionarioMedicoId = modeloJsonRepository.cuestionarioMedicoId(datos.getCita().getEspecialidad().getIdespecialidad());
+                model.addAttribute("listapreguntascuestionario",modeloJsonRepository.listarPreguntasxPlantilla(id));
                 return "paciente/formCuestionario";
-            }
-            else {
-                return "redirect:/paciente/cuestionarios";
-            }
+//            }
+//            else {
+//                return "redirect:/paciente/cuestionarios";
+//            }
         }
         catch (NumberFormatException e){
             return "redirect:/paciente/cuestionarios";
         }
+    }
+
+
+
+    @ResponseBody
+    @PostMapping(value = "/llenarCuestionario")
+    public String llenarCuestionario(Model model, @RequestParam("valores") List<String> valores){
+        System.out.println("llega al repo de llenar");
+        System.out.println(valores);
+
+
+        String primerValor_id = valores.get(0);
+
+        System.out.println(primerValor_id);
+
+        valores.remove(0);
+
+        int primerValorInt_id = Integer.parseInt(String.valueOf(primerValor_id));
+
+
+
+        ModeloJsonEntity EncontrarModelo = modeloJsonRepository.buscarModeloEdit(primerValorInt_id);
+
+
+        String nbr_plantilla = EncontrarModelo.getNombrePlantilla();
+        int id_especialidad = EncontrarModelo.getEspecialidad().getIdespecialidad();
+        int id_tipo_usuario = EncontrarModelo.getTipodeusuario().getIdtipodeusuario();
+        Byte flg_formulario = EncontrarModelo.getFormulario();
+        Byte flg_cuestionario = EncontrarModelo.getCuestionario();
+
+//        if(EncontrarModelo.getCuestionario() ==null){
+
+
+        Byte flg_informe = EncontrarModelo.getInforme();
+
+        System.out.println("nbr_plantilla="+nbr_plantilla);
+        System.out.println("id_especialidad="+id_especialidad);
+        System.out.println("id_tipo_usuario="+id_tipo_usuario);
+        System.out.println("flg_formulario="+flg_formulario);
+        System.out.println("flg_cuestionario="+flg_cuestionario);
+        System.out.println("flg_informe="+flg_informe);
+
+
+
+
+//        List<String> listaElementosDatosInputs = new ArrayList<>();
+//
+//        listaElementosDatosInputs.add("respuesta1");
+//        listaElementosDatosInputs.add("respuesta2");
+//        listaElementosDatosInputs.add("respuesta3");
+//        listaElementosDatosInputs.add("respuesta4");
+//        listaElementosDatosInputs.add("respuesta5");
+
+        for (String elemento : valores) {
+            tablaDatosLlenosRepository.agregarDatosDeInput(elemento);
+            System.out.println(elemento);
+        }
+
+//        tablaDatosLlenosRepository.LlenadoDePlantilla(id_registro_nuevo,nombreplantilla,id_usuario,id_modelo,id_cita);
+
+//
+//
+//
+//        tablaDatosLlenosRepository.LlenadoDePlantilla(id_registro_nuevo,nombreplantilla,4,1,1);
+
+
+
+//        tablaDatosLlenosRepository.LlenadoDePlantilla(id_registro_nuevo+4,nombreplantilla,4,12,1);
+        //para llenar en datos_json
+
+
+
+        //////////////////////////////////////
+//        modeloRepository.crearnuevaPlantilla(nombreplantilla,mod_datos,id_rol,id_especialidad,nro_inputs);
+//        if (employee.getEmployeeId() == 0) {
+//            attr.addFlashAttribute("msg", "Plantilla creada exitosamente");
+//        } else {
+//            attr.addFlashAttribute("msg", "Empleado actualizado exitosamente");
+//        }
+//        attr.addFlashAttribute("msg", "Plantilla creada exitosamente");
+
+        //BORRADO DE LA TABLA DE TITULOS.
+
+        //jalar para borrar
+        tablaDatosLlenosRepository.BorrarDatosDeInput();
+
+
+//        return "redirect:/superadmin/nuevoform";
+
+
+
+
+
+
+
+
+
+//        modeloJsonRepository.borrarPlantillas(id_de_modelo_plantilla);
+
+
+
+        return "hola";
+
     }
 
 

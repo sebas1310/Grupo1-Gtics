@@ -4,7 +4,7 @@
 </head>
 
 <body>
-<header th:fragment="header(num_not, num_form, por_canc, nombre, num_men)" id="header" class="header fixed-top d-flex align-items-center" style="background-color:#ffd966">
+<header th:fragment="header(num_not, num_form, por_canc, nombre, num_men, id)" id="header" class="header fixed-top d-flex align-items-center" style="background-color:#ffd966">
 
   <div class="d-flex align-items-center justify-content-between">
     <i class="bi bi-list toggle-sidebar-btn"></i> &nbsp &nbsp
@@ -72,7 +72,7 @@
       <li class="nav-item dropdown">
       <li class="nav-item dropdown pe-3">
         <a class="nav-link nav-profile d-flex align-items-center pe-0" th:href="@{'/paciente/perfil'}">
-          <img th:src="@{/assets/img/profile-img.jpg}" alt="Profile" class="rounded-circle">
+          <img th:src="@{'/gcp/imagenEvento?id=' + ${id}}" alt="Profile" class="rounded-circle">
           <span th:text="${nombre}" class="d-none d-md-block  ps-2"></span>
         </a><!-- End Profile Iamge Icon -->
 

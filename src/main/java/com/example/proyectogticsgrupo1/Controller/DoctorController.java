@@ -580,7 +580,7 @@ public class DoctorController {
     @PostMapping(value = "/cuestionario/enviarcuestionario")
     public String enviarCuestionario(Model model, @RequestParam("valores") List<String> valores,
                                      RedirectAttributes redirectAttributes){
-        System.out.println("llega al repo de modificar");
+        System.out.println("llega al repo de enviar");
         System.out.println(valores);
 
 
@@ -781,6 +781,23 @@ public class DoctorController {
         }
         redirectAttributes.addFlashAttribute("msg","Mensaje Enviado");
         return "redirect:/doctor/mensajeria";
+        //return ResponseEntity.ok().build();
+    }
+
+
+    @PostMapping("/cuestionario_envio")
+    @Transactional
+    //ResponseEntity<Void>
+    public String cuestionarioEnvio(RedirectAttributes redirectAttributes,
+                            @RequestParam("id_cita") int id_cita , @RequestParam("id_modelo") int id_modelo) {
+
+        System.out.println("llega al repo de envio");
+        modeloJsonRepository.agregarCuestionarioAPaciente(id_modelo,id_cita);
+
+
+
+        redirectAttributes.addFlashAttribute("msg","Cuestionario enviado");
+        return "redirect:/doctor/pacientesatendidos";
         //return ResponseEntity.ok().build();
     }
 
