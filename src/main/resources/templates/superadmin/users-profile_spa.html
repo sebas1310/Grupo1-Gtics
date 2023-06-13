@@ -6,7 +6,7 @@
 <body>
 
 <!-- ======= Header ======= -->
-<header th:replace="superadmin/fragments_spa/header_spa.html :: header(num_not = '3', num_form = '2 ', por_canc = '1', nombre = 'A. Jauregui', num_men = '3')">
+<header th:replace="superadmin/fragments_spa/header_spa.html :: header(num_not = '3', num_form = '2 ', por_canc = '1', nombre = 'A. Jauregui', num_men = '3', id=${superadminlog.idusuario})">
 </header>
 <!-- End Header -->
 
@@ -34,7 +34,7 @@
           <div class="card">
             <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
 
-              <img th:src="@{/assets/img/profile-img.jpg}" alt="Profile" class="rounded-circle">
+              <img th:src="@{'/gcp/imagenEvento?id=' + ${superadminlog.idusuario}}" alt="Profile" class="rounded-circle">
               <h2 th:text="${superadminlog.nombres + ' ' + superadminlog.apellidos}"></h2>
               <h3>Super Admin</h3>
               <div th:if="${psw2!=null}" th:text="${psw2}" class="alert alert-danger" role="alert"></div>
@@ -114,21 +114,17 @@
                 </div>
 
                 <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
+                  <div class="col-md-8 col-lg-9">
+                    <form method="post" th:action="@{'/superadmin/guardarImagen?id='+ ${superadminlog.idusuario}}" enctype="multipart/form-data">
+                      <div class="form-group">
+                        <input type="file" name="file" accept="image/*" class="form-control-file">
+                      </div>
+                      <button type="submit" class="btn btn-primary">Upload image</button>
+                    </form>
+                  </div>
 
                   <!-- Profile Edit Form -->
                   <form method="post" th:action="@{'/superadmin/savespa'}" th:object="${superadminlog}" class="mt-2">
-
-                    <div class="row mb-3">
-                      <label class="col-md-4 col-lg-3 col-form-label">Foto de Perfil</label>
-                      <div class="col-md-8 col-lg-9">
-                        <img th:src="@{/assets/img/profile-img.jpg}"alt="Profile">
-                        <div class="pt-2">
-                          <a href="#" class="btn btn-primary btn-sm" title="Upload new profile image"><i class="bi bi-upload"></i></a>
-                          <a href="#" class="btn btn-danger btn-sm" title="Remove my profile image"><i class="bi bi-trash"></i></a>
-                        </div>
-                      </div>
-                    </div>
-
                     <div class="row mb-3">
                       <label class="col-md-4 col-lg-3 col-form-label">Nombre</label>
                       <div class="col-md-8 col-lg-9">
