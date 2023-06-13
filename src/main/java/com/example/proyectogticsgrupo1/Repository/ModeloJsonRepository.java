@@ -2,7 +2,6 @@ package com.example.proyectogticsgrupo1.Repository;
 
 
 import com.example.proyectogticsgrupo1.DTO.InformesMedicos;
-import com.example.proyectogticsgrupo1.Entity.ModeloJson;
 import com.example.proyectogticsgrupo1.Entity.ModeloJsonEntity;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;

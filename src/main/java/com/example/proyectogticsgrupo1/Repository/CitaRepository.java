@@ -44,14 +44,15 @@ public interface CitaRepository extends JpaRepository<Cita, Integer> {
     List<Cita> pacientesAtendidosPorDoctor(Integer idDoctor);*/
 
 
-    @Query(value = "SELECT c.idcita AS 'IDCita', MAX(fecha) AS 'UltimaFecha', c.paciente_idpaciente AS 'IDPaciente', CONCAT(u.nombres, ' ', u.apellidos) AS 'NombrePaciente', t.nombre AS 'TipoCita' " +
-            "FROM cita c " +
-            "INNER JOIN paciente p ON c.paciente_idpaciente = p.idpaciente " +
-            "INNER JOIN usuario u ON p.idusuario = u.idusuario " +
-            "INNER JOIN tipocita t ON c.idtipocita = t.idtipocita " +
-            "WHERE c.doctor_iddoctor = ?1 AND fecha <= CURRENT_DATE() " +
-            "GROUP BY c.idcita, c.paciente_idpaciente, CONCAT(u.nombres, ' ', u.apellidos), t.nombre " +
-            "ORDER BY MAX(fecha)", nativeQuery = true)
+    @Query(value = "SELECT c.idcita AS 'IDCita', fecha AS 'UltimaFecha', c.paciente_idpaciente AS 'IDPaciente',\n" +
+            " CONCAT(u.nombres, ' ', u.apellidos) AS 'NombrePaciente', t.nombre AS 'TipoCita'\n" +
+            "            FROM cita c\n" +
+            "            INNER JOIN paciente p ON c.paciente_idpaciente = p.idpaciente \n" +
+            "            INNER JOIN usuario u ON p.idusuario = u.idusuario \n" +
+            "            INNER JOIN tipocita t ON c.idtipocita = t.idtipocita \n" +
+            "            WHERE c.doctor_iddoctor = ?1 AND fecha <= CURRENT_TIME() \n" +
+            "            GROUP BY idpaciente \n" +
+            "            ORDER BY fecha desc", nativeQuery = true)
     List<PacientesAtendidos> pacientesAtendidosPorDoctor(Integer idDoctor);
 
 

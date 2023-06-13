@@ -788,11 +788,12 @@ public class DoctorController {
     @PostMapping("/perfil/editarperfil")
     @Transactional
     public String actualizarPerfilDoctor(RedirectAttributes redirectAttributes,
-                                         @RequestParam("idusuario") int idUsuario,@RequestParam("nombre") String nombres,
-                                         @RequestParam("apellido") String apellidos, @RequestParam("correo") String correo,
+                                         @RequestParam("idusuario") int idUsuario,
+                                         @RequestParam("nombre") String nombres,
+                                         @RequestParam("apellido") String apellidos,
                                          @RequestParam("formacion") String formacion,
                                          @RequestParam("capacitaciones") String capacitaciones){
-        usuarioRepository.actualizarPerfilDoctor(nombres,apellidos,correo,idUsuario);
+        usuarioRepository.actualizarPerfilDoctor(nombres,apellidos,idUsuario);
         doctorRepository.actualizarDoctor(formacion, capacitaciones, idUsuario);
         redirectAttributes.addFlashAttribute("msg","Perfil Actualizado");
         return "redirect:/doctor/perfil";

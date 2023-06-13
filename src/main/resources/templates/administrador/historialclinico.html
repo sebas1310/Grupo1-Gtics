@@ -46,10 +46,10 @@
                         <h5 class="card-title">Historial Clínico</h5>
 
                         <!-- Default Table -->
-                        <table class="table col-lg-20" >
+                        <table class="table col-lg-20">
                             <thead>
                             <tr>
-                                <th class="table"scope="row">Estado: <span th:text="${paciente.getEstadoPaciente().getNombre()}"></span></th>
+                                <th class="table" scope="row">Estado: <span th:text="${paciente.getEstadoPaciente().getNombre()}"></span></th>
                             </tr>
                             </thead>
                             <tbody>
@@ -60,45 +60,46 @@
                                 <th scope="row">Alergias</th>
                             </tr>
                             <tr>
-                                <td> <span th:text="${paciente.getAlergias()}"></span> </td>
+                                <td><span th:text="${paciente.getAlergias()}"></span></td>
                             </tr>
                             <tr>
                                 <th scope="row">Tratamiento</th>
                             </tr>
                             <tr>
-                                <td> Tratamiento de <span th:text="${paciente.getCondicionenfermedad()}"></span></td>
+                                <td>Tratamiento de <span th:text="${paciente.getCondicionenfermedad()}"></span></td>
                             </tr>
                             <tr>
                                 <th scope="row">Cuestionarios</th>
                             </tr>
-                            <tr th:each="cuestionarios : ${citas}">
-                                <td th:text="${cita.fecha} + '/' + ${cita.horainicio} + '-' + ${cita.horafinal} + '/' + ${cita.especialidad.nombre}"></td>
+                            <tr th:each="lista, info: ${listaparapaciente}" th:id="'fila-' + ${lista.id}">
+                                <td th:text="${lista.getNombre_plantilla()}"></td>
+                                <td>
+                                    <a type="button" style="color: #0a53be" th:data-id="${lista.getId()}"
+                                       onclick="mostrarModal(this)"><i class="bi bi-eye-fill"></i></a>
+                                </td>
+                                <td th:text="${lista.getId()}" id="id_modelo" hidden></td>
                             </tr>
                             <tr>
                                 <th scope="row">Consentimientos</th>
                             </tr>
                             <tr>
-                                <td> Uso de datos personales : <span th:text="${paciente.getConsentimientos() == 1 ? 'Sí' : 'No'}"></span></td>
+                                <td>Uso de datos personales: <span th:text="${paciente.getConsentimientos() == 1 ? 'Sí' : 'No'}"></span></td>
                                 <td><i class="bi bi-person-lock"></i></td>
                             </tr>
                             <tr>
-                                <th scope="row" >Próximas Citas</th>
-
+                                <th scope="row">Próximas Citas</th>
                             </tr>
                             <tr th:each="cita : ${citas}">
-                                <td th:text="${cita.fecha} + '/' + ${cita.horainicio} + '-' + ${cita.horafinal} + '/' + ${cita.especialidad.nombre}"></td>
+                                <td th:text="${cita.getFecha()} + '/' + ${cita.getHorainicio()} + '-' + ${cita.getHorafinal()} + '/' + ${cita.getEspecialidad().getNombre()}"></td>
                             </tr>
-
                             <tr>
                                 <th scope="row">Documentos anexados</th>
                             </tr>
-
                             <tr>
                                 <td style="text-decoration: underline; cursor: pointer;" id="historial-clinico-pdf"><i class="bi bi-filetype-pdf"></i> PDF Historial Clínico</td>
                             </tr>
-
                             <tr>
-                                <td><i class="bi bi-calendar-week" href="#"></i> Calendario de prox citas</td>
+                                <td><i class="bi bi-calendar-week" href="#"></i> Calendario de próximas citas</td>
                             </tr>
 
                             <script>
@@ -173,6 +174,68 @@
 
 <!-- Template Main JS File -->
 <script th:src="@{/assets/js/main.js}"></script>
+
+<script>
+    const modal = document.getElementById("createModal");
+    const span = document.getElementsByClassName("close")[0];
+    const modalId = document.getElementById("modal-id");
+    const modalNombre = document.getElementById("modal-nombre");
+
+    // Función para mostrar el modal y los detalles del usuario seleccionado
+    function mostrarModal(button) {
+        const id = button.dataset.id;
+
+        const nombrePlantilla = document.querySelector("#fila-" + id + " td:nth-child(2)").textContent;
+        const id_de_modelo_plantilla = document.querySelector("#fila-" + id + " td:nth-child(6)").textContent;
+
+        console.log(nombrePlantilla);
+
+        const crearModal = bootstrap.Modal.getOrCreateInstance('#createModal');
+        crearModal.show();
+
+        document.getElementById("nombre_plantilla").value = nombrePlantilla;
+        document.getElementById("id_de_modelo_plantilla").value = id_de_modelo_plantilla;
+
+        console.log(id_de_modelo_plantilla);
+
+        document.getElementById("id_fila").value = id;
+
+        var xmlhttp = new XMLHttpRequest();
+        var url = "/superadmin/listarTitulos?id_de_modelo_plantilla=" + encodeURIComponent(id_de_modelo_plantilla);
+        xmlhttp.open("GET", url, true);
+        xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xmlhttp.onreadystatechange = function () {
+            if (xmlhttp.readyState == XMLHttpRequest.DONE) {
+                if (xmlhttp.status == 200) {
+                    var response = xmlhttp.responseText;
+                    var lista = JSON.parse(response);
+                    var contenedor = document.getElementById("contenedorDivs");
+                    contenedor.innerHTML = "";
+
+                    for (var i = 0; i < lista.length; i++) {
+                        var label = document.createElement("label");
+                        label.classList.add("col-form-label");
+                        label.textContent = "Pregunta " + (i+1);
+                        contenedor.appendChild(label);
+
+                        var input = document.createElement("input");
+                        input.classList.add("form-control");
+                        input.value = lista[i];
+                        input.setAttribute("name", "elemento_" + i);
+                        // Set the input field as non-editable
+                        input.readOnly = true;
+                        contenedor.appendChild(input);
+                    }
+                } else {
+                    alert("Ha ocurrido un error al actualizar la plantilla");
+                }
+            }
+        };
+
+        xmlhttp.send();
+    };
+</script>
+
 
 </body>
 

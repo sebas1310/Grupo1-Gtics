@@ -14,9 +14,51 @@
       <span class="d-none d-lg-block" style="color: white">Clínica LA FE</span>
     </a>
 
+
+
   </div><!-- End Logo -->
+
+
   <nav class="header-nav ms-auto">
     <ul class="d-flex align-items-center">
+      <div class="clock-container d-flex">
+        <div class="clock" id="clock"></div>
+      </div>
+      <style>
+        .clock-container {
+          text-align: center;
+        }
+        .clock {
+          font-family: "Comic Sans MS", sans-serif;
+          font-size: 25px;
+          color: white;
+          min-width: 100px;
+          padding: 0 20px;
+        }
+      </style>
+      <script>
+        function updateClock() {
+          var now = new Date();
+          var hours = now.getHours();
+          var minutes = now.getMinutes();
+          var seconds = now.getSeconds();
+
+          // Add leading zeros if needed
+          hours = (hours < 10) ? "0" + hours : hours;
+          minutes = (minutes < 10) ? "0" + minutes : minutes;
+          seconds = (seconds < 10) ? "0" + seconds : seconds;
+
+          // Display the time in the clock element
+          var clockElement = document.getElementById("clock");
+          clockElement.textContent = hours + ":" + minutes + ":" + seconds;
+        }
+
+        // Update the clock every second
+        setInterval(updateClock, 1000);
+      </script>
+
+
+
       <li class="nav-item dropdown ">
         <a class="nav-link nav-icon" th:href="@{'/paciente/notificaciones'}" >
           <i class="bi bi-bell"></i> </a>
@@ -27,13 +69,24 @@
       </li>
 
       <li class="nav-item dropdown">
+      <li class="nav-item dropdown">
       <li class="nav-item dropdown pe-3">
-        <a class="nav-link nav-profile d-flex align-items-center pe-0" th:href="@{'/paciente/perfil'}" >
+        <a class="nav-link nav-profile d-flex align-items-center pe-0" th:href="@{'/paciente/perfil'}">
           <img th:src="@{/assets/img/profile-img.jpg}" alt="Profile" class="rounded-circle">
           <span th:text="${nombre}" class="d-none d-md-block  ps-2"></span>
         </a><!-- End Profile Iamge Icon -->
+
       </li><!-- End Profile Nav -->
-    </ul>
+
+
+        </ul>
+
+
+
+
+
+
+
   </nav><!-- End Icons Navigation -->
 </header>
 

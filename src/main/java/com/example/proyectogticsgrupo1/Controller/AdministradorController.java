@@ -67,6 +67,9 @@ public class AdministradorController {
     @Autowired
     private NotificacionesRepository notificacionesRepository;
 
+    @Autowired
+    private DatosJsonRepository datosJsonRepository;
+
 
     @GetMapping(value = "/email")
     public String emailpr() {
@@ -246,7 +249,7 @@ public class AdministradorController {
     public String formatos(Model model) {
         Usuario usuarioAdministrador = (Usuario) session.getAttribute("usuario");
         model.addAttribute("usuario", usuarioAdministrador);
-        List<ModeloJsonEntity> modeloEntityList = modeloJsonRepository.findAll();
+        List<ModeloJsonEntity> modeloEntityList = modeloJsonRepository.listarPlantillas();
         model.addAttribute("modeloEntityList",modeloEntityList);
 
         return "administrador/formatos";
@@ -346,6 +349,8 @@ public class AdministradorController {
         model.addAttribute("paciente", paciente);
         List<Cita> citasFuturas = citaRepository.findByPacienteAndFechaAfterOrderByFechaAsc(paciente, LocalDate.now());
         model.addAttribute("citas", citasFuturas);
+        List<DatosJsonEntity> datosPacientes = datosJsonRepository.listarparapaciente(paciente.getUsuario().getIdusuario());
+        model.addAttribute("listaparapaciente",datosPacientes);
         return "administrador/historialclinico";
     }
 
@@ -418,6 +423,7 @@ public class AdministradorController {
 
 
     @PostMapping(value = "/guardar3")
+    @Transactional
     public String guardarDoctor(@ModelAttribute("usuario1") @Valid Usuario user, BindingResult bindingResult, RedirectAttributes attr, Model model, @RequestParam("especialidad") int idEspecialidad) {
         Usuario usuarioAdministrador = (Usuario) session.getAttribute("usuario");
         model.addAttribute("usuario", usuarioAdministrador);

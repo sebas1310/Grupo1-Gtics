@@ -3,7 +3,7 @@ package com.example.proyectogticsgrupo1.Entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "modelo_json", schema = "bdclinicag1_v2", catalog = "")
+@Table(name = "modelo_json", catalog = "")
 public class ModeloJsonEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -33,6 +33,18 @@ public class ModeloJsonEntity {
 
     @Column(name = "cuestionario")
     private Byte cuestionario;
+
+    public int getHabilitado() {
+        return habilitado;
+    }
+
+    public void setHabilitado(int habilitado) {
+        this.habilitado = habilitado;
+    }
+
+    @Column(name = "habilitado")
+    private int habilitado;
+
 
     public int getId() {
         return id;
