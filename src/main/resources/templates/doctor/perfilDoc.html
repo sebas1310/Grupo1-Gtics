@@ -40,12 +40,10 @@
 
                         <div class="card">
                             <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
-
-                                <img src="https://img.freepik.com/foto-gratis/hermosa-joven-doctora-mirando-camara-oficina_1301-7807.jpg?w=2000" alt="Profile" class="rounded-circle">
+                                <img th:src="@{'/gcp/imagenEvento?id=' + ${doctor.usuario.idusuario}}" alt="Profile" class="rounded-circle">
                                 <h2><span th:text="|${doctor.getUsuario().getNombres()} ${doctor.getUsuario().getApellidos()}|"></span></h2>
                                 <div th:if="${psw1!=null}" th:text="${psw1}" class="alert alert-success" role="alert"></div>
                                 <div th:if="${psw2!=null}" th:text="${psw2}" class="alert alert-danger" role="alert"></div>
-
                                 <h3>Doctor</h3>
                             </div>
                         </div>
@@ -112,18 +110,21 @@
                                     <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
 
                                         <!-- Profile Edit Form -->
-                                        <form method="post" th:action="@{'/doctor/perfil/editarperfil'}" onsubmit="return validateForm2()" >
                                             <div class="row mb-3">
                                                 <label for="profile-edit" class="col-md-4 col-lg-3 col-form-label">Imagen de Perfil</label>
                                                 <div class="col-md-8 col-lg-9">
-                                                    <img src="https://img.freepik.com/foto-gratis/hermosa-joven-doctora-mirando-camara-oficina_1301-7807.jpg?w=2000" alt="Profile">
-                                                    <div class="pt-2">
-                                                        <a href="#" class="btn btn-primary btn-sm" title="Upload new profile image"><i class="bi bi-upload"></i></a>
-                                                        <a href="#" class="btn btn-danger btn-sm" title="Remove my profile image"><i class="bi bi-trash"></i></a>
-                                                    </div>
+                                                    <img th:src="@{'/gcp/imagenEvento?id=' + ${doctor.usuario.idusuario}}" alt="Profile" class="rounded-circle">
+                                                    <br><br>
+                                                    <label>FOTO</label>
+                                                    <form method="post" th:action="@{'/doctor/guardarImagen?id='+ ${doctor.usuario.idusuario}}" enctype="multipart/form-data">
+                                                        <div class="form-group">
+                                                            <input type="file" name="file" accept="image/*" class="form-control-file">
+                                                        </div>
+                                                        <button type="submit" class="btn btn-primary">Upload image</button>
+                                                    </form>
                                                 </div>
                                             </div>
-
+                                        <form method="post" th:action="@{'/doctor/perfil/editarperfil'}" onsubmit="return validateForm2()" >
                                             <input th:value="${doctor.usuario.idusuario}" name="idusuario" type="hidden">
                                             <div class="row mb-3">
                                                 <label for="nombre" class="col-md-4 col-lg-3 col-form-label">Nombres</label>

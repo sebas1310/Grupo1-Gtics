@@ -45,7 +45,7 @@ public class GcsController {
 
     @GetMapping("/imagenEvento")
     public ResponseEntity<byte[]> displayItemImage(@RequestParam("id") int id) throws IOException {
-        String blobName = "proyecto/foto-evento-" + id + ".jpeg";
+        String blobName = "proyecto/foto-usuario-" + id + ".jpeg";
         byte[] image = GcsController.downloadObject("gigacontrol", "l5-20203368-2023-1-gtics", blobName);
         System.out.println("entra aca?");
         HttpHeaders headers = new HttpHeaders();

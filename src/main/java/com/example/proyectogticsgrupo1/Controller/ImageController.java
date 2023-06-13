@@ -27,7 +27,7 @@ public class ImageController {
     public String guardarImagenEvento(@RequestParam("file") MultipartFile file, @RequestParam("id") int id, RedirectAttributes attr) {
         System.out.println("llega a guardar");
         StringBuilder fileNames = new StringBuilder();
-        String nombreArchivo= "foto-evento-" + id;
+        String nombreArchivo= "foto-usuario-" + id;
         System.out.println("nombre en guardar"+nombreArchivo);
         uploadObject(file,nombreArchivo, "gigacontrol", "l5-20203368-2023-1-gtics");
         return "redirect:/paciente/perfil";
