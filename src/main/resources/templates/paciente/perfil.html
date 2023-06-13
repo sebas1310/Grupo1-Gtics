@@ -38,7 +38,8 @@
         <div class="card">
           <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
 
-            <img th:src="@{/assets/img/profile-img.jpg}" alt="Profile" class="rounded-circle">
+
+            <img th:src="@{'/gcp/imagenEvento?id=' + ${pacientelog.usuario.idusuario}}" alt="Profile" class="rounded-circle">
             <h2 th:text="|${pacientelog.usuario.nombres} ${pacientelog.usuario.apellidos}|"></h2>
             <div th:if="${psw1!=null}" th:text="${psw1}" class="alert alert-success" role="alert"></div>
             <div th:if="${psw2!=null}" th:text="${psw2}" class="alert alert-danger" role="alert"></div>
@@ -145,17 +146,21 @@
 
               <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
 
+
                 <!-- Profile Edit Form -->
-                <form method="post" th:action="@{'/paciente/savephoto'}" enctype="multipart/form-data">
+
                   <div class="row mb-3">
                     <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Imagen de Perfil</label>
                     <div class="col-md-8 col-lg-9">
-                      <img th:src="@{'/assets/img/profile-img.jpg'}" alt="Profile" class="rounded-circle">
-                      <div class="pt-2">
-                        <label>FOTO</label>
-                        <input type="file" class="form-control" id="archivo" name="archivo"/>
-                        <a href="#" class="btn btn-primary btn-sm" title="Subir nueva foto de perfil"><i class="bi bi-upload"></i></a>
-                      </div>
+                      <img th:src="@{'/gcp/imagenEvento?id=' + ${pacientelog.usuario.idusuario}}" alt="Profile" class="rounded-circle">
+                      <br><br>
+                      <label>FOTO</label>
+                      <form method="post" th:action="@{'/imagen/guardarImagen?id='+ ${pacientelog.usuario.idusuario}}" enctype="multipart/form-data">
+                        <div class="form-group">
+                          <input type="file" name="file" accept="image/*" class="form-control-file">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Upload image</button>
+                      </form>
                     </div>
                   </div>
 
@@ -177,7 +182,7 @@
                   <div class="text-center">
                     <button type="submit" class="btn btn-outline-warning"  >Guardar Cambios</button>
                   </div>
-                </form><!-- End Profile Edit Form -->
+
 
               </div>
 
