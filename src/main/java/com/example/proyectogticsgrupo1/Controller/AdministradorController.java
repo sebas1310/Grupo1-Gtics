@@ -67,6 +67,9 @@ public class AdministradorController {
     @Autowired
     private NotificacionesRepository notificacionesRepository;
 
+    @Autowired
+    private DatosJsonRepository datosJsonRepository;
+
 
     @GetMapping(value = "/email")
     public String emailpr() {
@@ -346,6 +349,8 @@ public class AdministradorController {
         model.addAttribute("paciente", paciente);
         List<Cita> citasFuturas = citaRepository.findByPacienteAndFechaAfterOrderByFechaAsc(paciente, LocalDate.now());
         model.addAttribute("citas", citasFuturas);
+        List<DatosJsonEntity> datosPacientes = datosJsonRepository.listarparapaciente(paciente.getUsuario().getIdusuario());
+        model.addAttribute("listaparapaciente",datosPacientes);
         return "administrador/historialclinico";
     }
 
