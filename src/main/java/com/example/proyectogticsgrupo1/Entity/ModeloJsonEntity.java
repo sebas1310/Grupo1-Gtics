@@ -34,6 +34,18 @@ public class ModeloJsonEntity {
     @Column(name = "cuestionario")
     private Byte cuestionario;
 
+    public int getHabilitado() {
+        return habilitado;
+    }
+
+    public void setHabilitado(int habilitado) {
+        this.habilitado = habilitado;
+    }
+
+    @Column(name = "habilitado")
+    private int habilitado;
+
+
     public int getId() {
         return id;
     }

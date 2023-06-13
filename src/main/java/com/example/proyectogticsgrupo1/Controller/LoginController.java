@@ -1,6 +1,7 @@
 package com.example.proyectogticsgrupo1.Controller;
 
 import com.example.proyectogticsgrupo1.Entity.*;
+import com.example.proyectogticsgrupo1.Repository.MailCorreoRepository;
 import com.example.proyectogticsgrupo1.Repository.PacienteRepository;
 import com.example.proyectogticsgrupo1.Repository.SedeRepository;
 import com.example.proyectogticsgrupo1.Repository.UsuarioRepository;
@@ -20,16 +21,18 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 public class LoginController {
 
-    final UsuarioRepository usuarioRepository;
+    @Autowired
+    UsuarioRepository usuarioRepository;
 
     @Autowired
     PacienteRepository pacienteRepository;
+
+    @Autowired
     private EmailService emailService;
+    @Autowired
+    private MailCorreoRepository mailCorreoRepository;
 
 
-    public LoginController(UsuarioRepository usuarioRepository){
-        this.usuarioRepository = usuarioRepository;
-    }
 
     @Autowired
     SedeRepository sedeRepository;

@@ -246,7 +246,7 @@ public class AdministradorController {
     public String formatos(Model model) {
         Usuario usuarioAdministrador = (Usuario) session.getAttribute("usuario");
         model.addAttribute("usuario", usuarioAdministrador);
-        List<ModeloJsonEntity> modeloEntityList = modeloJsonRepository.findAll();
+        List<ModeloJsonEntity> modeloEntityList = modeloJsonRepository.listarPlantillas();
         model.addAttribute("modeloEntityList",modeloEntityList);
 
         return "administrador/formatos";
@@ -418,6 +418,7 @@ public class AdministradorController {
 
 
     @PostMapping(value = "/guardar3")
+    @Transactional
     public String guardarDoctor(@ModelAttribute("usuario1") @Valid Usuario user, BindingResult bindingResult, RedirectAttributes attr, Model model, @RequestParam("especialidad") int idEspecialidad) {
         Usuario usuarioAdministrador = (Usuario) session.getAttribute("usuario");
         model.addAttribute("usuario", usuarioAdministrador);

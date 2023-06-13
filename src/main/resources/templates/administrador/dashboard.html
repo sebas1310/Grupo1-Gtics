@@ -28,8 +28,7 @@
         <h1>Dashboard</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a th:href="@{'/administrador'}">Home</a></li>
-                <li class="breadcrumb-item active">Dashboard</li>
+                <li class="breadcrumb-item active"><a th:href="@{'/administrador'}">Dashboard</a></li>
             </ol>
         </nav>
     </div><!-- End Page Title -->
@@ -37,10 +36,12 @@
     <section class="section">
         <div class="row">
             <div class="col-lg-6">
-
-                <div class="card">
-                    <div class="card-body">
-                        <a class="card-title" th:href="@{'/administrador/dashboardpaciente'+ '?id=' + ${usuario.idusuario}}">Pacientes</a>
+                <div class="card recent-sales overflow-auto">
+                    <div style="width: 100%" class="card-body">
+                        <h5 class="card-title">
+                            Pacientes
+                            <a th:href="@{'/administrador/dashboardpaciente'}" class="btn btn-success btn-sm card-button">Ver Más</a>
+                        </h5>
 
                         <!-- Default Table -->
                         <table class="table">
@@ -63,10 +64,20 @@
                     </div>
                 </div>
 
-                <div class="card">
-                    <div class="card-body">
-                        <a class="card-title" th:href="@{'/administrador/dashboarddoctor'+ '?id=' + ${usuario.idusuario}}">Doctores</a>
+                <style>
+                    .card-button {
+                        position: absolute;
+                        top: 25px;
+                        right: 20px;
+                    }
+                </style>
 
+
+                <div class="card recent-sales overflow-auto">
+                    <div style="width: 100%" class="card-body">
+                        <h5 class="card-title">Doctores
+                        <a th:href="@{'/administrador/dashboarddoctor'}" class="btn btn-success btn-sm card-button">Ver Más</a>
+                        </h5>
                         <!-- Default Table -->
                         <table class="table">
                             <thead>
@@ -99,9 +110,13 @@
 
             <div class="col-lg-6">
 
-                    <div class="card">
-                        <div class="card-body">
-                            <a class="card-title" th:href="@{'/administrador/dashboardfinanzas'}">Finanzas</a>
+                    <div class="card recent-sales overflow-auto">
+                        <div style="width: 100%" class="card-body">
+                            <h5 class="card-title">Finanzas
+                                <a th:href="@{'/administrador/dashboardfinanzas'}" class="btn btn-success btn-sm card-button">Ver Más</a>
+                            </h5>
+
+
 
                             <!-- Column Chart -->
                             <div id="columnChart"></div>
