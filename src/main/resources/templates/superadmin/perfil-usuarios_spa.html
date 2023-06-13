@@ -6,7 +6,7 @@
 <body>
 
 <!-- ======= Header ======= -->
-<header th:replace="superadmin/fragments_spa/header_spa.html :: header(num_not = '3', num_form = '2 ', por_canc = '1', nombre = |${session.usuario.nombres} ${session.usuario.apellidos}|, num_men = '3')">
+<header th:replace="superadmin/fragments_spa/header_spa.html :: header(num_not = '3', num_form = '2 ', por_canc = '1', nombre = |${session.usuario.nombres} ${session.usuario.apellidos} (${session.usuario.tipodeusuario.nombre.toUpperCase()})|, num_men = '3', id=${session.usuario.idusuario})">
 </header>
 <!-- End Header -->
 

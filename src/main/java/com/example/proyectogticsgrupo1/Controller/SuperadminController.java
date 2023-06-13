@@ -108,6 +108,8 @@ public class SuperadminController {
     }
     @GetMapping("/listaform")
     public String listaFormularios(Model model){
+        Usuario superadmin = (Usuario) session.getAttribute("usuario");
+        model.addAttribute("usuario", superadmin);
 
         List<ModeloJsonEntity> modeloEntityList = modeloJsonRepository.listarPlantillas();
         model.addAttribute("modeloEntityList",modeloEntityList);
@@ -140,15 +142,25 @@ public class SuperadminController {
         return "superadmin/editar-reportes_spa";
     }
     @GetMapping("/editarforms")
-    public String editarForms(){
+    public String editarForms(Model model){
+        Usuario superadmin = (Usuario) session.getAttribute("usuario");
+        model.addAttribute("usuario", superadmin);
+
         return "superadmin/forms-editors_spa";
     }
     @GetMapping("/registro")
-    public String registrarUsuarios(){
+    public String registrarUsuarios(Model model){
+        Usuario superadmin = (Usuario) session.getAttribute("usuario");
+        model.addAttribute("usuario", superadmin);
+
+
         return "superadmin/pages-blank_spa";
     }
     @GetMapping("/mensajeria")
-    public String mensajeria(){
+    public String mensajeria(Model model){
+        Usuario superadmin = (Usuario) session.getAttribute("usuario");
+        model.addAttribute("usuario", superadmin);
+
         return "superadmin/mensajeria_spa";
     }
 
@@ -166,12 +178,16 @@ public class SuperadminController {
 
     @GetMapping("/registraradministrativo")
     public String registrarAdministrativo(@ModelAttribute("usuario") Usuario usuario, Model model){
+        Usuario superadmin = (Usuario) session.getAttribute("usuario");
+        model.addAttribute("usuario", superadmin);
 
         model.addAttribute("listasedes", sedeRepository.findAll());
         return "superadmin/pages-registrar-administrativo";
     }
     @GetMapping("/registraradministrador")
     public String registrarAdministrador(@ModelAttribute("usuario") Usuario usuario, Model model){
+        Usuario superadmin = (Usuario) session.getAttribute("usuario");
+        model.addAttribute("usuario", superadmin);
 
         model.addAttribute("listasedes", sedeRepository.listaSedes());
 
@@ -288,8 +304,9 @@ public class SuperadminController {
 
 
     @GetMapping("/delete")
-    public String borrarUsuario(@RequestParam("id") int id, RedirectAttributes attr) {
-
+    public String borrarUsuario(@RequestParam("id") int id, RedirectAttributes attr, Model model) {
+        Usuario superadmin = (Usuario) session.getAttribute("usuario");
+        model.addAttribute("usuario", superadmin);
 
         Optional<Usuario> optUsuario = usuarioRepository.findById(id);
 
@@ -369,7 +386,8 @@ public class SuperadminController {
     }
     @GetMapping("/edit")
     public String editarUsuario(Model model, @RequestParam("id") int id){
-        Usuario usuarioSpa = (Usuario) session.getAttribute("usuario");
+        Usuario superadmin = (Usuario) session.getAttribute("usuario");
+        model.addAttribute("usuario", superadmin);
 
         Optional<Usuario> optionalUsuario = usuarioRepository.findById(id);
         if(optionalUsuario.isPresent()){
@@ -383,7 +401,8 @@ public class SuperadminController {
 
     @GetMapping("/editarSeguro")
     public String editarSeguros(@RequestParam("id") int id, Model model){
-        Usuario usuarioSpa = (Usuario) session.getAttribute("usuario");
+        Usuario superadmin = (Usuario) session.getAttribute("usuario");
+        model.addAttribute("usuario", superadmin);
 
         Optional<Seguro> optSeguro = seguroRepository.findById(id);
         if(optSeguro.isPresent()){
@@ -399,17 +418,27 @@ public class SuperadminController {
 
 
     @GetMapping("/reportes")
-    public String listaReportes(){
+    public String listaReportes(Model model){
+
+        Usuario superadmin = (Usuario) session.getAttribute("usuario");
+        model.addAttribute("usuario", superadmin);
+
         return "superadmin/tables-general_spa";
     }
 
     @GetMapping("/configuracion")
-    public String configuraciones(){
+    public String configuraciones(Model model){
+
+        Usuario superadmin = (Usuario) session.getAttribute("usuario");
+        model.addAttribute("usuario", superadmin);
+
         return "superadmin/configuraciones_spa";
     }
 
     @GetMapping("/nuevoform")
     public String nuevoFormulario(Model model){
+        Usuario superadmin = (Usuario) session.getAttribute("usuario");
+        model.addAttribute("usuario", superadmin);
 
         List<Tipodeusuario> tipodeusuarioList = tipodeusuarioRepository.findAll();
         List<Especialidad> especialidadList = especialidadRepository.findAll();
@@ -438,6 +467,8 @@ public class SuperadminController {
     @ResponseBody
     @GetMapping(value = "/listarTitulos")
     public List<String> listarTitulos(Model model, @RequestParam("id_de_modelo_plantilla") int id_de_modelo_plantilla){
+        Usuario superadmin = (Usuario) session.getAttribute("usuario");
+        model.addAttribute("usuario", superadmin);
 
         System.out.println("llega al repo de listar");
 
@@ -669,7 +700,12 @@ public class SuperadminController {
 
 
     @GetMapping("/notificaciones")
-    public String historialNotificaciones(){
+    public String historialNotificaciones(Model model){
+
+        Usuario superadmin = (Usuario) session.getAttribute("usuario");
+        model.addAttribute("usuario", superadmin);
+
+
         return "superadmin/historial-notificaciones_spa";
     }
 
@@ -691,6 +727,9 @@ public class SuperadminController {
 
     @GetMapping("/seguros")
     public String seguro(Model model){
+        Usuario superadmin = (Usuario) session.getAttribute("usuario");
+        model.addAttribute("usuario", superadmin);
+
         List<Seguro> listSeguros = seguroRepository.findAll();
         model.addAttribute("listSeguros",listSeguros);
         return "superadmin/seguros_spa";
