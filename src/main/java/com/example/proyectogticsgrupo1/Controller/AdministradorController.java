@@ -3,12 +3,17 @@ package com.example.proyectogticsgrupo1.Controller;
 import com.example.proyectogticsgrupo1.Entity.*;
 import com.example.proyectogticsgrupo1.Repository.*;
 import com.example.proyectogticsgrupo1.Service.EmailService;
+import com.google.cloud.storage.Blob;
+import com.google.cloud.storage.Bucket;
+import com.google.cloud.storage.Storage;
+import com.google.cloud.storage.StorageOptions;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.Pattern;
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.Authentication;
@@ -21,9 +26,12 @@ import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.print.Doc;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.*;
@@ -486,9 +494,10 @@ public class AdministradorController {
 
 
     @GetMapping(value = "/perfil")
-    public String perfilPaciente(Model model) {
+    public String perfilPaciente(@ModelAttribute("administradorlog") Usuario usuario, Model model) {
         Usuario usuarioAdministrador = (Usuario) session.getAttribute("usuario");
-        model.addAttribute("usuario", usuarioAdministrador);
+        Usuario administrador = usuarioRepository.buscarPorId(usuarioAdministrador.getIdusuario());
+        model.addAttribute("administradorlog", administrador);
         return "administrador/perfil";
     }
 
@@ -599,7 +608,63 @@ public class AdministradorController {
         return "redirect:/administrador/chat";
     }
 
+    @PostMapping("/guardarImagen")
+    public String guardarImagenEvento(@RequestParam("file") MultipartFile file, @RequestParam("id") int id, RedirectAttributes attr) {
+        System.out.println("llega a guardar");
+        StringBuilder fileNames = new StringBuilder();
+        String nombreArchivo= "foto-usuario-" + id;
+        System.out.println("nombre en guardar"+nombreArchivo);
+        uploadObject(file,nombreArchivo, "gigacontrol", "l5-20203368-2023-1-gtics");
+        return "redirect:/administrador/perfil";
+    }
 
+    public static void uploadObject
+            (MultipartFile multipartFile, String fileName, String projectId, String gcpBucketId) {
+        try {
+            byte[] fileData = FileUtils.readFileToByteArray(convertFile(multipartFile));
+            Storage storage = StorageOptions.newBuilder().setProjectId(projectId).build().getService();
+            Bucket bucket = storage.get(gcpBucketId, Storage.BucketGetOption.fields());
+//            RandomString id = new RandomString(6, ThreadLocalRandom.current());
+            Blob blob = bucket.create("proyecto" + "/" + fileName + checkFileExtension(fileName), fileData);
 
+            if (blob != null) {
+                System.out.println("errro?");
+               /* LOGGER.debug("File successfully uploaded to GCS");
+                return new FileDto(blob.getName(), blob.getMediaLink());*/
+            }
+        } catch (Exception e) {
+            System.out.println("errro?2");
+//            LOGGER.error("An error occurred while uploading data. Exception: ", e);
+            throw new RuntimeException("An error occurred while storing data to GCS");
+        }
+    }
 
+    private static File convertFile(MultipartFile file) {
+
+        try {
+            if (file.getOriginalFilename() == null) {
+            }
+            File convertedFile = new File(file.getOriginalFilename());
+            FileOutputStream outputStream = new FileOutputStream(convertedFile);
+            outputStream.write(file.getBytes());
+            outputStream.close();
+            return convertedFile;
+        } catch (Exception e) {
+            throw new RuntimeException("An error has occurred while converting the file");
+        }
+    }
+
+    private static String checkFileExtension(String fileName) {
+        if (fileName != null && fileName.contains(".")) {
+            String[] extensionList = {".png", ".jpeg", ".pdf", ".doc", ".mp3"};
+
+            for (String extension : extensionList) {
+                if (fileName.endsWith(extension)) {
+//                    LOGGER.debug("Accepted file type : {}", extension);
+                    return extension;
+                }
+            }
+        }
+        return ".jpeg";
+    }
 }
