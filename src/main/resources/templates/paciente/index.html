@@ -279,7 +279,7 @@
                                   <table>
                                     <tr>
                                       <td>
-                                        <p  style="font-weight: bold" class="ml-3 mb-0" >Doctor:</p>
+                                        <p  style="font-weight: bold" class="ml-3 mb-0" >Doctor: </p>
                                       </td>
                                       <td>
                                         <p  class="ml-3 mb-0"  th:text="|${p.doctor.usuario.nombres} ${p.doctor.usuario.apellidos}|"></p>
@@ -290,9 +290,7 @@
 
                                 </div>
                                 <div class="col-lg-4">
-
-                                  <a  type="button" class="btn btn-outline-warning"  th:href="@{'/paciente/perfilDoctor?iddoc='+${p.doctor.iddoctor}}"  >Ver perfil</a>
-
+                                  <a  type="button" class="btn btn-outline-warning"  th:href="@{'/paciente/perfilDoctor?iddoc='+${p.doctor.iddoctor}}"  ><i class="bi bi-eye-fill"></i></a>
                                 </div>
 
 
