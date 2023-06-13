@@ -44,15 +44,14 @@ public interface CitaRepository extends JpaRepository<Cita, Integer> {
     List<Cita> pacientesAtendidosPorDoctor(Integer idDoctor);*/
 
 
-    @Query(value = "SELECT c.idcita AS 'IDCita', fecha AS 'UltimaFecha', c.paciente_idpaciente AS 'IDPaciente',\n" +
-            " CONCAT(u.nombres, ' ', u.apellidos) AS 'NombrePaciente', t.nombre AS 'TipoCita'\n" +
-            "            FROM cita c\n" +
-            "            INNER JOIN paciente p ON c.paciente_idpaciente = p.idpaciente \n" +
-            "            INNER JOIN usuario u ON p.idusuario = u.idusuario \n" +
-            "            INNER JOIN tipocita t ON c.idtipocita = t.idtipocita \n" +
-            "            WHERE c.doctor_iddoctor = ?1 AND fecha <= CURRENT_TIME() \n" +
-            "            GROUP BY idpaciente \n" +
-            "            ORDER BY fecha desc", nativeQuery = true)
+    @Query(value = "SELECT c.paciente_idpaciente AS 'IDPaciente', MAX(fecha) AS 'UltimaFecha',\n" +
+            "CONCAT(u.nombres, ' ', u.apellidos) AS 'NombrePaciente'\n" +
+            "FROM cita c\n" +
+            "INNER JOIN paciente p ON c.paciente_idpaciente = p.idpaciente \n" +
+            "INNER JOIN usuario u ON p.idusuario = u.idusuario\n" +
+            "WHERE c.doctor_iddoctor = '2' AND fecha <= CURRENT_TIME() \n" +
+            "GROUP BY idpaciente , CONCAT(u.nombres, ' ', u.apellidos)\n" +
+            "ORDER BY UltimaFecha desc", nativeQuery = true)
     List<PacientesAtendidos> pacientesAtendidosPorDoctor(Integer idDoctor);
 
 
