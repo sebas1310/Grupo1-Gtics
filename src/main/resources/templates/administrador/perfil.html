@@ -8,8 +8,10 @@
 <body>
 
 <!-- ======= Header ======= -->
-<header th:replace="fragments/administrador/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1',  nombre = ${session.usuario.nombres} + ' ' + ${session.usuario.apellidos} + ' ' + '(' + ${session.usuario.tipodeusuario.nombre.toUpperCase()} + ')', num_men = '2', sede = |${session.usuario.sede.nombre}|)">
+<header th:replace="fragments/administrador/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1',  nombre = ${session.usuario.nombres} + ' ' + ${session.usuario.apellidos} + ' ' + '(' + ${session.usuario.tipodeusuario.nombre.toUpperCase()} + ')', num_men = '2', sede = |${session.usuario.sede.nombre}|, id=${administradorlog.idusuario})">
 </header>
+
+
 <!-- End Header -->
 <!-- ======= Sidebar ======= -->
 <aside th:replace="fragments/administrador/aside.html :: sidebar (active = 'perfil')">
