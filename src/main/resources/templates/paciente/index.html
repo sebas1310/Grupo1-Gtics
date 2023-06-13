@@ -5,7 +5,7 @@
 <body>
 <!-- ======= Header ======= -->
 
-<header th:replace="fragmentsPacientes/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1', nombre = |${session.usuario.nombres} ${session.usuario.apellidos} (${session.usuario.tipodeusuario.nombre.toUpperCase()})|, num_men = '3')">
+<header th:replace="fragmentsPacientes/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1', nombre = |${session.usuario.nombres} ${session.usuario.apellidos} (${session.usuario.tipodeusuario.nombre.toUpperCase()})|, num_men = '3', id=${pacientelog.usuario.idusuario})">
 
 </header>
 <!-- End Header -->
@@ -39,9 +39,9 @@
           <div class="row">
 
             <!-- Mapa -->
-            <div class="col-14 d-flex justify-content-center">
+            <div class="col-14 d-flex justify-content-center"  >
               <!-- Recent Activity -->
-              <div class="card align-center" style="width: 60%">
+              <div class="card align-center" style="width: 99.99999%">
                <!-- <div class="row align-items-top">
                   <div class="col-lg-6">
                     <div class="card" >
@@ -67,12 +67,12 @@
                 <style>
                   .carousel-item img {
                     width: 100%;
-                    height: 300px; /* Adjust the height as needed */
+                    height: 250px; /* Adjust the height as needed */
                     object-fit: cover;
                   }
 
                   .carousel-inner {
-                    height: 300px; /* Adjust the height as needed */
+                    height: 250px; /* Adjust the height as needed */
                   }
                 </style>
 
@@ -177,7 +177,7 @@
                                         <h5 class="card-title" th:text="|Doc. ${doc.usuario.nombres} ${doc.usuario.apellidos}|"></h5>
 
                                         <div class="text-center">
-                                          <a th:href="@{'/paciente/perfilDoctor?iddoc='+${doc.iddoctor}}" class="text-primary">Ver perfil</a>
+                                          <a th:href="@{'/paciente/perfilDoctor?iddoc='+${doc.iddoctor}}" class="text-warning">Ver perfil</a>
                                         </div>
 
                                       </div>
