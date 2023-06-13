@@ -36,6 +36,8 @@
                     <!-- Left side columns -->
                     <div class="col-lg">
                         <div class="row">
+                            <div th:if="${msg!=null}" th:text="${msg}" class="alert alert-success" role="alert"></div>
+
                             <!-- Pacientes Atendidos -->
                             <div class="col-12" >
                                 <div class="card recent-sales overflow-auto" >

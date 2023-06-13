@@ -2,6 +2,7 @@ package com.example.proyectogticsgrupo1.Repository;
 
 
 import com.example.proyectogticsgrupo1.DTO.InformesMedicos;
+import com.example.proyectogticsgrupo1.DTO.ModeloPorCita;
 import com.example.proyectogticsgrupo1.Entity.ModeloJsonEntity;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -56,6 +57,25 @@ public interface ModeloJsonRepository extends JpaRepository<ModeloJsonEntity,Int
 
     @Query(value = "SELECT * from modelo_json where habilitado = 1 order by nombre_plantilla asc", nativeQuery = true)
     List<ModeloJsonEntity> listarPlantillas();
+
+
+    @Modifying
+    @Transactional
+    @Query(value="insert into modelo_x_cita(idmodelo_fk,idcita_fk) values (?1,?2)",nativeQuery = true)
+    void agregarCuestionarioAPaciente(int id_modelo,int id_cita);
+
+
+    @Query(value = "SELECT idmodelo_fk from modelo_x_cita where idcita_fk = ?1", nativeQuery = true)
+    Integer consultarModelo(int id_cita);
+
+
+
+
+    @Query(value = "SELECT * from modelo_json where id = ?1 and cuestionario = 1", nativeQuery = true)
+    ModeloJsonEntity listaCuestionarios(int idmodelo);
+
+
+
 
 
 

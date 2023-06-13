@@ -47,17 +47,18 @@
                                     <thead>
                                     <tr  >
                                         <th class="text-center" scope="col">#</th>
+                                        <th class="text-center" scope="col">Nombre Cuestionario</th>
                                         <th class="text-center" scope="col">Especialidad</th>
-                                        <th class="text-center" scope="col">Fecha Limite</th>
-                                        <th></th>
+                                        <th class="text-center" scope="col">Completar Cuestionario</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr th:each="c,idx:${cuestionarios}">
-                                        <td class="text-center" th:text="${idx.index}+1"> </td>
-                                        <td class="text-center" th:text="${c.cita.especialidad.nombre}"></td>
-                                        <td class="text-center" th:text="|${c.cita.fecha} ${c.cita.horainicio}|"></td>
-                                        <td class="text-center"> <a type="button" class="bi bi-journal-text" th:href="@{'/paciente/formCuestionario?idcuest='+${c.id}}"></a></td>
+                                        <tr th:each="c,idx:${list_cuestionario_2}">
+
+                                        <td class="text-center" th:text="${idx.index}"> </td>
+                                        <td class="text-center" th:text="${c.nombrePlantilla}"></td>
+                                        <td class="text-center" th:text="${c.especialidad.nombre}"></td>
+                                        <td class="text-center"> <a type="button" class="bi bi-journal-text" th:href="@{'/paciente/formCuestionario?idcuest='+${c.getId()}}"></a></td>
                                     </tr>
                                     </tbody>
                                 </table>
