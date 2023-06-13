@@ -59,6 +59,11 @@
 
                 </tbody>
               </table>
+              <div>
+                <div class="text-center">
+                  <a th:href="@{'/paciente/reservar2?iddoc='+ ${doc.iddoctor}+ '&semana=' + 0}" class="btn btn-outline-warning ">Ver más</a>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -89,7 +94,8 @@
                     <table>
                       <tbody >
                       <tr>
-                        <ul class="list-group col-lg-4 col-md-4 label ">
+                        <br>
+                        <ul class="list-group col-lg-9 col-md-8  ">
                           <li th:each="capacitacion : ${#strings.arraySplit(doc.capacitaciones, '[,.]')}" th:text="${#strings.capitalize(capacitacion)}"></li>
 
                         </ul>
@@ -100,11 +106,7 @@
 
                   </div>
                   </div>
-                <div class="row">
-                  <div class="text-center">
-                    <a th:href="@{'/paciente/reservar2?iddoc='+ ${doc.iddoctor}+ '&semana=' + 0}" class="btn btn-outline-warning ">Reservar cita</a>
-                  </div>
-                </div>
+
           </div>
         </div>
       </div>
