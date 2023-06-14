@@ -70,6 +70,10 @@ public class PacienteController {
     private HttpSession session;
 
 
+    @Autowired
+    DatosJsonRepository datosJsonRepository;
+
+
     @GetMapping(value = "/")
     public String paciente( Model model, @RequestParam(value = "esp", required = false) Integer esp, @RequestParam(value = "msg1", required = false) Integer msg1,RedirectAttributes redirectAttributes){
 ;
@@ -469,8 +473,6 @@ public class PacienteController {
         return "paciente/mensajes";
     }
 
-    @Autowired
-    private DatosJsonRepository datosJsonRepository;
 
     @GetMapping(value = "/cuestionarios")
     public String cuestionarios(Model model){
@@ -496,11 +498,14 @@ public class PacienteController {
 //        List<ModeloPorCita> listaModelosxCita = modeloJsonRepository.consultarModelo(cita_unica.getIdcita());
         List<ModeloJsonEntity> listamodelos = new ArrayList<>();
 
+        int id_cita = 0;
+
         for(Cita cita_unica: listaCitas){
             System.out.println(cita_unica);
             Integer id_modelo = modeloJsonRepository.consultarModelo(cita_unica.getIdcita());
             System.out.println(id_modelo);
             if (id_modelo != null){
+                id_cita = cita_unica.getIdcita();
                 ModeloJsonEntity modelo_cuestionario_2 = modeloJsonRepository.listaCuestionarios(id_modelo);
 
                 listamodelos.add(modelo_cuestionario_2);
@@ -510,6 +515,9 @@ public class PacienteController {
             }
 
         }
+
+
+        model.addAttribute("id_cita",id_cita);
 
         model.addAttribute("list_cuestionario_2",listamodelos);
 
@@ -544,7 +552,7 @@ public class PacienteController {
     private  ModeloJsonRepository modeloJsonRepository;
 
     @GetMapping(value = "/formCuestionario")
-    public String formCuestinario(@RequestParam("idcuest") String idstr,Model model){
+    public String formCuestinario(@RequestParam("idcuest") String idstr,@RequestParam("idcita") int idcita,Model model){
         Usuario usuario = (Usuario) session.getAttribute("usuario");
         Paciente paciente = pacienteRepository.pacXuser(usuario.getIdusuario());
 
@@ -564,6 +572,7 @@ public class PacienteController {
 //                model.addAttribute("datos",datos);
                 model.addAttribute("pacientelog",paciente);
                 model.addAttribute("id_cuest",id);
+                model.addAttribute("idcita",idcita);
 //                int cuestionarioMedicoId = modeloJsonRepository.cuestionarioMedicoId(datos.getCita().getEspecialidad().getIdespecialidad());
                 model.addAttribute("listapreguntascuestionario",modeloJsonRepository.listarPreguntasxPlantilla(id));
                 return "paciente/formCuestionario";
@@ -582,17 +591,33 @@ public class PacienteController {
     @ResponseBody
     @PostMapping(value = "/llenarCuestionario")
     public String llenarCuestionario(Model model, @RequestParam("valores") List<String> valores){
+
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
         System.out.println("llega al repo de llenar");
         System.out.println(valores);
 
 
+        int id_usuario = usuario.getIdusuario();
+
+
+
         String primerValor_id = valores.get(0);
+
+
+        String segValor_id = valores.get(1);
 
         System.out.println(primerValor_id);
 
         valores.remove(0);
 
+        valores.remove(0);
+
+        System.out.println(valores);
+
         int primerValorInt_id = Integer.parseInt(String.valueOf(primerValor_id));
+
+
+        int primerValorInt_id_cita = Integer.parseInt(String.valueOf(segValor_id));
 
 
 
@@ -633,6 +658,15 @@ public class PacienteController {
             System.out.println(elemento);
         }
 
+
+
+
+
+        int id_registro_nuevo = 0;
+
+
+        id_registro_nuevo = datosJsonRepository.contarRegistros();
+
 //        tablaDatosLlenosRepository.LlenadoDePlantilla(id_registro_nuevo,nombreplantilla,id_usuario,id_modelo,id_cita);
 
 //
@@ -642,7 +676,7 @@ public class PacienteController {
 
 
 
-//        tablaDatosLlenosRepository.LlenadoDePlantilla(id_registro_nuevo+4,nombreplantilla,4,12,1);
+        tablaDatosLlenosRepository.LlenadoDePlantilla(primerValorInt_id,nbr_plantilla,id_usuario,primerValorInt_id,primerValorInt_id_cita);
         //para llenar en datos_json
 
 
@@ -676,7 +710,7 @@ public class PacienteController {
 
 
 
-        return "hola";
+        return "redirect:/paciente/cuestionarios";
 
     }
 

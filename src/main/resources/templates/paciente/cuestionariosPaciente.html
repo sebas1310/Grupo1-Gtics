@@ -58,7 +58,7 @@
                                         <td class="text-center" th:text="${idx.index}"> </td>
                                         <td class="text-center" th:text="${c.nombrePlantilla}"></td>
                                         <td class="text-center" th:text="${c.especialidad.nombre}"></td>
-                                        <td class="text-center"> <a type="button" class="bi bi-journal-text" th:href="@{'/paciente/formCuestionario?idcuest='+${c.getId()}}"></a></td>
+                                        <td class="text-center"> <a type="button" class="bi bi-journal-text" th:href="@{'/paciente/formCuestionario?idcuest='+${c.getId()}+'&idcita='+${id_cita}}"></a></td>
                                     </tr>
                                     </tbody>
                                 </table>

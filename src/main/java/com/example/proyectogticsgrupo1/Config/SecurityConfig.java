@@ -55,7 +55,7 @@ public class SecurityConfig {
 
         http.csrf().ignoringRequestMatchers("/administrativo/consultaReniec");
 
-        http.csrf().ignoringRequestMatchers("/doctor/llenarCuestionario");
+        http.csrf().ignoringRequestMatchers("/paciente/llenarCuestionario");
 
 
 
@@ -137,7 +137,7 @@ public class SecurityConfig {
 
 
 
-                .requestMatchers(HttpMethod.GET,"/doctor/llenarCuestionario").permitAll()
+                .requestMatchers(HttpMethod.GET,"/paciente/llenarCuestionario").permitAll()
 
 
 
