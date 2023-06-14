@@ -4,7 +4,51 @@
 </head>
 <body>
 <!-- ======= Header ======= -->
-<header th:replace="fragments/doctor/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1',  nombre = |${doctor.usuario.nombres} ${doctor.usuario.apellidos} (${doctor.usuario.tipodeusuario.nombre.toUpperCase()})|, num_men = '2')">
+<header th:replace="fragments/doctor/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1',  nombre = |${doctor.usuario.nombres} ${doctor.usuario.apellidos} (${doctor.usuario.tipodeusuario.nombre.toUpperCase()})|, num_men = '2', id=${session.usuario.idusuario})">
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      var horaInicioSelect = document.getElementById('horainicio');
+      var horaFinalSelect = document.getElementById('horafinal');
+
+      horaInicioSelect.addEventListener('change', function() {
+        var horaInicio = horaInicioSelect.value;
+
+        // Valida que la hora de inicio sea menor que la hora final
+        if (horaFinalSelect.value !== '' && horaInicio >= horaFinalSelect.value) {
+          alert('La hora de inicio debe ser menor que la hora final');
+          horaFinalSelect.value = '';
+        }
+
+        // Actualiza las opciones de hora final
+        actualizarHorasFinales(horaInicio);
+      });
+
+      function actualizarHorasFinales(horaInicio) {
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', 'http://localhost:8082/doctor/calendario/agregar', true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.onreadystatechange = function() {
+          if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+            var horasFinalesDisponibles = JSON.parse(xhr.responseText);
+            // Restablece las opciones de hora final
+            horaFinalSelect.innerHTML = '';
+
+            // Crea las opciones de hora final y las agrega al select
+            horasFinalesDisponibles.forEach(function(horaFinal) {
+              var option = document.createElement('option');
+              option.value = horaFinal;
+              option.textContent = horaFinal;
+              horaFinalSelect.appendChild(option);
+            });
+          }
+        };
+        var data = JSON.stringify({ horaInicio: horaInicio });
+        xhr.send(data);
+      }
+    });
+  </script>
+
 </header>
 <!-- End Header -->
 

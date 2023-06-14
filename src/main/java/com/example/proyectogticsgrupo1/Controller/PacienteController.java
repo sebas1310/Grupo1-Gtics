@@ -1,6 +1,5 @@
 package com.example.proyectogticsgrupo1.Controller;
 
-import com.example.proyectogticsgrupo1.DTO.ModeloPorCita;
 import com.example.proyectogticsgrupo1.Entity.*;
 import com.example.proyectogticsgrupo1.Repository.*;
 import com.example.proyectogticsgrupo1.Service.EmailService;

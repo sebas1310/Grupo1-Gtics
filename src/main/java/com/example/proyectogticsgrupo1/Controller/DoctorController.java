@@ -511,7 +511,8 @@ public class DoctorController {
     }
 
     @PostMapping(value = "/calendario/agregar")
-    public String agregarEvento(Model model, @RequestParam ("iddoctor") int iddoctor, @RequestParam("fecha") LocalDate fecha){
+    public String agregarEvento(Model model, @RequestParam ("iddoctor") int iddoctor,
+                                @RequestParam("fecha") LocalDate fecha){
 
         Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
         Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
@@ -522,6 +523,7 @@ public class DoctorController {
         model.addAttribute("horasDisponiblesFinal", eventocalendariodoctorRepository.horasDeCitasFinal(iddoctor, fecha));
         model.addAttribute("doctor", doctor);
         model.addAttribute("fecha", fecha);
+        //model.addAttribute("horainicio", horainicio);
         model.addAttribute("tipocita", tipohoracalendariodoctorRepository.findAll());
         return "doctor/anadirCalendario";
     }

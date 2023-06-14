@@ -4,7 +4,7 @@
 </head>
 
 <body>
-<header th:fragment="header(num_not, num_form, por_canc, nombre, num_men)" id="header" class="header fixed-top d-flex align-items-center" style="background-color:#FFFFFF">
+<header th:fragment="header(num_not, num_form, por_canc, nombre, num_men, id)" id="header" class="header fixed-top d-flex align-items-center" style="background-color:#FFFFFF">
 
   <div class="d-flex align-items-center justify-content-between">
     <ul></ul>
@@ -31,7 +31,7 @@
       <li class="nav-item dropdown">
       <li class="nav-item dropdown pe-3">
         <a class="nav-link nav-profile d-flex align-items-center pe-0" th:href="@{'/doctor/perfil'}" >
-          <img src="https://img.freepik.com/foto-gratis/hermosa-joven-doctora-mirando-camara-oficina_1301-7807.jpg?w=2000" alt="Profile" class="rounded-circle">
+          <img th:src="@{'/gcp/imagenEvento?id=' + ${id}}" alt="Profile" class="rounded-circle">
           <span th:text="|${nombre}|" class="d-none d-md-block"></span>
         </a><!-- End Profile Iamge Icon -->
       </li>

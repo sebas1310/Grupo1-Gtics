@@ -5,7 +5,9 @@
 <body>
 
 <!-- ======= Header ======= -->
-<header th:replace="fragments/doctor/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1',  nombre = |${doctor.usuario.nombres} ${doctor.usuario.apellidos}  (${doctor.usuario.tipodeusuario.nombre.toUpperCase()})|, num_men = '2')">
+<header th:replace="fragments/doctor/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1',
+nombre = |${doctor.usuario.nombres} ${doctor.usuario.apellidos}  (${doctor.usuario.tipodeusuario.nombre.toUpperCase()})|,
+num_men = '2', id=${session.usuario.idusuario})">
 </header>
 <!-- End Header -->
 
@@ -46,9 +48,8 @@
                                         <table class="table table-borderless datatable" >
                                             <thead>
                                                 <tr>
-                                                    <th style="text-align: center" scope="col">Fecha</th>
+                                                    <th style="text-align: center" scope="col">Ultima Cita</th>
                                                     <th style="text-align: center" scope="col">Paciente</th>
-                                                    <th style="text-align: center" scope="col">Tipo de Cita</th>
                                                     <th style="text-align: center" scope="col">Cuestionario</th>
                                                     <th style="text-align: center" scope="col">Historial Clínico</th>
                                                 </tr>
@@ -57,7 +58,6 @@
                                                 <tr th:each=" paciente:${pacientesAtendidosDoctor}">
                                                     <td style="text-align: center"  th:text="${#temporals.format(paciente.getUltimaFecha(), 'dd-MM-yyyy')}" ></td>
                                                     <td style="text-align: center" th:text="${paciente.getNombrePaciente()}"></td>
-                                                    <td style="text-align: center" th:text="${paciente.getTipoCita()}"></td>
                                                     <td style="text-align: center"> <a type="button" class="bi bi-journal-text"  th:href="@{'/doctor/cuestionario' + '?id=' + ${paciente.getIDPaciente()}+'&idcita=' + ${paciente.getIDCita()}}"></a></td>
                                                     <td style="text-align: center"> <a type="button" class="bi bi-eye-fill"  th:href="@{'/doctor/pacientesatendidos/verhistorial'+ '?id=' + ${paciente.getIDPaciente()}}"></a> </td>
                                                 </tr>
