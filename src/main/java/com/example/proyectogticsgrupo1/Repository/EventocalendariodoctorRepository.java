@@ -217,15 +217,22 @@ public interface EventocalendariodoctorRepository extends JpaRepository<Eventoca
             "and idtipohoracalendariodoctor = 1 and iddoctor= ?1 ")
     List<Eventocalendariodoctor> listaSabados4( Integer id);
 
-    @Query(nativeQuery = true, value = "SELECT DATE_ADD(MAKEDATE(YEAR(CURDATE()), 1) + INTERVAL WEEK(CURDATE()) + (-2 + ?1) WEEK, INTERVAL (WEEKDAY(MAKEDATE(YEAR(CURDATE()), 1) + INTERVAL WEEK(CURDATE()) + ?1 WEEK) + 1) DAY) AS start_date;")
-    java.sql.Date obtnerInicioSemana(Integer numSemana);
+    @Query(nativeQuery = true, value = "SELECT DAY(DATE_ADD(MAKEDATE(YEAR(CURDATE()), 1) + INTERVAL WEEK(CURDATE()) + (-2 + ?1) WEEK, INTERVAL (WEEKDAY(MAKEDATE(YEAR(CURDATE()), 1) + INTERVAL WEEK(CURDATE()) + ?1 WEEK) + 2 ) DAY)) AS start_day;")
+    Integer obtnerdiaInicioSemana(Integer numSemana);
 
-    /* @Query(nativeQuery = true, value ="SELECT\n" +
-             "DATE_ADD(MAKEDATE(YEAR(CURDATE()), 1) + INTERVAL WEEK(CURDATE()) - (2) WEEK, INTERVAL (WEEKDAY(MAKEDATE(YEAR(CURDATE()), 1) + INTERVAL WEEK(CURDATE()) + ?1 WEEK) + 7) DAY) AS end_date;\n" )
-     Date obtenerFinSemana(Integer numSemxana);
-     */
-    @Query(nativeQuery = true, value = "SELECT DATE_ADD(MAKEDATE(YEAR(CURDATE()), 1) + INTERVAL WEEK(CURDATE()) + (-2+ ?1) WEEK, INTERVAL (WEEKDAY(MAKEDATE(YEAR(CURDATE()), 1) + INTERVAL WEEK(CURDATE()) + ?1 WEEK) + 7) DAY) AS end_date;")
-    java.sql.Date obtenerFinSemana(Integer numSemana);
+    @Query(nativeQuery = true, value = "SELECT MONTH(DATE_ADD(MAKEDATE(YEAR(CURDATE()), 1) + INTERVAL WEEK(CURDATE()) + (-2 + ?1) WEEK, INTERVAL (WEEKDAY(MAKEDATE(YEAR(CURDATE()), 1) + INTERVAL WEEK(CURDATE()) + ?1 WEEK) + 2 ) DAY)) AS start_month;")
+    Integer obtnermesInicioSemana(Integer numSemana);
+    @Query(nativeQuery = true, value = "SELECT YEAR(DATE_ADD(MAKEDATE(YEAR(CURDATE()), 1) + INTERVAL WEEK(CURDATE()) + (-2 + ?1) WEEK, INTERVAL (WEEKDAY(MAKEDATE(YEAR(CURDATE()), 1) + INTERVAL WEEK(CURDATE()) + ?1 WEEK) + 2 ) DAY)) AS start_year;")
+    Integer obtneranoInicioSemana(Integer numSemana);
+
+
+    @Query(nativeQuery = true, value = "SELECT DAY( DATE_ADD(MAKEDATE(YEAR(CURDATE()), 1) + INTERVAL WEEK(CURDATE()) + (-2+ ?1) WEEK, INTERVAL (WEEKDAY(MAKEDATE(YEAR(CURDATE()), 1) + INTERVAL WEEK(CURDATE()) + ?1 WEEK) + 8) DAY)) AS end_day;")
+    Integer obtenerdiaFinSemana(Integer numSemana);
+
+    @Query(nativeQuery = true, value = "SELECT MONTH(DATE_ADD(MAKEDATE(YEAR(CURDATE()), 1) + INTERVAL WEEK(CURDATE()) + (-2 + ?1) WEEK, INTERVAL (WEEKDAY(MAKEDATE(YEAR(CURDATE()), 1) + INTERVAL WEEK(CURDATE()) + ?1 WEEK) + 8 ) DAY)) AS end_month;")
+    Integer obtnermesFinSemana(Integer numSemana);
+    @Query(nativeQuery = true, value = "SELECT YEAR(DATE_ADD(MAKEDATE(YEAR(CURDATE()), 1) + INTERVAL WEEK(CURDATE()) + (-2 + ?1) WEEK, INTERVAL (WEEKDAY(MAKEDATE(YEAR(CURDATE()), 1) + INTERVAL WEEK(CURDATE()) + ?1 WEEK) + 2 ) DAY)) AS start_year;")
+    Integer obtneranoFinSemana(Integer numSemana);
 
     @Query(nativeQuery = true, value = "SELECT MONTHNAME(MAKEDATE(YEAR(CURDATE()), 1) + INTERVAL WEEK(CURDATE()) + ?1 WEEK) AS month_name;")
     String obtenerMes(Integer numWeek);

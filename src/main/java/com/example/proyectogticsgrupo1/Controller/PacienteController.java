@@ -229,15 +229,24 @@ public class PacienteController {
 
         }
 
-        if(semana_equivocada == 1){
+        if(semana_equivocada == 1) {
 
-            redirectAttributes.addFlashAttribute("msg2","Solo puede reservar citas para un mes como máximo");
+            redirectAttributes.addFlashAttribute("msg2", "Solo puede reservar citas para un mes como máximo");
 
         }
 
-        model.addAttribute("inicioSemana", eventocalendariodoctorRepository.obtnerInicioSemana(semana));
-        System.out.println(eventocalendariodoctorRepository.obtnerInicioSemana(semana).getClass());
-        model.addAttribute("finSemana", eventocalendariodoctorRepository.obtenerFinSemana(semana));
+
+        model.addAttribute("diainicioSemana", eventocalendariodoctorRepository.obtnerdiaInicioSemana(semana));
+        model.addAttribute("mesinicioSemana", eventocalendariodoctorRepository.obtnermesInicioSemana(semana));
+        model.addAttribute("anoinicioSemana", eventocalendariodoctorRepository.obtneranoInicioSemana(semana));
+
+
+        model.addAttribute("diafinSemana", eventocalendariodoctorRepository.obtenerdiaFinSemana(semana));
+        model.addAttribute("mesfinSemana", eventocalendariodoctorRepository.obtnermesFinSemana(semana));
+        model.addAttribute("anofinSemana", eventocalendariodoctorRepository.obtneranoFinSemana(semana));
+
+
+
         model.addAttribute("nombre_mes", eventocalendariodoctorRepository.obtenerMes(semana));
 
         model.addAttribute("pacientelog",paciente);
@@ -436,8 +445,16 @@ public class PacienteController {
 
         }
 
-        model.addAttribute("inicioSemana", citaRepository.obtnerInicioSemanacita(semana));
-        model.addAttribute("finSemana", citaRepository.obtenerFinSemanacita(semana));
+        model.addAttribute("diainicioSemana", citaRepository.obtnerdiaInicioSemana(semana));
+        model.addAttribute("mesinicioSemana", citaRepository.obtnermesInicioSemana(semana));
+        model.addAttribute("anoinicioSemana", citaRepository.obtneranoInicioSemana(semana));
+
+
+        model.addAttribute("diafinSemana", citaRepository.obtenerdiaFinSemana(semana));
+        model.addAttribute("mesfinSemana", citaRepository.obtnermesFinSemana(semana));
+        model.addAttribute("anofinSemana", citaRepository.obtneranoFinSemana(semana));
+
+
         model.addAttribute("nombre_mes", citaRepository.obtenerMescita(semana));
 
 

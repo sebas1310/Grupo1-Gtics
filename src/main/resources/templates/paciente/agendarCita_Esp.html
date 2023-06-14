@@ -38,7 +38,7 @@
 
 
           <div class="card-body">
-            <h5 class="card-title" th:text="${esp.nombre}"> <span></span></h5>
+            <h5 style="font-family: Nunito" class="card-title" th:text="${esp.nombre}"> <span></span></h5>
 
             <div class="d-flex align-items-center">
               <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
@@ -46,7 +46,7 @@
               </div>
               <div class="ps-3">
                 <div class="text-center">
-                  <a th:href="@{'/paciente/agendarCita_Doc?idsede='+ ${sede.idsede}+ '&idesp=' + ${esp.idespecialidad}}" class="btn btn-outline-warning ">Seleccionar</a>
+                  <a style="font-family: Nunito" th:href="@{'/paciente/agendarCita_Doc?idsede='+ ${sede.idsede}+ '&idesp=' + ${esp.idespecialidad}}" class="btn btn-outline-warning ">Seleccionar</a>
                 </div>
 
               </div>

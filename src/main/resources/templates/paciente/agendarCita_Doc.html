@@ -53,10 +53,10 @@
                 <img th:src="@{/assets/img/messages-1.jpg}" class="rounded-circle" style="width: 70px; height: 70px"  >
               </div>
               <div class="ps-3">
-                <h5 class="card-title" th:text="|Doc. ${doc.usuario.nombres} ${doc.usuario.apellidos}|"></h5>
+                <h5 style="font-family: Nunito" class="card-title" th:text="|Doc. ${doc.usuario.nombres} ${doc.usuario.apellidos}|"></h5>
 
                 <div class="text-center">
-                  <a th:href="@{'/paciente/reservar2?iddoc='+ ${doc.iddoctor}+ '&semana=' + 0}" class="btn btn-outline-warning ">Ver disponibilidad</a>
+                  <a style="font-family: Nunito" th:href="@{'/paciente/reservar2?iddoc='+ ${doc.iddoctor}+ '&semana=' + 0}" class="btn btn-outline-warning ">Ver disponibilidad</a>
                 </div>
 
               </div>
