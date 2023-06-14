@@ -54,7 +54,7 @@ public interface EventocalendariodoctorRepository extends JpaRepository<Eventoca
     @Query(nativeQuery = true, value =
             "SELECT DAYNAME(fecha) AS dia, DATE_FORMAT(horainicio, '%H:%i') AS inicio, DATE_FORMAT(horafinal, '%H:%i') AS fin \n" +
             "FROM eventocalendariodoctor \n" +
-            "WHERE idtipohoracalendariodoctor=1 AND iddoctor=?1 AND fecha >= CURDATE() \n" +
+            "WHERE idtipohoracalendariodoctor=1 AND iddoctor=?1 AND DATE(fecha) > DATE(DATE_ADD(CURDATE(), INTERVAL 1 DAY))\n" +
                     "ORDER BY fecha ASC\n" +
                     "LIMIT 2; \n")
     List<DiasProximosDoctor> getDiasProx(Integer id);
