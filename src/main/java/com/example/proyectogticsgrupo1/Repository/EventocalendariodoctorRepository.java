@@ -19,6 +19,10 @@ public interface EventocalendariodoctorRepository extends JpaRepository<Eventoca
             "idtipohoracalendariodoctor=2 ) and fecha >= CURDATE() order by fecha asc ")
     List<Eventocalendariodoctor> calendarioPorDoctor(Integer iddoc);
 
+    @Query(nativeQuery = true, value = "select * from eventocalendariodoctor where iddoctor=?1 and (idtipohoracalendariodoctor=1 or " +
+            "idtipohoracalendariodoctor=2 ) and fecha =?2 order by fecha asc ")
+    List<Eventocalendariodoctor> calendarioPorDoctorPorFecha(Integer iddoc, LocalDate fecha);
+
     @Query(nativeQuery = true, value = "select * from eventocalendariodoctor where idtipohoracalendariodoctor=1 and fecha >= CURDATE()")
     List<Eventocalendariodoctor> calendarioDoctorDisponible();
 

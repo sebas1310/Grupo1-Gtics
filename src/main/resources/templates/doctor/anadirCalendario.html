@@ -69,10 +69,298 @@
     <nav>
       <ol class="breadcrumb">
         <li class="breadcrumb-item active">Calendario General</li>
+        <div th:if="${msg!=null}" th:text="${msg}" class="alert alert-success" role="alert"></div>
       </ol>
     </nav>
   </div><!-- End Page Title -->
 
+  <section class="section profile">
+    <div class="row">
+      <div class="col-xl-4">
+
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Calendario Tabla</h5>
+              <table class="table table-borderless datatable">
+                <thead>
+                <tr>
+                  <th style="text-align: center" scope="col">Fecha</th>
+                  <th style="text-align: center" scope="col">Hora</th>
+                  <th style="text-align: center" scope="col">Descripcion</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each=" evento :${eventos}">
+                  <td style="text-align: center" th:text="${#temporals.format(fecha, 'dd-MM-yyyy')}"></td>
+                  <td style="text-align: center" th:text="|${evento.getHorainicio()} - ${evento.getHorafinal()}|"></td>
+                  <td style="text-align: center" th:text="${evento.getTipohoracalendariodoctor().getNombre()}"></td>
+                </tr>
+
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+      </div>
+
+      <div class="col-xl-8">
+
+        <div class="card">
+          <div class="card-body pt-3">
+            <!-- Bordered Tabs -->
+            <ul class="nav nav-tabs nav-tabs-bordered">
+
+              <li class="nav-item">
+                <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview">Turno Mañana</button>
+              </li>
+
+              <li class="nav-item">
+                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-edit">Refrigerio</button>
+              </li>
+
+              <li class="nav-item">
+                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-change-password">Turno Tarde</button>
+              </li>
+
+
+            </ul>
+            <div class="tab-content pt-2">
+
+              <div class="tab-pane fade show active profile-overview" id="profile-overview">
+
+                <!-- General Form Elements -->
+                <form method="post" th:action="@{'/doctor/calendario/guardar1'}"  onsubmit="return validateForm1()" >
+                  <br>
+                  <input th:value="${doctor.getIddoctor()}" name="iddoctor" type="hidden" />
+
+                  <div class="mb-3 row">
+                    <label  class="col-sm-3 col-form-label"  style="font-weight: bold">Opción</label>
+                    <div class="col-sm-9">
+                      <p class="form-control" ><span>Disponibilidad</span>
+                    </div>
+                  </div>
+
+                  <div class="mb-3 row">
+                    <label for="fecha" class="col-sm-3 col-form-label"  style="font-weight: bold">Fecha</label>
+                    <div class="col-sm-9">
+                      <input type="text" name="fecha" class="form-control" id="fecha"
+                             th:value="${fecha}" readonly>
+                      <!--  th:value="${#temporals.format(fecha, 'dd-MM-yyyy')}" -->
+                    </div>
+                  </div>
+
+                  <div class="row mb-3">
+                    <label for="horainicio" class="col-sm-3 col-form-label" style="font-weight: bold">Hora Inicio</label>
+                    <div class="col-sm-9">
+                      <select class="form-select" name="horainicio" id="horainicio" required>
+                        <option value="vacio" selected disabled>Seleccione Hora</option>
+                        <option th:each="h: ${horasDisponiblesInicio}" th:text="${h}" th:value="${h}"> </option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="row mb-3">
+                    <label for="horafinal" class="col-sm-3 col-form-label"style="font-weight: bold">Hora Final</label>
+                    <div class="col-sm-9">
+                      <select class="form-select" name="horafinal" id="horafinal" required>
+                        <option value="vacio" selected disabled>Seleccione Hora</option>
+                        <option th:each="h: ${horasDisponiblesFinal}" th:text="${h}" th:value="${h}"> </option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="mb-3 row">
+                    <label for="descripcion" class="col-sm-3 col-form-label"  style="font-weight: bold">Descripcion</label>
+                    <div class="col-sm-9">
+                      <input type="text" name="descripcion" class="form-control" id="descripcion">
+                    </div>
+                  </div>
+
+                  <div class="text-center">
+                    <div class="text-center">
+                      <button type="submit" class="btn btn-primary">Agregar</button>
+                      <button type="button" class="btn btn-danger"><a style="color: white" th:href="@{'/doctor/calendario/agregar'}" >Cancelar</a></button>
+                      <div id="error-message1" class="alert alert-danger mt-3" style="display: none;"></div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+
+              <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
+
+                <!-- General Form Elements -->
+                <form method="post" th:action="@{'/doctor/calendario/guardar2'}"  onsubmit="return validateForm2()" >
+                  <br>
+                  <input th:value="${doctor.getIddoctor()}" name="iddoctor" type="hidden" />
+
+                  <div class="mb-3 row">
+                    <label for="fecha" class="col-sm-3 col-form-label"  style="font-weight: bold">Fecha</label>
+                    <div class="col-sm-9">
+                      <input type="text" name="fecha" class="form-control" id="fecha2"
+                             th:value="${fecha}" readonly>
+                      <!--  th:value="${#temporals.format(fecha, 'dd-MM-yyyy')}" -->
+                    </div>
+                  </div>
+
+                  <div class="row mb-3">
+                    <label for="horainicio" class="col-sm-3 col-form-label" style="font-weight: bold">Hora Inicio</label>
+                    <div class="col-sm-9">
+                      <select class="form-select" name="horainicio" id="horainicio2" required>
+                        <option value="vacio" selected disabled>Seleccione Hora</option>
+                        <option th:each="h: ${horasDisponiblesInicio}" th:text="${h}" th:value="${h}"> </option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="row mb-3">
+                    <label for="horafinal" class="col-sm-3 col-form-label"style="font-weight: bold">Hora Final</label>
+                    <div class="col-sm-9">
+                      <select class="form-select" name="horafinal" id="horafinal2" required>
+                        <option value="vacio" selected disabled>Seleccione Hora</option>
+                        <option th:each="h: ${horasDisponiblesFinal}" th:text="${h}" th:value="${h}"> </option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="mb-3 row">
+                    <label for="descripcion" class="col-sm-3 col-form-label"  style="font-weight: bold">Descripcion</label>
+                    <div class="col-sm-9">
+                      <input type="text" name="descripcion" class="form-control" id="descripcion2">
+                    </div>
+                  </div>
+
+                  <div class="text-center">
+                    <div class="text-center">
+                      <button type="submit" class="btn btn-primary">Añadir Opcion</button>
+                      <button type="button" class="btn btn-danger"><a style="color: white" th:href="@{'/doctor/calendario'}" >Cancelar</a></button>
+                      <div id="error-message2" class="alert alert-danger mt-3" style="display: none;"></div>
+                    </div>
+                  </div>
+                </form>
+
+
+              <div class="tab-pane fade pt-3" id="profile-change-password">
+
+              </div>
+
+            </div><!-- End Bordered Tabs -->
+
+          </div>
+        </div>
+        </div>
+      </div>
+    </div>
+    <!-- Funcion para validar -->
+    <script>
+      function validateForm2() {
+        var horainicio = document.getElementById("horainicio").value;
+        var horafinal = document.getElementById("horafinal").value;
+        var descripcion = document.getElementById("descripcion").value.trim();
+        var idtipocalendario = document.getElementById("idtipocalendario").value;
+
+        if (horainicio === "" || horafinal === "" || descripcion === "" || idtipocalendario === "" ) {
+          var errorMessage = document.getElementById("error-message2");
+          errorMessage.style.display = "block";
+          errorMessage.innerHTML = "Complete todos los campos requeridos";
+          return false;
+        }
+        else if (horainicio !== "" && horafinal !== "" && idtipocalendario == '1') {
+          var tiempo1 = parseInt(horainicio.split(":")[0]);
+          var tiempo2 = parseInt(horafinal.split(":")[0]);
+          var diferencia = Math.abs(tiempo1 - tiempo2);
+
+          if (diferencia > 1) {
+            var errorMessage = document.getElementById("error-message2");
+            errorMessage.style.display = "block";
+            errorMessage.innerHTML = "No debe exceder de 1 hora para sus citas";
+            return false;
+          }
+        }
+        else if (horainicio !== "" && horafinal !== "" && idtipocalendario == '2') {
+          var tiempo1 = parseInt(horainicio.split(":")[0]);
+          var tiempo2 = parseInt(horafinal.split(":")[0]);
+          var diferencia = Math.abs(tiempo1 - tiempo2);
+
+          if (diferencia > 2) {
+            var errorMessage = document.getElementById("error-message2");
+            errorMessage.style.display = "block";
+            errorMessage.innerHTML = "No debe exceder de 2 horas para su refrigerio";
+            return false;
+          }
+        }
+        else if (descripcion.length >= 30 || /^\s+$/.test(descripcion))
+        {
+          var errorMessage = document.getElementById("error-message2");
+          errorMessage.style.display = "block";
+          errorMessage.innerHTML = "El campo excede el número de caracteres permitidos";
+          return false;
+        }
+
+        else if (descripcion.length <= 2 || /^\s+$/.test(descripcion))
+        {
+          var errorMessage = document.getElementById("error-message2");
+          errorMessage.style.display = "block";
+          errorMessage.innerHTML = "El campo debe tener como mínimo 3 caracteres";
+          return false;
+        }
+        return true;
+      }
+    </script>
+    <script>
+      function validateForm1() {
+        var horainicio = document.getElementById("horainicio").value;
+        var horafinal = document.getElementById("horafinal").value;
+        var descripcion = document.getElementById("descripcion").value.trim();
+        var idtipocalendario = document.getElementById("idtipocalendario").value;
+
+        if (horainicio === "" || horafinal === "" || descripcion === "" || idtipocalendario === "" ) {
+          var errorMessage = document.getElementById("error-message2");
+          errorMessage.style.display = "block";
+          errorMessage.innerHTML = "Complete todos los campos requeridos";
+          return false;
+        }
+        else if (horainicio !== "" && horafinal !== "" && idtipocalendario == '1') {
+          var tiempo1 = parseInt(horainicio.split(":")[0]);
+          var tiempo2 = parseInt(horafinal.split(":")[0]);
+          var diferencia = Math.abs(tiempo1 - tiempo2);
+
+          if (diferencia > 1) {
+            var errorMessage = document.getElementById("error-message1");
+            errorMessage.style.display = "block";
+            errorMessage.innerHTML = "No debe exceder de 1 hora para sus citas";
+            return false;
+          }
+        }
+        else if (horainicio !== "" && horafinal !== "" && idtipocalendario == '2') {
+          var tiempo1 = parseInt(horainicio.split(":")[0]);
+          var tiempo2 = parseInt(horafinal.split(":")[0]);
+          var diferencia = Math.abs(tiempo1 - tiempo2);
+
+          if (diferencia > 2) {
+            var errorMessage = document.getElementById("error-message2");
+            errorMessage.style.display = "block";
+            errorMessage.innerHTML = "No debe exceder de 2 horas para su refrigerio";
+            return false;
+          }
+        }
+        else if (descripcion.length >= 30 || /^\s+$/.test(descripcion))
+        {
+          var errorMessage = document.getElementById("error-message2");
+          errorMessage.style.display = "block";
+          errorMessage.innerHTML = "El campo excede el número de caracteres permitidos";
+          return false;
+        }
+
+        else if (descripcion.length <= 2 || /^\s+$/.test(descripcion))
+        {
+          var errorMessage = document.getElementById("error-message2");
+          errorMessage.style.display = "block";
+          errorMessage.innerHTML = "El campo debe tener como mínimo 3 caracteres";
+          return false;
+        }
+        return true;
+      }
+    </script>
+  </section>
+<!--
   <section class="section">
     <div class="row">
       <div class="col-sm-4">
@@ -91,7 +379,6 @@
       <div class="col-sm-8 mb-3 mb-sm-0">
         <div class="card">
           <div class="card-body">
-            <!-- General Form Elements -->
             <form method="post" th:action="@{'/doctor/calendario/guardar'}"  onsubmit="return validateForm2()" >
               <br>
               <input th:value="${doctor.getIddoctor()}" name="iddoctor" type="hidden" />
@@ -101,7 +388,7 @@
                 <div class="col-sm-9">
                   <input type="text" name="fecha" class="form-control" id="fecha"
                          th:value="${fecha}" readonly>
-                  <!--  th:value="${#temporals.format(fecha, 'dd-MM-yyyy')}" -->
+                  <th:value="${#temporals.format(fecha, 'dd-MM-yyyy')}" -
                 </div>
               </div>
 
@@ -150,7 +437,6 @@
                 </div>
               </div>
             </form>
-            <!-- Funcion para validar -->
 
             <script>
               function validateForm2() {
@@ -207,14 +493,13 @@
                 return true;
               }
             </script>
-            <!-- FIN Funcion para validar -->
           </div>
         </div>
       </div>
     </div>
     </div>
     </div>
-  </section>
+  </section> -->
 </main>
 
 <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>

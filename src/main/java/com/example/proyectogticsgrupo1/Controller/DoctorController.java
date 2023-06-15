@@ -510,15 +510,26 @@ public class DoctorController {
         return "doctor/calendarioDoc";
     }
 
+    @GetMapping("/calendario/opciones")
+    public String calendarioDoctorAgregar(Model model,
+                                          @RequestParam("fecha") LocalDate fecha){
+        Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
+        Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
+        List<Eventocalendariodoctor> eventos = eventocalendariodoctorRepository.calendarioPorDoctorPorFecha(doctor.getIddoctor(), fecha);
+        model.addAttribute("eventos", eventos);
+        model.addAttribute("doctor",doctor);
+        model.addAttribute("fecha", fecha);
+        return "doctor/anadirCalendario";
+    }
+
     @PostMapping(value = "/calendario/agregar")
     public String agregarEvento(Model model, @RequestParam ("iddoctor") int iddoctor,
                                 @RequestParam("fecha") LocalDate fecha){
 
         Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
         Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
-        //DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        // Convertir la cadena de caracteres a LocalDate
-        //LocalDate date = LocalDate.parse(dateString, formatter);
+        List<Eventocalendariodoctor> eventos = eventocalendariodoctorRepository.calendarioPorDoctorPorFecha(doctor.getIddoctor(), fecha);
+        model.addAttribute("eventos", eventos);
         model.addAttribute("horasDisponiblesInicio", eventocalendariodoctorRepository.horasDeCitasInicio(iddoctor, fecha));
         model.addAttribute("horasDisponiblesFinal", eventocalendariodoctorRepository.horasDeCitasFinal(iddoctor, fecha));
         model.addAttribute("doctor", doctor);
@@ -529,12 +540,31 @@ public class DoctorController {
     }
 
     @Transactional
-    @PostMapping(value = "/calendario/guardar")
-    public String agregarEvento(Model model, @RequestParam("fecha") LocalDate fecha ,
+    @PostMapping(value = "/calendario/guardar1")
+    public String agregarEvento1(Model model, @RequestParam("fecha") LocalDate fecha ,
                                 @RequestParam("horainicio") LocalTime horainicio ,
                                 @RequestParam("horafinal") LocalTime horafinal ,
                                 @RequestParam("descripcion") String descripcion,
-                                @RequestParam("idtipocalendario") Integer idtipocalendario,
+                                @RequestParam("iddoctor") Integer iddoctor,
+                                RedirectAttributes redirectAttributes){
+
+
+        Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
+        Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
+        model.addAttribute("doctor", doctor);
+        Integer duracion = 1;
+        Integer idtipocalendario = 1;
+        eventocalendariodoctorRepository.agregarEventoDoctor(idtipocalendario,fecha, horainicio, horafinal, duracion, descripcion,iddoctor);
+        redirectAttributes.addFlashAttribute("msg","Evento Añadido");
+        return "redirect:/doctor/calendario/opciones";
+    }
+
+    @Transactional
+    @PostMapping(value = "/calendario/guardar2")
+    public String agregarEvento2(Model model, @RequestParam("fecha") LocalDate fecha ,
+                                @RequestParam("horainicio") LocalTime horainicio ,
+                                @RequestParam("horafinal") LocalTime horafinal ,
+                                @RequestParam("descripcion") String descripcion,
                                 @RequestParam("iddoctor") Integer iddoctor,
                                 RedirectAttributes redirectAttributes){
 
@@ -542,6 +572,7 @@ public class DoctorController {
         Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
         Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
         Integer duracion = 1;
+        Integer idtipocalendario = 2;
         eventocalendariodoctorRepository.agregarEventoDoctor(idtipocalendario,fecha, horainicio, horafinal, duracion, descripcion,iddoctor);
         redirectAttributes.addFlashAttribute("msg","Evento Añadido");
         return "redirect:/doctor/calendario";
@@ -698,15 +729,6 @@ public class DoctorController {
     }
 
 
-    @GetMapping("/perfil")
-    public String perfilDoctor(Model model) {
-
-        Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
-        Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
-        model.addAttribute("doctor",doctor);
-        return "doctor/perfilDoc";
-    }
-
     @GetMapping("/mensajeria")
     public String mensajeriaDoctor(Model model) {
 
@@ -810,6 +832,15 @@ public class DoctorController {
         model.addAttribute("doctor",doctor);
         model.addAttribute("notificaciones",notificacionesRepository.notificacionesPorUsuario(doctor.getUsuario().getIdusuario()));
         return "doctor/notificacionesDoc";
+    }
+
+    @GetMapping("/perfil")
+    public String perfilDoctor(Model model) {
+
+        Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
+        Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
+        model.addAttribute("doctor",doctor);
+        return "doctor/perfilDoc";
     }
 
     @PostMapping("/perfil/editarperfil")
