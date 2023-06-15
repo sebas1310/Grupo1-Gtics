@@ -27,6 +27,8 @@ public class PacienteController {
     final EspecialidadRepository especialidadRepository;
     final DoctorRepository doctorRepository;
     final UserRepository userRepository;
+
+    final UsuarioRepository usuarioRepository;
     final NotificacionesRepository notificacionesRepository;
 
     final RecetaMedicaRepository recetaMedicaRepository;
@@ -49,7 +51,7 @@ public class PacienteController {
 
 
     public PacienteController(SedeRepository sedeRepository, EspecialidadRepository especialidadRepository, DoctorRepository doctorRepository, UserRepository userRepository, NotificacionesRepository notificacionesRepository, RecetaMedicaRepository recetaMedicaRepository, PacienteRepository pacienteRepository, TipoCitaRepository tipoCitaRepository, CitaRepository citaRepository, EventocalendariodoctorRepository eventocalendariodoctorRepository,
-                              BoletaDoctorRepository boletaDoctorRepository, SeguroRepository seguroRepository, BoletaPacienteRepository boletaPacienteRepository) {
+                              BoletaDoctorRepository boletaDoctorRepository, SeguroRepository seguroRepository, BoletaPacienteRepository boletaPacienteRepository, UsuarioRepository usuarioRepository) {
         this.sedeRepository = sedeRepository;
         this.especialidadRepository = especialidadRepository;
         this.doctorRepository = doctorRepository;
@@ -63,6 +65,7 @@ public class PacienteController {
         this.boletaDoctorRepository = boletaDoctorRepository;
         this.seguroRepository = seguroRepository;
         this.boletaPacienteRepository = boletaPacienteRepository;
+        this.usuarioRepository = usuarioRepository;
     }
 
     @Autowired
@@ -278,9 +281,6 @@ public class PacienteController {
         //Optional<Paciente> optionalPaciente = pacienteRepository.findById(1);
         //Paciente paciente =  optionalPaciente.get();
         model.addAttribute("pacientelog",paciente);
-
-
-
         return "paciente/perfil";
     }
 
@@ -302,7 +302,6 @@ public class PacienteController {
         model.addAttribute("caldisponible", eventocalendariodoctorRepository.calendarioDoctorDisponible());
         return "paciente/agendarCita";
     }
-
     @GetMapping(value = "/agendarCita_Sede")
     public String agendarCita2(Model model){
 
@@ -314,7 +313,6 @@ public class PacienteController {
 
         return "paciente/agendarCita_Sede";
     }
-
     @GetMapping(value = "/agendarCita_Esp")
     public String agendarCita3(Model model, @RequestParam("idsede") Integer id){
 
@@ -359,7 +357,6 @@ public class PacienteController {
         model.addAttribute("pacientelog",paciente);
         return "paciente/historialCitas";
     }
-
     @GetMapping(value = "/calendarioSemanal")
     public String calendarioMensual(Model model, @RequestParam("semana") Integer semana, RedirectAttributes redirectAttributes){
 
@@ -369,14 +366,8 @@ public class PacienteController {
         //Optional<Paciente> optionalPaciente = pacienteRepository.findById(1);
         //Paciente paciente =  optionalPaciente.get();
         int id=paciente.getIdpaciente();
-
-
-
         int semana_equivocada = 0;
-
-
         if (semana == 0){
-
             model.addAttribute("prev_semana", semana);
             model.addAttribute("lunes",citaRepository.listaLunes(id));
             model.addAttribute("martes",citaRepository.listaMartes(id));
@@ -463,7 +454,6 @@ public class PacienteController {
         return "paciente/calendarioSemanal";
 
     }
-
     @GetMapping(value = "/chat")
     public String chat(Model model) {
 
@@ -476,7 +466,6 @@ public class PacienteController {
 
         return "paciente/chat";
     }
-
     @GetMapping(value = "/mensajes")
     public String mensajes(Model model) {
         //Optional<Paciente> optionalPaciente = pacienteRepository.findById(1);
@@ -488,8 +477,6 @@ public class PacienteController {
 
         return "paciente/mensajes";
     }
-
-
     @GetMapping(value = "/cuestionarios")
     public String cuestionarios(Model model){
         Usuario usuario = (Usuario) session.getAttribute("usuario");
@@ -562,23 +549,14 @@ public class PacienteController {
 //        model.addAttribute("cuestionarios",misCuestionarios);
 //        model.addAttribute("pacientelog",paciente);
     }
-
-
     @Autowired
     private  ModeloJsonRepository modeloJsonRepository;
-
     @GetMapping(value = "/formCuestionario")
     public String formCuestinario(@RequestParam("idcuest") String idstr,@RequestParam("idcita") int idcita,Model model){
         Usuario usuario = (Usuario) session.getAttribute("usuario");
         Paciente paciente = pacienteRepository.pacXuser(usuario.getIdusuario());
 
-
 //        ModeloJsonEntity modelo_cuestionario_2 = modeloJsonRepository.listaCuestionarios(idcuest);
-
-
-
-
-
 
         try {
             Integer id = Integer.parseInt(idstr);
@@ -601,8 +579,6 @@ public class PacienteController {
             return "redirect:/paciente/cuestionarios";
         }
     }
-
-
 
     @ResponseBody
     @PostMapping(value = "/llenarCuestionario")
@@ -730,7 +706,6 @@ public class PacienteController {
 
     }
 
-
     @PostMapping(value = "/respuestas")
     public String respuestasCuestionarios(HttpServletRequest request,@RequestParam("idcuest") String idstr){
         Enumeration<String> parameterNames = request.getParameterNames();
@@ -753,8 +728,6 @@ public class PacienteController {
         }
         return "paciente/pruebas";
     }
-
-
     @GetMapping(value ="/receta")
     public String receta(@RequestParam("idcita") String idstr, Model model){
         Usuario usuario = (Usuario) session.getAttribute("usuario");
@@ -778,9 +751,6 @@ public class PacienteController {
             return "redirect:/paciente/historialCitas";
         }
     }
-
-
-
     @GetMapping(value ="/boleta")
     public String boletas(@RequestParam("idcita") String idstr, Model model){
         Usuario usuario = (Usuario) session.getAttribute("usuario");
@@ -804,7 +774,6 @@ public class PacienteController {
         }
     }
 
-
     @GetMapping(value = "/notificaciones")
     public String notif(Model model) {
         //Optional<Paciente> optionalPaciente = pacienteRepository.findById(1);
@@ -816,7 +785,6 @@ public class PacienteController {
         model.addAttribute("pacientelog",paciente);
         return "paciente/notificaciones";
     }
-
     @PostMapping(value = "/alergia")
     @Transactional
     public String modAlergia(@RequestParam("alergias") String alergia, @RequestParam("idpaciente") Integer id, RedirectAttributes redirectAttributes){
@@ -837,8 +805,6 @@ public class PacienteController {
         return "redirect:/paciente/perfil";
     }
 
-
-
     @PostMapping(value = "/changepassword")
     @Transactional
     public String changePassword(@RequestParam("contrasena") String contrasena, @RequestParam("newpassword") String newpassword, @RequestParam("renewpassword") String renewpassword, RedirectAttributes redirectAttributes){
@@ -858,15 +824,26 @@ public class PacienteController {
         }
         return "redirect:/paciente/perfil";
     }
+    @PostMapping(value = "/editarperfil")
+    @Transactional
+    public String editarperfil(@RequestParam("idusuario") int idUsuario,
+                               @RequestParam("direccion") String direccion,
+                               @RequestParam("telefono") int telefono, RedirectAttributes redirectAttributes ){
+        usuarioRepository.actualizarPerfilPaciente(telefono, idUsuario);
+        pacienteRepository.actualizarPaciente(direccion, idUsuario);
+
+        redirectAttributes.addFlashAttribute("psw1", "Perfil Actualizado");
+
+
+
+        return "redirect:/paciente/perfil";
+    }
 
     @PostMapping(value = "/pruebascita")
     @Transactional
-    public String pruebascita(@RequestParam("idsede") Integer idsede,
-                              @RequestParam("especialidadid") Integer idesp,
-                              @RequestParam("iddoctor") Integer iddoctor,
-                              @RequestParam("fecha") LocalDate fecha ,
-                              @RequestParam("hora")LocalTime hora,
-                              @RequestParam("idseguro") Integer idseguro,
+    public String pruebascita(@RequestParam("idsede") Integer idsede, @RequestParam("especialidadid") Integer idesp,
+                              @RequestParam("iddoctor") Integer iddoctor, @RequestParam("fecha") LocalDate fecha ,
+                              @RequestParam("hora")LocalTime hora, @RequestParam("idseguro") Integer idseguro,
                               @RequestParam("idtipocita") Integer idtipocita, RedirectAttributes redirectAttributes){
 
         //Optional<Paciente> optionalPaciente = pacienteRepository.findById(1);

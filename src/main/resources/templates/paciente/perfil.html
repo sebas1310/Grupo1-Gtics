@@ -164,26 +164,54 @@
                       </form>
                     </div>
                   </div>
+                <form method="post" th:action="@{'/paciente/editarperfil'}" onsubmit="return validarFormulario()">
+                  <input th:value="${pacientelog.usuario.idusuario}" name="idusuario" type="hidden">
+                  <!-- <input th:value="${pacientelog.idpaciente}" name="idpaciente" type="hidden"> -->
 
                   <div class="row mb-3">
-
-                        <div class="row mb-3">
-                          <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Ingresar Poliza de Seguro</label>
-                          <div class="col-md-8 col-lg-9">
-
-                            <div class="row mb-3">
-                              <div for="po" class="col-md-8 col-lg-9">
-                                <input type="text" class="form-control" id="nuevoSeguro" value="5467892036" required>
-                              </div>
-                            </div>
-
-                          </div>
-                        </div>
+                    <label for="direccion" class="col-md-4 col-lg-3 col-form-label">Dirección:</label>
+                    <div class="col-md-8 col-lg-9">
+                      <input name="direccion" type="text" class="form-control" id="direccion" th:value="${pacientelog.getDireccion()}" required>
+                    </div>
                   </div>
+
+                  <div class="row mb-3">
+                    <label for="telefono" class="col-md-4 col-lg-3 col-form-label">Celular:</label>
+                    <div class="col-md-8 col-lg-9">
+                      <input name="telefono" type="text" class="form-control" id="telefono" th:value="${pacientelog.getUsuario().getCelular()}" required>
+                    </div>
+                  </div>
+
                   <div class="text-center">
-                    <button type="submit" class="btn btn-outline-warning"  >Guardar Cambios</button>
+                    <button type="submit" class="btn btn-outline-warning">Guardar Cambios</button>
                   </div>
+                  <div id="error-message4" class="alert alert-danger mt-3" style="display: none;"></div>
+                </form>
 
+                <script>
+                  function validarFormulario() {
+                    // Obtener los valores de los campos
+                    var direccion = document.getElementById("direccion").value.trim();
+                    var telefono = document.getElementById("telefono").value.trim();
+
+                    // Validar que los campos no estén vacíos
+                    if (direccion === "" || telefono === "") {
+                      document.getElementById("error-message4").innerHTML = "Por favor, complete todos los campos.";
+                      document.getElementById("error-message4").style.display = "block";
+                      return false; // Evitar el envío del formulario
+                    }
+
+                    // Validar el formato del número de celular
+                    var celularRegex = /^9\d{8}$/;
+                    if (!celularRegex.test(telefono)) {
+                      document.getElementById("error-message4").innerHTML = "El número de celular debe tener 9 dígitos y empezar con 9.";
+                      document.getElementById("error-message4").style.display = "block";
+                      return false; // Evitar el envío del formulario
+                    }
+
+                    return true; // Permitir el envío del formulario
+                  }
+                </script>
 
               </div>
 
