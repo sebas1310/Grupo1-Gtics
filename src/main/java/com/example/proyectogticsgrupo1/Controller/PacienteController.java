@@ -963,7 +963,7 @@ public class PacienteController {
                 eventocalendariodoctor.getFecha(),
                 eventocalendariodoctor.getHorainicio(),
                 eventocalendariodoctor.getHorainicio().plusHours(1),
-                60,
+                1,
                 idtipocita,
                 paciente.getIdpaciente(),
                 1,
