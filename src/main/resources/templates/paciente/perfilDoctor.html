@@ -44,13 +44,16 @@
                 <tbody>
                 <tr class="table-primary">
                   <td class="text-center">DIA</td>
+                  <td class="text-center">FECHA</td>
                   <td class="text-center">HORA</td>
                 </tr>
 
-                <tr th:each="d:${dias}">
+                <tr th:each="d:${dias1}">
                   <td class="text-center" >
                     <span th:text="${T(com.example.proyectogticsgrupo1.translate.DayTranslator).translateDay(d.getDia())}"></span>
                   </td>
+                  <td class="text-center" th:text="${#temporals.format(d.getFechacita(), 'dd-MM-yyyy') }"></td>
+
                   <td class="text-center" th:text="|${d.getInicio()}-${d.getFin()}|"></td>
                 </tr>
                <!-- <tr th:each="d:${dias}">

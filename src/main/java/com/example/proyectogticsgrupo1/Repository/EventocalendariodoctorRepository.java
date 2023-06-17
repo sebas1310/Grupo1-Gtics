@@ -56,12 +56,11 @@ public interface EventocalendariodoctorRepository extends JpaRepository<Eventoca
     void cambiarEstadoCalendario(Integer iddoc, LocalDate fecha, LocalTime horain);
 
     @Query(nativeQuery = true, value =
-            "SELECT DAYNAME(fecha) AS dia, DATE_FORMAT(horainicio, '%H:%i') AS inicio, DATE_FORMAT(horafinal, '%H:%i') AS fin \n" +
-            "FROM eventocalendariodoctor \n" +
-            "WHERE idtipohoracalendariodoctor=1 AND iddoctor=?1 AND DATE(fecha) > DATE(DATE_ADD(CURDATE(), INTERVAL 1 DAY))\n" +
-                    "ORDER BY fecha ASC\n" +
-                    "LIMIT 2; \n")
-    List<DiasProximosDoctor> getDiasProx(Integer id);
+            "SELECT DAYNAME(fecha) AS dia, DATE_FORMAT(horainicio, '%H:%i') AS inicio, DATE_FORMAT(horafinal, '%H:%i') AS fin, \n" +
+                    "fecha as fechacita FROM eventocalendariodoctor \n" +
+                    "WHERE idtipohoracalendariodoctor=1 AND iddoctor= ?1 AND DATE(fecha) > DATE(CURDATE())\n" +
+                    "ORDER BY fecha ASC LIMIT 2")
+    List<DiasProximosDoctor> getDiasProx1(Integer id);
 
     //-------------Misma semana------------------------//
     @Query(nativeQuery = true, value = "SELECT * FROM eventocalendariodoctor WHERE YEARWEEK(fecha) = YEARWEEK(CURDATE()) + 0  AND DAYOFWEEK(fecha) = 2\n " +
