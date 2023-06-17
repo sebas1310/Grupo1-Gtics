@@ -71,6 +71,9 @@ public class DoctorController {
     @Autowired
     NotificacionesRepository notificacionesRepository;
 
+    @Autowired
+    EstadoCitaRepository estadoCitaRepository;
+
     public DoctorController(CitaRepository citaRepository, DoctorRepository doctorRepository, PacienteRepository pacienteRepository,
                             RecetaMedicaRepository recetaMedicaRepository, ReporteCitaRepository reporteCitaRepository,UsuarioRepository usuarioRepository,
                             BitacoraDeDiagnosticoRepository bitacoraDeDiagnosticoRepository,
@@ -167,7 +170,9 @@ public class DoctorController {
                 //primero se verifica si la fecha de la cita coincide con el dia actual
                 if(cita.getFecha().equals(LocalDate.now())){
                     //si coincide ,entonces vemos si su hora final es menor a la hora actual
-                    if(LocalTime.now().isAfter(cita.getHorafinal())){
+                    if(LocalTime.now().isAfter(cita.getHorainicio()) && LocalTime.now().isBefore(cita.getHorafinal())) {
+                        citaRepository.actualizarEstadoCita(4,cita.getIdcita());
+                    }else if(LocalTime.now().isAfter(cita.getHorafinal())){
                         //si es verdad , entonces se actualiza el estado de la cita a "finalizada"
                         citaRepository.actualizarEstadoCita(6,cita.getIdcita());
                     }
@@ -213,17 +218,39 @@ public class DoctorController {
     @GetMapping("/pacientesatendidos/verhistorial/vercita")
     public String verCitaDoctor(Model model, @RequestParam("id") int idCita,
                                 @RequestParam(name="idReceta", defaultValue = "0") int idReceta,
-                                @RequestParam(name="msg6", defaultValue = "") String msg) {
+                                @RequestParam(name="msg6", defaultValue = "") String msg){
+                                //@RequestParam(name="estadocita", defaultValue = "0") String idestadocita){
 
             Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
             Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
             model.addAttribute("doctor",doctor);
             Cita cita = citaRepository.buscarCitaPorId(idCita);
             model.addAttribute("cita", cita);
+            model.addAttribute("estadoscita",estadoCitaRepository.findAll());
             model.addAttribute("recetamedica", recetaMedicaRepository.buscarRecetaMedicaPorCita(idCita, idReceta));
             model.addAttribute("msg6",msg);
         return "doctor/verCita";
     }
+
+    @PostMapping("/pacientesatendidos/verhistorial/vercita/actualizarestadocita")
+    @Transactional
+    public String actualizarEstadoCita(@RequestParam("id") int idCita,
+                                @RequestParam("idestadocita") int idestadocita,
+                                RedirectAttributes redirectAttributes){
+
+
+        citaRepository.actualizarEstadoCita(idestadocita,idCita);
+        if(idestadocita==3){
+            redirectAttributes.addFlashAttribute("msg7","Cita en Espera");
+        }else if(idestadocita== 4){
+            redirectAttributes.addFlashAttribute("msg7","Cita en Consulta");
+        }else if(idestadocita== 6){
+            redirectAttributes.addFlashAttribute("msg7","Cita Finalizada");
+        }
+        redirectAttributes.addAttribute("id",idCita);
+        return "redirect:/doctor/pacientesatendidos/verhistorial/vercita";
+    }
+
 
     @GetMapping("/pacientesatendidos/verhistorial/vercita/verinformesmedico")
     public String verInformeMedico(Model model, @RequestParam("id") int idCita) {
@@ -496,6 +523,12 @@ public class DoctorController {
     @Transactional
     @PostMapping("/pacientesatendidos/verhistorial/vercita/boletaMedicamentoDelivery/confirmar")
     public String confirmarEnvio(@RequestParam("id") int idcita,RedirectAttributes redirectAttributes){
+        //void notificarCreacion(Integer iddestino,String contenido, String titulo);
+        Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
+        Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
+        String titulo = "Delivery de Medicamentos Confirmado";
+        String contenido = "Estimado Doctor(a): "+doctor.getUsuario().getApellidos()+" se confirmó el delivery de medicamentos para el paciente asignado";
+        notificacionesRepository.notificarCreacion(usuarioDoctor.getIdusuario(),contenido,titulo);
         redirectAttributes.addFlashAttribute("msg5","Delivery Confirmado");
         redirectAttributes.addAttribute("id",idcita);
         return "redirect:/doctor/pacientesatendidos/verhistorial/vercita";
