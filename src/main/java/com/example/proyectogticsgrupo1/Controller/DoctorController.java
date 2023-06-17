@@ -212,7 +212,8 @@ public class DoctorController {
 
     @GetMapping("/pacientesatendidos/verhistorial/vercita")
     public String verCitaDoctor(Model model, @RequestParam("id") int idCita,
-                                @RequestParam(name="idReceta", defaultValue = "0") int idReceta) {
+                                @RequestParam(name="idReceta", defaultValue = "0") int idReceta,
+                                @RequestParam(name="msg6", defaultValue = "") String msg) {
 
             Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
             Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
@@ -220,6 +221,7 @@ public class DoctorController {
             Cita cita = citaRepository.buscarCitaPorId(idCita);
             model.addAttribute("cita", cita);
             model.addAttribute("recetamedica", recetaMedicaRepository.buscarRecetaMedicaPorCita(idCita, idReceta));
+            model.addAttribute("msg6",msg);
         return "doctor/verCita";
     }
 
@@ -813,10 +815,11 @@ public class DoctorController {
     @Transactional
     //ResponseEntity<Void>
     public String cuestionarioEnvio(RedirectAttributes redirectAttributes,
-                            @RequestParam("id_cita") int id_cita , @RequestParam("id_modelo") int id_modelo) {
+                            @RequestParam("id_cita") int id_cita , @RequestParam("id_modelo") int id_modelo,
+                                    @RequestParam("id_usuario_paciente") int id_paciente) {
 
         System.out.println("llega al repo de envio");
-        modeloJsonRepository.agregarCuestionarioAPaciente(id_modelo,id_cita);
+        modeloJsonRepository.agregarCuestionarioAPaciente(id_modelo,id_paciente,id_cita);
 
 
 

@@ -50,13 +50,15 @@
                                 <input name="nombre" type="text" class="form-control" id="nombre0" th:value="${null}"
                                        disabled>
                             </div>
-                            <input th:value="${paciente.getUsuario().getIdusuario()}" class="form-control"
-                                   type="hidden">
+                            <!--<input th:value="${paciente.getUsuario().getIdusuario()}" class="form-control"
+                                   type="hidden">-->
 
                             <form method="post" th:action="@{'/doctor/cuestionario_envio'}" class="row g-3">
 
                                 <input th:value="${idcita}" name="id_cita" class="form-control" type="hidden">
                                 <input th:value="${idcuestionario}" name="id_modelo" class="form-control" type="hidden">
+                                <input th:value="${paciente.getUsuario().getIdusuario()}"  name="id_usuario_paciente" class="form-control"
+                                       type="hidden">
                                 <!--                            <button type="submit" class="btn btn-primary" onclick="ModificarForm()" >Enviar a Paciente</button>-->
 
 

@@ -44,7 +44,7 @@ public interface CitaRepository extends JpaRepository<Cita, Integer> {
     List<Cita> pacientesAtendidosPorDoctor(Integer idDoctor);*/
 
 
-    @Query(value = "SELECT c.paciente_idpaciente AS 'IDPaciente', MAX(fecha) AS 'UltimaFecha',\n" +
+    @Query(value = "SELECT c.idcita as 'IDCita', c.paciente_idpaciente AS 'IDPaciente', MAX(fecha) AS 'UltimaFecha',\n" +
             "CONCAT(u.nombres, ' ', u.apellidos) AS 'NombrePaciente'\n" +
             "FROM cita c\n" +
             "INNER JOIN paciente p ON c.paciente_idpaciente = p.idpaciente \n" +
