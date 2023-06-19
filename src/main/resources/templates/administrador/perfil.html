@@ -45,7 +45,8 @@
 
             <img th:src="@{'/gcp/imagenEvento?id=' + ${administradorlog.idusuario}}" alt="Profile" class="rounded-circle">
             <h2><span th:text="${administradorlog.nombres} + ' ' + ${administradorlog.apellidos}"></span></h2>
-            <h3><span th:text="${#strings.capitalize(administradorlog.tipodeusuario.nombre)}"></span></h3>
+            <h3><span th:text="${#strings.
+            capitalize(administradorlog.tipodeusuario.nombre)}"></span></h3>
             <div th:if="${psw1!=null}" th:text="${psw1}" class="alert alert-success" role="alert"></div>
             <div th:if="${psw2!=null}" th:text="${psw2}" class="alert alert-danger" role="alert"></div>
           </div>
