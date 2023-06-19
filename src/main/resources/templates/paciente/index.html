@@ -257,62 +257,47 @@
                         <div class="modal-dialog modal-dialog-centered" role="document">
                           <div class="modal-content">
                             <div style="background-color: #ffd966" class="modal-header">
-                              <h5 class="modal-title " style="font-weight: bold; font-family: Nunito" id="exampleModalLongTitle" th:text="|Cita ${p.tipoCita.nombre}|"></h5>
+                              <h5 class="modal-title " style="font-weight: bold" id="exampleModalLongTitle" th:text="|Cita ${p.tipoCita.nombre}|"></h5>
 
                               <div class="d-flex align-items-center">
                                 <i class="bi bi-geo-alt-fill"></i> &nbsp
-                                <p style="font-family: Nunito" class="ml-3 mb-0" th:text="${p.doctor.sede.nombre}"></p>
+                                <p class="ml-3 mb-0" th:text="${p.doctor.sede.nombre}"></p>
                               </div>
                             </div>
-                            <div class="modal-body">
 
-                              <div class="d-flex align-items-center">
-                                <div class="col-lg-8">
-                                  <table>
-                                    <tr>
-                                      <td>
-                                        <p  style="font-weight: bold; font-family: Nunito" class="ml-3 mb-0" >Doctor: </p>
-                                      </td>
-                                      <td>
-                                        <p style="font-family: Nunito" class="ml-3 mb-0"  th:text="|${p.doctor.usuario.nombres} ${p.doctor.usuario.apellidos}|"></p>
-                                      </td>
-
-                                    </tr>
-                                  </table>
-
-                                </div>
-                                <div class="col-lg-4">
-                                  <a  type="button" class="btn btn-outline-warning"  th:href="@{'/paciente/perfilDoctor?iddoc='+${p.doctor.iddoctor}}"  ><i class="bi bi-eye-fill"></i></a>
-                                </div>
-
-
-                              </div>
-
-
-                            </div>
                             <div class="d-inline-block w-auto mx-auto">
-                              <div class="card bg-light d-flex align-items-center">
-                                <h2 th:text="${#temporals.format(p.fecha,'dd-MM-yyyy') }"></h2>
-                                <div class="card-body">
-                                  <div class="row">
-                                    <div class="col">
-                                      <div style="font-family: Nunito" class="p-3">Duración</div>
-                                      <div style="font-family: Nunito" class="p-3"><p th:text="|${p.duracion} Hora|"></p> </div>
+                              <div class="modal-body d-flex align-items-center">
+                                <div style="width: 400px">
+                                  <div class="d-flex align-items-center">
+                                    <div class="col-lg-8">
+                                      <table>
+                                        <tr>
+                                          <td><p  style="font-weight: bold" class="ml-3 mb-0" >Doctor: </p></td>
+                                          <td><p  class="ml-3 mb-0"  th:text="|${p.doctor.usuario.nombres} ${p.doctor.usuario.apellidos}|"></p></td>
+                                        </tr>
+                                      </table>
                                     </div>
-                                    <div class="col">
-                                      <div class="p-3">
-                                        Inicio:
+                                    <div class="col-lg-4">
+                                      <a  type="button" class="btn btn-outline-warning"  th:href="@{'/paciente/perfilDoctor?iddoc='+${p.doctor.iddoctor}}" ><i class="bi bi-eye-fill"></i></a>
+                                    </div>
+                                  </div>
+                                  <br>
+                                  <h2 th:text="${#temporals.format(p.fecha,'dd-MM-yyyy') }"></h2>
+                                  <div class="">
+                                    <div class="row">
+                                      <div class="col">
+                                        <div class="p-1">Hora Inicio:</div>
                                       </div>
-                                      <div class="p-3">
-                                        <p th:text="${p.horainicio}"></p>
+                                      <div class="col">
+                                        <div class="p-1"><p th:text="${p.horainicio}"></p></div>
                                       </div>
                                     </div>
-                                    <div class="col">
-                                      <div class="p-3">
-                                        Fin:
+                                    <div class="row">
+                                      <div class="col">
+                                        <div class="p-1">Duración:</div>
                                       </div>
-                                      <div class="p-3">
-                                        <p th:text="${p.horafinal}"></p>
+                                      <div class="col">
+                                        <div class="p-1"><p th:text="|${p.duracion} Hora|"></p></div>
                                       </div>
                                     </div>
                                   </div>
@@ -326,7 +311,7 @@
                           </div>
                         </div>
                       </div>
-
+                      <!-- End Modal ! -->
 
                     </td>
                   </tr>

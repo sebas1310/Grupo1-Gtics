@@ -731,6 +731,21 @@ public class PacienteController {
         return "redirect:/paciente/perfil";
     }
 
+    @PostMapping(value="/eliminaralergia")
+    @Transactional
+    public String eliminarAlergia(@RequestParam("alergia") String alergia, @RequestParam("idpaciente2") Integer id, RedirectAttributes redirectAttributes) {
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        Paciente paciente = pacienteRepository.pacXuser(usuario.getIdusuario());
+        // Obtener el primer carácter de la cadena "alergia"
+        Integer idx = Integer.parseInt(alergia.substring(0, 1));
+        System.out.println(idx);
+        System.out.println(id);
+
+        pacienteRepository.borrarAlergia(idx, id);
+        redirectAttributes.addFlashAttribute("msg2","Alergia borrada correctamente");
+        return "redirect:/paciente/perfil"; // Ruta a la que se redirigirá después de eliminar la alergia
+    }
+
     @PostMapping(value = "/changepassword")
     @Transactional
     public String changePassword(@RequestParam("contrasena") String contrasena, @RequestParam("newpassword") String newpassword, @RequestParam("renewpassword") String renewpassword, RedirectAttributes redirectAttributes){

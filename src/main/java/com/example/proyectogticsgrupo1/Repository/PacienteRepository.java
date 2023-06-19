@@ -24,6 +24,12 @@ public interface PacienteRepository extends JpaRepository<Paciente, Integer> {
     @Query(nativeQuery = true, value = "UPDATE paciente SET alergias = ?1 WHERE idpaciente = ?2")
     void modificarAlergia(String alergias, Integer idpaciente);
 
+    @Modifying
+    @Query(nativeQuery = true, value = "UPDATE paciente \n" +
+            "SET alergias = TRIM(BOTH ',' FROM CONCAT_WS(',', SUBSTRING_INDEX(alergias, ',', ?1 - 1), SUBSTRING_INDEX(alergias, ',', -((LENGTH(alergias) - LENGTH(REPLACE(alergias, ',', '')))) + ?1 - 1)))\n" +
+            "WHERE idpaciente = ?2 ")
+    void borrarAlergia(int idx, Integer idpaciente);
+
 
 
     @Query(value = "SELECT p FROM Paciente p JOIN p.usuario u WHERE u.tipodeusuario.idtipodeusuario = 4")
