@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -478,24 +479,26 @@ public class PacienteController {
         return "paciente/mensajes";
     }
     @GetMapping(value = "/cuestionarios")
-    public String cuestionarios(Model model){
+    public String cuestionarios(@RequestParam(value = "mensaje_url", required = false) String mensaje_url,Model model){
         Usuario usuario = (Usuario) session.getAttribute("usuario");
 
         int id_user = usuario.getIdusuario();
         int id_tipo_user = usuario.getTipodeusuario().getIdtipodeusuario();
 
-        System.out.println(id_user);
-        System.out.println(id_tipo_user);
+//        System.out.println(id_user);
+//        System.out.println(id_tipo_user);
+
+        System.out.println("llega a lista cuestionarios");
 
 
 
         Paciente paciente = pacienteRepository.pacXuser(usuario.getIdusuario());
 
-        System.out.println(paciente);
+//        System.out.println(paciente);
 
         List<Cita> listaCitas = citaRepository.citasxUsuario(paciente.getIdpaciente());
 
-        System.out.println(listaCitas);
+//        System.out.println(listaCitas);
 
 
 //        List<ModeloPorCita> listaModelosxCita = modeloJsonRepository.consultarModelo(cita_unica.getIdcita());
@@ -504,9 +507,9 @@ public class PacienteController {
         int id_cita = 0;
 
         for(Cita cita_unica: listaCitas){
-            System.out.println(cita_unica);
+//            System.out.println(cita_unica);
             Integer id_modelo = modeloJsonRepository.consultarModelo(cita_unica.getIdcita());
-            System.out.println(id_modelo);
+//            System.out.println(id_modelo);
             if (id_modelo != null){
                 id_cita = cita_unica.getIdcita();
                 ModeloJsonEntity modelo_cuestionario_2 = modeloJsonRepository.listaCuestionarios(id_modelo);
@@ -526,28 +529,21 @@ public class PacienteController {
 
         model.addAttribute("pacientelog",paciente);
 
-        return "paciente/cuestionariosPaciente";
 
-
-
-
-
-
-
-
-
-//        List<DatosJsonEntity> listadatos = datosJsonRepository.findAll();
-//        List<DatosJsonEntity> misCuestionarios = new ArrayList<>();
-//
-//        for(DatosJsonEntity d : listadatos){
-//            if(d.getCita().getPaciente().getIdpaciente()==paciente.getIdpaciente() && d.getCita().getFecha().isAfter(LocalDate.now())){
-//                misCuestionarios.add(d);
-//            }
+//        String mensaje = (String) model.getAttribute("msg");
+//        if (mensaje != null) {
+//            model.addAttribute("mensaje", mensaje);
 //        }
-//
-//
-//        model.addAttribute("cuestionarios",misCuestionarios);
-//        model.addAttribute("pacientelog",paciente);
+
+
+        String mensaje_2 = mensaje_url;
+        if (mensaje_2 == "completado") {
+            System.out.println(mensaje_2);
+            model.addAttribute("mensaje", "Cuestionario Completado");
+        }
+
+
+        return "paciente/cuestionariosPaciente";
     }
     @Autowired
     private  ModeloJsonRepository modeloJsonRepository;
@@ -580,107 +576,49 @@ public class PacienteController {
         }
     }
 
-    @ResponseBody
+//    @ResponseBody
     @PostMapping(value = "/llenarCuestionario")
-    public String llenarCuestionario(Model model, @RequestParam("valores") List<String> valores){
+    @Transactional
+    public String llenarCuestionario(RedirectAttributes redirectAttributes,@RequestParam("valores") List<String> valores){
 
         Usuario usuario = (Usuario) session.getAttribute("usuario");
         System.out.println("llega al repo de llenar");
-        System.out.println(valores);
-
-
+//        System.out.println(valores);
         int id_usuario = usuario.getIdusuario();
-
-
-
         String primerValor_id = valores.get(0);
-
-
         String segValor_id = valores.get(1);
-
-        System.out.println(primerValor_id);
-
+//        System.out.println(primerValor_id);
         valores.remove(0);
-
         valores.remove(0);
-
-        System.out.println(valores);
-
+//        System.out.println(valores);
         int primerValorInt_id = Integer.parseInt(String.valueOf(primerValor_id));
-
-
         int primerValorInt_id_cita = Integer.parseInt(String.valueOf(segValor_id));
-
-
-
         ModeloJsonEntity EncontrarModelo = modeloJsonRepository.buscarModeloEdit(primerValorInt_id);
-
-
         String nbr_plantilla = EncontrarModelo.getNombrePlantilla();
         int id_especialidad = EncontrarModelo.getEspecialidad().getIdespecialidad();
         int id_tipo_usuario = EncontrarModelo.getTipodeusuario().getIdtipodeusuario();
         Byte flg_formulario = EncontrarModelo.getFormulario();
         Byte flg_cuestionario = EncontrarModelo.getCuestionario();
-
-//        if(EncontrarModelo.getCuestionario() ==null){
-
-
         Byte flg_informe = EncontrarModelo.getInforme();
 
-        System.out.println("nbr_plantilla="+nbr_plantilla);
-        System.out.println("id_especialidad="+id_especialidad);
-        System.out.println("id_tipo_usuario="+id_tipo_usuario);
-        System.out.println("flg_formulario="+flg_formulario);
-        System.out.println("flg_cuestionario="+flg_cuestionario);
-        System.out.println("flg_informe="+flg_informe);
+//        System.out.println("nbr_plantilla="+nbr_plantilla);
+//        System.out.println("id_especialidad="+id_especialidad);
+//        System.out.println("id_tipo_usuario="+id_tipo_usuario);
+//        System.out.println("flg_formulario="+flg_formulario);
+//        System.out.println("flg_cuestionario="+flg_cuestionario);
+//        System.out.println("flg_informe="+flg_informe);
 
-
-
-
-//        List<String> listaElementosDatosInputs = new ArrayList<>();
-//
-//        listaElementosDatosInputs.add("respuesta1");
-//        listaElementosDatosInputs.add("respuesta2");
-//        listaElementosDatosInputs.add("respuesta3");
-//        listaElementosDatosInputs.add("respuesta4");
-//        listaElementosDatosInputs.add("respuesta5");
 
         for (String elemento : valores) {
             tablaDatosLlenosRepository.agregarDatosDeInput(elemento);
-            System.out.println(elemento);
+//            System.out.println(elemento);
         }
 
 
-
-
-
         int id_registro_nuevo = 0;
-
-
         id_registro_nuevo = datosJsonRepository.contarRegistros();
-
-//        tablaDatosLlenosRepository.LlenadoDePlantilla(id_registro_nuevo,nombreplantilla,id_usuario,id_modelo,id_cita);
-
-//
-//
-//
-//        tablaDatosLlenosRepository.LlenadoDePlantilla(id_registro_nuevo,nombreplantilla,4,1,1);
-
-
-
         tablaDatosLlenosRepository.LlenadoDePlantilla(primerValorInt_id,nbr_plantilla,id_usuario,primerValorInt_id,primerValorInt_id_cita);
-        //para llenar en datos_json
 
-
-
-        //////////////////////////////////////
-//        modeloRepository.crearnuevaPlantilla(nombreplantilla,mod_datos,id_rol,id_especialidad,nro_inputs);
-//        if (employee.getEmployeeId() == 0) {
-//            attr.addFlashAttribute("msg", "Plantilla creada exitosamente");
-//        } else {
-//            attr.addFlashAttribute("msg", "Empleado actualizado exitosamente");
-//        }
-//        attr.addFlashAttribute("msg", "Plantilla creada exitosamente");
 
         //BORRADO DE LA TABLA DE TITULOS.
 
@@ -688,21 +626,9 @@ public class PacienteController {
         tablaDatosLlenosRepository.BorrarDatosDeInput();
 
 
-//        return "redirect:/superadmin/nuevoform";
-
-
-
-
-
-
-
-
-
-//        modeloJsonRepository.borrarPlantillas(id_de_modelo_plantilla);
-
-
-
+        redirectAttributes.addFlashAttribute("msg", "Cuestionario Completado");
         return "redirect:/paciente/cuestionarios";
+//        return "hola";
 
     }
 
