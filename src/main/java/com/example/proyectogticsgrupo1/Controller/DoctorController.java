@@ -172,9 +172,11 @@ public class DoctorController {
                     //si coincide ,entonces vemos si su hora final es menor a la hora actual
                     if(LocalTime.now().isAfter(cita.getHorainicio()) && LocalTime.now().isBefore(cita.getHorafinal())) {
                         citaRepository.actualizarEstadoCita(4,cita.getIdcita());
+                        pacienteRepository.actualizarEstadoPaciente(5,paciente1.getIdpaciente());
                     }else if(LocalTime.now().isAfter(cita.getHorafinal())){
                         //si es verdad , entonces se actualiza el estado de la cita a "finalizada"
                         citaRepository.actualizarEstadoCita(6,cita.getIdcita());
+                        pacienteRepository.actualizarEstadoPaciente(3,paciente1.getIdpaciente());
                     }
                 }
             }
@@ -218,14 +220,16 @@ public class DoctorController {
     @GetMapping("/pacientesatendidos/verhistorial/vercita")
     public String verCitaDoctor(Model model, @RequestParam("id") int idCita,
                                 @RequestParam(name="idReceta", defaultValue = "0") int idReceta,
-                                @RequestParam(name="msg6", defaultValue = "") String msg){
-                                //@RequestParam(name="estadocita", defaultValue = "0") String idestadocita){
+                                @RequestParam(name="msg6", defaultValue = "") String msg,
+                                @RequestParam(name="numcita" ,defaultValue = "0") int numcita){
+
 
             Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
             Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
             model.addAttribute("doctor",doctor);
             Cita cita = citaRepository.buscarCitaPorId(idCita);
             model.addAttribute("cita", cita);
+            model.addAttribute("numcita",numcita);
             model.addAttribute("estadoscita",estadoCitaRepository.findAll());
             model.addAttribute("recetamedica", recetaMedicaRepository.buscarRecetaMedicaPorCita(idCita, idReceta));
             model.addAttribute("msg6",msg);
@@ -818,7 +822,13 @@ public class DoctorController {
             Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
             model.addAttribute("doctor",doctor);
             if (idUsuarioDestino != 0) {
-                model.addAttribute("usuariodestino", usuarioRepository.usuarioDestino(idUsuarioDestino));
+                Usuario usuarioDestino = usuarioRepository.usuarioDestino(idUsuarioDestino);
+                model.addAttribute("usuariodestino", usuarioDestino);
+                Optional<Paciente> optPaciente = Optional.ofNullable(pacienteRepository.buscarPacientePorIdUsuario(idUsuarioDestino));
+                if(optPaciente.isPresent()){
+                    Integer idpaciente = optPaciente.get().getIdpaciente();
+                    model.addAttribute("idpaciente",idpaciente);
+                }
                 return "doctor/enviarMensajeDoc";
             }
             return "doctor/enviarMensajeDoc";

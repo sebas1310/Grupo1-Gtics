@@ -22,13 +22,13 @@ num_men = '2', id=${session.usuario.idusuario})">
 
 <main id="main" class="main">
     <div class="pagetitle" th:each=" citas,indice : ${cita}">
-        <h1>Cita<span th:text="${indice.index+1}" > </span></h1>
+        <h1>Cita<span th:text="${numcita}" > </span></h1>
         <nav>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a th:href="@{'/doctor/pacientesatendidos'+ '?id=' + ${doctor.iddoctor}}">Pacientes Atendidos</a></li>
             <li class="breadcrumb-item"><a th:href="@{'/doctor/pacientesatendidos/verhistorial'+ '?id=' + ${cita.getPaciente().getIdpaciente()}}">Historial Clínico</a></li>
             <!-- th:href="@{'/doctor/pacientesatendidos/verhistorial'+ '?id=' + ${cita.idcita}}" -->
-            <li class="breadcrumb-item active">Cita 1</li>
+            <li class="breadcrumb-item active">Cita <span th:text="${numcita}" > </span></li>
         </ol>
         </nav>
     </div>
