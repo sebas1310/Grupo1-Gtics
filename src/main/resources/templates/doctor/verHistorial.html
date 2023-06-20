@@ -61,9 +61,13 @@ num_men = '2', id=${session.usuario.idusuario})">
                                 <div class="card recent-sales overflow-auto">
                                     <div class="card-body">
                                         <h5 class="card-title">Examen Medico</h5>
-                                        <h6>¿ El paciente requiere realizar unos exámenes? Entonces, envie un mensaje al paciente</h6>
-                                        <a th:href="@{'/doctor/mensajeria/enviarmensaje'+ '?idp=' + ${paciente.getUsuario().getIdusuario()}}" class="btn btn-primary">Enviar Mensaje</a>
-                                    </div>
+                                        <h6>Si el paciente requiere realizar unos exámenes, entonces envíele un mensaje</h6>
+                                        <br>
+                                        <div class="d-grid gap-1 d-md-flex justify-content-md-center" >
+                                            <a th:href="@{'/doctor/mensajeria/enviarmensaje'+ '?idp=' + ${paciente.getUsuario().getIdusuario()}}" class="btn btn-primary">Mensaje</a>
+
+                                        </div>
+                                       </div>
                                 </div>
                             </div>
                             <!-- Historial de citas -->

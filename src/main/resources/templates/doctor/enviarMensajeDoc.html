@@ -45,11 +45,10 @@
                                 <h5 class="card-title">Enviar Mensaje</h5>
                                 <form method="post" th:action="@{'/doctor/mensajeria/enviarmensaje/envio'}" class="row g-3">
 
-                                    <!--<input th:value="${usuario.getIdUsuario()}" name="idUsuario" type="hidden" > -->
 
                                     <div th:if="${usuariodestino != null}" class="col-md-6">
                                         <label for="email" class="form-label">Correo Destino</label>
-                                        <input th:if="${usuariodestino != null}" th:value="${usuariodestino.getCorreo()}" type="text" name="correodestino" class="form-control" id="email" >
+                                        <input th:if="${usuariodestino != null}" th:value="${usuariodestino.getCorreo()}" type="text" name="correodestino" class="form-control" id="email" readonly >
                                     </div>
 
                                     <div th:unless="${usuariodestino != null}" class="col-md-6">
@@ -71,9 +70,11 @@
 
                                     <input type="hidden" th:value="${session.usuario.idusuario}" name="idusuarioorigen" class="form-control" >
 
-                                    <div class="d-grid gap d-md-flex justify-content-md-center">
+                                    <div class="d-grid gap-2 d-md-flex justify-content-md-center">
                                         <button class="btn btn-primary" type="submit">Enviar</button>
+                                        <a th:href="@{'/doctor/pacientesatendidos/verhistorial'+ '?id=' + ${usuariodestino.idusuario}}" class="btn btn-danger">Regresar</a>
                                     </div>
+
                                 </form>
                             </div>
                         </div>

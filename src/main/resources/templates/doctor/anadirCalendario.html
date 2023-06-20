@@ -81,8 +81,8 @@
           <div class="card">
             <div class="card-body">
               <h5 class="card-title">Calendario Tabla</h5>
-              <table class="table table-borderless datatable">
-                <thead>
+              <table class="table">
+                <thead class="table-light">
                 <tr>
                   <th style="text-align: center" scope="col">Fecha</th>
                   <th style="text-align: center" scope="col">Hora</th>
@@ -115,7 +115,7 @@
               </li>
 
               <li class="nav-item">
-                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-edit">Refrigerio</button>
+                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-settings">Refrigerio</button>
               </li>
 
               <li class="nav-item">
@@ -131,14 +131,8 @@
                 <!-- General Form Elements -->
                 <form method="post" th:action="@{'/doctor/calendario/guardar1'}"  onsubmit="return validateForm1()" >
                   <br>
-                  <input th:value="${doctor.getIddoctor()}" name="iddoctor" type="hidden" />
 
-                  <div class="mb-3 row">
-                    <label  class="col-sm-3 col-form-label"  style="font-weight: bold">Opción</label>
-                    <div class="col-sm-9">
-                      <p class="form-control" ><span>Disponibilidad</span>
-                    </div>
-                  </div>
+                  <input th:value="${doctor.getIddoctor()}" name="iddoctor" type="hidden" />
 
                   <div class="mb-3 row">
                     <label for="fecha" class="col-sm-3 col-form-label"  style="font-weight: bold">Fecha</label>
@@ -154,7 +148,7 @@
                     <div class="col-sm-9">
                       <select class="form-select" name="horainicio" id="horainicio" required>
                         <option value="vacio" selected disabled>Seleccione Hora</option>
-                        <option th:each="h: ${horasDisponiblesInicio}" th:text="${h}" th:value="${h}"> </option>
+                        <option th:each="h: ${horasDisponiblesInicioTurnoM}" th:text="${h}" th:value="${h}"> </option>
                       </select>
                     </div>
                   </div>
@@ -164,7 +158,7 @@
                     <div class="col-sm-9">
                       <select class="form-select" name="horafinal" id="horafinal" required>
                         <option value="vacio" selected disabled>Seleccione Hora</option>
-                        <option th:each="h: ${horasDisponiblesFinal}" th:text="${h}" th:value="${h}"> </option>
+                        <option th:each="h: ${horasDisponiblesFinalTurnoM}" th:text="${h}" th:value="${h}"> </option>
                       </select>
                     </div>
                   </div>
@@ -178,18 +172,16 @@
                   <div class="text-center">
                     <div class="text-center">
                       <button type="submit" class="btn btn-primary">Agregar</button>
-                      <button type="button" class="btn btn-danger"><a style="color: white" th:href="@{'/doctor/calendario/agregar'}" >Cancelar</a></button>
                       <div id="error-message1" class="alert alert-danger mt-3" style="display: none;"></div>
                     </div>
                   </div>
                 </form>
               </div>
 
-              <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
+              <div class="tab-pane fade pt-3" id="profile-settings">
 
                 <!-- General Form Elements -->
                 <form method="post" th:action="@{'/doctor/calendario/guardar2'}"  onsubmit="return validateForm2()" >
-                  <br>
                   <input th:value="${doctor.getIddoctor()}" name="iddoctor" type="hidden" />
 
                   <div class="mb-3 row">
@@ -206,7 +198,7 @@
                     <div class="col-sm-9">
                       <select class="form-select" name="horainicio" id="horainicio2" required>
                         <option value="vacio" selected disabled>Seleccione Hora</option>
-                        <option th:each="h: ${horasDisponiblesInicio}" th:text="${h}" th:value="${h}"> </option>
+                        <option th:each="h: ${horasDisponiblesInicioRefrigerio}" th:text="${h}" th:value="${h}"> </option>
                       </select>
                     </div>
                   </div>
@@ -216,7 +208,7 @@
                     <div class="col-sm-9">
                       <select class="form-select" name="horafinal" id="horafinal2" required>
                         <option value="vacio" selected disabled>Seleccione Hora</option>
-                        <option th:each="h: ${horasDisponiblesFinal}" th:text="${h}" th:value="${h}"> </option>
+                        <option th:each="h: ${horasDisponiblesFinalRefrigerio}" th:text="${h}" th:value="${h}"> </option>
                       </select>
                     </div>
                   </div>
@@ -229,16 +221,59 @@
 
                   <div class="text-center">
                     <div class="text-center">
-                      <button type="submit" class="btn btn-primary">Añadir Opcion</button>
-                      <button type="button" class="btn btn-danger"><a style="color: white" th:href="@{'/doctor/calendario'}" >Cancelar</a></button>
+                      <button type="submit" class="btn btn-primary">Agregar</button>
                       <div id="error-message2" class="alert alert-danger mt-3" style="display: none;"></div>
                     </div>
                   </div>
                 </form>
-
+              </div>
 
               <div class="tab-pane fade pt-3" id="profile-change-password">
+                <form method="post" th:action="@{'/doctor/calendario/guardar1'}"  onsubmit="return validateForm1()" >
+                  <input th:value="${doctor.getIddoctor()}" name="iddoctor" type="hidden" />
 
+                  <div class="mb-3 row">
+                    <label for="fecha" class="col-sm-3 col-form-label"  style="font-weight: bold">Fecha</label>
+                    <div class="col-sm-9">
+                      <input type="text" name="fecha" class="form-control" id="fecha3"
+                             th:value="${fecha}" readonly>
+                      <!--  th:value="${#temporals.format(fecha, 'dd-MM-yyyy')}" -->
+                    </div>
+                  </div>
+
+                  <div class="row mb-3">
+                    <label for="horainicio" class="col-sm-3 col-form-label" style="font-weight: bold">Hora Inicio</label>
+                    <div class="col-sm-9">
+                      <select class="form-select" name="horainicio" id="horainicio3" required>
+                        <option value="vacio" selected disabled>Seleccione Hora</option>
+                        <option th:each="h: ${horasDisponiblesInicioTurnoT}" th:text="${h}" th:value="${h}"> </option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="row mb-3">
+                    <label for="horafinal" class="col-sm-3 col-form-label"style="font-weight: bold">Hora Final</label>
+                    <div class="col-sm-9">
+                      <select class="form-select" name="horafinal" id="horafinal3" required>
+                        <option value="vacio" selected disabled>Seleccione Hora</option>
+                        <option th:each="h: ${horasDisponiblesFinalTurnoT}" th:text="${h}" th:value="${h}"> </option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="mb-3 row">
+                    <label for="descripcion" class="col-sm-3 col-form-label"  style="font-weight: bold">Descripcion</label>
+                    <div class="col-sm-9">
+                      <input type="text" name="descripcion" class="form-control" id="descripcion3">
+                    </div>
+                  </div>
+
+                  <div class="text-center">
+                    <div class="text-center">
+                      <button type="submit" class="btn btn-primary">Agregar</button>
+                     <div id="error-message3" class="alert alert-danger mt-3" style="display: none;"></div>
+                    </div>
+                  </div>
+                </form>
               </div>
 
             </div><!-- End Bordered Tabs -->
@@ -360,7 +395,10 @@
       }
     </script>
   </section>
-<!--
+  <div class="text-center">
+    <button type="button" class="btn btn-danger"><a style="color: white" th:href="@{'/doctor/calendario'}" >Cancelar</a></button>
+  </div>
+  <!--
   <section class="section">
     <div class="row">
       <div class="col-sm-4">

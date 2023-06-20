@@ -62,7 +62,7 @@
                             </div>
 
                             <div class="text-center">
-                                <button type="submit" class="btn btn-primary">Continuar</button>
+                                <button type="submit" class="btn btn-primary">Añadir Horario</button>
                                 <div id="error-message2" class="alert alert-danger mt-3" style="display: none;"></div>
                             </div>
                         </form>
@@ -73,11 +73,18 @@
             <script>
                 function validateForm2() {
                     var fecha = document.getElementById("fecha").value.trim();
-
+                    var fechaActual = new Date();
+                    var fechaSeleccionada = new Date(fecha);
                     if (fecha === "" ) {
                         var errorMessage = document.getElementById("error-message2");
                         errorMessage.style.display = "block";
                         errorMessage.innerHTML = "Complete el campo requerido";
+                        return false;
+                    }
+                    else if (fechaSeleccionada < fechaActual) {
+                        var errorMessage = document.getElementById("error-message2");
+                        errorMessage.style.display = "block";
+                        errorMessage.innerHTML = "Seleccione una fecha mayor que el dia actual";
                         return false;
                     }
                     return true;
@@ -93,14 +100,20 @@
                             <th style="text-align: center" scope="col">Fecha</th>
                             <th style="text-align: center" scope="col">Hora</th>
                             <th style="text-align: center" scope="col">Descripcion</th>
+                            <th style="text-align: center" scope="col">Eliminar</th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr th:each=" evento :${eventos}">
                             <td style="text-align: center" th:text="${#temporals.format(evento.getFecha(), 'dd-MM-yyyy')}"></td>
                             <td style="text-align: center" th:text="|${evento.getHorainicio()} - ${evento.getHorafinal()}|"></td>
-                            <td style="text-align: center" th:text="${evento.getTipohoracalendariodoctor().getNombre()}"></td>
-                            </tr>
+                            <td style="text-align: center" >
+                                <span th:if="${evento.getTipohoracalendariodoctor().getIdtipohoracalendariodoctor() == 1}" class="badge bg-success"> Disponible</span>
+                                <span th:if="${evento.getTipohoracalendariodoctor().getIdtipohoracalendariodoctor() == 2}"class="badge bg-info">Refrigerio</span>
+                                <span th:if="${evento.getTipohoracalendariodoctor().getIdtipohoracalendariodoctor() == 3}"class="badge bg-warningg">Cita</span></td>
+                            <td style="text-align: center" ><a class="bi bi-trash" th:href="@{'/doctor/calendario/borrarevento' + '?idEvento=' + ${evento.getIdeventocalendariodoctor()}}"></a></td>
+                        </tr>
+
 
                         </tbody>
                     </table>
