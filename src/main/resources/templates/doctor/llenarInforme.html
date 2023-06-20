@@ -43,12 +43,16 @@ num_men = '2', id=${session.usuario.idusuario})">
                             <div th:id="idinformelleno">
                             <input th:id="idinformemodelo" th:value="${idinforme}" class="form-control" type="hidden">
                             <div class="row mb-3" th:each="pregunta:${listapreguntasinforme}">
-                                <label for="nombre" class="col-md-4 col-lg-3 col-form-label" th:text="${pregunta}"></label>
+                                <label for="nombre" class="col-md-12 col-form-label" th:text="${pregunta}"></label>
                                 <input name="nombre" type="text" class="form-control" id="nombre">
                             </div>
                                 <input th:value="${doctor.usuario.getIdusuario()}" class="form-control" type="hidden">
                                 <input th:value="${cita.getIdcita()}" class="form-control" type="hidden">
+                                </div>
+
+                            <div class="text-center">
                                 <a th:href="@{'/doctor/pacientesatendidos/verhistorial/vercita'+ '?id=' + ${cita.getIdcita()}+'&msg6=Informe_Llenado'}" type="submit" class="btn btn-primary" onclick="ModificarForm()">Guardar</a>
+                                <a th:href="@{'/doctor/pacientesatendidos/verhistorial/vercita'+ '?id=' + ${cita.getIdcita()}}" class="btn btn-danger">Regresar</a>
                             </div>
                             <!--<button type="submit" class="btn btn-primary" onclick="ModificarForm()">Guardar</button> -->
                             <!--<button class="btn btn-primary" type="submit">Guardar</button> -->

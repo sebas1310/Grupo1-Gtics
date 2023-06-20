@@ -40,18 +40,21 @@
                 <div class="card recent-sales overflow-auto">
                     <div class="card-body">
                         <h5 class="card-title" th:text="|Cuestionario Médico - ${doctor.getEspecialidad().getNombre()}|">Cuestionario Médico</h5>
+
                         <div th:id="contenedorcuestionario">
+                            <div>
                             <input th:id="idcuestionariomodelo" th:value="${idcuestionario}" class="form-control"
                                    type="hidden">
-                            <div class="row mb-3" th:each="pregunta,indice:${listapreguntascuestionario}">
+                            <div  th:each="pregunta,indice:${listapreguntascuestionario}">
                                 <label class="card-title" th:text="|Pregunta ${indice.index+1}:|"></label>
-                                <label for="nombre0" class="col-md-4 col-lg-3 col-form-label"
+                                <label for="nombre0" class="col-md-12 col-form-label"
                                        th:text="${pregunta}"></label>
-                                <input name="nombre" type="text" class="form-control" id="nombre0" th:value="${null}"
+                                <input name="nombre" type="hidden" class="form-control" id="nombre0" th:value="${null}"
                                        disabled>
                             </div>
                             <!--<input th:value="${paciente.getUsuario().getIdusuario()}" class="form-control"
                                    type="hidden">-->
+                                <br>
 
                             <form method="post" th:action="@{'/doctor/cuestionario_envio'}" class="row g-3">
 
@@ -61,11 +64,14 @@
                                        type="hidden">
                                 <!--                            <button type="submit" class="btn btn-primary" onclick="ModificarForm()" >Enviar a Paciente</button>-->
 
-
-                                <button class="btn btn-primary" type="submit">Enviar a Paciente</button>
+                                <div class="text-center">
+                                    <button class="btn btn-primary" type="submit">Enviar a Paciente</button>
+                                    <button type="button" class="btn btn-danger"><a style="color: white" th:href="@{'/doctor/pacientesatendidos'}" >Cancelar</a></button>
+                                </div>
 
 
                             </form>
+                                </div>
 
                             <!--                            <a type="button" class="bi bi-eye-fill"  th:href="@{'/doctor/pacientesatendidos/verhistorial'+ '?id=' + ${paciente.getIDPaciente()}}"></a>-->
                         </div>

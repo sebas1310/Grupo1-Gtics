@@ -41,9 +41,13 @@ nombre = |${doctor.usuario.nombres} ${doctor.usuario.apellidos} (${doctor.usuari
                         <div class="card-body">
                             <h5 class="card-title">Informes Médico</h5>
                             <div>
-                                <div class="row mb-3" th:each="informe:${informesmedicos}">
-                                    <h5 class="card-title" th:text="${informe.getNombreInforme()}"></h5>
-                                    <a th:href="@{'/doctor/pacientesatendidos/verhistorial/vercita/verinformesmedico/llenarinforme'+ '?idinforme=' + ${informe.getID()}+'&id=' + ${cita.getIdcita()}}" class="btn btn-primary">Llenar Informe</a>
+                            <div>
+                                <div  th:each="informe:${informesmedicos}">
+                                    <label class="card-title" th:text="${informe.getNombreInforme()}"></label>
+                                        <a class="btn btn-primary" th:href="@{'/doctor/pacientesatendidos/verhistorial/vercita/verinformesmedico/llenarinforme'+ '?idinforme=' + ${informe.getID()}+'&id=' + ${cita.getIdcita()}}"
+                                           ><i class="bi bi-journal-text me-1"></i> Llenar Informe</a>
+
+                                    </div>
                                 </div>
                             </div>
                             <!--<button type="submit" class="btn btn-primary" onclick="ModificarForm()">Guardar</button> -->
