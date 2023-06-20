@@ -46,8 +46,11 @@ public class LoginController {
 //    superadmin/pages-login_spa
 
     @PostMapping(value = "/registro")
+    @Transactional
     public String registro(@ModelAttribute("usuario") @Valid Usuario usuario, BindingResult bindingResult,
-                           RedirectAttributes attr, Model model, @RequestParam("direccion") String direccion){
+                           RedirectAttributes attr, Model model, @RequestParam("direccion") String direccion,
+                           @RequestParam("contrasena") String contrasena,
+                           @RequestParam("newpassword") String newpassword){
         if(bindingResult.hasErrors()){
             attr.addFlashAttribute("msg", "presenta errores");
 

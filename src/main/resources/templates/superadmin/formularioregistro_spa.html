@@ -24,6 +24,7 @@
     <link th:href="@{'/assets/vendor/quill/quill.bubble.css'}" rel="stylesheet">
     <link th:href="@{'/assets/vendor/remixicon/remixicon.css'}" rel="stylesheet">
     <link th:href="@{'/assets/vendor/simple-datatables/style.css'}" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <!-- Template Main CSS File -->
     <link th:href="@{'/assets/css/style.css'}" rel="stylesheet">
@@ -104,11 +105,10 @@
                                     </div>
 
                                     <div class="row mb-3">
-                                        <label class="col-sm-12 col-form-label">Edad</label>
+                                        <label class="col-sm-12 col-form-label">Fecha de Nacimiento</label>
                                         <div class="col-sm-12">
-                                            <input type="number" class="form-control" th:field="*{edad}" th:classappend="${#fields.hasErrors('edad')?'is-invalid':''}" required>
-                                            <div class="invalid-feedback" th:if="${#fields.hasErrors('edad')}"
-                                                 th:errors="*{edad}" ></div>
+                                            <input type="date" class="form-control" max="1923-04-30" required>
+                                            <span class="validity"></span>
                                         </div>
                                     </div>
 
@@ -149,17 +149,17 @@
                                     </div>
 
                                     <div class="row mb-3">
-                                        <label for="newPassword" class="col-sm-12 col-form-label">Contraseña</label>
+                                        <label  class="col-sm-12 col-form-label">Contraseña</label>
                                         <div class="col-sm-12">
-                                            <input type="password" name="contrasena" class="form-control" id="newPassword" required>
+                                            <input type="password"  class="form-control" id="input1" required>
                                             <div class="invalid-feedback">Por favor ingrese una contraseña</div>
                                         </div>
                                     </div>
 
                                     <div class="row mb-3">
-                                        <label for="renewPassword" class=" col-sm-12 col-form-label">Confirmar Contraseña</label>
+                                        <label  class=" col-sm-12 col-form-label">Confirmar Contraseña</label>
                                         <div class="col-sm-12">
-                                            <input type="password" name="renewPassword" class="form-control" id="renewPassword" required>
+                                            <input type="password"  class="form-control" id="input2" required>
                                             <div class="invalid-feedback">Ingrese de nuevo su contraseña</div>
                                         </div>
                                     </div>
@@ -173,7 +173,7 @@
                                     <br>
 
                                     <div class="text-center">
-                                        <button type="submit" class="btn btn-primary" style="color: white">Guardar Cambios</button>
+                                        <button type="submit" class="btn btn-primary disabled" id="button_submit" style="color: white">Guardar Cambios</button>
                                     </div>
                                     <div class="text-center mt-3">
                                         <a th:href="@{/}">Ir al inicio de sesión</a>
@@ -197,28 +197,9 @@
 
 <a class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
-<!-- Vendor JS Files -->
-
-<!-- Funcion para validar -->
-<script>
-    function validateForm() {
-        let newPassword = document.getElementById("newPassword").value;
-        let renewPassword = document.getElementById("renewPassword").value;
-        if (newPassword === "" || renewPassword === "") {
-            let errorMessage = document.getElementById("error-message");
-            errorMessage.style.display = "block";
-            errorMessage.innerHTML = "Debe completar todos los campos";
-            return false;
-        }
-        if (renewPassword != newPassword ) {
-            let errorMessage = document.getElementById("error-message");
-            errorMessage.style.display = "block";
-            errorMessage.innerHTML = "No coinciden las contraseñas";
-            return false;
-        }
-        return true;
-    }
+<script type="application/javascript" th:src="@{'validar.js'}">
 </script>
+
 <script th:src="@{'/assets/vendor/apexcharts/apexcharts.min.js'}"></script>
 <script th:src="@{'/assets/vendor/bootstrap/js/bootstrap.bundle.min.js'}"></script>
 <script th:src="@{'/assets/vendor/chart.js/chart.min.js'}"></script>

@@ -77,6 +77,8 @@ public class SuperadminController {
     @Autowired
     private HttpSession session;
 
+    @Autowired
+    UxUiRepository uxUiRepository;
     @GetMapping(value = "/email")
     public String emailpr() {
         String user = "alexia_jg@outlook.es";
@@ -108,6 +110,7 @@ public class SuperadminController {
     }
     @GetMapping("/listaform")
     public String listaFormularios(Model model){
+
         Usuario superadmin = (Usuario) session.getAttribute("usuario");
         model.addAttribute("usuario", superadmin);
 
@@ -437,6 +440,8 @@ public class SuperadminController {
 
     @GetMapping("/nuevoform")
     public String nuevoFormulario(Model model){
+
+
         Usuario superadmin = (Usuario) session.getAttribute("usuario");
         model.addAttribute("usuario", superadmin);
 

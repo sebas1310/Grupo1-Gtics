@@ -1,11 +1,15 @@
 package com.example.proyectogticsgrupo1.Entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Arrays;
 
 @Entity
-@Table(name = "ux/ui")
+@Getter
+@Setter
+@Table(name = "uxui")
 public class UxUiEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -15,13 +19,13 @@ public class UxUiEntity {
     @Column(name = "modo",nullable = false)
     private String modo;
     @Basic
-    @Column(name = "codigocolor",nullable = false)
+    @Column(name = "codigocolor",nullable = false) //header
     private String codigocolor;
     @Basic
     @Column(name = "notificaciones",nullable = false)
     private int notificaciones;
     @Basic
-    @Column(name = "imagendefondo")
+    @Column(name = "imagendefondo") //background
     private String imagendefondo;
     @ManyToOne
     @JoinColumn(name = "idsede")
