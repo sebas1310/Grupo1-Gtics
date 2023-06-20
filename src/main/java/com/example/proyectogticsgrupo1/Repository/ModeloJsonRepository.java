@@ -60,8 +60,8 @@ public interface ModeloJsonRepository extends JpaRepository<ModeloJsonEntity,Int
 
     @Modifying
     @Transactional
-    @Query(value="insert into modelo_x_cita(idmodelo_fk,idcita_fk) values (?1,?2)",nativeQuery = true)
-    void agregarCuestionarioAPaciente(int id_modelo,int id_cita);
+    @Query(value="insert into modelo_x_cita(idmodelo_fk,idpaciente_fk,idcita_fk) values (?1,?2,?3)",nativeQuery = true)
+    void agregarCuestionarioAPaciente(int id_modelo,int id_paciente, int id_cita);
 
 
     @Query(value = "SELECT idmodelo_fk from modelo_x_cita where idcita_fk = ?1", nativeQuery = true)

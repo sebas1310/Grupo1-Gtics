@@ -26,7 +26,7 @@
 <main id="main" class="main">
 
     <div class="pagetitle">
-        <h1>Historial de Citas</h1>
+        <h1>Cuestionarios</h1>
         <nav>
 
         </nav>
@@ -37,6 +37,7 @@
         <div class="row">
             <!-- Left side columns -->
             <div class="col-lg">
+                <div th:if="${mensaje!=null}" th:text="${mensaje}" class="alert alert-success" role="alert"></div>
                 <div class="row">
                     <!-- Pacientes Atendidos -->
                     <div class="col-12" >
@@ -58,7 +59,7 @@
                                         <td class="text-center" th:text="${idx.index}"> </td>
                                         <td class="text-center" th:text="${c.nombrePlantilla}"></td>
                                         <td class="text-center" th:text="${c.especialidad.nombre}"></td>
-                                        <td class="text-center"> <a type="button" class="bi bi-journal-text" th:href="@{'/paciente/formCuestionario?idcuest='+${c.getId()}}"></a></td>
+                                        <td class="text-center"> <a type="button" class="bi bi-journal-text" th:href="@{'/paciente/formCuestionario?idcuest='+${c.getId()}+'&idcita='+${id_cita}}"></a></td>
                                     </tr>
                                     </tbody>
                                 </table>

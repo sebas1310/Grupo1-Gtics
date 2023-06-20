@@ -71,6 +71,9 @@ public class DoctorController {
     @Autowired
     NotificacionesRepository notificacionesRepository;
 
+    @Autowired
+    EstadoCitaRepository estadoCitaRepository;
+
     public DoctorController(CitaRepository citaRepository, DoctorRepository doctorRepository, PacienteRepository pacienteRepository,
                             RecetaMedicaRepository recetaMedicaRepository, ReporteCitaRepository reporteCitaRepository,UsuarioRepository usuarioRepository,
                             BitacoraDeDiagnosticoRepository bitacoraDeDiagnosticoRepository,
@@ -167,7 +170,9 @@ public class DoctorController {
                 //primero se verifica si la fecha de la cita coincide con el dia actual
                 if(cita.getFecha().equals(LocalDate.now())){
                     //si coincide ,entonces vemos si su hora final es menor a la hora actual
-                    if(LocalTime.now().isAfter(cita.getHorafinal())){
+                    if(LocalTime.now().isAfter(cita.getHorainicio()) && LocalTime.now().isBefore(cita.getHorafinal())) {
+                        citaRepository.actualizarEstadoCita(4,cita.getIdcita());
+                    }else if(LocalTime.now().isAfter(cita.getHorafinal())){
                         //si es verdad , entonces se actualiza el estado de la cita a "finalizada"
                         citaRepository.actualizarEstadoCita(6,cita.getIdcita());
                     }
@@ -212,16 +217,40 @@ public class DoctorController {
 
     @GetMapping("/pacientesatendidos/verhistorial/vercita")
     public String verCitaDoctor(Model model, @RequestParam("id") int idCita,
-                                @RequestParam(name="idReceta", defaultValue = "0") int idReceta) {
+                                @RequestParam(name="idReceta", defaultValue = "0") int idReceta,
+                                @RequestParam(name="msg6", defaultValue = "") String msg){
+                                //@RequestParam(name="estadocita", defaultValue = "0") String idestadocita){
 
             Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
             Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
             model.addAttribute("doctor",doctor);
             Cita cita = citaRepository.buscarCitaPorId(idCita);
             model.addAttribute("cita", cita);
+            model.addAttribute("estadoscita",estadoCitaRepository.findAll());
             model.addAttribute("recetamedica", recetaMedicaRepository.buscarRecetaMedicaPorCita(idCita, idReceta));
+            model.addAttribute("msg6",msg);
         return "doctor/verCita";
     }
+
+    @PostMapping("/pacientesatendidos/verhistorial/vercita/actualizarestadocita")
+    @Transactional
+    public String actualizarEstadoCita(@RequestParam("id") int idCita,
+                                @RequestParam("idestadocita") int idestadocita,
+                                RedirectAttributes redirectAttributes){
+
+
+        citaRepository.actualizarEstadoCita(idestadocita,idCita);
+        if(idestadocita==3){
+            redirectAttributes.addFlashAttribute("msg7","Cita en Espera");
+        }else if(idestadocita== 4){
+            redirectAttributes.addFlashAttribute("msg7","Cita en Consulta");
+        }else if(idestadocita== 6){
+            redirectAttributes.addFlashAttribute("msg7","Cita Finalizada");
+        }
+        redirectAttributes.addAttribute("id",idCita);
+        return "redirect:/doctor/pacientesatendidos/verhistorial/vercita";
+    }
+
 
     @GetMapping("/pacientesatendidos/verhistorial/vercita/verinformesmedico")
     public String verInformeMedico(Model model, @RequestParam("id") int idCita) {
@@ -494,6 +523,12 @@ public class DoctorController {
     @Transactional
     @PostMapping("/pacientesatendidos/verhistorial/vercita/boletaMedicamentoDelivery/confirmar")
     public String confirmarEnvio(@RequestParam("id") int idcita,RedirectAttributes redirectAttributes){
+        //void notificarCreacion(Integer iddestino,String contenido, String titulo);
+        Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
+        Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
+        String titulo = "Delivery de Medicamentos Confirmado";
+        String contenido = "Estimado Doctor(a): "+doctor.getUsuario().getApellidos()+" se confirmó el delivery de medicamentos para el paciente asignado";
+        notificacionesRepository.notificarCreacion(usuarioDoctor.getIdusuario(),contenido,titulo);
         redirectAttributes.addFlashAttribute("msg5","Delivery Confirmado");
         redirectAttributes.addAttribute("id",idcita);
         return "redirect:/doctor/pacientesatendidos/verhistorial/vercita";
@@ -510,15 +545,26 @@ public class DoctorController {
         return "doctor/calendarioDoc";
     }
 
+    @GetMapping("/calendario/opciones")
+    public String calendarioDoctorAgregar(Model model,
+                                          @RequestParam("fecha") LocalDate fecha){
+        Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
+        Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
+        List<Eventocalendariodoctor> eventos = eventocalendariodoctorRepository.calendarioPorDoctorPorFecha(doctor.getIddoctor(), fecha);
+        model.addAttribute("eventos", eventos);
+        model.addAttribute("doctor",doctor);
+        model.addAttribute("fecha", fecha);
+        return "doctor/anadirCalendario";
+    }
+
     @PostMapping(value = "/calendario/agregar")
     public String agregarEvento(Model model, @RequestParam ("iddoctor") int iddoctor,
                                 @RequestParam("fecha") LocalDate fecha){
 
         Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
         Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
-        //DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        // Convertir la cadena de caracteres a LocalDate
-        //LocalDate date = LocalDate.parse(dateString, formatter);
+        List<Eventocalendariodoctor> eventos = eventocalendariodoctorRepository.calendarioPorDoctorPorFecha(doctor.getIddoctor(), fecha);
+        model.addAttribute("eventos", eventos);
         model.addAttribute("horasDisponiblesInicio", eventocalendariodoctorRepository.horasDeCitasInicio(iddoctor, fecha));
         model.addAttribute("horasDisponiblesFinal", eventocalendariodoctorRepository.horasDeCitasFinal(iddoctor, fecha));
         model.addAttribute("doctor", doctor);
@@ -529,12 +575,31 @@ public class DoctorController {
     }
 
     @Transactional
-    @PostMapping(value = "/calendario/guardar")
-    public String agregarEvento(Model model, @RequestParam("fecha") LocalDate fecha ,
+    @PostMapping(value = "/calendario/guardar1")
+    public String agregarEvento1(Model model, @RequestParam("fecha") LocalDate fecha ,
                                 @RequestParam("horainicio") LocalTime horainicio ,
                                 @RequestParam("horafinal") LocalTime horafinal ,
                                 @RequestParam("descripcion") String descripcion,
-                                @RequestParam("idtipocalendario") Integer idtipocalendario,
+                                @RequestParam("iddoctor") Integer iddoctor,
+                                RedirectAttributes redirectAttributes){
+
+
+        Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
+        Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
+        model.addAttribute("doctor", doctor);
+        Integer duracion = 1;
+        Integer idtipocalendario = 1;
+        eventocalendariodoctorRepository.agregarEventoDoctor(idtipocalendario,fecha, horainicio, horafinal, duracion, descripcion,iddoctor);
+        redirectAttributes.addFlashAttribute("msg","Evento Añadido");
+        return "redirect:/doctor/calendario/opciones";
+    }
+
+    @Transactional
+    @PostMapping(value = "/calendario/guardar2")
+    public String agregarEvento2(Model model, @RequestParam("fecha") LocalDate fecha ,
+                                @RequestParam("horainicio") LocalTime horainicio ,
+                                @RequestParam("horafinal") LocalTime horafinal ,
+                                @RequestParam("descripcion") String descripcion,
                                 @RequestParam("iddoctor") Integer iddoctor,
                                 RedirectAttributes redirectAttributes){
 
@@ -542,6 +607,7 @@ public class DoctorController {
         Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
         Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
         Integer duracion = 1;
+        Integer idtipocalendario = 2;
         eventocalendariodoctorRepository.agregarEventoDoctor(idtipocalendario,fecha, horainicio, horafinal, duracion, descripcion,iddoctor);
         redirectAttributes.addFlashAttribute("msg","Evento Añadido");
         return "redirect:/doctor/calendario";
@@ -698,15 +764,6 @@ public class DoctorController {
     }
 
 
-    @GetMapping("/perfil")
-    public String perfilDoctor(Model model) {
-
-        Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
-        Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
-        model.addAttribute("doctor",doctor);
-        return "doctor/perfilDoc";
-    }
-
     @GetMapping("/mensajeria")
     public String mensajeriaDoctor(Model model) {
 
@@ -791,10 +848,11 @@ public class DoctorController {
     @Transactional
     //ResponseEntity<Void>
     public String cuestionarioEnvio(RedirectAttributes redirectAttributes,
-                            @RequestParam("id_cita") int id_cita , @RequestParam("id_modelo") int id_modelo) {
+                            @RequestParam("id_cita") int id_cita , @RequestParam("id_modelo") int id_modelo,
+                                    @RequestParam("id_usuario_paciente") int id_paciente) {
 
         System.out.println("llega al repo de envio");
-        modeloJsonRepository.agregarCuestionarioAPaciente(id_modelo,id_cita);
+        modeloJsonRepository.agregarCuestionarioAPaciente(id_modelo,id_paciente,id_cita);
 
 
 
@@ -810,6 +868,15 @@ public class DoctorController {
         model.addAttribute("doctor",doctor);
         model.addAttribute("notificaciones",notificacionesRepository.notificacionesPorUsuario(doctor.getUsuario().getIdusuario()));
         return "doctor/notificacionesDoc";
+    }
+
+    @GetMapping("/perfil")
+    public String perfilDoctor(Model model) {
+
+        Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
+        Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
+        model.addAttribute("doctor",doctor);
+        return "doctor/perfilDoc";
     }
 
     @PostMapping("/perfil/editarperfil")

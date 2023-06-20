@@ -48,7 +48,7 @@ num_men = '2', id=${session.usuario.idusuario})">
                             </div>
                                 <input th:value="${doctor.usuario.getIdusuario()}" class="form-control" type="hidden">
                                 <input th:value="${cita.getIdcita()}" class="form-control" type="hidden">
-                                <button type="submit" class="btn btn-primary" onclick="ModificarForm()">Guardar</button>
+                                <a th:href="@{'/doctor/pacientesatendidos/verhistorial/vercita'+ '?id=' + ${cita.getIdcita()}+'&msg6=Informe_Llenado'}" type="submit" class="btn btn-primary" onclick="ModificarForm()">Guardar</a>
                             </div>
                             <!--<button type="submit" class="btn btn-primary" onclick="ModificarForm()">Guardar</button> -->
                             <!--<button class="btn btn-primary" type="submit">Guardar</button> -->

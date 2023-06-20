@@ -36,18 +36,18 @@
         <div class="card info-card sales-card">
 
 
-          <div class="card-body ">
-            <h5 class="card-title" th:text="${sede.nombre}"></h5>
+          <div class="card-body " >
+            <h5 style="font-family: Nunito" class="card-title" th:text="${sede.nombre}"></h5>
 
             <div class="d-flex align-items-center">
               <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                 <img th:src="@{/assets/img/fotoclinica.jpg}" class="rounded-circle" style="width: 85px; height: 85px"  >
               </div>
-              <div class="ps-4">
+              <div style="font-family: Nunito" class="ps-4">
                 <h6>Dirección:</h6>
                 <span th:text="${sede.direccion}" class="text-muted small pt-2 ps-1"></span>
 
-                <div class="align-right">
+                <div style="font-family: Nunito" class="align-right">
                   <a th:href="@{'/paciente/agendarCita_Esp?idsede='+ ${sede.idsede}}" class="btn btn-outline-warning " >Seleccionar</a>
                 </div>
 

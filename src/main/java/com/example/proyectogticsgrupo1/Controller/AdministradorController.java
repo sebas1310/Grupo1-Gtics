@@ -78,6 +78,9 @@ public class AdministradorController {
     @Autowired
     private DatosJsonRepository datosJsonRepository;
 
+    @Autowired
+    private BoletaDoctorRepository boletaDoctorRepository;
+
 
     @GetMapping(value = "/email")
     public String emailpr() {
@@ -96,6 +99,7 @@ public class AdministradorController {
         List<Doctor> listaDoctoresSD = doctorRepository.listarDoctorporSedeDashboard(usuarioAdministrador.getSede().getIdsede());
         model.addAttribute("listaUsuarioDoctores", listaDoctoresSD);
         model.addAttribute("usuario", usuarioAdministrador);
+        model.addAttribute("listaIngresosEgresos", boletaDoctorRepository.IngresosEgresosDTO());
         return "administrador/dashboard";
     }
 
@@ -345,6 +349,7 @@ public class AdministradorController {
     public String dashboardfinanz(Model model) {
         Usuario usuarioAdministrador = (Usuario) session.getAttribute("usuario");
         model.addAttribute("usuario", usuarioAdministrador);
+        model.addAttribute("listaIngresosEgresos", boletaDoctorRepository.IngresosEgresosDTO());
         return "administrador/dashboardfinanzas";
 
     }

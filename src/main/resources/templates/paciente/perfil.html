@@ -65,7 +65,7 @@
               </li>
 
               <li class="nav-item">
-                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-settings">Añadir Alergias</button>
+                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-settings">Editar Alergias</button>
               </li>
 
               <li class="nav-item">
@@ -114,32 +114,32 @@
                   <div class="col-lg-9 col-md-8"th:text="${pacientelog.usuario.correo}"></div>
                 </div>
 
-                <div class="card">
-                  <div class="card-body">
+                <div class="">
+                  <div class="">
                     <h5 class="card-title">Alergias</h5>
                     <div th:if="${msg1!=null}" th:text="${msg1}" class="alert alert-danger" role="alert"></div>
                     <div th:if="${msg2!=null}" th:text="${msg2}" class="alert alert-success" role="alert"></div>
                     <!-- Default List group -->
 
-                    <table class="table">
-                      <thead>
-                      <tr>
-                      </tr>
+                    <div style="padding-left: 5%">
+                      <table class="table">
+                        <thead>
+                        <tr>
+                        </tr>
 
-                      </thead>
-                      <tbody>
-                      <tr>
-                        <td>
-                          <ul class="list-group">
-                            <li th:each="alergia : ${#strings.arraySplit(pacientelog.alergias, ',')}" th:text="${#strings.capitalize(alergia)}"></li>
-                          </ul>
-                        </td>
-                      </tr>
-                      </tbody>
-                    </table>
+                        </thead>
+                        <tbody>
+                        <tr>
+                          <td>
+                            <ul class="list-group">
+                              <li th:each="alergia : ${#strings.arraySplit(pacientelog.alergias, ',')}" th:text="${#strings.capitalize(alergia)}"></li>
+                            </ul>
+                          </td>
+                        </tr>
+                        </tbody>
+                      </table>
 
-
-
+                    </div>
                   </div>
                 </div>
               </div>
@@ -164,35 +164,66 @@
                       </form>
                     </div>
                   </div>
+                <form method="post" th:action="@{'/paciente/editarperfil'}" onsubmit="return validarFormulario()">
+                  <input th:value="${pacientelog.usuario.idusuario}" name="idusuario" type="hidden">
+                  <!-- <input th:value="${pacientelog.idpaciente}" name="idpaciente" type="hidden"> -->
 
                   <div class="row mb-3">
-
-                        <div class="row mb-3">
-                          <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Ingresar Poliza de Seguro</label>
-                          <div class="col-md-8 col-lg-9">
-
-                            <div class="row mb-3">
-                              <div for="po" class="col-md-8 col-lg-9">
-                                <input type="text" class="form-control" id="nuevoSeguro" value="5467892036" required>
-                              </div>
-                            </div>
-
-                          </div>
-                        </div>
+                    <label for="direccion" class="col-md-4 col-lg-3 col-form-label">Dirección:</label>
+                    <div class="col-md-8 col-lg-9">
+                      <input name="direccion" type="text" class="form-control" id="direccion" th:value="${pacientelog.getDireccion()}" required>
+                    </div>
                   </div>
+
+                  <div class="row mb-3">
+                    <label for="telefono" class="col-md-4 col-lg-3 col-form-label">Celular:</label>
+                    <div class="col-md-8 col-lg-9">
+                      <input name="telefono" type="text" class="form-control" id="telefono" th:value="${pacientelog.getUsuario().getCelular()}" required>
+                    </div>
+                  </div>
+
                   <div class="text-center">
-                    <button type="submit" class="btn btn-outline-warning"  >Guardar Cambios</button>
+                    <button type="submit" class="btn btn-outline-warning">Guardar Cambios</button>
                   </div>
+                  <div id="error-message4" class="alert alert-danger mt-3" style="display: none;"></div>
+                </form>
 
+                <script>
+                  function validarFormulario() {
+                    // Obtener los valores de los campos
+                    var direccion = document.getElementById("direccion").value.trim();
+                    var telefono = document.getElementById("telefono").value.trim();
+
+                    // Validar que los campos no estén vacíos
+                    if (direccion === "" || telefono === "") {
+                      document.getElementById("error-message4").innerHTML = "Por favor, complete todos los campos.";
+                      document.getElementById("error-message4").style.display = "block";
+                      return false; // Evitar el envío del formulario
+                    }
+
+                    // Validar el formato del número de celular
+                    var celularRegex = /^9\d{8}$/;
+                    if (!celularRegex.test(telefono)) {
+                      document.getElementById("error-message4").innerHTML = "El número de celular debe tener 9 dígitos y empezar con 9.";
+                      document.getElementById("error-message4").style.display = "block";
+                      return false; // Evitar el envío del formulario
+                    }
+
+                    return true; // Permitir el envío del formulario
+                  }
+                </script>
 
               </div>
 
-              <div class="tab-pane fade pt-3" id="profile-settings">
+              <!--Alergias-->
+
+              <div class="tab-pane fade pt-3 profile-edit" id="profile-settings">
+                <h5 class="card-title">Alergias</h5>
 
                 <!-- Alergias Form -->
                 <form method="post" th:action="@{/paciente/alergia}" onsubmit="return validateForm2()">
                   <div class="row mb-3">
-                    <label for="alergias" class="col-md-4 col-lg-3 col-form-label">Ingresar alergia</label>
+                    <label for="alergias" class="col-md-4 col-lg-3 col-form-label"  >Ingresar alergia</label>
                     <div class="col-md-8 col-lg-9">
                       <div class="row mb-3">
                         <div class="col-md-8 col-lg-9">
@@ -208,9 +239,7 @@
                   <div id="error-message2" class="alert alert-danger mt-3" style="display: none;"></div>
 
                 </form><!-- End settings Form -->
-
                 <!-- Funcion para validar -->
-
                 <script>
                   function validateForm2() {
                     var alergias = document.getElementById("alergias").value.trim();
@@ -237,17 +266,62 @@
                   }
                 </script>
                 <!-- FIN Funcion para validar -->
+                <!--Eliminar Alergias-->
+                <br>
+                <hr>
+                <div >
 
+                  <label for="alergias" class="col-md-4 col-lg-3  label">Eliminar Alergias</label>
+
+                  <div class=" col-lg-9" style="padding-left: 25%">
+                    <div class="row mb-3">
+                      <div class=" col-lg-9">
+                        <form method="post" th:action="@{/paciente/eliminaralergia}">
+                          <table class="table">
+                            <tbody>
+                            <tr th:each="alergia, index : ${#strings.arraySplit(pacientelog.alergias, ',')}">
+                              <td class="align-middle">
+                                 <li th:text="${#strings.capitalize(alergia)}"></li>
+                                <input type="hidden" name="alergia" id="alergia" th:attr="data-index=${index.index + 1}" />
+                              </td>
+
+                              <td class="align-middle">
+                                <input type="hidden" name="idpaciente2" th:value="${pacientelog.idpaciente}" />
+                                <button type="submit" class="btn btn-warning"  onclick="setAlergiaIndex(event)">Eliminar</button>
+                              </td>
+                            </tr>
+                            </tbody>
+                          </table>
+                        </form>
+
+                      </div>
+                    </div>
+                  </div>
+
+
+                  <div class="col-md-8 col-lg-9" style="width: 80%; padding-left: 5%">
+
+
+                    <script>
+                      function setAlergiaIndex(event) {
+                        var index = event.target.parentNode.parentNode.querySelector('[name="alergia"]').getAttribute('data-index');
+                        document.getElementById("alergia").value = index;
+                      }
+                    </script>
+
+                  </div>
+                </div>
+                <!--FIN Eliminar Alergias-->
               </div>
 
-              <div class="tab-pane fade pt-3" id="profile-change-password">
+              <div class="tab-pane fade pt-3 profile-edit " id="profile-change-password">
 
 
                 <!-- Cambio de contraseña Form -->
                 <form method="post" th:action="@{'/paciente/changepassword'}" onsubmit="return validateForm()">
 
                   <div class="row mb-3">
-                    <label for="contrasena" class="col-md-4 col-lg-3 col-form-label">Contraseña Actual</label>
+                    <label for="contrasena" class="col-md-4 col-lg-3  label">Contraseña Actual</label>
                     <div class="col-md-8 col-lg-9">
                       <input name="contrasena" type="password" class="form-control" id="contrasena">
 
@@ -255,14 +329,14 @@
                   </div>
 
                   <div class="row mb-3">
-                    <label for="newPassword" class="col-md-4 col-lg-3 col-form-label" >Nueva Contraseña</label>
+                    <label for="newPassword" class="col-md-4 col-lg-3  label" >Nueva Contraseña</label>
                     <div class="col-md-8 col-lg-9">
                       <input name="newpassword" type="password" class="form-control" id="newPassword">
                     </div>
                   </div>
 
                   <div class="row mb-3">
-                    <label for="renewPassword" class="col-md-4 col-lg-3 col-form-label">Confirmar nueva contraseña</label>
+                    <label for="renewPassword" class="col-md-4 col-lg-3  label">Confirmar Nueva Contraseña</label>
                     <div class="col-md-8 col-lg-9">
                       <input name="renewpassword" type="password" class="form-control" id="renewPassword">
                     </div>

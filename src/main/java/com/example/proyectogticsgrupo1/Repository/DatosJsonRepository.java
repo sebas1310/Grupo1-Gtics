@@ -11,4 +11,12 @@ public interface DatosJsonRepository extends JpaRepository<DatosJsonEntity,Integ
     @Query(value = "SELECT * from datos_json where idusuario = ?1", nativeQuery = true)
     List<DatosJsonEntity> listarparapaciente(int idpaciente);
 
+
+    @Query(value = "SELECT count(*) from datos_json", nativeQuery = true)
+    Integer contarRegistros();
+
+
+
+
+
 }

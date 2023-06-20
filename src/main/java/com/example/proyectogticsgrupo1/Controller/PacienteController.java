@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,6 +28,8 @@ public class PacienteController {
     final EspecialidadRepository especialidadRepository;
     final DoctorRepository doctorRepository;
     final UserRepository userRepository;
+
+    final UsuarioRepository usuarioRepository;
     final NotificacionesRepository notificacionesRepository;
 
     final RecetaMedicaRepository recetaMedicaRepository;
@@ -49,7 +52,7 @@ public class PacienteController {
 
 
     public PacienteController(SedeRepository sedeRepository, EspecialidadRepository especialidadRepository, DoctorRepository doctorRepository, UserRepository userRepository, NotificacionesRepository notificacionesRepository, RecetaMedicaRepository recetaMedicaRepository, PacienteRepository pacienteRepository, TipoCitaRepository tipoCitaRepository, CitaRepository citaRepository, EventocalendariodoctorRepository eventocalendariodoctorRepository,
-                              BoletaDoctorRepository boletaDoctorRepository, SeguroRepository seguroRepository, BoletaPacienteRepository boletaPacienteRepository) {
+                              BoletaDoctorRepository boletaDoctorRepository, SeguroRepository seguroRepository, BoletaPacienteRepository boletaPacienteRepository, UsuarioRepository usuarioRepository) {
         this.sedeRepository = sedeRepository;
         this.especialidadRepository = especialidadRepository;
         this.doctorRepository = doctorRepository;
@@ -63,10 +66,15 @@ public class PacienteController {
         this.boletaDoctorRepository = boletaDoctorRepository;
         this.seguroRepository = seguroRepository;
         this.boletaPacienteRepository = boletaPacienteRepository;
+        this.usuarioRepository = usuarioRepository;
     }
 
     @Autowired
     private HttpSession session;
+
+
+    @Autowired
+    DatosJsonRepository datosJsonRepository;
 
 
     @GetMapping(value = "/")
@@ -126,8 +134,8 @@ public class PacienteController {
         if(optionalDoctor.isPresent()){
             Doctor doctor=optionalDoctor.get();
             model.addAttribute("doc",doctor);
-            if(eventocalendariodoctorRepository.getDiasProx(doctor.getIddoctor()).size()>=1){
-                model.addAttribute("dias",eventocalendariodoctorRepository.getDiasProx(doctor.getIddoctor()));
+            if(eventocalendariodoctorRepository.getDiasProx1(doctor.getIddoctor()).size()>=1){
+                model.addAttribute("dias1",eventocalendariodoctorRepository.getDiasProx1(doctor.getIddoctor()));
             }
             return "paciente/perfilDoctor";
         }
@@ -225,15 +233,24 @@ public class PacienteController {
 
         }
 
-        if(semana_equivocada == 1){
+        if(semana_equivocada == 1) {
 
-            redirectAttributes.addFlashAttribute("msg2","Solo puede reservar citas para un mes como máximo");
+            redirectAttributes.addFlashAttribute("msg2", "Solo puede reservar citas para un mes como máximo");
 
         }
 
-        model.addAttribute("inicioSemana", eventocalendariodoctorRepository.obtnerInicioSemana(semana));
-        System.out.println(eventocalendariodoctorRepository.obtnerInicioSemana(semana).getClass());
-        model.addAttribute("finSemana", eventocalendariodoctorRepository.obtenerFinSemana(semana));
+
+        model.addAttribute("diainicioSemana", eventocalendariodoctorRepository.obtnerdiaInicioSemana(semana));
+        model.addAttribute("mesinicioSemana", eventocalendariodoctorRepository.obtnermesInicioSemana(semana));
+        model.addAttribute("anoinicioSemana", eventocalendariodoctorRepository.obtneranoInicioSemana(semana));
+
+
+        model.addAttribute("diafinSemana", eventocalendariodoctorRepository.obtenerdiaFinSemana(semana));
+        model.addAttribute("mesfinSemana", eventocalendariodoctorRepository.obtnermesFinSemana(semana));
+        model.addAttribute("anofinSemana", eventocalendariodoctorRepository.obtneranoFinSemana(semana));
+
+
+
         model.addAttribute("nombre_mes", eventocalendariodoctorRepository.obtenerMes(semana));
 
         model.addAttribute("pacientelog",paciente);
@@ -265,9 +282,6 @@ public class PacienteController {
         //Optional<Paciente> optionalPaciente = pacienteRepository.findById(1);
         //Paciente paciente =  optionalPaciente.get();
         model.addAttribute("pacientelog",paciente);
-
-
-
         return "paciente/perfil";
     }
 
@@ -289,7 +303,6 @@ public class PacienteController {
         model.addAttribute("caldisponible", eventocalendariodoctorRepository.calendarioDoctorDisponible());
         return "paciente/agendarCita";
     }
-
     @GetMapping(value = "/agendarCita_Sede")
     public String agendarCita2(Model model){
 
@@ -301,7 +314,6 @@ public class PacienteController {
 
         return "paciente/agendarCita_Sede";
     }
-
     @GetMapping(value = "/agendarCita_Esp")
     public String agendarCita3(Model model, @RequestParam("idsede") Integer id){
 
@@ -346,7 +358,6 @@ public class PacienteController {
         model.addAttribute("pacientelog",paciente);
         return "paciente/historialCitas";
     }
-
     @GetMapping(value = "/calendarioSemanal")
     public String calendarioMensual(Model model, @RequestParam("semana") Integer semana, RedirectAttributes redirectAttributes){
 
@@ -356,14 +367,8 @@ public class PacienteController {
         //Optional<Paciente> optionalPaciente = pacienteRepository.findById(1);
         //Paciente paciente =  optionalPaciente.get();
         int id=paciente.getIdpaciente();
-
-
-
         int semana_equivocada = 0;
-
-
         if (semana == 0){
-
             model.addAttribute("prev_semana", semana);
             model.addAttribute("lunes",citaRepository.listaLunes(id));
             model.addAttribute("martes",citaRepository.listaMartes(id));
@@ -432,8 +437,16 @@ public class PacienteController {
 
         }
 
-        model.addAttribute("inicioSemana", citaRepository.obtnerInicioSemanacita(semana));
-        model.addAttribute("finSemana", citaRepository.obtenerFinSemanacita(semana));
+        model.addAttribute("diainicioSemana", citaRepository.obtnerdiaInicioSemana(semana));
+        model.addAttribute("mesinicioSemana", citaRepository.obtnermesInicioSemana(semana));
+        model.addAttribute("anoinicioSemana", citaRepository.obtneranoInicioSemana(semana));
+
+
+        model.addAttribute("diafinSemana", citaRepository.obtenerdiaFinSemana(semana));
+        model.addAttribute("mesfinSemana", citaRepository.obtnermesFinSemana(semana));
+        model.addAttribute("anofinSemana", citaRepository.obtneranoFinSemana(semana));
+
+
         model.addAttribute("nombre_mes", citaRepository.obtenerMescita(semana));
 
 
@@ -442,7 +455,6 @@ public class PacienteController {
         return "paciente/calendarioSemanal";
 
     }
-
     @GetMapping(value = "/chat")
     public String chat(Model model) {
 
@@ -455,7 +467,6 @@ public class PacienteController {
 
         return "paciente/chat";
     }
-
     @GetMapping(value = "/mensajes")
     public String mensajes(Model model) {
         //Optional<Paciente> optionalPaciente = pacienteRepository.findById(1);
@@ -467,39 +478,40 @@ public class PacienteController {
 
         return "paciente/mensajes";
     }
-
-    @Autowired
-    private DatosJsonRepository datosJsonRepository;
-
     @GetMapping(value = "/cuestionarios")
-    public String cuestionarios(Model model){
+    public String cuestionarios(@RequestParam(value = "mensaje_url", required = false) String mensaje_url,Model model){
         Usuario usuario = (Usuario) session.getAttribute("usuario");
 
         int id_user = usuario.getIdusuario();
         int id_tipo_user = usuario.getTipodeusuario().getIdtipodeusuario();
 
-        System.out.println(id_user);
-        System.out.println(id_tipo_user);
+//        System.out.println(id_user);
+//        System.out.println(id_tipo_user);
+
+        System.out.println("llega a lista cuestionarios");
 
 
 
         Paciente paciente = pacienteRepository.pacXuser(usuario.getIdusuario());
 
-        System.out.println(paciente);
+//        System.out.println(paciente);
 
         List<Cita> listaCitas = citaRepository.citasxUsuario(paciente.getIdpaciente());
 
-        System.out.println(listaCitas);
+//        System.out.println(listaCitas);
 
 
 //        List<ModeloPorCita> listaModelosxCita = modeloJsonRepository.consultarModelo(cita_unica.getIdcita());
         List<ModeloJsonEntity> listamodelos = new ArrayList<>();
 
+        int id_cita = 0;
+
         for(Cita cita_unica: listaCitas){
-            System.out.println(cita_unica);
+//            System.out.println(cita_unica);
             Integer id_modelo = modeloJsonRepository.consultarModelo(cita_unica.getIdcita());
-            System.out.println(id_modelo);
+//            System.out.println(id_modelo);
             if (id_modelo != null){
+                id_cita = cita_unica.getIdcita();
                 ModeloJsonEntity modelo_cuestionario_2 = modeloJsonRepository.listaCuestionarios(id_modelo);
 
                 listamodelos.add(modelo_cuestionario_2);
@@ -510,50 +522,37 @@ public class PacienteController {
 
         }
 
+
+        model.addAttribute("id_cita",id_cita);
+
         model.addAttribute("list_cuestionario_2",listamodelos);
 
         model.addAttribute("pacientelog",paciente);
 
-        return "paciente/cuestionariosPaciente";
 
-
-
-
-
-
-
-
-
-//        List<DatosJsonEntity> listadatos = datosJsonRepository.findAll();
-//        List<DatosJsonEntity> misCuestionarios = new ArrayList<>();
-//
-//        for(DatosJsonEntity d : listadatos){
-//            if(d.getCita().getPaciente().getIdpaciente()==paciente.getIdpaciente() && d.getCita().getFecha().isAfter(LocalDate.now())){
-//                misCuestionarios.add(d);
-//            }
+//        String mensaje = (String) model.getAttribute("msg");
+//        if (mensaje != null) {
+//            model.addAttribute("mensaje", mensaje);
 //        }
-//
-//
-//        model.addAttribute("cuestionarios",misCuestionarios);
-//        model.addAttribute("pacientelog",paciente);
+
+
+        String mensaje_2 = mensaje_url;
+        if (mensaje_2 == "completado") {
+            System.out.println(mensaje_2);
+            model.addAttribute("mensaje", "Cuestionario Completado");
+        }
+
+
+        return "paciente/cuestionariosPaciente";
     }
-
-
     @Autowired
     private  ModeloJsonRepository modeloJsonRepository;
-
     @GetMapping(value = "/formCuestionario")
-    public String formCuestinario(@RequestParam("idcuest") String idstr,Model model){
+    public String formCuestinario(@RequestParam("idcuest") String idstr,@RequestParam("idcita") int idcita,Model model){
         Usuario usuario = (Usuario) session.getAttribute("usuario");
         Paciente paciente = pacienteRepository.pacXuser(usuario.getIdusuario());
 
-
 //        ModeloJsonEntity modelo_cuestionario_2 = modeloJsonRepository.listaCuestionarios(idcuest);
-
-
-
-
-
 
         try {
             Integer id = Integer.parseInt(idstr);
@@ -563,6 +562,7 @@ public class PacienteController {
 //                model.addAttribute("datos",datos);
                 model.addAttribute("pacientelog",paciente);
                 model.addAttribute("id_cuest",id);
+                model.addAttribute("idcita",idcita);
 //                int cuestionarioMedicoId = modeloJsonRepository.cuestionarioMedicoId(datos.getCita().getEspecialidad().getIdespecialidad());
                 model.addAttribute("listapreguntascuestionario",modeloJsonRepository.listarPreguntasxPlantilla(id));
                 return "paciente/formCuestionario";
@@ -576,84 +576,49 @@ public class PacienteController {
         }
     }
 
-
-
-    @ResponseBody
+//    @ResponseBody
     @PostMapping(value = "/llenarCuestionario")
-    public String llenarCuestionario(Model model, @RequestParam("valores") List<String> valores){
+    @Transactional
+    public String llenarCuestionario(RedirectAttributes redirectAttributes,@RequestParam("valores") List<String> valores){
+
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
         System.out.println("llega al repo de llenar");
-        System.out.println(valores);
-
-
+//        System.out.println(valores);
+        int id_usuario = usuario.getIdusuario();
         String primerValor_id = valores.get(0);
-
-        System.out.println(primerValor_id);
-
+        String segValor_id = valores.get(1);
+//        System.out.println(primerValor_id);
         valores.remove(0);
-
+        valores.remove(0);
+//        System.out.println(valores);
         int primerValorInt_id = Integer.parseInt(String.valueOf(primerValor_id));
-
-
-
+        int primerValorInt_id_cita = Integer.parseInt(String.valueOf(segValor_id));
         ModeloJsonEntity EncontrarModelo = modeloJsonRepository.buscarModeloEdit(primerValorInt_id);
-
-
         String nbr_plantilla = EncontrarModelo.getNombrePlantilla();
         int id_especialidad = EncontrarModelo.getEspecialidad().getIdespecialidad();
         int id_tipo_usuario = EncontrarModelo.getTipodeusuario().getIdtipodeusuario();
         Byte flg_formulario = EncontrarModelo.getFormulario();
         Byte flg_cuestionario = EncontrarModelo.getCuestionario();
-
-//        if(EncontrarModelo.getCuestionario() ==null){
-
-
         Byte flg_informe = EncontrarModelo.getInforme();
 
-        System.out.println("nbr_plantilla="+nbr_plantilla);
-        System.out.println("id_especialidad="+id_especialidad);
-        System.out.println("id_tipo_usuario="+id_tipo_usuario);
-        System.out.println("flg_formulario="+flg_formulario);
-        System.out.println("flg_cuestionario="+flg_cuestionario);
-        System.out.println("flg_informe="+flg_informe);
+//        System.out.println("nbr_plantilla="+nbr_plantilla);
+//        System.out.println("id_especialidad="+id_especialidad);
+//        System.out.println("id_tipo_usuario="+id_tipo_usuario);
+//        System.out.println("flg_formulario="+flg_formulario);
+//        System.out.println("flg_cuestionario="+flg_cuestionario);
+//        System.out.println("flg_informe="+flg_informe);
 
-
-
-
-//        List<String> listaElementosDatosInputs = new ArrayList<>();
-//
-//        listaElementosDatosInputs.add("respuesta1");
-//        listaElementosDatosInputs.add("respuesta2");
-//        listaElementosDatosInputs.add("respuesta3");
-//        listaElementosDatosInputs.add("respuesta4");
-//        listaElementosDatosInputs.add("respuesta5");
 
         for (String elemento : valores) {
             tablaDatosLlenosRepository.agregarDatosDeInput(elemento);
-            System.out.println(elemento);
+//            System.out.println(elemento);
         }
 
-//        tablaDatosLlenosRepository.LlenadoDePlantilla(id_registro_nuevo,nombreplantilla,id_usuario,id_modelo,id_cita);
 
-//
-//
-//
-//        tablaDatosLlenosRepository.LlenadoDePlantilla(id_registro_nuevo,nombreplantilla,4,1,1);
+        int id_registro_nuevo = 0;
+        id_registro_nuevo = datosJsonRepository.contarRegistros();
+        tablaDatosLlenosRepository.LlenadoDePlantilla(primerValorInt_id,nbr_plantilla,id_usuario,primerValorInt_id,primerValorInt_id_cita);
 
-
-
-//        tablaDatosLlenosRepository.LlenadoDePlantilla(id_registro_nuevo+4,nombreplantilla,4,12,1);
-        //para llenar en datos_json
-
-
-
-        //////////////////////////////////////
-//        modeloRepository.crearnuevaPlantilla(nombreplantilla,mod_datos,id_rol,id_especialidad,nro_inputs);
-//        if (employee.getEmployeeId() == 0) {
-//            attr.addFlashAttribute("msg", "Plantilla creada exitosamente");
-//        } else {
-//            attr.addFlashAttribute("msg", "Empleado actualizado exitosamente");
-//        }
-//        attr.addFlashAttribute("msg", "Plantilla creada exitosamente");
 
         //BORRADO DE LA TABLA DE TITULOS.
 
@@ -661,24 +626,11 @@ public class PacienteController {
         tablaDatosLlenosRepository.BorrarDatosDeInput();
 
 
-//        return "redirect:/superadmin/nuevoform";
-
-
-
-
-
-
-
-
-
-//        modeloJsonRepository.borrarPlantillas(id_de_modelo_plantilla);
-
-
-
-        return "hola";
+        redirectAttributes.addFlashAttribute("msg", "Cuestionario Completado");
+        return "redirect:/paciente/cuestionarios";
+//        return "hola";
 
     }
-
 
     @PostMapping(value = "/respuestas")
     public String respuestasCuestionarios(HttpServletRequest request,@RequestParam("idcuest") String idstr){
@@ -702,8 +654,6 @@ public class PacienteController {
         }
         return "paciente/pruebas";
     }
-
-
     @GetMapping(value ="/receta")
     public String receta(@RequestParam("idcita") String idstr, Model model){
         Usuario usuario = (Usuario) session.getAttribute("usuario");
@@ -727,9 +677,6 @@ public class PacienteController {
             return "redirect:/paciente/historialCitas";
         }
     }
-
-
-
     @GetMapping(value ="/boleta")
     public String boletas(@RequestParam("idcita") String idstr, Model model){
         Usuario usuario = (Usuario) session.getAttribute("usuario");
@@ -753,7 +700,6 @@ public class PacienteController {
         }
     }
 
-
     @GetMapping(value = "/notificaciones")
     public String notif(Model model) {
         //Optional<Paciente> optionalPaciente = pacienteRepository.findById(1);
@@ -765,7 +711,6 @@ public class PacienteController {
         model.addAttribute("pacientelog",paciente);
         return "paciente/notificaciones";
     }
-
     @PostMapping(value = "/alergia")
     @Transactional
     public String modAlergia(@RequestParam("alergias") String alergia, @RequestParam("idpaciente") Integer id, RedirectAttributes redirectAttributes){
@@ -786,7 +731,20 @@ public class PacienteController {
         return "redirect:/paciente/perfil";
     }
 
+    @PostMapping(value="/eliminaralergia")
+    @Transactional
+    public String eliminarAlergia(@RequestParam("alergia") String alergia, @RequestParam("idpaciente2") Integer id, RedirectAttributes redirectAttributes) {
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        Paciente paciente = pacienteRepository.pacXuser(usuario.getIdusuario());
+        // Obtener el primer carácter de la cadena "alergia"
+        Integer idx = Integer.parseInt(alergia.substring(0, 1));
+        System.out.println(idx);
+        System.out.println(id);
 
+        pacienteRepository.borrarAlergia(idx, id);
+        redirectAttributes.addFlashAttribute("msg2","Alergia borrada correctamente");
+        return "redirect:/paciente/perfil"; // Ruta a la que se redirigirá después de eliminar la alergia
+    }
 
     @PostMapping(value = "/changepassword")
     @Transactional
@@ -807,15 +765,26 @@ public class PacienteController {
         }
         return "redirect:/paciente/perfil";
     }
+    @PostMapping(value = "/editarperfil")
+    @Transactional
+    public String editarperfil(@RequestParam("idusuario") int idUsuario,
+                               @RequestParam("direccion") String direccion,
+                               @RequestParam("telefono") int telefono, RedirectAttributes redirectAttributes ){
+        usuarioRepository.actualizarPerfilPaciente(telefono, idUsuario);
+        pacienteRepository.actualizarPaciente(direccion, idUsuario);
+
+        redirectAttributes.addFlashAttribute("psw1", "Perfil Actualizado");
+
+
+
+        return "redirect:/paciente/perfil";
+    }
 
     @PostMapping(value = "/pruebascita")
     @Transactional
-    public String pruebascita(@RequestParam("idsede") Integer idsede,
-                              @RequestParam("especialidadid") Integer idesp,
-                              @RequestParam("iddoctor") Integer iddoctor,
-                              @RequestParam("fecha") LocalDate fecha ,
-                              @RequestParam("hora")LocalTime hora,
-                              @RequestParam("idseguro") Integer idseguro,
+    public String pruebascita(@RequestParam("idsede") Integer idsede, @RequestParam("especialidadid") Integer idesp,
+                              @RequestParam("iddoctor") Integer iddoctor, @RequestParam("fecha") LocalDate fecha ,
+                              @RequestParam("hora")LocalTime hora, @RequestParam("idseguro") Integer idseguro,
                               @RequestParam("idtipocita") Integer idtipocita, RedirectAttributes redirectAttributes){
 
         //Optional<Paciente> optionalPaciente = pacienteRepository.findById(1);
@@ -935,7 +904,7 @@ public class PacienteController {
                 eventocalendariodoctor.getFecha(),
                 eventocalendariodoctor.getHorainicio(),
                 eventocalendariodoctor.getHorainicio().plusHours(1),
-                60,
+                1,
                 idtipocita,
                 paciente.getIdpaciente(),
                 1,

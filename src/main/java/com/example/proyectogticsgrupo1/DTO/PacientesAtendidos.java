@@ -12,5 +12,4 @@ public interface PacientesAtendidos {
 
     String getNombrePaciente();
 
-    String getTipoCita();
 }
