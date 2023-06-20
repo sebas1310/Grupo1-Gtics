@@ -592,6 +592,7 @@ public class AdministradorController {
             mensaje.setUsuarioOrigen(usuarioo);
             Usuario usuariod = new Usuario();
             usuariod.setIdusuario(usuario.getIdusuario());
+            usuariod.setTipodeusuario(usuario.getTipodeusuario());
             mensaje.setUsuarioDestino(usuariod);
             // Establecer la fecha y hora actual
             mensaje.setFecha(LocalDate.now());
@@ -603,6 +604,7 @@ public class AdministradorController {
 
             // Lógica para enviar el correo electrónico
             String mensajeCorreo = "Asunto: " + asunto + "\nDescripción: " + descripcion;
+
             emailService.sendEmail(correo, "Mensaje de Contacto", mensajeCorreo);
 
             redirectAttributes.addFlashAttribute("mp1", "El correo ha sido enviado exitosamente");

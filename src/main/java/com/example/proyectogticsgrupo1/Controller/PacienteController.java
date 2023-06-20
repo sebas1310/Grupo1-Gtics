@@ -843,6 +843,7 @@ public class PacienteController {
                         String content2 = "Estimado doctor, tiene una cita programada para el "+ fecha+ " en la siguiente hora: " + hora +" con el paciente : "+paciente.getUsuario().getNombres()+" "+paciente.getUsuario().getApellidos()+ "";
                         String titulo2= "Cita Programa para " +fecha+ "";
                         notificacionesRepository.notificarcita(usuario.getIdusuario(),content,titulo);
+                        pacienteRepository.actualizarEstadoPaciente(4,paciente.getIdpaciente());
                         notificacionesRepository.notificarcita(doctor.getUsuario().getIdusuario(),content2,titulo2);
                         if(idtipocita==1){
                             emailService.sendEmail(paciente.getUsuario().getCorreo(),"Confirmación de cita","Estimado usuario usted reservó una cita para el "+fecha.toString()+ ".\n"+"En la sede "+sedeRepository.findById(idsede).get().getNombre()+" ubicada " +sedeRepository.findById(idsede).get().getDireccion());
