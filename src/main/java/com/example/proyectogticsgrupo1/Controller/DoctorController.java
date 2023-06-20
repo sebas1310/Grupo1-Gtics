@@ -592,12 +592,13 @@ public class DoctorController {
                                 @RequestParam("horainicio") LocalTime horainicio ,
                                 @RequestParam("horafinal") LocalTime horafinal ,
                                 @RequestParam("descripcion") String descripcion,
-                                @RequestParam("iddoctor") Integer iddoctor){
+                                @RequestParam("iddoctor") Integer iddoctor, RedirectAttributes redirectAttributes){
         Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
         Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
         model.addAttribute("doctor", doctor);
         Integer duracion = 1;
         Integer idtipocalendario = 1;
+        redirectAttributes.addFlashAttribute("msg","Evento Añadido");
         eventocalendariodoctorRepository.agregarEventoDoctor(idtipocalendario,fecha, horainicio, horafinal, duracion, descripcion,iddoctor);
         return "redirect:/doctor/calendario";
     }

@@ -70,6 +70,7 @@
       <ol class="breadcrumb">
         <li class="breadcrumb-item active">Calendario General</li>
         <div th:if="${msg!=null}" th:text="${msg}" class="alert alert-success" role="alert"></div>
+        <div th:if="${msg2!=null}" th:text="${msg2}" class="alert alert-success" role="alert"></div>
       </ol>
     </nav>
   </div><!-- End Page Title -->
@@ -177,7 +178,36 @@
                   </div>
                 </form>
               </div>
+              <script>
+                function validateForm1() {
+                  var horainicio = document.getElementById("horainicio").value;
+                  var horafinal = document.getElementById("horafinal").value;
+                  var descripcion = document.getElementById("descripcion").value.trim();
 
+                  if (horainicio === "" || horafinal === "" || descripcion === "" ) {
+                    var errorMessage = document.getElementById("error-message1");
+                    errorMessage.style.display = "block";
+                    errorMessage.innerHTML = "Complete todos los campos requeridos";
+                    return false;
+                  }
+                  else if (descripcion.length >= 30 || /^\s+$/.test(descripcion))
+                  {
+                    var errorMessage = document.getElementById("error-message1");
+                    errorMessage.style.display = "block";
+                    errorMessage.innerHTML = "El campo excede el número de caracteres permitidos";
+                    return false;
+                  }
+
+                  else if (descripcion.length <= 2 || /^\s+$/.test(descripcion))
+                  {
+                    var errorMessage = document.getElementById("error-message1");
+                    errorMessage.style.display = "block";
+                    errorMessage.innerHTML = "El campo debe tener como mínimo 3 caracteres";
+                    return false;
+                  }
+                  return true;
+                }
+              </script>
               <div class="tab-pane fade pt-3" id="profile-settings">
 
                 <!-- General Form Elements -->
@@ -227,9 +257,51 @@
                   </div>
                 </form>
               </div>
+              <script>
+                function validateForm2() {
+                  var horainicio = document.getElementById("horainicio2").value;
+                  var horafinal = document.getElementById("horafinal2").value;
+                  var descripcion = document.getElementById("descripcion2").value.trim();
+
+                  if (horainicio === "" || horafinal === "" || descripcion === ""  ) {
+                    var errorMessage = document.getElementById("error-message2");
+                    errorMessage.style.display = "block";
+                    errorMessage.innerHTML = "Complete todos los campos requeridos";
+                    return false;
+                  }
+                  if (horainicio !== "" && horafinal !== "" ) {
+                    var tiempo1 = parseInt(horainicio.split(":")[0]);
+                    var tiempo2 = parseInt(horafinal.split(":")[0]);
+                    var diferencia = Math.abs(tiempo1 - tiempo2);
+
+                    if (diferencia <= 1) {
+                      var errorMessage = document.getElementById("error-message2");
+                      errorMessage.style.display = "block";
+                      errorMessage.innerHTML = "Minimo 2 horas para su refrigerio";
+                      return false;
+                    }
+                  }
+                  else if (descripcion.length >= 30 || /^\s+$/.test(descripcion))
+                  {
+                    var errorMessage = document.getElementById("error-message2");
+                    errorMessage.style.display = "block";
+                    errorMessage.innerHTML = "El campo excede el número de caracteres permitidos";
+                    return false;
+                  }
+
+                  else if (descripcion.length <= 2 || /^\s+$/.test(descripcion))
+                  {
+                    var errorMessage = document.getElementById("error-message2");
+                    errorMessage.style.display = "block";
+                    errorMessage.innerHTML = "El campo debe tener como mínimo 3 caracteres";
+                    return false;
+                  }
+                  return true;
+                }
+              </script>
 
               <div class="tab-pane fade pt-3" id="profile-change-password">
-                <form method="post" th:action="@{'/doctor/calendario/guardar1'}"  onsubmit="return validateForm1()" >
+                <form method="post" th:action="@{'/doctor/calendario/guardar1'}"  onsubmit="return validateForm3()" >
                   <input th:value="${doctor.getIddoctor()}" name="iddoctor" type="hidden" />
 
                   <div class="mb-3 row">
@@ -275,6 +347,36 @@
                   </div>
                 </form>
               </div>
+              <script>
+                function validateForm3() {
+                  var horainicio = document.getElementById("horainicio3").value;
+                  var horafinal = document.getElementById("horafinal3").value;
+                  var descripcion = document.getElementById("descripcion3").value.trim();
+
+                  if (horainicio === "" || horafinal === "" || descripcion === "" ) {
+                    var errorMessage = document.getElementById("error-message3");
+                    errorMessage.style.display = "block";
+                    errorMessage.innerHTML = "Complete todos los campos requeridos";
+                    return false;
+                  }
+                  else if (descripcion.length >= 30 || /^\s+$/.test(descripcion))
+                  {
+                    var errorMessage = document.getElementById("error-message3");
+                    errorMessage.style.display = "block";
+                    errorMessage.innerHTML = "El campo excede el número de caracteres permitidos";
+                    return false;
+                  }
+
+                  else if (descripcion.length <= 2 || /^\s+$/.test(descripcion))
+                  {
+                    var errorMessage = document.getElementById("error-message3");
+                    errorMessage.style.display = "block";
+                    errorMessage.innerHTML = "El campo debe tener como mínimo 3 caracteres";
+                    return false;
+                  }
+                  return true;
+                }
+              </script>
 
             </div><!-- End Bordered Tabs -->
 
@@ -284,116 +386,8 @@
       </div>
     </div>
     <!-- Funcion para validar -->
-    <script>
-      function validateForm2() {
-        var horainicio = document.getElementById("horainicio").value;
-        var horafinal = document.getElementById("horafinal").value;
-        var descripcion = document.getElementById("descripcion").value.trim();
-        var idtipocalendario = document.getElementById("idtipocalendario").value;
 
-        if (horainicio === "" || horafinal === "" || descripcion === "" || idtipocalendario === "" ) {
-          var errorMessage = document.getElementById("error-message2");
-          errorMessage.style.display = "block";
-          errorMessage.innerHTML = "Complete todos los campos requeridos";
-          return false;
-        }
-        else if (horainicio !== "" && horafinal !== "" && idtipocalendario == '1') {
-          var tiempo1 = parseInt(horainicio.split(":")[0]);
-          var tiempo2 = parseInt(horafinal.split(":")[0]);
-          var diferencia = Math.abs(tiempo1 - tiempo2);
 
-          if (diferencia > 1) {
-            var errorMessage = document.getElementById("error-message2");
-            errorMessage.style.display = "block";
-            errorMessage.innerHTML = "No debe exceder de 1 hora para sus citas";
-            return false;
-          }
-        }
-        else if (horainicio !== "" && horafinal !== "" && idtipocalendario == '2') {
-          var tiempo1 = parseInt(horainicio.split(":")[0]);
-          var tiempo2 = parseInt(horafinal.split(":")[0]);
-          var diferencia = Math.abs(tiempo1 - tiempo2);
-
-          if (diferencia > 2) {
-            var errorMessage = document.getElementById("error-message2");
-            errorMessage.style.display = "block";
-            errorMessage.innerHTML = "No debe exceder de 2 horas para su refrigerio";
-            return false;
-          }
-        }
-        else if (descripcion.length >= 30 || /^\s+$/.test(descripcion))
-        {
-          var errorMessage = document.getElementById("error-message2");
-          errorMessage.style.display = "block";
-          errorMessage.innerHTML = "El campo excede el número de caracteres permitidos";
-          return false;
-        }
-
-        else if (descripcion.length <= 2 || /^\s+$/.test(descripcion))
-        {
-          var errorMessage = document.getElementById("error-message2");
-          errorMessage.style.display = "block";
-          errorMessage.innerHTML = "El campo debe tener como mínimo 3 caracteres";
-          return false;
-        }
-        return true;
-      }
-    </script>
-    <script>
-      function validateForm1() {
-        var horainicio = document.getElementById("horainicio").value;
-        var horafinal = document.getElementById("horafinal").value;
-        var descripcion = document.getElementById("descripcion").value.trim();
-        var idtipocalendario = document.getElementById("idtipocalendario").value;
-
-        if (horainicio === "" || horafinal === "" || descripcion === "" || idtipocalendario === "" ) {
-          var errorMessage = document.getElementById("error-message2");
-          errorMessage.style.display = "block";
-          errorMessage.innerHTML = "Complete todos los campos requeridos";
-          return false;
-        }
-        else if (horainicio !== "" && horafinal !== "" && idtipocalendario == '1') {
-          var tiempo1 = parseInt(horainicio.split(":")[0]);
-          var tiempo2 = parseInt(horafinal.split(":")[0]);
-          var diferencia = Math.abs(tiempo1 - tiempo2);
-
-          if (diferencia > 1) {
-            var errorMessage = document.getElementById("error-message1");
-            errorMessage.style.display = "block";
-            errorMessage.innerHTML = "No debe exceder de 1 hora para sus citas";
-            return false;
-          }
-        }
-        else if (horainicio !== "" && horafinal !== "" && idtipocalendario == '2') {
-          var tiempo1 = parseInt(horainicio.split(":")[0]);
-          var tiempo2 = parseInt(horafinal.split(":")[0]);
-          var diferencia = Math.abs(tiempo1 - tiempo2);
-
-          if (diferencia > 2) {
-            var errorMessage = document.getElementById("error-message2");
-            errorMessage.style.display = "block";
-            errorMessage.innerHTML = "No debe exceder de 2 horas para su refrigerio";
-            return false;
-          }
-        }
-        else if (descripcion.length >= 30 || /^\s+$/.test(descripcion))
-        {
-          var errorMessage = document.getElementById("error-message2");
-          errorMessage.style.display = "block";
-          errorMessage.innerHTML = "El campo excede el número de caracteres permitidos";
-          return false;
-        }
-
-        else if (descripcion.length <= 2 || /^\s+$/.test(descripcion))
-        {
-          var errorMessage = document.getElementById("error-message2");
-          errorMessage.style.display = "block";
-          errorMessage.innerHTML = "El campo debe tener como mínimo 3 caracteres";
-          return false;
-        }
-        return true;
-      }
-    </script>
   </section>
   <div class="text-center">
     <button type="button" class="btn btn-danger"><a style="color: white" th:href="@{'/doctor/calendario'}" >Cancelar</a></button>
