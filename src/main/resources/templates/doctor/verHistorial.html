@@ -64,7 +64,7 @@ num_men = '2', id=${session.usuario.idusuario})">
                                         <h6>Si el paciente requiere realizar unos exámenes, entonces envíele un mensaje</h6>
                                         <br>
                                         <div class="d-grid gap-1 d-md-flex justify-content-md-center" >
-                                            <a th:href="@{'/doctor/mensajeria/enviarmensaje'+ '?idp=' + ${paciente.getUsuario().getIdusuario()}}" class="btn btn-primary">Mensaje</a>
+                                            <a th:href="@{'/doctor/mensajeria/enviarmensaje/examenes'+ '?idp=' + ${paciente.getUsuario().getIdusuario()}}" class="btn btn-primary">Mensaje</a>
 
                                         </div>
                                        </div>

@@ -50,7 +50,7 @@ public interface CitaRepository extends JpaRepository<Cita, Integer> {
             "INNER JOIN paciente p ON c.paciente_idpaciente = p.idpaciente \n" +
             "INNER JOIN usuario u ON p.idusuario = u.idusuario\n" +
             "WHERE c.doctor_iddoctor = '2' AND fecha <= CURRENT_TIME() \n" +
-            "GROUP BY idpaciente , CONCAT(u.nombres, ' ', u.apellidos)\n" +
+            "GROUP BY idpaciente , CONCAT(u.nombres, ' ', u.apellidos) , IDCita \n" +
             "ORDER BY UltimaFecha desc", nativeQuery = true)
     List<PacientesAtendidos> pacientesAtendidosPorDoctor(Integer idDoctor);
 

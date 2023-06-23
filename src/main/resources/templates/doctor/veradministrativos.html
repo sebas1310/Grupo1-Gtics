@@ -56,7 +56,7 @@
                                         <tr th:each=" admit : ${administrativos}">
                                             <td style="text-align: center" th:text="|${admit.getNombres()} - ${admit.getApellidos()}|"></td>
                                             <td>
-                                                <a th:href="@{'/doctor/mensajeria/enviarmensaje'+'?idp=' + ${admit.getIdusuario()}}" class="btn btn-danger">Enviar Mensaje</a></td>
+                                                <a th:href="@{'/doctor/mensajeria/enviarmensaje'+'?idu=' + ${admit.getIdusuario()}}" class="btn btn-danger">Enviar Mensaje</a></td>
                                         </tr>
 
                                     </tbody>

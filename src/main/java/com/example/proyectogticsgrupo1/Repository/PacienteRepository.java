@@ -25,6 +25,11 @@ public interface PacienteRepository extends JpaRepository<Paciente, Integer> {
     void modificarAlergia(String alergias, Integer idpaciente);
 
     @Modifying
+    @Query(nativeQuery = true, value = "UPDATE paciente SET especialidades_pendientes = ?1 WHERE idpaciente = ?2")
+    void modificarEspecialidadesPendientes(String especialidadesPendientes, Integer idpaciente);
+
+
+    @Modifying
     @Query(nativeQuery = true, value = "UPDATE paciente \n" +
             "SET alergias = TRIM(BOTH ',' FROM CONCAT_WS(',', SUBSTRING_INDEX(alergias, ',', ?1 - 1), SUBSTRING_INDEX(alergias, ',', -((LENGTH(alergias) - LENGTH(REPLACE(alergias, ',', '')))) + ?1 - 1)))\n" +
             "WHERE idpaciente = ?2 ")

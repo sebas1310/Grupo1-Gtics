@@ -20,6 +20,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import com.example.proyectogticsgrupo1.Service.EmailService;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -48,7 +49,10 @@ public class DoctorController {
     final BoletaDoctorRepository boletaDoctorRepository;
 
     @Autowired
-    EmailService emailService;
+    EspecialidadRepository especialidadRepository;
+
+    @Autowired
+    private EmailService emailService;
 
     @Autowired
     MailCorreoRepository mailCorreoRepository;
@@ -817,21 +821,35 @@ public class DoctorController {
 
 
     @GetMapping("/mensajeria/enviarmensaje")
-    public String enviarMensajeDoctor(Model model , @RequestParam("idp") int idUsuarioDestino) {
+    public String enviarMensajeDoctor(Model model , @RequestParam("idu") int idUsuarioDestino) {
             Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
             Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
             model.addAttribute("doctor",doctor);
             if (idUsuarioDestino != 0) {
                 Usuario usuarioDestino = usuarioRepository.usuarioDestino(idUsuarioDestino);
                 model.addAttribute("usuariodestino", usuarioDestino);
-                Optional<Paciente> optPaciente = Optional.ofNullable(pacienteRepository.buscarPacientePorIdUsuario(idUsuarioDestino));
-                if(optPaciente.isPresent()){
-                    Integer idpaciente = optPaciente.get().getIdpaciente();
-                    model.addAttribute("idpaciente",idpaciente);
-                }
                 return "doctor/enviarMensajeDoc";
             }
             return "doctor/enviarMensajeDoc";
+    }
+
+    @GetMapping("/mensajeria/enviarmensaje/examenes")
+    public String enviarMensajeDeExamenes(Model model , @RequestParam("idp") int idUsuarioDestino) {
+        Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
+        Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
+        model.addAttribute("doctor",doctor);
+        if (idUsuarioDestino != 0) {
+            Usuario usuarioDestino = usuarioRepository.usuarioDestino(idUsuarioDestino);
+            model.addAttribute("usuariodestino", usuarioDestino);
+            Optional<Paciente> optPaciente = Optional.ofNullable(pacienteRepository.buscarPacientePorIdUsuario(idUsuarioDestino));
+            if(optPaciente.isPresent()){
+                Integer idpaciente = optPaciente.get().getIdpaciente();
+                model.addAttribute("idpaciente",idpaciente);
+                model.addAttribute("especialidades",especialidadRepository.findAll());
+            }
+            return "doctor/enviarMensajeExamenesDoc";
+        }
+        return "doctor/enviarMensajeExamenesDoc";
     }
 
     @GetMapping("/mensajeria/veradministrativos")
@@ -851,12 +869,40 @@ public class DoctorController {
     public String sendEmail(RedirectAttributes redirectAttributes, @RequestParam("correodestino") String correoDestino,
                             @RequestParam("asunto") String asunto, @RequestParam("descripcion") String descripcion,
                             @RequestParam("idusuariodestino") int idUsuarioDestino , @RequestParam("idusuarioorigen") int idUsuarioOrigen) {
+
+        //String titulo = "Estimado Paciente , el doctor(a) requiere que se haga unos examenes de rayos x";
+        //notificacionesRepository.notificarCreacion(idUsuarioDestino,descripcion,titulo);
         emailService.sendEmail(correoDestino,asunto,descripcion);
         mailCorreoRepository.guardarMensaje(asunto,descripcion,correoDestino,idUsuarioDestino ,idUsuarioOrigen);
+        redirectAttributes.addFlashAttribute("msg","Mensaje Enviado");
+        return "redirect:/doctor/mensajeria";
+        //return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/mensajeria/enviarmensaje/examenes/envio")
+    @Transactional
+    public String sendEmail2(RedirectAttributes redirectAttributes, @RequestParam("correodestino") String correoDestino,
+                            @RequestParam("asunto") String asunto, @RequestParam("descripcion") String descripcion,
+                            @RequestParam("idusuariodestino") int idUsuarioDestino , @RequestParam("idusuarioorigen") int idUsuarioOrigen ,
+                            @RequestParam("idespecialidad") int idespecialidad) {
+
+        //String titulo = "Estimado Paciente , el doctor(a) requiere que se haga unos examenes de rayos x";
+        //notificacionesRepository.notificarCreacion(idUsuarioDestino,descripcion,titulo);
         Optional<Paciente> optPaciente = Optional.ofNullable(pacienteRepository.buscarPacientePorIdUsuario(idUsuarioDestino));
         if(optPaciente.isPresent()){
-            pacienteRepository.actualizarEstadoPaciente(6,optPaciente.get().getIdpaciente());
+            Paciente paciente1 = optPaciente.get();
+            if(paciente1.getEspecialidadesPendientes().equals(null)){
+                String especialidades = Integer.toString(idespecialidad);
+                pacienteRepository.modificarEspecialidadesPendientes(especialidades, paciente1.getIdpaciente());
+            }else{
+                String especialidades = paciente1.getEspecialidadesPendientes()+","+idespecialidad;
+                pacienteRepository.modificarEspecialidadesPendientes(especialidades, paciente1.getIdpaciente());
+            }
+            //pacienteRepository.modificarEspecialidadesPendientes(especialidades, paciente1.getIdpaciente());
+            pacienteRepository.actualizarEstadoPaciente(6,paciente1.getIdpaciente());
         }
+        emailService.sendEmail(correoDestino,asunto,descripcion);
+        mailCorreoRepository.guardarMensaje(asunto,descripcion,correoDestino,idUsuarioDestino ,idUsuarioOrigen);
         redirectAttributes.addFlashAttribute("msg","Mensaje Enviado");
         return "redirect:/doctor/mensajeria";
         //return ResponseEntity.ok().build();

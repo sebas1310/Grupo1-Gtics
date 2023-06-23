@@ -46,4 +46,7 @@ public class Paciente implements Serializable {
     @Column(name = "condicion_enfermedad")
     private String condicionenfermedad;
 
+    @Column(name = "especialidades_pendientes")
+    private String especialidadesPendientes;
+
 }
