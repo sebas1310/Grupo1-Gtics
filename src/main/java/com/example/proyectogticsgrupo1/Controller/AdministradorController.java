@@ -3,10 +3,10 @@ package com.example.proyectogticsgrupo1.Controller;
 import com.example.proyectogticsgrupo1.Entity.*;
 import com.example.proyectogticsgrupo1.Repository.*;
 import com.example.proyectogticsgrupo1.Service.EmailService;
-import com.google.cloud.storage.Blob;
+/*import com.google.cloud.storage.Blob;
 import com.google.cloud.storage.Bucket;
 import com.google.cloud.storage.Storage;
-import com.google.cloud.storage.StorageOptions;
+import com.google.cloud.storage.StorageOptions;*/
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
@@ -137,6 +137,7 @@ public class AdministradorController {
 
 
     }*/
+
 
     @PostMapping(value = "/guardar2")
     @Transactional
@@ -614,7 +615,7 @@ public class AdministradorController {
 
         return "redirect:/administrador/chat";
     }
-
+/*
     @PostMapping("/guardarImagen")
     public String guardarImagenEvento(@RequestParam("file") MultipartFile file, @RequestParam("id") int id, RedirectAttributes attr) {
         System.out.println("llega a guardar");
@@ -637,7 +638,7 @@ public class AdministradorController {
             if (blob != null) {
                 System.out.println("errro?");
                /* LOGGER.debug("File successfully uploaded to GCS");
-                return new FileDto(blob.getName(), blob.getMediaLink());*/
+                return new FileDto(blob.getName(), blob.getMediaLink());
             }
         } catch (Exception e) {
             System.out.println("errro?2");
@@ -673,5 +674,5 @@ public class AdministradorController {
             }
         }
         return ".jpeg";
-    }
+    }*/
 }

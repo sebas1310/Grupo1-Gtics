@@ -5,10 +5,10 @@ import com.example.proyectogticsgrupo1.Repository.*;
 
 import com.example.proyectogticsgrupo1.Repository.ModeloJsonRepository;
 import com.example.proyectogticsgrupo1.Service.EmailService;
-import com.google.cloud.storage.Blob;
+/*import com.google.cloud.storage.Blob;
 import com.google.cloud.storage.Bucket;
 import com.google.cloud.storage.Storage;
-import com.google.cloud.storage.StorageOptions;
+import com.google.cloud.storage.StorageOptions;*/
 import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
@@ -327,7 +327,7 @@ public class SuperadminController {
 
 
 
-
+/*
     @PostMapping("/guardarImagen")
     public String guardarImagenEvento(@RequestParam("file") MultipartFile file, @RequestParam("id") int id, RedirectAttributes attr) {
         System.out.println("llega a guardar");
@@ -350,7 +350,7 @@ public class SuperadminController {
             if (blob != null) {
                 System.out.println("errro?");
                /* LOGGER.debug("File successfully uploaded to GCS");
-                return new FileDto(blob.getName(), blob.getMediaLink());*/
+                return new FileDto(blob.getName(), blob.getMediaLink());
             }
         } catch (Exception e) {
             System.out.println("errro?2");
@@ -386,7 +386,7 @@ public class SuperadminController {
             }
         }
         return ".jpeg";
-    }
+    }*/
     @GetMapping("/edit")
     public String editarUsuario(Model model, @RequestParam("id") int id){
         Usuario superadmin = (Usuario) session.getAttribute("usuario");

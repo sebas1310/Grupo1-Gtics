@@ -3,10 +3,10 @@ package com.example.proyectogticsgrupo1.Controller;
 import com.example.proyectogticsgrupo1.DTO.InformesMedicos;
 import com.example.proyectogticsgrupo1.Entity.*;
 import com.example.proyectogticsgrupo1.Repository.*;
-import com.google.cloud.storage.Blob;
+/*import com.google.cloud.storage.Blob;
 import com.google.cloud.storage.Bucket;
 import com.google.cloud.storage.Storage;
-import com.google.cloud.storage.StorageOptions;
+import com.google.cloud.storage.StorageOptions;*/
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
@@ -636,7 +636,7 @@ public class DoctorController {
             Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
             Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
             model.addAttribute("doctor",doctor);
-            Paciente paciente1 = pacienteRepository.buscarPacientePorID(idPaciente);
+            Paciente paciente1 = citaRepository.findById(idCita).get().getPaciente();
             List<Paciente> lista = pacienteRepository.findAll();
             model.addAttribute("paciente", paciente1);
             int cuestionarioMedicoId = modeloJsonRepository.cuestionarioMedicoId(doctor.getEspecialidad().getIdespecialidad());
@@ -1010,7 +1010,7 @@ public class DoctorController {
 
 
 
-
+/*
     @PostMapping("/guardarImagen")
     public String guardarImagenEvento(@RequestParam("file") MultipartFile file, @RequestParam("id") int id, RedirectAttributes attr) {
         System.out.println("llega a guardar");
@@ -1033,7 +1033,7 @@ public class DoctorController {
             if (blob != null) {
                 System.out.println("errro?");
                /* LOGGER.debug("File successfully uploaded to GCS");
-                return new FileDto(blob.getName(), blob.getMediaLink());*/
+                return new FileDto(blob.getName(), blob.getMediaLink());
             }
         } catch (Exception e) {
             System.out.println("errro?2");
@@ -1070,6 +1070,6 @@ public class DoctorController {
         }
         return ".jpeg";
     }
-
+*/
 
 }
