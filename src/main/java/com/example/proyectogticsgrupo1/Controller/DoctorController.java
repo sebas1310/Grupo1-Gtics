@@ -886,6 +886,13 @@ public class DoctorController {
                             @RequestParam("idusuariodestino") int idUsuarioDestino , @RequestParam("idusuarioorigen") int idUsuarioOrigen ,
                             @RequestParam("idespecialidad") int idespecialidad) {
 
+        System.out.println("correodestino" + correoDestino);
+        System.out.println("asunto" + asunto);
+        System.out.println("descripcion" + descripcion);
+        System.out.println("idusuariodestino" + idUsuarioDestino);
+        System.out.println("idusuarioorigen" + idUsuarioOrigen);
+        System.out.println("idespecialidad" + idespecialidad);
+
         //String titulo = "Estimado Paciente , el doctor(a) requiere que se haga unos examenes de rayos x";
         //notificacionesRepository.notificarCreacion(idUsuarioDestino,descripcion,titulo);
         Optional<Paciente> optPaciente = Optional.ofNullable(pacienteRepository.buscarPacientePorIdUsuario(idUsuarioDestino));
