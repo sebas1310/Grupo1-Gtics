@@ -78,6 +78,9 @@ public class DoctorController {
     @Autowired
     EstadoCitaRepository estadoCitaRepository;
 
+    @Autowired
+    DatosJsonRepository datosJsonRepository;
+
     public DoctorController(CitaRepository citaRepository, DoctorRepository doctorRepository, PacienteRepository pacienteRepository,
                             RecetaMedicaRepository recetaMedicaRepository, ReporteCitaRepository reporteCitaRepository,UsuarioRepository usuarioRepository,
                             BitacoraDeDiagnosticoRepository bitacoraDeDiagnosticoRepository,
@@ -288,6 +291,11 @@ public class DoctorController {
         //model.addAttribute("informemedico",informe);
         model.addAttribute("listapreguntasinforme",modeloJsonRepository.listarPreguntasxPlantilla(informeId));
         model.addAttribute("idinforme",informeId);
+        Integer idDatosJson = datosJsonRepository.idDatosJson(informeId,idCita);
+        System.out.println(idDatosJson);
+        if(idDatosJson != null){
+            model.addAttribute("informelleno", datosJsonRepository.informeMedicoLlenado(idDatosJson));
+        }
         return "doctor/llenarInforme";
     }
 
@@ -636,7 +644,7 @@ public class DoctorController {
             Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
             Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
             model.addAttribute("doctor",doctor);
-            Paciente paciente1 = citaRepository.findById(idCita).get().getPaciente();
+            Paciente paciente1 = pacienteRepository.buscarPacientePorID(idPaciente);
             List<Paciente> lista = pacienteRepository.findAll();
             model.addAttribute("paciente", paciente1);
             int cuestionarioMedicoId = modeloJsonRepository.cuestionarioMedicoId(doctor.getEspecialidad().getIdespecialidad());
@@ -886,25 +894,22 @@ public class DoctorController {
                             @RequestParam("idusuariodestino") int idUsuarioDestino , @RequestParam("idusuarioorigen") int idUsuarioOrigen ,
                             @RequestParam("idespecialidad") int idespecialidad) {
 
-        //String titulo = "Estimado Paciente , el doctor(a) requiere que se haga unos examenes de rayos x";
-        //notificacionesRepository.notificarCreacion(idUsuarioDestino,descripcion,titulo);
-        Optional<Paciente> optPaciente = Optional.ofNullable(pacienteRepository.buscarPacientePorIdUsuario(idUsuarioDestino));
-        if(optPaciente.isPresent()){
-            Paciente paciente1 = optPaciente.get();
-            if(paciente1.getEspecialidadesPendientes().equals(null)){
-                String especialidades = Integer.toString(idespecialidad);
-                pacienteRepository.modificarEspecialidadesPendientes(especialidades, paciente1.getIdpaciente());
-            }else{
-                String especialidades = paciente1.getEspecialidadesPendientes()+","+idespecialidad;
-                pacienteRepository.modificarEspecialidadesPendientes(especialidades, paciente1.getIdpaciente());
-            }
-            //pacienteRepository.modificarEspecialidadesPendientes(especialidades, paciente1.getIdpaciente());
-            pacienteRepository.actualizarEstadoPaciente(6,paciente1.getIdpaciente());
+        //Optional<Paciente> optPaciente = Optional.ofNullable(pacienteRepository.buscarPacientePorIdUsuario(idUsuarioDestino));
+        Paciente paciente1 = pacienteRepository.buscarPacientePorIdUsuario(idUsuarioDestino);
+        String especialidades;
+        //aañ
+        if(paciente1.getEspecialidadesPendientes().equals(null)){
+            especialidades = Integer.toString(idespecialidad);
+        }else{
+            especialidades = paciente1.getEspecialidadesPendientes() + "," + idespecialidad;
         }
+        pacienteRepository.modificarEspecialidadesPendientes(especialidades, paciente1.getIdpaciente());
+        pacienteRepository.actualizarEstadoPaciente(6,paciente1.getIdpaciente());
+        notificacionesRepository.notificarCreacion(idUsuarioDestino,descripcion,"Requerimiento de Examenes");
         emailService.sendEmail(correoDestino,asunto,descripcion);
-        mailCorreoRepository.guardarMensaje(asunto,descripcion,correoDestino,idUsuarioDestino ,idUsuarioOrigen);
+        //mailCorreoRepository.guardarMensaje(asunto,descripcion,correoDestino,idUsuarioDestino ,idUsuarioOrigen);
         redirectAttributes.addFlashAttribute("msg","Mensaje Enviado");
-        return "redirect:/doctor/mensajeria";
+        return "redirect: /doctor/mensajeria";
         //return ResponseEntity.ok().build();
     }
 
@@ -1032,7 +1037,7 @@ public class DoctorController {
 
             if (blob != null) {
                 System.out.println("errro?");
-               /* LOGGER.debug("File successfully uploaded to GCS");
+                LOGGER.debug("File successfully uploaded to GCS");
                 return new FileDto(blob.getName(), blob.getMediaLink());
             }
         } catch (Exception e) {

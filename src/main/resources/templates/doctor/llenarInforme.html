@@ -39,16 +39,24 @@ num_men = '2', id=${session.usuario.idusuario})">
                 <div class="col">
                     <div class="card info-card customers-card">
                         <div class="card-body">
+                            <!--pasar a tabla -->
                             <h5 class="card-title">Informe Médico</h5>
                             <div th:id="idinformelleno">
                             <input th:id="idinformemodelo" th:value="${idinforme}" class="form-control" type="hidden">
                             <div class="row mb-3" th:each="pregunta:${listapreguntasinforme}">
                                 <label for="nombre" class="col-md-12 col-form-label" th:text="${pregunta}"></label>
-                                <input name="nombre" type="text" class="form-control" id="nombre">
+                                <input name="nombre" type="text" class="form-control" id="nombre" th:value >
                             </div>
                                 <input th:value="${doctor.usuario.getIdusuario()}" class="form-control" type="hidden">
                                 <input th:value="${cita.getIdcita()}" class="form-control" type="hidden">
+                            </div>
+
+                            <div th:if="${informelleno}">
+                                <div class="row mb-3" th:each="inciso:${informelleno}">
+                                    <label for="nombre2" class="col-md-12 col-form-label" th:text="${inciso.getCampo()}"></label>
+                                    <input name="nombre" type="text" class="form-control" id="nombre2" th:value="${inciso.getRespuesta()}">
                                 </div>
+                            </div>
 
                             <div class="text-center">
                                 <a th:href="@{'/doctor/pacientesatendidos/verhistorial/vercita'+ '?id=' + ${cita.getIdcita()}+'&msg6=Informe_Llenado'}" type="submit" class="btn btn-primary" onclick="ModificarForm()">Guardar</a>
