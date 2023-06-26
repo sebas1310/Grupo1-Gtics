@@ -20,13 +20,13 @@ public interface BoletaDoctorRepository extends JpaRepository<BoletaDoctor,Integ
 
 
     @Query(value = "SELECT DATE_FORMAT(cita.fecha, '%Y-%m') AS mes,\n" +
-            "       MONTHNAME(cita.fecha) AS nombre_mes,\n" +
-            "       AVG(boletadoctor.monto) AS promedio_monto_doctor,\n" +
-            "       AVG(boletapaciente.monto) AS promedio_monto_paciente\n" +
-            "FROM boletadoctor\n" +
-            "         JOIN boletapaciente ON boletadoctor.idcita = boletapaciente.idcita\n" +
-            "         JOIN cita ON boletadoctor.idcita = cita.idcita\n" +
-            "GROUP BY DATE_FORMAT(cita.fecha, '%Y-%m')\n", nativeQuery = true)
+            "            MONTHNAME(cita.fecha) AS nombre_mes,\n" +
+            "            AVG(boletadoctor.monto) AS promedio_monto_doctor,\n" +
+            "            AVG(boletapaciente.monto) AS promedio_monto_paciente\n" +
+            "            FROM boletadoctor\n" +
+            "            JOIN boletapaciente ON boletadoctor.idcita = boletapaciente.idcita\n" +
+            "            JOIN cita ON boletadoctor.idcita = cita.idcita\n" +
+            "            GROUP BY DATE_FORMAT(cita.fecha, '%Y-%m'),2", nativeQuery = true)
     List<IngresosEgresos> IngresosEgresosDTO();
 
 

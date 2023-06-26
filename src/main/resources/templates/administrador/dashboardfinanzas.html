@@ -138,7 +138,7 @@
               </thead>
               <tbody>
               <tr th:each="ingresosegresos, info: ${listaIngresosEgresos}" class="data-row">
-                <td th:text="${ingresosegresos.getnombre_mes()}" class="text-center"></td>
+                <td th:text="${T(com.example.proyectogticsgrupo1.translate.MonthTranslator).translateMonth(ingresosegresos.getnombre_mes())}" class="text-center"></td>
                 <td th:text="${ingresosegresos.getpromedio_monto_paciente()}" class="text-center"></td>
                 <td th:text="${ingresosegresos.getpromedio_monto_doctor()}" class="text-center"></td>
               </tr>

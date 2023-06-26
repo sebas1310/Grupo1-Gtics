@@ -19,7 +19,7 @@
 <main id="main" class="main">
 
     <div class="pagetitle">
-        <h1>Configuraciones UX</h1>
+        <h1>Configuraciones UI</h1>
     </div><!-- End Page Title -->
 
     <section class="section">
@@ -28,71 +28,96 @@
 
                 <div class="card">
                     <div class="card-body">
+                        <h5 class="card-title">Configuraciones UI</h5>
 
                         <!-- Default Table -->
                         <table class="table">
                             <thead>
                             <tr>
-                                <th scope="col">Notificaciones</th>
+                                <th scope="col-sm-lg-2">Modo</th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr>
-                                <td>Elige el tiempo previo a una cita para que al doctor le llega una notificaciones</td>
-                                <td><div class="row sm-2">
+                                <td>Cambia la apariencia de la página</td>
+                                <td><div class="row mb-lg-2">
                                     <div class="col-sm-10">
-                                        <input type="time" class="form-control">
+                                        <select class="form-select" aria-label="Default select example">
+                                            <option selected>Elige</option>
+                                            <option value="1">Claro</option>
+                                            <option value="2">Oscuro</option>
+                                        </select>
                                     </div>
-                                </div></td>
+
+
+
+                                </div>
+                                </td>
                             </tr>
 
-                            <tr>
-                                <td>Elige el tiempo previo a una cita para que al paciente le llega una notificaciones</td>
-                                <td><div class="row sm-2">
-                                    <div class="col-sm-10">
-                                        <input type="time" class="form-control">
-                                    </div>
-                                </div></td>
-                            </tr>
                             <thead>
                             <tr>
-                                <th scope="col">Notificaciones</th>
+                                <th scope="col">Colores</th>
                             </tr>
                             </thead>
-                            <tbody>
                             <tr>
-                                <td>Mantener Sesión iniciada</td>
-                                <td><div class="row sm-2">
+                                <td>Personalizar Interfaz de Usuario</td>
+                                <td><div class="row">
+                                    <label for="inputColor" class="col-form-label">Color Picker</label>
                                     <div class="col-sm-10">
-                                        <select class="form-select" aria-label="Default select example">
-                                            <option selected>Elige</option>
-                                            <option value="1">Si</option>
-                                            <option value="2">No</option>
-                                        </select>
+                                        <input type="color" class="form-control form-control-color" id="exampleColorInput" value="#4154f1" title="Choose your color" required>
                                     </div>
+                                    <select class="form-select" aria-label="Default select example" required>
+                                        <option selected>Elige un rol</option>
+                                        <option value="1">Doctor</option>
+                                        <option value="2">Paciente</option>
+                                        <option value="3">Administrador</option>
+                                        <option value="4">Administrativo</option>
+                                    </select>
+
                                 </div></td>
+
                             </tr>
 
-                            </tbody>
 
-                            <tbody>
+                            <thead>
                             <tr>
-                                <td>Doctor permiso para editar</td>
-                                <td><div class="row sm-2">
-                                    <div class="col-sm-10">
+                                <th scope="col">Imágenes</th>
+                            </tr>
+                            </thead>
+                            <tr>
+                                <td>Sube una imagen de fondo</td>
+                                <td>
+                                    <div class=" mb-3">
+                                        <label for="inputNumber" class="col-sm-2 col-form-label">Subir Imagen</label>
+                                        <div class="col-sm-10">
+                                            <input class="form-control" type="file" id="formFile">
+                                        </div>
                                         <select class="form-select" aria-label="Default select example">
-                                            <option selected>Elige</option>
-                                            <option value="1">Si</option>
-                                            <option value="2">No</option>
+                                            <option selected>Elige sede</option>
+                                            <option value="1">San Miguel</option>
+                                            <option value="2">San Borja</option>
+                                            <option value="3">Lince</option>
+
                                         </select>
                                     </div>
-                                </div></td>
+                                </td>
                             </tr>
+
 
                             </tbody>
                         </table>
+                        <!-- End Default Table Example -->
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-sm-10">
+                            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                        </div>
+                        <a class="btn btn-danger" th:href="@{'/superadmin/configuracion'}">Cancelar</a>
+
                     </div>
                 </div>
+
 
             </div>
 
@@ -118,6 +143,7 @@
 <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
 <!-- Vendor JS Files -->
+<script th:src="@{'dark_web.js'}"></script>
 <script th:src="@{'/assets/vendor/apexcharts/apexcharts.min.js'}"></script>
 <script th:src="@{'/assets/vendor/bootstrap/js/bootstrap.bundle.min.js'}"></script>
 <script th:src="@{'/assets/vendor/chart.js/chart.min.js'}"></script>
