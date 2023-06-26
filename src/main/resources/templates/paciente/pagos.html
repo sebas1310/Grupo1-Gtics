@@ -2,6 +2,9 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:insert="fragmentsPacientes/librerias.html :: cabecera (titulo = 'Pagos')">
 </head>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+
 <body>
 <!-- ======= Header ======= -->
 <header th:replace="fragmentsPacientes/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1', nombre = |${session.usuario.nombres} ${session.usuario.apellidos} (${session.usuario.tipodeusuario.nombre.toUpperCase()})|, num_men = '3', id=${pacientelog.usuario.idusuario})">
@@ -81,8 +84,7 @@
         </div><!-- End Left side columns -->
 
         <!-- Right side columns -->
-        <div class="col-lg-5">
-
+        <div class="col-lg-5" id="pagossel">
             <!-- Recent Activity -->
             <div class="card d-flex justify-content-center" >
                 <div class="card-body">
@@ -92,25 +94,24 @@
                         <br>
                         <h4 style="font-weight: bold">Pagos pendientes</h4>
                         <table>
-                            <tr th:each="p:${pagos}">
+                            <tr th:each="p,i:${pagos}">
                                 <td>
                                     <input class="form-check-input" type="checkbox" name="citapagos" th:value="${p.idcita}"/>
-                                    <input th:value="${p.especialidad.costo}" name="costos" hidden>
+                                    <input th:value="${costo.get(i.index)}" name="costos" hidden>
                                 </td>
-                                <td th:text="|S/${p.especialidad.costo}|"></td>
+                                <td th:text="|S/${costo.get(i.index)}|"></td>
                                 <td>
                                 </td>
                                 <td class="text-center">
-                                    <h5 class="ml-3 mb-0">Cita Virtual</h5>
-                                    <p class="ml-3 mb-0" th:text="|Docotor: ${p.doctor.usuario.nombres} ${p.doctor.usuario.apellidos}|"></p>
+                                    <h5 class="ml-3 mb-0" th:text="|Cita Virtual ${p.fecha}|"></h5>
+                                    <p class="ml-3 mb-0" th:text="|Doctor: ${p.doctor.usuario.nombres} ${p.doctor.usuario.apellidos}|"></p>
                                     <p class="ml-3 mb-0"><i class="bi bi-geo-alt-fill" th:text="${p.sede.nombre}"></i></p>
-
                                 </td>
                             </tr>
                         </table>
                         <br>
                         <div class="d-flex justify-content-center">
-                            <button type="submit" class="btn btn-warning btn">Pagar</button>
+                            <button type="submit" class="btn btn-warning btn" id="selectpago">Pagar</button>
                         </div>
                         <div id="error-message2" class="alert alert-danger mt-3" style="display: none;"></div>
 
@@ -141,7 +142,6 @@
                 </div>
             </div><!-- End Recent Activity -->
         </div><!-- End Right side columns -->
-
         </div>
     </section>
 

@@ -50,16 +50,18 @@
                                         <th class="text-center" scope="col">#</th>
                                         <th class="text-center" scope="col">Nombre Cuestionario</th>
                                         <th class="text-center" scope="col">Especialidad</th>
+                                        <th class="text-center" scope="col">Fecha Cita</th>
                                         <th class="text-center" scope="col">Completar Cuestionario</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                         <tr th:each="c,idx:${list_cuestionario_2}">
 
-                                        <td class="text-center" th:text="${idx.index}"> </td>
+                                        <td class="text-center" th:text="${idx.index}"></td>
                                         <td class="text-center" th:text="${c.nombrePlantilla}"></td>
-                                        <td class="text-center" th:text="${c.especialidad.nombre}"></td>
-                                        <td class="text-center"> <a type="button" class="bi bi-journal-text" th:href="@{'/paciente/formCuestionario?idcuest='+${c.getId()}+'&idcita='+${id_cita}}"></a></td>
+                                        <td class="text-center" th:text="|${c.especialidad.nombre} (${listaidcitas.get(idx.index).doctor.usuario.nombres} ${listaidcitas.get(idx.index).doctor.usuario.apellidos})|"></td>
+                                            <td class="text-center" th:text="${listaidcitas.get(idx.index).fecha}"></td>
+                                        <td class="text-center"> <a type="button" class="bi bi-journal-text" th:href="@{'/paciente/formCuestionario?idcuest='+${c.getId()}+'&idcita='+${listaidcitas.get(idx.index).idcita}}"></a></td>
                                     </tr>
                                     </tbody>
                                 </table>

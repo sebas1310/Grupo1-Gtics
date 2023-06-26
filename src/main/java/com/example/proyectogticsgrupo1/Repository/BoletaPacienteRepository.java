@@ -5,6 +5,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.List;
+
 public interface BoletaPacienteRepository extends JpaRepository<BoletaPaciente,Integer> {
 
     @Modifying
@@ -13,4 +15,7 @@ public interface BoletaPacienteRepository extends JpaRepository<BoletaPaciente,I
 
     @Query(value = "SELECT * FROM boletapaciente where idcita=?1", nativeQuery = true)
     BoletaPaciente getBoletaCita(Integer id);
+
+    @Query(value = "SELECT * FROM boletapaciente where idpaciente=?1", nativeQuery = true)
+    List<BoletaPaciente> boletaspagadas(Integer id);
 }
