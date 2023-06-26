@@ -1,6 +1,6 @@
 package com.example.proyectogticsgrupo1.Repository;
 
-import com.example.proyectogticsgrupo1.DTO.InformeMedicoLlenado;
+import com.example.proyectogticsgrupo1.DTO.ModeloJsonLlenado;
 import com.example.proyectogticsgrupo1.Entity.DatosJsonEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -47,7 +47,7 @@ public interface DatosJsonRepository extends JpaRepository<DatosJsonEntity,Integ
             ",temp4 as(\n" +
             "select *, row_number() over(partition by id) as respuestas_enumeradas from temp1 )\n" +
             "select temp3.id as 'ID', temp3.nombre_plantilla as 'NombrePlantilla' , temp3.col_name as 'Campo' ,temp4.valores_json as 'Respuesta' ,temp3.modelo_json_id as 'IdModeloJson',temp3.cita_idcita as 'IDCita' ,temp3.idusuario as 'IDUsuario' from temp3 left join temp4 on temp3.preguntas_enumeradas = temp4.respuestas_enumeradas ",nativeQuery = true)
-    List<InformeMedicoLlenado> informeMedicoLlenado (Integer idDatosJson);
+    List<ModeloJsonLlenado> modeloJsonLlenado (Integer idDatosJson);
 
 
 

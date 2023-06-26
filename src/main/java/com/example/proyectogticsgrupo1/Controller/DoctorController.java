@@ -1,6 +1,5 @@
 package com.example.proyectogticsgrupo1.Controller;
 
-import com.example.proyectogticsgrupo1.DTO.InformeMedicoLlenado;
 import com.example.proyectogticsgrupo1.DTO.InformesMedicos;
 import com.example.proyectogticsgrupo1.Entity.*;
 import com.example.proyectogticsgrupo1.Repository.*;
@@ -296,7 +295,7 @@ public class DoctorController {
         if(idDatosJson != null){
             System.out.println(idDatosJson);
             //model.addAttribute("informelleno", datosJsonRepository.informeMedicoLlenado(idDatosJson));
-            model.addAttribute("informelleno",datosJsonRepository.informeMedicoLlenado(idDatosJson));
+            model.addAttribute("informelleno",datosJsonRepository.modeloJsonLlenado(idDatosJson));
             model.addAttribute("idatosjson",idDatosJson);
         }
         return "doctor/llenarInforme";
@@ -655,6 +654,12 @@ public class DoctorController {
             model.addAttribute("listapreguntascuestionario",modeloJsonRepository.listarPreguntasxPlantilla(cuestionarioMedicoId));
             model.addAttribute("idcuestionario",cuestionarioMedicoId);
             model.addAttribute("idcita",idCita);
+            model.addAttribute(datosJsonRepository);
+            Integer idDatosJsonCuestionario = datosJsonRepository.idDatosJson(cuestionarioMedicoId,idCita);
+            if(idDatosJsonCuestionario != null){
+                model.addAttribute("iddatosjson",idDatosJsonCuestionario);
+                model.addAttribute("cuestionariolleno",datosJsonRepository.modeloJsonLlenado(idDatosJsonCuestionario));
+            }
 
         return "doctor/cuestionarioDoc";
     }
