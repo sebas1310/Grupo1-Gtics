@@ -675,7 +675,8 @@ public class DoctorController {
         List<Integer> CuestionariosEnviados = modeloJsonRepository.listaIDCuestionariosEnviados(cita.getPaciente().getIdpaciente(),cita.getIdcita());
         model.addAttribute(modeloJsonRepository);
         model.addAttribute(datosJsonRepository);
-        if(CuestionariosEnviados!=null) {
+        if(CuestionariosEnviados.isEmpty()) {
+        }else{
             model.addAttribute("cuestionarios", CuestionariosEnviados);
         }
         return "doctor/vercuestionarios";

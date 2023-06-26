@@ -42,7 +42,7 @@ nombre = |${doctor.usuario.nombres} ${doctor.usuario.apellidos} (${doctor.usuari
               <h5 class="card-title">Cuestionarios Médico Enviados</h5>
               <div>
                 <div th:if="${cuestionarios}">
-                  <div  th:each="cuest:${cuestionarios}" >
+                  <div  th:each="cuest:${cuestionarios}">
                     <label class="card-title" th:text="${modeloJsonRepository.nombrePlantilla(cuest)}"></label>
                     <td th:if="${datosJsonRepository.idDatosJson(cuest,cita.getIdcita())==null}">
                       <a class="btn btn-success" disabled> No LLenado</a>
