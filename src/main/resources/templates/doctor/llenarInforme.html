@@ -41,6 +41,7 @@ num_men = '2', id=${session.usuario.idusuario})">
                         <div class="card-body">
                             <!--pasar a tabla -->
                             <h5 class="card-title">Informe Médico</h5>
+                            <div th:if="${idatosjson==null}">
                             <div th:id="idinformelleno">
                             <input th:id="idinformemodelo" th:value="${idinforme}" class="form-control" type="hidden">
                             <div class="row mb-3" th:each="pregunta:${listapreguntasinforme}">
@@ -51,16 +52,28 @@ num_men = '2', id=${session.usuario.idusuario})">
                                 <input th:value="${cita.getIdcita()}" class="form-control" type="hidden">
                             </div>
 
-                            <div th:if="${informelleno}">
+                            <!--<div th:if="${informelleno}">
                                 <div class="row mb-3" th:each="inciso:${informelleno}">
                                     <label for="nombre2" class="col-md-12 col-form-label" th:text="${inciso.getCampo()}"></label>
-                                    <input name="nombre" type="text" class="form-control" id="nombre2" th:value="${inciso.getRespuesta()}">
+                                    <input name="nombre" type="text" class="form-control" id="nombre2" th:value="${inciso.getRespuesta()}" disabled>
                                 </div>
-                            </div>
+                            </div> -->
 
                             <div class="text-center">
                                 <a th:href="@{'/doctor/pacientesatendidos/verhistorial/vercita'+ '?id=' + ${cita.getIdcita()}+'&msg6=Informe_Llenado'}" type="submit" class="btn btn-primary" onclick="ModificarForm()">Guardar</a>
                                 <a th:href="@{'/doctor/pacientesatendidos/verhistorial/vercita'+ '?id=' + ${cita.getIdcita()}}" class="btn btn-danger">Regresar</a>
+                            </div>
+                            </div>
+
+                            <div th:if="${informelleno}">
+                                <div class="row mb-3" th:each="inciso:${informelleno}">
+                                    <label for="nombre2" class="col-md-12 col-form-label" th:text="${inciso.getCampo()}"></label>
+                                    <input name="nombre" type="text" class="form-control" id="nombre2" th:value="${inciso.getRespuesta()}" disabled>
+                                </div>
+
+                                <div class="text-center">
+                                    <a th:href="@{'/doctor/pacientesatendidos/verhistorial/vercita'+ '?id=' + ${cita.getIdcita()}}" class="btn btn-danger">Regresar</a>
+                                </div>
                             </div>
                             <!--<button type="submit" class="btn btn-primary" onclick="ModificarForm()">Guardar</button> -->
                             <!--<button class="btn btn-primary" type="submit">Guardar</button> -->
@@ -76,9 +89,6 @@ num_men = '2', id=${session.usuario.idusuario})">
 </div>
 </div><!-- End Left side columns -->
 </div>
-</div>
-<div class="d-grid gap d-md-flex justify-content-md-center">
-    <a th:href="@{'/doctor/pacientesatendidos/verhistorial/vercita'+ '?id=' + ${cita.getIdcita()}}" class="btn btn-danger">Regresar</a>
 </div>
 </section>
 </main><!-- End #main -->

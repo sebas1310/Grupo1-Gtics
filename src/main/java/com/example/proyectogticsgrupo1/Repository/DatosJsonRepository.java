@@ -20,6 +20,9 @@ public interface DatosJsonRepository extends JpaRepository<DatosJsonEntity,Integ
     @Query(value = "SELECT id from datos_json where modelo_json_id = ?1 and cita_idcita=?2",nativeQuery = true)
     Integer idDatosJson (int idModeloJson, int idCita);
 
+    @Query(value = "select * from datos_json where nombre_plantilla like 'INF%' and cita_idcita= ?1",nativeQuery = true)
+    List<Integer> listaIDDatosJsonDeInformesMedicos (int idCita);
+
 
     @Query(value = "with temp1 as( \n " +
             "SELECT datos_json.*,jt.valores as valores_json\n" +
@@ -44,7 +47,7 @@ public interface DatosJsonRepository extends JpaRepository<DatosJsonEntity,Integ
             ",temp4 as(\n" +
             "select *, row_number() over(partition by id) as respuestas_enumeradas from temp1 )\n" +
             "select temp3.id as 'ID', temp3.nombre_plantilla as 'NombrePlantilla' , temp3.col_name as 'Campo' ,temp4.valores_json as 'Respuesta' ,temp3.modelo_json_id as 'IdModeloJson',temp3.cita_idcita as 'IDCita' ,temp3.idusuario as 'IDUsuario' from temp3 left join temp4 on temp3.preguntas_enumeradas = temp4.respuestas_enumeradas ",nativeQuery = true)
-    InformeMedicoLlenado informeMedicoLlenado (Integer idDatosJson);
+    List<InformeMedicoLlenado> informeMedicoLlenado (Integer idDatosJson);
 
 
 
