@@ -883,7 +883,7 @@ public class PacienteController {
                 String resultadoFormateado = df.format(c.getEspecialidad().getCosto()*paciente.getSeguro().getCoaseguro());
                 costoscita.add(Double.parseDouble(resultadoFormateado));
             }
-
+            System.out.println("id: " + ids.size());
             model.addAttribute("costo",costoscita);
             model.addAttribute("pagos",citaRepository.porpagar(paciente.getIdpaciente(),ids));
         }
@@ -913,7 +913,7 @@ public class PacienteController {
                            @RequestParam("month") String month,
                            @RequestParam("year") String year,
                            @RequestParam("cvv") String cvv,
-                           @RequestParam("idcita") Integer idcita){
+                           @RequestParam("idcita") Integer idcita, RedirectAttributes redirectAttributes){
 
         Usuario usuario = (Usuario) session.getAttribute("usuario");
         Paciente paciente = pacienteRepository.pacXuser(usuario.getIdusuario());
@@ -922,23 +922,35 @@ public class PacienteController {
         Cita citaAgendada = citaRepository.findById(idcita).get();
         Doctor doc = citaAgendada.getDoctor();
         Boolean aprove = false;
-        for (Tarjetas t: tarjetasRepository.findAll()){
-            if (t.getNumero().equals(cardnumber)){
-                if (t.getMes().equals(month)){
-                    if (t.getAnio().equals(year)){
-                        if(t.getCvv().equals(cvv)){
-                            aprove = true;
+
+
+
+        if(citaAgendada.getPaciente().getIdpaciente()==paciente.getIdpaciente()){
+            for (Tarjetas t: tarjetasRepository.findAll()){
+                if (t.getNumero().equals(cardnumber)){
+                    if (t.getMes().equals(month)){
+                        if (t.getAnio().equals(year)){
+                            if(t.getCvv().equals(cvv)){
+                                aprove = true;
+                            }
                         }
                     }
                 }
             }
+            System.out.println(aprove);
+            if(aprove){
+                boletaDoctorRepository.generarBoletaDoctorCita(citaAgendada.getIdcita(),paciente.getIdpaciente(),paciente.getSeguro().getIdseguro(),doc.getIddoctor(),montoDoctor);
+                boletaPacienteRepository.generarBoletaPacienteCita(paciente.getIdpaciente(),citaAgendada.getIdcita(),paciente.getSeguro().getIdseguro(),Float.parseFloat(montopac));
+                return "redirect:/paciente/boleta?idcita="+idcita.toString();
+            }
+            else {
+                redirectAttributes.addFlashAttribute("fail","Datos incorrectos");
+                return "redirect:/paciente/pagar?idcita="+idcita.toString();
+            }
         }
-        System.out.println(aprove);
-        if(aprove){
-            boletaDoctorRepository.generarBoletaDoctorCita(citaAgendada.getIdcita(),paciente.getIdpaciente(),paciente.getSeguro().getIdseguro(),doc.getIddoctor(),montoDoctor);
-            boletaPacienteRepository.generarBoletaPacienteCita(paciente.getIdpaciente(),citaAgendada.getIdcita(),paciente.getSeguro().getIdseguro(),Float.parseFloat(montopac));
+        else {
+            return "redirect:/paciente/pagos";
         }
-        return "redirect:/paciente/boleta?idcita="+idcita.toString();
     }
 
     public Float getmontoDoc(Integer idcita){

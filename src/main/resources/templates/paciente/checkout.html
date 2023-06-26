@@ -30,7 +30,7 @@
             <div class="card d-flex justify-content-center">
                 <div class="card-body">
                     <br>
-                    <h5 class="mb-2" th:text="|Cita Virtual ${cita.fecha}|"></h5>
+                    <p class="mb-2" th:text="|${cita.fecha}|"></p>
                     <p class="mb-2" th:text="|${cita.especialidad.nombre}|"></p>
                     <p class="mb-2" th:text="|${cita.doctor.usuario.nombres} ${cita.doctor.usuario.apellidos}|"></p>
                     <p class="mb-4"><i class="bi bi-geo-alt-fill" th:text="${cita.sede.nombre}"></i></p>
@@ -71,7 +71,7 @@
                         <br>
                         <div class="card d-flex justify-content-center">
                             <button type="submit" class="btn btn-primary" th:text="|Pagar S/${monto}|"></button>
-
+                            <div th:if="${fail!=null}" th:text="${fail}" class="alert alert-danger" role="alert"></div>
                         </div>
                     </form>
                 </div>
