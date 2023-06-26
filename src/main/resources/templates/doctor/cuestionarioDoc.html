@@ -41,10 +41,9 @@
                     <div class="card-body">
                         <h5 class="card-title" th:text="|Cuestionario Médico - ${doctor.getEspecialidad().getNombre()}|">Cuestionario Médico</h5>
 
-                        <div th:id="contenedorcuestionario">
-                            <div>
-                            <input th:id="idcuestionariomodelo" th:value="${idcuestionario}" class="form-control"
-                                   type="hidden">
+                        <div th:if="${iddatosjson==null}" th:id="contenedorcuestionario">
+                            <!--<input th:id="idcuestionariomodelo" th:value="${idcuestionario}" class="form-control"
+                                   type="hidden">-->
                             <div  th:each="pregunta,indice:${listapreguntascuestionario}">
                                 <label class="card-title" th:text="|Pregunta ${indice.index+1}:|"></label>
                                 <label for="nombre0" class="col-md-12 col-form-label"
@@ -64,17 +63,37 @@
                                        type="hidden">
                                 <!--                            <button type="submit" class="btn btn-primary" onclick="ModificarForm()" >Enviar a Paciente</button>-->
 
-                                <div class="text-center">0
+                                <div class="text-center">
                                     <button class="btn btn-primary" type="submit">Enviar a Paciente</button>
                                     <button type="button" class="btn btn-danger"><a style="color: white" th:href="@{'/doctor/dashboard'}" >Cancelar</a></button>
                                 </div>
 
 
                             </form>
-                                </div>
-
-                            <!--                            <a type="button" class="bi bi-eye-fill"  th:href="@{'/doctor/pacientesatendidos/verhistorial'+ '?id=' + ${paciente.getIDPaciente()}}"></a>-->
+                            </div>
                         </div>
+
+                    <div th:unless="${iddatosjson==null}" >
+                        <!--<input th:id="idcuestionariomodelo" th:value="${idcuestionario}" class="form-control"
+                               type="hidden">-->
+                        <div th:each="inciso,indice:${cuestionariolleno}">
+                            <label class="card-title" th:text="|Pregunta ${indice.index+1}:|"></label>
+                            <label for="nombre3" class="col-md-12 col-form-label"
+                                   th:text="${inciso.getCampo()}"></label>
+                            <input name="nombre" type="text" class="form-control" id="nombre3" th:value="${inciso.getRespuesta()}"
+                                   disabled>
+                        </div>
+                        <!--<input th:value="${paciente.getUsuario().getIdusuario()}" class="form-control"
+                               type="hidden">-->
+                        <br>
+
+                            <div class="text-center">
+                                <button type="button" class="btn btn-danger"><a style="color: white" th:href="@{'/doctor/dashboard'}" >Regresar</a></button>
+                            </div>
+                    </div>
+                </div>
+
+
                     </div>
 
                         <!--<h5 class="card-title">Datos del Paciente</h5>

@@ -1,6 +1,6 @@
 package com.example.proyectogticsgrupo1.DTO;
 
-public interface InformeMedicoLlenado {
+public interface ModeloJsonLlenado {
 
     int getID();
 

@@ -43,16 +43,21 @@ nombre = |${doctor.usuario.nombres} ${doctor.usuario.apellidos} (${doctor.usuari
                             <div>
                             <div>
                                 <div  th:each="informe:${informesmedicos}" th:id="'fila-' + ${informe.getID()}">
-                                    <td>
                                     <label class="card-title" th:text="${informe.getNombreInforme()}"></label>
+                                    <td th:if="${datosJsonRepository.idDatosJson(informe.getID(),cita.getIdcita())==null}">
                                         <a class="btn btn-primary" th:href="@{'/doctor/pacientesatendidos/verhistorial/vercita/verinformesmedico/llenarinforme'+ '?idinforme=' + ${informe.getID()}+'&id=' + ${cita.getIdcita()}}"
                                            ><i class="bi bi-journal-text me-1"></i> Llenar Informe</a>
                                     </td>
-                                    <td th:text="${informe.getID()}" id="id_modelo" hidden></td>
+                                    <td th:unless="${datosJsonRepository.idDatosJson(informe.getID(),cita.getIdcita())==null}">
+                                        <a class="btn btn-success" th:href="@{'/doctor/pacientesatendidos/verhistorial/vercita/verinformesmedico/llenarinforme'+ '?idinforme=' + ${informe.getID()}+'&id=' + ${cita.getIdcita()}}"
+                                        ><i class="bi bi-journal-text me-2"></i> Ver Informe</a>
+                                    </td>
+                                    <!--<td th:text="${informe.getID()}" id="id_modelo" hidden></td> -->
                                     <td>
+                                        <!--<td th:text="${informe.getID()}" id="id_modelo" hidden></td> -->
                                         <button type="button" class="btn btn-secondary button-edit" th:data-id="${informe.getID()}"
                                                 onclick="mostrarModal(this)"><i
-                                                class="bi bi-pencil-square"></i></button>
+                                                class="bi bi-pencil-square"></i> Editar </button>
                                     </td>
                                 </div>
                             </div>

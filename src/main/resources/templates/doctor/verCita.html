@@ -67,6 +67,7 @@ num_men = '2', id=${session.usuario.idusuario})">
                            <div class="ps-3">
                                <div>
                                    <div class="d-grid gap-3 d-md-flex justify-content-md-center">
+
                                        <form method="post" th:action="@{'/doctor/pacientesatendidos/verhistorial/vercita/actualizarestadocita'}" >
                                            <input name="id" th:value="${cita.getIdcita()}" class="form-control" type="hidden">
                                            <input name="idestadocita" th:value="${estadoscita.get(2).getIdestadocita()}" class="form-control" type="hidden">
@@ -76,7 +77,7 @@ num_men = '2', id=${session.usuario.idusuario})">
                                        <form method="post" th:action="@{'/doctor/pacientesatendidos/verhistorial/vercita/actualizarestadocita'}" >
                                            <input name="id" th:value="${cita.getIdcita()}" class="form-control" type="hidden">
                                            <input name="idestadocita" th:value="${estadoscita.get(3).getIdestadocita()}" class="form-control" type="hidden">
-                                           <button type="submit" class="btn btn-outline-success"><i class="bi bi-skip-end-circle me-1"></i> Continuar</button>
+                                           <button type="submit" class="btn btn-outline-success"><i class="bi bi-skip-end-circle me-1"></i> Iniciar</button>
                                        </form>
 
                                        <form method="post" th:action="@{'/doctor/pacientesatendidos/verhistorial/vercita/actualizarestadocita'}" >
@@ -153,8 +154,8 @@ num_men = '2', id=${session.usuario.idusuario})">
                    <div class="card recent-sales overflow-auto">
                        <div class="card-body">
                            <h5 class="card-title">Informe Médico</h5>
-                           <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                               <a th:href="@{'/doctor/pacientesatendidos/verhistorial/vercita/verinformesmedico'+ '?id=' + ${cita.getIdcita()}}" class="btn btn-danger">LLenar Informe</a>
+                           <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+                               <a th:href="@{'/doctor/pacientesatendidos/verhistorial/vercita/verinformesmedico'+ '?id=' + ${cita.getIdcita()}}" class="btn btn-danger">Ver Informes</a>
                            </div>
                            <br>
                            <div class="card">
@@ -162,12 +163,22 @@ num_men = '2', id=${session.usuario.idusuario})">
                                <div class="card-body">
                                    <p class="card-text"><span ></span></p>
                                    <p class="card-text"><span ></span></p>
-                                   <a class="bi bi-trash" >Borrar</a>
                                </div>
                            </div>
+                       </div>
+                       <div class="card-body">
+                           <h5 class="card-title">Cuestionario Médico</h5>
+                           <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+                               <a th:href="@{'/doctor/pacientesatendidos/verhistorial/vercita/vercuestionarios'+ '?id=' + ${cita.getIdcita()}}" class="btn btn-danger">Ver Cuestionarios</a>
+                           </div>
+                           <br>
+                           <div class="card">
 
-
-
+                               <div class="card-body">
+                                   <p class="card-text"><span ></span></p>
+                                   <p class="card-text"><span ></span></p>
+                               </div>
+                           </div>
                        </div>
                    </div>
                </div>
