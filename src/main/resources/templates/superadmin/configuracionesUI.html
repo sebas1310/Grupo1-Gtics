@@ -65,17 +65,21 @@
                                 <td><div class="row">
                                     <label for="inputColor" class="col-form-label">Color Picker</label>
                                     <div class="col-sm-10">
-                                        <input type="color" class="form-control form-control-color" id="exampleColorInput" value="#4154f1" title="Choose your color">
+                                        <input type="color" class="form-control form-control-color" id="exampleColorInput" value="#4154f1" title="Choose your color" required>
                                     </div>
-                                    <select class="form-select" aria-label="Default select example">
-                                        <option selected>Elige rol</option>
+                                    <select class="form-select" aria-label="Default select example" required>
+                                        <option selected>Elige un rol</option>
                                         <option value="1">Doctor</option>
                                         <option value="2">Paciente</option>
                                         <option value="3">Administrador</option>
                                         <option value="4">Administrativo</option>
                                     </select>
+
                                 </div></td>
+
                             </tr>
+
+
                             <thead>
                             <tr>
                                 <th scope="col">Imágenes</th>
@@ -99,9 +103,18 @@
                                     </div>
                                 </td>
                             </tr>
+
+
                             </tbody>
                         </table>
                         <!-- End Default Table Example -->
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-sm-10">
+                            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                        </div>
+                        <a class="btn btn-danger" th:href="@{'/superadmin/configuracion'}">Cancelar</a>
+
                     </div>
                 </div>
 
