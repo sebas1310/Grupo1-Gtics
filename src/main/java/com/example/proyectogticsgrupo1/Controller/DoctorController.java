@@ -1,5 +1,6 @@
 package com.example.proyectogticsgrupo1.Controller;
 
+import com.example.proyectogticsgrupo1.DTO.InformeMedicoLlenado;
 import com.example.proyectogticsgrupo1.DTO.InformesMedicos;
 import com.example.proyectogticsgrupo1.Entity.*;
 import com.example.proyectogticsgrupo1.Repository.*;
@@ -254,7 +255,7 @@ public class DoctorController {
         if(idestadocita==3){
             redirectAttributes.addFlashAttribute("msg7","Cita en Espera");
         }else if(idestadocita== 4){
-            redirectAttributes.addFlashAttribute("msg7","Cita en Consulta");
+                redirectAttributes.addFlashAttribute("msg7","Cita Iniciada");
         }else if(idestadocita== 6){
             redirectAttributes.addFlashAttribute("msg7","Cita Finalizada");
         }
@@ -273,8 +274,8 @@ public class DoctorController {
         model.addAttribute("cita", cita);
         //obtenemos el id del modelo del informe y luego se enviarán los datos desde la vista para llenar en la tabla "datos_json"
         List<InformesMedicos> informesMedicos = modeloJsonRepository.obtenerInformesMedico(doctor.getEspecialidad().getIdespecialidad());
-        //model.addAttribute("informemedico",informe);
         model.addAttribute("informesmedicos",informesMedicos);
+        model.addAttribute(datosJsonRepository);
         return "doctor/verInformesMedico";
     }
 
@@ -292,9 +293,11 @@ public class DoctorController {
         model.addAttribute("listapreguntasinforme",modeloJsonRepository.listarPreguntasxPlantilla(informeId));
         model.addAttribute("idinforme",informeId);
         Integer idDatosJson = datosJsonRepository.idDatosJson(informeId,idCita);
-        System.out.println(idDatosJson);
         if(idDatosJson != null){
-            model.addAttribute("informelleno", datosJsonRepository.informeMedicoLlenado(idDatosJson));
+            System.out.println(idDatosJson);
+            //model.addAttribute("informelleno", datosJsonRepository.informeMedicoLlenado(idDatosJson));
+            model.addAttribute("informelleno",datosJsonRepository.informeMedicoLlenado(idDatosJson));
+            model.addAttribute("idatosjson",idDatosJson);
         }
         return "doctor/llenarInforme";
     }
@@ -925,7 +928,9 @@ public class DoctorController {
 
         System.out.println("llega al repo de envio");
         modeloJsonRepository.agregarCuestionarioAPaciente(id_modelo,id_paciente,id_cita);
-
+        Paciente paciente1 = pacienteRepository.buscarPacientePorID(id_paciente);
+        notificacionesRepository.notificarCreacion(paciente1.getUsuario().getIdusuario(),"Estimado Paciente, recuerde llenar el cuestionario enviado por el doctor","Cuestionario Pendiente");
+        emailService.sendEmail(paciente1.getUsuario().getCorreo(),"Cuestionario Pendiente","Estimado Paciente, recuerde llenar el cuestionario enviado por el doctor antes de su cita");
 
 
         redirectAttributes.addFlashAttribute("msg","Cuestionario enviado");
