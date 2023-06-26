@@ -260,33 +260,7 @@ public class PacienteController {
         return "paciente/reservar2";
     }
 
-    @GetMapping(value = "/pagos")
-    public String pagosView(Model model){
-        //Optional<Paciente> optionalPaciente = pacienteRepository.findById(1);
-        //Paciente paciente =  optionalPaciente.get();
 
-        Usuario usuario = (Usuario) session.getAttribute("usuario");
-        Paciente paciente = pacienteRepository.pacXuser(usuario.getIdusuario());
-        List<BoletaPaciente> listapagado = boletaPacienteRepository.boletaspagadas(paciente.getIdpaciente());
-        List<Integer> ids  = new ArrayList<>();
-        for(BoletaPaciente b : listapagado){
-            ids.add(b.getCita().getIdcita());
-        }
-
-        model.addAttribute("pacientelog",paciente);
-        if(citaRepository.porpagar(paciente.getIdpaciente(),ids).size()>=1){
-            List<Double> costoscita = new ArrayList<>();
-            for(Cita c : citaRepository.porpagar(paciente.getIdpaciente(),ids)){
-                DecimalFormat df = new DecimalFormat("#.##");
-                String resultadoFormateado = df.format(c.getEspecialidad().getCosto()*paciente.getSeguro().getCoaseguro());
-                costoscita.add(Double.parseDouble(resultadoFormateado));
-            }
-
-            model.addAttribute("costo",costoscita);
-            model.addAttribute("pagos",citaRepository.porpagar(paciente.getIdpaciente(),ids));
-        }
-        return "paciente/pagos";
-    }
 
     @GetMapping(value = "/perfil")
     public String perfilPaciente(Model model){
@@ -887,6 +861,104 @@ public class PacienteController {
             redirectAttributes.addFlashAttribute("msg", "El doctor debe pertenecer a la sede");
             return "redirect:/paciente/agendarCita";
         }
+    }
+    @GetMapping(value = "/pagos")
+    public String pagosView(Model model){
+        //Optional<Paciente> optionalPaciente = pacienteRepository.findById(1);
+        //Paciente paciente =  optionalPaciente.get();
+
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        Paciente paciente = pacienteRepository.pacXuser(usuario.getIdusuario());
+        List<BoletaPaciente> listapagado = boletaPacienteRepository.boletaspagadas(paciente.getIdpaciente());
+        List<Integer> ids  = new ArrayList<>();
+        for(BoletaPaciente b : listapagado){
+            ids.add(b.getCita().getIdcita());
+        }
+
+        model.addAttribute("pacientelog",paciente);
+        if(citaRepository.porpagar(paciente.getIdpaciente(),ids).size()>=1){
+            List<Double> costoscita = new ArrayList<>();
+            for(Cita c : citaRepository.porpagar(paciente.getIdpaciente(),ids)){
+                DecimalFormat df = new DecimalFormat("#.##");
+                String resultadoFormateado = df.format(c.getEspecialidad().getCosto()*paciente.getSeguro().getCoaseguro());
+                costoscita.add(Double.parseDouble(resultadoFormateado));
+            }
+
+            model.addAttribute("costo",costoscita);
+            model.addAttribute("pagos",citaRepository.porpagar(paciente.getIdpaciente(),ids));
+        }
+        return "paciente/pagos";
+    }
+
+    @GetMapping(value = "/pagar")
+    public String pagar(@RequestParam("idcita") String idcita, Model model){
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        Paciente paciente = pacienteRepository.pacXuser(usuario.getIdusuario());
+        Cita cita = citaRepository.findById(Integer.parseInt(idcita)).get();
+
+
+        DecimalFormat df = new DecimalFormat("#.##");
+        String resultadoFormateado = df.format(cita.getEspecialidad().getCosto()*paciente.getSeguro().getCoaseguro());
+        Double monto = Double.parseDouble(resultadoFormateado);
+
+        model.addAttribute("pacientelog",paciente);
+        model.addAttribute("cita",cita);
+        model.addAttribute("monto",monto);
+        return "paciente/checkout";
+    }
+    @Autowired TarjetasRepository tarjetasRepository;
+    @PostMapping(value = "/checkoutpayment")
+    @Transactional
+    public String checkout(@RequestParam("cardnumber") String cardnumber,
+                           @RequestParam("month") String month,
+                           @RequestParam("year") String year,
+                           @RequestParam("cvv") String cvv,
+                           @RequestParam("idcita") Integer idcita){
+
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        Paciente paciente = pacienteRepository.pacXuser(usuario.getIdusuario());
+        String montopac = getmontopac(idcita);
+        Float montoDoctor = getmontoDoc(idcita);
+        Cita citaAgendada = citaRepository.findById(idcita).get();
+        Doctor doc = citaAgendada.getDoctor();
+        Boolean aprove = false;
+        for (Tarjetas t: tarjetasRepository.findAll()){
+            if (t.getNumero().equals(cardnumber)){
+                if (t.getMes().equals(month)){
+                    if (t.getAnio().equals(year)){
+                        if(t.getCvv().equals(cvv)){
+                            aprove = true;
+                        }
+                    }
+                }
+            }
+        }
+        System.out.println(aprove);
+        if(aprove){
+            boletaDoctorRepository.generarBoletaDoctorCita(citaAgendada.getIdcita(),paciente.getIdpaciente(),paciente.getSeguro().getIdseguro(),doc.getIddoctor(),montoDoctor);
+            boletaPacienteRepository.generarBoletaPacienteCita(paciente.getIdpaciente(),citaAgendada.getIdcita(),paciente.getSeguro().getIdseguro(),Float.parseFloat(montopac));
+        }
+        return "redirect:/paciente/boleta?idcita="+idcita.toString();
+    }
+
+    public Float getmontoDoc(Integer idcita){
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        Paciente paciente = pacienteRepository.pacXuser(usuario.getIdusuario());
+        Cita citaAgendada = citaRepository.findById(idcita).get();
+        Doctor doc = citaAgendada.getDoctor();
+        Double costoEspecialidad = especialidadRepository.getCosto(doc.getEspecialidad().getIdespecialidad());
+        Double comisionDoctor = seguroRepository.getCosto(paciente.getSeguro().getIdseguro());
+        Float montoDoctor = (float) (costoEspecialidad * comisionDoctor);
+        return montoDoctor;
+    }
+
+    public String getmontopac(Integer idcita) {
+        Cita cita = citaRepository.findById(idcita).get();
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        Paciente paciente = pacienteRepository.pacXuser(usuario.getIdusuario());
+        DecimalFormat df = new DecimalFormat("#.##");
+        String resultadoFormateado = df.format(cita.getEspecialidad().getCosto() * paciente.getSeguro().getCoaseguro());
+        return resultadoFormateado;
     }
 
     @PostMapping(value = "/pagospruebas")
