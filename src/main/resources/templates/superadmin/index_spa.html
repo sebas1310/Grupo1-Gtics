@@ -52,6 +52,8 @@
                         <th class="text-center" scope="col">Rol</th>
                         <th class="text-center" scope="col">Editar</th>
                         <th class="text-center" scope="col">Estado</th>
+                        <th class="text-center" scope="col">Ingresar Sesión</th>
+
                       </tr>
                     </thead>
                     <tbody>
@@ -62,6 +64,8 @@
                         <td class="text-center" ><a th:href="@{'/superadmin/perfilUsuario?id=' + ${usuario.idusuario}}" class="btn" style="background-color:#668cff">Acceder</a></td>
                         <td class="text-center" ><span th:if="${usuario.estadohabilitado == 1}" class="badge bg-success">Activo</span>
                           <span th:if="${usuario.estadohabilitado == 0}"class="badge bg-danger">Inactivo</span></td>
+                        <td class="text-center" ><a th:href="@{'/superadmin/perfilUsuario?id=' + ${usuario.idusuario}}" class="btn" style="background-color:#8a82be">Logueo</a></td>
+
                       </tr>
 
                     </tbody>

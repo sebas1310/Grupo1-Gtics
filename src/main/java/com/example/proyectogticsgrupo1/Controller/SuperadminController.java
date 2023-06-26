@@ -31,6 +31,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.beans.Encoder;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -88,26 +89,99 @@ public class SuperadminController {
         return "redirect:/index";
     }
     @GetMapping("/index")
-    public String inicioDashboardSuperadmin(Model model){
-
-        //Optional<Usuario> optionalUsuario = usuarioRepository.findById(1);
+    public String inicioDashboardSuperadmin(Model model) throws IOException {
         //Usuario usuario = optionalUsuario.get();
         Usuario usuarioSpa = (Usuario) session.getAttribute("usuario");
         Usuario superadmin = usuarioRepository.buscarPorId(usuarioSpa.getIdusuario());
 
         model.addAttribute("usuario",superadmin);
-
         List<Usuario> listaUsuarios = usuarioRepository.findAll();
-
-
         model.addAttribute("administradores", superadmin);
-
         model.addAttribute("listaUsuarios", listaUsuarios);
 
+        /*
+        Optional<UxUiEntity> style = uxUiRepository.findById(1);
 
+        if (style.isPresent()) {
+            UxUiEntity color_actual = style.get();
+            System.out.println("El color del encabezado es: " + color_actual.getCodigocolor());  // Esto imprimirá el valor en tu consola
+
+                System.out.println("El color del Sidebar es: " + styleActual.getSidebar());  // Esto imprimirá el valor en tu consola
+
+            model.addAttribute("headerColor", color_actual.getCodigocolor());
+
+        } else {
+            System.out.println("No se encontró stylevistas con el id proporcionado");
+        }
+
+        */
 
         return "superadmin/index_spa";
     }
+/*
+    @PostMapping("/EditarEstilo")
+    public String updateStylevistas(@ModelAttribute("stylevistas") UxUiEntity uxUiEntity) {
+        // Actualiza el registro en la base de datos
+        uxUiRepository.save(uxUiEntity);
+        // Redirige de nuevo a la página que muestra la lista de Stylevistas
+        return "redirect:/superadmin/SelectClinica";
+    }
+
+    @GetMapping("/SelectClinica")
+    public String gestion_uxui(Model model) {
+        List<UxUiEntity> listacolores = uxUiRepository.findAll();
+        if (listacolores.isEmpty()) {
+            System.out.println("La lista de Stylevistas está vacía.");
+        } else {
+            System.out.println("La lista de Stylevistas contiene elementos. Primer elemento: " + listaStylevistas.get(0));
+        }
+        model.addAttribute("listaStylevistas", listacolores);
+
+        Optional<UxUiEntity> style = uxUiRepository.findById(1);
+
+        if (style.isPresent()) {
+            UxUiEntity uxUiEntity = style.get();
+            System.out.println("El color del encabezado es: " + uxUiEntity.getCodigocolor());  // Esto imprimirá el valor en tu consola
+            model.addAttribute("headerColor", uxUiEntity.getCodigocolor());
+
+        } else {
+            System.out.println("No se encontró stylevistas con el id proporcionado");
+        }
+
+        return "superadmin/Gestionar_UIUX";
+    }
+*/
+    /*
+    @GetMapping("/EditarEstilo/{id}")
+    public String showEditForm(@PathVariable("id") Integer id, Model model) {
+        Stylevistas stylevistas = stylevistasRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid style ID:" + id));
+        model.addAttribute("stylevistas", stylevistas);
+        Optional<Stylevistas> style = stylevistasRepository.findById(1);
+        if (style.isPresent()) {
+            Stylevistas styleActual = style.get();
+            System.out.println("El color del encabezado es: " + styleActual.getHeader());  // Esto imprimirá el valor en tu consola
+
+            model.addAttribute("headerColor", styleActual.getHeader());
+
+            model.addAttribute("backgroundColor", styleActual.getBackground());
+
+        } else {
+            System.out.println("No se encontró stylevistas con el id proporcionado");
+        }
+
+        return "superadmin/EditarEstilo";
+    }
+*/
+    /*
+    @PostMapping("/EditarEstilo")
+    public String updateStylevistas(@ModelAttribute("stylevistas") Stylevistas stylevistas) {
+        // Actualiza el registro en la base de datos
+        stylevistasRepository.save(stylevistas);
+        // Redirige de nuevo a la página que muestra la lista de Stylevistas
+        return "redirect:/superadmin/SelectClinica";
+    }
+    */
+
     @GetMapping("/listaform")
     public String listaFormularios(Model model){
 
@@ -428,9 +502,17 @@ public class SuperadminController {
 
         return "superadmin/tables-general_spa";
     }
-
     @GetMapping("/configuracion")
     public String configuraciones(Model model){
+
+        Usuario superadmin = (Usuario) session.getAttribute("usuario");
+        model.addAttribute("usuario", superadmin);
+
+        return "superadmin/configuracion_elige";
+    }
+
+    @GetMapping("/configuracionUX")
+    public String configuracionesUX(Model model){
 
         Usuario superadmin = (Usuario) session.getAttribute("usuario");
         model.addAttribute("usuario", superadmin);
@@ -438,6 +520,14 @@ public class SuperadminController {
         return "superadmin/configuraciones_spa";
     }
 
+    @GetMapping("/configuracionUI")
+    public String configuracionesUI(Model model){
+
+        Usuario superadmin = (Usuario) session.getAttribute("usuario");
+        model.addAttribute("usuario", superadmin);
+
+        return "superadmin/configuracionesUI";
+    }
     @GetMapping("/nuevoform")
     public String nuevoFormulario(Model model){
 
