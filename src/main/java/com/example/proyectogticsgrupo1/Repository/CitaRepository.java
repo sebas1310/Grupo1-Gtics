@@ -77,6 +77,9 @@ public interface CitaRepository extends JpaRepository<Cita, Integer> {
     @Query(value = "SELECT * FROM cita WHERE idsede = ?1 AND DATE_FORMAT(fecha, '%Y-%m-%d') = ?2", nativeQuery = true)
     List<Cita> citaPorSede(Integer idsede, String fecha);
 
+    @Query(value = "SELECT * FROM cita WHERE idsede = ?1 AND DATE_FORMAT(fecha, '%Y-%m-%d')", nativeQuery = true)
+    List<Cita> citaPorSede2(Integer idsede);
+
 
     //-------------Misma semana------------------------//
     @Query(nativeQuery = true, value = "SELECT * FROM cita WHERE YEARWEEK(fecha) = YEARWEEK(CURDATE()) + 0  AND DAYOFWEEK(fecha) = 2\n" +

@@ -46,4 +46,6 @@ public interface DatosJsonRepository extends JpaRepository<DatosJsonEntity,Integ
             "select temp3.id as 'ID', temp3.nombre_plantilla as 'NombrePlantilla' , temp3.col_name as 'Campo' ,temp4.valores_json as 'Respuesta' ,temp3.modelo_json_id as 'IdModeloJson',temp3.cita_idcita as 'IDCita' ,temp3.idusuario as 'IDUsuario' from temp3 left join temp4 on temp3.preguntas_enumeradas = temp4.respuestas_enumeradas ",nativeQuery = true)
     InformeMedicoLlenado informeMedicoLlenado (Integer idDatosJson);
 
+
+
 }

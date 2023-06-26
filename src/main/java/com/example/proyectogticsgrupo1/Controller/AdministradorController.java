@@ -32,6 +32,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.print.Doc;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.*;
@@ -138,7 +139,6 @@ public class AdministradorController {
 
     }*/
 
-
     @PostMapping(value = "/guardar2")
     @Transactional
     public String guardarUsuario(@ModelAttribute("usuario2") @Valid Usuario user,BindingResult bindingResult, RedirectAttributes attr, Model model, @RequestParam("direccion") String direccion) {
@@ -214,33 +214,45 @@ public class AdministradorController {
         return sb.toString();
     }
 
-
     @GetMapping(value = "/calendariogeneral")
-    public String genCalendar(Model model) {
+    public String genCalendar(@ModelAttribute("administradorlog") Usuario usuario, Model model) {
         Usuario usuarioAdministrador = (Usuario) session.getAttribute("usuario");
-        model.addAttribute("usuario", usuarioAdministrador);
+        Usuario administrador = usuarioRepository.buscarPorId(usuarioAdministrador.getIdusuario());
+        model.addAttribute("administradorlog", administrador);
 
         // Obtener la fecha actual
-        Date currentDate = new Date();
+        LocalDate currentDate = LocalDate.now();
 
         // Obtener el día de la semana actual (Domingo = 1, Lunes = 2, ..., Sábado = 7)
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(currentDate);
-        String currentDayOfWeek = String.valueOf(calendar.get(Calendar.DAY_OF_WEEK));
+        DayOfWeek currentDayOfWeek = currentDate.getDayOfWeek();
 
         // Obtener las citas de la sede para el día correspondiente
-        List<Cita> citas = citaRepository.citaPorSede(usuarioAdministrador.getIdusuario(), currentDayOfWeek);
+        List<Cita> citas = citaRepository.citaPorSede2(usuarioAdministrador.getSede().getIdsede());
 
-        // Obtener las especialidades de las citas
-        List<Especialidad> especialidades = new ArrayList<>();
+        // Crear un mapa para almacenar las citas por día
+        Map<Integer, List<Cita>> citasPorDia = new HashMap<>();
+
+// Agrupar las citas por día
         for (Cita cita : citas) {
-            Especialidad especialidad = especialidadRepository.findByIdespecialidad(cita.getEspecialidad().getIdespecialidad());
-            especialidades.add(especialidad);
+            int dayOfMonth = cita.getFecha().getDayOfMonth();
+            citasPorDia.computeIfAbsent(dayOfMonth, k -> new ArrayList<>()).add(cita);
         }
 
-        // Pasar las citas y las especialidades al modelo
-        model.addAttribute("citas", citas);
-        model.addAttribute("especialidades", especialidades);
+// Crear una lista de eventos en formato JSON
+        List<Map<String, Object>> eventos = new ArrayList<>();
+        for (List<Cita> citasDelDia : citasPorDia.values()) {
+            for (Cita cita : citasDelDia) {
+                Map<String, Object> evento = new HashMap<>();
+                evento.put("title", cita.getEspecialidad().getNombre()); // Título del evento
+                evento.put("start", cita.getFecha().toString()); // Fecha de inicio del evento
+                // Otros campos opcionales, como 'end', 'color', 'description', etc., pueden agregarse aquí según tus necesidades
+                eventos.add(evento);
+            }
+        }
+
+// Agregar la lista de eventos al modelo
+        model.addAttribute("eventos", eventos);
+
 
         return "administrador/calendariogeneral";
     }
@@ -593,7 +605,6 @@ public class AdministradorController {
             mensaje.setUsuarioOrigen(usuarioo);
             Usuario usuariod = new Usuario();
             usuariod.setIdusuario(usuario.getIdusuario());
-            usuariod.setTipodeusuario(usuario.getTipodeusuario());
             mensaje.setUsuarioDestino(usuariod);
             // Establecer la fecha y hora actual
             mensaje.setFecha(LocalDate.now());
@@ -605,7 +616,6 @@ public class AdministradorController {
 
             // Lógica para enviar el correo electrónico
             String mensajeCorreo = "Asunto: " + asunto + "\nDescripción: " + descripcion;
-
             emailService.sendEmail(correo, "Mensaje de Contacto", mensajeCorreo);
 
             redirectAttributes.addFlashAttribute("mp1", "El correo ha sido enviado exitosamente");
@@ -615,37 +625,7 @@ public class AdministradorController {
 
         return "redirect:/administrador/chat";
     }
-/*
-    @PostMapping("/guardarImagen")
-    public String guardarImagenEvento(@RequestParam("file") MultipartFile file, @RequestParam("id") int id, RedirectAttributes attr) {
-        System.out.println("llega a guardar");
-        StringBuilder fileNames = new StringBuilder();
-        String nombreArchivo= "foto-usuario-" + id;
-        System.out.println("nombre en guardar"+nombreArchivo);
-        uploadObject(file,nombreArchivo, "gigacontrol", "l5-20203368-2023-1-gtics");
-        return "redirect:/administrador/perfil";
-    }
 
-    public static void uploadObject
-            (MultipartFile multipartFile, String fileName, String projectId, String gcpBucketId) {
-        try {
-            byte[] fileData = FileUtils.readFileToByteArray(convertFile(multipartFile));
-            Storage storage = StorageOptions.newBuilder().setProjectId(projectId).build().getService();
-            Bucket bucket = storage.get(gcpBucketId, Storage.BucketGetOption.fields());
-//            RandomString id = new RandomString(6, ThreadLocalRandom.current());
-            Blob blob = bucket.create("proyecto" + "/" + fileName + checkFileExtension(fileName), fileData);
-
-            if (blob != null) {
-                System.out.println("errro?");
-               /* LOGGER.debug("File successfully uploaded to GCS");
-                return new FileDto(blob.getName(), blob.getMediaLink());
-            }
-        } catch (Exception e) {
-            System.out.println("errro?2");
-//            LOGGER.error("An error occurred while uploading data. Exception: ", e);
-            throw new RuntimeException("An error occurred while storing data to GCS");
-        }
-    }
 
     private static File convertFile(MultipartFile file) {
 
@@ -674,5 +654,5 @@ public class AdministradorController {
             }
         }
         return ".jpeg";
-    }*/
+    }
 }

@@ -1,206 +1,36 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/html">
+<html lang='en'>
 
-<head th:insert="fragments/administrador/librerias.html :: cabecera (titulo = 'Calendario General')">
+<head th:insert="fragments/administrador/librerias.html :: cabecera (titulo = 'Calendario')">
 </head>
-<body>
 
-<!-- ======= Header ======= -->
+<body>
 <header th:replace="fragments/administrador/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1',  nombre = ${session.usuario.nombres} + ' ' + ${session.usuario.apellidos} + ' ' + '(' + ${session.usuario.tipodeusuario.nombre.toUpperCase()} + ')', num_men = '2', sede = |${session.usuario.sede.nombre}|, id=${session.usuario.idusuario})">
 </header>
-<!-- End Header -->
 
-<!-- ======= Sidebar ======= -->
-<aside th:replace="fragments/administrador/aside.html :: sidebar (active = 'calendariogeneral')">
-</aside>
-<!-- End Sidebar-->
+<div class="container" style="margin-left: 310px">
+    <aside th:replace="fragments/administrador/aside.html :: sidebar (active = 'dashboard')" class="aside">
+    </aside>
 
-<div th:replace="fragments/administrador/modalCerrarSesion.html::modal">
-
-</div>
-<!-- End Modal-->
-<main id="main" class="main">
-
-  <div class="pagetitle">
-    <h1>Calendario General</h1>
-    <nav>
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a th:href="@{'/administrador'}">Home</a></li>
-        <li class="breadcrumb-item active">Calendario General</li>
-      </ol>
-    </nav>
-  </div><!-- End Page Title -->
-
-  <section class="section profile">
-    <div class="card d-flex justify-content-center">
-      <!-- Mis citas -->
-      <div class="card-body">
-        <div class="d-flex justify-content-center align-items-center">
-          <h2 id="currentMonthLabel" class="card-title mr-2" style="margin-right: 10px; text-transform: uppercase; font-size: 30px;"></h2>
-          <h2 class="card-title mr-2" style="font-size: 30px;" id="currentYearLabel"></h2>
-        </div>
-        <div class="table-responsive">
-          <div class="d-flex justify-content-between align-items-center">
-            <h3 id="currentWeekLabel"></h3>
-          </div>
-          <table class="table table-bordered" onsubmit="return updateCalendar()">
-            <thead>
-            <tr>
-              <th class="text-center week-day" id="day1">Domingo</th>
-              <th class="text-center" id="day2">Lunes</th>
-              <th class="text-center" id="day3">Martes</th>
-              <th class="text-center" id="day4">Miércoles</th>
-              <th class="text-center" id="day5">Jueves</th>
-              <th class="text-center" id="day6">Viernes</th>
-              <th class="text-center" id="day7">Sábado</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-              <td th:each="cita, citaIndex : ${citas}">
-                <span th:text="${cita.fecha}"></span><br>
-                <span th:text="${especialidades[citaIndex.index].nombre}"></span>
-              </td>
-            </tr>
-            <tr>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-            </tr>
-            <tr>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-            </tr>
-            <tr>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-            </tr>
-            <tr>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-            </tr>
-            <tr>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-            </tr>
-            </tbody>
-          </table>
-        </div>
-        <!-- Modal -->
-        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-          <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">Información de la Cita</h5>
-              </div>
-              <div class="modal-body">
-                <!-- Contenido del modal -->
-              </div>
-              <div class="modal-footer d-flex justify-content-center">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+    <div class="calendar-card">
+        <div id='calendar' class="calendar-container"></div>
     </div>
-  </section>
+</div>
 
-  <script>
-    function updateCalendar() {
-      // Obtener la fecha actual
-      var currentDate = new Date();
+<script th:inline="javascript">
+    document.addEventListener('DOMContentLoaded', function() {
+        var calendarEl = document.getElementById('calendar');
+        var eventos = /*[[${eventos}]]*/ 'default';
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth'
+        });
 
-      var daysOfWeek = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
+        eventos = /*[[${eventos}]]*/ 'default';
 
-      // Obtener el nombre del mes actual
-      var currentMonth = currentDate.toLocaleString("default", { month: "long" });
-
-      // Obtener el año actual
-      var currentYear = currentDate.getFullYear();
-
-      // Mostrar el mes y año actual en los elementos correspondientes
-      var currentMonthLabel = document.getElementById("currentMonthLabel");
-      var currentYearLabel = document.getElementById("currentYearLabel");
-      currentMonthLabel.textContent = currentMonth;
-      currentYearLabel.textContent = currentYear;
-
-      // Obtener el número de días en el mes actual
-      var daysInMonth = new Date(currentYear, currentDate.getMonth() + 1, 0).getDate();
-
-      // Obtener el primer día de la semana del mes actual
-      var firstDay = new Date(currentYear, currentDate.getMonth(), 1).getDay();
-
-      // Obtener referencia a la tabla del calendario
-      var calendarTable = document.querySelector(".table-bordered");
-
-      // Obtener todas las celdas de la tabla (excepto la primera fila de encabezados)
-      var cells = calendarTable.getElementsByTagName("td");
-
-      // Limpiar el contenido de todas las celdas
-      for (var i = 0; i < cells.length; i++) {
-        cells[i].textContent = "";
-      }
-
-      // Llenar las celdas con los días del mes actual
-      var day = 1;
-      for (var i = firstDay; i <= firstDay + daysInMonth; i++) {
-        cells[i].textContent = day;
-        day++;
-      }
-
-
-    }
-
-    // Llamar a la función para inicializar el calendario
-    updateCalendar();
-  </script>
-
-
-
-</main><!-- End #main -->
-
-
-
-<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
-
-<!-- Vendor JS Files -->
-<script th:src="@{/assets/vendor/apexcharts/apexcharts.min.js}"></script>
-<script th:src="@{/assets/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
-<script th:src="@{/assets/vendor/chart.js/chart.min.js}"></script>
-<script th:src="@{/assets/vendor/echarts/echarts.min.js}"></script>
-<script th:src="@{/assets/vendor/quill/quill.min.js}"></script>
-<script th:src="@{/assets/vendor/simple-datatables/simple-datatables.js}"></script>
-<script th:src="@{/assets/vendor/tinymce/tinymce.min.js}"></script>
-<script th:src="@{/assets/vendor/php-email-form/validate.js}"></script>
-
-<!-- Template Main JS File -->
-<script th:src="@{/assets/js/main.js}"></script>
-
+        calendar.addEventSource(eventos);
+        calendar.render();
+    });
+</script>
 
 </body>
 

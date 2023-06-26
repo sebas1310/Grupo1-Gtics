@@ -7,12 +7,12 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "datos_json", schema = "bdclinicag1", catalog = "")
+@Table(name = "datos_json", schema = "bdclinicag1_v2", catalog = "")
 public class DatosJsonEntity {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private int id;
+    private Integer id;
 
     @Column(name = "nombre_plantilla",  nullable = false)
     private String nombre_plantilla;
