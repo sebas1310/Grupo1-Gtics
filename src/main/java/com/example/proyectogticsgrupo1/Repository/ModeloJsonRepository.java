@@ -73,6 +73,12 @@ public interface ModeloJsonRepository extends JpaRepository<ModeloJsonEntity,Int
     @Query(value = "SELECT * from modelo_json where id = ?1 and cuestionario = 1", nativeQuery = true)
     ModeloJsonEntity listaCuestionarios(int idmodelo);
 
+    @Query(value = "SELECT idmodelo_fk FROM modelo_x_cita where idpaciente_fk=?1 and idcita_fk=?2",nativeQuery = true)
+    List<Integer> listaIDCuestionariosEnviados (int idpaciente ,int idcita);
+
+    @Query(value = "SELECT nombre_plantilla FROM modelo_json where id=?1", nativeQuery = true)
+    String nombrePlantilla(int idmodelojson);
+
 
 
 

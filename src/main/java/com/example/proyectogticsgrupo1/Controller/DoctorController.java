@@ -664,7 +664,7 @@ public class DoctorController {
         return "doctor/cuestionarioDoc";
     }
 
-    /*@GetMapping("/pacientesatendidos/verhistorial/vercita/vercuestionarios")
+    @GetMapping("/pacientesatendidos/verhistorial/vercita/vercuestionarios")
     public String verCuestionarioMedico(Model model, @RequestParam("id") int idCita) {
 
         Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
@@ -672,12 +672,34 @@ public class DoctorController {
         model.addAttribute("doctor",doctor);
         Cita cita = citaRepository.buscarCitaPorId(idCita);
         model.addAttribute("cita", cita);
-        //obtenemos el id del modelo del informe y luego se enviarán los datos desde la vista para llenar en la tabla "datos_json"
-        int cuestionarioMedicoId = modeloJsonRepository.cuestionarioMedicoId(doctor.getEspecialidad().getIdespecialidad());
-        model.addAttribute("informesmedicos",informesMedicos);
+        List<Integer> CuestionariosEnviados = modeloJsonRepository.listaIDCuestionariosEnviados(cita.getPaciente().getIdpaciente(),cita.getIdcita());
+        model.addAttribute(modeloJsonRepository);
         model.addAttribute(datosJsonRepository);
-        return "doctor/verInformesMedico";
-    }*/
+        if(CuestionariosEnviados!=null) {
+            model.addAttribute("cuestionarios", CuestionariosEnviados);
+        }
+        return "doctor/vercuestionarios";
+    }
+
+    @GetMapping("/pacientesatendidos/verhistorial/vercita/vercuestionarios/ver")
+    public String verCuestionarioMedico(Model model, @RequestParam("id") int idCita,@RequestParam("idcuest") int idcuestionario ) {
+
+        Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
+        Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
+        model.addAttribute("doctor",doctor);
+        Cita cita = citaRepository.buscarCitaPorId(idCita);
+        model.addAttribute("listapreguntascuestionario",modeloJsonRepository.listarPreguntasxPlantilla(idcuestionario));
+        model.addAttribute("idcuestionario",idcuestionario);
+        model.addAttribute("idcita",idCita);
+        model.addAttribute(datosJsonRepository);
+        Integer idDatosJsonCuestionario = datosJsonRepository.idDatosJson(idcuestionario,idCita);
+        if(idDatosJsonCuestionario != null){
+            model.addAttribute("iddatosjson",idDatosJsonCuestionario);
+            model.addAttribute("cuestionariolleno",datosJsonRepository.modeloJsonLlenado(idDatosJsonCuestionario));
+        }
+
+        return "doctor/cuestionarioDoc";
+    }
 
     @Transactional
     @PostMapping(value = "/cuestionario/enviarcuestionario")
