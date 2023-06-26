@@ -872,9 +872,10 @@ public class PacienteController {
         List<BoletaPaciente> listapagado = boletaPacienteRepository.boletaspagadas(paciente.getIdpaciente());
         List<Integer> ids  = new ArrayList<>();
         for(BoletaPaciente b : listapagado){
+            System.out.println("ids: " + b.getCita().getIdcita());
             ids.add(b.getCita().getIdcita());
         }
-
+        System.out.println("id: " + ids.size());
         model.addAttribute("pacientelog",paciente);
         if(citaRepository.porpagar(paciente.getIdpaciente(),ids).size()>=1){
             List<Double> costoscita = new ArrayList<>();
