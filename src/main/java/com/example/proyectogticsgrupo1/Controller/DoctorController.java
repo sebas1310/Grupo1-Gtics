@@ -1,6 +1,6 @@
 package com.example.proyectogticsgrupo1.Controller;
 
-import com.example.proyectogticsgrupo1.DTO.InformesMedicos;
+import com.example.proyectogticsgrupo1.DTO.InformeMedico;
 import com.example.proyectogticsgrupo1.Entity.*;
 import com.example.proyectogticsgrupo1.Repository.*;
 /*import com.google.cloud.storage.Blob;
@@ -272,7 +272,7 @@ public class DoctorController {
         Cita cita = citaRepository.buscarCitaPorId(idCita);
         model.addAttribute("cita", cita);
         //obtenemos el id del modelo del informe y luego se enviarán los datos desde la vista para llenar en la tabla "datos_json"
-        List<InformesMedicos> informesMedicos = modeloJsonRepository.obtenerInformesMedico(doctor.getEspecialidad().getIdespecialidad());
+        List<InformeMedico> informesMedicos = modeloJsonRepository.obtenerInformesMedico(doctor.getEspecialidad().getIdespecialidad());
         model.addAttribute("informesmedicos",informesMedicos);
         model.addAttribute(datosJsonRepository);
         return "doctor/verInformesMedico";
@@ -664,19 +664,21 @@ public class DoctorController {
         return "doctor/cuestionarioDoc";
     }
 
-    /*@PostMapping("/enviocuestionario")
-    @Transactional
-    public String enviarCuestionario(Model model, @RequestParam("mostrar_automatico") int mostrar_automatico,
-                                     @RequestParam("idespecialidad") Integer idespecialidad,
-                                     @RequestParam("correodestino") String correodestino,
-                                     RedirectAttributes redirectAttributes){
-        modeloJsonRepository.mostrarCuestionarioAutomatico(mostrar_automatico,idespecialidad);
-        String asunto = "Envio de Cuestionario";
-        String descripcion = "Estimado Paciente se le asignó un cuestionario para llenar antes de su siguiente cita, gracias";
-        emailService.sendEmail(correodestino,asunto,descripcion);
-        redirectAttributes.addFlashAttribute("msg","Cuestionario Enviado");
-        return "redirect:/doctor/dashboard";
-    } */
+    /*@GetMapping("/pacientesatendidos/verhistorial/vercita/vercuestionarios")
+    public String verCuestionarioMedico(Model model, @RequestParam("id") int idCita) {
+
+        Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
+        Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
+        model.addAttribute("doctor",doctor);
+        Cita cita = citaRepository.buscarCitaPorId(idCita);
+        model.addAttribute("cita", cita);
+        //obtenemos el id del modelo del informe y luego se enviarán los datos desde la vista para llenar en la tabla "datos_json"
+        int cuestionarioMedicoId = modeloJsonRepository.cuestionarioMedicoId(doctor.getEspecialidad().getIdespecialidad());
+        model.addAttribute("informesmedicos",informesMedicos);
+        model.addAttribute(datosJsonRepository);
+        return "doctor/verInformesMedico";
+    }*/
+
     @Transactional
     @PostMapping(value = "/cuestionario/enviarcuestionario")
     public String enviarCuestionario(Model model, @RequestParam("valores") List<String> valores,

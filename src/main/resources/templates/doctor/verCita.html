@@ -165,9 +165,20 @@ num_men = '2', id=${session.usuario.idusuario})">
                                    <p class="card-text"><span ></span></p>
                                </div>
                            </div>
+                       </div>
+                       <div class="card-body">
+                           <h5 class="card-title">Cuestionario Médico</h5>
+                           <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+                               <a th:href="@{'/doctor/pacientesatendidos/verhistorial/vercita/vercuestionarios'+ '?id=' + ${cita.getIdcita()}}" class="btn btn-danger">Ver Cuestionarios</a>
+                           </div>
+                           <br>
+                           <div class="card">
 
-
-
+                               <div class="card-body">
+                                   <p class="card-text"><span ></span></p>
+                                   <p class="card-text"><span ></span></p>
+                               </div>
+                           </div>
                        </div>
                    </div>
                </div>

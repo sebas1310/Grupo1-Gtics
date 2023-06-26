@@ -1,7 +1,7 @@
 package com.example.proyectogticsgrupo1.Repository;
 
 
-import com.example.proyectogticsgrupo1.DTO.InformesMedicos;
+import com.example.proyectogticsgrupo1.DTO.InformeMedico;
 import com.example.proyectogticsgrupo1.Entity.ModeloJsonEntity;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -33,7 +33,7 @@ public interface ModeloJsonRepository extends JpaRepository<ModeloJsonEntity,Int
     List<ModeloJsonEntity> listarNombresP();
 
     @Query(value=" select id as 'ID', nombre_plantilla as 'NombreInforme' from modelo_json where informe=1 and idtipodeusuario=5 and idespecialidad = ?1 ",nativeQuery = true)
-    List<InformesMedicos> obtenerInformesMedico (Integer idespecialidad);
+    List<InformeMedico> obtenerInformesMedico (Integer idespecialidad);
 
     @Query(value="select id from modelo_json where cuestionario=1 and idtipodeusuario=4 and idespecialidad = ?1",nativeQuery = true)
     int cuestionarioMedicoId(Integer idespecialidad);
