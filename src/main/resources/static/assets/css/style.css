@@ -1303,9 +1303,19 @@ body {
   border-radius: 5px;
   box-shadow: 0 2px 4px rgba(1, 41, 112, 0.1);
   background-color: white;
+  color: black;
+  text-transform: capitalize;
 }
 
 .calendar-container {
   width: 1330px;
   height: 640px;
+}
+
+.fc-col-header-cell-cushion {
+  color: black;
+}
+
+.fc-daygrid-day-number {
+  color: black;
 }

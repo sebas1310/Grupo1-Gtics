@@ -214,6 +214,50 @@ public class AdministradorController {
         return sb.toString();
     }
 
+    private String obtenerColorEvento(String nombreEspecialidad) {
+        // Lógica de mapeo para asociar nombres de especialidad con colores específicos
+        switch (nombreEspecialidad) {
+            case "Cardiología":
+                return "red";
+            case "Traumatología":
+                return "green";
+            case "Cirugía cardiovascular":
+                return "purple";
+            case "Laboratorio":
+                return "orange";
+            case "Rayos X":
+                return "blue";
+            case "Ecografía":
+                return "teal";
+            case "Ginecología":
+                return "pink";
+            case "Urología":
+                return "brown";
+            case "Medicina Interna":
+                return "navy";
+            case "Neumología":
+                return "lightblue";
+            case "Pediatría":
+                return "lime";
+            case "Neurología":
+                return "dark blue";
+            case "Gastroenterología":
+                return "olive";
+            case "Endocrinología":
+                return "maroon";
+            case "Otorrinolaringología":
+                return "aqua";
+            case "Nefrología":
+                return "silver";
+            case "Dermatología":
+                return "fuchsia";
+            default:
+                return "gray"; // Color predeterminado para otros casos
+        }
+    }
+
+
+
     @GetMapping(value = "/calendariogeneral")
     public String genCalendar(@ModelAttribute("administradorlog") Usuario usuario, Model model) {
         Usuario usuarioAdministrador = (Usuario) session.getAttribute("usuario");
@@ -245,11 +289,15 @@ public class AdministradorController {
                 Map<String, Object> evento = new HashMap<>();
                 evento.put("title", cita.getEspecialidad().getNombre()); // Título del evento
                 evento.put("start", cita.getFecha().toString()); // Fecha de inicio del evento
-                // Otros campos opcionales, como 'end', 'color', 'description', etc., pueden agregarse aquí según tus necesidades
+
+                // Asignar color según el nombre de la especialidad
+                String nombreEspecialidad = cita.getEspecialidad().getNombre();
+                String colorEvento = obtenerColorEvento(nombreEspecialidad); // Obtener el color según el nombre de la especialidad
+                evento.put("color", colorEvento); // Color del evento
+
                 eventos.add(evento);
             }
         }
-
 // Agregar la lista de eventos al modelo
         model.addAttribute("eventos", eventos);
 

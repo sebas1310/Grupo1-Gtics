@@ -9,7 +9,7 @@
 </header>
 
 <div class="container" style="margin-left: 310px">
-    <aside th:replace="fragments/administrador/aside.html :: sidebar (active = 'dashboard')" class="aside">
+    <aside th:replace="fragments/administrador/aside.html :: sidebar (active = 'calendariogeneral')" class="aside">
     </aside>
 
     <div class="calendar-card">
@@ -22,7 +22,30 @@
         var calendarEl = document.getElementById('calendar');
         var eventos = /*[[${eventos}]]*/ 'default';
         var calendar = new FullCalendar.Calendar(calendarEl, {
-            initialView: 'dayGridMonth'
+            initialView: 'dayGridMonth',
+            locale: 'es',
+            headerToolbar: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'dayGridMonth,timeGridWeek,timeGridDay'
+            },
+            dayHeaderFormat: {
+                weekday: 'long',
+                // Mostrar el nombre del día completo con la primera letra en mayúscula
+            },
+            dayCellContentDidMount: function(arg) {
+                arg.el.style.color = 'black'; // Establecer el color de fuente de todos los elementos a negro
+            },
+            titleFormat: {
+                year: 'numeric',
+                month: 'short',
+            },
+            buttonText: {
+                today: 'Hoy',
+                month: 'Mes',
+                week: 'Semana',
+                day: 'Día'
+            }
         });
 
         eventos = /*[[${eventos}]]*/ 'default';
@@ -30,6 +53,7 @@
         calendar.addEventSource(eventos);
         calendar.render();
     });
+
 </script>
 
 </body>
