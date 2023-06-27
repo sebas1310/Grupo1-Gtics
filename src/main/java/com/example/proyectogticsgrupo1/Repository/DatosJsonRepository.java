@@ -1,6 +1,7 @@
 package com.example.proyectogticsgrupo1.Repository;
 
 import com.example.proyectogticsgrupo1.DTO.ModeloJsonLlenado;
+import com.example.proyectogticsgrupo1.DTO.ModeloJsonLlenado;
 import com.example.proyectogticsgrupo1.Entity.DatosJsonEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -22,6 +23,25 @@ public interface DatosJsonRepository extends JpaRepository<DatosJsonEntity,Integ
 
     @Query(value = "select * from datos_json where nombre_plantilla like 'INF%' and cita_idcita= ?1",nativeQuery = true)
     List<Integer> listaIDDatosJsonDeInformesMedicos (int idCita);
+
+
+
+
+
+
+    @Query(value = "SELECT id from datos_json where nombre_plantilla like '%CUEST%' and cita_idcita=?2",nativeQuery = true)
+    List<Integer> ListaIdsJsonCuestionario (int idCita);
+
+
+    @Query(value = "SELECT * from datos_json where modelo_json_id = ?1 and nombre_plantilla like '%cst%' and cita_idcita = ?2", nativeQuery = true)
+    DatosJsonEntity listaCuestionariosLLenos(int idmodelo,int idcita);
+
+
+
+
+
+
+
 
 
     @Query(value = "with temp1 as( \n " +
