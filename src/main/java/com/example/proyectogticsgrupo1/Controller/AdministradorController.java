@@ -35,6 +35,7 @@ import java.io.FileOutputStream;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Controller
@@ -291,9 +292,11 @@ public class AdministradorController {
             for (List<Cita> citasDeHora : citasPorHora.values()) {
                 for (Cita cita : citasDeHora) {
                     Map<String, Object> evento = new HashMap<>();
-                    evento.put("title", cita.getHorainicio() + " " + cita.getEspecialidad().getNombre()); // Título del evento
-                    evento.put("start", cita.getFecha().toString()); // Fecha de inicio del evento
+                    evento.put("title", cita.getEspecialidad().getNombre()); // Título del evento
+                    evento.put("start", cita.getFecha().atTime(cita.getHorainicio())); // Fecha y hora de inicio del evento formateadas
+                    evento.put("display", "block"); // Mostrar el evento como un bloque de color
                     evento.put("color", obtenerColorEvento(cita.getEspecialidad().getNombre())); // Color del evento
+
 
                     eventos.add(evento);
                 }
