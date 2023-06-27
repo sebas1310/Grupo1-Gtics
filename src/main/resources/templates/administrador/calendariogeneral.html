@@ -1,21 +1,56 @@
 <!DOCTYPE html>
-<html lang='en'>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 
 <head th:insert="fragments/administrador/librerias.html :: cabecera (titulo = 'Calendario')">
+
 </head>
 
 <body>
+
 <header th:replace="fragments/administrador/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1',  nombre = ${session.usuario.nombres} + ' ' + ${session.usuario.apellidos} + ' ' + '(' + ${session.usuario.tipodeusuario.nombre.toUpperCase()} + ')', num_men = '2', sede = |${session.usuario.sede.nombre}|, id=${session.usuario.idusuario})">
 </header>
 
-<div class="container" style="margin-left: 310px">
-    <aside th:replace="fragments/administrador/aside.html :: sidebar (active = 'calendariogeneral')" class="aside">
-    </aside>
+<aside th:replace="fragments/administrador/aside.html :: sidebar (active = 'calendariogeneral')">
+</aside>
 
-    <div class="calendar-card">
-        <div id='calendar' class="calendar-container"></div>
-    </div>
+<div th:replace="fragments/administrador/modalCerrarSesion.html::modal">
+
 </div>
+
+<main id="main" class="main">
+    <div class="pagetitle">
+        <h1>Calendario General</h1>
+        <p>Citas en la sede según especialidad</p>
+    </div><!-- End Page Title -->
+
+    <section class="section">
+        <div class="row">
+               <div class="col-lg-20">
+                   <div class="card">
+                       <div class="card-body">
+                           <div id='calendar' class="calendar-container"></div>
+                       </div>
+                   </div>
+               </div>
+        </div>
+    </section>
+</main>
+
+
+<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+<!-- Vendor JS Files -->
+<script th:src="@{/assets/vendor/apexcharts/apexcharts.min.js}"></script>
+<script th:src="@{/assets/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/assets/vendor/chart.js/chart.min.js}"></script>
+<script th:src="@{/assets/vendor/echarts/echarts.min.js}"></script>
+<script th:src="@{/assets/vendor/quill/quill.min.js}"></script>
+<script th:src="@{/assets/vendor/simple-datatables/simple-datatables.js}"></script>
+<script th:src="@{/assets/vendor/tinymce/tinymce.min.js}"></script>
+<script th:src="@{/assets/vendor/php-email-form/validate.js}"></script>
+
+<!-- Template Main JS File -->
+<script th:src="@{/assets/js/main.js}"></script>
 
 <script th:inline="javascript">
     document.addEventListener('DOMContentLoaded', function() {
