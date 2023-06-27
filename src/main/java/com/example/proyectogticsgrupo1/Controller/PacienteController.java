@@ -521,7 +521,7 @@ public class PacienteController {
 //            System.out.println(id_modelo);
             if (id_modelo != null){
                 id_cita = cita_unica.getIdcita();
-                ModeloJsonEntity modelo_cuestionario_2 = modeloJsonRepository.listaCuestionarios(id_modelo);
+                ModeloJsonEntity modelo_cuestionario_2 = modeloJsonRepository.listaCuestionarios_2(id_modelo);
 
 
                 DatosJsonEntity datos_json_cuestionario_2 = datosJsonRepository.listaCuestionariosLLenos(id_modelo,cita_unica.getIdcita());
