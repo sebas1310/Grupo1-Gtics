@@ -137,37 +137,37 @@ public interface EventocalendariodoctorRepository extends JpaRepository<Eventoca
     List<Eventocalendariodoctor> listaSabados( Integer id);
 
     //-------------Siguiente semana------------------------//
-    @Query(nativeQuery = true, value = "SELECT * FROM eventocalendariodoctor WHERE (YEARWEEK(fecha) = YEARWEEK(DATE_SUB(NOW(), INTERVAL 5 HOUR) + 1 ) AND DAYOFWEEK(fecha) = 2\n" +
+    @Query(nativeQuery = true, value = "SELECT * FROM eventocalendariodoctor WHERE (YEARWEEK(fecha) = YEARWEEK(DATE_SUB(NOW(), INTERVAL 5 HOUR)  ) + 1 AND DAYOFWEEK(fecha) = 2\n" +
             "AND (DATE(fecha) > DATE(DATE_SUB(NOW(), INTERVAL 5 HOUR)) OR (DATE(fecha) = DATE(DATE_SUB(NOW(), INTERVAL 5 HOUR))\n" +
             "            AND horainicio > DATE_SUB(CURTIME(), INTERVAL 3 HOUR)))\n" +
             " and idtipohoracalendariodoctor = 1 and iddoctor= ?1)")
     List<Eventocalendariodoctor> listaLunes1( Integer id);
 
-    @Query(nativeQuery = true, value = "SELECT * FROM eventocalendariodoctor WHERE (YEARWEEK(fecha) = YEARWEEK(DATE_SUB(NOW(), INTERVAL 5 HOUR) + 1 ) AND DAYOFWEEK(fecha) = 3\n" +
+    @Query(nativeQuery = true, value = "SELECT * FROM eventocalendariodoctor WHERE (YEARWEEK(fecha) = YEARWEEK(DATE_SUB(NOW(), INTERVAL 5 HOUR) ) + 1 AND DAYOFWEEK(fecha) = 3\n" +
             "AND (DATE(fecha) > DATE(DATE_SUB(NOW(), INTERVAL 5 HOUR)) OR (DATE(fecha) = DATE(DATE_SUB(NOW(), INTERVAL 5 HOUR))\n" +
             "            AND horainicio > DATE_SUB(CURTIME(), INTERVAL 3 HOUR)))\n" +
             " and idtipohoracalendariodoctor = 1 and iddoctor= ?1)")
     List<Eventocalendariodoctor> listaMartes1( Integer id);
 
-    @Query(nativeQuery = true, value = "SELECT * FROM eventocalendariodoctor WHERE (YEARWEEK(fecha) = YEARWEEK(DATE_SUB(NOW(), INTERVAL 5 HOUR) + 1 ) AND DAYOFWEEK(fecha) = 4\n" +
+    @Query(nativeQuery = true, value = "SELECT * FROM eventocalendariodoctor WHERE (YEARWEEK(fecha) = YEARWEEK(DATE_SUB(NOW(), INTERVAL 5 HOUR))+ 1 AND DAYOFWEEK(fecha) = 4\n" +
             "AND (DATE(fecha) > DATE(DATE_SUB(NOW(), INTERVAL 5 HOUR)) OR (DATE(fecha) = DATE(DATE_SUB(NOW(), INTERVAL 5 HOUR))\n" +
             "            AND horainicio > DATE_SUB(CURTIME(), INTERVAL 3 HOUR)))\n" +
             " and idtipohoracalendariodoctor = 1 and iddoctor= ?1)")
     List<Eventocalendariodoctor> listaMiercoles1( Integer id);
 
-    @Query(nativeQuery = true, value = "SELECT * FROM eventocalendariodoctor WHERE (YEARWEEK(fecha) = YEARWEEK(DATE_SUB(NOW(), INTERVAL 5 HOUR) + 1 ) AND DAYOFWEEK(fecha) = 5\n" +
+    @Query(nativeQuery = true, value = "SELECT * FROM eventocalendariodoctor WHERE (YEARWEEK(fecha) = YEARWEEK(DATE_SUB(NOW(), INTERVAL 5 HOUR)) + 1 AND DAYOFWEEK(fecha) = 5\n" +
             "AND (DATE(fecha) > DATE(DATE_SUB(NOW(), INTERVAL 5 HOUR)) OR (DATE(fecha) = DATE(DATE_SUB(NOW(), INTERVAL 5 HOUR))\n" +
             "            AND horainicio > DATE_SUB(CURTIME(), INTERVAL 3 HOUR)))\n" +
             " and idtipohoracalendariodoctor = 1 and iddoctor= ?1)")
     List<Eventocalendariodoctor> listaJueves1( Integer id);
 
-    @Query(nativeQuery = true, value = "SELECT * FROM eventocalendariodoctor WHERE (YEARWEEK(fecha) = YEARWEEK(DATE_SUB(NOW(), INTERVAL 5 HOUR) + 1 ) AND DAYOFWEEK(fecha) = 6\n" +
+    @Query(nativeQuery = true, value = "SELECT * FROM eventocalendariodoctor WHERE (YEARWEEK(fecha) = YEARWEEK(DATE_SUB(NOW(), INTERVAL 5 HOUR))+ 1 AND DAYOFWEEK(fecha) = 6\n" +
             "AND (DATE(fecha) > DATE(DATE_SUB(NOW(), INTERVAL 5 HOUR)) OR (DATE(fecha) = DATE(DATE_SUB(NOW(), INTERVAL 5 HOUR))\n" +
             "            AND horainicio > DATE_SUB(CURTIME(), INTERVAL 3 HOUR)))\n" +
             " and idtipohoracalendariodoctor = 1 and iddoctor= ?1)")
     List<Eventocalendariodoctor> listaViernes1( Integer id);
 
-    @Query(nativeQuery = true, value = "SELECT * FROM eventocalendariodoctor WHERE (YEARWEEK(fecha) = YEARWEEK(DATE_SUB(NOW(), INTERVAL 5 HOUR) + 1 ) AND DAYOFWEEK(fecha) = 7\n" +
+    @Query(nativeQuery = true, value = "SELECT * FROM eventocalendariodoctor WHERE (YEARWEEK(fecha) = YEARWEEK(DATE_SUB(NOW(), INTERVAL 5 HOUR))+ 1 AND DAYOFWEEK(fecha) = 7\n" +
             "AND (DATE(fecha) > DATE(DATE_SUB(NOW(), INTERVAL 5 HOUR)) OR (DATE(fecha) = DATE(DATE_SUB(NOW(), INTERVAL 5 HOUR))\n" +
             "            AND horainicio > DATE_SUB(CURTIME(), INTERVAL 3 HOUR)))\n" +
             " and idtipohoracalendariodoctor = 1 and iddoctor= ?1)")
@@ -175,37 +175,37 @@ public interface EventocalendariodoctorRepository extends JpaRepository<Eventoca
 
 
     //-------------A 2 semanas------------------------//
-    @Query(nativeQuery = true, value = "SELECT * FROM eventocalendariodoctor WHERE (YEARWEEK(fecha) = YEARWEEK(DATE_SUB(NOW(), INTERVAL 5 HOUR) + 2 ) AND DAYOFWEEK(fecha) = 2\n" +
+    @Query(nativeQuery = true, value = "SELECT * FROM eventocalendariodoctor WHERE (YEARWEEK(fecha) = YEARWEEK(DATE_SUB(NOW(), INTERVAL 5 HOUR))+ 2 AND DAYOFWEEK(fecha) = 2\n" +
             "AND (DATE(fecha) > DATE(DATE_SUB(NOW(), INTERVAL 5 HOUR)) OR (DATE(fecha) = DATE(DATE_SUB(NOW(), INTERVAL 5 HOUR))\n" +
             "            AND horainicio > DATE_SUB(CURTIME(), INTERVAL 3 HOUR)))\n" +
             " and idtipohoracalendariodoctor = 1 and iddoctor= ?1)")
     List<Eventocalendariodoctor> listaLunes2( Integer id);
 
-    @Query(nativeQuery = true, value = "SELECT * FROM eventocalendariodoctor WHERE (YEARWEEK(fecha) = YEARWEEK(DATE_SUB(NOW(), INTERVAL 5 HOUR) + 2 ) AND DAYOFWEEK(fecha) = 3\n" +
+    @Query(nativeQuery = true, value = "SELECT * FROM eventocalendariodoctor WHERE (YEARWEEK(fecha) = YEARWEEK(DATE_SUB(NOW(), INTERVAL 5 HOUR))+ 2 AND DAYOFWEEK(fecha) = 3\n" +
             "AND (DATE(fecha) > DATE(DATE_SUB(NOW(), INTERVAL 5 HOUR)) OR (DATE(fecha) = DATE(DATE_SUB(NOW(), INTERVAL 5 HOUR))\n" +
             "            AND horainicio > DATE_SUB(CURTIME(), INTERVAL 3 HOUR)))\n" +
             " and idtipohoracalendariodoctor = 1 and iddoctor= ?1)")
     List<Eventocalendariodoctor> listaMartes2( Integer id);
 
-    @Query(nativeQuery = true, value = "SELECT * FROM eventocalendariodoctor WHERE (YEARWEEK(fecha) = YEARWEEK(DATE_SUB(NOW(), INTERVAL 5 HOUR) + 2 ) AND DAYOFWEEK(fecha) = 4\n" +
+    @Query(nativeQuery = true, value = "SELECT * FROM eventocalendariodoctor WHERE (YEARWEEK(fecha) = YEARWEEK(DATE_SUB(NOW(), INTERVAL 5 HOUR))+ 2 AND DAYOFWEEK(fecha) = 4\n" +
             "AND (DATE(fecha) > DATE(DATE_SUB(NOW(), INTERVAL 5 HOUR)) OR (DATE(fecha) = DATE(DATE_SUB(NOW(), INTERVAL 5 HOUR))\n" +
             "            AND horainicio > DATE_SUB(CURTIME(), INTERVAL 3 HOUR)))\n" +
             " and idtipohoracalendariodoctor = 1 and iddoctor= ?1)")
     List<Eventocalendariodoctor> listaMiercoles2( Integer id);
 
-    @Query(nativeQuery = true, value = "SELECT * FROM eventocalendariodoctor WHERE (YEARWEEK(fecha) = YEARWEEK(DATE_SUB(NOW(), INTERVAL 5 HOUR) + 2 ) AND DAYOFWEEK(fecha) = 5\n" +
+    @Query(nativeQuery = true, value = "SELECT * FROM eventocalendariodoctor WHERE (YEARWEEK(fecha) = YEARWEEK(DATE_SUB(NOW(), INTERVAL 5 HOUR))+ 2 AND DAYOFWEEK(fecha) = 5\n" +
             "AND (DATE(fecha) > DATE(DATE_SUB(NOW(), INTERVAL 5 HOUR)) OR (DATE(fecha) = DATE(DATE_SUB(NOW(), INTERVAL 5 HOUR))\n" +
             "            AND horainicio > DATE_SUB(CURTIME(), INTERVAL 3 HOUR)))\n" +
             " and idtipohoracalendariodoctor = 1 and iddoctor= ?1)")
     List<Eventocalendariodoctor> listaJueves2( Integer id);
 
-    @Query(nativeQuery = true, value = "SELECT * FROM eventocalendariodoctor WHERE (YEARWEEK(fecha) = YEARWEEK(DATE_SUB(NOW(), INTERVAL 5 HOUR) + 2 ) AND DAYOFWEEK(fecha) = 6\n" +
+    @Query(nativeQuery = true, value = "SELECT * FROM eventocalendariodoctor WHERE (YEARWEEK(fecha) = YEARWEEK(DATE_SUB(NOW(), INTERVAL 5 HOUR))+ 2 AND DAYOFWEEK(fecha) = 6\n" +
             "AND (DATE(fecha) > DATE(DATE_SUB(NOW(), INTERVAL 5 HOUR)) OR (DATE(fecha) = DATE(DATE_SUB(NOW(), INTERVAL 5 HOUR))\n" +
             "            AND horainicio > DATE_SUB(CURTIME(), INTERVAL 3 HOUR)))\n" +
             " and idtipohoracalendariodoctor = 1 and iddoctor= ?1)")
     List<Eventocalendariodoctor> listaViernes2( Integer id);
 
-    @Query(nativeQuery = true, value = "SELECT * FROM eventocalendariodoctor WHERE (YEARWEEK(fecha) = YEARWEEK(DATE_SUB(NOW(), INTERVAL 5 HOUR) + 2 ) AND DAYOFWEEK(fecha) = 7\n" +
+    @Query(nativeQuery = true, value = "SELECT * FROM eventocalendariodoctor WHERE (YEARWEEK(fecha) = YEARWEEK(DATE_SUB(NOW(), INTERVAL 5 HOUR))+ 2 AND DAYOFWEEK(fecha) = 7\n" +
             "AND (DATE(fecha) > DATE(DATE_SUB(NOW(), INTERVAL 5 HOUR)) OR (DATE(fecha) = DATE(DATE_SUB(NOW(), INTERVAL 5 HOUR))\n" +
             "            AND horainicio > DATE_SUB(CURTIME(), INTERVAL 3 HOUR)))\n" +
             " and idtipohoracalendariodoctor = 1 and iddoctor= ?1)")
@@ -213,37 +213,37 @@ public interface EventocalendariodoctorRepository extends JpaRepository<Eventoca
 
 
     //-------------A 3 semanas------------------------//
-    @Query(nativeQuery = true, value = "SELECT * FROM eventocalendariodoctor WHERE (YEARWEEK(fecha) = YEARWEEK(DATE_SUB(NOW(), INTERVAL 5 HOUR) + 3 ) AND DAYOFWEEK(fecha) = 2\n" +
+    @Query(nativeQuery = true, value = "SELECT * FROM eventocalendariodoctor WHERE (YEARWEEK(fecha) = YEARWEEK(DATE_SUB(NOW(), INTERVAL 5 HOUR))+ 3 AND DAYOFWEEK(fecha) = 2\n" +
             "AND (DATE(fecha) > DATE(DATE_SUB(NOW(), INTERVAL 5 HOUR)) OR (DATE(fecha) = DATE(DATE_SUB(NOW(), INTERVAL 5 HOUR))\n" +
             "            AND horainicio > DATE_SUB(CURTIME(), INTERVAL 3 HOUR)))\n" +
             " and idtipohoracalendariodoctor = 1 and iddoctor= ?1)")
     List<Eventocalendariodoctor> listaLunes3( Integer id);
 
-    @Query(nativeQuery = true, value = "SELECT * FROM eventocalendariodoctor WHERE (YEARWEEK(fecha) = YEARWEEK(DATE_SUB(NOW(), INTERVAL 5 HOUR) + 3 ) AND DAYOFWEEK(fecha) = 3\n" +
+    @Query(nativeQuery = true, value = "SELECT * FROM eventocalendariodoctor WHERE (YEARWEEK(fecha) = YEARWEEK(DATE_SUB(NOW(), INTERVAL 5 HOUR))+ 3 AND DAYOFWEEK(fecha) = 3\n" +
             "AND (DATE(fecha) > DATE(DATE_SUB(NOW(), INTERVAL 5 HOUR)) OR (DATE(fecha) = DATE(DATE_SUB(NOW(), INTERVAL 5 HOUR))\n" +
             "            AND horainicio > DATE_SUB(CURTIME(), INTERVAL 3 HOUR)))\n" +
             " and idtipohoracalendariodoctor = 1 and iddoctor= ?1)")
     List<Eventocalendariodoctor> listaMartes3( Integer id);
 
-    @Query(nativeQuery = true, value = "SELECT * FROM eventocalendariodoctor WHERE (YEARWEEK(fecha) = YEARWEEK(DATE_SUB(NOW(), INTERVAL 5 HOUR) + 3 ) AND DAYOFWEEK(fecha) = 4\n" +
+    @Query(nativeQuery = true, value = "SELECT * FROM eventocalendariodoctor WHERE (YEARWEEK(fecha) = YEARWEEK(DATE_SUB(NOW(), INTERVAL 5 HOUR))+ 3 AND DAYOFWEEK(fecha) = 4\n" +
             "AND (DATE(fecha) > DATE(DATE_SUB(NOW(), INTERVAL 5 HOUR)) OR (DATE(fecha) = DATE(DATE_SUB(NOW(), INTERVAL 5 HOUR))\n" +
             "            AND horainicio > DATE_SUB(CURTIME(), INTERVAL 3 HOUR)))\n" +
             " and idtipohoracalendariodoctor = 1 and iddoctor= ?1)")
     List<Eventocalendariodoctor> listaMiercoles3( Integer id);
 
-    @Query(nativeQuery = true, value = "SELECT * FROM eventocalendariodoctor WHERE (YEARWEEK(fecha) = YEARWEEK(DATE_SUB(NOW(), INTERVAL 5 HOUR) + 3 ) AND DAYOFWEEK(fecha) = 5\n" +
+    @Query(nativeQuery = true, value = "SELECT * FROM eventocalendariodoctor WHERE (YEARWEEK(fecha) = YEARWEEK(DATE_SUB(NOW(), INTERVAL 5 HOUR))+ 3 AND DAYOFWEEK(fecha) = 5\n" +
             "AND (DATE(fecha) > DATE(DATE_SUB(NOW(), INTERVAL 5 HOUR)) OR (DATE(fecha) = DATE(DATE_SUB(NOW(), INTERVAL 5 HOUR))\n" +
             "            AND horainicio > DATE_SUB(CURTIME(), INTERVAL 3 HOUR)))\n" +
             " and idtipohoracalendariodoctor = 1 and iddoctor= ?1)")
     List<Eventocalendariodoctor> listaJueves3( Integer id);
 
-    @Query(nativeQuery = true, value = "SELECT * FROM eventocalendariodoctor WHERE (YEARWEEK(fecha) = YEARWEEK(DATE_SUB(NOW(), INTERVAL 5 HOUR) + 3 ) AND DAYOFWEEK(fecha) = 6\n" +
+    @Query(nativeQuery = true, value = "SELECT * FROM eventocalendariodoctor WHERE (YEARWEEK(fecha) = YEARWEEK(DATE_SUB(NOW(), INTERVAL 5 HOUR))+ 3 AND DAYOFWEEK(fecha) = 6\n" +
             "AND (DATE(fecha) > DATE(DATE_SUB(NOW(), INTERVAL 5 HOUR)) OR (DATE(fecha) = DATE(DATE_SUB(NOW(), INTERVAL 5 HOUR))\n" +
             "            AND horainicio > DATE_SUB(CURTIME(), INTERVAL 3 HOUR)))\n" +
             " and idtipohoracalendariodoctor = 1 and iddoctor= ?1)")
     List<Eventocalendariodoctor> listaViernes3( Integer id);
 
-    @Query(nativeQuery = true, value = "SELECT * FROM eventocalendariodoctor WHERE (YEARWEEK(fecha) = YEARWEEK(DATE_SUB(NOW(), INTERVAL 5 HOUR) + 3 ) AND DAYOFWEEK(fecha) = 7\n" +
+    @Query(nativeQuery = true, value = "SELECT * FROM eventocalendariodoctor WHERE (YEARWEEK(fecha) = YEARWEEK(DATE_SUB(NOW(), INTERVAL 5 HOUR) )+ 3 AND DAYOFWEEK(fecha) = 7\n" +
             "AND (DATE(fecha) > DATE(DATE_SUB(NOW(), INTERVAL 5 HOUR)) OR (DATE(fecha) = DATE(DATE_SUB(NOW(), INTERVAL 5 HOUR))\n" +
             "            AND horainicio > DATE_SUB(CURTIME(), INTERVAL 3 HOUR)))\n" +
             " and idtipohoracalendariodoctor = 1 and iddoctor= ?1)")
@@ -251,37 +251,37 @@ public interface EventocalendariodoctorRepository extends JpaRepository<Eventoca
 
 
     //-------------a 4 semanas------------------------//
-    @Query(nativeQuery = true, value = "SELECT * FROM eventocalendariodoctor WHERE (YEARWEEK(fecha) = YEARWEEK(DATE_SUB(NOW(), INTERVAL 5 HOUR) + 4 ) AND DAYOFWEEK(fecha) = 2\n" +
+    @Query(nativeQuery = true, value = "SELECT * FROM eventocalendariodoctor WHERE (YEARWEEK(fecha) = YEARWEEK(DATE_SUB(NOW(), INTERVAL 5 HOUR))+ 4 AND DAYOFWEEK(fecha) = 2\n" +
             "AND (DATE(fecha) > DATE(DATE_SUB(NOW(), INTERVAL 5 HOUR)) OR (DATE(fecha) = DATE(DATE_SUB(NOW(), INTERVAL 5 HOUR))\n" +
             "            AND horainicio > DATE_SUB(CURTIME(), INTERVAL 3 HOUR)))\n" +
             " and idtipohoracalendariodoctor = 1 and iddoctor= ?1)")
     List<Eventocalendariodoctor> listaLunes4( Integer id);
 
-    @Query(nativeQuery = true, value = "SELECT * FROM eventocalendariodoctor WHERE (YEARWEEK(fecha) = YEARWEEK(DATE_SUB(NOW(), INTERVAL 5 HOUR) + 4 ) AND DAYOFWEEK(fecha) = 3\n" +
+    @Query(nativeQuery = true, value = "SELECT * FROM eventocalendariodoctor WHERE (YEARWEEK(fecha) = YEARWEEK(DATE_SUB(NOW(), INTERVAL 5 HOUR))+ 4 AND DAYOFWEEK(fecha) = 3\n" +
             "AND (DATE(fecha) > DATE(DATE_SUB(NOW(), INTERVAL 5 HOUR)) OR (DATE(fecha) = DATE(DATE_SUB(NOW(), INTERVAL 5 HOUR))\n" +
             "            AND horainicio > DATE_SUB(CURTIME(), INTERVAL 3 HOUR)))\n" +
             " and idtipohoracalendariodoctor = 1 and iddoctor= ?1)")
     List<Eventocalendariodoctor> listaMartes4( Integer id);
 
-    @Query(nativeQuery = true, value = "SELECT * FROM eventocalendariodoctor WHERE (YEARWEEK(fecha) = YEARWEEK(DATE_SUB(NOW(), INTERVAL 5 HOUR) + 4 ) AND DAYOFWEEK(fecha) = 4\n" +
+    @Query(nativeQuery = true, value = "SELECT * FROM eventocalendariodoctor WHERE (YEARWEEK(fecha) = YEARWEEK(DATE_SUB(NOW(), INTERVAL 5 HOUR))+ 4 AND DAYOFWEEK(fecha) = 4\n" +
             "AND (DATE(fecha) > DATE(DATE_SUB(NOW(), INTERVAL 5 HOUR)) OR (DATE(fecha) = DATE(DATE_SUB(NOW(), INTERVAL 5 HOUR))\n" +
             "            AND horainicio > DATE_SUB(CURTIME(), INTERVAL 3 HOUR)))\n" +
             " and idtipohoracalendariodoctor = 1 and iddoctor= ?1)")
     List<Eventocalendariodoctor> listaMiercoles4( Integer id);
 
-    @Query(nativeQuery = true, value = "SELECT * FROM eventocalendariodoctor WHERE (YEARWEEK(fecha) = YEARWEEK(DATE_SUB(NOW(), INTERVAL 5 HOUR) + 4 ) AND DAYOFWEEK(fecha) = 5\n" +
+    @Query(nativeQuery = true, value = "SELECT * FROM eventocalendariodoctor WHERE (YEARWEEK(fecha) = YEARWEEK(DATE_SUB(NOW(), INTERVAL 5 HOUR))+ 4 AND DAYOFWEEK(fecha) = 5\n" +
             "AND (DATE(fecha) > DATE(DATE_SUB(NOW(), INTERVAL 5 HOUR)) OR (DATE(fecha) = DATE(DATE_SUB(NOW(), INTERVAL 5 HOUR))\n" +
             "            AND horainicio > DATE_SUB(CURTIME(), INTERVAL 3 HOUR)))\n" +
             " and idtipohoracalendariodoctor = 1 and iddoctor= ?1)")
     List<Eventocalendariodoctor> listaJueves4( Integer id);
 
-    @Query(nativeQuery = true, value = "SELECT * FROM eventocalendariodoctor WHERE (YEARWEEK(fecha) = YEARWEEK(DATE_SUB(NOW(), INTERVAL 5 HOUR) + 4 ) AND DAYOFWEEK(fecha) = 6\n" +
+    @Query(nativeQuery = true, value = "SELECT * FROM eventocalendariodoctor WHERE (YEARWEEK(fecha) = YEARWEEK(DATE_SUB(NOW(), INTERVAL 5 HOUR))+ 4 AND DAYOFWEEK(fecha) = 6\n" +
             "AND (DATE(fecha) > DATE(DATE_SUB(NOW(), INTERVAL 5 HOUR)) OR (DATE(fecha) = DATE(DATE_SUB(NOW(), INTERVAL 5 HOUR))\n" +
             "            AND horainicio > DATE_SUB(CURTIME(), INTERVAL 3 HOUR)))\n" +
             " and idtipohoracalendariodoctor = 1 and iddoctor= ?1)")
     List<Eventocalendariodoctor> listaViernes4( Integer id);
 
-    @Query(nativeQuery = true, value = "SELECT * FROM eventocalendariodoctor WHERE (YEARWEEK(fecha) = YEARWEEK(DATE_SUB(NOW(), INTERVAL 5 HOUR) + 4 ) AND DAYOFWEEK(fecha) = 7\n" +
+    @Query(nativeQuery = true, value = "SELECT * FROM eventocalendariodoctor WHERE (YEARWEEK(fecha) = YEARWEEK(DATE_SUB(NOW(), INTERVAL 5 HOUR))+ 4 AND DAYOFWEEK(fecha) = 7\n" +
             "AND (DATE(fecha) > DATE(DATE_SUB(NOW(), INTERVAL 5 HOUR)) OR (DATE(fecha) = DATE(DATE_SUB(NOW(), INTERVAL 5 HOUR))\n" +
             "            AND horainicio > DATE_SUB(CURTIME(), INTERVAL 3 HOUR)))\n" +
             " and idtipohoracalendariodoctor = 1 and iddoctor= ?1)")
