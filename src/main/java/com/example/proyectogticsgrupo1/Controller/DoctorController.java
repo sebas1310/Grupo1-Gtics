@@ -27,6 +27,7 @@ import java.io.FileOutputStream;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -623,8 +624,21 @@ public class DoctorController {
         model.addAttribute("doctor", doctor);
         Integer duracion = 1;
         Integer idtipocalendario = 1;
+        //hora inicio = 9
+        //hora fin =11
         redirectAttributes.addFlashAttribute("msg","Evento Añadido");
-        eventocalendariodoctorRepository.agregarEventoDoctor(idtipocalendario,fecha, horainicio, horafinal, duracion, descripcion,iddoctor);
+        LocalTime horaActual = horainicio; //9am
+        //9 menor que 11
+        //10 menor que 11
+        //11 menor que 11
+        while (horaActual.isBefore(horafinal)) {
+            LocalTime  horaFin =  horaActual.plusHours(1); //10 //11
+            eventocalendariodoctorRepository.agregarEventoDoctor(idtipocalendario,fecha, horaActual, horaFin, duracion, descripcion,iddoctor);
+            horaActual = horaActual.plusHours(1); // Incrementar una hora al tiempo actual // 10am //11am
+        }
+        //if ( horaActual.plusHours(1).equals(horafinal))
+
+        //eventocalendariodoctorRepository.agregarEventoDoctor(idtipocalendario,fecha, horainicio, horafinal, duracion, descripcion,iddoctor);
         return "redirect:/doctor/calendario";
     }
 
