@@ -221,19 +221,21 @@
 
         <!-- Right side columns -->
         <div class="col-lg-3">
+          <!-- Ver citas General-->
 
-          <!-- Website Traffic -->
-          <div class="card">
-            <div class="filter">
-              <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-              <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                <li style="font-family: Nunito" class="dropdown-header text-start" title="Vista Semanal">
-                  <h6>Filtro</h6>
-                </li>
+          <div class="card" >
+            <div class="card-body p-2 text-center ">
+              <a style="font-family: Nunito" class="btn btn-outline-warning" th:href="@{'/paciente/calendarioSemanal?semana='+ 0}"><i class="bi bi-calendar-event "></i> Citas Agendadas</a>
 
-                <li><a style="font-family: Nunito" class="dropdown-item" th:href="@{'/paciente/calendarioSemanal?semana='+ 0}">Vista Semanal</a></li>
-              </ul>
+
             </div>
+
+          </div>
+          <!-- -->
+
+
+          <!-- Citas Hoy -->
+          <div class="card" th:if="${not citashoy.isEmpty()}">
 
             <div class="card-body pb-0">
               <h5 style="font-family: Nunito" class="card-title">Mis citas de Hoy</h5>
@@ -319,9 +321,40 @@
                 </table>
               </div>
             </div>
-          </div><!-- End Website Traffic -->
+          </div>
+          <!-- Citas Hoy FIN-->
+
+          <!-- Examenes Pendientes-->
+          <div class="card" th:if="${pacientelog.estadoPaciente.idestadopaciente == 6}">
+
+            <div class="card-body pb-0">
+              <h5 style="font-family: Nunito" class="card-title">Especialidades con Exámenes Pendientes</h5>
+              <div class="table-responsive">
+                <table class="table  table-bordered">
+                  <thead>
+                  <tr>
+                    <th style="font-family: Nunito" class="text-center">Especialidad</th>
+                  </tr>
+                  </thead>
+                  <tbody class="text-center">
+                  <tr th:each="p,idx:${especialidadesPendExam}">
+                    <td>
+                      <a style="font-family: Nunito"  th:text="${p.nombre}">
+                      </a>
+
+                    </td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <!-- Citas Hoy-->
+
+
 
           <!-- End Right side columns -->
+
         </div>
       </div>
       </div>

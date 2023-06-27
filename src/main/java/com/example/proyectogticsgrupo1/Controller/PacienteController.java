@@ -20,6 +20,7 @@ import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping(value = "/paciente")
@@ -85,8 +86,24 @@ public class PacienteController {
 
         List<Especialidad> listespecialidad = especialidadRepository.findAll();
 
+        Paciente paciente = pacienteRepository.pacXuser(usuario.getIdusuario());
+        int estado = paciente.getEstadoPaciente().getIdestadopaciente();
+
+        if (estado == 6){
+
+            String especialidadespend =  paciente.getEspecialidadesPendientes();
+            List<Integer> idList = Arrays.stream(especialidadespend.split(","))
+                    .map(Integer::parseInt)
+                    .collect(Collectors.toList());
+            System.out.println(idList);
+            List<Especialidad> listaEspecialidadExPend = especialidadRepository.findAllById(idList);
+            model.addAttribute("especialidadesPendExam", listaEspecialidadExPend);
+
+        }
         model.addAttribute("pacientelog",pacienteRepository.pacXuser(usuario.getIdusuario()));
         model.addAttribute("especialidades", listespecialidad);
+
+
         model.addAttribute("citashoy", citaRepository.citasHoy(pacienteRepository.pacXuser(usuario.getIdusuario()).getIdpaciente()));
         model.addAttribute("sedes", sedeRepository.findAll());
         redirectAttributes.addFlashAttribute("msg1", "Por el momento no contamos con doctores en esa especialidad");
