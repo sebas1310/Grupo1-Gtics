@@ -53,20 +53,20 @@ public interface CitaRepository extends JpaRepository<Cita, Integer> {
             "            FROM cita c\n" +
             "            INNER JOIN paciente p ON c.paciente_idpaciente = p.idpaciente\n" +
             "            INNER JOIN usuario u ON p.idusuario = u.idusuario\n" +
-            "            WHERE c.doctor_iddoctor = ?1 AND fecha <= CURRENT_TIME()\n" +
+            "            WHERE c.doctor_iddoctor = ?1 AND fecha <= CURRENT_TIME() AND idestadocita =6\n" +
             "            GROUP BY idpaciente , CONCAT(u.nombres, ' ', u.apellidos)\n" +
             "            ORDER BY UltimaFecha desc", nativeQuery = true)
     List<PacientesAtendidos> pacientesAtendidosPorDoctor(Integer idDoctor);
 
 
 
-    @Query(value= "select * from cita where paciente_idpaciente= ?1 and doctor_iddoctor = ?2 ",nativeQuery = true)
+    @Query(value= "select * from cita where paciente_idpaciente= ?1 and doctor_iddoctor = ?2 and idestadocita =6 ",nativeQuery = true)
     List<Cita> citasPorPaciente(Integer idPaciente,Integer idDoctor);
 
     @Query(value= "select * from cita where idcita = ?1 ",nativeQuery = true)
     Cita buscarCitaPorId (Integer idCita);
 
-    @Query(value= "select * from cita where doctor_iddoctor= ?1 and concat(fecha, ' ' , horainicio , ' ', horafinal) >=current_timestamp()\n" +
+    @Query(value= "select * from cita where doctor_iddoctor= ?1 and concat(fecha, ' ' , horainicio , ' ', horafinal) >=current_timestamp() and idestadocita !=6\n" +
             "order by concat(fecha, ' ' , horainicio )",nativeQuery = true)
     List<Cita> buscarCitasAgendadasDoctor (Integer idDoctor);
 
