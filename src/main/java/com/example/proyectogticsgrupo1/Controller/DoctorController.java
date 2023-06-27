@@ -259,14 +259,21 @@ public class DoctorController {
 
 
         citaRepository.actualizarEstadoCita(idestadocita,idCita);
+        int idpaciente= pacienteRepository.buscarIDPacientePorCita(idCita);
         if(idestadocita==3){
             redirectAttributes.addFlashAttribute("msg7","Cita en Espera");
+            redirectAttributes.addAttribute("idC",idCita);
+            redirectAttributes.addAttribute("idP",idpaciente);
+            return "redirect:/doctor/dashboard/info";
         }else if(idestadocita== 4){
-                redirectAttributes.addFlashAttribute("msg7","Cita Iniciada");
+            redirectAttributes.addFlashAttribute("msg7","Cita Iniciada");
+            redirectAttributes.addAttribute("idC",idCita);
+            redirectAttributes.addAttribute("idP",idpaciente);
+            return "redirect:/doctor/dashboard/info";
         }else if(idestadocita== 6){
             redirectAttributes.addFlashAttribute("msg7","Cita Finalizada");
+            redirectAttributes.addAttribute("id",idCita);
         }
-        redirectAttributes.addAttribute("id",idCita);
         return "redirect:/doctor/pacientesatendidos/verhistorial/vercita";
     }
 
