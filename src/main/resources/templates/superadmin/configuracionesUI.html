@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head th:insert="superadmin/fragments_spa/librerias_spa.html :: cabecera (titulo = 'configuraciones')">
 </head>
 
@@ -28,51 +28,39 @@
 
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">Configuraciones UI</h5>
-
                         <!-- Default Table -->
-                        <table class="table">
-                            <thead>
-                            <tr>
-                                <th scope="col-sm-lg-2">Modo</th>
-                            </tr>
-                            </thead>
-                            <tbody>
+                        <form method="post" th:action="@{'/superadmin/editarUI'}" >
+
                             <tr>
                                 <td>Cambia la apariencia de la página</td>
                                 <td><div class="row mb-lg-2">
                                     <div class="col-sm-10">
-                                        <select class="form-select" aria-label="Default select example">
+                                        <select class="form-select" name="tema" aria-label="Default select example">
                                             <option selected>Elige</option>
                                             <option value="1">Claro</option>
                                             <option value="2">Oscuro</option>
                                         </select>
                                     </div>
 
-
-
                                 </div>
                                 </td>
                             </tr>
 
-                            <thead>
-                            <tr>
-                                <th scope="col">Colores</th>
-                            </tr>
-                            </thead>
+
                             <tr>
                                 <td>Personalizar Interfaz de Usuario</td>
                                 <td><div class="row">
                                     <label for="inputColor" class="col-form-label">Color Picker</label>
                                     <div class="col-sm-10">
-                                        <input type="color" class="form-control form-control-color" id="exampleColorInput" value="#4154f1" title="Choose your color" required>
+                                        <input type="color" name="color" class="form-control form-control-color" id="exampleColorInput" value="#4154f1" title="Choose your color" required>
                                     </div>
-                                    <select class="form-select" aria-label="Default select example" required>
-                                        <option selected>Elige un rol</option>
-                                        <option value="1">Doctor</option>
-                                        <option value="2">Paciente</option>
-                                        <option value="3">Administrador</option>
-                                        <option value="4">Administrativo</option>
+                                    <select class="form-select" name="idRol" aria-label="Default select example" required>
+                                        <option value="1">Superadmin</option>
+                                        <option value="2">Administrador</option>
+                                        <option value="3">Administrativo</option>
+                                        <option value="4">Paciente</option>
+                                        <option value="5">Doctor</option>
+
                                     </select>
 
                                 </div></td>
@@ -80,20 +68,15 @@
                             </tr>
 
 
-                            <thead>
-                            <tr>
-                                <th scope="col">Imágenes</th>
-                            </tr>
-                            </thead>
                             <tr>
                                 <td>Sube una imagen de fondo</td>
                                 <td>
                                     <div class=" mb-3">
                                         <label for="inputNumber" class="col-sm-2 col-form-label">Subir Imagen</label>
                                         <div class="col-sm-10">
-                                            <input class="form-control" type="file" id="formFile">
+                                            <input class="form-control" name="imagen" type="file" id="formFile">
                                         </div>
-                                        <select class="form-select" aria-label="Default select example">
+                                        <select class="form-select" name="sede" aria-label="Default select example">
                                             <option selected>Elige sede</option>
                                             <option value="1">San Miguel</option>
                                             <option value="2">San Borja</option>
@@ -104,18 +87,18 @@
                                 </td>
                             </tr>
 
+                            <div class="text-center">
+                                <button type="submit"  id="button_submit" style="color: dodgerblue">Guardar Cambios</button>
+                            </div>
+                            <div class="text-center mt-3">
+                                <a th:href="@{'/superadmin/configuracion'}">Cancelar</a>
+                            </div>
 
-                            </tbody>
-                        </table>
+                        </form>
                         <!-- End Default Table Example -->
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-sm-10">
-                            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
-                        </div>
-                        <a class="btn btn-danger" th:href="@{'/superadmin/configuracion'}">Cancelar</a>
 
                     </div>
+
                 </div>
 
 

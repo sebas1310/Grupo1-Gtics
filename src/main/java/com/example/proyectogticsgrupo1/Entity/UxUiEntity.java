@@ -16,25 +16,22 @@ public class UxUiEntity {
     @Column(name = "idUX/UI")
     private int idUxUi;
     @Basic
-    @Column(name = "modo",nullable = false)
+    @Column(name = "modo")
     private String modo;
     @Basic
-    @Column(name = "codigocolor",nullable = false) //header
+    @Column(name = "codigocolor") //header
     private String codigocolor;
     @Basic
-    @Column(name = "notificaciones",nullable = false)
+    @Column(name = "notificaciones")
     private int notificaciones;
     @Basic
     @Column(name = "imagendefondo") //background
     private String imagendefondo;
-    @ManyToOne
-    @JoinColumn(name = "idsede")
-    private Sede sede;
     @Basic
     @Column(name = "tipodeusuario_idtipodeusuario")
     private Integer tipodeusuarioIdtipodeusuario;
     @Basic
-    @Column(name = "zonahoraria",nullable = false)
+    @Column(name = "zonahoraria")
     private String zonahoraria;
 
 

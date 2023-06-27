@@ -4,10 +4,12 @@
 </head>
 
 <body>
-<header th:fragment="header(num_not, num_form, por_canc, nombre, num_men, sede,id)" id="header" class="header fixed-top d-flex align-items-center" style="background-color: #81c04d">
+<header th:fragment="header(num_not, num_form, por_canc, nombre, num_men, sede,id)" id="header" class="header fixed-top d-flex align-items-center"
+        th:style="'background-color: '+${session.get('configuiux')}">
 
 
-  <div class="d-flex align-items-center justify-content-between">
+
+<div class="d-flex align-items-center justify-content-between">
     <i class="bi bi-list toggle-sidebar-btn"></i> &nbsp &nbsp
     <a th:href="@{'/administrador'}" class="logo d-flex align-items-center" style="width: 200px;">
       <img th:src="@{/assets/img/logo.png}" alt="">

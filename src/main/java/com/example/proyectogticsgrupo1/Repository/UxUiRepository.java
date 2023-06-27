@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface UxUiRepository extends JpaRepository<UxUiEntity, Integer> {
+    UxUiEntity findByTipodeusuarioIdtipodeusuario(int idTipo);
 }

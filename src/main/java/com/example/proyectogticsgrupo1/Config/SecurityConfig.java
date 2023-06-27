@@ -1,7 +1,10 @@
 package com.example.proyectogticsgrupo1.Config;
 
+import com.example.proyectogticsgrupo1.Entity.Usuario;
+import com.example.proyectogticsgrupo1.Entity.UxUiEntity;
 import com.example.proyectogticsgrupo1.Repository.PacienteRepository;
 import com.example.proyectogticsgrupo1.Repository.UsuarioRepository;
+import com.example.proyectogticsgrupo1.Repository.UxUiRepository;
 import jakarta.servlet.Filter;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.context.annotation.Bean;
@@ -27,14 +30,16 @@ public class SecurityConfig {
     final DataSource dataSource;
     final UsuarioRepository usuarioRepository;
     final PacienteRepository pacienteRepository;
+    final UxUiRepository uxUiRepository;
 
     private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
 
-    public SecurityConfig(DataSource dataSource, UsuarioRepository usuarioRepository, PacienteRepository pacienteRepository) {
+    public SecurityConfig(DataSource dataSource, UsuarioRepository usuarioRepository, PacienteRepository pacienteRepository, UxUiRepository uxUiRepository) {
         this.dataSource = dataSource;
         this.usuarioRepository = usuarioRepository;
         this.pacienteRepository = pacienteRepository;
+        this.uxUiRepository = uxUiRepository;
     }
 
 
@@ -84,7 +89,11 @@ public class SecurityConfig {
                     DefaultSavedRequest defaultSavedRequest = (DefaultSavedRequest) request.getSession().getAttribute("SPRING_SECURITY_SAVED_REQUEST");
 
                     HttpSession session = request.getSession();
-                    session.setAttribute("usuario",usuarioRepository.findByCorreo(authentication.getName()));
+                    Usuario usuario = usuarioRepository.findByCorreo(authentication.getName());
+                    UxUiEntity uxUiEntity = uxUiRepository.findByTipodeusuarioIdtipodeusuario(usuario.getTipodeusuario().getIdtipodeusuario());
+                    session.setAttribute("usuario", usuario);
+                    session.setAttribute("configuiux", uxUiEntity.getCodigocolor());
+                    System.out.println("codigo color"+uxUiEntity.getCodigocolor());
                     if (defaultSavedRequest != null) {
                         String targetURL = defaultSavedRequest.getRedirectUrl();
                         redirectStrategy.sendRedirect(request, response, targetURL);

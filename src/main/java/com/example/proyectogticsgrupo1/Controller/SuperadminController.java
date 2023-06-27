@@ -528,6 +528,30 @@ public class SuperadminController {
 
         return "superadmin/configuracionesUI";
     }
+
+    @PostMapping("/editarUI")
+    public String editarConfUI(@RequestParam("tema") String tema,
+                               @RequestParam("color") String color,
+                               @RequestParam("imagen") String imagen,
+                               @RequestParam("idRol") Integer idrol){
+
+        UxUiEntity uxUiEntity = uxUiRepository.findByTipodeusuarioIdtipodeusuario(idrol);
+        if (uxUiEntity!=null){
+            if (!uxUiEntity.getCodigocolor().equals(color))
+               uxUiEntity.setCodigocolor(color);
+            uxUiRepository.save(uxUiEntity);
+            session.removeAttribute("configuiux");
+            session.setAttribute("configuiux", color);
+        }else{
+            UxUiEntity uxUiEntity1 = new UxUiEntity();
+            uxUiEntity1.setTipodeusuarioIdtipodeusuario(idrol);
+            uxUiEntity1.setCodigocolor(color);
+            uxUiRepository.save(uxUiEntity1);
+        }
+        return "redirect:/superadmin/configuracion";
+
+    }
+
     @GetMapping("/nuevoform")
     public String nuevoFormulario(Model model){
 
