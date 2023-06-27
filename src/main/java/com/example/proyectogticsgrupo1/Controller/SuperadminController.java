@@ -541,7 +541,7 @@ public class SuperadminController {
                uxUiEntity.setCodigocolor(color);
             uxUiRepository.save(uxUiEntity);
             session.removeAttribute("configuiux");
-            session.setAttribute("configuiux", color);
+            session.setAttribute("configuiux", uxUiRepository.findByTipodeusuarioIdtipodeusuario(1));
         }else{
             UxUiEntity uxUiEntity1 = new UxUiEntity();
             uxUiEntity1.setTipodeusuarioIdtipodeusuario(idrol);
