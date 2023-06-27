@@ -839,7 +839,7 @@ public class PacienteController {
                         Double coaseguroPaciente = seguroRepository.getCoaseguro(idseguro);
                         Float montoDoctor = (float) (costoEspecialidad * comisionDoctor);
                         Float montoPaciente = (float) (costoEspecialidad * coaseguroPaciente);
-                        Cita citaAgendada = citaRepository.citaAgendada(fecha,hora);
+                        Cita citaAgendada = citaRepository.citaAgendada(fecha,hora,iddoctor);
                         Doctor doctor = doctorRepository.buscarDoctorPorId(iddoctor);
                         eventocalendariodoctorRepository.cambiarEstadoCalendario(iddoctor,fecha,hora);
                         String content = "Usted reservó una cita para "+ fecha+ " en la siguiente hora: " + hora + " En la especialiad de " + especialidadRepository.findById(idesp).get().getNombre() + ".";
@@ -1040,7 +1040,7 @@ public class PacienteController {
         Double coaseguroPaciente = seguroRepository.getCoaseguro(paciente.getSeguro().getIdseguro());
         Float montoDoctor = (float) (costoEspecialidad * comisionDoctor);
         Float montoPaciente = (float) (costoEspecialidad * coaseguroPaciente);
-        Cita citaAgendada = citaRepository.citaAgendada(eventocalendariodoctor.getFecha(),eventocalendariodoctor.getHorainicio());
+        Cita citaAgendada = citaRepository.citaAgendada(eventocalendariodoctor.getFecha(),eventocalendariodoctor.getHorainicio(),doc.getIddoctor());
 
 
 
