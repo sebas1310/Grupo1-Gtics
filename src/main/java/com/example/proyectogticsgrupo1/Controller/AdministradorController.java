@@ -273,37 +273,39 @@ public class AdministradorController {
         // Obtener las citas de la sede para el día correspondiente
         List<Cita> citas = citaRepository.citaPorSede2(usuarioAdministrador.getSede().getIdsede());
 
-        // Crear un mapa para almacenar las citas por día
-        Map<Integer, List<Cita>> citasPorDia = new HashMap<>();
+        // Crear un mapa para almacenar las citas por día y hora
+        Map<LocalDate, Map<Integer, List<Cita>>> citasPorDiaYHora = new HashMap<>();
 
-// Agrupar las citas por día
+        // Agrupar las citas por día y hora
         for (Cita cita : citas) {
-            int dayOfMonth = cita.getFecha().getDayOfMonth();
-            citasPorDia.computeIfAbsent(dayOfMonth, k -> new ArrayList<>()).add(cita);
+            LocalDate fecha = cita.getFecha();
+            int hourOfDay = cita.getHorainicio().getHour();
+
+            Map<Integer, List<Cita>> citasPorHora = citasPorDiaYHora.computeIfAbsent(fecha, k -> new HashMap<>());
+            citasPorHora.computeIfAbsent(hourOfDay, k -> new ArrayList<>()).add(cita);
         }
 
-// Crear una lista de eventos en formato JSON
+        // Crear una lista de eventos en formato JSON
         List<Map<String, Object>> eventos = new ArrayList<>();
-        for (List<Cita> citasDelDia : citasPorDia.values()) {
-            for (Cita cita : citasDelDia) {
-                Map<String, Object> evento = new HashMap<>();
-                evento.put("title", cita.getEspecialidad().getNombre()); // Título del evento
-                evento.put("start", cita.getFecha().toString()); // Fecha de inicio del evento
+        for (Map<Integer, List<Cita>> citasPorHora : citasPorDiaYHora.values()) {
+            for (List<Cita> citasDeHora : citasPorHora.values()) {
+                for (Cita cita : citasDeHora) {
+                    Map<String, Object> evento = new HashMap<>();
+                    evento.put("title", cita.getHorainicio() + " " + cita.getEspecialidad().getNombre()); // Título del evento
+                    evento.put("start", cita.getFecha().toString()); // Fecha de inicio del evento
+                    evento.put("color", obtenerColorEvento(cita.getEspecialidad().getNombre())); // Color del evento
 
-                // Asignar color según el nombre de la especialidad
-                String nombreEspecialidad = cita.getEspecialidad().getNombre();
-                String colorEvento = obtenerColorEvento(nombreEspecialidad); // Obtener el color según el nombre de la especialidad
-                evento.put("color", colorEvento); // Color del evento
-
-                eventos.add(evento);
+                    eventos.add(evento);
+                }
             }
         }
-// Agregar la lista de eventos al modelo
-        model.addAttribute("eventos", eventos);
 
+        // Agregar la lista de eventos al modelo
+        model.addAttribute("eventos", eventos);
 
         return "administrador/calendariogeneral";
     }
+
 
 
     @GetMapping(value = "/calendariomarzo")

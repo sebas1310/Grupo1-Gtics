@@ -40,15 +40,33 @@
                 year: 'numeric',
                 month: 'short',
             },
+            dayMaxEventRows: 4, // for all non-TimeGrid views
+            views: {
+                timeGrid: {
+                    dayMaxEventRows: true // adjust to 6 only for timeGridWeek/timeGridDay
+                }
+            },
             buttonText: {
                 today: 'Hoy',
                 month: 'Mes',
                 week: 'Semana',
                 day: 'Día'
-            }
+            },
+            eventClick: function(info) {
+                if (info.event.extendedProps.popoverContent) {
+                    // Mostrar el popover con el contenido adicional
+                    $(info.el).popover({
+                        title: info.event.title,
+                        content: info.event.extendedProps.popoverContent,
+                        trigger: 'manual',
+                        html: true,
+                        placement: 'auto'
+                    });
+                    $(info.el).popover('show');
+                }
+            },
+            moreLinkClick: 'popover' // Define la acción a realizar cuando se hace clic en "más"
         });
-
-        eventos = /*[[${eventos}]]*/ 'default';
 
         calendar.addEventSource(eventos);
         calendar.render();
