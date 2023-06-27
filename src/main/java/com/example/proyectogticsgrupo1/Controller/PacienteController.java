@@ -483,6 +483,8 @@ public class PacienteController {
 
         return "paciente/mensajes";
     }
+
+
     @GetMapping(value = "/cuestionarios")
     public String cuestionarios(@RequestParam(value = "mensaje_url", required = false) String mensaje_url,Model model){
         Usuario usuario = (Usuario) session.getAttribute("usuario");
@@ -509,6 +511,8 @@ public class PacienteController {
 //        List<ModeloPorCita> listaModelosxCita = modeloJsonRepository.consultarModelo(cita_unica.getIdcita());
         List<ModeloJsonEntity> listamodelos = new ArrayList<>();
 
+        List<DatosJsonEntity> listamodelos_datosllenos = new ArrayList<>();
+
         int id_cita = 0;
         List<Cita> citas = new ArrayList<>();
         for(Cita cita_unica: listaCitas){
@@ -519,19 +523,66 @@ public class PacienteController {
                 id_cita = cita_unica.getIdcita();
                 ModeloJsonEntity modelo_cuestionario_2 = modeloJsonRepository.listaCuestionarios(id_modelo);
 
+
+                DatosJsonEntity datos_json_cuestionario_2 = datosJsonRepository.listaCuestionariosLLenos(id_modelo,cita_unica.getIdcita());
+
+                if(datos_json_cuestionario_2 != null) {
+                    System.out.println(datos_json_cuestionario_2);
+                    listamodelos_datosllenos.add(datos_json_cuestionario_2);
+                }
+
                 listamodelos.add(modelo_cuestionario_2);
                 System.out.println("id cita: " + id_cita);
                 citas.add(citaRepository.findById(id_cita).get());
+
+
+
+
+
 
             }
 
         }
 
 
+//        List<DatosJsonEntity> lista_cuest_llenos = new ArrayList<>();
+//
+//        System.out.println("llega antes de");
+//
+//
+//        for(Cita cita_unica2: listaCitas) {
+//            List<Integer> listaidscuestionarios_pend = datosJsonRepository.ListaIdsJsonCuestionario(cita_unica2.getIdcita());
+//
+//            System.out.println(listaidscuestionarios_pend);
+//
+////            for(Integer id: listaidscuestionarios_pend){
+////
+////                Optional<DatosJsonEntity> datos_json_lleno_opt = datosJsonRepository.findById(id);
+////
+////                DatosJsonEntity datos_json_lleno = datos_json_lleno_opt.get();
+////
+////                System.out.println(datos_json_lleno.getId());
+////
+////                lista_cuest_llenos.add(datos_json_lleno);
+////            }
+//
+//
+//
+//
+//        }
+
+
+
         model.addAttribute("listaidcitas",citas);
         model.addAttribute("id_cita",id_cita);
 
         model.addAttribute("list_cuestionario_2",listamodelos);
+
+//        model.addAttribute("lista_cuest_llenos",lista_cuest_llenos);
+
+
+        model.addAttribute("list_cuestionario_3",listamodelos_datosllenos);
+
 
         model.addAttribute("pacientelog",paciente);
 
@@ -549,8 +600,38 @@ public class PacienteController {
         }
 
 
+
+
         return "paciente/cuestionariosPaciente";
     }
+
+
+//ver cuest
+    @GetMapping(value = "/vercuestionario")
+    public String vercuestionario(@RequestParam("idDatosJson") Integer idDatosJson,Model model) {
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+
+
+        Paciente paciente = pacienteRepository.pacXuser(usuario.getIdusuario());
+
+
+        model.addAttribute("pacientelog",paciente);
+
+
+        model.addAttribute("informelleno",datosJsonRepository.modeloJsonLlenado(idDatosJson));
+
+        return "paciente/CuestionarioLleno";
+
+    }
+
+
+
+
+
+
+
+
+
     @Autowired
     private  ModeloJsonRepository modeloJsonRepository;
     @GetMapping(value = "/formCuestionario")
