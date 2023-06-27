@@ -83,14 +83,43 @@
                         errorMessage.innerHTML = "Complete el campo requerido";
                         return false;
                     }
-                    else if (fechaSeleccionada < fechaActual) {
-                        var errorMessage = document.getElementById("error-message2");
-                        errorMessage.style.display = "block";
-                        errorMessage.innerHTML = "Seleccione una fecha mayor que el dia actual";
-                        return false;
+                    else if ((fechaSeleccionada.getDate() + 1) < fechaActual.getDate() ) {
+
+                            var errorMessage = document.getElementById("error-message2");
+                            errorMessage.style.display = "block";
+                            errorMessage.innerHTML = "Seleccione una fecha mayor que el dia actual" ;
+                            return false;
+
                     }
                     return true;
                 }
+             /*function validateForm2() {
+                 var fecha = document.getElementById("fecha").value.trim();
+                 var fechaActual = new Date();
+                 var fechaSeleccionada = new Date(fecha);
+
+                 // Set the time of both dates to midnight
+                 fechaActual.setHours(0, 0, 0, 0);
+                 fechaSeleccionada.setHours(0, 0, 0, 0);
+
+                 if (fecha === "") {
+                     var errorMessage = document.getElementById("error-message2");
+                     errorMessage.style.display = "block";
+                     errorMessage.innerHTML = "Complete el campo requerido";
+                     return false;
+                 } else if (fechaSeleccionada !== fechaActual) {
+                     if (fechaSeleccionada < fechaActual) {
+                         var errorMessage = document.getElementById("error-message2");
+                         errorMessage.style.display = "block";
+                         errorMessage.innerHTML = "Seleccione22 una fecha mayor que el día actual "+ fechaActual+ fechaSeleccionada;
+                         return false;
+                     }
+                 }
+                 return true;
+             } */
+
+
+
             </script>
             <div class="col">
                 <div class="card">
