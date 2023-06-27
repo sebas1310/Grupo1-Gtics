@@ -48,14 +48,14 @@ public interface CitaRepository extends JpaRepository<Cita, Integer> {
     List<Cita> pacientesAtendidosPorDoctor(Integer idDoctor);*/
 
 
-    @Query(value = "SELECT c.idcita as 'IDCita', c.paciente_idpaciente AS 'IDPaciente', MAX(fecha) AS 'UltimaFecha',\n" +
-            "CONCAT(u.nombres, ' ', u.apellidos) AS 'NombrePaciente'\n" +
-            "FROM cita c\n" +
-            "INNER JOIN paciente p ON c.paciente_idpaciente = p.idpaciente \n" +
-            "INNER JOIN usuario u ON p.idusuario = u.idusuario\n" +
-            "WHERE c.doctor_iddoctor = ?1 AND fecha <= CURRENT_TIME() \n" +
-            "GROUP BY idpaciente , CONCAT(u.nombres, ' ', u.apellidos) , IDCita \n" +
-            "ORDER BY UltimaFecha desc", nativeQuery = true)
+    @Query(value = "SELECT c.paciente_idpaciente AS 'IDPaciente', MAX(fecha) AS 'UltimaFecha',\n" +
+            "            CONCAT(u.nombres, ' ', u.apellidos) AS 'NombrePaciente'\n" +
+            "            FROM cita c\n" +
+            "            INNER JOIN paciente p ON c.paciente_idpaciente = p.idpaciente\n" +
+            "            INNER JOIN usuario u ON p.idusuario = u.idusuario\n" +
+            "            WHERE c.doctor_iddoctor = ?1 AND fecha <= CURRENT_TIME()\n" +
+            "            GROUP BY idpaciente , CONCAT(u.nombres, ' ', u.apellidos)\n" +
+            "            ORDER BY UltimaFecha desc", nativeQuery = true)
     List<PacientesAtendidos> pacientesAtendidosPorDoctor(Integer idDoctor);
 
 

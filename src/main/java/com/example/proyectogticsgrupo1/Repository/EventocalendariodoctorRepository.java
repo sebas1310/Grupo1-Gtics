@@ -53,13 +53,14 @@ public interface EventocalendariodoctorRepository extends JpaRepository<Eventoca
     List<String> horasDeCitasFinalRefrigerio(Integer iddoctor, LocalDate fecha);
 
     @Query(nativeQuery = true, value = "SELECT * FROM (SELECT '16:00:00' AS hora UNION ALL SELECT '17:00:00' UNION ALL SELECT '18:00:00' UNION ALL SELECT '19:00:00' " +
-            "UNION ALL SELECT '20:00:00') AS horarios " +
+            "UNION ALL SELECT '20:00:00' UNION ALL SELECT '21:00:00' UNION ALL SELECT '22:00:00' UNION ALL SELECT '23:00:00' UNION ALL SELECT '00:00:00') AS horarios " +
             "WHERE hora NOT IN (SELECT horainicio FROM bdclinicag1_v2.eventocalendariodoctor where " +
             "(iddoctor = ?1 and fecha = ?2))")
 
     List<String> horasDeCitasInicioTarde(Integer iddoctor, LocalDate fecha);
     @Query(nativeQuery = true, value = "SELECT * FROM (SELECT '17:00:00' AS hora UNION ALL SELECT '18:00:00' UNION ALL SELECT '19:00:00' " +
-            "UNION ALL SELECT '20:00:00' UNION ALL SELECT '21:00:00') AS horarios " +
+            "UNION ALL SELECT '20:00:00' UNION ALL SELECT '21:00:00' UNION ALL SELECT '22:00:00' UNION ALL SELECT '23:00:00' UNION ALL SELECT '00:00:00'" +
+            "UNION ALL SELECT '01:00:00') AS horarios " +
             "WHERE hora NOT IN (SELECT horafinal FROM bdclinicag1_v2.eventocalendariodoctor where " +
             "(iddoctor = ?1 and fecha = ?2))")
     List<String> horasDeCitasFinalTarde(Integer iddoctor, LocalDate fecha);
