@@ -132,10 +132,10 @@
         <div class="card">
           <div class="card-body">
             <h5 class="card-title">Cuestionario Médico</h5>
-            <div class="card">
+            <!--div class="card">
 
               <div class="card-body">
-                <!-- div th:unless="${iddatosjson==null}" >
+                < div th:unless="${iddatosjson==null}" >
 
                   <div th:each="inciso,indice:${cuestionariolleno}">
                     <label class="card-title" th:text="|Pregunta ${indice.index+1}:|"></label>
@@ -143,21 +143,21 @@
                            th:text="${inciso.getCampo()}"></label>
                     <input name="nombre" type="text" class="form-control" id="nombre3" th:value="${inciso.getRespuesta()}"
                            disabled>
-                  </div -->
-                  <!--<input th:value="${paciente.getUsuario().getIdusuario()}" class="form-control"
-                         type="hidden">-->
+                  </div
+                  <input th:value="${paciente.getUsuario().getIdusuario()}" class="form-control"
+                         type="hidden">
                   <br>
                 </div>
 
-                </div>
+                </div -->
 
-            <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+            <div class="text-center">
               <a th:href="@{'/doctor/cuestionario' + '?id=' + ${cita.getPaciente().getIdpaciente()}+'&idcita=' + ${cita.getIdcita()}}" class="btn btn-danger">Enviar </a>
             </div>
             <br>
             <div th:unless="${cuestionarios.isEmpty()}">
               <div  th:each="cuest:${cuestionarios}">
-            <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+            <div class="text-center">
               <a class="btn btn-success" th:href="@{'/doctor/pacientesatendidos/verhistorial/vercita/vercuestionarios/ver'+ '?idcuest=' + ${cuest}+'&id=' + ${cita.getIdcita()}}"
               ><i class="bi bi-journal-text me-2"></i>Ver Cuestionario</a>
              </div>
@@ -169,7 +169,7 @@
           <div class="card">
             <div class="card-body">
               <h5 class="card-title">Informe Médico</h5>
-              <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+              <div class="text-center">
                 <a th:href="@{'/doctor/pacientesatendidos/verhistorial/vercita/verinformesmedico'+ '?id=' + ${cita.getIdcita()}}" class="btn btn-danger">Llenar Informe</a>
               </div>
               <br>

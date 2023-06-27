@@ -22,13 +22,10 @@ num_men = '2', id=${session.usuario.idusuario})">
 
 <main id="main" class="main">
     <div class="pagetitle" th:each=" citas,indice : ${cita}">
-        <h1>Informe Medico<span th:text="${indice.index+1}" >-Informe Médico</span></h1>
+        <h1>Informe Medico</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a th:href="@{'/doctor/pacientesatendidos'+ '?id=' + ${doctor.iddoctor}}">Pacientes Atendidos</a></li>
-                <li class="breadcrumb-item"><a th:href="@{'/doctor/pacientesatendidos/verhistorial'+ '?id=' + ${cita.getPaciente().getIdpaciente()}}">Historial Clínico</a></li>
-                <!-- th:href="@{'/doctor/pacientesatendidos/verhistorial'+ '?id=' + ${cita.idcita}}" -->
-                <li class="breadcrumb-item active">Cita 1</li>
+                <li class="breadcrumb-item active">Informe Medico</li>
             </ol>
         </nav>
     </div>
@@ -40,7 +37,7 @@ num_men = '2', id=${session.usuario.idusuario})">
                     <div class="card info-card customers-card">
                         <div class="card-body">
                             <!--pasar a tabla -->
-                            <h5 class="card-title">Informe Médico</h5>
+                            <h5 class="card-title">Preguntas</h5>
                             <div th:if="${idatosjson==null}">
                             <div th:id="idinformelleno">
                             <input th:id="idinformemodelo" th:value="${idinforme}" class="form-control" type="hidden">
