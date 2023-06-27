@@ -672,13 +672,10 @@ public class DoctorController {
         model.addAttribute("doctor",doctor);
         Cita cita = citaRepository.buscarCitaPorId(idCita);
         model.addAttribute("cita", cita);
-        List<Integer> CuestionariosEnviados = modeloJsonRepository.listaIDCuestionariosEnviados(cita.getPaciente().getIdpaciente(),cita.getIdcita());
+        List<Integer> CuestionariosEnviados = modeloJsonRepository.listaIDCuestionariosEnviados(cita.getPaciente().getUsuario().getIdusuario(),cita.getIdcita());
         model.addAttribute(modeloJsonRepository);
         model.addAttribute(datosJsonRepository);
-        if(CuestionariosEnviados.isEmpty()) {
-        }else{
-            model.addAttribute("cuestionarios", CuestionariosEnviados);
-        }
+        model.addAttribute("cuestionarios", CuestionariosEnviados);
         return "doctor/vercuestionarios";
     }
 

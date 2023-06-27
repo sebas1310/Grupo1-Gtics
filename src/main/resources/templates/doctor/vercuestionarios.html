@@ -41,19 +41,23 @@ nombre = |${doctor.usuario.nombres} ${doctor.usuario.apellidos} (${doctor.usuari
             <div class="card-body">
               <h5 class="card-title">Cuestionarios Médico Enviados</h5>
               <div>
-                <div th:if="${cuestionarios}">
-                  <div  th:each="cuest:${cuestionarios}">
-                    <label class="card-title" th:text="${modeloJsonRepository.nombrePlantilla(cuest)}"></label>
-                    <td th:if="${datosJsonRepository.idDatosJson(cuest,cita.getIdcita())==null}">
-                      <a class="btn btn-success" disabled> No LLenado</a>
-                    </td>
-                    <td th:unless="${datosJsonRepository.idDatosJson(cuest,cita.getIdcita())==null}">
-                      <a class="btn btn-success" th:href="@{'/doctor/pacientesatendidos/verhistorial/vercita/vercuestionarios/ver'+ '?idcuest=' + ${cuest}+'&id=' + ${cita.getIdcita()}}"
-                       ><i class="bi bi-journal-text me-2"></i> Ver Cuestionario</a>
-                    </td>
-                    <!--<td th:text="${informe.getID()}" id="id_modelo" hidden></td> -->
-                  </div>
+                <div th:if="${cuestionarios.isEmpty()}">
+                      <a class="btn btn-danger" disabled> No Hay Cuestionarios Enviados</a>
+
                 </div>
+                  <div th:unless="${cuestionarios.isEmpty()}">
+                      <div  th:each="cuest:${cuestionarios}">
+                          <label class="card-title" th:text="${modeloJsonRepository.nombrePlantilla(cuest)}"></label>
+                          <td th:if="${datosJsonRepository.idDatosJson(cuest,cita.getIdcita())==null}">
+                              <a class="btn btn-danger" disabled> No LLenado</a>
+                          </td>
+                          <td th:unless="${datosJsonRepository.idDatosJson(cuest,cita.getIdcita())==null}">
+                              <a class="btn btn-success" th:href="@{'/doctor/pacientesatendidos/verhistorial/vercita/vercuestionarios/ver'+ '?idcuest=' + ${cuest}+'&id=' + ${cita.getIdcita()}}"
+                              ><i class="bi bi-journal-text me-2"></i> Ver Cuestionario</a>
+                          </td>
+                          <!--<td th:text="${informe.getID()}" id="id_modelo" hidden></td> -->
+                      </div>
+                  </div>
                 <!--<button type="submit" class="btn btn-primary" onclick="ModificarForm()">Guardar</button> -->
                 <!--<button class="btn btn-primary" type="submit">Guardar</button> -->
               </div>

@@ -70,12 +70,10 @@
 
 
                             </form>
-                            </div>
                         </div>
 
                     <div th:unless="${iddatosjson==null}" >
-                        <!--<input th:id="idcuestionariomodelo" th:value="${idcuestionario}" class="form-control"
-                               type="hidden">-->
+
                         <div th:each="inciso,indice:${cuestionariolleno}">
                             <label class="card-title" th:text="|Pregunta ${indice.index+1}:|"></label>
                             <label for="nombre3" class="col-md-12 col-form-label"
@@ -93,52 +91,8 @@
                     </div>
                 </div>
 
-
-                    </div>
-
-                        <!--<h5 class="card-title">Datos del Paciente</h5>
-                        <h6 class="card-title">Cita 1</h6>
-                        <form method="post" th:action="@{'/doctor/enviocuestionario'}" class="row g-3">
-
-
-                            <input th:value="${doctor.getEspecialidad().getIdespecialidad()}" name="idespecialidad" type="hidden" >
-
-                            <input th:value="${paciente.getUsuario().getCorreo()}" name="correodestino" type="hidden" >
-
-                            <div class="col-md-6">
-                                <label for="nombre" class="form-label">Nombre del Paciente</label>
-                                <input th:value="|${paciente.usuario.nombres} ${paciente.usuario.apellidos}|" type="text" class="form-control" id="nombre" disabled readonly >
-                            </div>
-
-                            <div class="col-md-6">
-                                <label for="enfermedad" class="form-label">Condición o Enfermedad</label>
-                                <input th:value="${paciente.getCondicionenfermedad()}" type="text" class="form-control" id="enfermedad"  disabled readonly>
-                            </div>
-
-
-                            <div class="col-md-6">
-                                <label for="especialidad" class="form-label">Especialidad</label>
-                                <input th:value="${doc.especialidad.nombre}" type="text" class="form-control" id="especialidad" disabled readonly>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="alergias" class="form-label">Alergias</label>
-                                <input th:value="${paciente.getAlergias()}" type="text" class="form-control" id="alergias"  disabled readonly>
-                            </div>
-
-                            <div class="col-md-6">
-                                <label for="ingresoplataforma" class="form-label">Apenas El Paciente Ingrese a la Plataforma</label>
-                                <select class="form-select" id="ingresoplataforma" name="mostrar_automatico" required>
-                                    <option selected disabled value="">Seleccione</option>
-                                    <option th:value="1" th:text="Sí"></option>
-                                    <option th:value="0" th:text="No"></option>
-                                </select>
-                            </div>
-
-                            <div class="d-grid gap d-md-flex justify-content-md-center">
-                                <button class="btn btn-primary" type="submit">Enviar Cuestionario</button>
-                            </div>
-                        </form>
-                    </div> -->
+                </div>
+                </div>
                 </div>
             </div>
         </div>
