@@ -24,27 +24,77 @@
     <div class="pagetitle">
         <h1>Pagos de Cita virtual</h1>
     </div><!-- End Page Title -->
-    <section class="section profile">
+    <section style="padding-left: 20%; padding-right: 20%"  class="section profile">
         <div class="row">
             <!-- Recent Activity -->
-            <div class="card d-flex justify-content-center">
-                <div class="card-body">
+            <div class="card d-flex justify-content-center ">
+                <div  class="card-body">
                     <br>
-                    <p class="mb-2" th:text="|${cita.fecha}|"></p>
-                    <p class="mb-2" th:text="|${cita.especialidad.nombre}|"></p>
-                    <p class="mb-2" th:text="|${cita.doctor.usuario.nombres} ${cita.doctor.usuario.apellidos}|"></p>
-                    <p class="mb-4"><i class="bi bi-geo-alt-fill" th:text="${cita.sede.nombre}"></i></p>
+                    <h5 style="font-weight: bolder">Detalles Cita: </h5>
+                    <br>
+                    <div class="row">
+                        <div class="col">
+                            <div class="row">
+                                <div class="col">
+                                    <p style="font-weight: bolder">Fecha: </p>
+
+                                </div>
+                                <div class="col">
+                                    <p class="mb-2" th:text="|${#temporals.format(cita.getFecha(), 'dd-MM-yyyy')}|"></p>
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <p style="font-weight: bolder">Sede: </p>
+
+                                </div>
+                                <div class="col">
+                                    <p class="mb-4"><i class="bi bi-geo-alt-fill" th:text="${cita.sede.nombre}"></i></p>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col">
+                            <div class="row">
+                                <div class="col">
+                                    <p style="font-weight: bolder">Doctor: </p>
+
+                                </div>
+                                <div class="col">
+                                    <p class="mb-2" th:text="| ${cita.doctor.usuario.nombres} ${cita.doctor.usuario.apellidos}|"></p>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col">
+                                    <p style="font-weight: bolder">Especialidad: </p>
+
+                                </div>
+                                <div class="col">
+                                    <p class="mb-2" th:text="| ${cita.especialidad.nombre}|"></p>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <hr>
+                    <br>
+
+
+
                     <form id="paymentForm" th:action="@{'/paciente/checkoutpayment'}" method="post">
                         <div class="form-group">
                             <input th:value="${cita.idcita}" name="idcita" type="hidden">
                             <label for="cardNumber">Número de tarjeta</label>
-                            <input type="text" class="form-control" id="cardNumber" name="cardnumber" placeholder="Ingrese el número de tarjeta" maxlength="16" required>
+                            <input  type="text" class="form-control" id="cardNumber" name="cardnumber" placeholder="Ingrese el número de tarjeta" maxlength="16" required>
                         </div>
                         <div class="form-group">
                             <label for="expirationMonth">Fecha de expiración</label>
                             <div class="row">
                                 <div class="col">
-                                    <select class="form-control" id="expirationMonth" name="month">
+                                    <select  class="form-control" id="expirationMonth" name="month">
                                         <option value="01">01</option>
                                         <option value="02">02</option>
                                         <option value="03">03</option>
@@ -60,17 +110,18 @@
                                     </select>
                                 </div>
                                 <div class="col">
-                                    <select class="form-control" id="expirationYear" name="year"></select>
+                                    <select  class="form-control" id="expirationYear" name="year"></select>
                                 </div>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="cvv">CVV</label>
-                            <input type="text" class="form-control" id="cvv" name="cvv" placeholder="Ingrese el código de seguridad" maxlength="3" required>
+                            <input  type="text" class="form-control" id="cvv" name="cvv" placeholder="Ingrese el código de seguridad" maxlength="3" required>
                         </div>
                         <br>
-                        <div class="card d-flex justify-content-center">
-                            <button type="submit" class="btn btn-primary" th:text="|Pagar S/${monto}|"></button>
+                        <div  class="justify-content-center text-center">
+                            <button  type="submit" class="btn btn-warning "  th:text="|Pagar S/. ${monto}|"></button>
+                            <br>
                             <div th:if="${fail!=null}" th:text="${fail}" class="alert alert-danger" role="alert"></div>
                         </div>
                     </form>

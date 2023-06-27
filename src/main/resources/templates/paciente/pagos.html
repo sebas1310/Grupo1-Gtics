@@ -46,10 +46,10 @@
                                 <tbody>
                                 <tr th:each="p, i : ${pagos}">
                                     <td class="text-center">
-                                        <p th:text="|S/${costo.get(i.index)}|"></p>
+                                        <p th:text="|S/.${costo.get(i.index)}|"></p>
                                     </td>
                                     <td class="text-center">
-                                        <h5 th:text="|Cita Virtual ${p.fecha}|"></h5>
+                                        <p th:text="|Cita Virtual ${#temporals.format(p.getFecha(), 'dd-MM-yyyy')}|"></p>
                                     </td>
                                     <td class="text-center">
                                         <p th:text="|${p.especialidad.nombre}|"></p>
@@ -63,7 +63,7 @@
                                         </p>
                                     </td>
                                     <td class="text-center">
-                                        <a class="btn btn-success" th:href="@{'/paciente/pagar?idcita='+${p.idcita}}">Ir a pagar</a>
+                                        <a class="btn btn-warning" th:href="@{'/paciente/pagar?idcita='+${p.idcita}}">Ir a pagar</a>
                                     </td>
                                 </tr>
                                 </tbody>
