@@ -83,7 +83,8 @@
                         errorMessage.innerHTML = "Complete el campo requerido";
                         return false;
                     }
-                    else if ((fechaSeleccionada.getDate() + 1) < fechaActual.getDate() ) {
+                    else if ( fechaSeleccionada.getMonth()<fechaActual.getMonth()){
+                        if((fechaSeleccionada.getDate() + 1) < fechaActual.getDate() ){}
 
                             var errorMessage = document.getElementById("error-message2");
                             errorMessage.style.display = "block";
