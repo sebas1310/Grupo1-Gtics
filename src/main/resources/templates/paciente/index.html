@@ -227,110 +227,110 @@
             <div class="card-body p-2 text-center ">
               <a style="font-family: Nunito" class="btn btn-outline-warning" th:href="@{'/paciente/calendarioSemanal?semana='+ 0}"><i class="bi bi-calendar-event "></i> Citas Agendadas</a>
 
+              <!-- Citas Hoy -->
 
-            </div>
+              <div class="card-body pb-0" th:if="${not citashoy.isEmpty()}">
+                <h5 style="font-family: Nunito" class="card-title">Mis Citas de Hoy</h5>
+                <div class="table-responsive">
+                  <table class="table  table-bordered">
+                    <thead>
+                    <tr>
+                      <th style="font-family: Nunito" class="text-center">Hora</th>
+                      <th style="font-family: Nunito" class="text-center">Especialidad</th>
+                    </tr>
+                    </thead>
+                    <tbody class="text-center">
+                    <tr th:each="p,idx:${citashoy}">
+                      <td style="font-family: Nunito" th:text="|${p.horainicio} - ${p.horafinal}|"></td>
+                      <td>
+                        <button style="font-family: Nunito" type="button"   class="btn btn-warning" data-toggle="modal" th:data-target="'#exampleModalCenter-' +${p.idcita}" th:text="${p.especialidad.nombre}">
+                        </button>
+                        <span th:if="${p.estadoCita.idestadocita} == 1" class="badge bg-danger" style="font-size: 8px"> Pago Pendiente</span>
 
-          </div>
-          <!-- -->
 
+                        <!-- Modal -->
+                        <div class="modal fade" th:id="'exampleModalCenter-' + ${p.idcita}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                          <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                              <div style="background-color: #ffd966" class="modal-header">
+                                <h5 class="modal-title " style="font-weight: bold" id="exampleModalLongTitle" th:text="|Cita ${p.tipoCita.nombre}|"></h5>
 
-          <!-- Citas Hoy -->
-          <div class="card" th:if="${not citashoy.isEmpty()}">
-
-            <div class="card-body pb-0">
-              <h5 style="font-family: Nunito" class="card-title">Mis Citas de Hoy</h5>
-              <div class="table-responsive">
-                <table class="table  table-bordered">
-                  <thead>
-                  <tr>
-                    <th style="font-family: Nunito" class="text-center">Hora</th>
-                    <th style="font-family: Nunito" class="text-center">Especialidad</th>
-                  </tr>
-                  </thead>
-                  <tbody class="text-center">
-                  <tr th:each="p,idx:${citashoy}">
-                    <td style="font-family: Nunito" th:text="|${p.horainicio} - ${p.horafinal}|"></td>
-                    <td>
-                      <button style="font-family: Nunito" type="button"   class="btn btn-warning" data-toggle="modal" th:data-target="'#exampleModalCenter-' +${p.idcita}" th:text="${p.especialidad.nombre}">
-                      </button>
-
-                      <!-- Modal -->
-                      <div class="modal fade" th:id="'exampleModalCenter-' + ${p.idcita}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered" role="document">
-                          <div class="modal-content">
-                            <div style="background-color: #ffd966" class="modal-header">
-                              <h5 class="modal-title " style="font-weight: bold" id="exampleModalLongTitle" th:text="|Cita ${p.tipoCita.nombre}|"></h5>
-
-                              <div class="d-flex align-items-center">
-                                <i class="bi bi-geo-alt-fill"></i> &nbsp
-                                <p class="ml-3 mb-0" th:text="${p.doctor.sede.nombre}"></p>
+                                <div class="d-flex align-items-center">
+                                  <i class="bi bi-geo-alt-fill"></i> &nbsp
+                                  <p class="ml-3 mb-0" th:text="${p.doctor.sede.nombre}"></p>
+                                </div>
                               </div>
-                            </div>
 
-                            <div class="d-inline-block w-auto mx-auto">
-                              <div class="modal-body d-flex align-items-center">
-                                <div style="width: 400px">
-                                  <div class="d-flex align-items-center">
-                                    <div class="col-lg-8">
-                                      <table>
-                                        <tr>
-                                          <td><p  style="font-weight: bold" class="ml-3 mb-0" >Doctor: </p></td>
-                                          <td><p  class="ml-3 mb-0"  th:text="|${p.doctor.usuario.nombres} ${p.doctor.usuario.apellidos}|"></p></td>
-                                        </tr>
-                                      </table>
-                                    </div>
-                                    <div class="col-lg-4">
-                                      <a  type="button" class="btn btn-outline-warning"  th:href="@{'/paciente/perfilDoctor?iddoc='+${p.doctor.iddoctor}}" ><i class="bi bi-eye-fill"></i></a>
-                                    </div>
-                                  </div>
-                                  <br>
-                                  <h2 th:text="${#temporals.format(p.fecha,'dd-MM-yyyy') }"></h2>
-                                  <div class="">
-                                    <div class="row">
-                                      <div class="col">
-                                        <div class="p-1">Hora Inicio:</div>
+                              <div class="d-inline-block w-auto mx-auto">
+                                <div class="modal-body d-flex align-items-center">
+                                  <div style="width: 400px">
+                                    <div class="d-flex align-items-center">
+                                      <div class="col-lg-8">
+                                        <table>
+                                          <tr>
+                                            <td><p  style="font-weight: bold" class="ml-3 mb-0" >Doctor: </p></td>
+                                            <td><p  class="ml-3 mb-0"  th:text="|${p.doctor.usuario.nombres} ${p.doctor.usuario.apellidos}|"></p></td>
+                                          </tr>
+                                        </table>
                                       </div>
-                                      <div class="col">
-                                        <div class="p-1"><p th:text="${p.horainicio}"></p></div>
+                                      <div class="col-lg-4">
+                                        <a  type="button" class="btn btn-outline-warning"  th:href="@{'/paciente/perfilDoctor?iddoc='+${p.doctor.iddoctor}}" ><i class="bi bi-eye-fill"></i></a>
                                       </div>
                                     </div>
-                                    <div class="row">
-                                      <div class="col">
-                                        <div class="p-1">Duración:</div>
+                                    <br>
+                                    <h2 th:text="${#temporals.format(p.fecha,'dd-MM-yyyy') }"></h2>
+                                    <div class="">
+                                      <div class="row">
+                                        <div class="col">
+                                          <div class="p-1">Hora Inicio:</div>
+                                        </div>
+                                        <div class="col">
+                                          <div class="p-1"><p th:text="${p.horainicio}"></p></div>
+                                        </div>
                                       </div>
-                                      <div class="col">
-                                        <div class="p-1"><p th:text="|${p.duracion} Hora|"></p></div>
+                                      <div class="row">
+                                        <div class="col">
+                                          <div class="p-1">Duración:</div>
+                                        </div>
+                                        <div class="col">
+                                          <div class="p-1"><p th:text="|${p.duracion} Hora|"></p></div>
+                                        </div>
                                       </div>
-                                    </div>
-                                    <div th:if="${p.tipoCita.idtipocita} =='2'" class="row">
-                                      <div class="col">
-                                        <div class="p-1">Link Videollamada:</div>
-                                      </div>
-                                      <div class="col">
-                                        <div class="p-1"><p th:href="${p.doctor.zoom}"></p></div>
+                                      <div th:if="${p.tipoCita.idtipocita} =='2'" class="row">
+                                        <div class="col">
+                                          <div class="p-1">Link Videollamada:</div>
+                                        </div>
+                                        <div class="col">
+                                          <div class="p-1"><p th:href="${p.doctor.zoom}"></p></div>
+                                        </div>
                                       </div>
                                     </div>
                                   </div>
                                 </div>
                               </div>
-                            </div>
-                            <br>
-                            <div class="modal-footer d-flex justify-content-center">
-                              <button type="button" class="btn btn-warning" data-dismiss="modal">Cerrar</button>
+                              <br>
+                              <div class="modal-footer d-flex justify-content-center">
+                                <button type="button" class="btn btn-warning" data-dismiss="modal">Cerrar</button>
+                              </div>
                             </div>
                           </div>
                         </div>
-                      </div>
-                      <!-- End Modal ! -->
+                        <!-- End Modal ! -->
 
-                    </td>
-                  </tr>
-                  </tbody>
-                </table>
+                      </td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </div>
               </div>
+
+              <!-- Citas Hoy FIN-->
+
+
             </div>
+
           </div>
-          <!-- Citas Hoy FIN-->
+          <!-- -->
 
           <!-- Examenes Pendientes-->
           <div class="card" th:if="${pacientelog.estadoPaciente.idestadopaciente == 6}">
