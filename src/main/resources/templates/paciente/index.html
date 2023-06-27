@@ -302,6 +302,14 @@
                                         <div class="p-1"><p th:text="|${p.duracion} Hora|"></p></div>
                                       </div>
                                     </div>
+                                    <div th:if="${p.tipoCita.idtipocita} =='2'" class="row">
+                                      <div class="col">
+                                        <div class="p-1">Link Videollamada:</div>
+                                      </div>
+                                      <div class="col">
+                                        <div class="p-1"><p th:href="${p.doctor.zoom}"></p></div>
+                                      </div>
+                                    </div>
                                   </div>
                                 </div>
                               </div>
