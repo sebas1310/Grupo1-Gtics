@@ -63,7 +63,7 @@
                   <th style="text-align: center" scope="col">Paciente</th>
                   <th style="text-align: center" scope="col">Tipo de Cita</th>
                   <th style="text-align: center" scope="col">Estado de Cita</th>
-                  <th style="text-align: center" scope="col">Cuestionario</th>
+                  <!-- <th style="text-align: center" scope="col">Cuestionario</th -->
                   <th style="text-align: center" scope="col">Mas Info</th>
                 </tr>
                 </thead>
@@ -77,17 +77,17 @@
                   <td style="text-align: center" th:if="${citaagendada.getTipoCita().getNombre() eq 'Presencial'}" th:text="${citaagendada.getEstadoCita().getNombre()}"></td>
                     <td style="text-align: center"th:unless="${citaagendada.getTipoCita().getNombre() eq 'Presencial'}" > <a type="button" class="bi bi-camera-video"  href="https://pucp.zoom.us/j/91442275627?pwd=MjFjNGNTeXZEYVhzd3RKYmtVTzROQT09"></a> Iniciar </td>
                 </div>
-                  <td style="text-align: center"> <a type="button" class="bi bi-journal-text"  th:href="@{'/doctor/cuestionario' + '?id=' + ${citaagendada.getPaciente().getIdpaciente()}+'&idcita=' + ${citaagendada.getIdcita()}}"></a></td>
-                  <td style="text-align: center" > <a class="bi bi-eye-fill" th:href="@{'/doctor/dashboard/info' + '?id=' + ${citaagendada.getPaciente().getIdpaciente()}}"></a></td>
-                </tr>
-               <!--<tr>
-                  <td style="text-align: center" scope="row">11:15 - 12:15 pm</td>
-                  <td style="text-align: center">Bridie Kessler</td>
-                  <td style="text-align: center">Virtual</td>
-                  <td style="text-align: center"> <a type="button" class="bi bi-camera-video"  href="https://pucp.zoom.us/j/91442275627?pwd=MjFjNGNTeXZEYVhzd3RKYmtVTzROQT09"></a> Iniciar </td>
-                  <td style="text-align: center"> <a type="button" class="bi bi-journal-text"  th:href="@{/doctor/cuestionario}"></a></td>
-                  <td style="text-align: center" > <a class="bi bi-eye-fill" data-bs-toggle="modal" href="#modal" role="button"></a></td>
-                </tr> -->
+                    <!--td style="text-align: center"> <a type="button" class="bi bi-journal-text"  th:href="@{'/doctor/cuestionario' + '?id=' + ${citaagendada.getPaciente().getIdpaciente()}+'&idcita=' + ${citaagendada.getIdcita()}}"></a></td -->
+                    <td style="text-align: center" > <a class="bi bi-eye-fill" th:href="@{'/doctor/dashboard/info' + '?idP=' + ${citaagendada.getPaciente().getIdpaciente()} + '&idC=' + ${citaagendada.getIdcita()}} "></a></td>
+                  </tr>
+                 <!--<tr>
+                    <td style="text-align: center" scope="row">11:15 - 12:15 pm</td>
+                    <td style="text-align: center">Bridie Kessler</td>
+                    <td style="text-align: center">Virtual</td>
+                    <td style="text-align: center"> <a type="button" class="bi bi-camera-video"  href="https://pucp.zoom.us/j/91442275627?pwd=MjFjNGNTeXZEYVhzd3RKYmtVTzROQT09"></a> Iniciar </td>
+                    <td style="text-align: center"> <a type="button" class="bi bi-journal-text"  th:href="@{/doctor/cuestionario}"></a></td>
+                    <td style="text-align: center" > <a class="bi bi-eye-fill" data-bs-toggle="modal" href="#modal" role="button"></a></td>
+                  </tr> -->
                 </tbody>
               </table>
               </div>

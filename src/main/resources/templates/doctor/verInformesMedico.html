@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:insert="fragments/doctor/librerias.html :: cabecera (titulo = 'Historial Cita')">
+<head th:insert="fragments/doctor/librerias.html :: cabecera (titulo = 'Informe Medico')">
 </head>
 <body>
 <!-- ======= Header ======= -->
@@ -22,7 +22,7 @@ nombre = |${doctor.usuario.nombres} ${doctor.usuario.apellidos} (${doctor.usuari
 
 <main id="main" class="main">
     <div class="pagetitle" th:each=" citas,indice : ${cita}">
-        <h1>Cita<span th:text="${indice.index+1}">Informes Médico</span></h1>
+        <h1>Informe Medico</h1>
         <nav>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a th:href="@{'/doctor/pacientesatendidos'+ '?id=' + ${doctor.iddoctor}}">Pacientes Atendidos</a></li>

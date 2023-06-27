@@ -118,7 +118,8 @@ public class DoctorController {
             return "doctor/dashboardDoc";
         }
     @GetMapping("/dashboard/info")
-    public String infoDashboard(Model model, @RequestParam("id") int idPaciente) {
+    public String infoDashboard(Model model, @RequestParam("idC") int idCita,
+                                @RequestParam("idP") int idPaciente) {
 
         Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
         Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
@@ -126,8 +127,14 @@ public class DoctorController {
         Paciente paciente = pacienteRepository.buscarPacientePorID(idPaciente);
         model.addAttribute("paciente", paciente);
         List<Cita> citasAgendadas1 = citaRepository.buscarCitasAgendadasDoctor(doctor.getIddoctor());
-
         model.addAttribute("citasAgendadas",citasAgendadas1);
+        Cita cita = citaRepository.buscarCitaPorId(idCita);
+        model.addAttribute("cita", cita);
+        model.addAttribute("estadoscita",estadoCitaRepository.findAll());
+        List<Integer> CuestionariosEnviados = modeloJsonRepository.listaIDCuestionariosEnviados(cita.getPaciente().getUsuario().getIdusuario(),cita.getIdcita());
+        model.addAttribute(modeloJsonRepository);
+        model.addAttribute(datosJsonRepository);
+        model.addAttribute("cuestionarios", CuestionariosEnviados);
         return "doctor/infoDashboard";
     }
 

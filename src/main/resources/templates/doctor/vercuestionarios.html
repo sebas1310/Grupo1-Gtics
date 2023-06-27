@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:insert="fragments/doctor/librerias.html :: cabecera (titulo = 'Historial Cita')">
+<head th:insert="fragments/doctor/librerias.html :: cabecera (titulo = 'Cuestionarios')">
 </head>
 <body>
 <!-- ======= Header ======= -->
@@ -22,7 +22,7 @@ nombre = |${doctor.usuario.nombres} ${doctor.usuario.apellidos} (${doctor.usuari
 
 <main id="main" class="main">
   <div class="pagetitle" th:each=" citas,indice : ${cita}">
-    <h1>Cita<span th:text="${indice.index+1}">Cuestionarios Médico</span></h1>
+    <h1>Cuestionarios Medicos</h1>
     <nav>
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a th:href="@{'/doctor/pacientesatendidos'+ '?id=' + ${doctor.iddoctor}}">Pacientes Atendidos</a></li>
@@ -42,14 +42,13 @@ nombre = |${doctor.usuario.nombres} ${doctor.usuario.apellidos} (${doctor.usuari
               <h5 class="card-title">Cuestionarios Médico Enviados</h5>
               <div>
                 <div th:if="${cuestionarios.isEmpty()}">
-                      <a class="btn btn-danger" disabled> No Hay Cuestionarios Enviados</a>
-
+                  <h5><span class="badge border-danger border-1 text-danger">No Hay Cuestionarios Enviados</span></h5>
                 </div>
                   <div th:unless="${cuestionarios.isEmpty()}">
                       <div  th:each="cuest:${cuestionarios}">
                           <label class="card-title" th:text="${modeloJsonRepository.nombrePlantilla(cuest)}"></label>
                           <td th:if="${datosJsonRepository.idDatosJson(cuest,cita.getIdcita())==null}">
-                              <a class="btn btn-danger" disabled> No LLenado</a>
+                            <h5><span class="badge border-danger border-1 text-danger">No LLenado</span></h5>
                           </td>
                           <td th:unless="${datosJsonRepository.idDatosJson(cuest,cita.getIdcita())==null}">
                               <a class="btn btn-success" th:href="@{'/doctor/pacientesatendidos/verhistorial/vercita/vercuestionarios/ver'+ '?idcuest=' + ${cuest}+'&id=' + ${cita.getIdcita()}}"

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:insert="fragments/doctor/librerias.html :: cabecera (titulo = ' Perfil Paciente')">
+<head th:insert="fragments/doctor/librerias.html :: cabecera (titulo = 'Informacion Cita')">
 </head>
 <body>
 <!-- ======= Header ======= -->
@@ -25,81 +25,154 @@
 <main id="main" class="main">
 
   <div class="pagetitle">
-    <h1>Perfil Paciente</h1>
+    <h1>Informacion de la Cita</h1>
     <nav>
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a th:href="@{'/doctor/dashboard'}">Dashboard</a></li>
-        <li class="breadcrumb-item active">Perfil Paciente</li>
+        <li class="breadcrumb-item active"> Mas Informacion</li>
       </ol>
     </nav>
   </div><!-- End Page Title -->
 
-  <section class="section profile">
+  <section class="section ">
     <div class="row">
-      <div class="col-xl-4">
+      <div class="col-lg">
+        <div class="col-12">
+          <!--Estado de Cita -->
+          <div class="card info-card customers-card">
+            <div class="card-body">
+              <h5 class="card-title">Estado de Cita</h5>
+              <div class="ps-3">
+                <div>
+                  <div class="d-grid gap-3 d-md-flex justify-content-md-center">
 
-        <div class="card">
-          <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+                    <form method="post" th:action="@{'/doctor/pacientesatendidos/verhistorial/vercita/actualizarestadocita'}" >
+                      <input name="id" th:value="${cita.getIdcita()}" class="form-control" type="hidden">
+                      <input name="idestadocita" th:value="${estadoscita.get(2).getIdestadocita()}" class="form-control" type="hidden">
+                      <button type="submit" class="btn btn-outline-warning"><i class="bi bi-pause-circle me-1"></i> Pausar</button>
+                    </form>
 
-            <img src="https://img.freepik.com/foto-gratis/hermosa-joven-doctora-mirando-camara-oficina_1301-7807.jpg?w=2000" alt="Profile" class="rounded-circle">
-            <h2><span th:text="|${paciente.getUsuario().getNombres()} ${paciente.getUsuario().getApellidos()}|"></span></h2>
+                    <form method="post" th:action="@{'/doctor/pacientesatendidos/verhistorial/vercita/actualizarestadocita'}" >
+                      <input name="id" th:value="${cita.getIdcita()}" class="form-control" type="hidden">
+                      <input name="idestadocita" th:value="${estadoscita.get(3).getIdestadocita()}" class="form-control" type="hidden">
+                      <button type="submit" class="btn btn-outline-success"><i class="bi bi-skip-end-circle me-1"></i> Iniciar</button>
+                    </form>
 
-            <h3>Paciente</h3>
-          </div>
-        </div>
+                    <form method="post" th:action="@{'/doctor/pacientesatendidos/verhistorial/vercita/actualizarestadocita'}" >
+                      <input name="id" th:value="${cita.getIdcita()}" class="form-control" type="hidden">
+                      <input name="idestadocita" th:value="${estadoscita.get(5).getIdestadocita()}" class="form-control" type="hidden">
+                      <button type="submit" class="btn btn-outline-danger"><i class="bi bi-x-circle me-1"></i> Finalizar</button>
+                    </form>
+                  </div>
 
-      </div>
-
-      <div class="col-xl-8">
-
-        <div class="card">
-          <div class="card-body pt-3">
-            <!-- Bordered Tabs -->
-            <div class="tab-content pt-2">
-
-              <div class="tab-pane fade show active profile-overview" id="profile-overview">
-
-                <h5 class="card-title">Detalles del Perfil</h5>
-
-                <div class="row">
-                  <div class="col-lg-3 col-md-4 label ">Nombre</div>
-                  <div class="col-lg-9 col-md-8"><span th:text="|${paciente.getUsuario().getNombres()} ${paciente.getUsuario().getApellidos()}|"></span></div>
-                </div>
-                <div class="row">
-                  <div class="col-lg-3 col-md-4 label">Edad</div>
-                  <div class="col-lg-9 col-md-8"><span th:text="${paciente.getUsuario().getEdad()}"></span></div>
-                </div>
-                <div class="row">
-                  <div class="col-lg-3 col-md-4 label">Dni</div>
-                  <div class="col-lg-9 col-md-8"><span th:text="${paciente.getUsuario().getDni()}"></span></div>
-                </div>
-                <div class="row">
-                  <div class="col-lg-3 col-md-4 label">Celular</div>
-                  <div class="col-lg-9 col-md-8"><span th:text="${paciente.getUsuario().getCelular()}"></span></div>
-                </div>
-                <div class="row">
-                  <div class="col-lg-3 col-md-4 label">Correo</div>
-                  <div class="col-lg-9 col-md-8"><span th:text="${paciente.getUsuario().getCorreo()}"></span> </div>
-                </div>
-                <div class="row">
-                  <div class="col-lg-3 col-md-4 label">Condicion</div>
-                  <div class="col-lg-9 col-md-8"><span th:text="${paciente.getCondicionenfermedad()}"></span></div>
-                </div>
-                <div class="row">
-                  <div class="col-lg-3 col-md-4 label">Alergias</div>
-                  <div class="col-lg-9 col-md-8"><li th:each="alergias : ${#strings.arraySplit(paciente.getAlergias(), '[,.]')}"
-                                                       th:text="${#strings.capitalize(alergias)}"></li></div>
-                </div>
-                <div class="row">
-                  <div class="col-lg-3 col-md-4 label">Seguro</div>
-                  <div class="col-lg-9 col-md-8"><span th:text="${paciente.getSeguro().getNombre()}"></span></div>
+                  <!--<a th:href="@{'/doctor/pacientesatendidos/verhistorial/vercita'+ '?id=' + ${cita.getIdcita()}+'&estadocita=3'+'&msg6=Cita_Pausada'}" class="btn btn-primary">Pausar Cita</a>
+              <a th:href="@{'/doctor/pacientesatendidos/verhistorial/vercita'+ '?id=' + ${cita.getIdcita()}+'&estadocita=4'+'&msg6=CitaEnConsulta'}" class="btn btn-success">Continuar Cita</a>
+              <a th:href="@{'/doctor/pacientesatendidos/verhistorial/vercita'+ '?id=' + ${cita.getIdcita()}+'&estadocita=6'+'&msg6=Cita_Finalizada'}" class="btn btn-danger">Finalizar Cita</a> -->
                 </div>
               </div>
+            </div>
+          </div> <!--End  -->
+        </div>
+        <div class="row">
+          <div class="col-xxl-12 ">
+            <div class="card info-card customers-card">
+              <div class="card-body">
+                    <h5 class="card-title">Informacion de la Cita</h5>
+                    <div class="ps-3">
+                      <li>Paciente: <span th:text="|${cita.getPaciente().getUsuario().getNombres()} ${cita.getPaciente().getUsuario().getApellidos()}|"></span></li>
+                      <li>Edad: <span th:text="${cita.getPaciente().getUsuario().getEdad()}"></span> años</li>
+                      <li>Motivo: <span th:text="${cita.getPaciente().getCondicionenfermedad()}"></span></li>
+                      <li>Alergias: <span th:text="${cita.getPaciente().getAlergias()}"></span></li>
+                      <li>Seguro: <span th:text="${cita.getSeguro().getNombre()}"></span></li>
+                      <li>Modalidad: <span th:text="${cita.getTipoCita().getNombre()}"></span></li>
+                      <li>Estado Cita: <span th:text="${cita.getEstadoCita().getNombre()}"></span></li>
+
+                    </div>
+              </div>
+            </div>
+        </div>
+        <!-- Revenue Card
+        <div class="col-xxl-4">
+          <div class="card info-card revenue-card">
+            <div class="card-body">
+              <h5 class="card-title">Perfil <span></span></h5>
+
+              <div class="d-flex align-items-center">
+                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                  <i class="bi bi-currency-dollar"></i>
+                </div>
+                <div class="ps-3">
+                  <h6>$3,264</h6>
+                  <span class="text-success small pt-1 fw-bold">8%</span> <span class="text-muted small pt-2 ps-1">increase</span>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div> -->
+      </div>
+        <div class="col-12">
+          <div class="card recent-sales overflow-auto">
+            <div class="card-body">
+              <h5 class="card-title">Examen Medico</h5>
+              <h6>Si el paciente requiere realizar unos exámenes, entonces envíele un mensaje</h6>
+              <br>
+              <div class="d-grid gap-1 d-md-flex justify-content-md-center" >
+                <a th:href="@{'/doctor/mensajeria/enviarmensaje/examenes'+ '?idp=' + ${paciente.getUsuario().getIdusuario()}}" class="btn btn-primary">Mensaje</a>
+
+              </div>
+            </div>
+          </div>
         </div>
       </div>
+      <div class="col-lg-5">
+        <!-- Bitacobra -->
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Cuestionario Médico</h5>
+            <div class="card">
 
-    </div></div>
+              <div class="card-body">
+                <!-- div th:unless="${iddatosjson==null}" >
+
+                  <div th:each="inciso,indice:${cuestionariolleno}">
+                    <label class="card-title" th:text="|Pregunta ${indice.index+1}:|"></label>
+                    <label for="nombre3" class="col-md-12 col-form-label"
+                           th:text="${inciso.getCampo()}"></label>
+                    <input name="nombre" type="text" class="form-control" id="nombre3" th:value="${inciso.getRespuesta()}"
+                           disabled>
+                  </div -->
+                  <!--<input th:value="${paciente.getUsuario().getIdusuario()}" class="form-control"
+                         type="hidden">-->
+                  <br>
+                </div>
+
+                </div>
+
+            <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+              <a th:href="@{'/doctor/cuestionario' + '?id=' + ${cita.getPaciente().getIdpaciente()}+'&idcita=' + ${cita.getIdcita()}}" class="btn btn-danger">Enviar </a>
+            </div>
+            <br>
+            <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+              <a class="btn btn-success" th:href="@{'/doctor/pacientesatendidos/verhistorial/vercita/vercuestionarios/ver'+ '?idcuest=' + ${cuestionarios}+'&id=' + ${cita.getIdcita()}}"
+              ><i class="bi bi-journal-text me-2"></i> Ver Cuestionario</a>
+             </div>
+            <br>
+          </div>
+          </div>
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Informe Médico</h5>
+              <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+                <a th:href="@{'/doctor/pacientesatendidos/verhistorial/vercita/verinformesmedico/llenarinforme'+ '?id=' + ${cita.getIdcita()}}" class="btn btn-danger">Llenar Informe</a>
+              </div>
+              <br>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+      </div>
       <div class="d-grid gap d-md-flex justify-content-md-center">
         <a th:href="@{'/doctor/dashboard'}" class="btn btn-danger">Regresar</a>
       </div>
