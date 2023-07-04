@@ -173,11 +173,14 @@
           <div class="card">
             <div class="card-body">
               <h5 class="card-title">Informe Médico</h5>
-              <div th:if="${cita.getEstadoCita().getIdestadocita()==3 or cita.getEstadoCita().getIdestadocita()==4}" class="text-center">
-                <a th:href="@{'/doctor/pacientesatendidos/verhistorial/vercita/verinformesmedico/llenarinforme?idinforme=26'+'&id=' + ${cita.getIdcita()}}" class="btn btn-danger">Llenar Informe</a>
+              <div th:if="${(cita.getEstadoCita().getIdestadocita()==3 or cita.getEstadoCita().getIdestadocita()==4) and idatosjson==null}" class="text-center">
+                <a th:href="@{'/doctor/dashboard/info/llenarinforme'+'?id=' + ${cita.getIdcita()}}" class="btn btn-danger">Llenar Informe</a>
               </div>
               <div th:unless="${cita.getEstadoCita().getIdestadocita()==3 or cita.getEstadoCita().getIdestadocita()==4}" class="text-center">
                 <a class="btn btn-danger">No Disponible hasta Inicio de Cita</a>
+              </div>
+              <div th:if="${(cita.getEstadoCita().getIdestadocita()==3 or cita.getEstadoCita().getIdestadocita()==4) and idatosjson!=null}" class="text-center">
+                <a th:href="@{'/doctor/dashboard/info/llenarinforme'+'?id=' + ${cita.getIdcita()}}" class="btn btn-success">Ver Informe</a>
               </div>
               <br>
             </div>

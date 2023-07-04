@@ -136,6 +136,13 @@ public class DoctorController {
         model.addAttribute(modeloJsonRepository);
         model.addAttribute(datosJsonRepository);
         model.addAttribute("cuestionarios", CuestionariosEnviados);
+        Integer idDatosJson = datosJsonRepository.idDatosJson(26,idCita);
+        if(idDatosJson != null){
+            System.out.println(idDatosJson);
+            //model.addAttribute("informelleno", datosJsonRepository.informeMedicoLlenado(idDatosJson));
+            model.addAttribute("informelleno",datosJsonRepository.modeloJsonLlenado(idDatosJson));
+            model.addAttribute("idatosjson",idDatosJson);
+        }
         return "doctor/infoDashboard";
     }
 
@@ -160,6 +167,29 @@ public class DoctorController {
         }
 
         return "doctor/cuestionarioDocInfo";
+    }
+
+    @GetMapping("/dashboard/info/llenarinforme")
+    public String llenarInformeMedicoInfo(Model model, @RequestParam("id") int idCita) {
+
+        Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
+        Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
+        model.addAttribute("doctor",doctor);
+        Cita cita = citaRepository.buscarCitaPorId(idCita);
+        model.addAttribute("cita", cita);
+        //obtenemos el id del modelo del informe y luego se enviarán los datos desde la vista para llenar en la tabla "datos_json"
+        //int informeId = modeloJsonRepository.informeMedicoId(doctor.getEspecialidad().getIdespecialidad());
+        //model.addAttribute("informemedico",informe);
+        model.addAttribute("listapreguntasinforme",modeloJsonRepository.listarPreguntasxPlantilla(26));
+        model.addAttribute("idinforme",26);
+        Integer idDatosJson = datosJsonRepository.idDatosJson(26,idCita);
+        if(idDatosJson != null){
+            System.out.println(idDatosJson);
+            //model.addAttribute("informelleno", datosJsonRepository.informeMedicoLlenado(idDatosJson));
+            model.addAttribute("informelleno",datosJsonRepository.modeloJsonLlenado(idDatosJson));
+            model.addAttribute("idatosjson",idDatosJson);
+        }
+        return "doctor/verInformeMedicoInfo";
     }
 
     @GetMapping("/dashboard/diario")
