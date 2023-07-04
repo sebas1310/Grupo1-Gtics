@@ -57,7 +57,7 @@ num_men = '2', id=${session.usuario.idusuario})">
                 </div> -->
 
                 <div class="text-center">
-                  <a th:href="@{'/doctor/pacientesatendidos/verhistorial/vercita'+ '?id=' + ${cita.getIdcita()}+'&msg6=Informe_Llenado'}" type="submit" class="btn btn-primary" onclick="ModificarForm()">Guardar</a>
+                  <a th:href="@{'/doctor/dashboard/info'+ '?idP=' + ${cita.getPaciente().getIdpaciente()}+'&idC=' + ${cita.getIdcita()}+'&msg6=Informe_Llenado'}" type="submit" class="btn btn-primary" onclick="ModificarForm()">Guardar</a>
                   <a th:href="@{'/doctor/dashboard/info'+ '?idP=' + ${cita.getPaciente().getIdpaciente()}+'&idC=' + ${cita.getIdcita()}}" class="btn btn-danger">Regresar</a>
                 </div>
               </div>
@@ -140,7 +140,7 @@ num_men = '2', id=${session.usuario.idusuario})">
 
 
     var xmlhttp = new XMLHttpRequest();
-    var url = "/doctor/pacientesatendidos/verhistorial/vercita/verinformesmedico/llenarinforme/guardar?valores=" + encodeURIComponent(valores);
+    var url = "/doctor/dashboard/info/llenarinforme/guardar?valores=" + encodeURIComponent(valores);
     xmlhttp.open("POST", url, true);
     xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     xmlhttp.onreadystatechange = function () {

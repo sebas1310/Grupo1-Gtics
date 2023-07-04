@@ -146,6 +146,30 @@ public class DoctorController {
         return "doctor/infoDashboard";
     }
 
+    @GetMapping("/dashboard/info/enviarcuestionario")
+    public String enviarCuestionarioMedicoInfo(Model model, @RequestParam("id") int idCita,@RequestParam("idcuest") int idcuestionario) {
+
+        Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
+        Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
+        model.addAttribute("doctor",doctor);
+        Cita cita = citaRepository.buscarCitaPorId(idCita);
+        model.addAttribute("cita", cita);
+        model.addAttribute("listapreguntascuestionario",modeloJsonRepository.listarPreguntasxPlantilla(idcuestionario));
+        model.addAttribute("idcuestionario",idcuestionario);
+        model.addAttribute("idcita",idCita);
+        /*List<Integer> CuestionariosEnviados = modeloJsonRepository.listaIDCuestionariosEnviados(cita.getPaciente().getUsuario().getIdusuario(),cita.getIdcita());
+        model.addAttribute(modeloJsonRepository);
+        model.addAttribute(datosJsonRepository);
+        model.addAttribute("cuestionarios", CuestionariosEnviados);
+        Integer idDatosJsonCuestionario = datosJsonRepository.idDatosJson(idcuestionario,idCita);
+        if(idDatosJsonCuestionario != null){
+            model.addAttribute("iddatosjson",idDatosJsonCuestionario);
+            model.addAttribute("cuestionariolleno",datosJsonRepository.modeloJsonLlenado(idDatosJsonCuestionario));
+        }*/
+        return "doctor/cuestionarioDocEnviar";
+    }
+
+
     @GetMapping("/dashboard/info/vercuestionario")
     public String verCuestionarioMedicoInfo(Model model, @RequestParam("id") int idCita,@RequestParam("idcuest") int idcuestionario) {
         Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
@@ -165,7 +189,6 @@ public class DoctorController {
             model.addAttribute("iddatosjson",idDatosJsonCuestionario);
             model.addAttribute("cuestionariolleno",datosJsonRepository.modeloJsonLlenado(idDatosJsonCuestionario));
         }
-
         return "doctor/cuestionarioDocInfo";
     }
 
@@ -190,6 +213,125 @@ public class DoctorController {
             model.addAttribute("idatosjson",idDatosJson);
         }
         return "doctor/verInformeMedicoInfo";
+    }
+
+    @Transactional
+    @PostMapping(value = "/dashboard/info/llenarinforme/guardar")
+    public String modificarPlantilla2(Model model, @RequestParam("valores") List<String> valores,
+                                     RedirectAttributes redirectAttributes){
+        System.out.println("llega al repo de modificar");
+        System.out.println(valores);
+
+
+        //id modelo
+        String primerValor_id = valores.get(0);
+
+        System.out.println(primerValor_id);
+
+        //se remueve el id modelo a la lista valores
+        valores.remove(0);
+
+        System.out.println(valores);
+
+        valores.remove(0);
+
+        System.out.println(valores);
+
+        //parseo del id modelo
+        int primerValorInt_id = Integer.parseInt(String.valueOf(primerValor_id));
+
+
+        //Obtenemos el modelo json (en este caso informe)
+        ModeloJsonEntity EncontrarModelo = modeloJsonRepository.buscarModeloEdit(primerValorInt_id);
+
+        //Luego obtenemos el nombre de plantilla,especialidad,tipo de usuario , etc para
+        //llenar en datos_json
+        String nbr_plantilla = EncontrarModelo.getNombrePlantilla();
+        int id_especialidad = EncontrarModelo.getEspecialidad().getIdespecialidad();
+        int id_tipo_usuario = EncontrarModelo.getTipodeusuario().getIdtipodeusuario();
+        Byte flg_formulario = EncontrarModelo.getFormulario();
+        Byte flg_cuestionario = EncontrarModelo.getCuestionario();
+
+//        if(EncontrarModelo.getCuestionario() ==null){
+
+
+        Byte flg_informe = EncontrarModelo.getInforme();
+
+        int tamano_valores= valores.size();
+        String idusuario = valores.get(tamano_valores-2);
+        String idcita = valores.get(tamano_valores-1);
+
+        int idCita = Integer.parseInt(String.valueOf(idcita));
+
+        int idUsuario = Integer.parseInt(String.valueOf(idusuario));
+
+
+
+        System.out.println("nbr_plantilla="+nbr_plantilla);
+        System.out.println("id_especialidad="+id_especialidad);
+        System.out.println("id_tipo_usuario="+id_tipo_usuario);
+        System.out.println("flg_formulario="+flg_formulario);
+        System.out.println("flg_cuestionario="+flg_cuestionario);
+        System.out.println("flg_informe="+flg_informe);
+
+
+        /*modeloJsonRepository.borrarPlantillas(primerValorInt_id);
+
+
+        for (int i = 0; i < valores.size(); i++) {
+            String pregunta = valores.get(i);
+            System.out.println("pregunta:"+ pregunta);
+            tablaTitulosInputsRepository.agregarNombreTitulos(pregunta);
+
+        }
+
+
+
+        if(flg_formulario != null){
+            tablaTitulosInputsRepository.agregarNuevoFormulario(nbr_plantilla,id_tipo_usuario,id_especialidad,1);
+
+        } else if (flg_informe != null) {
+            tablaTitulosInputsRepository.agregarNuevoInforme(nbr_plantilla,id_tipo_usuario,id_especialidad,1);
+
+        } else if (flg_cuestionario != null) {
+            tablaTitulosInputsRepository.agregarNuevoCuestionario(nbr_plantilla,id_tipo_usuario,id_especialidad,1);
+
+        }
+
+
+
+
+
+        tablaTitulosInputsRepository.BorrarTitulosInput();
+
+
+
+        //sacar valores del registro con el id(flags)
+        //deletear
+        //insertar en tabla flotante las preguntas y volver a crear el registro con el id eliminado
+
+
+
+//        modeloJsonRepository.borrarPlantillas(id_de_modelo_plantilla); */
+
+        for (String elemento : valores) {
+            tablaDatosLlenosRepository.agregarDatosDeInput(elemento);
+        }
+
+//        tablaDatosLlenosRepository.LlenadoDePlantilla(id_registro_nuevo,nombreplantilla,id_usuario,id_modelo,id_cita);
+
+//
+//
+//       tablaDatosLlenosRepository.LlenadoDePlantilla(id_registro_nuevo,nombreplantilla,id_usuario,id_modelo,id_cita);
+        tablaDatosLlenosRepository.llenadoDeInformeMedico(nbr_plantilla,idUsuario,primerValorInt_id,idCita);
+        //para llenar en datos_json
+
+        //jalar para borrar
+        tablaDatosLlenosRepository.BorrarDatosDeInput();
+
+        redirectAttributes.addAttribute("id",idCita);
+        return "redirect:/doctor/dashboard";
+
     }
 
     @GetMapping("/dashboard/diario")
@@ -1038,13 +1180,14 @@ public class DoctorController {
 
         System.out.println("llega al repo de envio");
         modeloJsonRepository.agregarCuestionarioAPaciente(id_modelo,id_paciente,id_cita);
-        Paciente paciente1 = pacienteRepository.buscarPacientePorID(id_paciente);
+        Paciente paciente1 = pacienteRepository.buscarPacientePorIdUsuario(id_paciente);
         notificacionesRepository.notificarCreacion(paciente1.getUsuario().getIdusuario(),"Estimado Paciente, recuerde llenar el cuestionario enviado por el doctor","Cuestionario Pendiente");
         emailService.sendEmail(paciente1.getUsuario().getCorreo(),"Cuestionario Pendiente","Estimado Paciente, recuerde llenar el cuestionario enviado por el doctor antes de su cita");
 
-
-        redirectAttributes.addFlashAttribute("msg","Cuestionario enviado");
-        return "redirect:/doctor/pacientesatendidos";
+        redirectAttributes.addAttribute("idC",id_cita);
+        redirectAttributes.addAttribute("idP",paciente1.getIdpaciente());
+        redirectAttributes.addFlashAttribute("msg6","Cuestionario enviado");
+        return "redirect:/doctor/dashboard/info";
         //return ResponseEntity.ok().build();
     }
 
