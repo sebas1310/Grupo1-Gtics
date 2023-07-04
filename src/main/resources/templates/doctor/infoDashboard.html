@@ -58,7 +58,7 @@
                     <form method="post" th:action="@{'/doctor/pacientesatendidos/verhistorial/vercita/actualizarestadocita'}" >
                       <input name="id" th:value="${cita.getIdcita()}" class="form-control" type="hidden">
                       <input name="idestadocita" th:value="${estadoscita.get(3).getIdestadocita()}" class="form-control" type="hidden">
-                      <button th:if="${cita.getEstadoCita().getIdestadocita()==1 or cita.getEstadoCita().getIdestadocita()==2}" type="submit" class="btn btn-outline-success"><i class="bi bi-skip-end-circle me-1"></i> Iniciar</button>
+                      <button th:if="${(cita.getEstadoCita().getIdestadocita()==1 or cita.getEstadoCita().getIdestadocita()==2)}" type="submit" class="btn btn-outline-success"><i class="bi bi-skip-end-circle me-1"></i> Iniciar</button>
                       <button th:if="${(cita.getEstadoCita().getIdestadocita()==3 or cita.getEstadoCita().getIdestadocita()==4) and (cita.getEstadoCita().getIdestadocita()!=1 or cita.getEstadoCita().getIdestadocita()!=2)}" type="submit" class="btn btn-outline-success"><i class="bi bi-skip-end-circle me-1"></i> Continuar</button>
                     </form>
 
@@ -154,7 +154,7 @@
 
                 </div -->
 
-            <div class="text-center">
+            <div th:if="${cuestionarios.isEmpty()}" class="text-center">
               <a th:href="@{'/doctor/cuestionario' + '?id=' + ${cita.getPaciente().getIdpaciente()}+'&idcita=' + ${cita.getIdcita()}}" class="btn btn-danger">Enviar </a>
             </div>
             <br>
