@@ -58,7 +58,8 @@
                     <form method="post" th:action="@{'/doctor/pacientesatendidos/verhistorial/vercita/actualizarestadocita'}" >
                       <input name="id" th:value="${cita.getIdcita()}" class="form-control" type="hidden">
                       <input name="idestadocita" th:value="${estadoscita.get(3).getIdestadocita()}" class="form-control" type="hidden">
-                      <button th:if="${(cita.getEstadoCita().getIdestadocita()==1 or cita.getEstadoCita().getIdestadocita()==2)}" type="submit" class="btn btn-outline-success"><i class="bi bi-skip-end-circle me-1"></i> Iniciar</button>
+                      <button th:if="${(cita.getEstadoCita().getIdestadocita()==1)}" type="submit" class="btn btn-outline-success"disabled><i class="bi bi-skip-end-circle me-1" ></i> Iniciar</button>
+                      <button th:if="${(cita.getEstadoCita().getIdestadocita()==2)}" type="submit" class="btn btn-outline-success"><i class="bi bi-skip-end-circle me-1"></i> Iniciar</button>
                       <button th:if="${(cita.getEstadoCita().getIdestadocita()==3 or cita.getEstadoCita().getIdestadocita()==4) and (cita.getEstadoCita().getIdestadocita()!=1 or cita.getEstadoCita().getIdestadocita()!=2)}" type="submit" class="btn btn-outline-success"><i class="bi bi-skip-end-circle me-1"></i> Continuar</button>
                     </form>
 
@@ -161,7 +162,7 @@
             <div th:unless="${cuestionarios.isEmpty()}">
               <div  th:each="cuest:${cuestionarios}">
             <div class="text-center">
-              <a class="btn btn-success" th:href="@{'/doctor/pacientesatendidos/verhistorial/vercita/vercuestionarios/ver'+ '?idcuest=' + ${cuest}+'&id=' + ${cita.getIdcita()}}"
+              <a class="btn btn-success" th:href="@{'/doctor/dashboard/info/vercuestionario'+ '?idcuest=' + ${cuest}+'&id=' + ${cita.getIdcita()}}"
               ><i class="bi bi-journal-text me-2"></i>Ver Cuestionario</a>
              </div>
                 </div>

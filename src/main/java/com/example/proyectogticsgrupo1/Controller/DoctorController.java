@@ -139,6 +139,25 @@ public class DoctorController {
         return "doctor/infoDashboard";
     }
 
+    @GetMapping("/dashboard/info/vercuestionario")
+    public String verCuestionarioMedicoInfo(Model model, @RequestParam("id") int idCita,@RequestParam("idcuest") int idcuestionario) {
+        Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
+        Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
+        model.addAttribute("doctor",doctor);
+        Cita cita = citaRepository.buscarCitaPorId(idCita);
+        model.addAttribute("listapreguntascuestionario",modeloJsonRepository.listarPreguntasxPlantilla(idcuestionario));
+        model.addAttribute("idcuestionario",idcuestionario);
+        model.addAttribute("idcita",idCita);
+        model.addAttribute(datosJsonRepository);
+        Integer idDatosJsonCuestionario = datosJsonRepository.idDatosJson(idcuestionario,idCita);
+        if(idDatosJsonCuestionario != null){
+            model.addAttribute("iddatosjson",idDatosJsonCuestionario);
+            model.addAttribute("cuestionariolleno",datosJsonRepository.modeloJsonLlenado(idDatosJsonCuestionario));
+        }
+
+        return "doctor/cuestionarioDocInfo";
+    }
+
     @GetMapping("/dashboard/diario")
     public String inicioDashboardDoctor2(Model model){
 
