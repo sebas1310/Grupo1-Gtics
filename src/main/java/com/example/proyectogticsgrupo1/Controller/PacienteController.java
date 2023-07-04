@@ -993,17 +993,21 @@ public class PacienteController {
     public String pagar(@RequestParam("idcita") String idcita, Model model){
         Usuario usuario = (Usuario) session.getAttribute("usuario");
         Paciente paciente = pacienteRepository.pacXuser(usuario.getIdusuario());
-        Cita cita = citaRepository.findById(Integer.parseInt(idcita)).get();
+        try {
+            Integer id = Integer.parseInt(idcita);
+            Cita cita = citaRepository.findById(id).get();
+            DecimalFormat df = new DecimalFormat("#.##");
+            String resultadoFormateado = df.format(cita.getEspecialidad().getCosto()*paciente.getSeguro().getCoaseguro());
 
+            Double monto = Double.parseDouble(resultadoFormateado);
+            model.addAttribute("pacientelog",paciente);
+            model.addAttribute("cita",cita);
+            model.addAttribute("monto",monto);
+            return "paciente/checkout";
+        }catch (NumberFormatException e){
+            return "redirect:/paciente/pagos";
+        }
 
-        DecimalFormat df = new DecimalFormat("#.##");
-        String resultadoFormateado = df.format(cita.getEspecialidad().getCosto()*paciente.getSeguro().getCoaseguro());
-        Double monto = Double.parseDouble(resultadoFormateado);
-
-        model.addAttribute("pacientelog",paciente);
-        model.addAttribute("cita",cita);
-        model.addAttribute("monto",monto);
-        return "paciente/checkout";
     }
     @Autowired TarjetasRepository tarjetasRepository;
     @PostMapping(value = "/checkoutpayment")
@@ -1040,6 +1044,7 @@ public class PacienteController {
             if(aprove){
                 boletaDoctorRepository.generarBoletaDoctorCita(citaAgendada.getIdcita(),paciente.getIdpaciente(),paciente.getSeguro().getIdseguro(),doc.getIddoctor(),montoDoctor);
                 boletaPacienteRepository.generarBoletaPacienteCita(paciente.getIdpaciente(),citaAgendada.getIdcita(),paciente.getSeguro().getIdseguro(),Float.parseFloat(montopac));
+                citaRepository.actualizarEstadoCita(2,idcita);
                 return "redirect:/paciente/boleta?idcita="+idcita.toString();
             }
             else {
