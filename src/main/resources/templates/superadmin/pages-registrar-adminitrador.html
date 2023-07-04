@@ -77,7 +77,7 @@
                             <div class="row mb-3">
                                 <label class="col-form-label">DNI</label>
                                 <div class="col-sm-10">
-                                    <input type="number" class="form-control" th:field="*{dni}" th:classappend="${#fields.hasErrors('dni')?'is-invalid':''}" required>
+                                    <input type="number" class="form-control" th:field="*{dni}" th:classappend="${#fields.hasErrors('dni')?'is-invalid':''}" maxlength="8" required>
                                     <div class="invalid-feedback" th:if="${#fields.hasErrors('dni')}"
                                          th:errors="*{dni}" ></div>
                                 </div>
@@ -86,7 +86,7 @@
                             <div class="row mb-3">
                                 <label class="col-form-label">Edad</label>
                                 <div class="col-sm-10">
-                                    <input type="number" class="form-control" th:field="*{edad}" th:classappend="${#fields.hasErrors('edad')?'is-invalid':''}" required>
+                                    <input type="number" class="form-control" th:field="*{edad}" th:classappend="${#fields.hasErrors('edad')?'is-invalid':''}" maxlength="2"required>
                                     <div class="invalid-feedback" th:if="${#fields.hasErrors('edad')}"
                                          th:errors="*{edad}" ></div>
                                 </div>
@@ -95,7 +95,7 @@
                             <div class="row mb-3">
                                 <label class="col-form-label">Celular</label>
                                 <div class="col-sm-10">
-                                    <input type="number" class="form-control" th:field="*{celular}" th:classappend="${#fields.hasErrors('celular')?'is-invalid':''}" required>
+                                    <input type="number" class="form-control" th:field="*{celular}" th:classappend="${#fields.hasErrors('celular')?'is-invalid':''}" maxlength="9"required>
                                     <div class="invalid-feedback" th:if="${#fields.hasErrors('celular')}"
                                          th:errors="*{celular}" ></div>
                                 </div>
