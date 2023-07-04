@@ -296,8 +296,6 @@ public class AdministradorController {
                     evento.put("start", cita.getFecha().atTime(cita.getHorainicio())); // Fecha y hora de inicio del evento formateadas
                     evento.put("display", "block"); // Mostrar el evento como un bloque de color
                     evento.put("color", obtenerColorEvento(cita.getEspecialidad().getNombre())); // Color del evento
-
-
                     eventos.add(evento);
                 }
             }

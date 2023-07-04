@@ -967,24 +967,18 @@ public class PacienteController {
 
         Usuario usuario = (Usuario) session.getAttribute("usuario");
         Paciente paciente = pacienteRepository.pacXuser(usuario.getIdusuario());
-        List<BoletaPaciente> listapagado = boletaPacienteRepository.boletaspagadas(paciente.getIdpaciente());
-        List<Integer> ids  = new ArrayList<>();
-        for(BoletaPaciente b : listapagado){
-            System.out.println("ids: " + b.getCita().getIdcita());
-            ids.add(b.getCita().getIdcita());
-        }
-        System.out.println("id: " + ids.size());
         model.addAttribute("pacientelog",paciente);
-        if(citaRepository.porpagar(paciente.getIdpaciente(),ids).size()>=1){
+        if(citaRepository.paymentcitas(paciente.getIdpaciente()).size()>=1){
             List<Double> costoscita = new ArrayList<>();
-            for(Cita c : citaRepository.porpagar(paciente.getIdpaciente(),ids)){
+            for(Cita c : citaRepository.paymentcitas(paciente.getIdpaciente())){
                 DecimalFormat df = new DecimalFormat("#.##");
                 String resultadoFormateado = df.format(c.getEspecialidad().getCosto()*paciente.getSeguro().getCoaseguro());
                 costoscita.add(Double.parseDouble(resultadoFormateado));
             }
-            System.out.println("id: " + ids.size());
+            List<Cita> citasTopay = citaRepository.paymentcitas(paciente.getIdpaciente());
+            System.out.printf("id log: "+ paciente.getIdpaciente());
             model.addAttribute("costo",costoscita);
-            model.addAttribute("pagos",citaRepository.porpagar(paciente.getIdpaciente(),ids));
+            model.addAttribute("pagos",citasTopay);
         }
         return "paciente/pagos";
     }
@@ -995,15 +989,23 @@ public class PacienteController {
         Paciente paciente = pacienteRepository.pacXuser(usuario.getIdusuario());
         try {
             Integer id = Integer.parseInt(idcita);
-            Cita cita = citaRepository.findById(id).get();
-            DecimalFormat df = new DecimalFormat("#.##");
-            String resultadoFormateado = df.format(cita.getEspecialidad().getCosto()*paciente.getSeguro().getCoaseguro());
-
-            Double monto = Double.parseDouble(resultadoFormateado);
-            model.addAttribute("pacientelog",paciente);
-            model.addAttribute("cita",cita);
-            model.addAttribute("monto",monto);
-            return "paciente/checkout";
+            Optional citaopt = citaRepository.findById(id);
+            if(citaopt.isPresent()){
+                Cita cita = citaRepository.findById(id).get();
+                if(cita.getPaciente().getIdpaciente()==paciente.getIdpaciente() && cita.getEstadoCita().getIdestadocita()==1){
+                    DecimalFormat df = new DecimalFormat("#.##");
+                    String resultadoFormateado = df.format(cita.getEspecialidad().getCosto()*paciente.getSeguro().getCoaseguro());
+                    Double monto = Double.parseDouble(resultadoFormateado);
+                    model.addAttribute("pacientelog",paciente);
+                    model.addAttribute("cita",cita);
+                    model.addAttribute("monto",monto);
+                    return "paciente/checkout";
+                }else {
+                    return "redirect:/paciente/pagos";
+                }
+            }else {
+                return "redirect:/paciente/pagos";
+            }
         }catch (NumberFormatException e){
             return "redirect:/paciente/pagos";
         }
@@ -1016,43 +1018,51 @@ public class PacienteController {
                            @RequestParam("month") String month,
                            @RequestParam("year") String year,
                            @RequestParam("cvv") String cvv,
-                           @RequestParam("idcita") Integer idcita, RedirectAttributes redirectAttributes){
+                           @RequestParam("idcita") String idcita, RedirectAttributes redirectAttributes){
 
         Usuario usuario = (Usuario) session.getAttribute("usuario");
         Paciente paciente = pacienteRepository.pacXuser(usuario.getIdusuario());
-        String montopac = getmontopac(idcita);
-        Float montoDoctor = getmontoDoc(idcita);
-        Cita citaAgendada = citaRepository.findById(idcita).get();
-        Doctor doc = citaAgendada.getDoctor();
-        Boolean aprove = false;
+        try {
+            Integer idtopay = Integer.parseInt(idcita);
 
 
+            String montopac = getmontopac(idtopay);
+            Float montoDoctor = getmontoDoc(idtopay);
+            if(citaRepository.findById(idtopay).isPresent()){
+                Cita citaAgendada = citaRepository.findById(idtopay).get();
+                Doctor doc = citaAgendada.getDoctor();
+                Boolean aprove = false;
 
-        if(citaAgendada.getPaciente().getIdpaciente()==paciente.getIdpaciente()){
-            for (Tarjetas t: tarjetasRepository.findAll()){
-                if (t.getNumero().equals(cardnumber)){
-                    if (t.getMes().equals(month)){
-                        if (t.getAnio().equals(year)){
-                            if(t.getCvv().equals(cvv)){
-                                aprove = true;
+                if(citaAgendada.getPaciente().getIdpaciente()==paciente.getIdpaciente() && citaAgendada.getEstadoCita().getIdestadocita()==1){
+                    for (Tarjetas t: tarjetasRepository.findAll()){
+                        if (t.getNumero().equals(cardnumber)){
+                            if (t.getMes().equals(month)){
+                                if (t.getAnio().equals(year)){
+                                    if(t.getCvv().equals(cvv)){
+                                        aprove = true;
+                                    }
+                                }
                             }
                         }
                     }
+                    if(aprove){
+                        boletaDoctorRepository.generarBoletaDoctorCita(citaAgendada.getIdcita(),paciente.getIdpaciente(),paciente.getSeguro().getIdseguro(),doc.getIddoctor(),montoDoctor);
+                        boletaPacienteRepository.generarBoletaPacienteCita(paciente.getIdpaciente(),citaAgendada.getIdcita(),paciente.getSeguro().getIdseguro(),Float.parseFloat(montopac));
+                        citaRepository.actualizarEstadoCita(2,idtopay);
+                        return "redirect:/paciente/boleta?idcita="+idtopay.toString();
+                    }
+                    else {
+                        redirectAttributes.addFlashAttribute("fail","Datos incorrectos");
+                        return "redirect:/paciente/pagar?idcita="+idtopay.toString();
+                    }
                 }
+                else {
+                    return "redirect:/paciente/pagos";
+                }
+            }else {
+                return "redirect:/paciente/pagos";
             }
-            System.out.println(aprove);
-            if(aprove){
-                boletaDoctorRepository.generarBoletaDoctorCita(citaAgendada.getIdcita(),paciente.getIdpaciente(),paciente.getSeguro().getIdseguro(),doc.getIddoctor(),montoDoctor);
-                boletaPacienteRepository.generarBoletaPacienteCita(paciente.getIdpaciente(),citaAgendada.getIdcita(),paciente.getSeguro().getIdseguro(),Float.parseFloat(montopac));
-                citaRepository.actualizarEstadoCita(2,idcita);
-                return "redirect:/paciente/boleta?idcita="+idcita.toString();
-            }
-            else {
-                redirectAttributes.addFlashAttribute("fail","Datos incorrectos");
-                return "redirect:/paciente/pagar?idcita="+idcita.toString();
-            }
-        }
-        else {
+        }catch (NumberFormatException e){
             return "redirect:/paciente/pagos";
         }
     }
@@ -1112,7 +1122,7 @@ public class PacienteController {
                 eventocalendariodoctor.getHorainicio().plusHours(1),
                 1,
                 idtipocita,
-                paciente.getIdpaciente(),
+                paciente.getSeguro().getIdseguro(),
                 1,
                 paciente.getIdpaciente(),
                 doc.getIddoctor());

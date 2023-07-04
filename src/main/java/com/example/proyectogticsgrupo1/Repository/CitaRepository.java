@@ -212,7 +212,8 @@ public interface CitaRepository extends JpaRepository<Cita, Integer> {
     List<Cita> citasxUsuario(int idusuario);
 
 
-
+     @Query(value = "select * from cita where idestadocita=1 and paciente_idpaciente=?1",nativeQuery = true)
+    List<Cita> paymentcitas(Integer id);
 
 }
 

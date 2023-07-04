@@ -69,12 +69,10 @@ public class LoginController {
                 if(existingUserCelular == null){
                     if(existingUserCorreo==null){
 
-
                         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
                         String hashedNewPassword = passwordEncoder.encode(usuario.getContrasena());
                         usuario.setContrasena(hashedNewPassword);
                         usuarioRepository.save(usuario);
-
                         Paciente paciente = new Paciente();
                         EstadoPaciente estadoPaciente = new EstadoPaciente();
                         estadoPaciente.setIdestadopaciente(1);
