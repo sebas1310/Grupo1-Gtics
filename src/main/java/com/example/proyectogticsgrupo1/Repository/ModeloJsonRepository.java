@@ -70,15 +70,21 @@ public interface ModeloJsonRepository extends JpaRepository<ModeloJsonEntity,Int
 
 
 
-    @Query(value = "SELECT *\n" +
-            "FROM modelo_json mj\n" +
-            "LEFT JOIN datos_json dj ON mj.id = dj.modelo_json_id\n" +
-            "WHERE dj.modelo_json_id IS NULL and mj.id = ?1 and habilitado = 1 and cuestionario = 1", nativeQuery = true)
+    @Query(value = "update from modelo_x_cita where idcita_fk = ?1", nativeQuery = true)
+    void borrarmodelTablamodeloxcita(int id_cita);
+
+
+
+
+    @Query(value = "SELECT mj.*\n" +
+            "            FROM modelo_json mj\n" +
+            "            LEFT JOIN datos_json dj ON mj.id = dj.modelo_json_id\n" +
+            "            WHERE dj.modelo_json_id IS NULL and mj.id = 34 and habilitado = 1 and cuestionario = 1", nativeQuery = true)
     ModeloJsonEntity listaCuestionarios_2(int idmodelo);
 
 
-    @Query(value = "SELECT * from modelo_json where id = ?1 and cuestionario = 1", nativeQuery = true)
-    ModeloJsonEntity listaCuestionarios(int idmodelo);
+    @Query(value = "SELECT * from modelo_json where id = ?1 and cuestionario = 1 and habilitado = 1", nativeQuery = true)
+    ModeloJsonEntity Cuestionario(int idmodelo);
 
     @Query(value = "SELECT idmodelo_fk FROM modelo_x_cita where idpaciente_fk=?1 and idcita_fk=?2",nativeQuery = true)
     List<Integer> listaIDCuestionariosEnviados (int idpaciente ,int idcita);

@@ -10,12 +10,20 @@ import java.util.List;
 
 public interface DatosJsonRepository extends JpaRepository<DatosJsonEntity,Integer>{
 
+    @Query(value = "select datos_json.id from datos_json  join modelo_json on datos_json.modelo_json_id = modelo_json.id where cita_idcita = ?1 and cuestionario = 1 and habilitado = 1", nativeQuery = true)
+    Integer buscarsiexisteRegistro(int id_cita);
+
+
     @Query(value = "SELECT * from datos_json where idusuario = ?1", nativeQuery = true)
     List<DatosJsonEntity> listarparapaciente(int idpaciente);
 
 
     @Query(value = "SELECT count(*) from datos_json", nativeQuery = true)
     Integer contarRegistros();
+
+
+    @Query(value = "SELECT * from datos_json where id = ?1", nativeQuery = true)
+    DatosJsonEntity DatosLlenos(int id_datos_json);
 
 
     @Query(value = "SELECT id from datos_json where modelo_json_id = ?1 and cita_idcita=?2",nativeQuery = true)

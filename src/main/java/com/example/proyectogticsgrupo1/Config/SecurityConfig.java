@@ -149,7 +149,7 @@ public class SecurityConfig {
 
 
 
-                .requestMatchers(HttpMethod.GET,"/paciente/llenarCuestionario").permitAll()
+                .requestMatchers(HttpMethod.POST,"/paciente/llenarCuestionario").permitAll()
 
 
 

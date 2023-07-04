@@ -62,9 +62,9 @@
 
                                         <td class="text-center" th:text="${idx.index}+1"></td>
                                         <td class="text-center" th:text="${c.nombrePlantilla}"></td>
-                                        <td class="text-center" th:text="|${c.especialidad.nombre} (${listaidcitas.get(idx.index).doctor.usuario.nombres} ${listaidcitas.get(idx.index).doctor.usuario.apellidos})|"></td>
-                                            <td class="text-center" th:text="${listaidcitas.get(idx.index).fecha}"></td>
-                                        <td class="text-center"> <a type="button" class="bi bi-journal-text" th:href="@{'/paciente/formCuestionario?idcuest='+${c.getId()}+'&idcita='+${listaidcitas.get(idx.index).idcita}}"></a></td>
+                                        <td class="text-center" th:text="|${c.especialidad.nombre} (${listacita1.get(idx.index).doctor.usuario.nombres} ${listacita1.get(idx.index).doctor.usuario.apellidos})|"></td>
+                                            <td class="text-center" th:text="${listacita1.get(idx.index).fecha}"></td>
+                                        <td class="text-center"> <a type="button" class="bi bi-journal-text" th:href="@{'/paciente/formCuestionario?idcuest='+${c.getId()}+'&idcita='+${listacita1.get(idx.index).getIdcita()}}"></a></td>
                                     </tr>
                                     </tbody>
                                 </table>
