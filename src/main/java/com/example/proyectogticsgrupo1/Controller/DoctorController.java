@@ -1183,10 +1183,10 @@ public class DoctorController {
     //ResponseEntity<Void>
     public String cuestionarioEnvio(RedirectAttributes redirectAttributes,
                             @RequestParam("id_cita") int id_cita , @RequestParam("id_modelo") int id_modelo,
-                                    @RequestParam("id_usuario_paciente") int id_paciente) {
+                                    @RequestParam("id_usuario_paciente") int id_paciente, @RequestParam("mostrarautomatico") int mostrarautomatico) {
 
         System.out.println("llega al repo de envio");
-        modeloJsonRepository.agregarCuestionarioAPaciente(id_modelo,id_paciente,id_cita);
+        modeloJsonRepository.agregarCuestionarioAPaciente(id_modelo,id_paciente,id_cita,mostrarautomatico);
         Paciente paciente1 = pacienteRepository.buscarPacientePorIdUsuario(id_paciente);
         notificacionesRepository.notificarCreacion(paciente1.getUsuario().getIdusuario(),"Estimado Paciente, recuerde llenar el cuestionario enviado por el doctor","Cuestionario Pendiente");
         emailService.sendEmail(paciente1.getUsuario().getCorreo(),"Cuestionario Pendiente","Estimado Paciente, recuerde llenar el cuestionario enviado por el doctor antes de su cita");
