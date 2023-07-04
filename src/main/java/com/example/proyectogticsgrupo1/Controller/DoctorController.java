@@ -366,6 +366,7 @@ public class DoctorController {
             model.addAttribute("informelleno",datosJsonRepository.modeloJsonLlenado(idDatosJson));
             model.addAttribute("idatosjson",idDatosJson);
         }
+
         return "doctor/llenarInforme";
     }
 
@@ -769,7 +770,8 @@ public class DoctorController {
         Cita cita = citaRepository.buscarCitaPorId(idCita);
         model.addAttribute("listapreguntascuestionario",modeloJsonRepository.listarPreguntasxPlantilla(idcuestionario));
         model.addAttribute("idcuestionario",idcuestionario);
-        model.addAttribute("idcita",idCita);
+        model.addAttribute("cita", cita);
+        model.addAttribute("idcuest", idcuestionario);
         model.addAttribute(datosJsonRepository);
         Integer idDatosJsonCuestionario = datosJsonRepository.idDatosJson(idcuestionario,idCita);
         if(idDatosJsonCuestionario != null){

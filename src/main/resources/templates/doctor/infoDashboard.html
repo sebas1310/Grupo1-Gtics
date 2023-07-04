@@ -92,6 +92,14 @@
                       <li>Seguro: <span th:text="${cita.getSeguro().getNombre()}"></span></li>
                       <li>Modalidad: <span th:text="${cita.getTipoCita().getNombre()}"></span></li>
                       <li>Estado Cita: <span th:text="${cita.getEstadoCita().getNombre()}"></span></li>
+                      <li>Estado Pago:
+                        <span th:if="${cita.getEstadoCita().getIdestadocita()  == 1 }"> Pendiente</span>
+                        <span th:if="${cita.getEstadoCita().getIdestadocita()  == 2 }"> Pagado</span>
+                        <span th:if="${cita.getEstadoCita().getIdestadocita()  == 3 }"> Pagado</span>
+                        <span th:if="${cita.getEstadoCita().getIdestadocita()  == 4 }"> Pagado</span>
+                        <span th:if="${cita.getEstadoCita().getIdestadocita()  == 5 }"> Pagado</span>
+                        <span th:if="${cita.getEstadoCita().getIdestadocita()  == 6 }"> Pagado</span>
+                      </li>
 
                     </div>
               </div>
@@ -117,19 +125,6 @@
           </div>
         </div> -->
       </div>
-        <div class="col-12">
-          <div class="card recent-sales overflow-auto">
-            <div class="card-body">
-              <h5 class="card-title">Examen Medico</h5>
-              <h6>Si el paciente requiere realizar unos exámenes, entonces envíele un mensaje</h6>
-              <br>
-              <div class="d-grid gap-1 d-md-flex justify-content-md-center" >
-                <a th:href="@{'/doctor/mensajeria/enviarmensaje/examenes'+ '?idp=' + ${paciente.getUsuario().getIdusuario()}}" class="btn btn-primary">Mensaje</a>
-
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
       <div class="col-lg-5">
         <!-- Bitacobra -->
@@ -156,18 +151,20 @@
                 </div -->
 
             <div th:if="${cuestionarios.isEmpty()}" class="text-center">
-              <a th:href="@{'/doctor/cuestionario' + '?id=' + ${cita.getPaciente().getIdpaciente()}+'&idcita=' + ${cita.getIdcita()}}" class="btn btn-danger">Enviar </a>
+              <div class="text-center">
+                <a th:href="@{'/doctor/cuestionario' + '?id=' + ${cita.getPaciente().getIdpaciente()}+'&idcita=' + ${cita.getIdcita()}}" class="btn btn-danger">Enviar </a>
+              </div>
             </div>
             <br>
+
             <div th:unless="${cuestionarios.isEmpty()}">
               <div  th:each="cuest:${cuestionarios}">
-            <div class="text-center">
-              <a class="btn btn-success" th:href="@{'/doctor/dashboard/info/vercuestionario'+ '?idcuest=' + ${cuest}+'&id=' + ${cita.getIdcita()}}"
-              ><i class="bi bi-journal-text me-2"></i>Ver Cuestionario</a>
-             </div>
+                <div class="text-center">
+                    <a class="btn btn-success" th:href="@{'/doctor/dashboard/info/vercuestionario'+ '?idcuest=' + ${cuest}+'&id=' + ${cita.getIdcita()}}"
+                    ><i class="bi bi-journal-text me-2"></i>Ver Cuestionario</a>
                 </div>
               </div>
-            <br>
+            </div>
           </div>
           </div>
           <div class="card">
@@ -185,6 +182,16 @@
               <br>
             </div>
           </div>
+          <div class="card ">
+            <div class="card-body">
+              <h5 class="card-title">Examen Medico</h5>
+              <h6>Si el paciente requiere realizar unos exámenes, entonces envíele un mensaje</h6>
+              <br>
+              <div class="d-grid gap-1 d-md-flex justify-content-md-center" >
+                <a th:href="@{'/doctor/mensajeria/enviarmensaje/examenes'+ '?idp=' + ${paciente.getUsuario().getIdusuario()}}" class="btn btn-primary">Mensaje</a>
+              </div>
+            </div>
+        </div>
         </div>
       </div>
     </div>
