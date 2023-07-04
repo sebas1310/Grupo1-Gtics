@@ -61,7 +61,15 @@
                 <input th:value="${idcuestionario}" name="id_modelo" class="form-control" type="hidden">
                 <input th:value="${cita.getPaciente().getUsuario().getIdusuario()}"  name="id_usuario_paciente" class="form-control"
                        type="hidden">
-                <!--<button type="submit" class="btn btn-primary" onclick="ModificarForm()" >Enviar a Paciente</button>-->
+
+                <div class="col-md-6">
+                  <label for="especialidad" class="form-label">Mostrar Apenas el Paciente Inicie Sesión</label>
+                  <select class="form-select" id="especialidad" name="mostrarautomatico" required>
+                    <option value="vacio" selected disabled>Seleccione</option>
+                    <option th:text="Sí" th:value="1"></option>
+                    <option th:text="No" th:value="0"></option>
+                  </select>
+                </div>
 
                 <div class="text-center">
                   <button class="btn btn-primary" type="submit">Enviar a Paciente</button>
