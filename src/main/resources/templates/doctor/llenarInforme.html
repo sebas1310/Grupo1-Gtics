@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:insert="fragments/doctor/librerias.html :: cabecera (titulo = 'Informe Medico')">
+<head th:insert="fragments/doctor/librerias.html :: cabecera (titulo = 'Informe')">
 </head>
 <body>
 <!-- ======= Header ======= -->
@@ -9,6 +9,7 @@ nombre = |${doctor.usuario.nombres} ${doctor.usuario.apellidos} (${doctor.usuari
 num_men = '2', id=${session.usuario.idusuario})">
 </header>
 <!-- End Header -->
+
 
 <!-- ======= Sidebar ======= -->
 <aside th:replace="fragments/doctor/aside.html :: sidebar (active = 'pacientesAtendidos')">
@@ -25,7 +26,12 @@ num_men = '2', id=${session.usuario.idusuario})">
         <h1>Informe Medico</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item active">Informe Medico</li>
+                <li class="breadcrumb-item"><a th:href="@{'/doctor/pacientesatendidos'+ '?id=' + ${doctor.iddoctor}}">Pacientes Atendidos</a></li>
+                <li class="breadcrumb-item"><a th:href="@{'/doctor/pacientesatendidos/verhistorial'+ '?id=' + ${cita.getPaciente().getIdpaciente()}}">Historial Clínico</a></li>
+                <li class="breadcrumb-item"><a th:href="@{'/doctor/pacientesatendidos/verhistorial/vercita'+ '?id=' + ${cita.getIdcita()}}">Cita</a></li>
+                <li class="breadcrumb-item"><a th:href="@{'/doctor/pacientesatendidos/verhistorial/vercita/verinformesmedico'+ '?id=' + ${cita.getIdcita()}}">Informe Medico</a></li>
+                <!-- th:href="@{'/doctor/pacientesatendidos/verhistorial'+ '?id=' + ${cita.idcita}}" -->
+                <li class="breadcrumb-item active">Informe</li>
             </ol>
         </nav>
     </div>
@@ -57,8 +63,7 @@ num_men = '2', id=${session.usuario.idusuario})">
                             </div> -->
 
                             <div class="text-center">
-                                <a th:href="@{'/doctor/pacientesatendidos/verhistorial/vercita'+ '?id=' + ${cita.getIdcita()}+'&msg6=Informe_Llenado'}" type="submit" class="btn btn-primary" onclick="ModificarForm()">Guardar</a>
-                                <a th:href="@{'/doctor/pacientesatendidos/verhistorial/vercita'+ '?id=' + ${cita.getIdcita()}}" class="btn btn-danger">Regresar</a>
+                                <a th:href="@{'/doctor/pacientesatendidos/verhistorial/vercita/verinformesmedico'+ '?id=' + ${cita.getIdcita()}+'&msg6=Informe_Llenado'}" type="submit" class="btn btn-primary" onclick="ModificarForm()">Guardar</a>
                             </div>
                             </div>
 
@@ -68,9 +73,6 @@ num_men = '2', id=${session.usuario.idusuario})">
                                     <input name="nombre" type="text" class="form-control" id="nombre2" th:value="${inciso.getRespuesta()}" disabled>
                                 </div>
 
-                                <div class="text-center">
-                                    <a th:href="@{'/doctor/pacientesatendidos/verhistorial/vercita'+ '?id=' + ${cita.getIdcita()}}" class="btn btn-danger">Regresar</a>
-                                </div>
                             </div>
                             <!--<button type="submit" class="btn btn-primary" onclick="ModificarForm()">Guardar</button> -->
                             <!--<button class="btn btn-primary" type="submit">Guardar</button> -->
@@ -87,6 +89,9 @@ num_men = '2', id=${session.usuario.idusuario})">
 </div><!-- End Left side columns -->
 </div>
 </div>
+        <div class="text-center">
+            <a th:href="@{'/doctor/pacientesatendidos/verhistorial/vercita/verinformesmedico'+ '?id=' + ${cita.getIdcita()}}" class="btn btn-danger">Regresar</a>
+        </div>
 </section>
 </main><!-- End #main -->
 

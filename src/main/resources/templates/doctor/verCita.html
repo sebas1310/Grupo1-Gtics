@@ -60,40 +60,7 @@ num_men = '2', id=${session.usuario.idusuario})">
                            </div>
                        </div>
                    </div> <!--End Informacion -->
-                   <!--Estado de Cita -->
-                   <div class="card info-card customers-card">
-                       <div class="card-body">
-                           <h5 class="card-title">Estado de Cita</h5>
-                           <div class="ps-3">
-                               <div>
-                                   <div class="d-grid gap-3 d-md-flex justify-content-md-center">
 
-                                       <form method="post" th:action="@{'/doctor/pacientesatendidos/verhistorial/vercita/actualizarestadocita'}" >
-                                           <input name="id" th:value="${cita.getIdcita()}" class="form-control" type="hidden">
-                                           <input name="idestadocita" th:value="${estadoscita.get(2).getIdestadocita()}" class="form-control" type="hidden">
-                                           <button type="submit" class="btn btn-outline-warning"><i class="bi bi-pause-circle me-1"></i> Pausar</button>
-                                       </form>
-
-                                       <form method="post" th:action="@{'/doctor/pacientesatendidos/verhistorial/vercita/actualizarestadocita'}" >
-                                           <input name="id" th:value="${cita.getIdcita()}" class="form-control" type="hidden">
-                                           <input name="idestadocita" th:value="${estadoscita.get(3).getIdestadocita()}" class="form-control" type="hidden">
-                                           <button type="submit" class="btn btn-outline-success"><i class="bi bi-skip-end-circle me-1"></i> Iniciar</button>
-                                       </form>
-
-                                       <form method="post" th:action="@{'/doctor/pacientesatendidos/verhistorial/vercita/actualizarestadocita'}" >
-                                           <input name="id" th:value="${cita.getIdcita()}" class="form-control" type="hidden">
-                                           <input name="idestadocita" th:value="${estadoscita.get(5).getIdestadocita()}" class="form-control" type="hidden">
-                                           <button type="submit" class="btn btn-outline-danger"><i class="bi bi-x-circle me-1"></i> Finalizar</button>
-                                       </form>
-                                   </div>
-
-                                   <!--<a th:href="@{'/doctor/pacientesatendidos/verhistorial/vercita'+ '?id=' + ${cita.getIdcita()}+'&estadocita=3'+'&msg6=Cita_Pausada'}" class="btn btn-primary">Pausar Cita</a>
-                               <a th:href="@{'/doctor/pacientesatendidos/verhistorial/vercita'+ '?id=' + ${cita.getIdcita()}+'&estadocita=4'+'&msg6=CitaEnConsulta'}" class="btn btn-success">Continuar Cita</a>
-                               <a th:href="@{'/doctor/pacientesatendidos/verhistorial/vercita'+ '?id=' + ${cita.getIdcita()}+'&estadocita=6'+'&msg6=Cita_Finalizada'}" class="btn btn-danger">Finalizar Cita</a> -->
-                               </div>
-                           </div>
-                       </div>
-                   </div> <!--End  -->
                    <!-- Receta Medica -->
                    <div class="col-12">
                        <div class="card recent-sales overflow-auto">

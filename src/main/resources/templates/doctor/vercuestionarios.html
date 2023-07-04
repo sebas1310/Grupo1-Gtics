@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:insert="fragments/doctor/librerias.html :: cabecera (titulo = 'Cuestionarios')">
+<head th:insert="fragments/doctor/librerias.html :: cabecera (titulo = 'Cuestionario Medico')">
 </head>
 <body>
 <!-- ======= Header ======= -->
@@ -13,6 +13,7 @@ nombre = |${doctor.usuario.nombres} ${doctor.usuario.apellidos} (${doctor.usuari
 <!-- ======= Sidebar ======= -->
 <aside th:replace="fragments/doctor/aside.html :: sidebar (active = 'pacientesAtendidos')">
 </aside><!-- End Sidebar-->
+
 
 <!--Modal Cerrar Sesion-->
 <div th:replace="fragments/doctor/modalCerrarSesion.html::modal">
@@ -28,7 +29,8 @@ nombre = |${doctor.usuario.nombres} ${doctor.usuario.apellidos} (${doctor.usuari
         <li class="breadcrumb-item"><a th:href="@{'/doctor/pacientesatendidos'+ '?id=' + ${doctor.iddoctor}}">Pacientes Atendidos</a></li>
         <li class="breadcrumb-item"><a th:href="@{'/doctor/pacientesatendidos/verhistorial'+ '?id=' + ${cita.getPaciente().getIdpaciente()}}">Historial Clínico</a></li>
         <!-- th:href="@{'/doctor/pacientesatendidos/verhistorial'+ '?id=' + ${cita.idcita}}" -->
-        <li class="breadcrumb-item active">Cita 1</li>
+        <li class="breadcrumb-item"><a th:href="@{'/doctor/pacientesatendidos/verhistorial/vercita'+ '?id=' + ${cita.getIdcita()}}">Cita</a></li>
+        <li class="breadcrumb-item active">Cuestionario Medico</li >
       </ol>
     </nav>
   </div>
