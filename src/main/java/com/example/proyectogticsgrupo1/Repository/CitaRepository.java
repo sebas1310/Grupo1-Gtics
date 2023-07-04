@@ -215,6 +215,8 @@ public interface CitaRepository extends JpaRepository<Cita, Integer> {
      @Query(value = "select * from cita where idestadocita=1 and paciente_idpaciente=?1",nativeQuery = true)
     List<Cita> paymentcitas(Integer id);
 
+     @Query(value = "select * from cita where paciente_idpaciente=?1 and fecha=?2 and horainicio=?3", nativeQuery = true)
+    List<Cita> finddouble(Integer idpac,LocalDate fecha, LocalTime horini);
 }
 
 
