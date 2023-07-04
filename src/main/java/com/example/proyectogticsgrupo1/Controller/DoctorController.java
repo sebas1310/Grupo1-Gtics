@@ -145,10 +145,14 @@ public class DoctorController {
         Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
         model.addAttribute("doctor",doctor);
         Cita cita = citaRepository.buscarCitaPorId(idCita);
+        model.addAttribute("cita", cita);
         model.addAttribute("listapreguntascuestionario",modeloJsonRepository.listarPreguntasxPlantilla(idcuestionario));
         model.addAttribute("idcuestionario",idcuestionario);
         model.addAttribute("idcita",idCita);
+        List<Integer> CuestionariosEnviados = modeloJsonRepository.listaIDCuestionariosEnviados(cita.getPaciente().getUsuario().getIdusuario(),cita.getIdcita());
+        model.addAttribute(modeloJsonRepository);
         model.addAttribute(datosJsonRepository);
+        model.addAttribute("cuestionarios", CuestionariosEnviados);
         Integer idDatosJsonCuestionario = datosJsonRepository.idDatosJson(idcuestionario,idCita);
         if(idDatosJsonCuestionario != null){
             model.addAttribute("iddatosjson",idDatosJsonCuestionario);

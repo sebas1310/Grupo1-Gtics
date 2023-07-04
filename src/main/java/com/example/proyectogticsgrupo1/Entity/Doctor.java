@@ -49,6 +49,9 @@ public class Doctor implements Serializable {
 
     @Column(name = "consultorio", nullable = false)
     private String consultorio;
+    /*@Column(name = "solicitud", nullable = false)
+    private int solicitud;*/
+
 
 }
 
