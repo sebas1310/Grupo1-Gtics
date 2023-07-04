@@ -511,6 +511,12 @@ public class PacienteController {
 
         List<Cita> listaCitas = citaRepository.citasxUsuario(paciente.getIdpaciente());
 
+
+
+        List<Cita> listaCita1 = new ArrayList<>();
+
+        List<Cita> listaCita2 = new ArrayList<>();
+
 //        System.out.println(listaCitas);
 
 
@@ -525,21 +531,61 @@ public class PacienteController {
 //            System.out.println(cita_unica);
             Integer id_modelo = modeloJsonRepository.consultarModelo(cita_unica.getIdcita());
 //            System.out.println(id_modelo);
+
+            //validar si existe un cuestionario asignado a una cita
             if (id_modelo != null){
-                id_cita = cita_unica.getIdcita();
-                ModeloJsonEntity modelo_cuestionario_2 = modeloJsonRepository.listaCuestionarios_2(id_modelo);
 
 
-                DatosJsonEntity datos_json_cuestionario_2 = datosJsonRepository.listaCuestionariosLLenos(id_modelo,cita_unica.getIdcita());
 
-                if(datos_json_cuestionario_2 != null) {
-                    System.out.println(datos_json_cuestionario_2);
-                    listamodelos_datosllenos.add(datos_json_cuestionario_2);
+                //validar si existe un cuestionario lleno para colocarlo en la parte de historico
+                Integer id_datos_llenos = datosJsonRepository.buscarsiexisteRegistro(cita_unica.getIdcita());
+
+                //si en caso no hay coincidencias
+                if(id_datos_llenos == null) {
+
+
+
+
+//                    System.out.println(id_modelo);
+
+                    ModeloJsonEntity modelo_cuestionario_2 = modeloJsonRepository.Cuestionario(id_modelo);
+
+//                    ModeloJsonEntity modelo_cuestionario_2 = modeloJsonRepository.listaCuestionarios_2(id_modelo,cita_unica.getIdcita());
+
+
+                    if (modelo_cuestionario_2 != null) {
+                        System.out.println(modelo_cuestionario_2.getNombrePlantilla());
+                        listamodelos.add(modelo_cuestionario_2);
+                        listaCita1.add(cita_unica);
+                    }
+
+                }else {
+
+
+
+
+                    //si en caso hay coincidencias
+                    DatosJsonEntity datos_json_cuestionario_2 = datosJsonRepository.DatosLlenos(id_datos_llenos);
+
+
+                    if (datos_json_cuestionario_2 != null) {
+                        listamodelos_datosllenos.add(datos_json_cuestionario_2);
+                        listaCita2.add(cita_unica);
+//                        System.out.println(datos_json_cuestionario_2);
+                    }
                 }
 
-                listamodelos.add(modelo_cuestionario_2);
-                System.out.println("id cita: " + id_cita);
-                citas.add(citaRepository.findById(id_cita).get());
+
+
+
+
+
+//                if(datos_json_cuestionario_2 != null) {
+//                    System.out.println(datos_json_cuestionario_2);
+//                    listamodelos_datosllenos.add(datos_json_cuestionario_2);
+//                }
+//
+//                listamodelos.add(modelo_cuestionario_2);
 
 
 
@@ -551,36 +597,13 @@ public class PacienteController {
         }
 
 
-//        List<DatosJsonEntity> lista_cuest_llenos = new ArrayList<>();
-//
-//        System.out.println("llega antes de");
-//
-//
-//        for(Cita cita_unica2: listaCitas) {
-//            List<Integer> listaidscuestionarios_pend = datosJsonRepository.ListaIdsJsonCuestionario(cita_unica2.getIdcita());
-//
-//            System.out.println(listaidscuestionarios_pend);
-//
-////            for(Integer id: listaidscuestionarios_pend){
-////
-////                Optional<DatosJsonEntity> datos_json_lleno_opt = datosJsonRepository.findById(id);
-////
-////                DatosJsonEntity datos_json_lleno = datos_json_lleno_opt.get();
-////
-////                System.out.println(datos_json_lleno.getId());
-////
-////                lista_cuest_llenos.add(datos_json_lleno);
-////            }
-//
-//
-//
-//
-//        }
+
+        model.addAttribute("listacita1",listaCita1);
+        model.addAttribute("listacita2",listaCita2);
 
 
 
         model.addAttribute("listaidcitas",citas);
-        model.addAttribute("id_cita",id_cita);
 
         model.addAttribute("list_cuestionario_2",listamodelos);
 
