@@ -35,7 +35,6 @@
   </div><!-- End Page Title -->
 
   <div th:if="${msg7!=null}" th:text="${msg7}" class="alert alert-success" role="alert"></div>
-
   <div th:if="${msg6!=null}" th:text="${msg6}" class="alert alert-success" role="alert"></div>
 
 
@@ -155,7 +154,7 @@
 
             <div th:if="${cuestionarios.isEmpty()}" class="text-center">
               <div class="text-center">
-                <a th:href="@{'/doctor/cuestionario' + '?id=' + ${cita.getPaciente().getIdpaciente()}+'&idcita=' + ${cita.getIdcita()}}" class="btn btn-danger">Enviar </a>
+                <a th:href="@{'/doctor/dashboard/info/enviarcuestionario' + '?idcuest=' + ${34}+'&id=' + ${cita.getIdcita()}}" class="btn btn-danger">Enviar </a>
               </div>
             </div>
             <br>

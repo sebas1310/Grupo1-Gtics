@@ -1147,26 +1147,33 @@ public class DoctorController {
     @Transactional
     public String sendEmail2(RedirectAttributes redirectAttributes, @RequestParam("correodestino") String correoDestino,
                             @RequestParam("asunto") String asunto, @RequestParam("descripcion") String descripcion,
-                            @RequestParam("idusuariodestino") int idUsuarioDestino , @RequestParam("idusuarioorigen") int idUsuarioOrigen ,
-                            @RequestParam("idespecialidad") int idespecialidad) {
+                            @RequestParam("idusuariodestino") int idUsuarioDestino , @RequestParam("idusuarioorigen") int idUsuarioOrigen,
+                            @RequestParam("idespecialidad") int idespecialidad , @RequestParam("idespecialidaddoc") int idespecialidaddoc) {
 
         //Optional<Paciente> optPaciente = Optional.ofNullable(pacienteRepository.buscarPacientePorIdUsuario(idUsuarioDestino));
         Paciente paciente1 = pacienteRepository.buscarPacientePorIdUsuario(idUsuarioDestino);
         String especialidades;
+        String especiliadadesDoc;
         //aañ
         if(paciente1.getEspecialidadesPendientes().equals(null)){
             especialidades = Integer.toString(idespecialidad);
         }else{
             especialidades = paciente1.getEspecialidadesPendientes() + "," + idespecialidad;
         }
+        if(paciente1.getEspecialidadesDoctor()==null){
+            especiliadadesDoc = Integer.toString(idespecialidaddoc);
+        }else{
+            especiliadadesDoc = paciente1.getEspecialidadesDoctor() + "," + idespecialidaddoc;
+        }
         System.out.println("pacientesid " + paciente1.getIdpaciente());
         pacienteRepository.modificarEspecialidadesPendientes(especialidades, paciente1.getIdpaciente());
+        pacienteRepository.modificarEspecialidadesDoctor(especiliadadesDoc,paciente1.getIdpaciente());
         pacienteRepository.actualizarEstadoPaciente(6,paciente1.getIdpaciente());
         notificacionesRepository.notificarCreacion(idUsuarioDestino,descripcion,"Requerimiento de Examenes");
         emailService.sendEmail(correoDestino,asunto,descripcion);
         //mailCorreoRepository.guardarMensaje(asunto,descripcion,correoDestino,idUsuarioDestino ,idUsuarioOrigen);
         redirectAttributes.addFlashAttribute("msg","Mensaje Enviado");
-        return "redirect:/doctor/mensajeria";
+        return "redirect:/doctor/dashboard";
         //return ResponseEntity.ok().build();
     }
 
