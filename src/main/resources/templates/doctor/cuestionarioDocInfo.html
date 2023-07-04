@@ -87,7 +87,7 @@
               <br>
 
                 <div class="text-center">
-                  <button type="button" class="btn btn-danger"><a style="color: white" th:href="@{'/doctor/dashboard'+ '?idP=' + ${cita.getPaciente().getIdpaciente()}+'&idC=' + ${idcita}}" >Regresar</a></button>
+                  <button type="button" class="btn btn-danger"><a style="color: white" th:href="@{'/doctor/dashboard/info'+ '?idP=' + ${cita.getPaciente().getIdpaciente()}+'&idC=' + ${idcita}}" >Regresar</a></button>
                 </div>
             </div>
 
@@ -106,7 +106,7 @@
               <br>
 
               <div class="text-center">
-                <button type="button" class="btn btn-danger"><a style="color: white" th:href="@{'/doctor/dashboard'}" >Regresar</a></button>
+                <button type="button" class="btn btn-danger"><a style="color: white" th:href="@{'/doctor/dashboard/info'+ '?idP=' + ${cita.getPaciente().getIdpaciente()}+'&idC=' + ${idcita}}">Regresar</a></button>
               </div>
             </div>
           </div>
