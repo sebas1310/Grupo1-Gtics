@@ -27,4 +27,7 @@ public class BitacoraDeDiagnostico {
     @ManyToOne
     @JoinColumn(name = "idpaciente")
     private Paciente paciente;
+
+    @Column(name = "iddoctor")
+    private int iddoctor;
 }

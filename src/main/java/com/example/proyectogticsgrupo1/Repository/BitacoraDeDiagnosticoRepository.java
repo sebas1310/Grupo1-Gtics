@@ -10,15 +10,15 @@ import java.util.List;
 
 public interface BitacoraDeDiagnosticoRepository extends JpaRepository<BitacoraDeDiagnostico, Integer> {
 
-    @Query(value= "select * from bitacoradediagnostico where idpaciente = ?1 ",nativeQuery = true)
+    @Query(value= "select * from bitacoradediagnostico where idpaciente = ?1 order by fechayhora desc ",nativeQuery = true)
     List<BitacoraDeDiagnostico> bitacoraDeDiagnostico(Integer idPaciente);
 
     @Query(value= "select * from bitacoradediagnostico where idbitacoradediagnostico = ?1 ",nativeQuery = true)
     BitacoraDeDiagnostico buscarBitacoraDeDiagnosticoID (Integer idBitacora);
 
     @Modifying
-    @Query(value= "insert into bitacoradediagnostico (descripcion,fechayhora,idpaciente) values (?1,current_timestamp(),?2) ",nativeQuery = true)
-    void guardarbitacora (String descripcion , Integer idPaciente);
+    @Query(value= "insert into bitacoradediagnostico (descripcion,fechayhora,idpaciente,iddoctor) values (?1,current_timestamp(),?2,?3) ",nativeQuery = true)
+    void guardarbitacora (String descripcion , Integer idPaciente,Integer idDoctor);
 
     @Modifying
     @Query(value= "delete from bitacoradediagnostico where idbitacoradediagnostico= ?1 ",nativeQuery = true)

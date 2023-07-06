@@ -392,13 +392,15 @@ public class DoctorController {
             }
             model.addAttribute("citaspaciente", listaCitasPaciente);
             model.addAttribute("bitacoradiagnostico", bitacoraDeDiagnosticoRepository.bitacoraDeDiagnostico(idPaciente));
+            model.addAttribute(doctorRepository);
             return "doctor/verHistorial";
     }
 
     @PostMapping("/pacientesatendidos/verhistorial/guardarbitacora")
     @Transactional
-    public String guardarBitacora(RedirectAttributes redirectAttributes, @RequestParam("descripcion") String descripcion, @RequestParam("id") int idPaciente){
-        bitacoraDeDiagnosticoRepository.guardarbitacora(descripcion,idPaciente);
+    public String guardarBitacora(RedirectAttributes redirectAttributes, @RequestParam("descripcion") String descripcion, @RequestParam("id") int idPaciente,
+                                  @RequestParam("iddoctor") int iddoctor){
+        bitacoraDeDiagnosticoRepository.guardarbitacora(descripcion,idPaciente,iddoctor);
         redirectAttributes.addFlashAttribute("msg","Bitácora Guardada");
         redirectAttributes.addAttribute("id",idPaciente);
         return "redirect:/doctor/pacientesatendidos/verhistorial";
