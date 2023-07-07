@@ -66,7 +66,7 @@ public interface CitaRepository extends JpaRepository<Cita, Integer> {
     @Query(value= "select * from cita where idcita = ?1 ",nativeQuery = true)
     Cita buscarCitaPorId (Integer idCita);
 
-    @Query(value= "select * from cita where doctor_iddoctor= ?1 and concat(fecha, ' ' , horainicio , ' ', horafinal) >=current_timestamp() and idestadocita !=6\n" +
+    @Query(value= "select * from cita where doctor_iddoctor= ?1 and (concat(fecha, ' ' , horainicio , ' ', horafinal) >=current_timestamp() or idestadocita!=6)  \n" +
             "order by concat(fecha, ' ' , horainicio )",nativeQuery = true)
     List<Cita> buscarCitasAgendadasDoctor (Integer idDoctor);
 
@@ -212,8 +212,11 @@ public interface CitaRepository extends JpaRepository<Cita, Integer> {
     List<Cita> citasxUsuario(int idusuario);
 
 
+     @Query(value = "select * from cita where idestadocita=1 and paciente_idpaciente=?1",nativeQuery = true)
+    List<Cita> paymentcitas(Integer id);
 
-
+     @Query(value = "select * from cita where paciente_idpaciente=?1 and fecha=?2 and horainicio=?3", nativeQuery = true)
+    List<Cita> finddouble(Integer idpac,LocalDate fecha, LocalTime horini);
 }
 
 

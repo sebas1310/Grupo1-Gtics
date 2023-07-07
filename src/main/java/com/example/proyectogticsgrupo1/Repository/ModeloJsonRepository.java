@@ -35,7 +35,7 @@ public interface ModeloJsonRepository extends JpaRepository<ModeloJsonEntity,Int
     @Query(value=" select id as 'ID', nombre_plantilla as 'NombreInforme' from modelo_json where informe=1 and idtipodeusuario=5 and idespecialidad = ?1 ",nativeQuery = true)
     List<InformeMedico> obtenerInformesMedico (Integer idespecialidad);
 
-    @Query(value="select id from modelo_json where cuestionario=1 and idtipodeusuario=4 and idespecialidad = ?1",nativeQuery = true)
+    @Query(value="select id from modelo_json where cuestionario=1 and idtipodeusuario=4 and idespecialidad = ?1 and habilitado=1",nativeQuery = true)
     int cuestionarioMedicoId(Integer idespecialidad);
 
     @Query(value = "SELECT * from modelo_json where id = ?1", nativeQuery = true)
@@ -60,8 +60,8 @@ public interface ModeloJsonRepository extends JpaRepository<ModeloJsonEntity,Int
 
     @Modifying
     @Transactional
-    @Query(value="insert into modelo_x_cita(idmodelo_fk,idpaciente_fk,idcita_fk) values (?1,?2,?3)",nativeQuery = true)
-    void agregarCuestionarioAPaciente(int id_modelo,int id_paciente, int id_cita);
+    @Query(value="insert into modelo_x_cita(idmodelo_fk,idpaciente_fk,idcita_fk,mostrar_automatico) values (?1,?2,?3,?4)",nativeQuery = true)
+    void agregarCuestionarioAPaciente(int id_modelo,int id_paciente, int id_cita,int mostrar_automatico);
 
 
     @Query(value = "SELECT idmodelo_fk from modelo_x_cita where idcita_fk = ?1", nativeQuery = true)
@@ -70,15 +70,20 @@ public interface ModeloJsonRepository extends JpaRepository<ModeloJsonEntity,Int
 
 
 
-    @Query(value = "SELECT *\n" +
-            "FROM modelo_json mj\n" +
-            "LEFT JOIN datos_json dj ON mj.id = dj.modelo_json_id\n" +
-            "WHERE dj.modelo_json_id IS NULL and mj.id = ?1 and habilitado = 1 and cuestionario = 1", nativeQuery = true)
-    ModeloJsonEntity listaCuestionarios_2(int idmodelo);
+    @Query(value = "update from modelo_x_cita where idcita_fk = ?1", nativeQuery = true)
+    void borrarmodelTablamodeloxcita(int id_cita);
 
 
-    @Query(value = "SELECT * from modelo_json where id = ?1 and cuestionario = 1", nativeQuery = true)
-    ModeloJsonEntity listaCuestionarios(int idmodelo);
+
+
+    @Query(value = "SELECT mj.*    FROM modelo_json mj\n" +
+            "            LEFT JOIN datos_json dj ON mj.id = dj.modelo_json_id\n" +
+            "            WHERE  mj.id = ?1 and habilitado = 1 and cuestionario = 1 and cita_idcita = ?2", nativeQuery = true)
+    ModeloJsonEntity listaCuestionarios_2(int idmodelo, int idcita);
+
+
+    @Query(value = "SELECT * from modelo_json where id = ?1 and cuestionario = 1 and habilitado = 1", nativeQuery = true)
+    ModeloJsonEntity Cuestionario(int idmodelo);
 
     @Query(value = "SELECT idmodelo_fk FROM modelo_x_cita where idpaciente_fk=?1 and idcita_fk=?2",nativeQuery = true)
     List<Integer> listaIDCuestionariosEnviados (int idpaciente ,int idcita);

@@ -144,22 +144,28 @@ public class PacienteController {
     }
 
     @GetMapping(value = "/perfilDoctor")
-    public String perfilDoc(RedirectAttributes redirectAttributes, @RequestParam("iddoc") Integer iddoc, Model model){
+    public String perfilDoc(RedirectAttributes redirectAttributes, @RequestParam("iddoc") String iddoc, Model model){
         Usuario usuario = (Usuario) session.getAttribute("usuario");
         Paciente paciente = pacienteRepository.pacXuser(usuario.getIdusuario());
         model.addAttribute("pacientelog",paciente);
-        Optional<Doctor> optionalDoctor = doctorRepository.findById(iddoc);
-        if(optionalDoctor.isPresent()){
-            Doctor doctor=optionalDoctor.get();
-            model.addAttribute("doc",doctor);
-            if(eventocalendariodoctorRepository.getDiasProx1(doctor.getIddoctor()).size()>=1){
-                model.addAttribute("dias1",eventocalendariodoctorRepository.getDiasProx1(doctor.getIddoctor()));
+        try {
+            Integer idc = Integer.parseInt(iddoc);
+            Optional<Doctor> optionalDoctor = doctorRepository.findById(idc);
+            if(optionalDoctor.isPresent()){
+                Doctor doctor=optionalDoctor.get();
+                model.addAttribute("doc",doctor);
+                if(eventocalendariodoctorRepository.getDiasProx1(doctor.getIddoctor()).size()>=1){
+                    model.addAttribute("dias1",eventocalendariodoctorRepository.getDiasProx1(doctor.getIddoctor()));
+                }
+                return "paciente/perfilDoctor";
             }
-            return "paciente/perfilDoctor";
-        }
-        else {
+            else {
+                return "redirect:/paciente/";
+            }
+        }catch (NumberFormatException e){
             return "redirect:/paciente/";
         }
+
 
     }
     @GetMapping(value = "/selecTipoCita")
@@ -505,6 +511,12 @@ public class PacienteController {
 
         List<Cita> listaCitas = citaRepository.citasxUsuario(paciente.getIdpaciente());
 
+
+
+        List<Cita> listaCita1 = new ArrayList<>();
+
+        List<Cita> listaCita2 = new ArrayList<>();
+
 //        System.out.println(listaCitas);
 
 
@@ -519,21 +531,61 @@ public class PacienteController {
 //            System.out.println(cita_unica);
             Integer id_modelo = modeloJsonRepository.consultarModelo(cita_unica.getIdcita());
 //            System.out.println(id_modelo);
+
+            //validar si existe un cuestionario asignado a una cita
             if (id_modelo != null){
-                id_cita = cita_unica.getIdcita();
-                ModeloJsonEntity modelo_cuestionario_2 = modeloJsonRepository.listaCuestionarios_2(id_modelo);
 
 
-                DatosJsonEntity datos_json_cuestionario_2 = datosJsonRepository.listaCuestionariosLLenos(id_modelo,cita_unica.getIdcita());
 
-                if(datos_json_cuestionario_2 != null) {
-                    System.out.println(datos_json_cuestionario_2);
-                    listamodelos_datosllenos.add(datos_json_cuestionario_2);
+                //validar si existe un cuestionario lleno para colocarlo en la parte de historico
+                Integer id_datos_llenos = datosJsonRepository.buscarsiexisteRegistro(cita_unica.getIdcita());
+
+                //si en caso no hay coincidencias
+                if(id_datos_llenos == null) {
+
+
+
+
+//                    System.out.println(id_modelo);
+
+                    ModeloJsonEntity modelo_cuestionario_2 = modeloJsonRepository.Cuestionario(id_modelo);
+
+//                    ModeloJsonEntity modelo_cuestionario_2 = modeloJsonRepository.listaCuestionarios_2(id_modelo,cita_unica.getIdcita());
+
+
+                    if (modelo_cuestionario_2 != null) {
+                        System.out.println(modelo_cuestionario_2.getNombrePlantilla());
+                        listamodelos.add(modelo_cuestionario_2);
+                        listaCita1.add(cita_unica);
+                    }
+
+                }else {
+
+
+
+
+                    //si en caso hay coincidencias
+                    DatosJsonEntity datos_json_cuestionario_2 = datosJsonRepository.DatosLlenos(id_datos_llenos);
+
+
+                    if (datos_json_cuestionario_2 != null) {
+                        listamodelos_datosllenos.add(datos_json_cuestionario_2);
+                        listaCita2.add(cita_unica);
+//                        System.out.println(datos_json_cuestionario_2);
+                    }
                 }
 
-                listamodelos.add(modelo_cuestionario_2);
-                System.out.println("id cita: " + id_cita);
-                citas.add(citaRepository.findById(id_cita).get());
+
+
+
+
+
+//                if(datos_json_cuestionario_2 != null) {
+//                    System.out.println(datos_json_cuestionario_2);
+//                    listamodelos_datosllenos.add(datos_json_cuestionario_2);
+//                }
+//
+//                listamodelos.add(modelo_cuestionario_2);
 
 
 
@@ -545,36 +597,13 @@ public class PacienteController {
         }
 
 
-//        List<DatosJsonEntity> lista_cuest_llenos = new ArrayList<>();
-//
-//        System.out.println("llega antes de");
-//
-//
-//        for(Cita cita_unica2: listaCitas) {
-//            List<Integer> listaidscuestionarios_pend = datosJsonRepository.ListaIdsJsonCuestionario(cita_unica2.getIdcita());
-//
-//            System.out.println(listaidscuestionarios_pend);
-//
-////            for(Integer id: listaidscuestionarios_pend){
-////
-////                Optional<DatosJsonEntity> datos_json_lleno_opt = datosJsonRepository.findById(id);
-////
-////                DatosJsonEntity datos_json_lleno = datos_json_lleno_opt.get();
-////
-////                System.out.println(datos_json_lleno.getId());
-////
-////                lista_cuest_llenos.add(datos_json_lleno);
-////            }
-//
-//
-//
-//
-//        }
+
+        model.addAttribute("listacita1",listaCita1);
+        model.addAttribute("listacita2",listaCita2);
 
 
 
         model.addAttribute("listaidcitas",citas);
-        model.addAttribute("id_cita",id_cita);
 
         model.addAttribute("list_cuestionario_2",listamodelos);
 
@@ -967,24 +996,18 @@ public class PacienteController {
 
         Usuario usuario = (Usuario) session.getAttribute("usuario");
         Paciente paciente = pacienteRepository.pacXuser(usuario.getIdusuario());
-        List<BoletaPaciente> listapagado = boletaPacienteRepository.boletaspagadas(paciente.getIdpaciente());
-        List<Integer> ids  = new ArrayList<>();
-        for(BoletaPaciente b : listapagado){
-            System.out.println("ids: " + b.getCita().getIdcita());
-            ids.add(b.getCita().getIdcita());
-        }
-        System.out.println("id: " + ids.size());
         model.addAttribute("pacientelog",paciente);
-        if(citaRepository.porpagar(paciente.getIdpaciente(),ids).size()>=1){
+        if(citaRepository.paymentcitas(paciente.getIdpaciente()).size()>=1){
             List<Double> costoscita = new ArrayList<>();
-            for(Cita c : citaRepository.porpagar(paciente.getIdpaciente(),ids)){
+            for(Cita c : citaRepository.paymentcitas(paciente.getIdpaciente())){
                 DecimalFormat df = new DecimalFormat("#.##");
                 String resultadoFormateado = df.format(c.getEspecialidad().getCosto()*paciente.getSeguro().getCoaseguro());
                 costoscita.add(Double.parseDouble(resultadoFormateado));
             }
-            System.out.println("id: " + ids.size());
+            List<Cita> citasTopay = citaRepository.paymentcitas(paciente.getIdpaciente());
+            System.out.printf("id log: "+ paciente.getIdpaciente());
             model.addAttribute("costo",costoscita);
-            model.addAttribute("pagos",citaRepository.porpagar(paciente.getIdpaciente(),ids));
+            model.addAttribute("pagos",citasTopay);
         }
         return "paciente/pagos";
     }
@@ -993,17 +1016,29 @@ public class PacienteController {
     public String pagar(@RequestParam("idcita") String idcita, Model model){
         Usuario usuario = (Usuario) session.getAttribute("usuario");
         Paciente paciente = pacienteRepository.pacXuser(usuario.getIdusuario());
-        Cita cita = citaRepository.findById(Integer.parseInt(idcita)).get();
+        try {
+            Integer id = Integer.parseInt(idcita);
+            Optional citaopt = citaRepository.findById(id);
+            if(citaopt.isPresent()){
+                Cita cita = citaRepository.findById(id).get();
+                if(cita.getPaciente().getIdpaciente()==paciente.getIdpaciente() && cita.getEstadoCita().getIdestadocita()==1){
+                    DecimalFormat df = new DecimalFormat("#.##");
+                    String resultadoFormateado = df.format(cita.getEspecialidad().getCosto()*paciente.getSeguro().getCoaseguro());
+                    Double monto = Double.parseDouble(resultadoFormateado);
+                    model.addAttribute("pacientelog",paciente);
+                    model.addAttribute("cita",cita);
+                    model.addAttribute("monto",monto);
+                    return "paciente/checkout";
+                }else {
+                    return "redirect:/paciente/pagos";
+                }
+            }else {
+                return "redirect:/paciente/pagos";
+            }
+        }catch (NumberFormatException e){
+            return "redirect:/paciente/pagos";
+        }
 
-
-        DecimalFormat df = new DecimalFormat("#.##");
-        String resultadoFormateado = df.format(cita.getEspecialidad().getCosto()*paciente.getSeguro().getCoaseguro());
-        Double monto = Double.parseDouble(resultadoFormateado);
-
-        model.addAttribute("pacientelog",paciente);
-        model.addAttribute("cita",cita);
-        model.addAttribute("monto",monto);
-        return "paciente/checkout";
     }
     @Autowired TarjetasRepository tarjetasRepository;
     @PostMapping(value = "/checkoutpayment")
@@ -1012,42 +1047,51 @@ public class PacienteController {
                            @RequestParam("month") String month,
                            @RequestParam("year") String year,
                            @RequestParam("cvv") String cvv,
-                           @RequestParam("idcita") Integer idcita, RedirectAttributes redirectAttributes){
+                           @RequestParam("idcita") String idcita, RedirectAttributes redirectAttributes){
 
         Usuario usuario = (Usuario) session.getAttribute("usuario");
         Paciente paciente = pacienteRepository.pacXuser(usuario.getIdusuario());
-        String montopac = getmontopac(idcita);
-        Float montoDoctor = getmontoDoc(idcita);
-        Cita citaAgendada = citaRepository.findById(idcita).get();
-        Doctor doc = citaAgendada.getDoctor();
-        Boolean aprove = false;
+        try {
+            Integer idtopay = Integer.parseInt(idcita);
 
 
+            String montopac = getmontopac(idtopay);
+            Float montoDoctor = getmontoDoc(idtopay);
+            if(citaRepository.findById(idtopay).isPresent()){
+                Cita citaAgendada = citaRepository.findById(idtopay).get();
+                Doctor doc = citaAgendada.getDoctor();
+                Boolean aprove = false;
 
-        if(citaAgendada.getPaciente().getIdpaciente()==paciente.getIdpaciente()){
-            for (Tarjetas t: tarjetasRepository.findAll()){
-                if (t.getNumero().equals(cardnumber)){
-                    if (t.getMes().equals(month)){
-                        if (t.getAnio().equals(year)){
-                            if(t.getCvv().equals(cvv)){
-                                aprove = true;
+                if(citaAgendada.getPaciente().getIdpaciente()==paciente.getIdpaciente() && citaAgendada.getEstadoCita().getIdestadocita()==1){
+                    for (Tarjetas t: tarjetasRepository.findAll()){
+                        if (t.getNumero().equals(cardnumber)){
+                            if (t.getMes().equals(month)){
+                                if (t.getAnio().equals(year)){
+                                    if(t.getCvv().equals(cvv)){
+                                        aprove = true;
+                                    }
+                                }
                             }
                         }
                     }
+                    if(aprove){
+                        boletaDoctorRepository.generarBoletaDoctorCita(citaAgendada.getIdcita(),paciente.getIdpaciente(),paciente.getSeguro().getIdseguro(),doc.getIddoctor(),montoDoctor);
+                        boletaPacienteRepository.generarBoletaPacienteCita(paciente.getIdpaciente(),citaAgendada.getIdcita(),paciente.getSeguro().getIdseguro(),Float.parseFloat(montopac));
+                        citaRepository.actualizarEstadoCita(2,idtopay);
+                        return "redirect:/paciente/boleta?idcita="+idtopay.toString();
+                    }
+                    else {
+                        redirectAttributes.addFlashAttribute("fail","Datos incorrectos");
+                        return "redirect:/paciente/pagar?idcita="+idtopay.toString();
+                    }
                 }
+                else {
+                    return "redirect:/paciente/pagos";
+                }
+            }else {
+                return "redirect:/paciente/pagos";
             }
-            System.out.println(aprove);
-            if(aprove){
-                boletaDoctorRepository.generarBoletaDoctorCita(citaAgendada.getIdcita(),paciente.getIdpaciente(),paciente.getSeguro().getIdseguro(),doc.getIddoctor(),montoDoctor);
-                boletaPacienteRepository.generarBoletaPacienteCita(paciente.getIdpaciente(),citaAgendada.getIdcita(),paciente.getSeguro().getIdseguro(),Float.parseFloat(montopac));
-                return "redirect:/paciente/boleta?idcita="+idcita.toString();
-            }
-            else {
-                redirectAttributes.addFlashAttribute("fail","Datos incorrectos");
-                return "redirect:/paciente/pagar?idcita="+idcita.toString();
-            }
-        }
-        else {
+        }catch (NumberFormatException e){
             return "redirect:/paciente/pagos";
         }
     }
@@ -1096,52 +1140,55 @@ public class PacienteController {
     public String reserva2 (@RequestParam("idev") Integer idev, @RequestParam("idtipocita") Integer idtipocita, RedirectAttributes redirectAttributes){
         Usuario usuario = (Usuario) session.getAttribute("usuario");
         Paciente paciente = pacienteRepository.pacXuser(usuario.getIdusuario());
-        Eventocalendariodoctor eventocalendariodoctor = eventocalendariodoctorRepository.findById(idev).get();
-        Doctor doc = doctorRepository.findById(eventocalendariodoctor.getDoctor().getIddoctor()).get();
+        if(eventocalendariodoctorRepository.findById(idev).isPresent()){
+            Eventocalendariodoctor eventocalendariodoctor = eventocalendariodoctorRepository.findById(idev).get();
+            Doctor doc = doctorRepository.findById(eventocalendariodoctor.getDoctor().getIddoctor()).get();
 
-        System.out.println(doc.getIddoctor());
-        citaRepository.agengedarcita(doc.getSede().getIdsede(),
-                doc.getEspecialidad().getIdespecialidad(),
-                eventocalendariodoctor.getFecha(),
-                eventocalendariodoctor.getHorainicio(),
-                eventocalendariodoctor.getHorainicio().plusHours(1),
-                1,
-                idtipocita,
-                paciente.getIdpaciente(),
-                1,
-                paciente.getIdpaciente(),
-                doc.getIddoctor());
-        eventocalendariodoctorRepository.cambiarEstadoCalendario(doc.getIddoctor(),
-                eventocalendariodoctor.getFecha(),
-                eventocalendariodoctor.getHorainicio());
+            // que no sea cita repetida
+            List<Cita> citarep = citaRepository.finddouble(paciente.getIdpaciente(),eventocalendariodoctor.getFecha(), eventocalendariodoctor.getHorainicio());
+            System.out.println("arr len: "+ citarep.size());
+            if(citarep.size()==0){
+                citaRepository.agengedarcita(doc.getSede().getIdsede(),
+                        doc.getEspecialidad().getIdespecialidad(),
+                        eventocalendariodoctor.getFecha(),
+                        eventocalendariodoctor.getHorainicio(),
+                        eventocalendariodoctor.getHorainicio().plusHours(1),
+                        1,
+                        idtipocita,
+                        paciente.getSeguro().getIdseguro(),
+                        1,
+                        paciente.getIdpaciente(),
+                        doc.getIddoctor());
+                eventocalendariodoctorRepository.cambiarEstadoCalendario(doc.getIddoctor(),
+                        eventocalendariodoctor.getFecha(),
+                        eventocalendariodoctor.getHorainicio());
+                Double costoEspecialidad = especialidadRepository.getCosto(doc.getEspecialidad().getIdespecialidad());
+                Double comisionDoctor = seguroRepository.getCosto(paciente.getSeguro().getIdseguro());
+                Double coaseguroPaciente = seguroRepository.getCoaseguro(paciente.getSeguro().getIdseguro());
+                Float montoDoctor = (float) (costoEspecialidad * comisionDoctor);
+                Float montoPaciente = (float) (costoEspecialidad * coaseguroPaciente);
+                Cita citaAgendada = citaRepository.citaAgendada(eventocalendariodoctor.getFecha(),eventocalendariodoctor.getHorainicio(),doc.getIddoctor());
+                String content = "Usted reservó una cita para "+ eventocalendariodoctor.getFecha()+ "en la siguiente hora: " + eventocalendariodoctor.getHorainicio() + " En la especialiad de " + doc.getEspecialidad().getNombre() + ".";
+                String titulo = "Cita reservada con exito";
+                notificacionesRepository.notificarcita(usuario.getIdusuario(),content,titulo);
+                if(idtipocita==1){
+                    boletaDoctorRepository.generarBoletaDoctorCita(citaAgendada.getIdcita(),paciente.getIdpaciente(),paciente.getSeguro().getIdseguro(),doc.getIddoctor(),montoDoctor);
+                    boletaPacienteRepository.generarBoletaPacienteCita(paciente.getIdpaciente(),citaAgendada.getIdcita(),paciente.getSeguro().getIdseguro(),montoPaciente);
+                    emailService.sendEmail(paciente.getUsuario().getCorreo(),"Confirmación de cita","Estimado usuario usted reservó una cita para el "+eventocalendariodoctor.getFecha().toString()+ ".\n"+"En la sede "+sedeRepository.findById(doc.getSede().getIdsede()).get().getNombre()+" ubicada " +sedeRepository.findById(doc.getSede().getIdsede()).get().getDireccion());
 
+                }else{
+                    emailService.sendEmail(paciente.getUsuario().getCorreo(),"Confirmación de cita","Estimado usuario usted reservó una cita virtual para el "+eventocalendariodoctor.getFecha().toString()+ ".\n"+"El link para la sesion de zoom es el siguiente: " +doc.getZoom());
 
-        Double costoEspecialidad = especialidadRepository.getCosto(doc.getEspecialidad().getIdespecialidad());
-        Double comisionDoctor = seguroRepository.getCosto(paciente.getSeguro().getIdseguro());
-        Double coaseguroPaciente = seguroRepository.getCoaseguro(paciente.getSeguro().getIdseguro());
-        Float montoDoctor = (float) (costoEspecialidad * comisionDoctor);
-        Float montoPaciente = (float) (costoEspecialidad * coaseguroPaciente);
-        Cita citaAgendada = citaRepository.citaAgendada(eventocalendariodoctor.getFecha(),eventocalendariodoctor.getHorainicio(),doc.getIddoctor());
+                }
+                redirectAttributes.addFlashAttribute("msg1", "Ha reservado una cita con éxito");
 
-
-
-        String content = "Usted reservó una cita para "+ eventocalendariodoctor.getFecha()+ "en la siguiente hora: " + eventocalendariodoctor.getHorainicio() + " En la especialiad de " + doc.getEspecialidad().getNombre() + ".";
-        String titulo = "Cita reservada con exito";
-        notificacionesRepository.notificarcita(usuario.getIdusuario(),content,titulo);
-
-
-        if(idtipocita==1){
-            boletaDoctorRepository.generarBoletaDoctorCita(citaAgendada.getIdcita(),paciente.getIdpaciente(),paciente.getSeguro().getIdseguro(),doc.getIddoctor(),montoDoctor);
-            boletaPacienteRepository.generarBoletaPacienteCita(paciente.getIdpaciente(),citaAgendada.getIdcita(),paciente.getSeguro().getIdseguro(),montoPaciente);
-            emailService.sendEmail(paciente.getUsuario().getCorreo(),"Confirmación de cita","Estimado usuario usted reservó una cita para el "+eventocalendariodoctor.getFecha().toString()+ ".\n"+"En la sede "+sedeRepository.findById(doc.getSede().getIdsede()).get().getNombre()+" ubicada " +sedeRepository.findById(doc.getSede().getIdsede()).get().getDireccion());
-
-        }else{
-            emailService.sendEmail(paciente.getUsuario().getCorreo(),"Confirmación de cita","Estimado usuario usted reservó una cita virtual para el "+eventocalendariodoctor.getFecha().toString()+ ".\n"+"El link para la sesion de zoom es el siguiente: " +doc.getZoom());
-
+                return "redirect:/paciente/";
+            }else {
+                return "redirect:/paciente/";
+            }
+        }else {
+            return "redirect:/paciente/reservar2";
         }
-        redirectAttributes.addFlashAttribute("msg1", "Ha reservado una cita con éxito");
-
-        return "redirect:/paciente/";
     }
 
 }

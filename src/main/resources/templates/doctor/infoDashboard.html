@@ -35,6 +35,8 @@
   </div><!-- End Page Title -->
 
   <div th:if="${msg7!=null}" th:text="${msg7}" class="alert alert-success" role="alert"></div>
+  <div th:if="${msg6!=null}" th:text="${msg6}" class="alert alert-success" role="alert"></div>
+
 
   <section class="section ">
     <div class="row">
@@ -51,19 +53,23 @@
                     <form method="post" th:action="@{'/doctor/pacientesatendidos/verhistorial/vercita/actualizarestadocita'}" >
                       <input name="id" th:value="${cita.getIdcita()}" class="form-control" type="hidden">
                       <input name="idestadocita" th:value="${estadoscita.get(2).getIdestadocita()}" class="form-control" type="hidden">
-                      <button type="submit" class="btn btn-outline-warning"><i class="bi bi-pause-circle me-1"></i> Pausar</button>
+                      <!--<button  th:if="${(cita.getEstadoCita().getIdestadocita()==4) and (cita.getEstadoCita().getIdestadocita()!=1 or cita.getEstadoCita().getIdestadocita()!=2)}" type="submit" class="btn btn-outline-warning"><i class="bi bi-pause-circle me-1"></i> Pausar</button>
+                      <button  th:if="${(cita.getEstadoCita().getIdestadocita()==3) and (cita.getEstadoCita().getIdestadocita()!=1 or cita.getEstadoCita().getIdestadocita()!=2)}" type="submit" class="btn btn-outline-warning" disabled><i class="bi bi-pause-circle me-1"></i> Pausar</button> -->
                     </form>
 
                     <form method="post" th:action="@{'/doctor/pacientesatendidos/verhistorial/vercita/actualizarestadocita'}" >
                       <input name="id" th:value="${cita.getIdcita()}" class="form-control" type="hidden">
                       <input name="idestadocita" th:value="${estadoscita.get(3).getIdestadocita()}" class="form-control" type="hidden">
-                      <button type="submit" class="btn btn-outline-success"><i class="bi bi-skip-end-circle me-1"></i> Iniciar</button>
+                      <button th:if="${(cita.getEstadoCita().getIdestadocita()==1)}" type="submit" class="btn btn-outline-success"disabled><i class="bi bi-skip-end-circle me-1" ></i> Iniciar</button>
+                      <button th:if="${(cita.getEstadoCita().getIdestadocita()==2) or (cita.getEstadoCita().getIdestadocita()==3)}" type="submit" class="btn btn-outline-success"><i class="bi bi-skip-end-circle me-1"></i> Iniciar</button>
+                      <!--<button th:if="${(cita.getEstadoCita().getIdestadocita()==3 or cita.getEstadoCita().getIdestadocita()==4) and (cita.getEstadoCita().getIdestadocita()!=1 or cita.getEstadoCita().getIdestadocita()!=2)}" type="submit" class="btn btn-outline-success"><i class="bi bi-skip-end-circle me-1"></i> Continuar</button>-->
                     </form>
 
                     <form method="post" th:action="@{'/doctor/pacientesatendidos/verhistorial/vercita/actualizarestadocita'}" >
                       <input name="id" th:value="${cita.getIdcita()}" class="form-control" type="hidden">
                       <input name="idestadocita" th:value="${estadoscita.get(5).getIdestadocita()}" class="form-control" type="hidden">
-                      <button type="submit" class="btn btn-outline-danger"><i class="bi bi-x-circle me-1"></i> Finalizar</button>
+                      <button  th:if="${(cita.getEstadoCita().getIdestadocita()==4) and (cita.getEstadoCita().getIdestadocita()!=1 or cita.getEstadoCita().getIdestadocita()!=2)}" type="submit" class="btn btn-outline-danger"><i class="bi bi-pause-circle me-1"></i> Finalizar</button>
+                      <button  th:if="${(cita.getEstadoCita().getIdestadocita()==3) and (cita.getEstadoCita().getIdestadocita()!=1 or cita.getEstadoCita().getIdestadocita()!=2)}" type="submit" class="btn btn-outline-danger" disabled><i class="bi bi-pause-circle me-1"></i> Finalizar</button>
                     </form>
                   </div>
 
@@ -88,6 +94,14 @@
                       <li>Seguro: <span th:text="${cita.getSeguro().getNombre()}"></span></li>
                       <li>Modalidad: <span th:text="${cita.getTipoCita().getNombre()}"></span></li>
                       <li>Estado Cita: <span th:text="${cita.getEstadoCita().getNombre()}"></span></li>
+                      <li>Estado Pago:
+                        <span th:if="${cita.getEstadoCita().getIdestadocita()  == 1 }"> Pendiente</span>
+                        <span th:if="${cita.getEstadoCita().getIdestadocita()  == 2 }"> Pagado</span>
+                        <span th:if="${cita.getEstadoCita().getIdestadocita()  == 3 }"> Pagado</span>
+                        <span th:if="${cita.getEstadoCita().getIdestadocita()  == 4 }"> Pagado</span>
+                        <span th:if="${cita.getEstadoCita().getIdestadocita()  == 5 }"> Pagado</span>
+                        <span th:if="${cita.getEstadoCita().getIdestadocita()  == 6 }"> Pagado</span>
+                      </li>
 
                     </div>
               </div>
@@ -113,19 +127,6 @@
           </div>
         </div> -->
       </div>
-        <div class="col-12">
-          <div class="card recent-sales overflow-auto">
-            <div class="card-body">
-              <h5 class="card-title">Examen Medico</h5>
-              <h6>Si el paciente requiere realizar unos exámenes, entonces envíele un mensaje</h6>
-              <br>
-              <div class="d-grid gap-1 d-md-flex justify-content-md-center" >
-                <a th:href="@{'/doctor/mensajeria/enviarmensaje/examenes'+ '?idp=' + ${paciente.getUsuario().getIdusuario()}}" class="btn btn-primary">Mensaje</a>
-
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
       <div class="col-lg-5">
         <!-- Bitacobra -->
@@ -151,30 +152,48 @@
 
                 </div -->
 
-            <div class="text-center">
-              <a th:href="@{'/doctor/cuestionario' + '?id=' + ${cita.getPaciente().getIdpaciente()}+'&idcita=' + ${cita.getIdcita()}}" class="btn btn-danger">Enviar </a>
+            <div th:if="${cuestionarios.isEmpty()}" class="text-center">
+              <div class="text-center">
+                <a th:href="@{'/doctor/dashboard/info/enviarcuestionario' + '?idcuest=' + ${34}+'&id=' + ${cita.getIdcita()}}" class="btn btn-danger">Enviar </a>
+              </div>
             </div>
             <br>
+
             <div th:unless="${cuestionarios.isEmpty()}">
               <div  th:each="cuest:${cuestionarios}">
-            <div class="text-center">
-              <a class="btn btn-success" th:href="@{'/doctor/pacientesatendidos/verhistorial/vercita/vercuestionarios/ver'+ '?idcuest=' + ${cuest}+'&id=' + ${cita.getIdcita()}}"
-              ><i class="bi bi-journal-text me-2"></i>Ver Cuestionario</a>
-             </div>
+                <div class="text-center">
+                    <a class="btn btn-success" th:href="@{'/doctor/dashboard/info/vercuestionario'+ '?idcuest=' + ${cuest}+'&id=' + ${cita.getIdcita()}}"
+                    ><i class="bi bi-journal-text me-2"></i>Ver Cuestionario</a>
                 </div>
               </div>
-            <br>
+            </div>
           </div>
           </div>
           <div class="card">
             <div class="card-body">
               <h5 class="card-title">Informe Médico</h5>
-              <div class="text-center">
-                <a th:href="@{'/doctor/pacientesatendidos/verhistorial/vercita/verinformesmedico/llenarinforme?idinforme=26'+'&id=' + ${cita.getIdcita()}}" class="btn btn-danger">Llenar Informe</a>
+              <div th:if="${(cita.getEstadoCita().getIdestadocita()==3 or cita.getEstadoCita().getIdestadocita()==4) and idatosjson==null}" class="text-center">
+                <a th:href="@{'/doctor/dashboard/info/llenarinforme'+'?id=' + ${cita.getIdcita()}}" class="btn btn-danger">Llenar Informe</a>
+              </div>
+              <div th:unless="${cita.getEstadoCita().getIdestadocita()==3 or cita.getEstadoCita().getIdestadocita()==4}" class="text-center">
+                <a class="btn btn-danger">No Disponible hasta Inicio de Cita</a>
+              </div>
+              <div th:if="${(cita.getEstadoCita().getIdestadocita()==3 or cita.getEstadoCita().getIdestadocita()==4) and idatosjson!=null}" class="text-center">
+                <a th:href="@{'/doctor/dashboard/info/llenarinforme'+'?id=' + ${cita.getIdcita()}}" class="btn btn-success">Ver Informe</a>
               </div>
               <br>
             </div>
           </div>
+          <div class="card ">
+            <div class="card-body">
+              <h5 class="card-title">Examen Medico</h5>
+              <h6>Si el paciente requiere realizar unos exámenes, entonces envíele un mensaje</h6>
+              <br>
+              <div class="d-grid gap-1 d-md-flex justify-content-md-center" >
+                <a th:href="@{'/doctor/mensajeria/enviarmensaje/examenes'+ '?idp=' + ${paciente.getUsuario().getIdusuario()}}" class="btn btn-primary">Mensaje</a>
+              </div>
+            </div>
+        </div>
         </div>
       </div>
     </div>

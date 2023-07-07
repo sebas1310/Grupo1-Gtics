@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:insert="fragments/doctor/librerias.html :: cabecera (titulo = ' Cuestionario')">
+<head th:insert="fragments/doctor/librerias.html :: cabecera (titulo = 'Cuestionario')">
 </head>
 <body>
 <!-- ======= Header ======= -->
@@ -14,6 +14,7 @@
 <aside th:replace="fragments/doctor/aside.html :: sidebar (active = 'pacientesAtendidos')">
 </aside><!-- End Sidebar-->
 
+
 <!--Modal Cerrar Sesion-->
 <div th:replace="fragments/doctor/modalCerrarSesion.html::modal">
 
@@ -26,7 +27,14 @@
         <h1>Cuestionario</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item active">Cuestionarios</li>
+                <li class="breadcrumb-item"><a th:href="@{'/doctor/pacientesatendidos'+ '?id=' + ${doctor.iddoctor}}">Pacientes Atendidos</a></li>
+                <li class="breadcrumb-item"><a th:href="@{'/doctor/pacientesatendidos/verhistorial'+ '?id=' + ${cita.getPaciente().getIdpaciente()}}">Historial Clínico</a></li>
+                <!-- th:href="@{'/doctor/pacientesatendidos/verhistorial'+ '?id=' + ${cita.idcita}}" -->
+                <li class="breadcrumb-item"><a th:href="@{'/doctor/pacientesatendidos/verhistorial/vercita'+ '?id=' + ${cita.getIdcita()}}">Cita</a></li>
+                <li class="breadcrumb-item"><a th:href="@{'/doctor/pacientesatendidos/verhistorial/vercita/vercuestionarios'+ '?id=' + ${cita.getIdcita()}}">Cuestionario Medico</a></li>
+
+                <li class="breadcrumb-item active">Cuestionario</li >
+                <!-- <li class="breadcrumb-item active">Cita <span th:text="${numcita}" > </span></li > -->
             </ol>
         </nav>
     </div><!-- End Page Title -->
@@ -86,7 +94,7 @@
                         <br>
 
                             <div class="text-center">
-                                <button type="button" class="btn btn-danger"><a style="color: white" th:href="@{'/doctor/dashboard'}" >Regresar</a></button>
+                                <button type="button" class="btn btn-danger"><a style="color: white" th:href="@{'/doctor/pacientesatendidos/verhistorial/vercita/vercuestionarios' + '?id=' + ${idcita}}" >Regresar</a></button>
                             </div>
                     </div>
                 </div>

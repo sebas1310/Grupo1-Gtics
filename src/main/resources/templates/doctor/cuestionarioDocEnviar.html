@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="fragments/doctor/librerias.html :: cabecera (titulo = ' Cuestionario')">
+</head>
+<body>
+<!-- ======= Header ======= -->
+<header th:replace="fragments/doctor/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1',
+ nombre = |${doctor.usuario.nombres} ${doctor.usuario.apellidos}  (${doctor.usuario.tipodeusuario.nombre.toUpperCase()})|,
+ num_men = '2', id=${session.usuario.idusuario})">
+</header>
+<!-- End Header -->
+
+<!-- ======= Sidebar ======= -->
+<aside th:replace="fragments/doctor/aside.html :: sidebar (active = 'pacientesAtendidos')">
+</aside><!-- End Sidebar-->
+
+<!--Modal Cerrar Sesion-->
+<div th:replace="fragments/doctor/modalCerrarSesion.html::modal">
+
+</div>
+<!-- End Modal-->
+
+<main id="main" class="main">
+
+  <div class="pagetitle">
+    <h1>Cuestionario</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item active">Cuestionarios</li>
+      </ol>
+    </nav>
+  </div><!-- End Page Title -->
+
+  <section class="section ">
+    <div class="row">
+
+      <!-- Right side columns -->
+      <div class="col-lg">
+        <!-- Bitacora -->
+        <div class="card recent-sales overflow-auto">
+          <div class="card-body">
+            <h5 class="card-title" th:text="|Cuestionario Médico - ${doctor.getEspecialidad().getNombre()}|">Cuestionario Médico</h5>
+
+            <div th:id="contenedorcuestionario">
+              <!--<input th:id="idcuestionariomodelo" th:value="${idcuestionario}" class="form-control"
+                     type="hidden">-->
+              <div  th:each="pregunta,indice:${listapreguntascuestionario}">
+                <label class="card-title" th:text="|Pregunta ${indice.index+1}:|"></label>
+                <label for="nombre0" class="col-md-12 col-form-label"
+                       th:text="${pregunta}"></label>
+                <input name="nombre" type="hidden" class="form-control" id="nombre0" th:value="${null}"
+                       disabled>
+              </div>
+              <!--<input th:value="${paciente.getUsuario().getIdusuario()}" class="form-control"
+                     type="hidden">-->
+              <br>
+
+              <form method="post" th:action="@{'/doctor/cuestionario_envio'}" class="row g-3">
+
+                <input th:value="${idcita}" name="id_cita" class="form-control" type="hidden">
+                <input th:value="${idcuestionario}" name="id_modelo" class="form-control" type="hidden">
+                <input th:value="${cita.getPaciente().getUsuario().getIdusuario()}"  name="id_usuario_paciente" class="form-control"
+                       type="hidden">
+
+                <div class="col-md-6">
+                  <label for="especialidad" class="form-label">Mostrar Apenas el Paciente Inicie Sesión</label>
+                  <select class="form-select" id="especialidad" name="mostrarautomatico" required>
+                    <option value="vacio" selected disabled>Seleccione</option>
+                    <option th:text="Sí" th:value="1"></option>
+                    <option th:text="No" th:value="0"></option>
+                  </select>
+                </div>
+
+                <div class="text-center">
+                  <button class="btn btn-primary" type="submit">Enviar a Paciente</button>
+                  <button type="button" class="btn btn-danger"><a style="color: white" th:href="@{'/doctor/dashboard/info'+ '?idP=' + ${cita.getPaciente().getIdpaciente()}+'&idC=' + ${idcita}}" >Regresar</a></button>
+                </div>
+
+
+              </form>
+            </div>
+
+            <!--<div th:unless="${cuestionarios.isEmpty() and iddatosjson!=null}" th:id="contenedorcuestionario">
+             <input th:id="idcuestionariomodelo" th:value="${idcuestionario}" class="form-control"
+                     type="hidden">
+              <div  th:each="pregunta,indice:${listapreguntascuestionario}">
+                <label class="card-title" th:text="|Pregunta ${indice.index+1}:|"></label>
+                <label for="nombre4" class="col-md-12 col-form-label"
+                       th:text="${pregunta}"></label>
+                <input name="nombre" type="text" class="form-control" id="nombre4" th:value="${null}"
+                       disabled>
+              </div>
+              input th:value="${paciente.getUsuario().getIdusuario()}" class="form-control"
+                     type="hidden">
+              <br>
+
+              <div class="text-center">
+                <button type="button" class="btn btn-danger"><a style="color: white" th:href="@{'/doctor/dashboard/info'+ '?idP=' + ${cita.getPaciente().getIdpaciente()}+'&idC=' + ${idcita}}" >Regresar</a></button>
+              </div>
+            </div> -->
+
+
+            <!--<div th:unless="${iddatosjson==null}" >
+
+              <div th:each="inciso,indice:${cuestionariolleno}">
+                <label class="card-title" th:text="|Pregunta ${indice.index+1}:|"></label>
+                <label for="nombre3" class="col-md-12 col-form-label"
+                       th:text="${inciso.getCampo()}"></label>
+                <input name="nombre" type="text" class="form-control" id="nombre3" th:value="${inciso.getRespuesta()}"
+                       disabled>
+              </div>
+              <input th:value="${paciente.getUsuario().getIdusuario()}" class="form-control"
+                     type="hidden">
+              <br>
+
+              <div class="text-center">
+                <button type="button" class="btn btn-danger"><a style="color: white" th:href="@{'/doctor/dashboard/info'+ '?idP=' + ${cita.getPaciente().getIdpaciente()}+'&idC=' + ${idcita}}">Regresar</a></button>
+              </div>
+            </div> -->
+          </div>
+
+        </div>
+      </div>
+    </div>
+    </div>
+    </div>
+    </div>
+  </section>
+</main><!-- End #main -->
+
+<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+<!-- Vendor JS Files -->
+<script th:src="@{'/assets/vendor/apexcharts/apexcharts.min.js'}"></script>
+<script th:src="@{'/assets/vendor/bootstrap/js/bootstrap.bundle.min.js'}"></script>
+<script th:src="@{'/assets/vendor/chart.js/chart.min.js'}"></script>
+<script th:src="@{'/assets/vendor/echarts/echarts.min.js'}"></script>
+<script th:src="@{'/assets/vendor/quill/quill.min.js'}"></script>
+<script th:src="@{'/assets/vendor/simple-datatables/simple-datatables.js'}"></script>
+<script th:src="@{'/assets/vendor/tinymce/tinymce.min.js'}"></script>
+<script th:src="@{'/assets/vendor/php-email-form/validate.js'}"></script>
+
+<!-- Template Main JS File -->
+<script th:src="@{'/assets/js/main.js'}"></script>
+
+<script>
+  function ModificarForm() {
+
+//id modelo
+    const id_de_modelo_plantilla_2 = document.getElementById("idcuestionariomodelo").value
+
+    console.log(id_de_modelo_plantilla_2);
+
+
+//id div - contenedor
+    var inputs = document.getElementById("contenedorcuestionario").querySelectorAll("input.form-control");
+    var valores = [];
+
+//se agrega primero el id del informe
+    valores.push(id_de_modelo_plantilla_2)
+
+//y luego la lista de inputs llenos
+    for (var i = 0; i < inputs.length; i++) {
+      var valor = inputs[i].value;
+      valores.push(valor);
+    }
+
+
+
+    console.log(valores);
+
+
+
+// const crearModal = bootstrap.Modal.getOrCreateInstance('#createModal');
+// crearModal.hide();
+
+
+    var xmlhttp = new XMLHttpRequest();
+    var url = "/doctor/cuestionario/enviarcuestionario?valores=" + encodeURIComponent(valores);
+    xmlhttp.open("POST", url, true);
+    xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xmlhttp.onreadystatechange = function () {
+
+      if (xmlhttp.readyState == XMLHttpRequest.DONE) {
+        if (xmlhttp.status == 200) {
+// Mostrar mensaje de éxito
+          alert("Datos Guardados");
+          location.reload();
+
+
+        } else {
+// Mostrar mensaje de error
+          alert("Ha ocurrido un error al llenar el informe");
+        }
+      }
+    };
+
+    xmlhttp.send();
+
+// xmlhttp.send(datos);
+
+  };
+</script>
+
+</body>
+
+
+</html>

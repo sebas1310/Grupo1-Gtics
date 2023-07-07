@@ -106,12 +106,14 @@ num_men = '2', id=${session.usuario.idusuario})">
                                         </ul>
                                     </div>
                                     <div class="card" th:each="bitacora:${bitacoradiagnostico}">
-                                        <div class="card-header" th:text="|Dr(a) ${doctor.usuario.nombres} ${doctor.usuario.apellidos}|">
+                                        <div class="card-header" th:if="${doctorRepository.buscarDoctorPorId(bitacora.getIddoctor()).getUsuario().getGenero().equals('Masculino')}" th:text="|Dr ${doctorRepository.buscarDoctorPorId(bitacora.getIddoctor()).getUsuario().getNombres()} ${doctorRepository.buscarDoctorPorId(bitacora.getIddoctor()).getUsuario().getApellidos()}|">
+                                        </div>
+                                        <div class="card-header" th:if="${doctorRepository.buscarDoctorPorId(bitacora.getIddoctor()).getUsuario().getGenero().equals('Femenino')}" th:text="|Dr(a) ${doctorRepository.buscarDoctorPorId(bitacora.getIddoctor()).getUsuario().getNombres()} ${doctorRepository.buscarDoctorPorId(bitacora.getIddoctor()).getUsuario().getApellidos()}|">
                                         </div>
                                         <div class="card-body">
                                             <p class="card-text"><span th:text="${bitacora.getDescripcion()}"></span></p>
                                             <p class="card-text"><span th:text="${bitacora.getFechayhora()}"></span></p>
-                                            <a class="bi bi-trash" style="text-align:right" th:href="@{'/doctor/pacientesatendidos/verhistorial/borrarbitacora?idB='+${bitacora.getIdbitacoradediagnostico()}}">Borrar</a>
+                                            <a class="bi bi-trash" style="text-align:right" th:if="${bitacora.getIddoctor()==doctor.getIddoctor()}" th:href="@{'/doctor/pacientesatendidos/verhistorial/borrarbitacora?idB='+${bitacora.getIdbitacoradediagnostico()}}">Borrar</a>
                                         </div>
                                     </div>
                                     <!--<div class="card">
@@ -128,6 +130,7 @@ num_men = '2', id=${session.usuario.idusuario})">
                                             <div class="form-floating">
                                                 <input th:value="${paciente.getIdpaciente()}" name="id" type="hidden">
                                                 <input name="descripcion" type="text" class="form-control" id="descripcion" placeholder="Leave a comment here">
+                                                <input th:value="${doctor.getIddoctor()}" name="iddoctor" type="hidden">
                                             </div >
                                             <br>
                                             <div class="text-center">

@@ -48,5 +48,8 @@ public class Paciente implements Serializable {
 
     @Column(name = "especialidades_pendientes")
     private String especialidadesPendientes;
+    @Column(name = "especialidades_doctor")
+    private String especialidadesDoctor;
+
 
 }

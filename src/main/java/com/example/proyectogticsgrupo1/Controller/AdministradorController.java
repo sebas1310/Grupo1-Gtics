@@ -296,8 +296,6 @@ public class AdministradorController {
                     evento.put("start", cita.getFecha().atTime(cita.getHorainicio())); // Fecha y hora de inicio del evento formateadas
                     evento.put("display", "block"); // Mostrar el evento como un bloque de color
                     evento.put("color", obtenerColorEvento(cita.getEspecialidad().getNombre())); // Color del evento
-
-
                     eventos.add(evento);
                 }
             }
@@ -432,6 +430,8 @@ public class AdministradorController {
         model.addAttribute("listaparapaciente",datosPacientes);
         return "administrador/historialclinico";
     }
+
+
 
     @GetMapping(value = "/crearpaciente")
     public String crearPaciente(@ModelAttribute("usuario2") Usuario usuario2, Model model) {
@@ -707,5 +707,29 @@ public class AdministradorController {
             }
         }
         return ".jpeg";
+    }
+
+    @GetMapping(value = "/vistadecuestionario")
+    public String verCuestionario(Model model, @RequestParam("id") int idCita,@RequestParam("idcuest") int idcuestionario) {
+
+        Usuario usuarioAdministrador = (Usuario) session.getAttribute("usuario");
+        Usuario usuario = usuarioRepository.buscarPorId(usuarioAdministrador.getIdusuario());
+        model.addAttribute("administrador",usuario);
+        Cita cita = citaRepository.buscarCitaPorId(idCita);
+        model.addAttribute("cita", cita);
+        model.addAttribute("listapreguntascuestionario",modeloJsonRepository.listarPreguntasxPlantilla(idcuestionario));
+        model.addAttribute("idcuestionario",idcuestionario);
+        model.addAttribute("idcita",idCita);
+        List<Integer> CuestionariosEnviados = modeloJsonRepository.listaIDCuestionariosEnviados(cita.getPaciente().getUsuario().getIdusuario(),cita.getIdcita());
+        model.addAttribute(modeloJsonRepository);
+        model.addAttribute(datosJsonRepository);
+        model.addAttribute("cuestionarios", CuestionariosEnviados);
+        Integer idDatosJsonCuestionario = datosJsonRepository.idDatosJson(idcuestionario,idCita);
+        if(idDatosJsonCuestionario != null){
+            model.addAttribute("iddatosjson",idDatosJsonCuestionario);
+            model.addAttribute("cuestionariolleno",datosJsonRepository.modeloJsonLlenado(idDatosJsonCuestionario));
+        }
+
+        return "administrador/vistadecuestionario";
     }
 }

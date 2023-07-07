@@ -73,10 +73,8 @@
                             </tr>
                             <tr th:each="lista, info: ${listaparapaciente}" th:id="'fila-' + ${lista.id}">
                                 <td th:text="${lista.nombre_plantilla}" id="nombre_plantilla"></td>
-                                <td th:text="${lista.datosLlenos}" id="datos_llenos"></td>
                                 <td>
-                                    <a type="button" style="color: #0a53be" th:data-id="${lista.id}"
-                                       onclick="mostrarModal(this)"><i class="bi bi-eye-fill"></i></a>
+                                    <a th:href="@{'/administrador/vercuestionarios'}"><i class="bi bi-eye-fill"></i></a>
                                 </td>
                                 <td th:text="${lista.id}" id="id_modelo" hidden></td>
                             </tr>

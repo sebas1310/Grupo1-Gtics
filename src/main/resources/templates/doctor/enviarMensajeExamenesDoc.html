@@ -70,6 +70,8 @@
 
               <input type="hidden" th:value="${session.usuario.idusuario}" name="idusuarioorigen" class="form-control" >
 
+              <input type="hidden" th:value="${session.usuario.getEspecialidad().getIdespecialidad()}" name="idespecialidaddoc" class="form-control" >
+
               <div class="col-md-6">
                 <label for="especialidad" class="form-label">Especialidad para Exámenes Requeridos</label>
                 <select class="form-select" id="especialidad" name="idespecialidad" required>

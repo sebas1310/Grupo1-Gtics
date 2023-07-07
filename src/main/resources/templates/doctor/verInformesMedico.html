@@ -27,8 +27,9 @@ nombre = |${doctor.usuario.nombres} ${doctor.usuario.apellidos} (${doctor.usuari
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a th:href="@{'/doctor/pacientesatendidos'+ '?id=' + ${doctor.iddoctor}}">Pacientes Atendidos</a></li>
                 <li class="breadcrumb-item"><a th:href="@{'/doctor/pacientesatendidos/verhistorial'+ '?id=' + ${cita.getPaciente().getIdpaciente()}}">Historial Clínico</a></li>
+                <li class="breadcrumb-item"><a th:href="@{'/doctor/pacientesatendidos/verhistorial/vercita'+ '?id=' + ${cita.getIdcita()}}">Cita</a></li>
                 <!-- th:href="@{'/doctor/pacientesatendidos/verhistorial'+ '?id=' + ${cita.idcita}}" -->
-                <li class="breadcrumb-item active">Cita 1</li>
+                <li class="breadcrumb-item active">Informe Medico</li>
             </ol>
         </nav>
     </div>
@@ -80,7 +81,6 @@ nombre = |${doctor.usuario.nombres} ${doctor.usuario.apellidos} (${doctor.usuari
             <a th:href="@{'/doctor/pacientesatendidos/verhistorial/vercita'+ '?id=' + ${cita.getIdcita()}}" class="btn btn-danger">Regresar</a>
         </div>
     </section>
-
     <!-- Modal -->
     <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
