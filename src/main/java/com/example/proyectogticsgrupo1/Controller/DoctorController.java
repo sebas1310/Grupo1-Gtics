@@ -7,29 +7,28 @@ import com.example.proyectogticsgrupo1.Repository.*;
 import com.google.cloud.storage.Bucket;
 import com.google.cloud.storage.Storage;
 import com.google.cloud.storage.StorageOptions;*/
-import jakarta.persistence.criteria.CriteriaBuilder;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
-import jdk.jfr.Event;
-import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.example.proyectogticsgrupo1.Service.EmailService;
 
-import java.io.File;
-import java.io.FileOutputStream;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import okhttp3.*;
+import okhttp3.OkHttpClient;
 
 @Controller
 @RequestMapping(value="/doctor")
@@ -82,11 +81,13 @@ public class DoctorController {
     @Autowired
     DatosJsonRepository datosJsonRepository;
 
+    private final OkHttpClient okHttpClient;
+
     public DoctorController(CitaRepository citaRepository, DoctorRepository doctorRepository, PacienteRepository pacienteRepository,
-                            RecetaMedicaRepository recetaMedicaRepository, ReporteCitaRepository reporteCitaRepository,UsuarioRepository usuarioRepository,
+                            RecetaMedicaRepository recetaMedicaRepository, ReporteCitaRepository reporteCitaRepository, UsuarioRepository usuarioRepository,
                             BitacoraDeDiagnosticoRepository bitacoraDeDiagnosticoRepository,
                             TipohoracalendariodoctorRepository tipohoracalendariodoctorRepository,
-                            EventocalendariodoctorRepository eventocalendariodoctorRepository, CuestionarioRepository cuestionarioRepository, SedeRepository sedeRepository, BoletaDoctorRepository boletaDoctorRepository) {
+                            EventocalendariodoctorRepository eventocalendariodoctorRepository, CuestionarioRepository cuestionarioRepository, SedeRepository sedeRepository, BoletaDoctorRepository boletaDoctorRepository, OkHttpClient okHttpClient) {
 
         this.doctorRepository = doctorRepository;
         this.pacienteRepository = pacienteRepository;
@@ -100,6 +101,7 @@ public class DoctorController {
         this.sedeRepository = sedeRepository;
         this.boletaDoctorRepository = boletaDoctorRepository;
         this.tipohoracalendariodoctorRepository = tipohoracalendariodoctorRepository ;
+        this.okHttpClient = okHttpClient;
     }
 
     @Autowired
@@ -334,6 +336,69 @@ public class DoctorController {
 
     }
 
+
+    /*@RestController
+    public class ZoomController {
+
+
+        public ZoomController(OkHttpClient okHttpClient) {
+            this.okHttpClient = okHttpClient;
+        }*/
+
+
+    @GetMapping("/autenticacionzoom")
+        public String handleZoomCallback(@RequestParam("code") String authorizationCode) {
+            // Maneja el código de autorización devuelto por Zoom
+            // Realiza las operaciones necesarias con el código de autorización
+        System.out.println(authorizationCode);
+
+            return "Autorización exitosa";
+        }
+
+
+    /*@PostMapping("/iniciarcita")
+    public String startMeeting(@RequestBody Map<String, Object> request) throws JsonProcessingException {
+        // Configurar la solicitud HTTP
+        String apiKey = "6NoTcEpyRrGcME7jhL9xYQ";
+        String apiSecret = "g1HPfgazTWi3M6PUYlMABYzuTK2T4Wre";
+        String url = "https://api.zoom.us/v2/users/me/meetings";
+        String accessToken = "TU_ACCESS_TOKEN";
+
+        // Construir el cuerpo de la solicitud
+        Map<String, Object> requestBody = new HashMap<>();
+        requestBody.put("topic", "Mi reunión");
+        requestBody.put("type", 1);
+
+        okhttp3.RequestBody jsonBody = okhttp3.RequestBody.create(
+                MediaType.parse("application/json"),
+                new ObjectMapper().writeValueAsString(requestBody)
+        );
+
+        Request request2 = new Request.Builder()
+                .url(url)
+                .addHeader("Authorization", "Bearer " + accessToken)
+                .addHeader("Content-Type", "application/json")
+                .post(jsonBody)
+                .build();
+
+        // Enviar la solicitud HTTP
+        try (Response response = okHttpClient.newCall(request2).execute()) {
+            if (response.isSuccessful()) {
+                // Procesar la respuesta exitosa
+                String responseBody = response.body().string();
+                // Realizar las operaciones necesarias con los datos de la respuesta
+                return "Meeting started";
+            } else {
+                // Manejar errores de respuesta
+                return "Error starting meeting: " + response.code();
+            }
+        } catch (IOException e) {
+            // Manejar excepciones de solicitud
+            return "Error starting meeting: " + e.getMessage();
+        }
+    }*/
+
+
     @GetMapping("/dashboard/diario")
     public String inicioDashboardDoctor2(Model model){
 
@@ -457,17 +522,24 @@ public class DoctorController {
 
         citaRepository.actualizarEstadoCita(idestadocita,idCita);
         int idpaciente= pacienteRepository.buscarIDPacientePorCita(idCita);
+        Cita cita1= citaRepository.buscarCitaPorId(idCita);
+        Doctor doctor1 = doctorRepository.buscarDoctorPorId(cita1.getDoctor().getIddoctor());
+        Paciente paciente1 = pacienteRepository.buscarPacientePorID(idpaciente);
         if(idestadocita==3){
             redirectAttributes.addFlashAttribute("msg7","Cita en Espera");
             redirectAttributes.addAttribute("idC",idCita);
             redirectAttributes.addAttribute("idP",idpaciente);
             return "redirect:/doctor/dashboard/info";
         }else if(idestadocita== 4){
+            notificacionesRepository.notificarCreacion(paciente1.getUsuario().getIdusuario(),"Su cita con el Dr(a): "+doctor1.getUsuario().getNombres()+" "+doctor1.getUsuario().getApellidos()+
+                    " "+"programado el dia: "+cita1.getFecha()+" de: "+cita1.getHorainicio()+" a "+cita1.getHorafinal()+" A Iniciado","Cita Iniciada");
             redirectAttributes.addFlashAttribute("msg7","Cita Iniciada");
             redirectAttributes.addAttribute("idC",idCita);
             redirectAttributes.addAttribute("idP",idpaciente);
             return "redirect:/doctor/dashboard/info";
         }else if(idestadocita== 6){
+            notificacionesRepository.notificarCreacion(paciente1.getUsuario().getIdusuario(),"Su cita con el Dr(a): "+doctor1.getUsuario().getNombres()+" "+doctor1.getUsuario().getApellidos()+
+                    " "+"programado el dia: "+cita1.getFecha()+" de: "+cita1.getHorainicio()+" a "+cita1.getHorafinal()+" A Finalizado","Cita Finalizada");
             redirectAttributes.addFlashAttribute("msg7","Cita Finalizada");
             redirectAttributes.addAttribute("id",idCita);
         }
@@ -1188,10 +1260,13 @@ public class DoctorController {
                                     @RequestParam("id_usuario_paciente") int id_paciente, @RequestParam("mostrarautomatico") int mostrarautomatico) {
 
         System.out.println("llega al repo de envio");
+        Cita cita1 = citaRepository.buscarCitaPorId(id_cita);
         modeloJsonRepository.agregarCuestionarioAPaciente(id_modelo,id_paciente,id_cita,mostrarautomatico);
         Paciente paciente1 = pacienteRepository.buscarPacientePorIdUsuario(id_paciente);
-        notificacionesRepository.notificarCreacion(paciente1.getUsuario().getIdusuario(),"Estimado Paciente, recuerde llenar el cuestionario enviado por el doctor","Cuestionario Pendiente");
-        emailService.sendEmail(paciente1.getUsuario().getCorreo(),"Cuestionario Pendiente","Estimado Paciente, recuerde llenar el cuestionario enviado por el doctor antes de su cita");
+        notificacionesRepository.notificarCreacion(paciente1.getUsuario().getIdusuario(),"Estimado Paciente: "+paciente1.getUsuario().getNombres()+" "+paciente1.getUsuario().getApellidos()+" " +
+                        ", recuerde llenar el cuestionario enviado por el doctor antes de su cita del dia: "+cita1.getFecha()+" a las: "+cita1.getHorafinal(),"Cuestionario Pendiente para su Cita - Dia: "+cita1.getFecha());
+        emailService.sendEmail(paciente1.getUsuario().getCorreo(),"Cuestionario Pendiente para su Cita - Dia: "+cita1.getFecha(),"Estimado Paciente: "+paciente1.getUsuario().getNombres()+" "+paciente1.getUsuario().getApellidos()+" " +
+                ", recuerde llenar el cuestionario enviado por el doctor antes de su cita del dia: "+cita1.getFecha()+" a las: "+cita1.getHorafinal());
 
         redirectAttributes.addAttribute("idC",id_cita);
         redirectAttributes.addAttribute("idP",paciente1.getIdpaciente());

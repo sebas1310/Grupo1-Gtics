@@ -639,14 +639,16 @@ public class AdministradorController {
     }
 
     @PostMapping(value = "/enviarmensaje")
+    @Transactional
     public String enviarMensaje(@RequestParam("correo") String correo,
                                 @RequestParam("asunto") String asunto,
                                 @RequestParam("descripcion") String descripcion,
                                 RedirectAttributes redirectAttributes) {
         // Verificar si el correo existe en la base de datos
-        Usuario usuario = usuarioRepository.findByCorreo(correo);
+        Optional<Usuario> optUsuario = Optional.ofNullable(usuarioRepository.usuarioDestino(correo));
 
-        if (usuario != null) {
+        if (optUsuario.isPresent()) {
+            Usuario usuario = optUsuario.get();
             // Crear un nuevo mensaje y asignar los valores
             MailCorreo mensaje = new MailCorreo();
             mensaje.setAsunto(asunto);
@@ -659,7 +661,7 @@ public class AdministradorController {
             Usuario usuariod = new Usuario();
             usuariod.setIdusuario(usuario.getIdusuario());
             mensaje.setUsuarioDestino(usuariod);
-            // Establecer la fecha y hora actual
+            // Establecer la fecha y hora actual en peru xd
             mensaje.setFecha(LocalDate.now());
             mensaje.setHora(LocalTime.now());
             mensaje.setPassword("1234");
@@ -669,6 +671,10 @@ public class AdministradorController {
 
             // Lógica para enviar el correo electrónico
             String mensajeCorreo = "Asunto: " + asunto + "\nDescripción: " + descripcion;
+
+            //Notificar el mensaje a Usuario Destino (raramente no funciona)
+            //notificacionesRepository.notificarCreacion(usuario.getIdusuario(),descripcion,"Recibió un mensaje de la Administradora");
+
             emailService.sendEmail(correo, "Mensaje de Contacto", mensajeCorreo);
 
             redirectAttributes.addFlashAttribute("mp1", "El correo ha sido enviado exitosamente");

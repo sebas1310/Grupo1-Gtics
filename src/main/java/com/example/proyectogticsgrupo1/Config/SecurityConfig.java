@@ -58,6 +58,7 @@ public class SecurityConfig {
         http.csrf().ignoringRequestMatchers("/doctor/dashboard/info/llenarinforme/guardar");
         http.csrf().ignoringRequestMatchers("/doctor/pacientesatendidos/verhistorial/vercita");
         http.csrf().ignoringRequestMatchers("/doctor/cuestionario/enviarcuestionario");
+        http.csrf().ignoringRequestMatchers("/doctor/autenticacionzoom");
 
         http.csrf().ignoringRequestMatchers("/administrativo/consultaReniec");
 
@@ -142,6 +143,7 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.POST,"/doctor/dashboard/info/llenarinforme/guardar").permitAll()
 
                 .requestMatchers(HttpMethod.GET,"/doctor/pacientesatendidos/verhistorial/vercita").permitAll()
+                .requestMatchers(HttpMethod.GET,"/doctor/autenticacionzoom").permitAll()
                 .requestMatchers(HttpMethod.POST, "/doctor/cuestionario/enviarcuestionario").permitAll()
                 .requestMatchers(HttpMethod.GET,"/doctor/pacientesatendidos").permitAll()
 

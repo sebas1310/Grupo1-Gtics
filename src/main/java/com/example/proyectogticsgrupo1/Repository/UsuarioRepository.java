@@ -102,6 +102,11 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
     @Query(value=" select * from usuario where idtipodeusuario = 3 and sede_idsede= ?1 and especialidad_idespecialidad = ?2 ",nativeQuery = true)
     List<Usuario> listaAdministrativos (Integer idsede, Integer idespecialidad);
 
+    @Query(value=" select * from usuario where correo = ?1 ",nativeQuery = true)
+    Usuario usuarioDestino (String correo);
+
+
+
 
 }
 
