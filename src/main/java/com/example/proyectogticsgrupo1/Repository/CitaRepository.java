@@ -13,13 +13,13 @@ import java.time.LocalTime;
 import java.util.List;
 
 public interface CitaRepository extends JpaRepository<Cita, Integer> {
-    @Query(nativeQuery = true, value = "SELECT * FROM cita WHERE paciente_idpaciente = ?1 AND fecha < CURRENT_DATE() ORDER BY fecha ASC ;\n")
+    @Query(nativeQuery = true, value = "SELECT * FROM cita WHERE paciente_idpaciente = ?1 AND idestadocita = 6 ORDER BY fecha desc\n")
     List<Cita> citaPorPaciente(Integer id);
 
     @Query(nativeQuery = true, value = "SELECT * FROM cita WHERE paciente_idpaciente = ?1 AND fecha=?2")
     List<Cita> citasRepetidasValidacion(Integer id, LocalDate fecha);
 
-    @Query(nativeQuery = true, value = "SELECT * FROM cita WHERE fecha= CURRENT_DATE and paciente_idpaciente=?1 ORDER BY fecha ASC")
+    @Query(nativeQuery = true, value = "SELECT * FROM cita WHERE fecha= DATE_SUB(NOW(), INTERVAL 5 HOUR) and paciente_idpaciente=?1 ORDER BY fecha ASC")
     List<Cita> citasHoy(Integer id);
 
     @Query(nativeQuery = true, value = "SELECT * FROM cita WHERE WEEKDAY(fecha) = 3 AND YEARWEEK(fecha, 1) = YEARWEEK(CURDATE(), 1)")
@@ -28,7 +28,7 @@ public interface CitaRepository extends JpaRepository<Cita, Integer> {
     @Query(nativeQuery = true, value = "SELECT * FROM cita where fecha>=current_date() and paciente_idpaciente=?1 and idtipocita=2")
     List<Cita> citasPorPagar(Integer id);
 
-    @Query(nativeQuery = true, value = "SELECT * FROM cita where fecha>=current_date() and  paciente_idpaciente=?1  and idcita NOT IN (?2) and idtipocita=2")
+    @Query(nativeQuery = true, value = "SELECT * FROM cita where fecha>=DATE_SUB(NOW(), INTERVAL 5 HOUR) and  paciente_idpaciente=?1  and idcita NOT IN (?2) and idtipocita=2")
     List<Cita> porpagar(Integer id,List<Integer> ids);
 
     @Modifying
@@ -53,7 +53,7 @@ public interface CitaRepository extends JpaRepository<Cita, Integer> {
             "            FROM cita c\n" +
             "            INNER JOIN paciente p ON c.paciente_idpaciente = p.idpaciente\n" +
             "            INNER JOIN usuario u ON p.idusuario = u.idusuario\n" +
-            "            WHERE c.doctor_iddoctor = ?1 AND fecha <= CURRENT_TIME() AND idestadocita =6\n" +
+            "            WHERE c.doctor_iddoctor = ?1 AND fecha <= DATE_SUB(NOW(), INTERVAL 5 HOUR) AND idestadocita =6\n" +
             "            GROUP BY idpaciente , CONCAT(u.nombres, ' ', u.apellidos)\n" +
             "            ORDER BY UltimaFecha desc", nativeQuery = true)
     List<PacientesAtendidos> pacientesAtendidosPorDoctor(Integer idDoctor);

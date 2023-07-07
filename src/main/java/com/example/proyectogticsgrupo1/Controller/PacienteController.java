@@ -780,6 +780,7 @@ public class PacienteController {
             if(optional.isPresent()){
                 Cita cita = optional.get();
                 List<RecetaMedica> listarecetaMedica = recetaMedicaRepository.recetaMedicaPorCita(cita.getIdcita());
+                model.addAttribute("cita",cita);
                 model.addAttribute("recetas",listarecetaMedica);
                 model.addAttribute("pacientelog",paciente);
 
