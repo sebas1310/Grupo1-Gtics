@@ -66,8 +66,8 @@ public interface CitaRepository extends JpaRepository<Cita, Integer> {
     @Query(value= "select * from cita where idcita = ?1 ",nativeQuery = true)
     Cita buscarCitaPorId (Integer idCita);
 
-    @Query(value= "select * from cita where doctor_iddoctor= ?1 and (concat(fecha, ' ' , horainicio , ' ', horafinal) >=current_timestamp() or idestadocita!=6)  \n" +
-            "order by concat(fecha, ' ' , horainicio )",nativeQuery = true)
+    @Query(value= "select * from cita where doctor_iddoctor= ?1 and idestadocita!=6 and concat (fecha , ' ' , horainicio , ' ', horafinal) >= ( DATE_SUB(NOW(), INTERVAL 5 HOUR))\n" +
+            "            order by concat(fecha, ' ' , horainicio )",nativeQuery = true)
     List<Cita> buscarCitasAgendadasDoctor (Integer idDoctor);
 
     @Query(value= "select * from cita where fecha= ?1 and horainicio = ?2 and doctor_iddoctor = ?3 ",nativeQuery = true)
