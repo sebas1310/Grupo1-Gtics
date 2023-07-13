@@ -50,6 +50,7 @@ public class SecurityConfig {
 
         http.csrf().ignoringRequestMatchers("/superadmin/crearPlantillaInforme");
         http.csrf().ignoringRequestMatchers("/superadmin/listarTitulos");
+        http.csrf().ignoringRequestMatchers("/doctor/listarTitulosInforme");
         http.csrf().ignoringRequestMatchers("/superadmin/BorrarPlantilla");
 
         http.csrf().ignoringRequestMatchers("/superadmin/modificarPlantilla");
@@ -134,6 +135,8 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.POST, "/superadmin/crearPlantillaInforme").permitAll()
 
                 .requestMatchers(HttpMethod.GET, "/superadmin/listarTitulos").permitAll()
+
+                .requestMatchers(HttpMethod.GET, "/doctor/listarTitulosInforme").permitAll()
 
                 .requestMatchers(HttpMethod.GET, "/superadmin/BorrarPlantilla").permitAll()
 
