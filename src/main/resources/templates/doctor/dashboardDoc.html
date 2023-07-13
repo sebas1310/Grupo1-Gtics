@@ -75,7 +75,7 @@
                   <td style="text-align: center" th:text="${citaagendada.getTipoCita().getNombre()}"></td>
                     <div>
                   <td style="text-align: center" th:if="${citaagendada.getTipoCita().getNombre() eq 'Presencial'}" th:text="${citaagendada.getEstadoCita().getNombre()}"></td>
-                    <td style="text-align: center"th:unless="${citaagendada.getTipoCita().getNombre() eq 'Presencial'}" > <a type="button" class="bi bi-camera-video"  th:href="${citaagendada.getDoctor().getZoom()}" ></a> Iniciar </td>
+                    <td style="text-align: center"th:unless="${citaagendada.getTipoCita().getNombre() eq 'Presencial'}" > <a type="button" class="bi bi-camera-video"  th:href="@{'/doctor/autenticacionzoom'}" ></a> Iniciar </td>
                 </div>
                     <!--td style="text-align: center"> <a type="button" class="bi bi-journal-text"  th:href="@{'/doctor/cuestionario' + '?id=' + ${citaagendada.getPaciente().getIdpaciente()}+'&idcita=' + ${citaagendada.getIdcita()}}"></a></td -->
                     <td style="text-align: center" > <a class="bi bi-eye-fill" th:href="@{'/doctor/dashboard/info' + '?idP=' + ${citaagendada.getPaciente().getIdpaciente()} + '&idC=' + ${citaagendada.getIdcita()}} "></a></td>
@@ -186,7 +186,7 @@
                                       <td style="text-align: center">xxxxxxxxxxx</td>
                                     </tr>
                                     <tr>
-                                      <td style="text-align: center" scope="row">xxxxxxxxx</th>
+                                      <td style="text-align: center" scope="row">xxxxxxxxx</td>
                                       <td style="text-align: center">xxxxxxxxxxx</td>
                                       <td style="text-align: center">xxxxxxxxxx</td>
                                     </tr>

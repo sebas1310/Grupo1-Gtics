@@ -29,5 +29,9 @@ public interface BoletaDoctorRepository extends JpaRepository<BoletaDoctor,Integ
             "            GROUP BY DATE_FORMAT(cita.fecha, '%Y-%m'),2", nativeQuery = true)
     List<IngresosEgresos> IngresosEgresosDTO();
 
+    @Modifying
+    @Query(value= "delete from boletadoctor where idcita = ?1 ",nativeQuery = true)
+    void delBoletaDoctor(Integer idcita);
+
 
 }

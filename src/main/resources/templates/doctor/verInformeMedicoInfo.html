@@ -41,25 +41,51 @@ num_men = '2', id=${session.usuario.idusuario})">
               <div th:if="${idatosjson==null}">
                 <div th:id="idinformelleno">
                   <input th:id="idinformemodelo" th:value="${idinforme}" class="form-control" type="hidden">
-                  <div class="row mb-3" th:each="pregunta:${listapreguntasinforme}">
+                  <div class="row mb-3" th:each="pregunta,indice:${listapreguntasinforme}">
                     <label for="nombre" class="col-md-12 col-form-label" th:text="${pregunta}"></label>
-                    <input name="nombre" type="text" class="form-control" id="nombre" th:value >
+                    <input name="nombre" type="text" class="form-control" id="nombre">
+                      <div id="error-message2" class="alert alert-danger mt-3" style="display: none;"></div>
                   </div>
                   <input th:value="${doctor.usuario.getIdusuario()}" class="form-control" type="hidden">
                   <input th:value="${cita.getIdcita()}" class="form-control" type="hidden">
+                    <div class="text-center">
+                        <a th:href="@{'/doctor/dashboard/info'+ '?idP=' + ${cita.getPaciente().getIdpaciente()}+'&idC=' + ${cita.getIdcita()}+'&msg6=Informe_Llenado'}" type="submit" class="btn btn-primary" onclick="ModificarForm()">Guardar</a>
+                        <a th:href="@{'/doctor/dashboard/info'+ '?idP=' + ${cita.getPaciente().getIdpaciente()}+'&idC=' + ${cita.getIdcita()}}" class="btn btn-danger">Regresar</a>
+                    </div>
                 </div>
 
-                <!--<div th:if="${informelleno}">
-                    <div class="row mb-3" th:each="inciso:${informelleno}">
-                        <label for="nombre2" class="col-md-12 col-form-label" th:text="${inciso.getCampo()}"></label>
-                        <input name="nombre" type="text" class="form-control" id="nombre2" th:value="${inciso.getRespuesta()}" disabled>
-                    </div>
-                </div> -->
 
-                <div class="text-center">
+                <!--<div class="text-center">
                   <a th:href="@{'/doctor/dashboard/info'+ '?idP=' + ${cita.getPaciente().getIdpaciente()}+'&idC=' + ${cita.getIdcita()}+'&msg6=Informe_Llenado'}" type="submit" class="btn btn-primary" onclick="ModificarForm()">Guardar</a>
                   <a th:href="@{'/doctor/dashboard/info'+ '?idP=' + ${cita.getPaciente().getIdpaciente()}+'&idC=' + ${cita.getIdcita()}}" class="btn btn-danger">Regresar</a>
-                </div>
+                </div>-->
+                  <script>
+                      function validateForm() {
+                          var rpta = document.getElementById("respuesta").value.trim();
+                          if (rpta === "") {
+                              var errorMessage = document.getElementById("error-message2");
+                              errorMessage.style.display = "block";
+                              errorMessage.innerHTML = "Complete el campo requerido";
+                              return false;
+                          }
+                          if (rpta.length >= 300 || /^\s+$/.test(rpta) )
+                          {
+                              var errorMessage = document.getElementById("error-message2");
+                              errorMessage.style.display = "block";
+                              errorMessage.innerHTML = "El campo excede el número de carasteres permitidos";
+                              return false;
+                          }
+
+                          else if (rpta.length <= 15 || /^\s+$/.test(rpta) )
+                          {
+                              var errorMessage = document.getElementById("error-message2");
+                              errorMessage.style.display = "block";
+                              errorMessage.innerHTML = "El campo requiere mayor cantidad de caracteres";
+                              return false;
+                          }
+                          return true;
+                      }
+                  </script>
               </div>
 
               <div th:if="${informelleno}">
@@ -111,59 +137,83 @@ num_men = '2', id=${session.usuario.idusuario})">
   function ModificarForm() {
 
 //id modelo
-    const id_de_modelo_plantilla_2 = document.getElementById("idinformemodelo").value
+      const id_de_modelo_plantilla_2 = document.getElementById("idinformemodelo").value
 
-    console.log(id_de_modelo_plantilla_2);
+      console.log(id_de_modelo_plantilla_2);
 
 
 //id div - contenedor
-    var inputs = document.getElementById("idinformelleno").querySelectorAll("input.form-control");
-    var valores = [];
+      var inputs = document.getElementById("idinformelleno").querySelectorAll("input.form-control");
+      var valores = [];
 
 //se agrega primero el id del informe
-    valores.push(id_de_modelo_plantilla_2)
+      valores.push(id_de_modelo_plantilla_2)
 
 //y luego la lista de inputs llenos
-    for (var i = 0; i < inputs.length; i++) {
-      var valor = inputs[i].value;
-      valores.push(valor);
-    }
+      for (var i = 0; i < inputs.length; i++) {
+          var valor = inputs[i].value;
+          valores.push(valor);
+      }
 
 
-
-    console.log(valores);
-
+      console.log(valores);
 
 
 // const crearModal = bootstrap.Modal.getOrCreateInstance('#createModal');
 // crearModal.hide();
 
+      //validación de informe
+      //var estado= true;
+      //while(estado) {
+      /*var incorrectos = 0;
+      for (var i = 1; i <= valores.length - 3; i++) {
+          var rpta = valores[i].value;
 
-    var xmlhttp = new XMLHttpRequest();
-    var url = "/doctor/dashboard/info/llenarinforme/guardar?valores=" + encodeURIComponent(valores);
-    xmlhttp.open("POST", url, true);
-    xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-    xmlhttp.onreadystatechange = function () {
-
-      if (xmlhttp.readyState == XMLHttpRequest.DONE) {
-        if (xmlhttp.status == 200) {
-// Mostrar mensaje de éxito
-          alert("Datos Guardados");
-          location.reload();
-
-
-        } else {
-// Mostrar mensaje de error
-          alert("Ha ocurrido un error al llenar el informe");
-        }
+          if (rpta === "") {
+              var errorMessage = document.getElementById("error-message2");
+              errorMessage.style.display = "block";
+              errorMessage.innerHTML = "Complete el campo requerido";
+              incorrectos = incorrectos + 1;
+          } else if (rpta.length >= 300 || /^\s+$/.test(rpta)) {
+              var errorMessage = document.getElementById("error-message2");
+              errorMessage.style.display = "block";
+              errorMessage.innerHTML = "El campo excede el número de carasteres permitidos";
+              incorrectos = incorrectos + 1;
+          } else if (rpta.length <= 15 || /^\s+$/.test(rpta)) {
+              var errorMessage = document.getElementById("error-message2");
+              errorMessage.style.display = "block";
+              errorMessage.innerHTML = "El campo requiere mayor cantidad de caracteres";
+              incorrectos = incorrectos + 1;
+          }
       }
-    };
 
-    xmlhttp.send();
+      if (incorrectos >= 1) {
+          return false;
+      } else {*/
+          var xmlhttp = new XMLHttpRequest();
+          var url = "/doctor/dashboard/info/llenarinforme/guardar?valores=" + encodeURIComponent(valores);
+          xmlhttp.open("POST", url, true);
+          xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+          xmlhttp.onreadystatechange = function () {
+
+              if (xmlhttp.readyState == XMLHttpRequest.DONE) {
+                  if (xmlhttp.status == 200) {
+// Mostrar mensaje de éxito
+                      alert("Datos Guardados");
+                      location.reload();
+
+
+                  } else {
+// Mostrar mensaje de error
+                      alert("Ha ocurrido un error al llenar el informe");
+                  }
+              }
+          };
+
+          xmlhttp.send();
 
 // xmlhttp.send(datos);
-
-  };
+  }
 </script>
 
 </body>

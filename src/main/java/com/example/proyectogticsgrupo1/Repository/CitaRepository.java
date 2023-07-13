@@ -74,9 +74,11 @@ public interface CitaRepository extends JpaRepository<Cita, Integer> {
     Cita citaAgendada (LocalDate fecha, LocalTime horainicio, Integer iddoctor);
 
 
-    @Query(value= "select * from cita where fecha= current_date and idestadocita=1",nativeQuery = true)
-    List<Cita> citasProxToday ();
+    @Query(value= "select * from cita where fecha= current_date and idestadocita=1 and idtipocita=2 ",nativeQuery = true)
+    List<Cita> citasVirtualesToday ();
 
+    @Query(value= "select * from cita where fecha= current_date and idestadocita=1 and idtipocita=1 ",nativeQuery = true)
+    List<Cita> citasPresencialesToday ();
 
 
     @Modifying

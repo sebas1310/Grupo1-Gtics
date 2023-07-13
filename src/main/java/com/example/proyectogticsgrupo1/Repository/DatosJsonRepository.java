@@ -4,6 +4,7 @@ import com.example.proyectogticsgrupo1.DTO.ModeloJsonLlenado;
 import com.example.proyectogticsgrupo1.DTO.ModeloJsonLlenado;
 import com.example.proyectogticsgrupo1.Entity.DatosJsonEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
@@ -44,11 +45,9 @@ public interface DatosJsonRepository extends JpaRepository<DatosJsonEntity,Integ
     @Query(value = "SELECT * from datos_json where modelo_json_id = ?1 and nombre_plantilla like '%cst%' and cita_idcita = ?2", nativeQuery = true)
     DatosJsonEntity listaCuestionariosLLenos(int idmodelo,int idcita);
 
-
-
-
-
-
+    /*@Modifying
+    @Query(value = "UPDATE `bdclinicag1_v2`.`datos_json` SET `datos_llenos` = '{\"Datos del paciente\": \"A1\", \"Motivo de la consulta\": \"A2\", \"Evaluación de los síntomas presentes\": \"A3\", \"Observaciones y notas adicionales del médico\": \"Z2000\"}' WHERE (`id` = ?1 ) ",nativeQuery = true)
+    void ActualizarInformeMedico ( int idDatosJson);*/
 
 
 

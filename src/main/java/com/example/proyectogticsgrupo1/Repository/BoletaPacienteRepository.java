@@ -18,4 +18,8 @@ public interface BoletaPacienteRepository extends JpaRepository<BoletaPaciente,I
 
     @Query(value = "SELECT * FROM boletapaciente where idpaciente=?1", nativeQuery = true)
     List<BoletaPaciente> boletaspagadas(Integer id);
+
+    @Modifying
+    @Query(value= "delete from boletapaciente where idcita = ?1 ",nativeQuery = true)
+    void delBoletaPaciente(Integer idcita);
 }

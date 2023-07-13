@@ -1,6 +1,13 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:insert="fragments/doctor/librerias.html :: cabecera (titulo = ' Cuestionario')">
+    <style>
+        .invalid-feedback {
+            color: red;
+        }
+    </style>
+
+
 </head>
 <body>
 <!-- ======= Header ======= -->
@@ -55,7 +62,7 @@
                      type="hidden">-->
               <br>
 
-              <form method="post" th:action="@{'/doctor/cuestionario_envio'}" class="row g-3">
+              <form method="post" th:action="@{'/doctor/cuestionario_envio'}" class="row g-3" onsubmit="return validateForm()">
 
                 <input th:value="${idcita}" name="id_cita" class="form-control" type="hidden">
                 <input th:value="${idcuestionario}" name="id_modelo" class="form-control" type="hidden">
@@ -63,12 +70,13 @@
                        type="hidden">
 
                 <div class="col-md-6">
-                  <label for="especialidad" class="form-label">Mostrar Apenas el Paciente Inicie Sesión</label>
-                  <select class="form-select" id="especialidad" name="mostrarautomatico" required>
-                    <option value="vacio" selected disabled>Seleccione</option>
+                  <label for="opcionmostrar" class="form-label">Mostrar Apenas el Paciente Inicie Sesión</label>
+                  <select class="form-select" id="opcionmostrar" name="mostrarautomatico" required>
+                    <option value="">Seleccione</option>
                     <option th:text="Sí" th:value="1"></option>
                     <option th:text="No" th:value="0"></option>
                   </select>
+                    <div id="errorSelect" class="invalid-feedback"></div><br><br>
                 </div>
 
                 <div class="text-center">
@@ -78,6 +86,22 @@
 
 
               </form>
+                <script>
+                    function validateForm() {
+                        var mostrar = document.getElementById("opcionmostrar").value;
+                        var errorElement = document.getElementById('errorSelect');
+                        if (mostrar === '') {
+                            errorElement.textContent = 'Por favor, seleccione una opción del campo select.';
+                            return false;
+                        }
+                        /*if (mostrar === '') {
+                            //var errorMessage = document.getElementById("error-message2");
+                            alert('Debe seleccioar una opcion');
+                            return false;
+                        }*/
+                        return true;
+                    }
+                </script>
             </div>
 
             <!--<div th:unless="${cuestionarios.isEmpty() and iddatosjson!=null}" th:id="contenedorcuestionario">

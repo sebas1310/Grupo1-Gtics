@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:insert="fragments/doctor/librerias.html :: cabecera (titulo = 'Historial Clinico')">
+    <style>
+    .scrollable-div {
+    max-height: 200px; /* Establece la altura máxima del div */
+    overflow: auto; /* Habilita el desbordamiento y muestra el scroll cuando sea necesario */
+    }
+    </style>
 </head>
 <body>
 <!-- ======= Header ======= -->
@@ -109,11 +115,13 @@ num_men = '2', id=${session.usuario.idusuario})">
                                         </div>
                                         <div class="card-header" th:if="${doctorRepository.buscarDoctorPorId(bitacora.getIddoctor()).getUsuario().getGenero().equals('Femenino')}" th:text="|Dr(a) ${doctorRepository.buscarDoctorPorId(bitacora.getIddoctor()).getUsuario().getNombres()} ${doctorRepository.buscarDoctorPorId(bitacora.getIddoctor()).getUsuario().getApellidos()}|">
                                         </div>
+
                                         <div class="card-body">
                                             <p class="card-text"><span th:text="${bitacora.getDescripcion()}"></span></p>
                                             <p class="card-text"><span th:text="${bitacora.getFechayhora()}"></span></p>
                                             <a class="bi bi-trash" style="text-align:right" th:if="${bitacora.getIddoctor()==doctor.getIddoctor()}" th:href="@{'/doctor/pacientesatendidos/verhistorial/borrarbitacora?idB='+${bitacora.getIdbitacoradediagnostico()}}">Borrar</a>
                                         </div>
+                                    </div>
                                     </div>
                                     <!--<div class="card">
                                         <div class="card-header">
