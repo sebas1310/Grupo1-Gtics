@@ -73,9 +73,6 @@
                             </tr>
                             <tr th:each="lista, info: ${listaparapaciente}" th:id="'fila-' + ${lista.id}">
                                 <td th:text="${lista.nombre_plantilla}" id="nombre_plantilla"></td>
-                                <td>
-                                    <a th:href="@{'/administrador/vercuestionarios'}"><i class="bi bi-eye-fill"></i></a>
-                                </td>
                                 <td th:text="${lista.id}" id="id_modelo" hidden></td>
                             </tr>
                             <tr>
@@ -97,10 +94,6 @@
                             <tr>
                                 <td style="text-decoration: underline; cursor: pointer;" id="historial-clinico-pdf"><i class="bi bi-filetype-pdf"></i> PDF Historial Clínico</td>
                             </tr>
-                            <tr>
-                                <td><i class="bi bi-calendar-week" href="#"></i> Calendario de próximas citas</td>
-                            </tr>
-
                             <script>
 
                                 const generarPdf = () => {

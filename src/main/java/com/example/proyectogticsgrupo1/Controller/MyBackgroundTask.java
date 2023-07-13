@@ -83,6 +83,7 @@ public class MyBackgroundTask {
                                 c.getSede().getNombre() + " con el doctor " + c.getDoctor().getUsuario().getNombres() + " " + c.getDoctor().getUsuario().getNombres() +
                                 "\nRecuerde llegar temprano");
             }
+
         }
 
         for (Cita c : citaRepository.citasPresencialesToday()) {
@@ -92,6 +93,16 @@ public class MyBackgroundTask {
                         "Estimado paciente: " + c.getPaciente().getUsuario().getNombres() + " " + c.getPaciente().getUsuario().getApellidos() + ", le hacemos recordar que tiene una cita hoy en la sede: " +
                                 c.getSede().getNombre() + " con el doctor " + c.getDoctor().getUsuario().getNombres() + " " + c.getDoctor().getUsuario().getNombres() +
                                 "\nRecuerde llegar temprano y cancelar en caja");
+            }
+
+        }
+
+
+        //Actualizar en espera ,las citas pagaddas.
+        for (Cita c : citaRepository.citasPagadasToday()) {
+            if (LocalTime.now().isAfter(c.getHorainicio())) {
+                citaRepository.actualizarEstadoCita(3,c.getIdcita());
+
             }
         }
     }

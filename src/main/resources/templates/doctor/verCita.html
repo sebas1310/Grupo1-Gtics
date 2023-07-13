@@ -41,6 +41,8 @@ num_men = '2', id=${session.usuario.idusuario})">
 
     <div th:if="${msg7!=null}" th:text="${msg7}" class="alert alert-success" role="alert"></div>
 
+    <div th:if="${msg8!=null}" th:text="${msg8}" class="alert alert-success" role="alert"></div>
+
     <br>
     <section class="section ">
         <div class="col-lg">
@@ -111,6 +113,14 @@ num_men = '2', id=${session.usuario.idusuario})">
                                    <a th:unless="${cita.getTipoCita().getIdtipocita() eq 1}" type="button" th:href="@{'/doctor/pacientesatendidos/verhistorial/vercita/boletaMedicamentoDelivery?idCita=' + ${cita.getIdcita()} + '&idPaciente=' + ${cita.getPaciente().getIdpaciente()}}" class="btn btn-outline-primary" >
                                        Enviar Por Delivery
                                    </a>
+                                   <div th:if="${recetaMedicaRepository.numRecetas(cita.getIdcita())>=1}">
+                                   <form method="post" th:action="@{'/doctor/pacientesatendidos/verhistorial/vercita/confirmareceta'}">
+                                       <input th:value="${cita.getIdcita()}" name="idCita" class="form-control" type="hidden">
+                                       <input th:value="${cita.getPaciente().getIdpaciente()}" name="idPaciente" class="form-control" type="hidden">
+                                   <button type="submit" class="btn btn-outline-primary" >
+                                       Confirmar Receta</button>
+                                   </form>
+                                       <div>
                                </div>
                            </div>
                        </div>

@@ -43,7 +43,8 @@ nombre = |${doctor.usuario.nombres} ${doctor.usuario.apellidos} (${doctor.usuari
                             <h5 class="card-title">Informes Médico</h5>
                             <div>
                             <div>
-                                <div  th:each="informe:${informesmedicos}" th:id="'fila-' + ${informe.getID()}">
+                                <tbody>
+                                <tr  th:each="informe:${informesmedicos}" th:id="'fila-' + ${informe.getID()}">
                                     <label class="card-title" th:text="${informe.getNombreInforme()}"></label>
                                     <td th:if="${datosJsonRepository.idDatosJson(informe.getID(),cita.getIdcita())==null}">
                                         <a class="btn btn-primary" th:href="@{'/doctor/pacientesatendidos/verhistorial/vercita/verinformesmedico/llenarinforme'+ '?idinforme=' + ${informe.getID()}+'&id=' + ${cita.getIdcita()}}"
@@ -60,7 +61,8 @@ nombre = |${doctor.usuario.nombres} ${doctor.usuario.apellidos} (${doctor.usuari
                                                 onclick="mostrarModal(this)"><i
                                                 class="bi bi-pencil-square"></i> Editar </button>
                                     </td>
-                                </div>
+                                </tr>
+                                </tbody>
                             </div>
                             <!--<button type="submit" class="btn btn-primary" onclick="ModificarForm()">Guardar</button> -->
                             <!--<button class="btn btn-primary" type="submit">Guardar</button> -->
@@ -136,7 +138,7 @@ nombre = |${doctor.usuario.nombres} ${doctor.usuario.apellidos} (${doctor.usuari
 <!-- Template Main JS File -->
 <script th:src="@{'/assets/js/main.js'}"></script>
 
-    <script>
+<script>
     function mostrarModal(button) {
 
     const id = button.dataset.id;
@@ -212,7 +214,7 @@ nombre = |${doctor.usuario.nombres} ${doctor.usuario.apellidos} (${doctor.usuari
     //hacer metodo get para traer los titulos del datos json
     //agregar en security config la ruta
     //y crear DTO
-    var url = "/superadmin/listarTitulos?id_de_modelo_plantilla=" + encodeURIComponent(id_de_modelo_plantilla);
+    var url = "/doctor/listarTitulosInforme?id_de_modelo_plantilla=" + encodeURIComponent(id_de_modelo_plantilla);
     xmlhttp.open("GET", url, true);
     xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     xmlhttp.onreadystatechange = function () {
@@ -337,7 +339,7 @@ nombre = |${doctor.usuario.nombres} ${doctor.usuario.apellidos} (${doctor.usuari
         // xmlhttp.send(datos);
 
     };
-    </script>
+</script>
 </body>
 
 </html>

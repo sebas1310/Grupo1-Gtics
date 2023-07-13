@@ -69,7 +69,7 @@
                       <input name="id" th:value="${cita.getIdcita()}" class="form-control" type="hidden">
                       <input name="idestadocita" th:value="${estadoscita.get(5).getIdestadocita()}" class="form-control" type="hidden">
                       <button  th:if="${(cita.getEstadoCita().getIdestadocita()==4) and (cita.getEstadoCita().getIdestadocita()!=1 or cita.getEstadoCita().getIdestadocita()!=2)}" type="submit" class="btn btn-outline-danger"><i class="bi bi-pause-circle me-1"></i> Finalizar</button>
-                      <button  th:if="${(cita.getEstadoCita().getIdestadocita()==3) and (cita.getEstadoCita().getIdestadocita()!=1 or cita.getEstadoCita().getIdestadocita()!=2)}" type="submit" class="btn btn-outline-danger" disabled><i class="bi bi-pause-circle me-1"></i> Finalizar</button>
+                      <!--<button  th:if="${(cita.getEstadoCita().getIdestadocita()==3) and (cita.getEstadoCita().getIdestadocita()!=1 or cita.getEstadoCita().getIdestadocita()!=2)}" type="submit" class="btn btn-outline-danger" disabled><i class="bi bi-pause-circle me-1"></i> Finalizar</button> -->
                     </form>
                   </div>
 

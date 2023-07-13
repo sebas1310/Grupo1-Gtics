@@ -31,4 +31,7 @@ public interface RecetaMedicaRepository extends JpaRepository<RecetaMedica,Integ
     @Modifying
     @Query(value= "delete from recetamedica where idrecetamedica= ?1 ",nativeQuery = true)
     void borrarReceta (Integer idReceta);
+
+    @Query(value= "select count(*) as 'num_recetas' from recetamedica where idcita= ?1 ",nativeQuery = true)
+    Integer numRecetas (Integer idCita);
 }

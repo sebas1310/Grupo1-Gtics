@@ -27,8 +27,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import okhttp3.*;
-import okhttp3.OkHttpClient;
 
 @Controller
 @RequestMapping(value="/doctor")
@@ -81,13 +79,13 @@ public class DoctorController {
     @Autowired
     DatosJsonRepository datosJsonRepository;
 
-    private final OkHttpClient okHttpClient;
+
 
     public DoctorController(CitaRepository citaRepository, DoctorRepository doctorRepository, PacienteRepository pacienteRepository,
                             RecetaMedicaRepository recetaMedicaRepository, ReporteCitaRepository reporteCitaRepository, UsuarioRepository usuarioRepository,
                             BitacoraDeDiagnosticoRepository bitacoraDeDiagnosticoRepository,
                             TipohoracalendariodoctorRepository tipohoracalendariodoctorRepository,
-                            EventocalendariodoctorRepository eventocalendariodoctorRepository, CuestionarioRepository cuestionarioRepository, SedeRepository sedeRepository, BoletaDoctorRepository boletaDoctorRepository, OkHttpClient okHttpClient) {
+                            EventocalendariodoctorRepository eventocalendariodoctorRepository, CuestionarioRepository cuestionarioRepository, SedeRepository sedeRepository, BoletaDoctorRepository boletaDoctorRepository) {
 
         this.doctorRepository = doctorRepository;
         this.pacienteRepository = pacienteRepository;
@@ -101,7 +99,6 @@ public class DoctorController {
         this.sedeRepository = sedeRepository;
         this.boletaDoctorRepository = boletaDoctorRepository;
         this.tipohoracalendariodoctorRepository = tipohoracalendariodoctorRepository ;
-        this.okHttpClient = okHttpClient;
     }
 
     @Autowired
@@ -336,6 +333,23 @@ public class DoctorController {
 
     }
 
+    @ResponseBody
+    @GetMapping(value = "/listarTitulosInforme")
+    public List<String> listarTitulos(Model model, @RequestParam("id_de_modelo_plantilla") int id_de_modelo_plantilla){
+        Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
+        //Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
+
+        //Usuario superadmin = (Usuario) session.getAttribute("usuario");
+        model.addAttribute("usuarioDoctor", usuarioDoctor);
+
+        System.out.println("llega al repo de listar");
+
+//        int id_model = Integer.parseInt(id_de_modelo_plantilla);
+
+        return modeloJsonRepository.listarPreguntasxPlantilla(id_de_modelo_plantilla);
+
+    }
+
 
     /*@RestController
     public class ZoomController {
@@ -509,6 +523,7 @@ public class DoctorController {
             model.addAttribute("numcita",numcita);
             model.addAttribute("estadoscita",estadoCitaRepository.findAll());
             model.addAttribute("recetamedica", recetaMedicaRepository.buscarRecetaMedicaPorCita(idCita, idReceta));
+            model.addAttribute(recetaMedicaRepository);
             model.addAttribute("msg6",msg);
         return "doctor/verCita";
     }
@@ -615,6 +630,7 @@ public class DoctorController {
 
         //Obtenemos el modelo json (en este caso informe)
         ModeloJsonEntity EncontrarModelo = modeloJsonRepository.buscarModeloEdit(primerValorInt_id);
+
 
         //Luego obtenemos el nombre de plantilla,especialidad,tipo de usuario , etc para
         //llenar en datos_json
@@ -772,6 +788,27 @@ public class DoctorController {
         redirectAttributes.addFlashAttribute("msg","Receta Agregada");
         redirectAttributes.addAttribute("id",idCita);
         //redirectAttributes.addAttribute("idReceta",idReceta);
+        return "redirect:/doctor/pacientesatendidos/verhistorial/vercita";
+
+    }
+
+
+    //opcion alterna - notificar receta al paciente
+    @PostMapping("/pacientesatendidos/verhistorial/vercita/confirmareceta")
+    public String confirmarReceta(RedirectAttributes redirectAttributes,
+                                @RequestParam("idCita") int idCita,
+                                  @RequestParam("idPaciente") int idPaciente ){
+
+
+        //recetaMedicaRepository.agregarReceta(medicamento,dosis,descripcion,idCita);
+        System.out.println("entra al metodo?");
+        Cita cita1 = citaRepository.buscarCitaPorId(idCita);
+        Paciente paciente1 = pacienteRepository.buscarPacientePorID(idPaciente);
+        notificacionesRepository.notificarCreacion(paciente1.getUsuario().getIdusuario(),"Estimado Paciente: " +
+                ""+paciente1.getUsuario().getNombres()+" ya se encuentre disponible su receta medica para su cita del dia "+cita1.getFecha()+
+                " de: "+cita1.getHorainicio()+" a "+cita1.getHorafinal(),"Receta Disponible , Cita:"+cita1.getFecha());
+        redirectAttributes.addFlashAttribute("msg8","Se Notificó la Receta al Paciente");
+        redirectAttributes.addAttribute("id",idCita);
         return "redirect:/doctor/pacientesatendidos/verhistorial/vercita";
 
     }
