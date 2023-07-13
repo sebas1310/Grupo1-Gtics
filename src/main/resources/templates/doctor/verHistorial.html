@@ -98,30 +98,30 @@ num_men = '2', id=${session.usuario.idusuario})">
                         <div class="col-lg-5">
                             <!-- Bitacobra -->
                             <div class="card recent-sales overflow-auto">
-                                <div class="card-body">
+                                <div class="card-body"  >
                                     <h5 class="card-title">Bitacora de Diagnostico</h5>
 
                                     <div th:if="${msg!=null}" th:text="${msg}" class="alert alert-success" role="alert"></div>
 
                                     <div th:if="${msg2!=null}" th:text="${msg2}" class="alert alert-danger" role="alert"></div>
 
-                                    <div class=" col-md-2">
-                                        <ul class="nav nav-pills nav-stacked anyClass">
-
-                                        </ul>
-                                    </div>
-                                    <div class="card" th:each="bitacora:${bitacoradiagnostico}">
-                                        <div class="card-header" th:if="${doctorRepository.buscarDoctorPorId(bitacora.getIddoctor()).getUsuario().getGenero().equals('Masculino')}" th:text="|Dr ${doctorRepository.buscarDoctorPorId(bitacora.getIddoctor()).getUsuario().getNombres()} ${doctorRepository.buscarDoctorPorId(bitacora.getIddoctor()).getUsuario().getApellidos()}|">
+                                    <div  style="height: 400px; overflow: auto;" class="card-body">
+                                    <br>
+                                        <div class="card" th:each="bitacora:${bitacoradiagnostico}">
+                                            <div class="card-header" th:if="${doctorRepository.buscarDoctorPorId(bitacora.getIddoctor()).getUsuario().getGenero().equals('Masculino')}" th:text="|Dr ${doctorRepository.buscarDoctorPorId(bitacora.getIddoctor()).getUsuario().getNombres()} ${doctorRepository.buscarDoctorPorId(bitacora.getIddoctor()).getUsuario().getApellidos()}|">
+                                            </div>
+                                            <div class="card-header" th:if="${doctorRepository.buscarDoctorPorId(bitacora.getIddoctor()).getUsuario().getGenero().equals('Femenino')}" th:text="|Dra ${doctorRepository.buscarDoctorPorId(bitacora.getIddoctor()).getUsuario().getNombres()} ${doctorRepository.buscarDoctorPorId(bitacora.getIddoctor()).getUsuario().getApellidos()}|">
+                                            </div>
+                                            <div class="card-body">
+                                                <div style="display: flex;">
+                                                    <p class="card-text"><span th:text="${bitacora.getDescripcion()}"></span></p>
+                                                </div>
+                                               <div style="display: flex; height: 25px;">
+                                                    <p class="card-text"  style="flex-grow: 1;"><span th:text="${#temporals.format(bitacora.getFechayhora(),'dd-MM-yyyy HH:mm')}"></span></p>
+                                                    <a class="bi bi-trash" style="text-align:right" th:if="${bitacora.getIddoctor()==doctor.getIddoctor()}" th:href="@{'/doctor/pacientesatendidos/verhistorial/borrarbitacora?idB='+${bitacora.getIdbitacoradediagnostico()}}">Borrar</a>
+                                               </div>
+                                            </div>
                                         </div>
-                                        <div class="card-header" th:if="${doctorRepository.buscarDoctorPorId(bitacora.getIddoctor()).getUsuario().getGenero().equals('Femenino')}" th:text="|Dr(a) ${doctorRepository.buscarDoctorPorId(bitacora.getIddoctor()).getUsuario().getNombres()} ${doctorRepository.buscarDoctorPorId(bitacora.getIddoctor()).getUsuario().getApellidos()}|">
-                                        </div>
-
-                                        <div class="card-body">
-                                            <p class="card-text"><span th:text="${bitacora.getDescripcion()}"></span></p>
-                                            <p class="card-text"><span th:text="${bitacora.getFechayhora()}"></span></p>
-                                            <a class="bi bi-trash" style="text-align:right" th:if="${bitacora.getIddoctor()==doctor.getIddoctor()}" th:href="@{'/doctor/pacientesatendidos/verhistorial/borrarbitacora?idB='+${bitacora.getIdbitacoradediagnostico()}}">Borrar</a>
-                                        </div>
-                                    </div>
                                     </div>
                                     <!--<div class="card">
                                         <div class="card-header">
@@ -134,9 +134,9 @@ num_men = '2', id=${session.usuario.idusuario})">
                                     <div class="mb-3">
                                         <h5 class="card-title">Añadir Comentario</h5>
                                         <form method="post" th:action="@{'/doctor/pacientesatendidos/verhistorial/guardarbitacora'}" onsubmit="return validateForm()">
-                                            <div class="form-floating">
+                                            <div class="form">
                                                 <input th:value="${paciente.getIdpaciente()}" name="id" type="hidden">
-                                                <input name="descripcion" type="text" class="form-control" id="descripcion" placeholder="Leave a comment here">
+                                                <input  style="height: 50px;" name="descripcion" type="text" class="form-control" id="descripcion" placeholder="Escriba aqui su comentario">
                                                 <input th:value="${doctor.getIddoctor()}" name="iddoctor" type="hidden">
                                             </div >
                                             <br>
