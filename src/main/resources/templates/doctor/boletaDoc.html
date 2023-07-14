@@ -22,114 +22,148 @@
     <main id="main" class="main">
 
             <div class="pagetitle">
-                <h1>Boleta Doctor</h1>
-                <nav>
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a th:href="@{'/doctor/pacientesatendidos'+ '?id=' + ${doctor.iddoctor}}">Pacientes Atendidos</a></li>
-                        <li class="breadcrumb-item " >Historial Clínico</li>
-                        <li class="breadcrumb-item active">Boleta</li>
-                    </ol>
-                </nav>
+                <div class="row">
+                    <div class="col">
+                        <h1>Boletas Citas</h1>
+                        <nav>
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a th:href="@{'/doctor/pacientesatendidos'+ '?id=' + ${doctor.iddoctor}}">Pacientes Atendidos</a></li>
+                                <li class="breadcrumb-item " >Historial Clínico</li>
+                                <li class="breadcrumb-item active">Boleta</li>
+                            </ol>
+                        </nav>
+                    </div>
+                    <div class="col">
+                        <div style="padding-left:  60%" >
+                            <button  class="btn-primary btn" style="text-decoration: underline; cursor: pointer" id="boletaPdf"><i class="bi bi-printer-fill"></i>Descargar Boleta</button>
+                        </div>
+                    </div>
+                </div>
             </div><!-- End Page Title -->
 
-            <section id="boletaDoctor" class="section">
+            <section class="section" style="padding-left: 2.5%; padding-right: 2.5%">
                 <!-- Left side columns -->
                 <div class="col-lg">
                     <div class="row">
                         <!-- Informacion del Paciente -->
                         <!--  <div class="col-xxl-4 col-xl-16"> -->
                         <div class="col">
-                            <div class="card info-card customers-card">
+                            <div id="boletaDoctor" class="card info-card customers-card">
                                 <div class="card-body">
-                                    <h5 class="card-title">Boleta - Cita</h5>
+                                    <table>
+                                        <thead>
+                                        <tr>
+                                            <th scope="col" class="col-lg-10">
+                                                <h5 class="card-title">Boleta - Doctor</h5>
+                                            </th>
+                                            <th scope="col" class="col-lg-1">
+                                                <a  class="logo d-flex align-items-center"><img th:src="@{/assets/img/logo.png}" alt="" style="width: 15%">
+                                                    <span class="d-none d-lg-block" style="color: black">Clínica LA FE</span>
+                                                </a>
+                                            </th>
+                                        </tr>
+                                        </thead>
+                                    </table>
+                                    <div style=" background-color: #2F68BA" class="text-center" >
+                                        <p  class="text-center " style="font-size: xx-large;  color: white; font-weight: bolder; font-family: Nunito; height: 50px" >Información Cita</p>
+
+                                    </div>
                                         <div class="ps-3">
-                                            <h6 class="card-title">Información Cita</h6>
-                                            <table class="table col-lg-20" >
-                                                <thead>
-                                                <tr>
-                                                    <th scope="row">Doctor:</th>
-                                                </tr>
-                                                <tr>
-                                                    <td> <span th:text="|${boletadoctor.getDoctor().getUsuario().getNombres()} ${boletadoctor.getDoctor().getUsuario().getApellidos()}|"></span> </td>
-                                                </tr>
-                                                </thead>
-                                                <tbody>
-                                                <tr>
-                                                    <th scope="row">Paciente:</th>
-                                                </tr>
-                                                <tr>
-                                                    <td> <span th:text="|${boletadoctor.getPaciente().getUsuario().getNombres()} ${boletadoctor.getPaciente().getUsuario().getApellidos()}|"></span> </td>
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row">Tipo de Cita:</th>
-                                                </tr>
-                                                <tr>
-                                                    <td> <span th:text="${boletadoctor.getCita().getTipoCita().getNombre()}"></span></td>
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row">Fecha:</th>
-                                                </tr>
-                                                <tr>
-                                                    <td> <span th:text="${boletadoctor.getCita().getFecha()}"></span> </td>
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row">Hora:</th>
-                                                </tr>
-                                                <tr>
-                                                    <td> <span th:text="|${boletadoctor.getCita().getHorainicio()} - ${boletadoctor.getCita().getHorafinal()}|"></span> </td>
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row">Motivo:</th>
-                                                </tr>
-                                                <tr>
-                                                    <td> <span th:text="${boletadoctor.getPaciente().getCondicionenfermedad()}"></span></td>
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row">Seguro:</th>
-                                                </tr>
-                                                <tr>
-                                                    <td> <span th:text="${boletadoctor.getPaciente().getSeguro().getNombre()}"></span></td>
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row">Monto Recibido:</th>
-                                                </tr>
-                                                <tr>
-                                                    <td> <span th:text="|S/. ${boletadoctor.getMonto()}|"></span></td>
-                                                </tr>
-                                                </tbody>
-                                            </table>
-                                            <div class="text-center">
-                                                <p  style="text-decoration: underline; cursor: pointer;" id="boletaPdf"><i class="bi bi-printer-fill"></i>Descargar Boleta</p>
+
+                                            <div  class="row">
+                                                <div class="col">
+                                                    <div class="row">
+                                                        <div style="padding-left: 10%" class="col-4">
+                                                            <br>
+                                                            <p style="font-weight: bolder">Paciente:</p>
+                                                            <br>
+                                                            <p style="font-weight: bolder">Seguro:</p>
+                                                            <br>
+                                                            <p style="font-weight: bolder">Fecha:</p>
+                                                            <br>
+                                                            <p style="font-weight: bolder">Hora:</p>
+                                                            <br>
+
+                                                        </div>
+                                                        <div class="col">
+                                                            <br>
+                                                            <p> <span th:text="|${boletadoctor.getPaciente().getUsuario().getNombres()} ${boletadoctor.getPaciente().getUsuario().getApellidos()}|"></span> </p>
+                                                            <br>
+                                                            <p th:text="${boletadoctor.getPaciente().getSeguro().getNombre()}" ></p>
+                                                            <br>
+                                                            <p  th:text="${boletadoctor.getCita().getFecha()}"></p>
+                                                            <br>
+                                                            <p th:text="|${boletadoctor.getCita().getHorainicio()} - ${boletadoctor.getCita().getHorafinal()}|"></p>
+
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="col">
+                                                    <div class="row">
+                                                        <div style="padding-left: 10%" class="col-5">
+                                                            <br>
+                                                            <p style="font-weight: bolder">Médico:</p>
+                                                            <br>
+                                                            <p style="font-weight: bolder">Tipo de Cita:</p>
+                                                            <br>
+                                                            <p style="font-weight: bolder">Sede:</p>
+                                                            <br>
+                                                            <p style="font-weight: bolder">Motivo:</p>
+                                                            <br>
+
+                                                        </div>
+                                                        <div class="col">
+                                                            <br>
+                                                            <p><span th:text="|${boletadoctor.getDoctor().getUsuario().getNombres()} ${boletadoctor.getDoctor().getUsuario().getApellidos()}|"></span></p>
+                                                            <br>
+                                                            <p th:text="${boletadoctor.getCita().getTipoCita().getNombre()}"></p>
+                                                            <br>
+                                                            <p th:text=" ${boletadoctor.getCita().getSede().getNombre()}" ></p>
+                                                            <br>
+                                                            <p th:text="${boletadoctor.getPaciente().getCondicionenfermedad()}"></p>
+
+
+                                                        </div>
+
+                                                    </div>
+                                                </div>
                                             </div>
 
-                                            <script>
-                                                const generarPdf = () => {
-                                                    // Obtener la sección del historial clínico
-                                                    const boletaDoc = document.querySelector('#boletaDoctor');
+                                        </div>
+                                        <div style="background-color: #2F68BA">
+                                            <p style="color: white; padding-left: 65%; font-size: large; font-weight: bolder" th:text="|MONTO RECIBIDO: S/. ${boletadoctor.getMonto()}|"></p>
+                                        </div>
 
-                                                    // Configurar opciones de PDF
-                                                    const pdfOptions = {
-                                                        margin: [0, 0, 0, 0],
-                                                        filename: 'boleta-doctor.pdf',
-                                                        image: { type: 'jpeg', quality: 0.98 },
-                                                        html2canvas: { scale: 2 },
-                                                        jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
-                                                    };
+                                        <script>
+                                            const generarPdf = () => {
+                                                // Obtener la sección del historial clínico
+                                                const boletaDoc = document.querySelector('#boletaDoctor');
 
-                                                    // Crear PDF a partir del contenido de la sección
-                                                    html2pdf().set(pdfOptions).from(boletaDoc).save();
-                                                }
+                                                // Configurar opciones de PDF
+                                                const pdfOptions = {
+                                                    margin: [0, 0, 0, 0],
+                                                    filename: 'boleta-doctor.pdf',
+                                                    image: { type: 'jpeg', quality: 0.98 },
+                                                    html2canvas: { scale: 2 },
+                                                    jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+                                                };
 
-                                                // Agregar controlador de eventos de clic al botón "PDF Historial Clínico"
-                                                const boletaDocPdfBtn = document.querySelector('#boletaPdf');
-                                                boletaDocPdfBtn.addEventListener('click', generarPdf);
-                                            </script>
+                                                // Crear PDF a partir del contenido de la sección
+                                                html2pdf().set(pdfOptions).from(boletaDoc).save();
+                                            }
+
+                                            // Agregar controlador de eventos de clic al botón "PDF Historial Clínico"
+                                            const boletaDocPdfBtn = document.querySelector('#boletaPdf');
+                                            boletaDocPdfBtn.addEventListener('click', generarPdf);
+                                        </script>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div><!-- End Left side columns -->
-                </div>
+                        </div><!-- End Left side columns -->
+                    </div>
                 </div>
             </section>
         </main><!-- End #main -->

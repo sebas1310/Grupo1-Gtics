@@ -65,7 +65,7 @@
                 </thead>
               </table>
               <!--<h5 class="card-title">Boleta - Cita</h5> -->
-              <div style=" background-color: #4254E9" class="text-center" >
+              <div style=" background-color: #2F68BA" class="text-center" >
                 <p  class="text-center " style="font-size: xx-large;  color: white; font-weight: bolder; font-family: Nunito; height: 50px" >Información Cita</p>
 
               </div>
@@ -84,10 +84,6 @@
                         <p style="font-weight: bolder">Fecha:</p>
                         <br>
 
-
-
-
-
                       </div>
                       <div class="col">
                         <br>
@@ -98,10 +94,6 @@
                         <p  th:text="|${boletapac.paciente.seguro.nombre}|"></p>
                         <br>
                         <p th:text="|${boletapac.cita.fecha}|" ></p>
-
-
-
-
 
                       </div>
 
@@ -121,9 +113,6 @@
                         <br>
                         <p style="font-weight: bolder">Sede:</p>
 
-
-
-
                       </div>
                       <div class="col">
                         <br>
@@ -136,17 +125,11 @@
                         <p th:text=" ${boletapac.cita.sede.nombre}"></p>
 
 
-
-
-
-
                       </div>
 
                     </div>
                   </div>
                 </div>
-
-
 
                 <table style="padding-left: 15%" class="table">
                   <tbody>
@@ -167,7 +150,7 @@
                 </table>
 
               </div>
-              <div style="background-color: #4254E9">
+              <div style="background-color: #2F68BA">
                 <p style="color: white; padding-left: 65%; font-size: large; font-weight: bolder" th:text="|TOTAL FINAL: S/. ${boletapac.monto}|"></p>
 
               </div>
