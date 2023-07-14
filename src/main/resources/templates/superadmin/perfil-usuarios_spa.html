@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:insert="superadmin/fragments_spa/librerias_spa.html :: cabecera (titulo = 'perfilusuario')">
+
 </head>
 
 <body>
@@ -150,7 +151,7 @@
                                     <div class="row mb-3">
                                         <label for="Email" class="col-md-4 col-lg-3 col-form-label">Correo</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <input name="email" type="email" class="form-control" id="Email"  th:field="${persona.correo}"
+                                            <input disabled name="email" type="email" class="form-control" id="Email"  th:field="${persona.correo}"
                                                    th:classappend="${#fields.hasErrors('correo')?'is-invalid':''}" required>
                                             <div class="invalid-feedback" th:if="${#fields.hasErrors('correo')}"
                                                  th:errors="*{correo}" ></div>
@@ -160,7 +161,7 @@
                                     <div class="row mb-3">
                                         <label for="dni" class="col-md-4 col-lg-3 col-form-label">DNI</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <input name="company" type="text" class="form-control" id="dni"  th:field="${persona.dni}"
+                                            <input disabled name="company" type="text" class="form-control" id="dni"  th:field="${persona.dni}"
                                                    th:classappend="${#fields.hasErrors('dni')?'is-invalid':''}" required>
                                             <div class="invalid-feedback" th:if="${#fields.hasErrors('dni')}"
                                                  th:errors="*{dni}" ></div>
@@ -222,26 +223,26 @@
 
 
                                 <!-- Cambio de contraseña Form -->
-                                <form method="post" th:action="@{'/superadmin/changepasswordusuarios'}" onsubmit="return validateForm()">
+                                <form method="post" th:action="@{'/superadmin/changepasswordusuarios'}" onsubmit="return validateForm()" >
                                     <input th:value="${persona.idusuario}" name="id" type="hidden">
                                     <div class="row mb-3">
                                         <label for="contrasena1" class="col-md-4 col-lg-3 col-form-label">Contraseña Actual</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <input name="contrasena1" type="password" class="form-control" id="contrasena1">
+                                            <input name="contrasena1" type="password" class="form-control" id="contrasena1" >
                                         </div>
                                     </div>
 
                                     <div class="row mb-3">
                                         <label for="newPassword2" class="col-md-4 col-lg-3 col-form-label" >Nueva Contraseña</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <input name="newpassword2" type="password" class="form-control" id="newPassword2">
+                                            <input name="newpassword2" type="password" class="form-control" id="newPassword2" minlength="5">
                                         </div>
                                     </div>
 
                                     <div class="row mb-3">
                                         <label for="renewPassword3" class="col-md-4 col-lg-3 col-form-label">Confirmar nueva contraseña</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <input name="renewpassword3" type="password" class="form-control" id="renewPassword3">
+                                            <input name="renewpassword3" type="password" class="form-control" id="renewPassword3" minlength="5">
                                         </div>
                                     </div>
 
@@ -252,6 +253,8 @@
                                 </form><!-- End Change Password Form -->
 
                                 <!-- Funcion para validar -->
+
+
                                 <script>
                                     function validateForm() {
                                         var password = document.getElementById("contrasena1").value;
@@ -276,10 +279,19 @@
                                             errorMessage.innerHTML = "No coinciden las contraseñas";
                                             return false;
                                         }
+                                        if(password.trim() === "" || newPassword.trim() === "" || renewPassword.trim() === ""){
+                                            var errorMessage = document.getElementById("error-message");
+                                            errorMessage.style.display = "block";
+                                            errorMessage.innerHTML = "No se permiten espacios en blanco.";
+                                            return false;
+                                        }
+
 
 
                                         return true;
                                     }
+
+
                                 </script>
                                 <!-- FIN Funcion para validar -->
 

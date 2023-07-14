@@ -118,6 +118,37 @@ public class SuperadminController {
 
         return "superadmin/index_spa";
     }
+
+    @GetMapping("/logueo")
+    public String loguearse(@RequestParam ("id") Integer id){
+        Usuario usuarioalt = usuarioRepository.findById(id).get();
+        Usuario superadmin = (Usuario) session.getAttribute("usuario");
+        session.removeAttribute("usuario");
+        session.setAttribute("usuario", usuarioalt);
+        session.setAttribute("superadmin", superadmin);
+        UxUiEntity uxUiEntity = uxUiRepository.findByTipodeusuarioIdtipodeusuario(usuarioalt.getTipodeusuario().getIdtipodeusuario());
+        session.setAttribute("configuiux", uxUiEntity.getCodigocolor());
+
+        String ruta = "";
+        switch (usuarioalt.getTipodeusuario().getIdtipodeusuario()){
+            case 2:
+                ruta = "administrador";
+                break;
+            case 3:
+                ruta = "administrativo/dashboard";
+                break;
+            case 4:
+                ruta = "paciente/";
+                break;
+            case 5:
+                ruta = "doctor/dashboard";
+                break;
+            default:
+                ruta = "superadmin/index";
+        }
+
+        return "redirect:/"+ ruta;
+    }
 /*
     @PostMapping("/EditarEstilo")
     public String updateStylevistas(@ModelAttribute("stylevistas") UxUiEntity uxUiEntity) {

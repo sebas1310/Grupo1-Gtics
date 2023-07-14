@@ -158,11 +158,11 @@ public class SecurityConfig {
 
 
 
-                .requestMatchers("/doctor", "/doctor/**").hasAnyAuthority("doctor")
-                .requestMatchers("/administrador", "/administrador/**").hasAnyAuthority("administrador")
-                .requestMatchers("/paciente", "/paciente/**").hasAnyAuthority("paciente")
+                .requestMatchers("/doctor", "/doctor/**").hasAnyAuthority("doctor", "superadmin")
+                .requestMatchers("/administrador", "/administrador/**").hasAnyAuthority("administrador", "superadmin")
+                .requestMatchers("/paciente", "/paciente/**").hasAnyAuthority("paciente", "superadmin")
                 .requestMatchers("/superadmin", "/superadmin/**").hasAnyAuthority("superadmin")
-                .requestMatchers("/administrativo", "/administrativo/**").hasAnyAuthority("administrativo")
+                .requestMatchers("/administrativo", "/administrativo/**").hasAnyAuthority("administrativo", "superadmin")
                 //.requestMatchers("/shipper", "/shipper/**").hasAuthority("admin")
                 //Dejar accesible a todos los usuarios cualquier otra ruta con anyRequest()
 

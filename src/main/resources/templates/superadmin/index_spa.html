@@ -37,11 +37,8 @@
             <!-- Usuarios Registrados -->
             <div class="col-12">
               <div class="card recent-sales overflow-auto">
+                <div style="width: 100%" class="card-body">
 
-
-
-                <div class="card-body">
-<!--                  <span>| Hoy</span>-->
                   <h5 class="card-title">Lista de Usuarios </h5>
 
                   <table class="table table-borderless datatable">
@@ -64,11 +61,15 @@
                         <td class="text-center" ><a th:href="@{'/superadmin/perfilUsuario?id=' + ${usuario.idusuario}}" class="btn" style="background-color:#668cff">Acceder</a></td>
                         <td class="text-center" ><span th:if="${usuario.estadohabilitado == 1}" class="badge bg-success">Activo</span>
                           <span th:if="${usuario.estadohabilitado == 0}"class="badge bg-danger">Inactivo</span></td>
-                        <td class="text-center" ><a th:href="@{'/superadmin/perfilUsuario?id=' + ${usuario.idusuario}}" class="btn" style="background-color:#8a82be">Logueo</a></td>
+                        <td class="text-center" ><a th:href="@{'/superadmin/logueo?id=' + ${usuario.idusuario}}" class="btn" style="background-color:#8a82be">Logueo</a></td>
 
                       </tr>
 
                     </tbody>
+
+
+
+
                   </table>
                 </div>
 
