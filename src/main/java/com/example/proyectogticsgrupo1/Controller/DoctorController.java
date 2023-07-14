@@ -514,7 +514,8 @@ public class DoctorController {
     public String verCitaDoctor(Model model, @RequestParam("id") int idCita,
                                 @RequestParam(name="idReceta", defaultValue = "0") int idReceta,
                                 @RequestParam(name="msg6", defaultValue = "") String msg,
-                                @RequestParam(name="numcita" ,defaultValue = "0") int numcita){
+                                @RequestParam(name="numcita" ,defaultValue = "0") int numcita,
+                                @RequestParam(name="flagreceta",defaultValue = "0") int flagreceta){
 
 
             Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
@@ -525,6 +526,7 @@ public class DoctorController {
             model.addAttribute("numcita",numcita);
             model.addAttribute("estadoscita",estadoCitaRepository.findAll());
             model.addAttribute("recetamedica", recetaMedicaRepository.buscarRecetaMedicaPorCita(idCita, idReceta));
+            model.addAttribute("flagreceta",flagreceta);
             model.addAttribute(recetaMedicaRepository);
             model.addAttribute("msg6",msg);
         return "doctor/verCita";
@@ -797,19 +799,24 @@ public class DoctorController {
 
     //opcion alterna - notificar receta al paciente
     @PostMapping("/pacientesatendidos/verhistorial/vercita/confirmareceta")
+    @Transactional
     public String confirmarReceta(RedirectAttributes redirectAttributes,
                                 @RequestParam("idCita") int idCita,
-                                  @RequestParam("idPaciente") int idPaciente ){
+                                  @RequestParam("idPaciente") int idPaciente ,
+                                  @RequestParam("flagreceta") int flagreceta ){
 
 
         //recetaMedicaRepository.agregarReceta(medicamento,dosis,descripcion,idCita);
         System.out.println("entra al metodo?");
         Cita cita1 = citaRepository.buscarCitaPorId(idCita);
+        System.out.println("el id cita es"+cita1.getIdcita());
         Paciente paciente1 = pacienteRepository.buscarPacientePorID(idPaciente);
+        System.out.println("el id usuario del paciente es"+paciente1.getUsuario().getIdusuario());
         notificacionesRepository.notificarCreacion(paciente1.getUsuario().getIdusuario(),"Estimado Paciente: " +
                 ""+paciente1.getUsuario().getNombres()+" ya se encuentre disponible su receta medica para su cita del dia "+cita1.getFecha()+
                 " de: "+cita1.getHorainicio()+" a "+cita1.getHorafinal(),"Receta Disponible , Cita:"+cita1.getFecha());
         redirectAttributes.addFlashAttribute("msg8","Se Notificó la Receta al Paciente");
+        redirectAttributes.addAttribute("flagreceta",flagreceta);
         redirectAttributes.addAttribute("id",idCita);
         return "redirect:/doctor/pacientesatendidos/verhistorial/vercita";
 
@@ -1270,7 +1277,7 @@ public class DoctorController {
         String especialidades;
         String especiliadadesDoc;
         //aañ
-        if(paciente1.getEspecialidadesPendientes().equals(null)){
+        if(paciente1.getEspecialidadesPendientes()==null){
             especialidades = Integer.toString(idespecialidad);
         }else{
             especialidades = paciente1.getEspecialidadesPendientes() + "," + idespecialidad;

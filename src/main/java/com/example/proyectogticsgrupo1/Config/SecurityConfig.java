@@ -56,6 +56,7 @@ public class SecurityConfig {
         http.csrf().ignoringRequestMatchers("/superadmin/modificarPlantilla");
 
         http.csrf().ignoringRequestMatchers("/doctor/pacientesatendidos/verhistorial/vercita/verinformesmedico/llenarinforme/guardar");
+        http.csrf().ignoringRequestMatchers("/doctor/pacientesatendidos/verhistorial/vercita/confirmareceta");
         http.csrf().ignoringRequestMatchers("/doctor/dashboard/info/llenarinforme/guardar");
         http.csrf().ignoringRequestMatchers("/doctor/pacientesatendidos/verhistorial/vercita");
         http.csrf().ignoringRequestMatchers("/doctor/cuestionario/enviarcuestionario");
@@ -143,6 +144,7 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.GET, "/superadmin/modificarPlantilla").permitAll()
 
                 .requestMatchers(HttpMethod.POST, "/doctor/pacientesatendidos/verhistorial/vercita/verinformesmedico/llenarinforme/guardar").permitAll()
+                .requestMatchers(HttpMethod.POST, "/doctor/pacientesatendidos/verhistorial/vercita/confirmareceta").permitAll()
                 .requestMatchers(HttpMethod.POST,"/doctor/dashboard/info/llenarinforme/guardar").permitAll()
 
                 .requestMatchers(HttpMethod.GET,"/doctor/pacientesatendidos/verhistorial/vercita").permitAll()
