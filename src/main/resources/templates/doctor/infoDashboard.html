@@ -29,7 +29,7 @@
     <nav>
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a th:href="@{'/doctor/dashboard'}">Dashboard</a></li>
-        <li class="breadcrumb-item active"> Mas Informacion</li>
+        <li class="breadcrumb-item active"> Mas Información</li>
       </ol>
     </nav>
   </div><!-- End Page Title -->
@@ -95,12 +95,12 @@
                       <li>Modalidad: <span th:text="${cita.getTipoCita().getNombre()}"></span></li>
                       <li>Estado Cita: <span th:text="${cita.getEstadoCita().getNombre()}"></span></li>
                       <li>Estado Pago:
-                        <span th:if="${cita.getEstadoCita().getIdestadocita()  == 1 }"> Pendiente</span>
-                        <span th:if="${cita.getEstadoCita().getIdestadocita()  == 2 }"> Pagado</span>
-                        <span th:if="${cita.getEstadoCita().getIdestadocita()  == 3 }"> Pagado</span>
-                        <span th:if="${cita.getEstadoCita().getIdestadocita()  == 4 }"> Pagado</span>
-                        <span th:if="${cita.getEstadoCita().getIdestadocita()  == 5 }"> Pagado</span>
-                        <span th:if="${cita.getEstadoCita().getIdestadocita()  == 6 }"> Pagado</span>
+                        <span style="font-weight: bolder; color: red" th:if="${cita.getEstadoCita().getIdestadocita()  == 1 }"> Pendiente</span>
+                        <span style="font-weight: bolder; color: royalblue" th:if="${cita.getEstadoCita().getIdestadocita()  == 2 }"> Pagado</span>
+                        <span style="font-weight: bolder; color: royalblue" th:if="${cita.getEstadoCita().getIdestadocita()  == 3 }"> Pagado</span>
+                        <span style="font-weight: bolder; color: royalblue" th:if="${cita.getEstadoCita().getIdestadocita()  == 4 }"> Pagado</span>
+                        <span style="font-weight: bolder; color: royalblue" th:if="${cita.getEstadoCita().getIdestadocita()  == 5 }"> Pagado</span>
+                        <span style="font-weight: bolder; color: royalblue" th:if="${cita.getEstadoCita().getIdestadocita()  == 6 }"> Pagado</span>
                       </li>
 
                     </div>
