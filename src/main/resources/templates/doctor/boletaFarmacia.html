@@ -21,66 +21,119 @@ nombre = |${doctor.usuario.nombres} ${doctor.usuario.apellidos}|, num_men = '2',
 
 
 <main id="main" class="main">
-
     <div class="pagetitle">
-        <h1>Boleta Farmacia</h1>
-        <nav>
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a th:href="@{'/doctor/pacientesatendidos'+ '?id=' + ${doctor.iddoctor}}">Pacientes Atendidos</a></li>
-                <li class="breadcrumb-item"><a th:href="@{'/doctor/pacientesatendidos/verhistorial'+ '?id=' + ${cita.getPaciente().getIdpaciente()}}">Historial Clínico</a></li>
-                <li class="breadcrumb-item"><a th:href="@{'/doctor/pacientesatendidos/verhistorial/vercita'+ '?id=' + ${cita.getIdcita()}}">Cita</a></li>
-                <!-- th:href="@{'/doctor/pacientesatendidos/verhistorial'+ '?id=' + ${cita.idcita}}" -->
-                <li class="breadcrumb-item active">Boleta Farmacia</li>
+        <div class="row">
+            <div class="col">
+                <h1>Boleta Farmacia</h1>
+                <nav>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a th:href="@{'/doctor/pacientesatendidos'+ '?id=' + ${doctor.iddoctor}}">Pacientes Atendidos</a></li>
+                        <li class="breadcrumb-item"><a th:href="@{'/doctor/pacientesatendidos/verhistorial'+ '?id=' + ${cita.getPaciente().getIdpaciente()}}">Historial Clínico</a></li>
+                        <li class="breadcrumb-item"><a th:href="@{'/doctor/pacientesatendidos/verhistorial/vercita'+ '?id=' + ${cita.getIdcita()}}">Cita</a></li>
+                        <!-- th:href="@{'/doctor/pacientesatendidos/verhistorial'+ '?id=' + ${cita.idcita}}" -->
+                        <li class="breadcrumb-item active">Boleta Farmacia</li>
 
-            </ol>
-        </nav>
+                    </ol>
+                </nav>
+            </div>
+            <div class="col">
+                <div style="padding-left:  60%" >
+                    <button  class="btn-warning btn" style="text-decoration: underline; cursor: pointer" id="boletaPdf"><i class="bi bi-printer-fill"></i>Descargar Boleta</button>
+                </div>
+            </div>
+        </div>
     </div><!-- End Page Title -->
 
-    <section id="boletaDoctor" class="section">
+    <section style="padding-left: 2.5%; padding-right: 2.5%" class="section">
         <!-- Left side columns -->
         <div class="col-lg">
             <div class="row">
                 <!-- Informacion del Paciente -->
                 <!--  <div class="col-xxl-4 col-xl-16"> -->
                 <div class="col">
-                    <div class="card info-card customers-card">
-                        <div class="card-body">
-                            <h5 class="card-title">Boleta - Farmacia</h5>
-                            <div class="ps-3">
-                                <h6 class="card-title">Información Paciente</h6>
-                            </div>
-                            <table class="table col-lg-20" >
+                    <div id="boletaDoctor" class="card info-card customers-card">
+                        <div  class="card-body">
+                            <table>
                                 <thead>
                                 <tr>
-                                    <th scope="row">Paciente:</th>
-                                </tr>
-                                <tr>
-                                    <td> <span th:text="|${paciente.getUsuario().getNombres()} ${paciente.getUsuario().getApellidos()}|"></span> </td>
+                                    <th scope="col" class="col-lg-10">
+                                        <h5 class="card-title">Boleta</h5>
+                                    </th>
+                                    <th scope="col" class="col-lg-1">
+                                        <a  class="logo d-flex align-items-center"><img th:src="@{/assets/img/logo.png}" alt="" style="width: 15%">
+                                            <span class="d-none d-lg-block" style="color: black">Clínica LA FE</span>
+                                        </a>
+                                    </th>
                                 </tr>
                                 </thead>
-                                <tbody>
-                                <tr>
-                                    <th scope="row">Enfermedad:</th>
-                                </tr>
-                                <tr>
-                                    <td> <span th:text="${paciente.getCondicionenfermedad()}" ></span> </td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">Alergias:</th>
-                                </tr>
-                                <tr>
-                                    <td> <span th:text="${paciente.getAlergias()}" ></span> </td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">Direcion:</th>
-                                </tr>
-                                <tr>
-                                    <td> <span th:text="${paciente.getDireccion()}" ></span> </td>
-                                </tr>
-                                </tbody>
                             </table>
-                            <div class="ps-3">
-                                <h6 class="card-title">Información Medicamentos</h6>
+                            <div style=" background-color: #2F68BA" class="text-center" >
+                                <p  class="text-center " style="font-size: 24px;  color: white; font-weight: bolder; font-family: Tahoma;  height: 44px" >Información Cita</p>
+                            </div>
+
+                            <div class="ps-3 ">
+                                <div  class="row">
+                                    <div class="col">
+                                        <div class="row">
+                                            <div style="padding-left: 10%" class="col-4">
+                                                <br>
+                                                <p style="font-weight: bolder">Paciente:</p>
+                                                <br>
+                                                <p style="font-weight: bolder">DNI:</p>
+                                                <br>
+                                                <p style="font-weight: bolder">Enfermedad:</p>
+                                                <br>
+                                                <p style="font-weight: bolder">Fecha:</p>
+                                                <br>
+
+                                            </div>
+                                            <div class="col">
+                                                <br>
+                                                <p> <span th:text="|${paciente.getUsuario().getNombres()} ${paciente.getUsuario().getApellidos()}|"></span> </p>
+                                                <br>
+                                                <p th:text="|${paciente.getUsuario().getDni()}|" ></p>
+                                                <br>
+                                                <p th:text="${paciente.getCondicionenfermedad()}"></p>
+                                                <br>
+                                                <p  th:text="${cita.getFecha()}" ></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="row">
+                                            <div style="padding-left: 10%" class="col-5">
+                                                <br>
+                                                <p style="font-weight: bolder">Médico:</p>
+                                                <br>
+                                                <p style="font-weight: bolder">Especialidad:</p>
+                                                <br>
+                                                <p style="font-weight: bolder">Tipo de Cita:</p>
+                                                <br>
+                                                <p style="font-weight: bolder">Sede:</p>
+
+                                            </div>
+                                            <div class="col">
+                                                <br>
+                                                <p><span th:text="|${cita.getDoctor().getUsuario().getNombres()} ${cita.getDoctor().getUsuario().getApellidos()}|"></span></p>
+                                                <br>
+                                                <p th:text=" ${cita.getDoctor().getEspecialidad().getNombre()}"></p>
+                                                <br>
+                                                <p th:text=" ${cita.getTipoCita().getNombre()}" ></p>
+                                                <br>
+                                                <p th:text=" ${cita.getSede().getNombre()}"></p>
+
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style=" background-color: #2F68BA" class="text-center" >
+                                <p  class="text-center " style="font-size: 24px;  color: white; font-weight: bolder;  font-family: Tahoma; height: 44px" >Información Medicamentos</p>
+                            </div>
+                            <br>
+                                <div class="ps-3">
                                 <table class="table">
                                     <thead class="table-light">
                                     <tr>
@@ -97,9 +150,6 @@ nombre = |${doctor.usuario.nombres} ${doctor.usuario.apellidos}|, num_men = '2',
                                     </tr>
                                     </tbody>
                                 </table>
-                            </div>
-                            <div class="text-center">
-                                <p style="text-decoration: underline; cursor: pointer;" id="boletaPdf"><i class="bi bi-printer-fill"></i>Descargar Boleta</p>
                             </div>
                             <script>
                                 const generarPdf = () => {

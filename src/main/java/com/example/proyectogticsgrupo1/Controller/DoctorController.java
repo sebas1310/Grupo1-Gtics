@@ -504,6 +504,8 @@ public class DoctorController {
             model.addAttribute("doctor",doctor);
             BoletaDoctor boletaDoctor = boletaDoctorRepository.buscarBoletaDoctorCita(idCita);
             model.addAttribute("boletadoctor", boletaDoctor);
+            Cita cita = citaRepository.buscarCitaPorId(idCita);
+            model.addAttribute("cita", cita);
 
         return "doctor/boletaDoc";
     }
@@ -836,6 +838,8 @@ public class DoctorController {
         model.addAttribute("receta", receta);
         Paciente paciente = pacienteRepository.buscarPacientePorID(idPaciente);
         model.addAttribute("paciente", paciente);
+        Cita cita = citaRepository.buscarCitaPorId(idCita);
+        model.addAttribute("cita", cita);
 
         return "doctor/boletaFarmacia";
         }
