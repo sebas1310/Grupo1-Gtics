@@ -27,8 +27,7 @@
         <h1>Dashboard</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a th:href="@{'/administrador'}">Home</a></li>
-                <li class="breadcrumb-item active">Dashboard</li>
+                <li class="breadcrumb-item"><a th:href="@{'/administrador'}">Dashboard</a></li>
                 <li class="breadcrumb-item active">Paciente</li>
             </ol>
         </nav>
@@ -42,7 +41,9 @@
                     <div class="card-body">
 
                         <h5 class="card-title">Pacientes</h5>
+                        <h6>*Para acceder al historial clínico del paciente, presionar en su nombre</h6>
                         <div th:if="${pac!=null}" th:text="${pac}" class="alert alert-success" role="alert"></div>
+
 
                         <!--<div class="search-bar">
                             <form class="search-form d-flex align-items-center col-lg bg-body-tertiary" method="post" th:action="@{/administrador/buscarPaciente}">
