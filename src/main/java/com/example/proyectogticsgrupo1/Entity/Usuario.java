@@ -11,6 +11,7 @@ import org.hibernate.validator.constraints.UniqueElements;
 
 import java.io.Serializable;
 import java.util.Base64;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -71,6 +72,9 @@ public class Usuario  implements Serializable {
 
     @Column(name = "sueldo")
     private Double sueldo;
+
+    @Column(name = "fechanacimiento")
+    private Date fechanacimiento;
 
 
 
