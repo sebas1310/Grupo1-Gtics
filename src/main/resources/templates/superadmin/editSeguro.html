@@ -65,9 +65,10 @@
                             <div class="invalid-feedback" th:if="${#fields.hasErrors('comisiondoctor')}"
                                  th:errors="*{comisiondoctor}" ></div>
                         </div>
-
+                        <div class="text-center">
                         <a th:href="@{/superadmin/seguros}" class="btn btn-danger">Cancelar</a>
                         <button type="submit" class="btn btn-primary">Guardar</button>
+                        </div>
                     </form>
 
 
