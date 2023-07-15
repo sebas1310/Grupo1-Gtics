@@ -161,6 +161,11 @@
                                         yaxis: {
                                             title: {
                                                 text: 'S/. (soles)'
+                                            },
+                                            labels: {
+                                                formatter: function(value) {
+                                                    return value.toFixed(3);
+                                                }
                                             }
                                         },
                                         fill: {
@@ -169,12 +174,13 @@
                                         tooltip: {
                                             y: {
                                                 formatter: function(val) {
-                                                    return "S/." + val + " soles ";
+                                                    return "S/." + val.toFixed(3) + " soles";
                                                 }
                                             }
                                         }
                                     }).render();
                                 }
+
 
                                 document.addEventListener("DOMContentLoaded", () => {
                                     const ingresos = [];
