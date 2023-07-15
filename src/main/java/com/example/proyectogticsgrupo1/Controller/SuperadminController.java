@@ -119,6 +119,49 @@ public class SuperadminController {
         return "superadmin/index_spa";
     }
 
+    @GetMapping("/dashboardpaciente")
+    public String dashboardpacientes(Model model){
+        Usuario usuarioSpa = (Usuario) session.getAttribute("usuario");
+        Tipodeusuario paciente = new Tipodeusuario();
+        paciente.setIdtipodeusuario(4); paciente.setNombre("paciente");
+        List<Usuario> listaPacientes = usuarioRepository.findAllByTipodeusuario(paciente);
+        model.addAttribute("listapacientes", listaPacientes);
+        model.addAttribute("usuario", usuarioSpa);
+        return "superadmin/dashboardpaciente";
+    }
+    @GetMapping("/dashboarddoctor")
+    public String dashboarddoctor(Model model){
+        Usuario usuarioSpa = (Usuario) session.getAttribute("usuario");
+        Tipodeusuario doctor = new Tipodeusuario();
+        doctor.setIdtipodeusuario(5); doctor.setNombre("doctor");
+        List<Usuario> listaDoctores = usuarioRepository.findAllByTipodeusuario(doctor);
+        model.addAttribute("listadoctores", listaDoctores);
+        model.addAttribute("usuario", usuarioSpa);
+
+        return "superadmin/dashboarddoctor";
+    }
+    @GetMapping("/dashboardadministrativo")
+    public String dashboardadministrativo(Model model){
+        Usuario usuarioSpa = (Usuario) session.getAttribute("usuario");
+        Tipodeusuario administrativo = new Tipodeusuario();
+        administrativo.setIdtipodeusuario(3); administrativo.setNombre("administrativo");
+        List<Usuario> listaAdministrativo = usuarioRepository.findAllByTipodeusuario(administrativo);
+        model.addAttribute("listaadministrativo", listaAdministrativo);
+        model.addAttribute("usuario", usuarioSpa);
+
+        return "superadmin/dashboardadministrativo";
+    }@GetMapping("/dashboaradministrador")
+    public String dashboardadministrador(Model model){
+        Usuario usuarioSpa = (Usuario) session.getAttribute("usuario");
+        Tipodeusuario administrador = new Tipodeusuario();
+        administrador.setIdtipodeusuario(2); administrador.setNombre("administrador");
+        List<Usuario> listaAdministrador = usuarioRepository.findAllByTipodeusuario(administrador);
+        model.addAttribute("listaadministrador", listaAdministrador);
+        model.addAttribute("usuario", usuarioSpa);
+
+        return "superadmin/dashboaradministrador";
+    }
+
     @GetMapping("/logueo")
     public String loguearse(@RequestParam ("id") Integer id){
         Usuario usuarioalt = usuarioRepository.findById(id).get();
