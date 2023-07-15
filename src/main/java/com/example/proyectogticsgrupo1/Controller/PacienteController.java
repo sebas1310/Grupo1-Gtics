@@ -1189,14 +1189,6 @@ public class PacienteController {
         """, receiverEmail);
 
 
-//                        new GMailer().sendMail("Confirmacion de Cita", """
-//                Dear reader,
-//
-//                Hello world.
-//
-//                Best regards,
-//                myself
-//                """);
 
 
 
