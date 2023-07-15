@@ -28,7 +28,7 @@
         <nav>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a th:href="@{'/administrador'}">Dashboard</a></li>
-                <li class="breadcrumb-item active">Paciente</li>
+                <li class="breadcrumb-item active">Pacientes</li>
             </ol>
         </nav>
     </div><!-- End Page Title -->
@@ -66,7 +66,14 @@
                             <tbody>
                             <tr th:each="usuariop, info: ${listaUsuariosPacientes}">
                                 <th scope="row" th:text="${info.index + 1}"></th>
-                                <td><a th:text="${usuariop.usuario.nombres} + ' ' + ${usuariop.usuario.apellidos}" th:href="@{'/administrador/historialclinico'+ '?id=' + ${usuariop.getIdpaciente}}"></a></td>
+                                <td>
+                                    <form th:action="@{/administrador/historialclinico}" method="post">
+                                        <input type="hidden" name="idPaciente" th:value="${usuariop.idpaciente}">
+                                        <button type="submit" class="btn-link" style="text-decoration: underline; cursor: pointer; border: none; background: none; padding: 0;">
+                                            <span th:text="${usuariop.usuario.nombres} + ' ' + ${usuariop.usuario.apellidos}"></span>
+                                        </button>
+                                    </form>
+                                </td>
                                 <td th:text="${usuariop.estadoPaciente.nombre}"></td>
                             </tr>
                             </tbody>

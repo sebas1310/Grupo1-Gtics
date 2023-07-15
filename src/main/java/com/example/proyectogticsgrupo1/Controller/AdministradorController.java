@@ -418,8 +418,8 @@ public class AdministradorController {
 
     }
 
-    @GetMapping("/historialclinico")
-    public String historialClinico(Model model, @RequestParam("id") int idPaciente) {
+    @PostMapping ("/historialclinico")
+    public String historialClinico(Model model, @RequestParam("idPaciente") int idPaciente) {
         Usuario usuarioAdministrador = (Usuario) session.getAttribute("usuario");
         model.addAttribute("usuario", usuarioAdministrador);
         Paciente paciente = pacienteRepository.buscarPacientH(idPaciente);
