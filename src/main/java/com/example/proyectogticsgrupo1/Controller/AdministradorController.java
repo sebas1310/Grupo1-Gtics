@@ -572,22 +572,24 @@ public class AdministradorController {
         return "administrador/perfil";
     }
 
+
     @PostMapping(value = "/editarperfil")
-    public String editarPerfil(RedirectAttributes redirectAttributes,
+    public String editarPerfil(Model model,
                                @RequestParam("id") int idusuario,
                                @RequestParam("nombres") String nombres,
                                @RequestParam("apellidos") String apellidos,
                                @RequestParam("correo") String correo,
                                @RequestParam("celular") String celular) {
 
-
         usuarioRepository.perfil(nombres, apellidos, correo, celular, idusuario);
         session.removeAttribute("usuario");
         session.setAttribute("usuario", usuarioRepository.findById(idusuario).get());
-        redirectAttributes.addAttribute("id", idusuario);
-        redirectAttributes.addFlashAttribute("msg", "Perfil Actualizado");
+        model.addAttribute("msg", "Perfil Actualizado");
+
         return "redirect:/administrador/perfil";
     }
+
+
 
 
     /*@PostMapping(value = "/contrasena")
