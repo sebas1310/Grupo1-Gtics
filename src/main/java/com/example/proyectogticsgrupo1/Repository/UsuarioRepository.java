@@ -106,8 +106,10 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
     @Query(value=" select * from usuario where correo = ?1 ",nativeQuery = true)
     Usuario usuarioDestino (String correo);
 
-
-
+    @Query(value="SELECT TIMESTAMPDIFF(YEAR, fechanacimiento, CURDATE()) AS edad\n" +
+            "FROM usuario\n" +
+            "WHERE idusuario = ?1",nativeQuery = true)
+    int edad(Integer idusuario);
 
 }
 
