@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:insert="superadmin/fragments_spa/librerias_spa.html :: cabecera (titulo = 'miperfil')">
+<head th:insert="superadmin/fragments_spa/librerias_spa.html :: cabecera (titulo = 'perfil')">
 </head>
 
 <body>
@@ -11,7 +11,7 @@
 <!-- End Header -->
 
 <!-- ======= Sidebar ======= -->
-<aside th:replace="superadmin/fragments_spa/aside_spa.html :: sidebar (active = 'miperfil')">
+<aside th:replace="superadmin/fragments_spa/aside_spa.html :: sidebar (active = 'perfil')">
 </aside>
 <div th:replace="superadmin/fragments_spa/modalCerrarSesion.html::modal">
 
@@ -128,7 +128,7 @@
                     <div class="row mb-3">
                       <label class="col-md-4 col-lg-3 col-form-label">Nombre</label>
                       <div class="col-md-8 col-lg-9">
-                        <input type="text" class="form-control" th:field="*{nombres}">
+                        <input type="text"id="nombres" class="form-control" th:field="*{nombres}">
                       </div>
 
 
@@ -136,7 +136,7 @@
                     <div class="row mb-3">
                       <label class="col-md-4 col-lg-3 col-form-label">Apellidos</label>
                       <div class="col-md-8 col-lg-9">
-                        <input  type="text" class="form-control" th:field="*{apellidos}">
+                        <input  type="text" id="apellidos" class="form-control" th:field="*{apellidos}">
                       </div>
 
                     </div>
@@ -144,7 +144,7 @@
                     <div class="row mb-3">
                       <label class="col-md-4 col-lg-3 col-form-label">Correo</label>
                       <div class="col-md-8 col-lg-9">
-                        <input type="email" class="form-control" th:field="*{correo}">
+                        <input type="email" disabled class="form-control" th:field="*{correo}">
                       </div>
                     </div>
 
@@ -166,7 +166,7 @@
                     <div class="row mb-3">
                         <label  class="col-md-4 col-lg-3 col-form-label">Celular</label>
                       <div class="col-md-8 col-lg-9">
-                        <input  type="text" class="form-control" th:field="*{celular}">
+                        <input  type="text" id="celular" class="form-control" th:field="*{celular}">
                       </div>
                     </div>
 
@@ -222,6 +222,9 @@
                       var password = document.getElementById("contrasena").value;
                       var newPassword = document.getElementById("newPassword").value;
                       var renewPassword = document.getElementById("renewPassword").value;
+                      var nombres = document.getElementById("nombres").value;
+                      var apellidos = document.getElementById("apellidos").value;
+                      var celular = document.getElementById("celular").value;
 
                       if (password === "" || newPassword === "" || renewPassword === "") {
                         var errorMessage = document.getElementById("error-message");
@@ -241,6 +244,11 @@
                         errorMessage.innerHTML = "No coinciden las contraseñas";
                         return false;
                       }if(password.trim() === "" || newPassword.trim() === "" || renewPassword.trim() === ""){
+                        var errorMessage = document.getElementById("error-message");
+                        errorMessage.style.display = "block";
+                        errorMessage.innerHTML = "No se permiten espacios en blanco.";
+                        return false;
+                      }if(nombres.trim() === "" || apellidos.trim() === "" || celular.trim() === ""){
                         var errorMessage = document.getElementById("error-message");
                         errorMessage.style.display = "block";
                         errorMessage.innerHTML = "No se permiten espacios en blanco.";

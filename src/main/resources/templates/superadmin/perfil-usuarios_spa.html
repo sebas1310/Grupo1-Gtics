@@ -151,8 +151,8 @@
                                     <div class="row mb-3">
                                         <label for="Email" class="col-md-4 col-lg-3 col-form-label">Correo</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <input disabled name="email" type="email" class="form-control" id="Email"  th:field="${persona.correo}"
-                                                   th:classappend="${#fields.hasErrors('correo')?'is-invalid':''}" required>
+                                            <input readonly name="email" type="email" class="form-control" id="Email"  th:field="${persona.correo}"
+                                                   th:classappend="${#fields.hasErrors('correo')?'is-invalid':''}">
                                             <div class="invalid-feedback" th:if="${#fields.hasErrors('correo')}"
                                                  th:errors="*{correo}" ></div>
                                         </div>
@@ -161,8 +161,8 @@
                                     <div class="row mb-3">
                                         <label for="dni" class="col-md-4 col-lg-3 col-form-label">DNI</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <input disabled name="company" type="text" class="form-control" id="dni"  th:field="${persona.dni}"
-                                                   th:classappend="${#fields.hasErrors('dni')?'is-invalid':''}" required>
+                                            <input readonly name="company" type="text" class="form-control" id="dni"  th:field="${persona.dni}"
+                                                   th:classappend="${#fields.hasErrors('dni')?'is-invalid':''}">
                                             <div class="invalid-feedback" th:if="${#fields.hasErrors('dni')}"
                                                  th:errors="*{dni}" ></div>
                                         </div>
@@ -180,9 +180,9 @@
 
 
                                     <div class="row mb-3">
-                                        <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Celular</label>
+                                        <label  class="col-md-4 col-lg-3 col-form-label">Celular</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <input name="phone" type="text" class="form-control" id="Phone"  th:field="${persona.celular}"
+                                            <input name="phone" type="text" class="form-control" id="celular"  th:field="${persona.celular}"
                                                    th:classappend="${#fields.hasErrors('celular')?'is-invalid':''}" required>
                                             <div class="invalid-feedback" th:if="${#fields.hasErrors('celular')}"
                                                  th:errors="*{celular}" ></div>
@@ -196,7 +196,7 @@
 <!--                                    </div>-->
 
                                     <div class="row mb-3">
-                                        <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Estado Habilitado</label>
+                                        <label  class="col-md-4 col-lg-3 col-form-label">Estado Habilitado</label>
                                         <select class="col-md-8 col-lg-9 form-control"  th:value="${persona.estadohabilitado}" th:field="${persona.estadohabilitado}">
                                             <option value="1">Activo</option>
                                             <option value="0">Inactivo</option>
@@ -260,6 +260,9 @@
                                         var password = document.getElementById("contrasena1").value;
                                         var newPassword = document.getElementById("newPassword2").value;
                                         var renewPassword = document.getElementById("renewPassword3").value;
+                                        var nombre = document.getElementById("nombre").value;
+                                        var apellido = document.getElementById("apellido").value;
+                                        var celular = document.getElementById("celular").value;
 
                                         if (password === "" || newPassword === "" || renewPassword === "") {
                                             var errorMessage = document.getElementById("error-message");
@@ -284,9 +287,12 @@
                                             errorMessage.style.display = "block";
                                             errorMessage.innerHTML = "No se permiten espacios en blanco.";
                                             return false;
+                                        }if(nombre.trim() === "" || apellido.trim() === "" || celular.trim() === ""){
+                                            var errorMessage = document.getElementById("error-message");
+                                            errorMessage.style.display = "block";
+                                            errorMessage.innerHTML = "No se permiten espacios en blanco.";
+                                            return false;
                                         }
-
-
 
                                         return true;
                                     }
