@@ -58,6 +58,7 @@ public class GMailer {
         return new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
     }
 
+
     public void sendMail(String subject, String message, String receiverEmail) throws Exception {
         Properties props = new Properties();
         Session session = Session.getDefaultInstance(props, null);
