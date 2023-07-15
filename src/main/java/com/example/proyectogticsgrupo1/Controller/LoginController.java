@@ -51,6 +51,8 @@ public class LoginController {
                            RedirectAttributes attr, Model model, @RequestParam("direccion") String direccion,
                            @RequestParam("contrasena") String contrasena,
                            @RequestParam("newpassword") String newpassword){
+
+        System.out.println("fecha de nacimiento:" + usuario.getFechanacimiento());
         if(bindingResult.hasErrors()){
             attr.addFlashAttribute("msg", "presenta errores");
 

@@ -39,6 +39,7 @@
               <div class="card recent-sales overflow-auto">
                 <div style="width: 100%" class="card-body">
 
+                  <!---
                   <h5 class="card-title">Lista de Usuarios </h5>
 
                   <table class="table table-borderless datatable">
@@ -50,7 +51,6 @@
                         <th class="text-center" scope="col">Editar</th>
                         <th class="text-center" scope="col">Estado</th>
                         <th class="text-center" scope="col">Ingresar Sesión</th>
-
                       </tr>
                     </thead>
                     <tbody>
@@ -62,21 +62,129 @@
                         <td class="text-center" ><span th:if="${usuario.estadohabilitado == 1}" class="badge bg-success">Activo</span>
                           <span th:if="${usuario.estadohabilitado == 0}"class="badge bg-danger">Inactivo</span></td>
                         <td class="text-center" ><a th:href="@{'/superadmin/logueo?id=' + ${usuario.idusuario}}" class="btn" style="background-color:#8a82be">Logueo</a></td>
-
                       </tr>
-
                     </tbody>
-
-
-
-
+                  </table>
+                  ----->
+                  <h5 class="card-title">
+                    Pacientes
+                    <a th:href="@{'/superadmin/dashboardpaciente'}" class="btn btn-success btn-sm card-button">Ver Más</a>
+                  </h5>
+                  <!-- Default Table -->
+                  <table class="table">
+                    <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Nombre</th>
+                      <th scope="col">Estado</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="usuariop, info: ${listapacientes}">
+                      <th scope="row" th:text="${info.index + 1}"></th>
+                      <td th:text="${usuariop.nombres} + ' ' + ${usuariop.apellidos}"></td>
+                      <td class="text-center" ><span th:if="${usuariop.estadohabilitado == 1}" class="badge bg-success">Activo</span>
+                        <span th:if="${usuariop.estadohabilitado == 0}"class="badge bg-danger">Inactivo</span></td>
+                    </tr>
+                    </tbody>
                   </table>
                 </div>
 
-          </div>
+              <style>
+                .card-button {
+                  position: absolute;
+                  top: 25px;
+                  right: 20px;
+                }
+              </style>
+
+              <div class="card recent-sales overflow-auto">
+                <div style="width: 100%" class="card-body">
+                  <h5 class="card-title">
+                    Doctores
+                    <a th:href="@{'/superadmin/dashboarddoctor'}" class="btn btn-success btn-sm card-button">Ver Más</a>
+                  </h5>
+                  <!-- Default Table -->
+                  <table class="table">
+                    <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Nombre</th>
+                      <th scope="col">Especialidad</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tbody>
+                    <tr th:each="usuariod, info: ${listadoctores}">
+                      <th scope="row" th:text="${info.index + 1}"></th>
+                      <td th:text="${usuariod.nombres} + ' ' + ${usuariod.apellidos}"></td>
+                      <td class="text-center" ><span th:if="${usuariod.estadohabilitado == 1}" class="badge bg-success">Activo</span>
+                        <span th:if="${usuariod.estadohabilitado == 0}"class="badge bg-danger">Inactivo</span></td>                    </tr>
+                    </tbody>
+                  </table>
+                  <!-- End Default Table Example -->
+                </div>
+
+                <div class="card recent-sales overflow-auto">
+                  <div style="width: 100%" class="card-body">
+                    <h5 class="card-title">
+                      Administrativos
+                      <a th:href="@{'/superadmin/dashboardadministrativo'}" class="btn btn-success btn-sm card-button">Ver Más</a>
+                    </h5>
+                    <!-- Default Table -->
+                    <table class="table">
+                      <thead>
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Estado</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <tbody>
+                      <tr th:each="usuarioa, info: ${listaadministrativo}">
+                        <th scope="row" th:text="${info.index + 1}"></th>
+                        <td th:text="${usuarioa.nombres} + ' ' + ${usuarioa.apellidos}"></td>
+                        <td class="text-center" ><span th:if="${usuarioa.estadohabilitado == 1}" class="badge bg-success">Activo</span>
+                          <span th:if="${usuarioa.estadohabilitado == 0}"class="badge bg-danger">Inactivo</span></td>                      </tr>
+                      </tbody>
+                    </table>
+                    <!-- End Default Table Example -->
+                  </div>
+                </div>
+
+
+                <div class="card recent-sales overflow-auto">
+                  <div style="width: 100%" class="card-body">
+                    <h5 class="card-title">
+                      Administradores
+                      <a th:href="@{'/superadmin/dashboaradministrador'}" class="btn btn-success btn-sm card-button">Ver Más</a>
+                    </h5>
+                    <!-- Default Table -->
+                    <table class="table">
+                      <thead>
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Estado</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <tbody>
+                      <tr th:each="usuarioad, info: ${listaadministrador}">
+                        <th scope="row" th:text="${info.index + 1}"></th>
+                        <td th:text="${usuarioad.nombres} + ' ' + ${usuarioad.apellidos}"></td>
+                        <td class="text-center" ><span th:if="${usuarioad.estadohabilitado == 1}" class="badge bg-success">Activo</span>
+                          <span th:if="${usuarioad.estadohabilitado == 0}"class="badge bg-danger">Inactivo</span></td>                      </tr>
+                      </tbody>
+                    </table>
+                    <!-- End Default Table Example -->
+                  </div>
+                </div>
+              </div>
+
 
         </div><!-- End Left side columns -->
-
       </div>
     </section>
 

@@ -14,6 +14,11 @@ function validarContrasena(){
         $('#button_submit').removeClass('disabled')
         $('#button_submit').addClass('disabled')
 
+    }if(pass1.trim() === "" || pass2.trim() === ""){
+        var errorMessage = document.getElementById("error-message");
+        errorMessage.style.display = "block";
+        errorMessage.innerHTML = "No se permiten espacios en blanco.";
+        return false;
     }
 
 }

@@ -63,6 +63,10 @@ public class SuperadminController {
     @Autowired
     ModeloJsonRepository modeloJsonRepository;
 
+    @Autowired
+    PacienteRepository pacienteRepository;
+    @Autowired
+    DoctorRepository doctorRepository;
 
     @Autowired
     TablaDatosLlenosRepository tablaDatosLlenosRepository;
@@ -89,32 +93,28 @@ public class SuperadminController {
         return "redirect:/index";
     }
     @GetMapping("/index")
-    public String inicioDashboardSuperadmin(Model model) throws IOException {
-        //Usuario usuario = optionalUsuario.get();
+    public String inicioDashboardSuperadmin(Model model){
         Usuario usuarioSpa = (Usuario) session.getAttribute("usuario");
-        Usuario superadmin = usuarioRepository.buscarPorId(usuarioSpa.getIdusuario());
 
-        model.addAttribute("usuario",superadmin);
-        List<Usuario> listaUsuarios = usuarioRepository.findAll();
-        model.addAttribute("administradores", superadmin);
-        model.addAttribute("listaUsuarios", listaUsuarios);
+        Tipodeusuario paciente = new Tipodeusuario();
+        paciente.setIdtipodeusuario(4); paciente.setNombre("paciente");
+        Tipodeusuario doctor = new Tipodeusuario();
+        doctor.setIdtipodeusuario(5); doctor.setNombre("doctor");
+        Tipodeusuario administrador = new Tipodeusuario();
+        administrador.setIdtipodeusuario(2); administrador.setNombre("administrador");
+        Tipodeusuario administrativo = new Tipodeusuario();
+        administrativo.setIdtipodeusuario(3); administrativo.setNombre("administrativo");
 
-        /*
-        Optional<UxUiEntity> style = uxUiRepository.findById(1);
+        List<Usuario> listaPacientes = usuarioRepository.findAllByTipodeusuario(paciente);
+        List<Usuario> listaDoctores = usuarioRepository.findAllByTipodeusuario(doctor);
+        List<Usuario> listaAdministrativo = usuarioRepository.findAllByTipodeusuario(administrativo);
+        List<Usuario> listaAdministrador = usuarioRepository.findAllByTipodeusuario(administrador);
+        model.addAttribute("listapacientes", listaPacientes);
+        model.addAttribute("listadoctores", listaDoctores);
+        model.addAttribute("listaadministrativo", listaAdministrativo);
+        model.addAttribute("listaadministrador", listaAdministrador);
 
-        if (style.isPresent()) {
-            UxUiEntity color_actual = style.get();
-            System.out.println("El color del encabezado es: " + color_actual.getCodigocolor());  // Esto imprimirá el valor en tu consola
-
-                System.out.println("El color del Sidebar es: " + styleActual.getSidebar());  // Esto imprimirá el valor en tu consola
-
-            model.addAttribute("headerColor", color_actual.getCodigocolor());
-
-        } else {
-            System.out.println("No se encontró stylevistas con el id proporcionado");
-        }
-
-        */
+        model.addAttribute("usuario", usuarioSpa);
 
         return "superadmin/index_spa";
     }
@@ -149,69 +149,6 @@ public class SuperadminController {
 
         return "redirect:/"+ ruta;
     }
-/*
-    @PostMapping("/EditarEstilo")
-    public String updateStylevistas(@ModelAttribute("stylevistas") UxUiEntity uxUiEntity) {
-        // Actualiza el registro en la base de datos
-        uxUiRepository.save(uxUiEntity);
-        // Redirige de nuevo a la página que muestra la lista de Stylevistas
-        return "redirect:/superadmin/SelectClinica";
-    }
-
-    @GetMapping("/SelectClinica")
-    public String gestion_uxui(Model model) {
-        List<UxUiEntity> listacolores = uxUiRepository.findAll();
-        if (listacolores.isEmpty()) {
-            System.out.println("La lista de Stylevistas está vacía.");
-        } else {
-            System.out.println("La lista de Stylevistas contiene elementos. Primer elemento: " + listaStylevistas.get(0));
-        }
-        model.addAttribute("listaStylevistas", listacolores);
-
-        Optional<UxUiEntity> style = uxUiRepository.findById(1);
-
-        if (style.isPresent()) {
-            UxUiEntity uxUiEntity = style.get();
-            System.out.println("El color del encabezado es: " + uxUiEntity.getCodigocolor());  // Esto imprimirá el valor en tu consola
-            model.addAttribute("headerColor", uxUiEntity.getCodigocolor());
-
-        } else {
-            System.out.println("No se encontró stylevistas con el id proporcionado");
-        }
-
-        return "superadmin/Gestionar_UIUX";
-    }
-*/
-    /*
-    @GetMapping("/EditarEstilo/{id}")
-    public String showEditForm(@PathVariable("id") Integer id, Model model) {
-        Stylevistas stylevistas = stylevistasRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid style ID:" + id));
-        model.addAttribute("stylevistas", stylevistas);
-        Optional<Stylevistas> style = stylevistasRepository.findById(1);
-        if (style.isPresent()) {
-            Stylevistas styleActual = style.get();
-            System.out.println("El color del encabezado es: " + styleActual.getHeader());  // Esto imprimirá el valor en tu consola
-
-            model.addAttribute("headerColor", styleActual.getHeader());
-
-            model.addAttribute("backgroundColor", styleActual.getBackground());
-
-        } else {
-            System.out.println("No se encontró stylevistas con el id proporcionado");
-        }
-
-        return "superadmin/EditarEstilo";
-    }
-*/
-    /*
-    @PostMapping("/EditarEstilo")
-    public String updateStylevistas(@ModelAttribute("stylevistas") Stylevistas stylevistas) {
-        // Actualiza el registro en la base de datos
-        stylevistasRepository.save(stylevistas);
-        // Redirige de nuevo a la página que muestra la lista de Stylevistas
-        return "redirect:/superadmin/SelectClinica";
-    }
-    */
 
     @GetMapping("/listaform")
     public String listaFormularios(Model model){
@@ -287,7 +224,7 @@ public class SuperadminController {
     @GetMapping("/registraradministrativo")
     public String registrarAdministrativo(@ModelAttribute("usuario") Usuario usuario, Model model){
         Usuario superadmin = (Usuario) session.getAttribute("usuario");
-        model.addAttribute("usuario", superadmin);
+        //model.addAttribute("usuario", superadmin);
 
         model.addAttribute("listasedes", sedeRepository.findAll());
         return "superadmin/pages-registrar-administrativo";
@@ -295,7 +232,7 @@ public class SuperadminController {
     @GetMapping("/registraradministrador")
     public String registrarAdministrador(@ModelAttribute("usuario") Usuario usuario, Model model){
         Usuario superadmin = (Usuario) session.getAttribute("usuario");
-        model.addAttribute("usuario", superadmin);
+        //model.addAttribute("usuario", superadmin);
 
         model.addAttribute("listasedes", sedeRepository.listaSedes());
 
@@ -432,66 +369,7 @@ public class SuperadminController {
 
 
 
-/*
-    @PostMapping("/guardarImagen")
-    public String guardarImagenEvento(@RequestParam("file") MultipartFile file, @RequestParam("id") int id, RedirectAttributes attr) {
-        System.out.println("llega a guardar");
-        StringBuilder fileNames = new StringBuilder();
-        String nombreArchivo= "foto-usuario-" + id;
-        System.out.println("nombre en guardar"+nombreArchivo);
-        uploadObject(file,nombreArchivo, "gigacontrol", "l5-20203368-2023-1-gtics");
-        return "redirect:/superadmin/perfil";
-    }
 
-    public static void uploadObject
-            (MultipartFile multipartFile, String fileName, String projectId, String gcpBucketId) {
-        try {
-            byte[] fileData = FileUtils.readFileToByteArray(convertFile(multipartFile));
-            Storage storage = StorageOptions.newBuilder().setProjectId(projectId).build().getService();
-            Bucket bucket = storage.get(gcpBucketId, Storage.BucketGetOption.fields());
-//            RandomString id = new RandomString(6, ThreadLocalRandom.current());
-            Blob blob = bucket.create("proyecto" + "/" + fileName + checkFileExtension(fileName), fileData);
-
-            if (blob != null) {
-                System.out.println("errro?");
-               /* LOGGER.debug("File successfully uploaded to GCS");
-                return new FileDto(blob.getName(), blob.getMediaLink());
-            }
-        } catch (Exception e) {
-            System.out.println("errro?2");
-//            LOGGER.error("An error occurred while uploading data. Exception: ", e);
-            throw new RuntimeException("An error occurred while storing data to GCS");
-        }
-    }
-
-    private static File convertFile(MultipartFile file) {
-
-        try {
-            if (file.getOriginalFilename() == null) {
-            }
-            File convertedFile = new File(file.getOriginalFilename());
-            FileOutputStream outputStream = new FileOutputStream(convertedFile);
-            outputStream.write(file.getBytes());
-            outputStream.close();
-            return convertedFile;
-        } catch (Exception e) {
-            throw new RuntimeException("An error has occurred while converting the file");
-        }
-    }
-
-    private static String checkFileExtension(String fileName) {
-        if (fileName != null && fileName.contains(".")) {
-            String[] extensionList = {".png", ".jpeg", ".pdf", ".doc", ".mp3"};
-
-            for (String extension : extensionList) {
-                if (fileName.endsWith(extension)) {
-//                    LOGGER.debug("Accepted file type : {}", extension);
-                    return extension;
-                }
-            }
-        }
-        return ".jpeg";
-    }*/
     @GetMapping("/edit")
     public String editarUsuario(Model model, @RequestParam("id") int id){
         Usuario superadmin = (Usuario) session.getAttribute("usuario");
@@ -710,28 +588,7 @@ public class SuperadminController {
         }
 
 
-
-
-
         tablaTitulosInputsRepository.BorrarTitulosInput();
-
-
-
-        //sacar valores del registro con el id(flags)
-        //deletear
-        //insertar en tabla flotante las preguntas y volver a crear el registro con el id eliminado
-
-
-
-
-
-
-
-
-
-//        modeloJsonRepository.borrarPlantillas(id_de_modelo_plantilla);
-
-
 
         return "hola";
 

@@ -17,6 +17,5 @@ public class Tipodeusuario implements Serializable {
 
     @Column(name = "nombre")
     private String nombre;
-
 }
 

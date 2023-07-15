@@ -45,7 +45,7 @@ public class MyBackgroundTask {
         for (Cita c : citaRepository.citasVirtualesToday()) {
             //System.out.println(c.getHorainicio());
             //System.out.println(c.getHorainicio());
-            System.out.println(LocalTime.now());
+            ///System.out.println(LocalTime.now());
             //si la hora actual es igual a la hora de inicio de la cita menos 1 , entonces se canelara por falta de pago
             if (LocalTime.now().isAfter(c.getHorainicio().minusHours(1))) {
                 //System.out.println(LocalTime.now());
