@@ -34,9 +34,7 @@
                         </nav>
                     </div>
                     <div class="col">
-                        <div style="padding-left:  60%" >
-                            <button  class="btn-primary btn" style="text-decoration: underline; cursor: pointer" id="boletaPdf"><i class="bi bi-printer-fill"></i>Descargar Boleta</button>
-                        </div>
+                            <button  class="btn-primary btn" id="boletaPdf"><i class="bi bi-printer-fill"></i>Descargar</button>
                     </div>
                 </div>
             </div><!-- End Page Title -->
@@ -45,97 +43,69 @@
                 <!-- Left side columns -->
                 <div class="col-lg">
                     <div class="row">
-                        <!-- Informacion del Paciente -->
-                        <!--  <div class="col-xxl-4 col-xl-16"> -->
                         <div class="col">
                             <div id="boletaDoctor" class="card info-card customers-card">
                                 <div class="card-body">
-                                    <table>
-                                        <thead>
-                                        <tr>
-                                            <th scope="col" class="col-lg-10">
-                                                <h5 class="card-title">Boleta - Doctor</h5>
-                                            </th>
-                                            <th scope="col" class="col-lg-1">
-                                                <a  class="logo d-flex align-items-center"><img th:src="@{/assets/img/logo.png}" alt="" style="width: 15%">
-                                                    <span class="d-none d-lg-block" style="color: black">Clínica LA FE</span>
+                                    <br>
+                                        <div class="row" >
+                                            <div class="col">
+                                                <h5><p>Boleta - Doctor</p></h5>
+                                            </div>
+                                             <div class="col">
+                                                <a  class="logo d-flex align-items-right"><img th:src="@{/assets/img/logo.png}" alt="" style="width: 15%">
+                                                   <h5 style="color: black"><p>Clínica LA FE</p></h5>
                                                 </a>
-                                            </th>
-                                        </tr>
-                                        </thead>
-                                    </table>
+                                             </div>
+                                        </div>
+                                    <br>
                                     <div style=" background-color: #2F68BA" class="text-center" >
                                         <p  class="text-center " style="font-size: 24px;  color: white; font-weight: bolder; font-family: Tahoma; height: 44px" >Información Cita</p>
-
                                     </div>
-                                        <div class="ps-3">
-
-                                            <div  class="row">
-                                                <div class="col">
-                                                    <div class="row">
-                                                        <div style="padding-left: 10%" class="col-4">
-                                                            <br>
-                                                            <p style="font-weight: bolder">Paciente:</p>
-                                                            <br>
-                                                            <p style="font-weight: bolder">Seguro:</p>
-                                                            <br>
-                                                            <p style="font-weight: bolder">Fecha:</p>
-                                                            <br>
-                                                            <p style="font-weight: bolder">Hora:</p>
-                                                            <br>
-
-                                                        </div>
-                                                        <div class="col">
-                                                            <br>
-                                                            <p> <span th:text="|${cita.getPaciente().getUsuario().getNombres()} ${cita.getPaciente().getUsuario().getApellidos()}|"></span> </p>
-                                                            <br>
-                                                            <p th:text="${cita.getPaciente().getSeguro().getNombre()}" ></p>
-                                                            <br>
-                                                            <p  th:text="${cita.getFecha()}"></p>
-                                                            <br>
-                                                            <p th:text="|${cita.getHorainicio()} - ${cita.getHorafinal()}|"></p>
-
-                                                        </div>
-
-                                                    </div>
-
-                                                </div>
-
-                                                <div class="col">
-                                                    <div class="row">
-                                                        <div style="padding-left: 10%" class="col-5">
-                                                            <br>
-                                                            <p style="font-weight: bolder">Médico:</p>
-                                                            <br>
-                                                            <p style="font-weight: bolder">Tipo de Cita:</p>
-                                                            <br>
-                                                            <p style="font-weight: bolder">Sede:</p>
-                                                            <br>
-                                                            <p style="font-weight: bolder">Motivo:</p>
-                                                            <br>
-
-                                                        </div>
-                                                        <div class="col">
-                                                            <br>
-                                                            <p><span th:text="|${cita.getDoctor().getUsuario().getNombres()} ${cita.getDoctor().getUsuario().getApellidos()}|"></span></p>
-                                                            <br>
-                                                            <p th:text="${cita.getTipoCita().getNombre()}"></p>
-                                                            <br>
-                                                            <p th:text=" ${cita.getSede().getNombre()}" ></p>
-                                                            <br>
-                                                            <p th:text="${cita.getPaciente().getCondicionenfermedad()}"></p>
-
-
-                                                        </div>
-
-                                                    </div>
-                                                </div>
+                                    <div class="col-lg">
+                                        <div class="row">
+                                            <div class="col">
+                                                        <table>
+                                                            <tr>
+                                                                <th style="text-align: left;width: 200px;" >Paciente:</th>
+                                                                <td style="width: 300px;"  th:text="|${boletadoctor.getPaciente().getUsuario().getNombres()} ${boletadoctor.getPaciente().getUsuario().getApellidos()}|"></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th style="text-align: left;width: 200px;">Seguro:</th>
+                                                                <td style="width: 300px;" th:text="${boletadoctor.getPaciente().getSeguro().getNombre()}"></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th style="text-align: left;width: 200px;" >Motivo:</th>
+                                                                <td style="width: 300px;" th:text="${boletadoctor.getPaciente().getCondicionenfermedad()}"></td>
+                                                            </tr>
+                                                        </table>
                                             </div>
+                                            <br>
+                                            <!-- End Left side columns -->
+                                            <div class="col">
+                                                        <table>
+                                                            <tr>
+                                                                <th style="text-align: left;width: 200px;" >Doctor(a):</th>
+                                                                <td style="width: 300px;" th:text="|${boletadoctor.getDoctor().getUsuario().getNombres()} ${boletadoctor.getDoctor().getUsuario().getApellidos()}|"></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th style="text-align: left;width: 200px;">Tipo de Cita:</th>
+                                                                <td style="width: 300px;" th:text="${boletadoctor.getCita().getTipoCita().getNombre()}"></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th style="text-align: left;width: 200px;" >Fecha:</th>
+                                                                <td style="width: 300px;" th:text="${boletadoctor.getCita().getFecha()}"></td>
+                                                            </tr>
+                                                        </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <br>
+                                    <div style="background-color: #2F68BA">
+                                        <p class="text-right" style="color: white; font-weight: bolder" th:text="|MONTO RECIBIDO: S/. ${boletadoctor.getMonto()}|"></p>
+                                    </div>
 
-                                        </div>
-                                        <div style="background-color: #2F68BA">
-                                            <p style="color: white; padding-left: 65%; font-size: large; font-weight: bolder" th:text="|MONTO RECIBIDO: S/. ${boletadoctor.getMonto()}|"></p>
-                                        </div>
+
 
                                         <script>
                                             const generarPdf = () => {

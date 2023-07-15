@@ -62,19 +62,14 @@ num_men = '2', id=${session.usuario.idusuario})">
                            </div>
                        </div>
                    </div> <!--End Informacion -->
-
                    <!-- Receta Medica -->
                    <div class="col-12">
                        <div class="card recent-sales overflow-auto">
                            <div class="card-body">
                                <h5 class="card-title" >Receta Médica</h5>
-
                                <div th:if="${msg!=null}" th:text="${msg}" class="alert alert-success" role="alert"></div>
-
                                <div th:if="${msg2!=null}" th:text="${msg2}" class="alert alert-danger" role="alert"></div>
-
                                <div th:if="${msg3!=null}" th:text="${msg3}" class="alert alert-success" role="alert"></div>
-
                                <table class="table">
                                    <thead class="table-light">
                                    <tr>
@@ -117,13 +112,11 @@ num_men = '2', id=${session.usuario.idusuario})">
                                        <form method="post" th:action="@{'/doctor/pacientesatendidos/verhistorial/vercita/confirmareceta'}">
                                            <input th:value="${cita.getIdcita()}" name="idCita" class="form-control" type="hidden">
                                            <input th:value="${cita.getPaciente().getIdpaciente()}" name="idPaciente" class="form-control" type="hidden">
-                                       <button type="submit" class="btn btn-outline-primary" >
-                                           Confirmar Receta</button>
+                                       <button type="submit" class="btn btn-outline-primary" >Confirmar Receta</button>
                                        </form>
-                                   <div>
-                                </div>
-                            <div>
-                           <div>
+                                   </div>
+                               </div>
+                           </div>
                        </div>
                    </div>
                </div><!-- End Left side columns -->
@@ -151,6 +144,7 @@ num_men = '2', id=${session.usuario.idusuario})">
                        </div>
                    </div>
                </div>
+           </div>
         </div>
         <div class="d-grid gap d-md-flex justify-content-md-center">
             <a th:href="@{'/doctor/pacientesatendidos/verhistorial'+ '?id=' + ${cita.getPaciente().getIdpaciente()}}" class="btn btn-danger">Regresar</a>
