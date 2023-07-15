@@ -1183,6 +1183,7 @@ public class PacienteController {
                     enviocorreo.sendMail("Confirmacion de Cita", """
         Dear reader,
         Hello world.
+      
         Best regards,
         myself
         """, receiverEmail);
