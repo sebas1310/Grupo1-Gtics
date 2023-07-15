@@ -1,6 +1,20 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head th:insert="superadmin/fragments_spa/librerias_spa.html :: cabecera (titulo = 'configuraciones')">
+    <style>
+        /* Estilos para el modo claro */
+        [data-modo="1"] {
+            background-color: #ffffff;
+            color: #000000;
+        }
+
+        /* Estilos para el modo oscuro */
+        [data-modo="0"] {
+            background-color: #222222;
+            color: #ffffff;
+        }
+    </style>
+
 </head>
 
 <body>
@@ -34,12 +48,12 @@
 
                         <form class="row g-3" method="post" th:action="@{'/superadmin/editarUI'}" >
                             <div class="col-12">
-                                <label class="form-label" style="color: #012970">Cambia la apariencia de la página</label>
+                                <label class="form-label" for="modo" style="color: #012970">Cambia la apariencia de la página</label>
                                 <div class="col-12">
-                                        <select class="form-select" name="tema" aria-label="Default select example">
+                                        <select class="form-select" name="tema" aria-label="Default select example" id="modo" onchange="cambiarModo()">
                                             <option selected>Elige</option>
                                             <option value="1">Claro</option>
-                                            <option value="2">Oscuro</option>
+                                            <option value="0">Oscuro</option>
                                         </select>
                                 </div>
                             </div>
@@ -50,7 +64,7 @@
                                     <div class="col-10 d-flex align-items-center justify-content-start">
                                         <label class="col-form-label">Selecciona un usuario:</label>
                                         <select class="form-select" name="idRol" aria-label="Default select example" required>
-                                            <option value="">Elige</option>
+
                                             <option value="1">Superadmin</option>
                                             <option value="2">Administrador</option>
                                             <option value="3">Administrativo</option>
@@ -124,6 +138,28 @@
 <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
 <!-- Vendor JS Files -->
+<script>
+    // Verificar si el modo está almacenado en el almacenamiento local (localStorage)
+    // Si no se encuentra, establecer el modo predeterminado como '1' (claro)
+    var modoActual = localStorage.getItem('modo');
+    if (modoActual) {
+        document.documentElement.setAttribute('data-modo', modoActual);
+    } else {
+        document.documentElement.setAttribute('data-modo', '1');
+    }
+
+    // Función para cambiar el modo
+    function cambiarModo() {
+        var modoSeleccionado = document.getElementById('modo').value;
+        document.documentElement.setAttribute('data-modo', modoSeleccionado);
+
+        // Almacenar el modo seleccionado en el almacenamiento local
+        localStorage.setItem('modo', modoSeleccionado);
+    }
+
+    // Al cerrar la sesión, no hay necesidad de borrar el modo almacenado
+    // para mantener la preferencia en la próxima sesión
+</script>
 <script th:src="@{'dark_web.js'}"></script>
 <script th:src="@{'/assets/vendor/apexcharts/apexcharts.min.js'}"></script>
 <script th:src="@{'/assets/vendor/bootstrap/js/bootstrap.bundle.min.js'}"></script>
