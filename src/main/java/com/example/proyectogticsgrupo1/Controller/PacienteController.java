@@ -1,6 +1,7 @@
 package com.example.proyectogticsgrupo1.Controller;
 
 import com.example.proyectogticsgrupo1.Entity.*;
+import com.example.proyectogticsgrupo1.GMailer;
 import com.example.proyectogticsgrupo1.Repository.*;
 import com.example.proyectogticsgrupo1.Service.EmailService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -1138,7 +1139,7 @@ public class PacienteController {
 
     @PostMapping(value = "/reservar2")
     @Transactional
-    public String reserva2 (@RequestParam("idev") Integer idev, @RequestParam("idtipocita") Integer idtipocita, RedirectAttributes redirectAttributes){
+    public String reserva2 (@RequestParam("idev") Integer idev, @RequestParam("idtipocita") Integer idtipocita, RedirectAttributes redirectAttributes) throws Exception {
         Usuario usuario = (Usuario) session.getAttribute("usuario");
         Paciente paciente = pacienteRepository.pacXuser(usuario.getIdusuario());
         if(eventocalendariodoctorRepository.findById(idev).isPresent()){
@@ -1175,7 +1176,31 @@ public class PacienteController {
                 if(idtipocita==1){
                     boletaDoctorRepository.generarBoletaDoctorCita(citaAgendada.getIdcita(),paciente.getIdpaciente(),paciente.getSeguro().getIdseguro(),doc.getIddoctor(),montoDoctor);
                     boletaPacienteRepository.generarBoletaPacienteCita(paciente.getIdpaciente(),citaAgendada.getIdcita(),paciente.getSeguro().getIdseguro(),montoPaciente);
-                    emailService.sendEmail(paciente.getUsuario().getCorreo(),"Confirmación de cita","Estimado usuario usted reservó una cita para el "+eventocalendariodoctor.getFecha().toString()+ ".\n"+"En la sede "+sedeRepository.findById(doc.getSede().getIdsede()).get().getNombre()+" ubicada " +sedeRepository.findById(doc.getSede().getIdsede()).get().getDireccion());
+
+
+                    GMailer enviocorreo = new GMailer();
+                    String receiverEmail = "adrian.lopez@pucp.edu.pe"; // Aquí puedes colocar la dirección de correo electrónico del receptor deseado
+                    enviocorreo.sendMail("Confirmacion de Cita", """
+        Dear reader,
+        Hello world.
+        Best regards,
+        myself
+        """, receiverEmail);
+
+
+//                        new GMailer().sendMail("Confirmacion de Cita", """
+//                Dear reader,
+//
+//                Hello world.
+//
+//                Best regards,
+//                myself
+//                """);
+
+
+
+
+//                    emailService.sendEmail(paciente.getUsuario().getCorreo(),"Confirmación de cita","Estimado usuario usted reservó una cita para el "+eventocalendariodoctor.getFecha().toString()+ ".\n"+"En la sede "+sedeRepository.findById(doc.getSede().getIdsede()).get().getNombre()+" ubicada " +sedeRepository.findById(doc.getSede().getIdsede()).get().getDireccion());
 
                 }else{
                     emailService.sendEmail(paciente.getUsuario().getCorreo(),"Confirmación de cita","Estimado usuario usted reservó una cita virtual para el "+eventocalendariodoctor.getFecha().toString()+ ".\n"+"El link para la sesion de zoom es el siguiente: " +doc.getZoom());

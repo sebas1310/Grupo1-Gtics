@@ -13,11 +13,11 @@ import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.gmail.Gmail;
 import com.google.api.services.gmail.model.Message;
+import jakarta.mail.Session;
+import jakarta.mail.internet.InternetAddress;
+import jakarta.mail.internet.MimeMessage;
 import org.apache.commons.codec.binary.Base64;
 
-import javax.mail.Session;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -26,14 +26,14 @@ import java.util.Properties;
 import java.util.Set;
 
 import static com.google.api.services.gmail.GmailScopes.GMAIL_SEND;
-import static javax.mail.Message.RecipientType.TO;
+import static jakarta.mail.Message.RecipientType.TO;
 
 public class GMailer {
 
 
     private static final String TEST_EMAIL = "clinica.lafe.info@gmail.com";
 
-//    private static final String TO_EMAIL = "adrian.lopez@pucp.edu.pe";
+    private static final String TO_EMAIL = "adrian.lopez@pucp.edu.pe";
     private final Gmail service;
 
     public GMailer() throws Exception {
@@ -58,12 +58,12 @@ public class GMailer {
         return new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
     }
 
-    public void sendMail(String subject, String message,String correo_destino) throws Exception {
+    public void sendMail(String subject, String message, String receiverEmail) throws Exception {
         Properties props = new Properties();
         Session session = Session.getDefaultInstance(props, null);
         MimeMessage email = new MimeMessage(session);
         email.setFrom(new InternetAddress(TEST_EMAIL));
-        email.addRecipient(TO, new InternetAddress(correo_destino));
+        email.addRecipient(TO, new InternetAddress(receiverEmail)); // Usar el correo electrónico del receptor proporcionado
         email.setSubject(subject);
         email.setText(message);
 
@@ -87,21 +87,6 @@ public class GMailer {
             }
         }
     }
-
-
-    
-
-
-//    new GMailer().sendMail("Confirmacion de Cita", """
-//                Dear reader,
-//
-//                Hello world.
-//
-//                Best regards,
-//                myself
-//                """);
-
-
 
 
 
