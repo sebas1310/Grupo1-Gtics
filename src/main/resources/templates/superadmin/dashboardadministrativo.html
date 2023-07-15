@@ -58,8 +58,8 @@
                                 <td><a th:text="${usuarioa.nombres} + ' ' + ${usuarioa.apellidos}"></a></td>
                                 <td class="text-center" ><span th:if="${usuarioa.estadohabilitado == 1}" class="badge bg-success">Activo</span>
                                     <span th:if="${usuarioa.estadohabilitado == 0}"class="badge bg-danger">Inactivo</span></td>
-                                <td class="text-center" ><a th:href="@{'/superadmin/perfilUsuario?id=' + ${usuario.idusuario}}" class="btn" style="background-color:#668cff">Acceder</a></td>
-                                <td class="text-center" ><a th:href="@{'/superadmin/logueo?id=' + ${usuario.idusuario}}" class="btn" style="background-color:#8a82be">Logueo</a></td>
+                                <td class="text-center" ><a th:href="@{'/superadmin/perfilUsuario?id=' + ${usuarioa.idusuario}}" class="btn" style="background-color:#668cff">Acceder</a></td>
+                                <td class="text-center" ><a th:href="@{'/superadmin/logueo?id=' + ${usuarioa.idusuario}}" class="btn" style="background-color:#8a82be">Logueo</a></td>
                             </tr>
                             </tbody>
                         </table>
