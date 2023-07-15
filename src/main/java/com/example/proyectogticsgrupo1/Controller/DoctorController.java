@@ -2,6 +2,7 @@ package com.example.proyectogticsgrupo1.Controller;
 
 import com.example.proyectogticsgrupo1.DTO.InformeMedico;
 import com.example.proyectogticsgrupo1.Entity.*;
+import com.example.proyectogticsgrupo1.GMailer;
 import com.example.proyectogticsgrupo1.Repository.*;
 /*import com.google.cloud.storage.Blob;
 import com.google.cloud.storage.Bucket;
@@ -1270,7 +1271,7 @@ public class DoctorController {
     public String sendEmail2(RedirectAttributes redirectAttributes, @RequestParam("correodestino") String correoDestino,
                             @RequestParam("asunto") String asunto, @RequestParam("descripcion") String descripcion,
                             @RequestParam("idusuariodestino") int idUsuarioDestino , @RequestParam("idusuarioorigen") int idUsuarioOrigen,
-                            @RequestParam("idespecialidad") int idespecialidad , @RequestParam("idespecialidaddoc") int idespecialidaddoc) {
+                            @RequestParam("idespecialidad") int idespecialidad , @RequestParam("idespecialidaddoc") int idespecialidaddoc) throws Exception {
 
         //Optional<Paciente> optPaciente = Optional.ofNullable(pacienteRepository.buscarPacientePorIdUsuario(idUsuarioDestino));
         Paciente paciente1 = pacienteRepository.buscarPacientePorIdUsuario(idUsuarioDestino);
@@ -1292,7 +1293,19 @@ public class DoctorController {
         pacienteRepository.modificarEspecialidadesDoctor(especiliadadesDoc,paciente1.getIdpaciente());
         pacienteRepository.actualizarEstadoPaciente(6,paciente1.getIdpaciente());
         notificacionesRepository.notificarCreacion(idUsuarioDestino,descripcion,"Requerimiento de Examenes");
+
+
+
         emailService.sendEmail(correoDestino,asunto,descripcion);
+
+
+
+
+
+
+
+
+
         //mailCorreoRepository.guardarMensaje(asunto,descripcion,correoDestino,idUsuarioDestino ,idUsuarioOrigen);
         redirectAttributes.addFlashAttribute("msg","Mensaje Enviado");
         return "redirect:/doctor/dashboard";
