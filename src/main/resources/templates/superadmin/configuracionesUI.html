@@ -29,69 +29,67 @@
                 <div class="card">
                     <div class="card-body">
                         <!-- Default Table -->
-                        <form method="post" th:action="@{'/superadmin/editarUI'}" >
+                        <h5 class="card-title">            </h5>
 
-                            <tr>
-                                <td>Cambia la apariencia de la página</td>
-                                <td><div class="row mb-lg-2">
-                                    <div class="col-sm-10">
+
+                        <form class="row g-3" method="post" th:action="@{'/superadmin/editarUI'}" >
+                            <div class="col-12">
+                                <label class="form-label" style="color: #012970">Cambia la apariencia de la página</label>
+                                <div class="col-12">
                                         <select class="form-select" name="tema" aria-label="Default select example">
                                             <option selected>Elige</option>
                                             <option value="1">Claro</option>
                                             <option value="2">Oscuro</option>
                                         </select>
-                                    </div>
-
                                 </div>
-                                </td>
-                            </tr>
+                            </div>
 
-
-                            <tr>
-                                <td>Personalizar Interfaz de Usuario</td>
-                                <td><div class="row">
-                                    <label for="inputColor" class="col-form-label">Color Picker</label>
-                                    <div class="col-sm-10">
+                            <div>
+                                <label class="form-label" style="color: #012970">Personalizar Interfaz de Usuario</label>
+                                <div class="row">
+                                    <div class="col-10 d-flex align-items-center justify-content-start">
+                                        <label class="col-form-label">Selecciona un usuario:</label>
+                                        <select class="form-select" name="idRol" aria-label="Default select example" required>
+                                            <option value="">Elige</option>
+                                            <option value="1">Superadmin</option>
+                                            <option value="2">Administrador</option>
+                                            <option value="3">Administrativo</option>
+                                            <option value="4">Paciente</option>
+                                            <option value="5">Doctor</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-2 d-flex align-items-center justify-content-start">
+                                        <label class="col-form-label" style="margin-right: 5px;">Selecciona el color:  </label>
                                         <input type="color" name="color" class="form-control form-control-color" id="exampleColorInput" value="#4154f1" title="Choose your color" required>
                                     </div>
-                                    <select class="form-select" name="idRol" aria-label="Default select example" required>
-                                        <option value="1">Superadmin</option>
-                                        <option value="2">Administrador</option>
-                                        <option value="3">Administrativo</option>
-                                        <option value="4">Paciente</option>
-                                        <option value="5">Doctor</option>
+                                </div>
+                            </div>
 
-                                    </select>
-
-                                </div></td>
-
-                            </tr>
-
-
-                            <tr>
-                                <td>Sube una imagen de fondo</td>
-                                <td>
+                            <div>
+                                <label class="form-label" style="color: #012970">Sube una imagen de fondo</label>
+                                <div>
                                     <div class=" mb-3">
-                                        <label for="inputNumber" class="col-sm-2 col-form-label">Subir Imagen</label>
+                                        <label class="col-sm-2 col-form-label">Subir Imagen</label>
                                         <div class="col-sm-10">
                                             <input class="form-control" name="imagen" type="file" id="formFile">
                                         </div>
-                                        <select class="form-select" name="sede" aria-label="Default select example">
-                                            <option selected>Elige sede</option>
+                                        <div>
+                                            <label class="col-sm-2 col-form-label">Elige Sede</label>
+                                            <select class="form-select" name="sede" aria-label="Default select example">
+                                            <option selected>Elige</option>
                                             <option value="1">San Miguel</option>
                                             <option value="2">San Borja</option>
                                             <option value="3">Lince</option>
 
                                         </select>
+                                        </div>
                                     </div>
-                                </td>
-                            </tr>
+                                </div>
+                            </div>
 
                             <div class="text-center">
-                                <button type="submit"  id="button_submit" style="color: dodgerblue">Guardar Cambios</button>
-                            </div>
-                            <div class="text-center mt-3">
-                                <a th:href="@{'/superadmin/configuracion'}">Cancelar</a>
+                                <button type="submit" class="btn btn-primary" style="color: white">Guardar Cambios</button>
+                                <button type="reset" class="btn btn-secondary"><a style="color: white" th:href="@{'/superadmin/configuracion'}">Cancelar</a></button>
                             </div>
 
                         </form>
