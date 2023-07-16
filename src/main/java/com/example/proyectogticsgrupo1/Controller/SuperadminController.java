@@ -368,16 +368,13 @@ public class SuperadminController {
 
                         GMailer enviocorreo = new GMailer();
                         String receiverEmail = usuario.getCorreo(); // Aquí puedes colocar la dirección de correo electrónico del receptor deseado
-                        String message = "<html><body style=\"font-family: Arial, sans-serif;\">"
-                                + "<h2>Estimado usuario,</h2>"
-                                + "<p>Usted ha sido registrado en Clínica LA FE.</p>"
-                                + "<p>Su contraseña por defecto es: " + contrasenaGenerada + "</p>"
-                                + "<p>Por favor, ingrese <a href=\"http://localhost:8081/cambiarcontrasena\">aquí</a> para cambiarla.</p>"
-                                + "<img src=\"clinicalafe.jpg\" alt=\"Imagen de la Clínica LA FE\">"
-                                + "</body></html>";
+
 
                         // Construye el mensaje del correo en formato HTML
-                        enviocorreo.sendMail("Registro Exitoso en Clinica La Fe", message, receiverEmail);
+                        enviocorreo.sendMail("Registro Exitoso en Clinica La Fe", "Estimado usuario,"
+                                + "\nUsted ha sido registrado en Clínica LA FE."
+                                + "\nSu contraseña por defecto es: " + contrasenaGenerada
+                                + "\nPor favor, ingrese a: http://localhost:8081/cambiarcontrasena aquí para cambiarla.", receiverEmail);
 
                         //emailService.sendEmail(usuario.getCorreo(), "Confirmación de Registro", "Estimado usuario, usted ha sido registrado en Clinica LA FE y su contraseña por defecto es: " + contrasenaGenerada );
                         return "redirect:/superadmin/index";
