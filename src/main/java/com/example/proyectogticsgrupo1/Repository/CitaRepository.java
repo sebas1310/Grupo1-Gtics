@@ -32,7 +32,7 @@ public interface CitaRepository extends JpaRepository<Cita, Integer> {
     List<Cita> porpagar(Integer id,List<Integer> ids);
 
     @Modifying
-    @Query(nativeQuery = true, value = "INSERT INTO cita (idsede, idespecialidad, fecha, horainicio, horafinal, duracion, idtipocita, idseguro, idestadocita, paciente_idpaciente, doctor_iddoctor) VALUES (?1, ?2, ?3, ?4, ?5, ?6,?7,?8,?9,?10,?11)")
+    @Query(nativeQuery = true, value = "INSERT INTO cita (idsede, idespecialidad, fecha, horainicio, horafinal, duracion, idtipocita, idseguro, idestadocita, paciente_idpaciente, doctor_iddoctor,flagreceta) VALUES (?1, ?2, ?3, ?4, ?5, ?6,?7,?8,?9,?10,?11,0)")
     void agengedarcita(Integer idsede, Integer idespecialidad,LocalDate fecha, LocalTime horini, LocalTime horafin,Integer duracion, Integer idtipocita, Integer idseguro, Integer idestadoctia, Integer idpac, Integer iddoc);
 
     @Query(value = "SELECT p.idpaciente, c.paciente_idpaciente, c.fecha\n" +
@@ -57,6 +57,10 @@ public interface CitaRepository extends JpaRepository<Cita, Integer> {
             "            GROUP BY idpaciente , CONCAT(u.nombres, ' ', u.apellidos)\n" +
             "            ORDER BY UltimaFecha desc", nativeQuery = true)
     List<PacientesAtendidos> pacientesAtendidosPorDoctor(Integer idDoctor);
+
+    @Modifying
+    @Query(value= "update cita set flagreceta = 1 where idcita=?1",nativeQuery = true)
+    void actualizarFlagReceta (Integer idCita);
 
 
 

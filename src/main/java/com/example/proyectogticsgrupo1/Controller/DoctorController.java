@@ -951,6 +951,7 @@ public class DoctorController {
         System.out.println("el id cita es"+cita1.getIdcita());
         Paciente paciente1 = pacienteRepository.buscarPacientePorID(idPaciente);
         System.out.println("el id usuario del paciente es"+paciente1.getUsuario().getIdusuario());
+        citaRepository.actualizarFlagReceta(idCita);
         notificacionesRepository.notificarCreacion(paciente1.getUsuario().getIdusuario(),"Estimado Paciente: " +
                 ""+paciente1.getUsuario().getNombres()+" ya se encuentre disponible su receta medica para su cita del dia "+cita1.getFecha()+
                 " de: "+cita1.getHorainicio()+" a "+cita1.getHorafinal(),"Receta Disponible , Cita:"+cita1.getFecha());
