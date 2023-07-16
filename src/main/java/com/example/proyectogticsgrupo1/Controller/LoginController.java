@@ -38,10 +38,15 @@ public class LoginController {
     SedeRepository sedeRepository;
 
 
-    @GetMapping(value = {"/"})
+    @GetMapping(value = {"/login"})
     public String inicioSesion(){
 
         return "superadmin/pages-login_spa";
+    }
+    @GetMapping(value = {"/"})
+    public String inicio(){
+
+        return "superadmin/page-inicio";
     }
 //    superadmin/pages-login_spa
 

@@ -42,7 +42,7 @@
             <div class="col-lg-8 col-md-8 d-flex flex-column align-items-center justify-content-center">
 
               <div class="d-flex justify-content-center py-4">
-                <a th:href="@{'/iniciosesion'}" class="logo d-flex align-items-center w-auto">
+                <a th:href="@{'/'}" class="logo d-flex align-items-center w-auto">
                   <img th:src="@{'/assets/img/logo.png'}" alt="">
                   <span class="d-none d-lg-block">Clínica LA FE</span>
                 </a>
@@ -80,19 +80,19 @@
                       <div th:if="${param.error}" class="alert alert-danger small" role="alert">Acceso denegado</div>
 
                     <div class="d-grid gap-2 d-md-flex justify-content-md-center">
-                      <button class="btn btn-primary w-100" type="submit">Ingresar</button>
+                      <button style="background-color: #4154F1; color: white" class="btn  w-100" type="submit">Ingresar</button>
                     </div>
 
                   </form>
                     <br>
                     <div class="col-12">
-                      <center><p class="small mb-0">¿Olvidaste tu contraseña? <a th:href="@{/olvidocontra}">Ingresa Aquí</a> </p></center>
+                      <center><p class="small mb-0">¿Olvidaste tu contraseña? <a style="font-weight: bolder; color: #4154F1 " th:href="@{/olvidocontra}">Ingresa Aquí</a> </p></center>
                     </div>
                   <br>
                     <div class="col-12">
-                      <p class="small mb-0 text-center " style="color: #0d4ac4; font-size: 15px">¿No tienes una cuenta? <a th:href="@{/formRegistro}">Ingresa Aquí</a> </p>
+                      <p class="small mb-0 text-center " >¿No tienes una cuenta? <a style="font-weight: bolder; color: #4154F1 " th:href="@{/formRegistro}">Ingresa Aquí</a> </p>
                     </div>
-                  <br>
+
                   <!--
                     <div class="col-12">
                       <button class="btn btn-outline-secondary w-100" type="button">Gmail Account <i class="bi bi-google"></i></button>
@@ -105,6 +105,11 @@
                 </div>
               </div>
             </div>
+              <div class="d-flex justify-content-center py-2">
+                  <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+                    <a th:href="@{'/'}" style="background-color: #4154F1; color: white" class="btn  w-100" type="button">Regresar</a>
+                  </div>
+              </div><!-- End Logo -->
             </div>
           </div>
         </div>

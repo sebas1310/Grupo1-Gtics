@@ -50,7 +50,7 @@
                     <div class="col-lg-8 col-md-8 d-flex flex-column align-items-center justify-content-center">
 
                         <div class="d-flex justify-content-center py-4">
-                            <a th:href="@{/pages-login}" class="logo d-flex align-items-center w-auto">
+                            <a th:href="@{'/'}" class="logo d-flex align-items-center w-auto">
                                 <img th:src="@{'/assets/img/logo.png'}" alt="">
                                 <span class="d-none d-lg-block">Clínica LA FE</span>
                             </a>
@@ -80,11 +80,11 @@
                                         </div>
                                     </div>
                                     <div class="text-center">
-                                        <button type="submit" class="btn btn-primary w-100">Enviar Correo</button>
+                                        <button type="submit" style="background-color: #4154F1; color: white" class="btn  w-100">Enviar Correo</button>
                                     </div>
                                     <div id="error-message" class="alert alert-danger mt-3" style="display: none;"></div>
                                     <div class="text-center mt-3">
-                                        <a th:href="@{/}">Ir al inicio de sesión</a>
+                                        <a style="font-weight: bolder; color: #4154F1 " th:href="@{/login}">Ir al inicio de sesión</a>
                                     </div>
                                 </form>
                                 <script>
