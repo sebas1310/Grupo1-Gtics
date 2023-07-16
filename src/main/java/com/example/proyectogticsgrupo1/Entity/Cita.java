@@ -61,6 +61,7 @@ public class Cita implements Serializable {
     @JoinColumn(name = "doctor_iddoctor", nullable = false)
     private Doctor doctor;
 
+    //private Integer flagReceta;
 }
 
 

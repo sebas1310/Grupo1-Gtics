@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head th:insert="fragments/doctor/librerias.html :: cabecera (titulo = 'Editar Receta')">
+    </head>
+    <body>
+        <!-- ======= Header ======= -->
+        <header th:replace="fragments/doctor/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1',
+nombre = |${doctor.usuario.nombres} ${doctor.usuario.apellidos}  (${doctor.usuario.tipodeusuario.nombre.toUpperCase()})|,
+num_men = '2', id=${session.usuario.idusuario})">
+        </header>
+        <!-- End Header -->
+
+        <!-- ======= Sidebar ======= -->
+        <aside th:replace="fragments/doctor/aside.html :: sidebar (active = 'pacientesAtendidos')">
+        </aside><!-- End Sidebar-->
+
+        <!--Modal Cerrar Sesion-->
+        <div th:replace="fragments/doctor/modalCerrarSesion.html::modal">
+
+        </div>
+        <!-- End Modal-->
+
+        <main id="main" class="main">
+            <div class="pagetitle">
+                <h1>Receta Medica</h1>
+                <nav>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a th:href="@{'/doctor/dashboard'}">Dashboard</a></li>
+                        <li class="breadcrumb-item active"> Mas Información</li>
+                        <li class="breadcrumb-item active"> Receta Medica</li>
+                    </ol>
+                </nav>
+            </div>
+            <section class="section ">
+                <div class="content-center">
+                    <div th:each=" receta : ${receta}" class="justify-content-center">
+                        <div class="card align-center-md-6">
+                            <div class="card-body">
+                                <h5 class="card-title">Receta Médica</h5>
+                                <form method="post" th:action="@{'/doctor/dashboard/info/actualizarreceta'}"  onsubmit="return validateForm()">
+                                    <input th:value="${receta.getIdRecetaMedica()}" name="idReceta" type="hidden">
+                                    <input th:value="${cita.getIdcita()}" name="id" type="hidden">
+                                    <div class="content-md-6-center">
+                                        <label for="medicamento" class="form-label">Medicamento</label>
+                                        <input type="text" name="medicamento" class="form-control" id="medicamento"
+                                               th:value="${receta.getMedicamento()}">
+                                    </div>
+                                    <div class="justify-content-md-6-center">
+                                        <label for="dosis" class="form-label">Dosis</label>
+                                        <input type="text" name="dosis" class="form-control" id="dosis"
+                                               th:value="${receta.getDosis()}">
+                                    </div>
+
+                                    <div class="justify-content-md-6-center">
+                                        <label for="descripcion" class="form-label">Descripcion</label>
+                                        <input type="text" name="descripcion" class="form-control" id="descripcion"
+                                               th:value="${receta.getDescripcion()}">
+                                    </div>
+                                    <br>
+                                    <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+                                        <button class="btn btn-primary" type="submit">Actualizar</button>
+                                        <div id="error-message2" class="alert alert-danger mt-3" style="display: none;"></div>
+                                    </div>
+                                </form>
+                                <script>
+                                    function validateForm() {
+                                        var medicamento = document.getElementById("medicamento").value.trim();
+                                        var dosis = document.getElementById("dosis").value.trim();
+                                        var descripcion = document.getElementById("descripcion").value.trim();
+
+                                        if (medicamento === "" || dosis === "" || descripcion === "") {
+                                            var errorMessage = document.getElementById("error-message2");
+                                            errorMessage.style.display = "block";
+                                            errorMessage.innerHTML = "No se permite campos en blanco";
+                                            return false;
+                                        }
+                                        else if (medicamento.length >= 100 || /^\s+$/.test(medicamento) || dosis.length >= 100 || /^\s+$/.test(dosis) || descripcion.length >= 100 || /^\s+$/.test(descripcion))
+                                        {
+                                            var errorMessage = document.getElementById("error-message2");
+                                            errorMessage.style.display = "block";
+                                            errorMessage.innerHTML = "El campo excede el número de caracteres permitidos";
+                                            return false;
+                                        }
+                                        else if (medicamento.length <=2 || /^\s+$/.test(medicamento) || dosis.length <=2 || /^\s+$/.test(dosis) || descripcion.length <=2 || /^\s+$/.test(descripcion))
+                                        {
+                                            var errorMessage = document.getElementById("error-message2");
+                                            errorMessage.style.display = "block";
+                                            errorMessage.innerHTML = "Cada campo debe tener minimo 3 caracteres";
+                                            return false;
+                                        }
+                                        return true;
+                                    }
+                                </script>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-grid gap d-md-flex justify-content-md-center">
+                    <a type= "buttun" class="btn btn-danger" th:href="@{'/doctor/pacientesatendidos/verhistorial/vercita'+ '?id=' + ${cita.getIdcita()}}" >Regresar</a>
+                </div>
+            </section>
+        </main><!-- End #main -->
+
+
+
+        <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+        <!-- Vendor JS Files -->
+        <script th:src="@{'/assets/vendor/apexcharts/apexcharts.min.js'}"></script>
+        <script th:src="@{'/assets/vendor/bootstrap/js/bootstrap.bundle.min.js'}"></script>
+        <script th:src="@{'/assets/vendor/chart.js/chart.min.js'}"></script>
+        <script th:src="@{'/assets/vendor/echarts/echarts.min.js'}"></script>
+        <script th:src="@{'/assets/vendor/quill/quill.min.js'}"></script>
+        <script th:src="@{'/assets/vendor/simple-datatables/simple-datatables.js'}"></script>
+        <script th:src="@{'/assets/vendor/tinymce/tinymce.min.js'}"></script>
+        <script th:src="@{'/assets/vendor/php-email-form/validate.js'}"></script>
+
+        <!-- Template Main JS File -->
+        <script th:src="@{'/assets/js/main.js'}"></script>
+
+    </body>
+
+</html>

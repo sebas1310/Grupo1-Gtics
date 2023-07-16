@@ -36,6 +36,7 @@
 
   <div th:if="${msg7!=null}" th:text="${msg7}" class="alert alert-success" role="alert"></div>
   <div th:if="${msg6!=null}" th:text="${msg6}" class="alert alert-success" role="alert"></div>
+    <div th:if="${msg8!=null}" th:text="${msg8}" class="alert alert-success" role="alert"></div>
 
 
   <section class="section ">
@@ -60,15 +61,15 @@
                     <form method="post" th:action="@{'/doctor/pacientesatendidos/verhistorial/vercita/actualizarestadocita'}" >
                       <input name="id" th:value="${cita.getIdcita()}" class="form-control" type="hidden">
                       <input name="idestadocita" th:value="${estadoscita.get(3).getIdestadocita()}" class="form-control" type="hidden">
-                      <button th:if="${(cita.getEstadoCita().getIdestadocita()==1) or (cita.getEstadoCita().getIdestadocita()==2)}" type="submit" class="btn btn-outline-success"disabled><i class="bi bi-skip-end-circle me-1" ></i> Iniciar</button>
-                      <button th:if="${(cita.getEstadoCita().getIdestadocita()==3)}" type="submit" class="btn btn-success"><i class="bi bi-skip-end-circle me-1"></i> Iniciar</button>
+                      <button th:if="${(cita.getEstadoCita().getIdestadocita()==1)}" type="submit" class="btn btn-outline-success" disabled><i class="bi bi-skip-end-circle me-1" ></i> Iniciar</button>
+                      <button th:if="${(cita.getEstadoCita().getIdestadocita()==3) or (cita.getEstadoCita().getIdestadocita()==2)}" type="submit" class="btn btn-success"><i class="bi bi-skip-end-circle me-1"></i> Iniciar</button>
                       <!--<button th:if="${(cita.getEstadoCita().getIdestadocita()==3 or cita.getEstadoCita().getIdestadocita()==4) and (cita.getEstadoCita().getIdestadocita()!=1 or cita.getEstadoCita().getIdestadocita()!=2)}" type="submit" class="btn btn-outline-success"><i class="bi bi-skip-end-circle me-1"></i> Continuar</button>-->
                     </form>
 
                     <form method="post" th:action="@{'/doctor/pacientesatendidos/verhistorial/vercita/actualizarestadocita'}" >
                       <input name="id" th:value="${cita.getIdcita()}" class="form-control" type="hidden">
                       <input name="idestadocita" th:value="${estadoscita.get(5).getIdestadocita()}" class="form-control" type="hidden">
-                      <button  th:if="${(cita.getEstadoCita().getIdestadocita()==4) and (cita.getEstadoCita().getIdestadocita()!=1 or cita.getEstadoCita().getIdestadocita()!=2)}" type="submit" class="btn btn-outline-danger"><i class="bi bi-pause-circle me-1"></i> Finalizar</button>
+                      <button  th:if="${(cita.getEstadoCita().getIdestadocita()==4) and (cita.getEstadoCita().getIdestadocita()!=1 or cita.getEstadoCita().getIdestadocita()!=2)}" type="submit" class="btn btn-danger"><i class="bi bi-pause-circle me-1"></i> Finalizar</button>
                       <!--<button  th:if="${(cita.getEstadoCita().getIdestadocita()==3) and (cita.getEstadoCita().getIdestadocita()!=1 or cita.getEstadoCita().getIdestadocita()!=2)}" type="submit" class="btn btn-outline-danger" disabled><i class="bi bi-pause-circle me-1"></i> Finalizar</button> -->
                     </form>
                   </div>
@@ -135,25 +136,41 @@
                     <td style="text-align: center" th:text="${receta.getDosis()}"></td>
                     <td style="text-align: center" th:text="${receta.getDescripcion()}"></td>
                     <!-- <td style="text-align: center" th:text="${receta.getIdRecetaMedica()}"></td> -->
-                    <td style="text-align: center" > <a class="bi bi-pencil-square"  th:href="@{'/doctor/pacientesatendidos/verhistorial/vercita/editarreceta?idReceta='+ ${receta.getIdRecetaMedica()} + '&id=' + ${cita.getIdcita()}}"></a></td>
+                    <td style="text-align: center" > <a class="bi bi-pencil-square"  th:href="@{'/doctor/dashboard/info/editarreceta?idReceta='+ ${receta.getIdRecetaMedica()} + '&id=' + ${cita.getIdcita()}}"></a></td>
                     <!-- <td> <input type="button" name="btnEditarS" value="Editar 1" th:text="${receta.getIdRecetaMedica()}"
                                 class="bi bi-pencil-square" data-bs-toggle="modal" data-bs-target="#modal"></td>-->
-                    <td style="text-align: center" ><a class="bi bi-trash" th:href="@{'/doctor/pacientesatendidos/verhistorial/vercita/borrarreceta?idR='+${receta.getIdRecetaMedica()}}"></a></td>
+                    <td style="text-align: center" ><a class="bi bi-trash" th:href="@{'/doctor/dashboard/info/borrarreceta?idR='+${receta.getIdRecetaMedica()}}"></a></td>
                   </tr>
                   </tbody>
                 </table>
                 <!-- Añadir Receta-->
                 <div class="d-grid gap-2 d-md-flex justify-content-md-center" >
-                  <a type="button" class="btn btn-outline-primary" th:href="@{'/doctor/pacientesatendidos/verhistorial/vercita/anadir?id=' + ${cita.getIdcita()}}">
+                    <a th:if="${(cita.getEstadoCita().getIdestadocita()==1) or (cita.getEstadoCita().getIdestadocita()==2) or (cita.getEstadoCita().getIdestadocita()==3)}" type="button" class="btn btn-outline-primary" disabled>
+                        No Disponible hasta Inicio de Cita
+                    </a>
+                  <a th:if="${(cita.getEstadoCita().getIdestadocita()==4) and (cita.getFlagReceta()==null)}" id="boton1" type="button" class="btn btn-outline-primary" th:href="@{'/doctor/dashboard/info/anadir?id=' + ${cita.getIdcita()}}">
                     Añadir Receta
                   </a>
-                  <br>
+                    <br>
+                    <a th:if="${(cita.getTipoCita().getIdtipocita() eq 1) and (recetaMedicaRepository.numRecetas(cita.getIdcita())>=1)}" type="button" th:href="@{'/doctor/dashboard/info/boletaMedicamento?idCita=' + ${cita.getIdcita()} + '&idPaciente=' + ${cita.getPaciente().getIdpaciente()}}" class="btn btn-outline-primary" >
+                        Generar Boleta Farmacia
+                    </a>
+                    <!--<a th:unless="${cita.getTipoCita().getIdtipocita() eq 1}" type="button" th:href="@{'/doctor/pacientesatendidos/verhistorial/vercita/boletaMedicamentoDelivery?idCita=' + ${cita.getIdcita()} + '&idPaciente=' + ${cita.getPaciente().getIdpaciente()}}" class="btn btn-outline-primary" >
+                        Enviar Por Delivery
+                    </a>-->
+                    <div th:if="${recetaMedicaRepository.numRecetas(cita.getIdcita())>=1}">
+                        <form method="post" th:action="@{'/doctor/dashboard/info/confirmareceta'}">
+                            <input th:value="${cita.getIdcita()}" name="idCita" class="form-control" type="hidden">
+                            <input th:value="${cita.getPaciente().getIdpaciente()}" name="idPaciente" class="form-control" type="hidden">
+                          <!--<input th:value="${1}" name="flagReceta" class="form-control" type="hidden">-->
+                            <button type="submit" class="btn btn-outline-primary">Confirmar Receta</button>
+                        </form>
+                    </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-
       </div>
       <div class="col-lg-5">
         <!-- Bitacobra -->
@@ -221,7 +238,8 @@
               <h6>Si el paciente requiere realizar unos exámenes, entonces envíele un mensaje</h6>
               <br>
               <div class="d-grid gap-1 d-md-flex justify-content-md-center" >
-                <a th:href="@{'/doctor/mensajeria/enviarmensaje/examenes'+ '?idp=' + ${paciente.getUsuario().getIdusuario()}}" class="btn btn-primary">Mensaje</a>
+                  <a th:if="${(cita.getEstadoCita().getIdestadocita()==1) or (cita.getEstadoCita().getIdestadocita()==2) or (cita.getEstadoCita().getIdestadocita()==3)}" class="btn btn-primary" disabled>No Disponible hasta Inicio de Cita</a>
+                <a th:if="${(cita.getEstadoCita().getIdestadocita()==4)}" th:href="@{'/doctor/mensajeria/enviarmensaje/examenes'+ '?idp=' + ${paciente.getUsuario().getIdusuario()}}" class="btn btn-primary">Mensaje</a>
               </div>
             </div>
         </div>
@@ -252,7 +270,17 @@
 <!-- Template Main JS File -->
 <script th:src="@{'/assets/js/main.js'}"></script>
 
-    <script>
+
+    <!--<script th:inline="javascript">
+        var mostrarBoton = true;
+
+        function eliminarBoton() {
+            mostrarBoton = false;
+            document.getElementById('boton1').style.display = 'none';
+        }
+    </script> -->
+
+<script>
         function mostrarModal(button) {
 
             const id = button.dataset.id;
