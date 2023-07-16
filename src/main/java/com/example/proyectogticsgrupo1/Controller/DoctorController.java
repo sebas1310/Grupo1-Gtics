@@ -22,12 +22,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.example.proyectogticsgrupo1.Service.EmailService;
 
 import java.io.IOException;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Controller
 @RequestMapping(value="/doctor")
@@ -107,17 +105,72 @@ public class DoctorController {
 
     //Mostrará Por Defecto el Calendario Semanal de Doctor
 
+    //Mostrará Por Defecto el Calendario Semanal de Doctor
+
+    private String obtenerColorEvento(String nombreEvento) {
+        // Lógica de mapeo para asociar nombres de especialidad con colores específicos
+        switch (nombreEvento) {
+            case "Disponibilidad":
+                return "#2ECC71";
+            case "Cita":
+                return "#85C1E9";
+            case "Refrigerio":
+                return "#F4D03F";
+            default:
+                return "gray"; // Color predeterminado para otros casos
+        }
+    }
+
     @GetMapping("/dashboard")
     public String inicioDashboardDoctor(Model model) {
 
-            Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
-            Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
-            model.addAttribute("doctor",doctor);
-            List<Cita> citasAgendadas1 = citaRepository.buscarCitasAgendadasDoctor(doctor.getIddoctor());
+        Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
+        Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
+        model.addAttribute("doctor",doctor);
+        List<Cita> citasAgendadas1 = citaRepository.buscarCitasAgendadasDoctor(doctor.getIddoctor());
 
-            model.addAttribute("citasAgendadas",citasAgendadas1);
-            return "doctor/dashboardDoc";
+        model.addAttribute("citasAgendadas",citasAgendadas1);
+
+        // Obtener la fecha actual
+        LocalDate currentDate = LocalDate.now();
+
+        // Obtener el día de la semana actual (Domingo = 1, Lunes = 2, ..., Sábado = 7)
+        DayOfWeek currentDayOfWeek = currentDate.getDayOfWeek();
+
+        // Obtener los eventos  para el día correspondiente
+        List<Eventocalendariodoctor> eventoss = eventocalendariodoctorRepository.calendario(doctor.getIddoctor());
+
+        // Crear un mapa para almacenar las citas por día y hora
+        Map<LocalDate, Map<Integer, List<Eventocalendariodoctor>>> eventoPorDiaYHora = new HashMap<>();
+
+        // Agrupar las citas por día y hora
+        for (Eventocalendariodoctor evento : eventoss) {
+            LocalDate fecha = evento.getFecha();
+            int hourOfDay = evento.getHorainicio().getHour();
+
+            Map<Integer, List<Eventocalendariodoctor>> eventoPorHora = eventoPorDiaYHora.computeIfAbsent(fecha, k -> new HashMap<>());
+            eventoPorHora.computeIfAbsent(hourOfDay, k -> new ArrayList<>()).add(evento);
         }
+
+        // Crear una lista de eventos en formato JSON
+        List<Map<String, Object>> eventos = new ArrayList<>();
+        for (Map<Integer, List<Eventocalendariodoctor>> eventoPorHora : eventoPorDiaYHora.values()) {
+            for (List<Eventocalendariodoctor> eventoDeHora : eventoPorHora.values()) {
+                for (Eventocalendariodoctor evento1 : eventoDeHora) {
+                    Map<String, Object> evento = new HashMap<>();
+                    evento.put("title", evento1.getTipohoracalendariodoctor().getNombre()); // Título del evento
+                    evento.put("start", evento1.getFecha().atTime(evento1.getHorainicio())); // Fecha y hora de inicio del evento formateadas
+                    evento.put("display", "block"); // Mostrar el evento como un bloque de color
+                    evento.put("color", obtenerColorEvento(evento1.getTipohoracalendariodoctor().getNombre())); // Color del evento
+                    eventos.add(evento);
+                }
+            }
+        }
+
+        // Agregar la lista de eventos al modelo
+        model.addAttribute("eventos", eventos);
+        return "doctor/dashboardDoc";
+    }
     @GetMapping("/dashboard/info")
     public String infoDashboard(Model model, @RequestParam("idC") int idCita,
                                 @RequestParam("idP") int idPaciente) {
