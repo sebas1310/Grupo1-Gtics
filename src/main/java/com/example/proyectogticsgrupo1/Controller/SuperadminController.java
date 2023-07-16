@@ -27,10 +27,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Random;
+
+import java.util.*;
 import java.util.regex.Pattern;
 
 @Controller
@@ -115,20 +113,23 @@ public class SuperadminController {
     }
 
     @GetMapping("/dashboardpaciente")
-    public String dashboardpacientes(Model model){
+    public String dashboardpacientes(Model model) {
         Usuario usuarioSpa = (Usuario) session.getAttribute("usuario");
         Tipodeusuario paciente = new Tipodeusuario();
-        paciente.setIdtipodeusuario(4); paciente.setNombre("paciente");
+        paciente.setIdtipodeusuario(4);
+        paciente.setNombre("paciente");
         List<Usuario> listaPacientes = usuarioRepository.findAllByTipodeusuario(paciente);
         model.addAttribute("listapacientes", listaPacientes);
         model.addAttribute("usuario", usuarioSpa);
         return "superadmin/dashboardpaciente";
     }
+
     @GetMapping("/dashboarddoctor")
     public String dashboarddoctor(Model model){
         Usuario usuarioSpa = (Usuario) session.getAttribute("usuario");
         Tipodeusuario doctor = new Tipodeusuario();
-        doctor.setIdtipodeusuario(5); doctor.setNombre("doctor");
+        doctor.setIdtipodeusuario(5);
+        doctor.setNombre("doctor");
         List<Usuario> listaDoctores = usuarioRepository.findAllByTipodeusuario(doctor);
         model.addAttribute("listadoctores", listaDoctores);
         model.addAttribute("usuario", usuarioSpa);
@@ -263,9 +264,8 @@ public class SuperadminController {
     public String registrarAdministrativo(@ModelAttribute("usuario") Usuario usuario, Model model){
         Usuario superadmin = (Usuario) session.getAttribute("usuario");
         //model.addAttribute("usuario", superadmin);
-
         model.addAttribute("listasedes", sedeRepository.findAll());
-        model.addAttribute("listaespecialidad", especialidadRepository.findAll());
+        model.addAttribute("listaEspecialidad", especialidadRepository.findAll());
 
         return "superadmin/pages-registrar-administrativo";
     }
@@ -281,8 +281,8 @@ public class SuperadminController {
 
 
 
-    @PostMapping("/superadmin/actualizarUser")
-    public String actualizarUser(Usuario usuario,RedirectAttributes attr, Model model){
+    @PostMapping("/actualizarUser")
+    public String actualizarUser(Usuario usuario, RedirectAttributes attr, Model model, HttpSession session) {
         Usuario usuarioSpa = (Usuario) session.getAttribute("usuario");
         Usuario superadmin = usuarioRepository.buscarPorId(usuarioSpa.getIdusuario());
 
@@ -291,22 +291,26 @@ public class SuperadminController {
 
         model.addAttribute("listasedes", sedeRepository.findAll());
 
-        if (usuario.getEstadohabilitado() == 0){
+        if (usuario.getEstadohabilitado() == 0) {
             int habilitado = 0;
-            usuarioRepository.actualizarPaciente(habilitado,usuario.getNombres(),usuario.getApellidos(),usuario.getCorreo(),usuario.getDni(),usuario.getEdad(),usuario.getCelular(),usuario.getIdusuario());
+            usuarioRepository.actualizarPaciente(habilitado, usuario.getNombres(), usuario.getApellidos(), usuario.getCorreo(), usuario.getDni(), usuario.getFechanacimiento(), usuario.getCelular(), usuario.getIdusuario());
 
-        }else{
+        } else {
             int habilitado = 1;
-            usuarioRepository.actualizarPaciente(habilitado,usuario.getNombres(),usuario.getApellidos(),usuario.getCorreo(),usuario.getDni(),usuario.getEdad(),usuario.getCelular(),usuario.getIdusuario());
+            usuarioRepository.actualizarPaciente(habilitado, usuario.getNombres(), usuario.getApellidos(), usuario.getCorreo(), usuario.getDni(), usuario.getFechanacimiento(), usuario.getCelular(), usuario.getIdusuario());
 
         }
 
-        if(usuario.getIdusuario()!=null){
+        if (usuario.getIdusuario() != null) {
             attr.addFlashAttribute("msg", "Usuario actualizado exitosamente");
         }
-        ;
-        return "redirect:/superadmin/index";
+
+        // Guardar el ID en la variable de sesión
+        session.setAttribute("usuarioId", usuario.getIdusuario());
+
+        return "redirect:/superadmin/perfilUsuario";
     }
+
 
     @PostMapping("/savespa")
     public String guardarSuperadmin(Usuario superadminlog, RedirectAttributes attr){
@@ -348,26 +352,28 @@ public class SuperadminController {
         System.out.println("sede" + usuario.getSede());
         usuario.setContrasena(RandomStringUtils.random(10, true, true));
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        model.addAttribute("listaEspecialidad", especialidadRepository.findAll());
+
 
         if(bindingResult.hasErrors()){
-
             model.addAttribute("listasedes", sedeRepository.listaSedes());
-            model.addAttribute("listaespecialidad", especialidadRepository.findAll());
-
+            model.addAttribute("listaEspecialidad", especialidadRepository.findAll());
             return "superadmin/pages-registrar-adminitrador";
-
         }else{
-
             Usuario existingUserDni = usuarioRepository.findByDni(usuario.getDni());
             Usuario existingUserCelular = usuarioRepository.findByCelular(usuario.getCelular());
             Usuario existingUserCorreo = usuarioRepository.findByCorreo(usuario.getCorreo());
 
             if(existingUserDni == null){
                 if(existingUserCelular == null){
-                    if(existingUserCorreo==null){
-                        attr.addFlashAttribute("msg","Administrador creado");
+                    if(existingUserCorreo == null){
+                        attr.addFlashAttribute("msg", "Administrador creado");
                         String contrasenaGenerada = generarContrasena(10);
                         usuario.setContrasena(passwordEncoder.encode(contrasenaGenerada));
+                        usuarioRepository.save(usuario);
+
+                        int edad = usuarioRepository.edad(usuario.getIdusuario());
+                        usuario.setEdad(edad);
                         usuarioRepository.save(usuario);
 
                         GMailer enviocorreo = new GMailer();
@@ -379,31 +385,28 @@ public class SuperadminController {
                                 + "\nSu contraseña por defecto es: " + contrasenaGenerada
                                 + "\nPor favor, ingrese a: http://localhost:8083/cambiarcontrasena aquí para cambiarla.", receiverEmail);
 
-                        //emailService.sendEmail(usuario.getCorreo(), "Confirmación de Registro", "Estimado usuario, usted ha sido registrado en Clinica LA FE y su contraseña por defecto es: " + contrasenaGenerada );
                         return "redirect:/superadmin/index";
                     }else{
                         bindingResult.rejectValue("correo", "error.correo", "Ya existe un usuario con este correo electrónico");
                         model.addAttribute("listasedes", sedeRepository.listaSedes());
                         model.addAttribute("listaespecialidad", especialidadRepository.findAll());
-
                         return "superadmin/pages-registrar-adminitrador";
                     }
                 }else{
                     bindingResult.rejectValue("celular", "error.celular", "Ya existe un usuario con este número de celular");
                     model.addAttribute("listasedes", sedeRepository.listaSedes());
                     model.addAttribute("listaespecialidad", especialidadRepository.findAll());
-
                     return "superadmin/pages-registrar-adminitrador";
                 }
             }else{
                 bindingResult.rejectValue("dni", "error.dni", "Ya existe un usuario con este DNI");
                 model.addAttribute("listasedes", sedeRepository.listaSedes());
                 model.addAttribute("listaespecialidad", especialidadRepository.findAll());
-
                 return "superadmin/pages-registrar-adminitrador";
             }
         }
     }
+
 
 
     @GetMapping("/delete")
@@ -775,21 +778,40 @@ public class SuperadminController {
         return "superadmin/historial-notificaciones_spa";
     }
 
-    @GetMapping("/perfilUsuario")
-    public String perfilUsuario(Model model,@RequestParam("id") int id){
+    @PostMapping("/perfilUsuario")
+    public String perfilUsuario(Model model, @RequestParam("id") int id) {
         Usuario usuarioSpa = (Usuario) session.getAttribute("usuario");
-        // Usuario superadmin = usuarioRepository.buscarPorId(usuarioSpa.getIdusuario());
-
         model.addAttribute("listasedes", sedeRepository.findAll());
 
         Optional<Usuario> optionalUsuario = usuarioRepository.findById(id);
         Usuario usuario = optionalUsuario.get();
-        model.addAttribute("persona",usuario);
+        int edad = usuarioRepository.edad(usuario.getIdusuario());
+        usuario.setEdad(edad);
+        model.addAttribute("persona", usuario);
         System.out.println(id);
-        // model.addAttribute("usuario", superadmin);
 
         return "superadmin/perfil-usuarios_spa";
     }
+
+    @GetMapping("/perfilUsuario")
+    public String perfilUsuario(Model model, HttpSession session) {
+        // Obtener el ID almacenado en la variable de sesión
+        Integer idUsuario = (Integer) session.getAttribute("usuarioId");
+
+        Usuario usuarioSpa = (Usuario) session.getAttribute("usuario");
+        model.addAttribute("listasedes", sedeRepository.findAll());
+
+        Optional<Usuario> optionalUsuario = usuarioRepository.findById(idUsuario);
+        Usuario usuario = optionalUsuario.get();
+        int edad = usuarioRepository.edad(usuario.getIdusuario());
+        usuario.setEdad(edad);
+        model.addAttribute("persona", usuario);
+        System.out.println(idUsuario);
+
+        return "superadmin/perfil-usuarios_spa";
+    }
+
+
 
     @GetMapping("/seguros")
     public String seguro(Model model){

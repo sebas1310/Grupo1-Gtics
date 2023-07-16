@@ -56,12 +56,22 @@
                             <tr th:each="paciente, info: ${listapacientes}">
                                 <th scope="row" th:text="${info.index + 1}"></th>
                                 <td><a th:text="${paciente.nombres} + ' ' + ${paciente.apellidos}"></a></td>
-                                <td class="text-center" ><span th:if="${paciente.estadohabilitado == 1}" class="badge bg-success">Activo</span>
-                                    <span th:if="${paciente.estadohabilitado == 0}"class="badge bg-danger">Inactivo</span></td>
-                                <td class="text-center" ><a th:href="@{'/superadmin/perfilUsuario?id=' + ${paciente.idusuario}}" class="btn" style="background-color:#668cff">Acceder</a></td>
-                                <td class="text-center" ><a th:href="@{'/superadmin/logueo?id=' + ${paciente.idusuario}}" class="btn" style="background-color:#8a82be">Logueo</a></td>
+                                <td class="text-center">
+                                    <span th:if="${paciente.estadohabilitado == 1}" class="badge bg-success">Activo</span>
+                                    <span th:if="${paciente.estadohabilitado == 0}" class="badge bg-danger">Inactivo</span>
+                                </td>
+                                <td class="text-center">
+                                    <form th:action="@{/superadmin/perfilUsuario}" method="post">
+                                        <input type="hidden" name="id" th:value="${paciente.idusuario}">
+                                        <button type="submit" class="btn" style="background-color:#668cff">Acceder</button>
+                                    </form>
+                                </td>
+                                <td class="text-center">
+                                    <a th:href="@{'/superadmin/logueo?id=' + ${paciente.idusuario}}" class="btn" style="background-color:#8a82be">Logueo</a>
+                                </td>
                             </tr>
                             </tbody>
+
                         </table>
                     </div>
                 </div>

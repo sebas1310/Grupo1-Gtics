@@ -57,8 +57,14 @@
                                 <th scope="row" th:text="${info.index + 1}"></th>
                                 <td><a th:text="${usuariod.nombres} + ' ' + ${usuariod.apellidos}"></a></td>
                                 <td class="text-center" ><span th:if="${usuariod.estadohabilitado == 1}" class="badge bg-success">Activo</span>
-                                    <span th:if="${usuariod.estadohabilitado == 0}"class="badge bg-danger">Inactivo</span></td>
-                                <td class="text-center" ><a th:href="@{'/superadmin/perfilUsuario?id=' + ${usuariod.idusuario}}" class="btn" style="background-color:#668cff">Acceder</a></td>
+                                    <span th:if="${usuariod.estadohabilitado == 0}"class="badge bg-danger">Inactivo</span>
+                                </td>
+                                <td class="text-center">
+                                    <form th:action="@{/superadmin/perfilUsuario}" method="post">
+                                        <input type="hidden" name="id" th:value="${usuariod.idusuario}">
+                                        <button type="submit" class="btn" style="background-color:#668cff">Acceder</button>
+                                    </form>
+                                </td>
                                 <td class="text-center" ><a th:href="@{'/superadmin/logueo?id=' + ${usuariod.idusuario}}" class="btn" style="background-color:#8a82be">Logueo</a></td>
                             </tr>
                             </tbody>

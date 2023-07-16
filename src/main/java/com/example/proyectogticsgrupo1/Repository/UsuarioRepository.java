@@ -12,7 +12,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 
-
+import java.util.Date;
 import java.util.List;
 
 public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
@@ -78,8 +78,8 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
 
     @Modifying
     @Transactional
-    @Query(value="update usuario set estado_habilitado = ?1,nombres=?2,apellidos=?3,correo=?4,dni=?5,edad=?6,celular=?7 where idusuario = ?8",nativeQuery = true)
-    void actualizarPaciente(int habilitado,String nombres, String apellidos, String correo, String DNI, int edad, String celular, int idusuario);
+    @Query(value="update usuario set estado_habilitado = ?1,nombres=?2,apellidos=?3,correo=?4,dni=?5,fechanacimiento=?6,celular=?7 where idusuario = ?8",nativeQuery = true)
+    void actualizarPaciente(int habilitado, String nombres, String apellidos, String correo, String DNI, Date fechadenacimiento, String celular, int idusuario);
 
     @Modifying
     @Query(value= "update usuario set nombres= ?1 ,apellidos= ?2 where idusuario= ?3 ",nativeQuery = true)

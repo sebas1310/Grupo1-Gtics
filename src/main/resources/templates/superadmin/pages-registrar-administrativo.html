@@ -75,10 +75,9 @@
                             </div>
 
                             <div class="col-12">
-                                <label class="col-form-label">Edad</label>
-                                    <input type="number" class="form-control" th:field="*{edad}" th:classappend="${#fields.hasErrors('edad')?'is-invalid':''}" required>
-                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('edad')}"
-                                         th:errors="*{edad}" ></div>
+                                <label class="col-md-4 col-lg-3 col-form-label">Fecha de Nacimiento</label>
+                                <input type="date" class="form-control" th:field="*{fechanacimiento}" required>
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('fechanacimiento')}" th:errors="*{fechanacimiento}"></div>
                             </div>
 
                             <div class="col-12">
@@ -110,7 +109,7 @@
                                 <label  class="form-label">Especialidad</label>
                                 <select  class="form-select" th:name="especialidad.idespecialidad" required>
                                     <option value="" >Selecciona una opción</option>
-                                    <option th:each="especialidad : ${llistaespecialidad}" th:text="${especialidad.getNombre()}"
+                                    <option th:each="especialidad : ${listaEspecialidad}" th:text="${especialidad.getNombre()}"
                                             th:value="${especialidad.getIdespecialidad()}"></option>
                                 </select>
                             </div>

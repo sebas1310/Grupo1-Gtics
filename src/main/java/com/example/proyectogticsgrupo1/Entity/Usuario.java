@@ -8,6 +8,7 @@ import lombok.Setter;
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.UniqueElements;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
 import java.util.Base64;
@@ -74,8 +75,6 @@ public class Usuario  implements Serializable {
     private Double sueldo;
 
     @Column(name = "fechanacimiento")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date fechanacimiento;
-
-
-
 }
