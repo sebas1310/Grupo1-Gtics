@@ -53,13 +53,13 @@
                                             </div>
                                              <div class="col">
                                                 <a  class="logo d-flex align-items-right"><img th:src="@{/assets/img/logo.png}" alt="" style="width: 15%">
-                                                   <h5 style="color: black"><p>Clínica LA FE</p></h5>
+                                                   <h5 style="color: black; text-align: right;"><p>Clínica LA FE</p></h5>
                                                 </a>
                                              </div>
                                         </div>
                                     <br>
                                     <div style=" background-color: #2F68BA" class="text-center" >
-                                        <p  class="text-center " style="font-size: 24px;  color: white; font-weight: bolder; font-family: Tahoma; height: 44px" >Información Cita</p>
+                                        <p  class="text-center " style="font-size: 24px;  color: white; font-weight: bolder; font-family: Tahoma; height: 43px" >Información Cita</p>
                                     </div>
                                     <div class="col-lg">
                                         <div class="row">
@@ -84,7 +84,7 @@
                                             <div class="col">
                                                         <table>
                                                             <tr>
-                                                                <th style="text-align: left;width: 200px;" >Doctor(a):</th>
+                                                                <th style="text-align: left;width: 200px;">Doctor:</th>
                                                                 <td style="width: 300px;" th:text="|${boletadoctor.getDoctor().getUsuario().getNombres()} ${boletadoctor.getDoctor().getUsuario().getApellidos()}|"></td>
                                                             </tr>
                                                             <tr>
@@ -102,7 +102,7 @@
                                     <br>
                                     <br>
                                     <div style="background-color: #2F68BA">
-                                        <p class="text-right" style="color: white; font-weight: bolder" th:text="|MONTO RECIBIDO: S/. ${boletadoctor.getMonto()}|"></p>
+                                        <p class="text-right" style="color: white; font-weight: bolder; text-align: right;" th:text="|MONTO RECIBIDO: S/. ${boletadoctor.getMonto() }     | "></p>
                                     </div>
 
 
