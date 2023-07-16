@@ -148,7 +148,7 @@
                     <a th:if="${(cita.getEstadoCita().getIdestadocita()==1) or (cita.getEstadoCita().getIdestadocita()==2) or (cita.getEstadoCita().getIdestadocita()==3)}" type="button" class="btn btn-outline-primary" disabled>
                         No Disponible hasta Inicio de Cita
                     </a>
-                  <a th:if="${(cita.getEstadoCita().getIdestadocita()==4) and (cita.getFlagReceta()==null)}" id="boton1" type="button" class="btn btn-outline-primary" th:href="@{'/doctor/dashboard/info/anadir?id=' + ${cita.getIdcita()}}">
+                  <a th:if="${(cita.getEstadoCita().getIdestadocita()==4)}" id="boton1" type="button" class="btn btn-outline-primary" th:href="@{'/doctor/dashboard/info/anadir?id=' + ${cita.getIdcita()}}">
                     Añadir Receta
                   </a>
                     <br>
