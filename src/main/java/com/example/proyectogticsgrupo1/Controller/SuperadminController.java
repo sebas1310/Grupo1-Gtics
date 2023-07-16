@@ -252,6 +252,8 @@ public class SuperadminController {
     public String perfilSuperAdmin(@ModelAttribute("superadminlog") Usuario usuario, Model model){
         Usuario usuarioSpa = (Usuario) session.getAttribute("usuario");
         Usuario superadmin = usuarioRepository.buscarPorId(usuarioSpa.getIdusuario());
+        int edad = usuarioRepository.edad(superadmin.getIdusuario());
+        superadmin.setEdad(edad);
 
         //Optional<Usuario> optionalSuperadmin = usuarioRepository.findById(1);
         //usuario = optionalSuperadmin.get();
@@ -823,38 +825,41 @@ public class SuperadminController {
         return "superadmin/seguros_spa";
     }
 
-    @PostMapping(value = "/changepasswordusuarios")
+    @PostMapping("/changepasswordusuarios")
     @Transactional
-    public String changePasswordUsuarios(@RequestParam("id") int idusuario,
-                                 @RequestParam("contrasena1") String contrasena,
-                                 @RequestParam("newpassword2") String newpassword,
-                                 @RequestParam("renewpassword3") String renewpassword, RedirectAttributes redirectAttributes) {
+    public String changePasswordUsuarios(Usuario usuario, RedirectAttributes attr, Model model, HttpSession session,
+                                         @RequestParam("id") int idusuario,
+                                         @RequestParam("contrasena1") String contrasena,
+                                         @RequestParam("newpassword2") String newpassword,
+                                         @RequestParam("renewpassword3") String renewpassword,
+                                         RedirectAttributes redirectAttributes) {
 
         Optional<Usuario> optionalUsuario = usuarioRepository.findById(idusuario);
 
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-        if(optionalUsuario.isPresent()){
-
-            Usuario usuario = optionalUsuario.get();
+        if (optionalUsuario.isPresent()) {
+            usuario = optionalUsuario.get();
 
             if (passwordEncoder.matches(contrasena, usuario.getContrasena())) {
-                String hashedNewPassword = passwordEncoder.encode(newpassword);
-
-                usuarioRepository.changePassword(hashedNewPassword, usuario.getIdusuario());
-                emailService.sendEmail(usuario.getCorreo(), "Cambio de Contraseña", "Estimado usuario, hemos reestablecido su contraseña, la cual ahora es: " + newpassword);
-                redirectAttributes.addFlashAttribute("psw3", "Contraseña actualizada");
+                if (newpassword.equals(renewpassword)) {
+                    String hashedNewPassword = passwordEncoder.encode(newpassword);
+                    usuarioRepository.changePassword(hashedNewPassword, usuario.getIdusuario());
+                    emailService.sendEmail(usuario.getCorreo(), "Cambio de Contraseña", "Estimado usuario, hemos restablecido su contraseña, la cual ahora es: " + newpassword);
+                    redirectAttributes.addFlashAttribute("psw3", "Contraseña actualizada");
+                } else {
+                    redirectAttributes.addFlashAttribute("psw4", "Las contraseñas no coinciden");
+                }
             } else {
-                System.out.println("INCORRECTO");
-                redirectAttributes.addFlashAttribute("psw4", "La contraseña es incorrecta");
+                redirectAttributes.addFlashAttribute("psw4", "La contraseña actual es incorrecta");
             }
-
-        }else{
-
         }
 
-        return "redirect:/superadmin/perfilUsuario?id=" + idusuario;
+        session.setAttribute("usuarioId", usuario.getIdusuario());
+        return "redirect:/superadmin/perfilUsuario";
     }
+
+
 
     @PostMapping(value = "/cambiarcontrasena")
     @Transactional
