@@ -1,8 +1,9 @@
 package com.example.proyectogticsgrupo1.Controller;
 
 import com.example.proyectogticsgrupo1.Entity.*;
+import com.example.proyectogticsgrupo1.GMailer;
 import com.example.proyectogticsgrupo1.Repository.*;
-
+import com.example.proyectogticsgrupo1.GMailer;
 import com.example.proyectogticsgrupo1.Repository.ModeloJsonRepository;
 import com.example.proyectogticsgrupo1.Service.EmailService;
 /*import com.google.cloud.storage.Blob;
@@ -12,7 +13,6 @@ import com.google.cloud.storage.StorageOptions;*/
 import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
-
 import jakarta.validation.Valid;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -27,11 +27,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-
-import java.beans.Encoder;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -346,7 +341,7 @@ public class SuperadminController {
         return sb.toString();
     }
     @PostMapping("/save")
-    public String guardarAdministrador(@ModelAttribute("usuario") @Valid Usuario usuario, BindingResult bindingResult, RedirectAttributes attr, Model model){
+    public String guardarAdministrador(@ModelAttribute("usuario") @Valid Usuario usuario, BindingResult bindingResult, RedirectAttributes attr, Model model) throws Exception {
 
         System.out.println("sede" + usuario.getSede());
         usuario.setContrasena(RandomStringUtils.random(10, true, true));
@@ -370,7 +365,18 @@ public class SuperadminController {
                         String contrasenaGenerada = generarContrasena(10);
                         usuario.setContrasena(passwordEncoder.encode(contrasenaGenerada));
                         usuarioRepository.save(usuario);
-                        emailService.sendEmail(usuario.getCorreo(), "Confirmación de Registro", "Estimado usuario, usted ha sido registrado en Clinica LA FE y su contraseña por defecto es: " + contrasenaGenerada );
+
+                        GMailer enviocorreo = new GMailer();
+                        String receiverEmail = usuario.getCorreo(); // Aquí puedes colocar la dirección de correo electrónico del receptor deseado
+
+
+                        // Construye el mensaje del correo en formato HTML
+                        enviocorreo.sendMail("Registro Exitoso en Clinica La Fe", "Estimado usuario,"
+                                + "\nUsted ha sido registrado en Clínica LA FE."
+                                + "\nSu contraseña por defecto es: " + contrasenaGenerada
+                                + "\nPor favor, ingrese a: http://localhost:8081/cambiarcontrasena aquí para cambiarla.", receiverEmail);
+
+                        //emailService.sendEmail(usuario.getCorreo(), "Confirmación de Registro", "Estimado usuario, usted ha sido registrado en Clinica LA FE y su contraseña por defecto es: " + contrasenaGenerada );
                         return "redirect:/superadmin/index";
                     }else{
                         bindingResult.rejectValue("correo", "error.correo", "Ya existe un usuario con este correo electrónico");
