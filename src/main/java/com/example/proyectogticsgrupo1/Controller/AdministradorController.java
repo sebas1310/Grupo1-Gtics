@@ -1,6 +1,7 @@
 package com.example.proyectogticsgrupo1.Controller;
 
 import com.example.proyectogticsgrupo1.Entity.*;
+import com.example.proyectogticsgrupo1.GMailer;
 import com.example.proyectogticsgrupo1.Repository.*;
 import com.example.proyectogticsgrupo1.Service.EmailService;
 /*import com.google.cloud.storage.Blob;
@@ -142,7 +143,7 @@ public class AdministradorController {
 
     @PostMapping(value = "/guardar2")
     @Transactional
-    public String guardarUsuario(@ModelAttribute("usuario2") @Valid Usuario user,BindingResult bindingResult, RedirectAttributes attr, Model model, @RequestParam("direccion") String direccion) {
+    public String guardarUsuario(@ModelAttribute("usuario2") @Valid Usuario user,BindingResult bindingResult, RedirectAttributes attr, Model model, @RequestParam("direccion") String direccion) throws Exception {
         Usuario usuarioAdministrador = (Usuario) session.getAttribute("usuario");
         model.addAttribute("usuario", usuarioAdministrador);
 
@@ -198,7 +199,10 @@ public class AdministradorController {
             String content = "Usted registro un usuario de TIPO: PACIENTE, con CORREO: " + paciente.getUsuario().getCorreo() ;
             String titulo = "Usuario creado con exito";
             notificacionesRepository.notificarCreacion(usuarioAdministrador.getIdusuario(),content,titulo);
-            emailService.sendEmail(paciente.getUsuario().getCorreo(), "Confirmación de Registro", "Estimado usuario, usted ha sido registrado en:\nSede " + usuarioAdministrador.getSede().getNombre() + "\nUbicada en " + usuarioAdministrador.getSede().getDireccion() + "\nTu contraseña por defecto es: " + contrasenaGenerada + "\nIngresa"+ "aquí" +"para cambiarla : http://localhost:8081/cambiarcontrasena");
+            GMailer enviocorreo = new GMailer();
+            String receiverEmail = paciente.getUsuario().getCorreo();
+            enviocorreo.sendMail("Registro Exitoso en Clinica La Fe", "Estimado usuario, usted ha sido registrado en:\nSede " + usuarioAdministrador.getSede().getNombre() + "\nUbicada en " + usuarioAdministrador.getSede().getDireccion() + "\nTu contraseña por defecto es: " + contrasenaGenerada + "\nIngresa"+" aquí" +"para cambiarla : http://localhost:8081/cambiarcontrasena", receiverEmail);
+            //emailService.sendEmail(paciente.getUsuario().getCorreo(), "Confirmación de Registro", "Estimado usuario, usted ha sido registrado en:\nSede " + usuarioAdministrador.getSede().getNombre() + "\nUbicada en " + usuarioAdministrador.getSede().getDireccion() + "\nTu contraseña por defecto es: " + contrasenaGenerada + "\nIngresa"+ "aquí" +"para cambiarla : http://localhost:8081/cambiarcontrasena");
         }
         return "redirect:/administrador/dashboardpaciente";
     }
@@ -503,7 +507,7 @@ public class AdministradorController {
 
     @PostMapping(value = "/guardar3")
     @Transactional
-    public String guardarDoctor(@ModelAttribute("usuario1") @Valid Usuario user, BindingResult bindingResult, RedirectAttributes attr, Model model, @RequestParam("especialidad") int idEspecialidad) {
+    public String guardarDoctor(@ModelAttribute("usuario1") @Valid Usuario user, BindingResult bindingResult, RedirectAttributes attr, Model model, @RequestParam("especialidad") int idEspecialidad) throws Exception {
         Usuario usuarioAdministrador = (Usuario) session.getAttribute("usuario");
         model.addAttribute("usuario", usuarioAdministrador);
 
@@ -558,7 +562,10 @@ public class AdministradorController {
             String content = "Usted registro un usuario de TIPO: DOCTOR, con CORREO: " + doctor.getUsuario().getCorreo() ;
             String titulo = "Usuario creado con exito";
             notificacionesRepository.notificarCreacion(usuarioAdministrador.getIdusuario(),content,titulo);
-            emailService.sendEmail(doctor.getUsuario().getCorreo(), "Confirmación de Registro", "Estimado usuario, usted ha sido registrado en:\nSede " + usuarioAdministrador.getSede().getNombre() + "\nUbicada en " + usuarioAdministrador.getSede().getDireccion() + "\nTu contraseña por defecto es: " + contrasenaGenerada + "\nIngresa"+ " aquí" +"para cambiarla : http://localhost:8081/cambiarcontrasena");
+            GMailer enviocorreo = new GMailer();
+            String receiverEmail = doctor.getUsuario().getCorreo();
+            enviocorreo.sendMail("Registro Exitoso en Clinica La Fe", "Estimado usuario, usted ha sido registrado en:\nSede " + usuarioAdministrador.getSede().getNombre() + "\nUbicada en " + usuarioAdministrador.getSede().getDireccion() + "\nTu contraseña por defecto es: " + contrasenaGenerada + "\nIngresa"+" aquí" +"para cambiarla : http://localhost:8081/cambiarcontrasena", receiverEmail);
+            //emailService.sendEmail(doctor.getUsuario().getCorreo(), "Confirmación de Registro", "Estimado usuario, usted ha sido registrado en:\nSede " + usuarioAdministrador.getSede().getNombre() + "\nUbicada en " + usuarioAdministrador.getSede().getDireccion() + "\nTu contraseña por defecto es: " + contrasenaGenerada + "\nIngresa"+ " aquí" +"para cambiarla : http://localhost:8081/cambiarcontrasena");
             return "redirect:/administrador/dashboarddoctor";
         }
     }
@@ -574,7 +581,7 @@ public class AdministradorController {
 
 
     @PostMapping(value = "/editarperfil")
-    public String editarPerfil(Model model,
+    public String editarPerfil(RedirectAttributes redirectAttributes,
                                @RequestParam("id") int idusuario,
                                @RequestParam("nombres") String nombres,
                                @RequestParam("apellidos") String apellidos,
@@ -584,8 +591,7 @@ public class AdministradorController {
         usuarioRepository.perfil(nombres, apellidos, correo, celular, idusuario);
         session.removeAttribute("usuario");
         session.setAttribute("usuario", usuarioRepository.findById(idusuario).get());
-        model.addAttribute("msg", "Perfil Actualizado");
-
+        redirectAttributes.addFlashAttribute("msg", "Perfil Actualizado");
         return "redirect:/administrador/perfil";
     }
 
