@@ -1179,7 +1179,7 @@ public class PacienteController {
 
 
                     GMailer enviocorreo = new GMailer();
-                    String receiverEmail = "adrian.lopez@pucp.edu.pe"; // Aquí puedes colocar la dirección de correo electrónico del receptor deseado
+                    String receiverEmail = "a20192270@pucp.edu.pe"; // Aquí puedes colocar la dirección de correo electrónico del receptor deseado
                     enviocorreo.sendMail("Confirmacion de Cita", """
         Dear reader,
         Hello world.
