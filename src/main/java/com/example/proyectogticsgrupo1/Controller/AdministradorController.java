@@ -184,6 +184,8 @@ public class AdministradorController {
             String contrasenaCifrada = passwordEncoder.encode(contrasenaGenerada);
             user.setContrasena(contrasenaCifrada);
             usuarioRepository.save(user);
+            int edad = usuarioRepository.edad(user.getIdusuario());
+            user.setEdad(edad);
             Paciente paciente = new Paciente();
             EstadoPaciente estadoPaciente = new EstadoPaciente();
             estadoPaciente.setIdestadopaciente(1);
@@ -547,6 +549,8 @@ public class AdministradorController {
             String contrasenaCifrada = passwordEncoder.encode(contrasenaGenerada);
             user.setContrasena(contrasenaCifrada);
             usuarioRepository.save(user);
+            int edad = usuarioRepository.edad(user.getIdusuario());
+            user.setEdad(edad);
             Doctor doctor = new Doctor();
             doctor.setCmp(0);
             doctor.setFormacion("-");
@@ -575,6 +579,8 @@ public class AdministradorController {
     public String perfilPaciente(@ModelAttribute("administradorlog") Usuario usuario, Model model) {
         Usuario usuarioAdministrador = (Usuario) session.getAttribute("usuario");
         Usuario administrador = usuarioRepository.buscarPorId(usuarioAdministrador.getIdusuario());
+        int edad = usuarioRepository.edad(administrador.getIdusuario());
+        administrador.setEdad(edad);
         model.addAttribute("administradorlog", administrador);
         return "administrador/perfil";
     }

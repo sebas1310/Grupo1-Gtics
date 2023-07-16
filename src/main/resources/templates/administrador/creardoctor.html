@@ -70,9 +70,9 @@
                                 <div class="invalid-feedback" th:if="${#fields.hasErrors('celular')}" th:errors="*{celular}"></div>
                             </div>
                             <div class="col-12">
-                                <label class="form-label">Edad (en años)</label>
-                                <input class="form-control" th:field="*{edad}" th:classappend="${#fields.hasErrors('edad')?'is-invalid':''}" required>
-                                <div class="invalid-feedback" th:if="${#fields.hasErrors('edad')}" th:errors="*{edad}"></div>
+                                <label class="col-md-4 col-lg-3 col-form-label">Fecha de Nacimiento</label>
+                                <input type="date" class="form-control" th:field="*{fechanacimiento}" required>
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('fechanacimiento')}" th:errors="*{fechanacimiento}"></div>
                             </div>
                             <div class="col-12">
                                 <label class="form-label">Género</label>
