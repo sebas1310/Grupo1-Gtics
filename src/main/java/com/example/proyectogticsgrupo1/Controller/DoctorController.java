@@ -103,7 +103,6 @@ public class DoctorController {
     @Autowired
     private HttpSession session;
 
-    //Mostrará Por Defecto el Calendario Semanal de Doctor
 
     //Mostrará Por Defecto el Calendario Semanal de Doctor
 
@@ -120,7 +119,6 @@ public class DoctorController {
                 return "gray"; // Color predeterminado para otros casos
         }
     }
-
     @GetMapping("/dashboard")
     public String inicioDashboardDoctor(Model model) {
 
