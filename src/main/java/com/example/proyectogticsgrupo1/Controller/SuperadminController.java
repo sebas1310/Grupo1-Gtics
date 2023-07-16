@@ -265,6 +265,8 @@ public class SuperadminController {
         //model.addAttribute("usuario", superadmin);
 
         model.addAttribute("listasedes", sedeRepository.findAll());
+        model.addAttribute("listaespecialidad", especialidadRepository.findAll());
+
         return "superadmin/pages-registrar-administrativo";
     }
     @GetMapping("/registraradministrador")
@@ -350,6 +352,8 @@ public class SuperadminController {
         if(bindingResult.hasErrors()){
 
             model.addAttribute("listasedes", sedeRepository.listaSedes());
+            model.addAttribute("listaespecialidad", especialidadRepository.findAll());
+
             return "superadmin/pages-registrar-adminitrador";
 
         }else{
@@ -381,16 +385,22 @@ public class SuperadminController {
                     }else{
                         bindingResult.rejectValue("correo", "error.correo", "Ya existe un usuario con este correo electrónico");
                         model.addAttribute("listasedes", sedeRepository.listaSedes());
+                        model.addAttribute("listaespecialidad", especialidadRepository.findAll());
+
                         return "superadmin/pages-registrar-adminitrador";
                     }
                 }else{
                     bindingResult.rejectValue("celular", "error.celular", "Ya existe un usuario con este número de celular");
                     model.addAttribute("listasedes", sedeRepository.listaSedes());
+                    model.addAttribute("listaespecialidad", especialidadRepository.findAll());
+
                     return "superadmin/pages-registrar-adminitrador";
                 }
             }else{
                 bindingResult.rejectValue("dni", "error.dni", "Ya existe un usuario con este DNI");
                 model.addAttribute("listasedes", sedeRepository.listaSedes());
+                model.addAttribute("listaespecialidad", especialidadRepository.findAll());
+
                 return "superadmin/pages-registrar-adminitrador";
             }
         }
