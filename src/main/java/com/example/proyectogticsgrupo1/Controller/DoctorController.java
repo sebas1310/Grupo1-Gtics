@@ -142,12 +142,12 @@ public class DoctorController {
         Map<LocalDate, Map<Integer, List<Eventocalendariodoctor>>> eventoPorDiaYHora = new HashMap<>();
 
         // Agrupar las citas por día y hora
-        for (Eventocalendariodoctor evento : eventoss) {
-            LocalDate fecha = evento.getFecha();
-            int hourOfDay = evento.getHorainicio().getHour();
+        for (Eventocalendariodoctor evento1 : eventoss) {
+            LocalDate fecha = evento1.getFecha();
+            int hourOfDay = evento1.getHorainicio().getHour();
 
             Map<Integer, List<Eventocalendariodoctor>> eventoPorHora = eventoPorDiaYHora.computeIfAbsent(fecha, k -> new HashMap<>());
-            eventoPorHora.computeIfAbsent(hourOfDay, k -> new ArrayList<>()).add(evento);
+            eventoPorHora.computeIfAbsent(hourOfDay, k -> new ArrayList<>()).add(evento1);
         }
 
         // Crear una lista de eventos en formato JSON
@@ -171,11 +171,13 @@ public class DoctorController {
     }
     @GetMapping("/dashboard/info")
     public String infoDashboard(Model model, @RequestParam("idC") int idCita,
-                                @RequestParam("idP") int idPaciente) {
+                                @RequestParam("idP") int idPaciente,
+                                @RequestParam(name="idReceta", defaultValue = "0") int idReceta) {
 
         Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
         Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
         model.addAttribute("doctor",doctor);
+        model.addAttribute("recetamedica", recetaMedicaRepository.buscarRecetaMedicaPorCita(idCita, idReceta));
         Paciente paciente = pacienteRepository.buscarPacientePorID(idPaciente);
         model.addAttribute("paciente", paciente);
         List<Cita> citasAgendadas1 = citaRepository.buscarCitasAgendadasDoctor(doctor.getIddoctor());

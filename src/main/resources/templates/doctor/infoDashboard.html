@@ -61,7 +61,7 @@
                       <input name="id" th:value="${cita.getIdcita()}" class="form-control" type="hidden">
                       <input name="idestadocita" th:value="${estadoscita.get(3).getIdestadocita()}" class="form-control" type="hidden">
                       <button th:if="${(cita.getEstadoCita().getIdestadocita()==1) or (cita.getEstadoCita().getIdestadocita()==2)}" type="submit" class="btn btn-outline-success"disabled><i class="bi bi-skip-end-circle me-1" ></i> Iniciar</button>
-                      <button th:if="${(cita.getEstadoCita().getIdestadocita()==3)}" type="submit" class="btn btn-outline-success"><i class="bi bi-skip-end-circle me-1"></i> Iniciar</button>
+                      <button th:if="${(cita.getEstadoCita().getIdestadocita()==3)}" type="submit" class="btn btn-success"><i class="bi bi-skip-end-circle me-1"></i> Iniciar</button>
                       <!--<button th:if="${(cita.getEstadoCita().getIdestadocita()==3 or cita.getEstadoCita().getIdestadocita()==4) and (cita.getEstadoCita().getIdestadocita()!=1 or cita.getEstadoCita().getIdestadocita()!=2)}" type="submit" class="btn btn-outline-success"><i class="bi bi-skip-end-circle me-1"></i> Continuar</button>-->
                     </form>
 
@@ -106,27 +106,54 @@
                     </div>
               </div>
             </div>
+          </div>
         </div>
-        <!-- Revenue Card
-        <div class="col-xxl-4">
-          <div class="card info-card revenue-card">
-            <div class="card-body">
-              <h5 class="card-title">Perfil <span></span></h5>
-
-              <div class="d-flex align-items-center">
-                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                  <i class="bi bi-currency-dollar"></i>
-                </div>
-                <div class="ps-3">
-                  <h6>$3,264</h6>
-                  <span class="text-success small pt-1 fw-bold">8%</span> <span class="text-muted small pt-2 ps-1">increase</span>
-
+        <div class="row">
+          <div class="col-xxl-12 ">
+            <div class="card info-card customers-card">
+              <div class="card-body">
+                <h5 class="card-title" >Receta Médica</h5>
+                <div th:if="${msg!=null}" th:text="${msg}" class="alert alert-success" role="alert"></div>
+                <div th:if="${msg2!=null}" th:text="${msg2}" class="alert alert-danger" role="alert"></div>
+                <div th:if="${msg3!=null}" th:text="${msg3}" class="alert alert-success" role="alert"></div>
+                <table class="table">
+                  <thead class="table-light">
+                  <tr>
+                    <th style="text-align: center" scope="col">#</th>
+                    <th style="text-align: center" scope="col">Medicamento</th>
+                    <th style="text-align: center" scope="col">Dosis</th>
+                    <th style="text-align: center" scope="col">Descripción</th>
+                    <!--<th style="text-align: center" scope="col">Opción</th> -->
+                    <th style="text-align: center" scope="col">Editar</th>
+                    <th style="text-align: center" scope="col">Borrar</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr th:each=" receta,indice : ${recetamedica}">
+                    <th style="text-align: center" th:text="${indice.index+1}" scope="row"></th>
+                    <td style="text-align: center" th:text="${receta.getMedicamento()}"></td>
+                    <td style="text-align: center" th:text="${receta.getDosis()}"></td>
+                    <td style="text-align: center" th:text="${receta.getDescripcion()}"></td>
+                    <!-- <td style="text-align: center" th:text="${receta.getIdRecetaMedica()}"></td> -->
+                    <td style="text-align: center" > <a class="bi bi-pencil-square"  th:href="@{'/doctor/pacientesatendidos/verhistorial/vercita/editarreceta?idReceta='+ ${receta.getIdRecetaMedica()} + '&id=' + ${cita.getIdcita()}}"></a></td>
+                    <!-- <td> <input type="button" name="btnEditarS" value="Editar 1" th:text="${receta.getIdRecetaMedica()}"
+                                class="bi bi-pencil-square" data-bs-toggle="modal" data-bs-target="#modal"></td>-->
+                    <td style="text-align: center" ><a class="bi bi-trash" th:href="@{'/doctor/pacientesatendidos/verhistorial/vercita/borrarreceta?idR='+${receta.getIdRecetaMedica()}}"></a></td>
+                  </tr>
+                  </tbody>
+                </table>
+                <!-- Añadir Receta-->
+                <div class="d-grid gap-2 d-md-flex justify-content-md-center" >
+                  <a type="button" class="btn btn-outline-primary" th:href="@{'/doctor/pacientesatendidos/verhistorial/vercita/anadir?id=' + ${cita.getIdcita()}}">
+                    Añadir Receta
+                  </a>
+                  <br>
                 </div>
               </div>
             </div>
           </div>
-        </div> -->
-      </div>
+        </div>
+
       </div>
       <div class="col-lg-5">
         <!-- Bitacobra -->
@@ -157,16 +184,14 @@
                 <a th:href="@{'/doctor/dashboard/info/enviarcuestionario' + '?idcuest=' + ${34}+'&id=' + ${cita.getIdcita()}}" class="btn btn-danger">Enviar </a>
               </div>
             </div>
-            <br>
-
             <div th:unless="${cuestionarios.isEmpty()}">
               <div  th:each="cuest:${cuestionarios}">
                 <div class="text-center">
-                    <a class="btn btn-success" th:href="@{'/doctor/dashboard/info/vercuestionario'+ '?idcuest=' + ${cuest}+'&id=' + ${cita.getIdcita()}}"
-                    ><i class="bi bi-journal-text me-2"></i>Ver Cuestionario</a>
+                    <a class="btn btn-success" th:href="@{'/doctor/dashboard/info/vercuestionario'+ '?idcuest=' + ${cuest}+'&id=' + ${cita.getIdcita()}}">Ver Cuestionario</a>
                 </div>
               </div>
             </div>
+            <br>
           </div>
           </div>
           <div class="card">
