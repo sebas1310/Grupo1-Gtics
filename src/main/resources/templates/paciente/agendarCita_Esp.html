@@ -24,7 +24,15 @@
 
   <div class="pagetitle">
     <h1>Seleccionar Especialidad</h1>
-    <h5 th:text="|Sede: ${sede.nombre}|"></h5>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a th:href="@{'/paciente/agendarCita_Sede'}">Sede</a></li>
+        <li class="breadcrumb-item active">Especialidad</li>
+      </ol>
+    </nav>
+    <div style="font-family: Nunito; font-size: large">
+      Sede: <a style=" color: #4154F1" th:text="| ${sede.nombre} |"></a>
+    </div>
   </div>
 
   <!-- End Page Title -->
@@ -70,7 +78,7 @@
     <!-- You can delete the links only if you purchased the pro version. -->
     <!-- Licensing information: https://bootstrapmade.com/license/ -->
     <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
-    Diseñado por <a href="#">Grupo 1</a>
+    Diseñado por <a style="font-weight: bolder; color:#4154F1 ">Grupo 1</a>
   </div>
 </footer><!-- End Footer -->
 

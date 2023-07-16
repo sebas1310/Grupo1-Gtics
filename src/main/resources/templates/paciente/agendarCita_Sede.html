@@ -2,6 +2,11 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head th:insert="fragmentsPacientes/librerias.html :: cabecera (titulo = ' Agendar Cita')">
+
+  <!-- Favicons -->
+  <link th:href="@{assets/img/favicon.png}" rel="icon">
+  <link th:href="@{assets/img/apple-touch-icon.png}" rel="apple-touch-icon">
+
 </head>
 <body>
 
@@ -24,6 +29,11 @@
 
   <div class="pagetitle">
     <h1>Seleccionar Sede</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item active">Sede</li>
+      </ol>
+    </nav>
   </div>
 
   <!-- End Page Title -->
@@ -46,8 +56,10 @@
               <div style="font-family: Nunito" class="ps-4">
                 <h6>Dirección:</h6>
                 <span th:text="${sede.direccion}" class="text-muted small pt-2 ps-1"></span>
+                <br>
 
                 <div style="font-family: Nunito" class="align-right">
+                  <p></p>
                   <a th:href="@{'/paciente/agendarCita_Esp?idsede='+ ${sede.idsede}}" class="btn btn-outline-warning " >Seleccionar</a>
                 </div>
 
@@ -73,7 +85,7 @@
     <!-- You can delete the links only if you purchased the pro version. -->
     <!-- Licensing information: https://bootstrapmade.com/license/ -->
     <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
-    Diseñado por <a href="#">Grupo 1</a>
+    Diseñado por <a style="font-weight: bolder; color:#4154F1 ">Grupo 1</a>
   </div>
 </footer><!-- End Footer -->
 

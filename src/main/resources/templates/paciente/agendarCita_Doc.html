@@ -29,9 +29,21 @@
       }
     </style>
     <h1 class="small-separation">Seleccionar Doctor</h1>
-    <h5  th:text="|Sede: ${sede.nombre} |"></h5>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a th:href="@{'/paciente/agendarCita_Sede'}">Sede</a></li>
+        <li class="breadcrumb-item"><a th:href="@{'/paciente/agendarCita_Esp?idsede='+ ${sede.idsede}}">Especialidad</a></li>
+        <li class="breadcrumb-item active">Doctor</li>
+      </ol>
+    </nav>
+    <div style="font-family: Nunito; font-size: x-large">
+      Sede: <a style=" color: #4154F1" th:text="| ${sede.nombre} |"></a>
+    </div>
+    <div style="font-family: Nunito; font-size: large">
+      Especialidad: <a style=" color: #4154F1" th:text="| ${especialidad.nombre} |"></a>
+    </div>
 
-    <h6 class="small-separation" th:text="|Especialidad: ${especialidad.nombre}|"></h6>
+
 
   </div>
 
@@ -81,7 +93,7 @@
     <!-- You can delete the links only if you purchased the pro version. -->
     <!-- Licensing information: https://bootstrapmade.com/license/ -->
     <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
-    Diseñado por <a href="#">Grupo 1</a>
+    Diseñado por <a style="font-weight: bolder; color:#4154F1 ">Grupo 1</a>
   </div>
 </footer><!-- End Footer -->
 

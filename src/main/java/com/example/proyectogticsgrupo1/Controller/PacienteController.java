@@ -15,7 +15,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
@@ -182,8 +183,17 @@ public class PacienteController {
         return "paciente/tipocita";
     }
     @GetMapping(value = "/reservar2")
-    public String selectDate(Model model, @RequestParam("iddoc") Integer id, @RequestParam("semana") Integer semana, RedirectAttributes redirectAttributes){
+    public String selectDate(Model model, @RequestParam(value = "per", required = false) Integer perfil, @RequestParam("iddoc") Integer id, @RequestParam("semana") Integer semana, RedirectAttributes redirectAttributes){
 
+
+
+        //para el brecrumb
+        if (perfil != null){
+            model.addAttribute("per", 1);
+        } else {
+            model.addAttribute("per", 0);
+        }
+        //---------------------------
         Doctor doc = doctorRepository.buscarDoctorPorId(id);
         Usuario usuario = (Usuario) session.getAttribute("usuario");
         Paciente paciente = pacienteRepository.pacXuser(usuario.getIdusuario());
@@ -966,7 +976,13 @@ public class PacienteController {
                             boletaPacienteRepository.generarBoletaPacienteCita(paciente.getIdpaciente(),citaAgendada.getIdcita(),idseguro,montoPaciente);
                             emailService.sendEmail(paciente.getUsuario().getCorreo(),"Confirmación de cita","Estimado usuario usted reservó una cita para el "+fecha.toString()+ ".\n"+"En la sede "+sedeRepository.findById(idsede).get().getNombre()+" ubicada " +sedeRepository.findById(idsede).get().getDireccion());
                         }else{
-                            emailService.sendEmail(paciente.getUsuario().getCorreo(),"Confirmación de cita","Estimado usuario usted reservó una cita virtual para el "+fecha.toString()+ ".\n"+"El link para la sesion de zoom es el siguiente: " + doctorRepository.findById(iddoctor).get().getZoom());
+
+                            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+                            String fechaFormateada = sdf.format(fecha);
+                            System.out.println("La fecha es:"+ fechaFormateada);
+                            emailService.sendEmail(paciente.getUsuario().getCorreo(),"Confirmación de cita","Estimado usuario usted reservó una cita virtual para el "+fechaFormateada+ ".\n"+"El link para la sesion de zoom es el siguiente: " + doctorRepository.findById(iddoctor).get().getZoom());
+
+                            //emailService.sendEmail(paciente.getUsuario().getCorreo(),"Confirmación de cita","Estimado usuario usted reservó una cita virtual para el "+fecha.toString()+ ".\n"+"El link para la sesion de zoom es el siguiente: " + doctorRepository.findById(iddoctor).get().getZoom());
                         }
                         redirectAttributes.addFlashAttribute("msg1", "Ha reservado una cita con éxito");
 

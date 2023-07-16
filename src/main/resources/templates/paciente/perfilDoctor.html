@@ -25,6 +25,7 @@
     <h1>Perfil</h1>
     <nav>
       <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a th:href="@{'/paciente/'}">Dashboard</a></li>
         <li class="breadcrumb-item active">Perfil Doctor</li>
       </ol>
     </nav>
@@ -65,7 +66,7 @@
               </table>
               <div>
                 <div class="text-center">
-                  <a th:href="@{'/paciente/reservar2?iddoc='+ ${doc.iddoctor}+ '&semana=' + 0}" class="btn btn-outline-warning ">Ver más</a>
+                  <a th:href="@{'/paciente/reservar2?per='+1+'&iddoc='+${doc.iddoctor}+'&semana='+0}" class="btn btn-outline-warning ">Ver más</a>
                 </div>
               </div>
             </div>

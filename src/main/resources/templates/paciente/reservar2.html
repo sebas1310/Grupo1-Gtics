@@ -8,7 +8,9 @@
 </header>
 <!-- End Header -->
 <!-- ======= Sidebar ======= -->
-<aside th:replace="fragmentsPacientes/aside.html :: sidebar (active = 'dashboard')">
+<aside th:if="${per.equals(1)}" th:replace="fragmentsPacientes/aside.html :: sidebar (active = 'dashboard')">
+</aside>
+<aside th:if="${per.equals(0)}" th:replace="fragmentsPacientes/aside.html :: sidebar (active = 'agendar_cita3')">
 </aside>
 <!-- End Sidebar-->
 
@@ -20,10 +22,42 @@
 <main id="main" class="main">
 
   <div class="pagetitle">
-    <h1>Seleccione horario</h1>
+    <h1 th:text="|Seleccione horario: Dr. ${doc.usuario.nombres} ${doc.usuario.apellidos}|"> </h1>
+      <nav th:if="${per.equals(0)}">
+          <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a th:href="@{'/paciente/agendarCita_Sede'}">Sede</a></li>
+              <li class="breadcrumb-item"><a th:href="@{'/paciente/agendarCita_Esp?idsede='+ ${doc.sede.idsede}}">Especialidad</a></li>
+              <li class="breadcrumb-item"><a th:href="@{'/paciente/agendarCita_Doc?idsede='+ ${doc.sede.idsede}+ '&idesp=' + ${doc.especialidad.idespecialidad}}">Doctor</a></li>
+              <li class="breadcrumb-item active">Disponibilidad</li>
+          </ol>
+      </nav>
+      <nav th:if="${per.equals(1)}">
+          <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a th:href="@{'/paciente/'}">Dashboard</a></li>
+              <li class="breadcrumb-item active"><a th:href="@{'/paciente/perfilDoctor?iddoc='+${doc.iddoctor}}">Perfil Doctor</a></li>
+              <li class="breadcrumb-item active">Disponibilidad</li>
+          </ol>
+      </nav>
+      <div>
+          <div class="row">
+              <div class="col-lg-2 col-md-4">
+                  <div style="font-family: Nunito; font-size: large; padding-right: 2%">
+                      Sede: <a style=" color: #4154F1" th:text="| ${doc.sede.nombre} |"></a> &nbsp;
+                  </div>
+              </div>
+              <div class="col-lg-6 col-md-4">
+                  <div style="font-family: Nunito; font-size: large">
+                      Especialidad: <a style=" color: #4154F1" th:text="| ${doc.especialidad.nombre} |"></a>
+                  </div>
+              </div>
+              <div class="text-center align-middle col-lg-4 col-md-8">
+                  <p style="font-family: Nunito; font-weight: bolder; font-size: large" th:text="|Semana ${diainicioSemana}/${mesinicioSemana}/${anoinicioSemana} - ${diafinSemana}/${mesfinSemana}/${anofinSemana} |"></p>
+              </div>
 
+          </div>
 
-    <p style="font-family: Nunito" th:text="|Semana ${diainicioSemana}/${mesinicioSemana}/${anoinicioSemana} - ${diafinSemana}/${mesfinSemana}/${anofinSemana} |"></p>
+      </div>
+
 
      <div th:if="${msg2!=null}" th:text="${msg2}" class="alert alert-danger" role="alert"></div>
 
