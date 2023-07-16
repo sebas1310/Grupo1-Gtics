@@ -373,7 +373,6 @@ public class SuperadminController {
                         GMailer enviocorreo = new GMailer();
                         String receiverEmail = usuario.getCorreo(); // Aquí puedes colocar la dirección de correo electrónico del receptor deseado
 
-
                         // Construye el mensaje del correo en formato HTML
                         enviocorreo.sendMail("Registro Exitoso en Clinica La Fe", "Estimado usuario,"
                                 + "\nUsted ha sido registrado en Clínica LA FE."
