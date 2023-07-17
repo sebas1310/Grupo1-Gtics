@@ -81,56 +81,97 @@ public class PacienteController {
     DatosJsonRepository datosJsonRepository;
 
 
+    @Autowired
+    ModeloXCitaRepository modeloXCitaRepository;
+
+    public Map<String, Integer> cuestToReply() {
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        Paciente paciente = pacienteRepository.pacXuser(usuario.getIdusuario());
+        List<Cita> citapac = citaRepository.citasParaCuestionario(paciente.getIdpaciente());
+
+        Integer idcuest = 0;
+        Integer idcita = null;
+        Integer idmc=null;
+        for (Cita c : citapac) {
+            System.out.println("cita en for :"+ c.getIdcita());
+            ModeloXCita modeloXCita = modeloXCitaRepository.porllenar(c.getIdcita());
+            if (modeloXCita != null) {
+                idcuest = modeloXCita.getIdmodelofk();
+                idcita = c.getIdcita();
+                idmc=modeloXCita.getId();
+                break;
+            }
+        }
+
+        Map<String, Integer> result = new HashMap<>();
+        result.put("idcuest", idcuest);
+        result.put("idcita", idcita);
+        result.put("id",idmc);
+        return result;
+    }
+
+
+    @Transactional
     @GetMapping(value = "/")
     public String paciente( Model model, @RequestParam(value = "esp", required = false) Integer esp, @RequestParam(value = "msg1", required = false) Integer msg1,RedirectAttributes redirectAttributes){
-;
         Usuario usuario = (Usuario) session.getAttribute("usuario");
-
         List<Especialidad> listespecialidad = especialidadRepository.findAll();
-
         Paciente paciente = pacienteRepository.pacXuser(usuario.getIdusuario());
         int estado = paciente.getEstadoPaciente().getIdestadopaciente();
 
-        if (estado == 6){
+        Map<String, Integer> resultado = cuestToReply();
+        Integer idCuestionario = resultado.get("idcuest");
+        Integer idcitatoreply = resultado.get("idcita");
+        Integer idmc=resultado.get("id");
+        System.out.println("a llenar "+idcitatoreply+" "+idCuestionario);
+        System.out.println("id: " + idmc);
 
-            String especialidadespend =  paciente.getEspecialidadesPendientes();
-            List<Integer> idList = Arrays.stream(especialidadespend.split(","))
-                    .map(Integer::parseInt)
-                    .collect(Collectors.toList());
-            System.out.println(idList);
-            List<Especialidad> listaEspecialidadExPend = especialidadRepository.findAllById(idList);
-            model.addAttribute("especialidadesPendExam", listaEspecialidadExPend);
-
-        }
-        model.addAttribute("pacientelog",pacienteRepository.pacXuser(usuario.getIdusuario()));
-        model.addAttribute("especialidades", listespecialidad);
-
-
-        model.addAttribute("citashoy", citaRepository.citasHoy(pacienteRepository.pacXuser(usuario.getIdusuario()).getIdpaciente()));
-        model.addAttribute("sedes", sedeRepository.findAll());
-        redirectAttributes.addFlashAttribute("msg1", "Por el momento no contamos con doctores en esa especialidad");
-        if(msg1!=null){
-            redirectAttributes.addFlashAttribute("msg2", "Ha reservado una cita con exito");
-
-        }
-
-        if(esp!=null){
-            System.out.println("no nulo esp");
-            if(doctorRepository.doctoresPorEsp(esp).size()>=1){
-                System.out.println("lista no vaci");
-                model.addAttribute("docs",doctorRepository.doctoresPorEsp(esp));
-            }
-            else{
-                System.out.println("lista vacia");
-                redirectAttributes.addFlashAttribute("msg", "Por el momento no contamos con doctores en esa especailiad");
-                return "redirect:/paciente/";
-            }
+        if(idCuestionario!=0){
+            modeloXCitaRepository.fillcuest(idmc);
+            return "redirect:/paciente/formCuestionario?idcuest="+idCuestionario.toString()+"&idcita="+idcitatoreply;
         }
         else {
-            System.out.println("esp null");
-            model.addAttribute("docs", doctorRepository.findAll());
+            if (estado == 6){
+
+                String especialidadespend =  paciente.getEspecialidadesPendientes();
+                List<Integer> idList = Arrays.stream(especialidadespend.split(","))
+                        .map(Integer::parseInt)
+                        .collect(Collectors.toList());
+                System.out.println(idList);
+                List<Especialidad> listaEspecialidadExPend = especialidadRepository.findAllById(idList);
+                model.addAttribute("especialidadesPendExam", listaEspecialidadExPend);
+
+            }
+            model.addAttribute("pacientelog",pacienteRepository.pacXuser(usuario.getIdusuario()));
+            model.addAttribute("especialidades", listespecialidad);
+
+
+            model.addAttribute("citashoy", citaRepository.citasHoy(pacienteRepository.pacXuser(usuario.getIdusuario()).getIdpaciente()));
+            model.addAttribute("sedes", sedeRepository.findAll());
+            redirectAttributes.addFlashAttribute("msg1", "Por el momento no contamos con doctores en esa especialidad");
+            if(msg1!=null){
+                redirectAttributes.addFlashAttribute("msg2", "Ha reservado una cita con exito");
+
+            }
+
+            if(esp!=null){
+                System.out.println("no nulo esp");
+                if(doctorRepository.doctoresPorEsp(esp).size()>=1){
+                    System.out.println("lista no vaci");
+                    model.addAttribute("docs",doctorRepository.doctoresPorEsp(esp));
+                }
+                else{
+                    System.out.println("lista vacia");
+                    redirectAttributes.addFlashAttribute("msg", "Por el momento no contamos con doctores en esa especailiad");
+                    return "redirect:/paciente/";
+                }
+            }
+            else {
+                System.out.println("esp null");
+                model.addAttribute("docs", doctorRepository.findAll());
+            }
+            return "paciente/index";
         }
-        return "paciente/index";
 
     }
 
