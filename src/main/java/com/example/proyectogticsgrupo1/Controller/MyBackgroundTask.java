@@ -38,16 +38,20 @@ public class MyBackgroundTask {
     BoletaPacienteRepository boletaPacienteRepository;
 
     @Async
-    @Scheduled(fixedDelay = 5000) // Ejecutar cada segundo
+    @Scheduled(fixedDelay = 1000*35) // Ejecutar cada 55 segundos
     @Transactional
     public void doBackgroundTask() {
-        //iteramos las citas de hoy dia , que son estado 1: (proxima cita) y virtuales
-        for (Cita c : citaRepository.citasVirtualesToday()) {
+        //todas las citas
+        System.out.println(citaRepository.citasProxToday().size());
+        for (Cita c : citaRepository.citasProxToday()) {
             //System.out.println(c.getHorainicio());
             //System.out.println(c.getHorainicio());
             ///System.out.println(LocalTime.now());
+            System.out.println("ahora "+LocalTime.now());
+            System.out.println("cita prox sin pagar a cancelar: "+c.getHorainicio().minusHours(1));
+            System.out.println("inicio: " +  c.getHorainicio());
             //si la hora actual es igual a la hora de inicio de la cita menos 1 , entonces se canelara por falta de pago
-            if (LocalTime.now().isAfter(c.getHorainicio().minusHours(1))) {
+            if (c.getHorainicio().minusHours(1).isBefore(LocalTime.now()) && c.getEstadoCita().getIdestadocita()==1) {
                 //System.out.println(LocalTime.now());
                 System.out.println(c.getIdcita());
                 //se elimina boletas primero
@@ -76,33 +80,36 @@ public class MyBackgroundTask {
                             "Estimado Doctor(a): Se cancelo su cita programado para el dia: " + c.getFecha() + " de:" + c.getHorainicio() + "a " + c.getHorafinal() + " con el paciente: " +
                                     c.getPaciente().getUsuario().getNombres() + " " + c.getPaciente().getUsuario().getApellidos() + " por falta de pago del paciente");
                 }
-            } else if (c.getHorainicio().equals(c.getHorainicio().minusHours(2))) {
+            } else if (LocalTime.now().getHour()==c.getHorainicio().minusHours(2).getHour() && LocalTime.now().getMinute()==c.getHorainicio().getMinute()) {
+                System.out.println("entro aca");
                 emailService.sendEmail(c.getPaciente().getUsuario().getCorreo(),
                         "Recordatorio Cita: " + c.getFecha(),
-                        "Estimado paciente: " + c.getPaciente().getUsuario().getNombres() + " " + c.getPaciente().getUsuario().getApellidos() + ", le hacemos recordar que tiene una cita hoy en la sede: " +
+                        "Estimado paciente: " + c.getPaciente().getUsuario().getNombres() + " " + c.getPaciente().getUsuario().getApellidos() + ", le  hacemos recordar que tiene una cita hoy en la sede: " +
                                 c.getSede().getNombre() + " con el doctor " + c.getDoctor().getUsuario().getNombres() + " " + c.getDoctor().getUsuario().getNombres() +
-                                "\nRecuerde llegar temprano");
-            }
-
-        }
-
-        for (Cita c : citaRepository.citasPresencialesToday()) {
-            if (c.getHorainicio().equals(c.getHorainicio().minusHours(2))) {
-                emailService.sendEmail(c.getPaciente().getUsuario().getCorreo(),
-                        "Recordatorio Cita: " + c.getFecha(),
-                        "Estimado paciente: " + c.getPaciente().getUsuario().getNombres() + " " + c.getPaciente().getUsuario().getApellidos() + ", le hacemos recordar que tiene una cita hoy en la sede: " +
-                                c.getSede().getNombre() + " con el doctor " + c.getDoctor().getUsuario().getNombres() + " " + c.getDoctor().getUsuario().getNombres() +
-                                "\nRecuerde llegar temprano y cancelar en caja");
+                                "\nRecuerde llegar temprano hora: " + c.getHorainicio());
             }
 
         }
 
 
         //Actualizar en espera ,las citas pagaddas.
-        for (Cita c : citaRepository.citasPagadasToday()) {
+        /*for (Cita c : citaRepository.citasPagadasToday()) {
             if (LocalTime.now().isAfter(c.getHorainicio())) {
                 citaRepository.actualizarEstadoCita(3,c.getIdcita());
 
+            }
+        }*/
+    }
+
+    @Async
+    @Scheduled(fixedDelay = 1000*55) // Ejecutar cada segundo
+    @Transactional
+    public void estadoPausa(){
+        for (Cita c : citaRepository.citasToChangeStatus()){
+            System.out.println(LocalTime.now().isAfter(c.getHorainicio()) && LocalTime.now().isBefore(c.getHorafinal()));
+            if(LocalTime.now().isAfter(c.getHorainicio()) && LocalTime.now().isBefore(c.getHorafinal())){
+                System.out.println("cita: " + c.getIdcita());
+                citaRepository.actualizarEstadoCita(3,c.getIdcita());
             }
         }
     }
