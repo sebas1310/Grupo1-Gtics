@@ -54,10 +54,14 @@ public class LoginController {
     @Transactional
     public String registro(@ModelAttribute("usuario") @Valid Usuario usuario, BindingResult bindingResult,
                            RedirectAttributes attr, Model model, @RequestParam("direccion") String direccion,
-                           @RequestParam("contrasena") String contrasena,
-                           @RequestParam("newpassword") String newpassword){
+                           @RequestParam("contrasena") String contrasena){
 
         System.out.println("fecha de nacimiento:" + usuario.getFechanacimiento());
+        if (usuario.getIdusuario() == null) {
+            attr.addFlashAttribute("aat", "Usuario creado exitosamente");
+        } else {
+            attr.addFlashAttribute("msg", "Usuario actualizado exitosamente");
+        }
         if(bindingResult.hasErrors()){
             attr.addFlashAttribute("msg", "presenta errores");
 
@@ -80,6 +84,8 @@ public class LoginController {
                         String hashedNewPassword = passwordEncoder.encode(usuario.getContrasena());
                         usuario.setContrasena(hashedNewPassword);
                         usuarioRepository.save(usuario);
+                        int edad = usuarioRepository.edad(usuario.getIdusuario());
+                        usuario.setEdad(edad);
                         Paciente paciente = new Paciente();
                         EstadoPaciente estadoPaciente = new EstadoPaciente();
                         estadoPaciente.setIdestadopaciente(1);
@@ -92,7 +98,7 @@ public class LoginController {
                         paciente.setUsuario(usuario);
                         paciente.setCondicionenfermedad("-");
                         pacienteRepository.save(paciente);
-                        return "redirect:/";
+                        return "redirect:/login";
 
                     }else{
                         model.addAttribute("listasedes", sedeRepository.findAll());

@@ -55,7 +55,9 @@
                     <h5 class="card-title text-center pb-0 fs-4">Inicio de Sesión</h5>
                     <p class="text-center small">Coloca tu usuario y contraseña</p>
 
-                  <form method="post" th:action="@{/validacionusuario}" >
+                    <div th:if="${aat!=null}" th:text="${aat}" class="alert alert-success" role="alert"></div>
+
+                    <form method="post" th:action="@{/validacionusuario}" >
 
                     <div class="row mb-3">
                       <label for="yourUsername" class="col-sm-12 col-form-label">Correo</label>

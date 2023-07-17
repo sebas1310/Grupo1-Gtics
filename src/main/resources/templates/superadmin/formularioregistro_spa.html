@@ -107,8 +107,9 @@
                                     <div class="row mb-3">
                                         <label class="col-sm-12 col-form-label">Fecha de Nacimiento</label>
                                         <div class="col-sm-12">
-                                            <input type="date" class="form-control" max="2023-07-18" required>
-                                            <span class="validity"></span>
+                                            <input type="date" id="fechanacimiento" class="form-control" th:field="*{fechanacimiento}" th:classappend="${#fields.hasErrors('fechanacimiento')?'is-invalid':''}" required>
+                                            <div class="invalid-feedback" th:if="${#fields.hasErrors('fechanacimiento')}"
+                                                 th:errors="*{fechanacimiento}"></div>
                                         </div>
                                     </div>
 
@@ -159,7 +160,7 @@
                                     <div class="row mb-3">
                                         <label  class=" col-sm-12 col-form-label">Confirmar Contraseña</label>
                                         <div class="col-sm-12">
-                                            <input type="password"  class="form-control" id="input2" name="contrasena" required>
+                                            <input type="password"  class="form-control" id="input2" required>
                                             <div class="invalid-feedback">Ingrese de nuevo su contraseña</div>
                                         </div>
                                     </div>
