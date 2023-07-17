@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/html">
 
-<head th:insert="fragments/administrativo/librerias.html :: cabecera (titulo = 'Perfil')">
+<head th:insert="fragments/administrativo/librerias.html :: cabecera (titulo = 'Dashboard')">
 
 </head>
 
@@ -30,10 +30,13 @@
     <section class="section">
         <div class="row">
             <div class="col-lg-20">
+                <div class="card recent-sales overflow-auto">
+                    <div class="card-body" style="width: 100%">
 
-                <div class="card">
-                    <div class="card-body">
-                        <a class="card-title" th:text=" 'Pacientes ('+ ${session.usuario.especialidad.nombre} +')'" th:href="@{'/administrativo/dashboardpacientes'}"></a>
+                        <div class="d-flex align-items-center justify-content-between">
+                            <h5 class="card-title" th:text="'Pacientes (' + ${session.usuario.especialidad.nombre} + ')'" ></h5>
+                            <a th:href="@{'/administrativo/dashboardpacientes'}" class="btn btn-danger btn-sm card-button">Ver Más</a>
+                        </div>
 
                         <!-- Default Table -->
                         <table class="table">
@@ -42,6 +45,8 @@
                                 <th scope="col">#</th>
                                 <th scope="col">Nombre</th>
                                 <th scope="col">Estado</th>
+                                <th scope="col">Forma de Registro</th>
+
                             </tr>
                             </thead>
                             <tbody>
@@ -49,6 +54,7 @@
                                 <th scope="row" th:text="${info.index + 1}"></th>
                                 <td th:text="${usuariop.usuario.nombres} + ' ' + ${usuariop.usuario.apellidos}"></td>
                                 <td th:text="${usuariop.estadoPaciente.nombre}"></td>
+                                <td th:text="${usuariop.usuario.formaregistro}"></td>
                             </tr>
                             </tbody>
                         </table>
@@ -56,9 +62,13 @@
                     </div>
                 </div>
 
-                <div class="card">
-                    <div class="card-body">
-                        <a class="card-title" th:text=" 'Doctores ('+ ${session.usuario.especialidad.nombre} +')'" th:href="@{'/administrativo/dashboarddoctores'}"></a>
+                <div class="card recent-sales overflow-auto">
+                    <div class="card-body" style="width: 100%">
+
+                        <div class="d-flex align-items-center justify-content-between">
+                            <h5 class="card-title" th:text=" 'Doctores ('+ ${session.usuario.especialidad.nombre} +')'" ></h5>
+                            <a th:href="@{'/administrativo/dashboarddoctores'}" class="btn btn-danger btn-sm card-button">Ver Más</a>
+                        </div>
 
                         <!-- Default Table -->
                         <table class="table">

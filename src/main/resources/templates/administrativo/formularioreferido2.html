@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+
+<head th:insert="fragments/administrativo/librerias.html :: cabecera (titulo = 'Formulario Referido')">
+
+</head>
+
+<body>
+
+<!-- ======= Header ======= -->
+<header th:replace="fragments/administrativo/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1',  nombre = ${session.usuario.nombres} + ' ' + ${session.usuario.apellidos} + ' ' + '(' + ${session.usuario.tipodeusuario.nombre.toUpperCase()} + ')', num_men = '2', especialidad = |${session.usuario.especialidad.nombre}|)">
+</header>
+<!-- End Header -->
+<!-- ======= Sidebar ======= -->
+<aside th:replace="fragments/administrativo/aside.html :: sidebar (active = 'registro')">
+</aside>
+
+<!-- End Sidebar-->
+<div th:replace="fragments/administrativo/modalCerrarSesion.html::modal">
+
+</div>
+<!-- End Modal-->
+
+<main id="main" class="main">
+
+  <div class="pagetitle">
+    <h1>Formulario Referido</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a th:href="@{'/administrativo/nuevopaciente'}">Registrar</a></li>
+        <li class="breadcrumb-item active">Formulario Referido</li>
+      </ol>
+    </nav>
+  </div><!-- End Page Title -->
+
+  <section class="section">
+    <div class="row">
+      <div class="col-lg-20">
+
+        <div class="card">
+          <div class="card-body">
+
+            <div class="container">
+
+            <div class="card-subtitle"> * Rellena los datos que faltan </div>
+
+            <form>
+              <div class="mb-3">
+                <label for="nombre" class="form-label">Nombre</label>
+                <input type="text" class="form-control" id="nombre" placeholder="Ingrese su nombre" required>
+              </div>
+              <div class="mb-3">
+                <label for="dni" class="form-label">DNI</label>
+                <input type="text" class="form-control" id="dni" placeholder="Ingrese su DNI" required>
+              </div>
+              <div class="mb-3">
+                <label for="correo" class="form-label">Correo electrónico</label>
+                <input type="email" class="form-control" id="correo" placeholder="Ingrese su correo electrónico" required>
+              </div>
+              <div class="mb-3">
+                <label for="password" class="form-label">Contraseña</label>
+                <input type="password" class="form-control" id="password" placeholder="Ingrese su contraseña" required>
+              </div>
+              <div class="mb-3 form-check">
+                <input type="checkbox" class="form-check-input" id="consentimiento" required>
+                <label class="form-check-label" for="consentimiento">Acepto los términos y condiciones</label>
+              </div>
+
+              <span class="d-block pb-2">Firma digital aqui</span>
+              <div class="signature mb-2" style="width: 100%; height: 200px;">
+                <canvas id="signature-canvas"
+                        style="border: 1px dashed red; width: 100%; height: 200px;"></canvas>
+              </div>
+
+              <button type="submit" class="btn btn-primary">Enviar</button>
+            </form>
+
+              </div>
+
+
+
+
+
+
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+    </div>
+    </div>
+  </section>
+
+</main><!-- End #main -->
+
+
+<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+<!-- Vendor JS Files -->
+<script th:src="@{'/assets/vendor/apexcharts/apexcharts.min.js'}"></script>
+<script th:src="@{'/assets/vendor/bootstrap/js/bootstrap.bundle.min.js'}"></script>
+<script th:src="@{'/assets/vendor/chart.js/chart.min.js'}"></script>
+<script th:src="@{'/assets/vendor/echarts/echarts.min.js'}"></script>
+<script th:src="@{'/assets/vendor/quill/quill.min.js'}"></script>
+<script th:src="@{'/assets/vendor/simple-datatables/simple-datatables.js'}"></script>
+<script th:src="@{'/assets/vendor/tinymce/tinymce.min.js'}"></script>
+<script th:src="@{'/assets/vendor/php-email-form/validate.js'}"></script>
+
+<!-- Template Main JS File -->
+<script th:src="@{'/assets/js/main.js'}"></script>
+
+</body>
+
+</html>
+

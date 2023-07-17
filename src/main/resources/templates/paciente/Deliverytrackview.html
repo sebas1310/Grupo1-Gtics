@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-<head th:insert="fragmentsPacientes/librerias.html :: cabecera (titulo = 'Recetas')">
+<head th:insert="fragmentsPacientes/librerias.html :: cabecera (titulo = 'Delivery')">
 </head>
 
 <body>
@@ -12,7 +12,7 @@
 <!-- End Header -->
 
 <!-- ======= Sidebar ======= -->
-<aside th:replace="fragmentsPacientes/aside.html :: sidebar (active = 'historial')">
+<aside th:replace="fragmentsPacientes/aside.html :: sidebar (active = 'Delivery')">
 </aside>
 <!-- End Sidebar-->
 
@@ -28,23 +28,14 @@
     <div class="pagetitle">
         <div class="row">
             <div class="col">
-                <h1>Receta Médica</h1>
-                <nav>
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a th:href="@{'/paciente/historialCitas'}">Historial de Citas</a></li>
-                        <li class="breadcrumb-item active">Receta</li>
-                    </ol>
-                </nav>
+                <h1>Medicamentos</h1>
 
             </div>
             <div class="col">
                 <div style="padding-left:  50%" >
-                    <button  class="btn-warning btn" style=" cursor: pointer" id="boletaPdf"><i class="bi bi-printer-fill"></i> Descargar Receta</button>
-
+                    <button  class="btn-warning btn" style=" cursor: pointer" id="boletaPdf"><i class="bi bi-printer-fill"></i> Descargar Orden</button>
                 </div>
-
             </div>
-
         </div>
 
 
@@ -84,19 +75,19 @@
                                         <table style="padding-left: 2.5%">
                                             <tr>
                                                 <th style="text-align: left;width: 200px;" >Paciente:</th>
-                                                <td style="width: 300px;"  th:text="|${cita.paciente.usuario.nombres} ${cita.paciente.usuario.apellidos}|"></td>
+                                                <td style="width: 300px;"  th:text="|${pacientelog.usuario.nombres} ${pacientelog.usuario.apellidos}|"></td>
                                             </tr>
                                             <tr>
                                                 <th style="text-align: left;width: 200px;">DNI:</th>
-                                                <td style="width: 300px;" th:text="|${cita.paciente.usuario.dni}|"></td>
+                                                <td style="width: 300px;" th:text="|${pacientelog.usuario.dni}|"></td>
                                             </tr>
                                             <tr>
                                                 <th style="text-align: left;width: 200px;">Seguro:</th>
-                                                <td style="width: 300px;" th:text="|${cita.paciente.seguro.nombre}|"></td>
+                                                <td style="width: 300px;" th:text="|${pacientelog.seguro.nombre}|"></td>
                                             </tr>
                                             <tr>
-                                                <th style="text-align: left;width: 200px;" >Fecha:</th>
-                                                <td style="width: 300px;" th:text="|${cita.fecha}|" ></td>
+                                                <th style="text-align: left;width: 200px;" >Fecha Envio:</th>
+                                                <td style="width: 300px;" th:text="|${receta.cita.fecha}|" ></td>
                                             </tr>
                                         </table>
 
@@ -107,19 +98,23 @@
                                         <table>
                                             <tr>
                                                 <th style="text-align: left;width: 200px;">Médico:</th>
-                                                <td style="width: 300px;" th:text="|${cita.doctor.usuario.nombres} ${cita.doctor.usuario.apellidos}|"></td>
+                                                <td style="width: 300px;" th:text="|${receta.cita.doctor.usuario.nombres} ${receta.cita.doctor.usuario.apellidos}|"></td>
                                             </tr>
                                             <tr>
                                                 <th style="text-align: left;width: 200px;">Especialidad:</th>
-                                                <td style="width: 300px;" th:text=" ${cita.especialidad.nombre}"></td>
+                                                <td style="width: 300px;" th:text=" ${receta.cita.especialidad.nombre}"></td>
                                             </tr>
                                             <tr>
-                                                <th style="text-align: left;width: 200px;">Tipo de Cita:</th>
-                                                <td style="width: 300px;" th:text=" ${cita.tipoCita.nombre}"></td>
+                                                <th style="text-align: left;width: 200px;">Medicamento</th>
+                                                <td style="width: 300px;" th:text=" ${receta.medicamento}"></td>
                                             </tr>
                                             <tr>
-                                                <th style="text-align: left;width: 200px;" >Sede:</th>
-                                                <td style="width: 300px;" th:text=" ${cita.sede.nombre}"></td>
+                                                <th style="text-align: left;width: 200px;" >Descripción:</th>
+                                                <td style="width: 300px;" th:text=" ${receta.descripcion}"></td>
+                                            </tr>
+                                            <tr>
+                                                <th style="text-align: left;width: 200px;" >Dosis:</th>
+                                                <td style="width: 300px;" th:text=" ${receta.dosis}"></td>
                                             </tr>
                                         </table>
                                     </div>
@@ -128,19 +123,17 @@
                                     <table  class="table " >
                                         <thead>
                                         <tr  >
-                                            <th class="text-center" scope="col">#</th>
-                                            <th class="text-center" scope="col">Medicamento</th>
-                                            <th class="text-center" scope="col">Dosis</th>
-                                            <th class="text-center" scope="col">Descripción</th>
+                                            <th class="text-center" scope="col">Direccion Almacen</th>
+                                            <th class="text-center" scope="col">Estado</th>
+                                            <th class="text-center" scope="col">Direccion Paciente</th>
 
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <tr th:each="list,idx:${recetas}">
-                                            <th scope="row" class="text-center" th:text="${idx.index+1}"></th>
-                                            <td class="text-center"  th:text="${list.medicamento}"></td>
-                                            <td class="text-center"  th:text="${list.dosis}"></td>
-                                            <td class="text-center"  th:text="${list.descripcion}"></td>
+                                        <tr>
+                                            <td class="text-center"  th:text="${receta.cita.sede.direccion}"></td>
+                                            <td class="text-center">En Almacen</td>
+                                            <td class="text-center"  th:text="${pacientelog.direccion}"></td>
                                         </tr >
                                         </tbody>
                                     </table>

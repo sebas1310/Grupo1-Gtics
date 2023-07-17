@@ -86,6 +86,7 @@ public class LoginController {
                         usuarioRepository.save(usuario);
                         int edad = usuarioRepository.edad(usuario.getIdusuario());
                         usuario.setEdad(edad);
+                        usuario.setFormaregistro("Auto Registro");
                         Paciente paciente = new Paciente();
                         EstadoPaciente estadoPaciente = new EstadoPaciente();
                         estadoPaciente.setIdestadopaciente(1);

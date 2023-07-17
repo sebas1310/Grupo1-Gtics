@@ -17,4 +17,11 @@ public interface ModeloXCitaRepository extends JpaRepository<ModeloXCita,Integer
     @Modifying
     @Query(value = "UPDATE modelo_x_cita SET fill = 1 WHERE (id = ?1)", nativeQuery = true)
     void fillcuest (Integer id);
+
+    @Query(value = "select id from modelo_x_cita WHERE idcita_fk = ?1", nativeQuery = true)
+    Integer idModelxCita (Integer idCita);
+
+    @Modifying
+    @Query(value = "delete from modelo_x_cita where id=?1", nativeQuery = true)
+    void borrarModelxCita (Integer idModel);
 }
