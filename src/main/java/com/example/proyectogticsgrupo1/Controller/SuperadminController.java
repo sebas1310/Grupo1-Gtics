@@ -135,7 +135,7 @@ public class SuperadminController {
                 }
 
             }else {
-                attr.addFlashAttribute("msg", "imagen subida exitosamente")
+                attr.addFlashAttribute("msg", "imagen subida exitosamente");
             }
         }catch (IOException e){
             e.printStackTrace();
