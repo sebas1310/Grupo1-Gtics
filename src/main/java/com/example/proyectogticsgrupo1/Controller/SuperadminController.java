@@ -384,7 +384,7 @@ public class SuperadminController {
         return sb.toString();
     }
     @PostMapping("/save")
-    public String guardarAdministrador(@ModelAttribute("usuario") @Valid Usuario usuario, BindingResult bindingResult, RedirectAttributes attr, Model model) throws Exception {
+    public String guardarAdministrador(@ModelAttribute("usuario") @Valid Usuario usuario, BindingResult bindingResult, RedirectAttributes attr, Model model, @RequestParam("especialidad") int idEspecialidad) throws Exception {
 
         System.out.println("sede" + usuario.getSede());
         usuario.setContrasena(RandomStringUtils.random(10, true, true));
@@ -407,6 +407,9 @@ public class SuperadminController {
                         attr.addFlashAttribute("msg", "Administrador creado");
                         String contrasenaGenerada = generarContrasena(10);
                         usuario.setContrasena(passwordEncoder.encode(contrasenaGenerada));
+                        Especialidad especialidad = new Especialidad();
+                        especialidad.setIdespecialidad(idEspecialidad);
+                        usuario.setEspecialidad(especialidad);
                         usuarioRepository.save(usuario);
 
                         int edad = usuarioRepository.edad(usuario.getIdusuario());
@@ -422,7 +425,7 @@ public class SuperadminController {
                                 + "\nSu contraseña por defecto es: " + contrasenaGenerada
                                 + "\nPor favor, ingrese a: http://localhost:8083/cambiarcontrasena aquí para cambiarla.", receiverEmail);
 
-                        return "redirect:/superadfmin/index";
+                        return "redirect:/superadmin/index";
                     }else{
                         bindingResult.rejectValue("correo", "error.correo", "Ya existe un usuario con este correo electrónico");
                         model.addAttribute("listasedes", sedeRepository.listaSedes());
