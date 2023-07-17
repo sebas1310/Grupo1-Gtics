@@ -17,10 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.servlet.view.RedirectView;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.io.IOException;
@@ -29,10 +26,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.*;
 import java.util.stream.Collectors;
-import com.sendgrid.*;
-import com.sendgrid.helpers.mail.Mail;
-import com.sendgrid.helpers.mail.objects.Content;
-import com.sendgrid.helpers.mail.objects.Email;
+
 
 @Controller
 @RequestMapping(value = "/paciente")
@@ -103,6 +97,7 @@ public class PacienteController {
         Integer idcita = null;
         Integer idmc=null;
         for (Cita c : citapac) {
+            System.out.println("cita en for :"+ c.getIdcita());
             ModeloXCita modeloXCita = modeloXCitaRepository.porllenar(c.getIdcita());
             if (modeloXCita != null) {
                 idcuest = modeloXCita.getIdmodelofk();
@@ -187,10 +182,7 @@ public class PacienteController {
     @Autowired
     private EmailService emailService;
 
-    @GetMapping(value = "**")
-    public RedirectView redirectToDelivery() {
-        return new RedirectView("/paciente/");
-    }
+
 
     @GetMapping(value = "/delivery")
     public String delivery(Model model){
@@ -267,6 +259,7 @@ public class PacienteController {
     }
     @GetMapping(value = "/reservar2")
     public String selectDate(Model model, @RequestParam(value = "per", required = false) Integer perfil, @RequestParam("iddoc") Integer id, @RequestParam("semana") Integer semana, RedirectAttributes redirectAttributes){
+
 
 
         //para el brecrumb
@@ -419,50 +412,36 @@ public class PacienteController {
         return "paciente/agendarCita_Sede";
     }
     @GetMapping(value = "/agendarCita_Esp")
-    public String agendarCita3(Model model, @RequestParam("idsede") String  idsedestr) {
+    public String agendarCita3(Model model, @RequestParam("idsede") Integer id){
 
         Usuario usuario = (Usuario) session.getAttribute("usuario");
         Paciente paciente = pacienteRepository.pacXuser(usuario.getIdusuario());
 
-        try{
-            Integer idsede = Integer.parseInt(idsedestr);
-            Sede sede = sedeRepository.findByIdsede(idsede);
-            if(sedeRepository.findById(idsede).isPresent()){
-                model.addAttribute("sede", sede);
-                List<Especialidad> listespecialidad = especialidadRepository.listaEspxSede(idsede);
-                model.addAttribute("especialidades", listespecialidad);
-                return "paciente/agendarCita_Esp";
-            }else {
-                return "redirect:/paciente/agendarCita_Sede";
-            }
+        Sede sede = sedeRepository.findByIdsede(id);
 
-        }catch (NumberFormatException e){
-            return "redirect:/paciente/agendarCita_Sede";
-        }
+        model.addAttribute("sede", sede);
+
+        List<Especialidad> listespecialidad = especialidadRepository.listaEspxSede(id);
+        model.addAttribute("especialidades", listespecialidad);
+
+        return "paciente/agendarCita_Esp";
     }
     @GetMapping(value = "/agendarCita_Doc")
-    public String agendarCita4(Model model, @RequestParam("idsede") String idsedesrt, @RequestParam("idesp") String idespstr){
+    public String agendarCita4(Model model, @RequestParam("idsede") Integer idsede, @RequestParam("idesp") Integer idesp){
 
         Usuario usuario = (Usuario) session.getAttribute("usuario");
         Paciente paciente = pacienteRepository.pacXuser(usuario.getIdusuario());
 
-        try {
-            Integer idsede = Integer.parseInt(idsedesrt);
-            Integer idesp = Integer.parseInt(idespstr);
-            if(sedeRepository.findById(idsede).isPresent() && especialidadRepository.findById(idesp).isPresent()){
-                Sede sede = sedeRepository.findByIdsede(idsede);
-                Especialidad especialidad = especialidadRepository.findByIdespecialidad(idesp);
-                model.addAttribute("sede", sede);
-                model.addAttribute("especialidad", especialidad);
-                List<Doctor> listdoctor = doctorRepository.DoctorxEspxSede(idsede, idesp);
-                model.addAttribute("doctores", listdoctor);
-                return "paciente/agendarCita_Doc";
-            }else {
-                return "redirect:/paciente/agendarCita_Sede";
-            }
-        }catch (NumberFormatException e){
-            return "redirect:/paciente/agendarCita_Sede";
-        }
+        Sede sede = sedeRepository.findByIdsede(idsede);
+        model.addAttribute("sede", sede);
+
+        Especialidad especialidad = especialidadRepository.findByIdespecialidad(idesp);
+        model.addAttribute("especialidad", especialidad);
+
+        List<Doctor> listdoctor = doctorRepository.DoctorxEspxSede(idsede, idesp);
+        model.addAttribute("doctores", listdoctor);
+
+        return "paciente/agendarCita_Doc";
     }
 
     @GetMapping(value = "/historialCitas")
@@ -477,90 +456,101 @@ public class PacienteController {
         return "paciente/historialCitas";
     }
     @GetMapping(value = "/calendarioSemanal")
-    public String calendarioMensual(Model model, @RequestParam("semana") String semanastr, RedirectAttributes redirectAttributes){
+    public String calendarioMensual(Model model, @RequestParam("semana") Integer semana, RedirectAttributes redirectAttributes){
 
         Usuario usuario = (Usuario) session.getAttribute("usuario");
         Paciente paciente = pacienteRepository.pacXuser(usuario.getIdusuario());
 
-        try {
-            Integer semana = Integer.parseInt(semanastr);
-            int id=paciente.getIdpaciente();
-            int semana_equivocada = 0;
-            if (semana == 0){
-                model.addAttribute("prev_semana", semana);
-                model.addAttribute("lunes",citaRepository.listaLunes(id));
-                model.addAttribute("martes",citaRepository.listaMartes(id));
-                model.addAttribute("miercoles",citaRepository.listaMiercoles(id));
-                model.addAttribute("jueves",citaRepository.listaJueves(id));
-                model.addAttribute("viernes",citaRepository.listaViernes(id));
-                model.addAttribute("sabado",citaRepository.listaSabados(id));
-            } else if (semana == 1) {
+        //Optional<Paciente> optionalPaciente = pacienteRepository.findById(1);
+        //Paciente paciente =  optionalPaciente.get();
+        int id=paciente.getIdpaciente();
+        int semana_equivocada = 0;
+        if (semana == 0){
+            model.addAttribute("prev_semana", semana);
+            model.addAttribute("lunes",citaRepository.listaLunes(id));
+            model.addAttribute("martes",citaRepository.listaMartes(id));
+            model.addAttribute("miercoles",citaRepository.listaMiercoles(id));
+            model.addAttribute("jueves",citaRepository.listaJueves(id));
+            model.addAttribute("viernes",citaRepository.listaViernes(id));
+            model.addAttribute("sabado",citaRepository.listaSabados(id));
+        } else if (semana == 1) {
 
-                model.addAttribute("prev_semana", semana);
-                model.addAttribute("lunes",citaRepository.listaLunescitas1(id));
-                model.addAttribute("martes",citaRepository.listaMartescitas1(id));
-                model.addAttribute("miercoles",citaRepository.listaMiercolescitas1(id));
-                model.addAttribute("jueves",citaRepository.listaJuevescitas1(id));
-                model.addAttribute("viernes",citaRepository.listaViernescitas1(id));
-                model.addAttribute("sabado",citaRepository.listaSabadoscitas1(id));
-            } else if (semana == 2) {
+            model.addAttribute("prev_semana", semana);
+            model.addAttribute("lunes",citaRepository.listaLunescitas1(id));
+            model.addAttribute("martes",citaRepository.listaMartescitas1(id));
+            model.addAttribute("miercoles",citaRepository.listaMiercolescitas1(id));
+            model.addAttribute("jueves",citaRepository.listaJuevescitas1(id));
+            model.addAttribute("viernes",citaRepository.listaViernescitas1(id));
+            model.addAttribute("sabado",citaRepository.listaSabadoscitas1(id));
+        } else if (semana == 2) {
 
-                model.addAttribute("prev_semana", semana);
-                model.addAttribute("lunes",citaRepository.listaLunescita2(id));
-                model.addAttribute("martes",citaRepository.listaMartescitas2(id));
-                model.addAttribute("miercoles",citaRepository.listaMiercolescitas2(id));
-                model.addAttribute("jueves",citaRepository.listaJuevescitas2(id));
-                model.addAttribute("viernes",citaRepository.listaViernescitas2(id));
-                model.addAttribute("sabado",citaRepository.listaSabadoscitas2(id));
+            model.addAttribute("prev_semana", semana);
+            model.addAttribute("lunes",citaRepository.listaLunescita2(id));
+            model.addAttribute("martes",citaRepository.listaMartescitas2(id));
+            model.addAttribute("miercoles",citaRepository.listaMiercolescitas2(id));
+            model.addAttribute("jueves",citaRepository.listaJuevescitas2(id));
+            model.addAttribute("viernes",citaRepository.listaViernescitas2(id));
+            model.addAttribute("sabado",citaRepository.listaSabadoscitas2(id));
 
-            } else if (semana == 3) {
+        } else if (semana == 3) {
 
-                model.addAttribute("prev_semana", semana);
-                model.addAttribute("lunes",citaRepository.listaLunescitas3(id));
-                model.addAttribute("martes",citaRepository.listaMartescitas3(id));
-                model.addAttribute("miercoles",citaRepository.listaMiercolescitas3(id));
-                model.addAttribute("jueves",citaRepository.listaJuevescitas3(id));
-                model.addAttribute("viernes",citaRepository.listaViernescitas3(id));
-                model.addAttribute("sabado",citaRepository.listaSabadoscitas3(id));
+            model.addAttribute("prev_semana", semana);
+            model.addAttribute("lunes",citaRepository.listaLunescitas3(id));
+            model.addAttribute("martes",citaRepository.listaMartescitas3(id));
+            model.addAttribute("miercoles",citaRepository.listaMiercolescitas3(id));
+            model.addAttribute("jueves",citaRepository.listaJuevescitas3(id));
+            model.addAttribute("viernes",citaRepository.listaViernescitas3(id));
+            model.addAttribute("sabado",citaRepository.listaSabadoscitas3(id));
 
 
-            } else if (semana == 4) {
+        } else if (semana == 4) {
 
-                model.addAttribute("prev_semana", semana);
-                model.addAttribute("lunes",citaRepository.listaLunescitas4(id));
-                model.addAttribute("martes",citaRepository.listaMartescitas4(id));
-                model.addAttribute("miercoles",citaRepository.listaMiercolescitas4(id));
-                model.addAttribute("jueves",citaRepository.listaJuevescitas4(id));
-                model.addAttribute("viernes",citaRepository.listaViernescitas4(id));
-                model.addAttribute("sabado",citaRepository.listaSabadoscitas4(id));
-            } else if ( semana > 4  || semana < 0){
+            model.addAttribute("prev_semana", semana);
+            model.addAttribute("lunes",citaRepository.listaLunescitas4(id));
+            model.addAttribute("martes",citaRepository.listaMartescitas4(id));
+            model.addAttribute("miercoles",citaRepository.listaMiercolescitas4(id));
+            model.addAttribute("jueves",citaRepository.listaJuevescitas4(id));
+            model.addAttribute("viernes",citaRepository.listaViernescitas4(id));
+            model.addAttribute("sabado",citaRepository.listaSabadoscitas4(id));
+        } else if ( semana > 4  || semana < 0){
 
-                semana = 0;
-                semana_equivocada = 1;
-                model.addAttribute("prev_semana", semana);
-                model.addAttribute("lunes",citaRepository.listaLunes(id));
-                model.addAttribute("martes",citaRepository.listaMartes(id));
-                model.addAttribute("miercoles",citaRepository.listaMiercoles(id));
-                model.addAttribute("jueves",citaRepository.listaJueves(id));
-                model.addAttribute("viernes",citaRepository.listaViernes(id));
-                model.addAttribute("sabado",citaRepository.listaSabados(id));
+            semana = 0;
+            semana_equivocada = 1;
 
-            }
-            if(semana_equivocada == 1){
-                redirectAttributes.addFlashAttribute("msg2","Solo puede reservar citas para un mes como máximo");
-            }
-            model.addAttribute("diainicioSemana", citaRepository.obtnerdiaInicioSemana(semana));
-            model.addAttribute("mesinicioSemana", citaRepository.obtnermesInicioSemana(semana));
-            model.addAttribute("anoinicioSemana", citaRepository.obtneranoInicioSemana(semana));
-            model.addAttribute("diafinSemana", citaRepository.obtenerdiaFinSemana(semana));
-            model.addAttribute("mesfinSemana", citaRepository.obtnermesFinSemana(semana));
-            model.addAttribute("anofinSemana", citaRepository.obtneranoFinSemana(semana));
-            model.addAttribute("nombre_mes", citaRepository.obtenerMescita(semana));
-            model.addAttribute("pacientelog",paciente);
-            return "paciente/calendarioSemanal";
-        }catch (NumberFormatException e){
-            return "redirect:paciente/calendarioSemanal?semana=0";
+
+            model.addAttribute("prev_semana", semana);
+            model.addAttribute("lunes",citaRepository.listaLunes(id));
+            model.addAttribute("martes",citaRepository.listaMartes(id));
+            model.addAttribute("miercoles",citaRepository.listaMiercoles(id));
+            model.addAttribute("jueves",citaRepository.listaJueves(id));
+            model.addAttribute("viernes",citaRepository.listaViernes(id));
+            model.addAttribute("sabado",citaRepository.listaSabados(id));
+
         }
+
+        if(semana_equivocada == 1){
+
+            redirectAttributes.addFlashAttribute("msg2","Solo puede reservar citas para un mes como máximo");
+
+        }
+
+        model.addAttribute("diainicioSemana", citaRepository.obtnerdiaInicioSemana(semana));
+        model.addAttribute("mesinicioSemana", citaRepository.obtnermesInicioSemana(semana));
+        model.addAttribute("anoinicioSemana", citaRepository.obtneranoInicioSemana(semana));
+
+
+        model.addAttribute("diafinSemana", citaRepository.obtenerdiaFinSemana(semana));
+        model.addAttribute("mesfinSemana", citaRepository.obtnermesFinSemana(semana));
+        model.addAttribute("anofinSemana", citaRepository.obtneranoFinSemana(semana));
+
+
+        model.addAttribute("nombre_mes", citaRepository.obtenerMescita(semana));
+
+
+
+        model.addAttribute("pacientelog",paciente);
+        return "paciente/calendarioSemanal";
+
     }
     @GetMapping(value = "/chat")
     public String chat(Model model) {
@@ -1243,10 +1233,10 @@ public class PacienteController {
     public String reserva2 (@RequestParam("idev") Integer idev, @RequestParam("idtipocita") Integer idtipocita, RedirectAttributes redirectAttributes) throws Exception {
         Usuario usuario = (Usuario) session.getAttribute("usuario");
         Paciente paciente = pacienteRepository.pacXuser(usuario.getIdusuario());
-
         if(eventocalendariodoctorRepository.findById(idev).isPresent()){
             Eventocalendariodoctor eventocalendariodoctor = eventocalendariodoctorRepository.findById(idev).get();
             Doctor doc = doctorRepository.findById(eventocalendariodoctor.getDoctor().getIddoctor()).get();
+
             // que no sea cita repetida
             List<Cita> citarep = citaRepository.finddouble(paciente.getIdpaciente(),eventocalendariodoctor.getFecha(), eventocalendariodoctor.getHorainicio());
             System.out.println("arr len: "+ citarep.size());
@@ -1283,27 +1273,8 @@ public class PacienteController {
                     enviocorreo.sendMail(titulo,cntpres, receiverEmail);*/
 
 
-                    Email from = new Email("clinica.lafe.info@gmail.com");
-                    String subject = "Confirmación de cita";
-                    Email to = new Email("adrian.lopez@pucp.edu.pe");
-                    Content content_2 = new Content("text/plain", "Estimado Paciente, su cita ha sido reservada exitosamente");
-                    Mail mail = new Mail(from, subject, to, content_2);
 
-                    SendGrid sg = new SendGrid("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");
-                    Request request = new Request();
-                    try {
-                        request.setMethod(Method.POST);
-                        request.setEndpoint("mail/send");
-                        request.setBody(mail.build());
-                        Response response = sg.api(request);
-                        System.out.println(response.getStatusCode());
-                        System.out.println(response.getBody());
-                        System.out.println(response.getHeaders());
-                    } catch (IOException ex) {
-                        throw ex;
-                    }
-
-//                   emailService.sendEmail(paciente.getUsuario().getCorreo(),"Confirmación de cita","Estimado usuario usted reservó una cita para el "+eventocalendariodoctor.getFecha().toString()+ ".\n"+"En la sede "+sedeRepository.findById(doc.getSede().getIdsede()).get().getNombre()+" ubicada " +sedeRepository.findById(doc.getSede().getIdsede()).get().getDireccion());
+                   emailService.sendEmail(paciente.getUsuario().getCorreo(),"Confirmación de cita","Estimado usuario usted reservó una cita para el "+eventocalendariodoctor.getFecha().toString()+ ".\n"+"En la sede "+sedeRepository.findById(doc.getSede().getIdsede()).get().getNombre()+" ubicada " +sedeRepository.findById(doc.getSede().getIdsede()).get().getDireccion());
 
                 }else{
                    // GMailer enviocorreo = new GMailer();
