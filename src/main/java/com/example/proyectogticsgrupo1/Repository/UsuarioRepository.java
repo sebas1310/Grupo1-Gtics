@@ -74,7 +74,9 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
     void cambioPassword(String newpassword, Integer id);
 
 
-
+    @Modifying
+    @Query(value = "update usuario set foto = ?1 where idusuario = ?1", nativeQuery = true)
+    void actualizarfotoperfilSpa(String foto);
 
     @Modifying
     @Transactional
