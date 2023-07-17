@@ -55,7 +55,7 @@ public class MyBackgroundTask {
             ///System.out.println(LocalTime.now());
             System.out.println("ahora "+LocalTime.now());
             System.out.println("cita prox sin pagar a cancelar: "+c.getHorainicio().minusHours(1));
-            System.out.println("inicio: " +  c.getHorainicio());
+            System.out.println("inicio: " +  c.getHorainicio() +"id :" + c.getIdcita());
             //si la hora actual es igual a la hora de inicio de la cita menos 1, entonces se canelara por falta de pago
             if (c.getHorainicio().minusHours(1).isBefore(LocalTime.now()) && c.getEstadoCita().getIdestadocita()==1) { //eliminar 1h antes todo
                 //System.out.println(LocalTime.now());

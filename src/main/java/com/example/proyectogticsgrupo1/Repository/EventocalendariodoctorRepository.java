@@ -33,37 +33,37 @@ public interface EventocalendariodoctorRepository extends JpaRepository<Eventoca
     @Query(value= "select * from eventocalendariodoctor where ideventocalendariodoctor =?1 ",nativeQuery = true)
     Eventocalendariodoctor buscarEventoPorID (Integer idEvento);
     @Query(nativeQuery = true, value = "SELECT * FROM (SELECT '09:00:00' AS hora UNION ALL SELECT '10:00:00' UNION ALL SELECT '11:00:00' ) AS horarios " +
-            "WHERE hora NOT IN (SELECT horainicio FROM bdclinicag1_v2.eventocalendariodoctor where " +
+            "WHERE hora NOT IN (SELECT horainicio FROM eventocalendariodoctor where " +
             "(iddoctor = ?1 and fecha = ?2))")
 
     List<String> horasDeCitasInicio(Integer iddoctor, LocalDate fecha);
 
     @Query(nativeQuery = true, value = "SELECT * FROM (SELECT '10:00:00' AS hora UNION ALL SELECT '11:00:00' " +
             "UNION ALL SELECT '12:00:00' ) AS horarios " +
-            "WHERE hora NOT IN (SELECT horafinal FROM bdclinicag1_v2.eventocalendariodoctor where " +
+            "WHERE hora NOT IN (SELECT horafinal FROM eventocalendariodoctor where " +
             "(iddoctor = ?1 and fecha = ?2))")
     List<String> horasDeCitasFinal(Integer iddoctor, LocalDate fecha);
 
     @Query(nativeQuery = true, value = "SELECT * FROM (SELECT '12:00:00' AS hora UNION ALL SELECT '13:00:00' UNION ALL SELECT '14:00:00') AS horarios " +
-            "WHERE hora NOT IN (SELECT horainicio FROM bdclinicag1_v2.eventocalendariodoctor where " +
+            "WHERE hora NOT IN (SELECT horainicio FROM eventocalendariodoctor where " +
             "(iddoctor = ?1 and fecha = ?2))")
 
     List<String> horasDeCitasInicioRefrigerio(Integer iddoctor, LocalDate fecha);
 
     @Query(nativeQuery = true, value = "SELECT * FROM (SELECT '13:00:00' AS hora UNION ALL SELECT '14:00:00' UNION ALL SELECT '15:00:00') AS horarios " +
-            "WHERE hora NOT IN (SELECT horafinal FROM bdclinicag1_v2.eventocalendariodoctor where " +
+            "WHERE hora NOT IN (SELECT horafinal FROM eventocalendariodoctor where " +
             "(iddoctor = ?1 and fecha = ?2))")
     List<String> horasDeCitasFinalRefrigerio(Integer iddoctor, LocalDate fecha);
 
     @Query(nativeQuery = true, value = "SELECT * FROM (SELECT '16:00:00' AS hora UNION ALL SELECT '17:00:00' UNION ALL SELECT '18:00:00' " +
             "UNION ALL SELECT '19:00:00' UNION ALL SELECT '20:00:00' ) AS horarios " +
-            "WHERE hora NOT IN (SELECT horainicio FROM bdclinicag1_v2.eventocalendariodoctor where " +
+            "WHERE hora NOT IN (SELECT horainicio FROM eventocalendariodoctor where " +
             "(iddoctor = ?1 and fecha = ?2))")
 
     List<String> horasDeCitasInicioTarde(Integer iddoctor, LocalDate fecha);
     @Query(nativeQuery = true, value = "SELECT * FROM (SELECT '17:00:00' AS hora UNION ALL SELECT '18:00:00' UNION ALL SELECT '19:00:00' " +
             "UNION ALL SELECT '20:00:00' UNION ALL SELECT '21:00:00') AS horarios " +
-            "WHERE hora NOT IN (SELECT horafinal FROM bdclinicag1_v2.eventocalendariodoctor where " +
+            "WHERE hora NOT IN (SELECT horafinal FROM eventocalendariodoctor where " +
             "(iddoctor = ?1 and fecha = ?2))")
     List<String> horasDeCitasFinalTarde(Integer iddoctor, LocalDate fecha);
 
