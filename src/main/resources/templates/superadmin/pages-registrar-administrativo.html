@@ -107,7 +107,7 @@
 
                             <div class="col-12">
                                 <label  class="form-label">Especialidad</label>
-                                <select  class="form-select" th:name="especialidad.idespecialidad" required>
+                                <select  class="form-select" th:name="especialidad" required>
                                     <option value="" >Selecciona una opción</option>
                                     <option th:each="especialidad : ${listaEspecialidad}" th:text="${especialidad.getNombre()}"
                                             th:value="${especialidad.getIdespecialidad()}"></option>
