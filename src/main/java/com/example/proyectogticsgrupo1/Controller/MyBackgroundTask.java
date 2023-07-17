@@ -50,8 +50,8 @@ public class MyBackgroundTask {
             System.out.println("ahora "+LocalTime.now());
             System.out.println("cita prox sin pagar a cancelar: "+c.getHorainicio().minusHours(1));
             System.out.println("inicio: " +  c.getHorainicio());
-            //si la hora actual es igual a la hora de inicio de la cita menos 1 , entonces se canelara por falta de pago
-            if (c.getHorainicio().minusHours(1).isBefore(LocalTime.now()) && c.getEstadoCita().getIdestadocita()==1) {
+            //si la hora actual es igual a la hora de inicio de la cita menos 1, entonces se canelara por falta de pago
+            if (c.getHorainicio().minusHours(1).isBefore(LocalTime.now()) && c.getEstadoCita().getIdestadocita()==1) { //eliminar 1h antes todo
                 //System.out.println(LocalTime.now());
                 System.out.println(c.getIdcita());
                 //se elimina boletas primero
@@ -81,7 +81,7 @@ public class MyBackgroundTask {
                                     c.getPaciente().getUsuario().getNombres() + " " + c.getPaciente().getUsuario().getApellidos() + " por falta de pago del paciente");
                 }
             } else if (LocalTime.now().getHour()==c.getHorainicio().minusHours(2).getHour() && LocalTime.now().getMinute()==c.getHorainicio().getMinute()) {
-                System.out.println("entro aca");
+                System.out.println("entro aca");//avisar 2 horas antes
                 emailService.sendEmail(c.getPaciente().getUsuario().getCorreo(),
                         "Recordatorio Cita: " + c.getFecha(),
                         "Estimado paciente: " + c.getPaciente().getUsuario().getNombres() + " " + c.getPaciente().getUsuario().getApellidos() + ", le  hacemos recordar que tiene una cita hoy en la sede: " +
