@@ -120,21 +120,22 @@ public class SuperadminController {
     }
 
     @PostMapping("/guardarImagen")
-    public  String subirImagenes(@RequestParam("id") Integer id, @RequestParam("file") MultipartFile file){
+    public  String subirImagenes(RedirectAttributes attr, @RequestParam("id") Integer id, @RequestParam("file") MultipartFile file)throws IOException{
         try{
             if (file!=null && !file.isEmpty()){
                 String filename = "perfilSuper." + file.getOriginalFilename().split("\\.")[1];
                 ImagenSubir imagenSubir = new ImagenSubir();
                 imagenSubir.setFilename(filename);
                 imagenSubir.setFilebase64(Base64.getEncoder().encodeToString(file.getBytes()));
+
                 String resultadoSubida = uploadInter.subirimagen(imagenSubir);
                 if(resultadoSubida.equals("ok")){
                     System.out.println("https://lafe.blob.core.windows.net/clinicalafe/"+filename);
-
-                    usuarioRepository.actualizarfotoperfilSpa(filename);
-
+                    usuarioRepository.actualizarfotoperfilSpa(resultadoSubida);
                 }
 
+            }else {
+                attr.addFlashAttribute("msg", "imagen subida exitosamente")
             }
         }catch (IOException e){
             e.printStackTrace();
