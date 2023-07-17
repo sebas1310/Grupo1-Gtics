@@ -79,4 +79,7 @@ public class Usuario  implements Serializable {
     @Column(name = "fechanacimiento")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date fechanacimiento;
+
+    @Column(name = "formaregistro")
+    private String formaregistro;
 }

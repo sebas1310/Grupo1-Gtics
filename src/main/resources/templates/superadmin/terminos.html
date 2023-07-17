@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Clínica - Términos y Condiciones</title>
+  <style>
+    /* Estilos para el modal */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.4);
+    }
+
+    .modal-content {
+      background-color: #fefefe;
+      margin: 10% auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 80%;
+      max-width: 800px;
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+
+    .close {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .close:hover,
+    .close:focus {
+      color: black;
+      text-decoration: none;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+<h1>Bienvenido(a) a la Clínica</h1>
+<p>Por favor, lea los siguientes <a id="openModal">Términos y Condiciones</a> antes de utilizar nuestros servicios.</p>
+
+<!-- Modal -->
+<div id="modal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <h2>Términos y Condiciones</h2>
+    <p>Aquí va el texto de los Términos y Condiciones:</p>
+    <p>Toda la información médica proporcionada a través de nuestra clínica se ofrece únicamente con fines informativos y no pretende sustituir el consejo médico profesional. Consulte siempre a un médico calificado para obtener un diagnóstico o tratamiento adecuado.</p>
+    <!-- Agrega el resto del texto de los Términos y Condiciones aquí -->
+
+    <p>Al utilizar nuestros servicios, usted reconoce y acepta estos Términos y Condiciones en su totalidad. Si tiene alguna pregunta o inquietud, no dude en ponerse en contacto con nosotros. Agradecemos su confianza en nuestra clínica y esperamos brindarle una atención médica de calidad.</p>
+  </div>
+</div>
+
+<script>
+  // Funciones para mostrar y ocultar el modal
+  var modal = document.getElementById("modal");
+  var openModal = document.getElementById("openModal");
+  var closeModal = document.getElementsByClassName("close")[0];
+
+  openModal.onclick = function() {
+    modal.style.display = "block";
+  }
+
+  closeModal.onclick = function() {
+    modal.style.display = "none";
+  }
+
+  window.onclick = function(event) {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+  }
+</script>
+</body>
+</html>
