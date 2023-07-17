@@ -84,6 +84,7 @@ public class SuperadminController {
 
     @Autowired
     UxUiRepository uxUiRepository;
+
     @GetMapping(value = "/email")
     public String emailpr() {
         String user = "alexia_jg@outlook.es";
@@ -497,6 +498,21 @@ public class SuperadminController {
         }
     }
 
+    @PostMapping("/editarSeguro")
+    public String editarSeguros1(@RequestParam("id") int id, Model model){
+        Usuario superadmin = (Usuario) session.getAttribute("usuario");
+        model.addAttribute("usuario", superadmin);
+
+        Optional<Seguro> optSeguro = seguroRepository.findById(id);
+        if(optSeguro.isPresent()){
+            Seguro seguro = optSeguro.get();
+            model.addAttribute("seguro", seguro);
+            return "superadmin/editSeguro";
+        }else{
+            return "redirect:/seguros";
+        }
+    }
+
 
 
 
@@ -779,7 +795,7 @@ public class SuperadminController {
 //
 //        tablaDatosLlenosRepository.LlenadoDePlantilla(id_registro_nuevo,nombreplantilla,4,1,1);
 
-        tablaDatosLlenosRepository.LlenadoDePlantilla(id_registro_nuevo+4,nombreplantilla,4,12,1);
+        //tablaDatosLlenosRepository.LlenadoDePlantilla(id_registro_nuevo+4,nombreplantilla,4,12,1);
         //para llenar en datos_json
 
 
@@ -858,6 +874,7 @@ public class SuperadminController {
         model.addAttribute("listSeguros",listSeguros);
         return "superadmin/seguros_spa";
     }
+
 
     @PostMapping("/changepasswordusuarios")
     @Transactional
