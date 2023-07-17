@@ -399,6 +399,8 @@ public class AdministradorController {
         return "administrador/dashboarddoctor";
     }
 
+
+
     @PostMapping("/buscarDoctor")
     public String buscadorDoctor(@RequestParam("buscando") String buscando, RedirectAttributes redirectAttributes) {
         redirectAttributes.addAttribute("buscando", buscando);
@@ -481,8 +483,8 @@ public class AdministradorController {
     }
 
 
-    @GetMapping(value = "/detallesdoctor")
-    public String Detalles(Model model, @RequestParam("id") int idDoctor) {
+    @PostMapping(value = "/detallesdoctor")
+    public String Detalles(Model model, @RequestParam("idDoctor") int idDoctor) {
         Usuario usuarioAdministrador = (Usuario) session.getAttribute("usuario");
         model.addAttribute("usuario", usuarioAdministrador);
         Doctor doctor = doctorRepository.buscarDoctorH(idDoctor);
@@ -490,6 +492,8 @@ public class AdministradorController {
         return "administrador/detallesdoctor";
 
     }
+
+
 
     @GetMapping(value = "/vistacuestionario")
     public String VerCuestionario(Model model) {

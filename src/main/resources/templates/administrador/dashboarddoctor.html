@@ -65,7 +65,14 @@
               <tbody>
                 <tr th:each="usuariod, info: ${listaUsuarioDoctores}">
                   <th scope="row" th:text="${info.index + 1}"></th>
-                  <td><a style="text-align: center" th:text="${usuariod.usuario.nombres} + ' ' + ${usuariod.usuario.apellidos}" th:href="@{'/administrador/detallesdoctor' + '?id=' + ${usuariod.getIddoctor}}"></a></td>
+                  <td>
+                    <form th:action="@{/administrador/detallesdoctor}" method="post">
+                      <input type="hidden" name="idDoctor" th:value="${usuariod.iddoctor}">
+                      <button type="submit" class="btn-link" style="text-decoration: underline; cursor: pointer; border: none; background: none; padding: 0;">
+                        <span th:text="${usuariod.usuario.nombres} + ' ' + ${usuariod.usuario.apellidos}"></span>
+                      </button>
+                    </form>
+                  </td>
                   <td th:text="${#strings.capitalize(usuariod.especialidad.nombre)}"></td>
                 </tr>
               </tbody>
