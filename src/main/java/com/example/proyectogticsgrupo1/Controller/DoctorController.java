@@ -1055,10 +1055,10 @@ public class DoctorController {
     @Transactional
     @PostMapping(value = "/calendario/guardar1")
     public String agregarEvento1(Model model, @RequestParam("fecha") LocalDate fecha ,
-                                @RequestParam("horainicio") LocalTime horainicio ,
-                                @RequestParam("horafinal") LocalTime horafinal ,
-                                @RequestParam("descripcion") String descripcion,
-                                @RequestParam("iddoctor") Integer iddoctor, RedirectAttributes redirectAttributes){
+                                 @RequestParam("horainicio") LocalTime horainicio ,
+                                 @RequestParam("horafinal") LocalTime horafinal ,
+                                 @RequestParam("descripcion") String descripcion,
+                                 @RequestParam("iddoctor") Integer iddoctor, RedirectAttributes redirectAttributes){
         Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
         Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
         model.addAttribute("doctor", doctor);
@@ -1081,6 +1081,7 @@ public class DoctorController {
         //eventocalendariodoctorRepository.agregarEventoDoctor(idtipocalendario,fecha, horainicio, horafinal, duracion, descripcion,iddoctor);
         return "redirect:/doctor/calendario";
     }
+
 
     @Transactional
     @PostMapping(value = "/calendario/guardar2")
