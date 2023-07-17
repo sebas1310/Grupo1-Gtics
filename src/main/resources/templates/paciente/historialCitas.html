@@ -59,7 +59,7 @@
                   <tbody>
                   <tr th:each="list,idx:${listcitas}">
                     <th scope="row" th:text="${idx.index+1}"></th>
-                    <td class="text-center"  th:text="${list.doctor.usuario.nombres}"></td>
+                    <td class="text-center"  th:text="|${list.doctor.usuario.nombres} ${list.doctor.usuario.apellidos}|"></td>
                     <td class="text-center"  th:text="${list.especialidad.nombre}"></td>
                     <td class="text-center"  th:text="${#temporals.format(list.fecha, 'dd-MM-yyyy')}"></td>
                     <td class="text-center"  th:text="${list.sede.nombre}"></td>

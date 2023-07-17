@@ -23,6 +23,12 @@
 <main id="main" class="main">
     <div class="pagetitle">
         <h1>Pagos de Cita virtual</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a th:href="@{'/paciente/pagos'}">Pagos Pendientes</a></li>
+                <li class="breadcrumb-item active">Pagar</li>
+            </ol>
+        </nav>
     </div><!-- End Page Title -->
     <section style="padding-left: 20%; padding-right: 20%"  class="section profile">
         <div class="row">
@@ -122,8 +128,10 @@
                         <div  class="justify-content-center text-center">
                             <button  type="submit" class="btn btn-warning "  th:text="|Pagar S/. ${monto}|"></button>
                             <br>
-                            <div th:if="${fail!=null}" th:text="${fail}" class="alert alert-danger" role="alert"></div>
                         </div>
+                        <br>
+                        <div th:if="${fail!=null}" th:text="${fail}" class="alert alert-danger" role="alert"></div>
+
                     </form>
                 </div>
             </div>

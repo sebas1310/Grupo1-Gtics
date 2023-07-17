@@ -23,6 +23,11 @@
 <main id="main" class="main">
     <div class="pagetitle">
         <h1>Pagos de Cita virtual</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item active">Pagos Pendientes</li>
+            </ol>
+        </nav>
     </div><!-- End Page Title -->
     <section class="section profile">
         <div class="row">
@@ -36,7 +41,8 @@
                                 <thead>
                                 <tr>
                                     <th class="text-center">Monto</th>
-                                    <th class="text-center">Fecha</th>
+                                    <th class="text-center">Fecha
+                                    <th class="text-center">Hora Inicio</th>
                                     <th class="text-center">Especialidad</th>
                                     <th class="text-center">Doctor</th>
                                     <th class="text-center">Sede</th>
@@ -50,6 +56,9 @@
                                     </td>
                                     <td class="text-center">
                                         <p th:text="|Cita Virtual ${#temporals.format(p.getFecha(), 'dd-MM-yyyy')}|"></p>
+                                    </td>
+                                    <td class="text-center">
+                                        <p th:text="|${p.horainicio}|"></p>
                                     </td>
                                     <td class="text-center">
                                         <p th:text="|${p.especialidad.nombre}|"></p>

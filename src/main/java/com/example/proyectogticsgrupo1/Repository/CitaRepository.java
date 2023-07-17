@@ -237,7 +237,10 @@ public interface CitaRepository extends JpaRepository<Cita, Integer> {
     List<Cita> citasxUsuario(int idusuario);
 
 
-     @Query(value = "select * from cita where idestadocita=1 and paciente_idpaciente=?1",nativeQuery = true)
+     @Query(value = "select * from cita where idestadocita=1 and paciente_idpaciente=?1 and \n" +
+             "(DATE(fecha) > DATE(DATE_SUB(NOW(), INTERVAL 5 HOUR))\n" +
+             "    OR (DATE(fecha) = DATE(DATE_SUB(NOW(), INTERVAL 5 HOUR))\n" +
+             "        AND horainicio > DATE_SUB(CURTIME(), INTERVAL 4 HOUR)))",nativeQuery = true)
     List<Cita> paymentcitas(Integer id);
 
      @Query(value = "select * from cita where paciente_idpaciente=?1 and fecha=?2 and horainicio=?3", nativeQuery = true)
