@@ -38,7 +38,7 @@ public class MyBackgroundTask {
     BoletaPacienteRepository boletaPacienteRepository;
 
     @Async
-    @Scheduled(fixedDelay = 1000*35) // Ejecutar cada 55 segundos
+    @Scheduled(fixedDelay = 1000*35) // Ejecutar cada 35 segundos
     @Transactional
     public void doBackgroundTask() {
         //todas las citas
@@ -102,7 +102,7 @@ public class MyBackgroundTask {
     }
 
     @Async
-    @Scheduled(fixedDelay = 1000*55) // Ejecutar cada segundo
+    @Scheduled(fixedDelay = 1000*55) // Ejecutar cada segundo 
     @Transactional
     public void estadoPausa(){
         for (Cita c : citaRepository.citasToChangeStatus()){
