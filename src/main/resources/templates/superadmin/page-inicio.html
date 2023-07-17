@@ -7,13 +7,13 @@
   <meta name="description" content="">
   <title>Clínica LA FE</title>
     <!-- Favicons -->
-    <link th:href="@{assets/img/favicon.png}" rel="icon">
-    <link th:href="@{assets/img/apple-touch-icon.png}" rel="apple-touch-icon">
+    <link th:src="@{/assets/img/favicon.png}" rel="icon">
+    <link th:src="@{/assets/img/apple-touch-icon.png}" rel="apple-touch-icon">
 
-    <link rel="stylesheet" th:href="@{assets/css/nicepage.css}" media="screen">
-  <link rel="stylesheet" th:href="@{assets/css/Page-2.css}" media="screen">
-  <script class="u-script" type="text/javascript" th:src="@{assets/js/jquery.js}" defer=""></script>
-  <script class="u-script" type="text/javascript" th:src="@{assets/js/nicepage.js}" defer=""></script>
+    <link rel="stylesheet" th:src="@{/assets/css/nicepage.css}" media="screen">
+  <link rel="stylesheet" th:src="@{/assets/css/Page-2.css}" media="screen">
+  <script class="u-script" type="text/javascript" th:src="@{/assets/js/jquery.js}" defer=""></script>
+  <script class="u-script" type="text/javascript" th:src="@{/assets/js/nicepage.js}" defer=""></script>
   <meta name="generator" content="Nicepage 5.13.1, nicepage.com">
   <link id="u-theme-google-font" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i|Open+Sans:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i">
   <link id="u-page-google-font" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Oswald:200,300,400,500,600,700">
@@ -39,7 +39,7 @@
 
 <body class="u-body u-xl-mode" data-lang="en"><header class="u-clearfix u-header u-header" id="sec-1a7b"><div class="u-clearfix u-sheet u-valign-middle-lg u-valign-middle-md u-valign-middle-sm u-valign-middle-xl u-sheet-1">
     <a  class="u-image u-logo u-image-1" data-image-width="49" data-image-height="52">
-        <img th:src="@{/assets/img/logo.png}" class="u-logo-image u-logo-image-1">
+        <img th:src="@{'/assets/img/logo.png'}" class="u-logo-image u-logo-image-1">
     </a>
     <p  class="u-text u-text-default-lg u-text-default-md u-text-default-sm u-text-default-xl u-text-1">Clínica LA FE</p>
     <a th:href="@{'/login'}" class="u-border-hover-custom-color-1 u-border-none u-btn u-button-style u-custom-color-1 u-hover-white u-text-hover-custom-color-1 u-btn-1">INICIAR SESIÓN</a>
@@ -117,7 +117,7 @@
                             <p class="u-text u-text-custom-color-1 u-text-2">¿No tienes una cuenta?<br>
                                 <span style="font-weight: 700;">REGÍSTRATE</span>
                             </p>
-                            <img class="u-image u-image-contain u-image-default u-preserve-proportions u-image-1" th:src="@{/assets/img/QR-prueba.png}" alt="" data-image-width="225" data-image-height="225">
+                            <img class="u-image u-image-contain u-image-default u-preserve-proportions u-image-1" th:src="@{'/assets/img/QR-prueba.png'}" alt="" data-image-width="225" data-image-height="225">
                         </div>
                     </div>
                     <div class="u-align-center u-container-style u-custom-color-1 u-layout-cell u-opacity u-opacity-85 u-size-20 u-size-20-md u-layout-cell-2">
@@ -131,10 +131,10 @@
                             <h3 class="u-text u-text-body-alt-color u-text-5">Convenios</h3>
                             <p class="u-text u-text-body-alt-color u-text-6">Trabajamos con una amplia gama de compañias de seguro <span style="font-weight: 700;">que confian en nosotros</span>
                             </p>
-                            <img class="u-image u-image-contain u-image-round u-radius-24 u-image-2" th:src="@{/assets/img/pacifico_seguros.png}" alt="" data-image-width="300" data-image-height="143">
-                            <img class="u-image u-image-contain u-image-round u-radius-23 u-image-3" th:src="@{/assets/img/rimac_eps.png}" alt="" data-image-width="317" data-image-height="159">
-                            <img class="u-image u-image-round u-preserve-proportions u-radius-24 u-image-4" th:src="@{/assets/img/pacifico_eps.jpeg}" alt="" data-image-width="250" data-image-height="154">
-                            <img class="u-image u-image-round u-radius-23 u-image-5" th:src="@{/assets/img/mapre.jpeg}" alt="" data-image-width="346" data-image-height="119">
+                            <img class="u-image u-image-contain u-image-round u-radius-24 u-image-2" th:src="@{'/assets/img/pacifico_seguros.png'}" alt="" data-image-width="300" data-image-height="143">
+                            <img class="u-image u-image-contain u-image-round u-radius-23 u-image-3" th:src="@{'/assets/img/rimac_eps.png'}" alt="" data-image-width="317" data-image-height="159">
+                            <img class="u-image u-image-round u-preserve-proportions u-radius-24 u-image-4" th:src="@{'/assets/img/pacifico_eps.jpeg'}" alt="" data-image-width="250" data-image-height="154">
+                            <img class="u-image u-image-round u-radius-23 u-image-5" th:src="@{'/assets/img/mapre.jpeg'}" alt="" data-image-width="346" data-image-height="119">
                         </div>
                     </div>
                 </div>
@@ -174,27 +174,27 @@
                                 </div>
                             </div>
                             <div class="u-container-style u-layout-cell u-size-10 u-layout-cell-2">
-                                <div class="u-container-layout u-container-layout-3"><span class="u-file-icon u-icon u-text-white u-icon-2"><img th:src="@{/assets/img/4006233-c54f57aa.png}" alt=""></span>
+                                <div class="u-container-layout u-container-layout-3"><span class="u-file-icon u-icon u-text-white u-icon-2"><img th:src="@{'/assets/img/4006233-c54f57aa.png'}" alt=""></span>
                                     <h3 class="u-text u-text-4">Traumatología</h3>
                                 </div>
                             </div>
                             <div class="u-align-center u-container-style u-layout-cell u-size-10 u-layout-cell-3">
-                                <div class="u-container-layout u-container-layout-4"><span class="u-file-icon u-icon u-text-custom-color-1 u-icon-3"><img th:src="@{/assets/img/3389923-1e7cc5e6.png}" alt=""></span>
+                                <div class="u-container-layout u-container-layout-4"><span class="u-file-icon u-icon u-text-custom-color-1 u-icon-3"><img th:src="@{'/assets/img/3389923-1e7cc5e6.png'}" alt=""></span>
                                     <h3 class="u-text u-text-5">cirugía cardiovascular</h3>
                                 </div>
                             </div>
                             <div class="u-align-center u-container-style u-layout-cell u-size-10 u-layout-cell-4">
-                                <div class="u-container-layout u-container-layout-5"><span class="u-file-icon u-icon u-text-white u-icon-4"><img th:src="@{/assets/img/2968908-e6e5e396.png}" alt=""></span>
+                                <div class="u-container-layout u-container-layout-5"><span class="u-file-icon u-icon u-text-white u-icon-4"><img th:src="@{'/assets/img/2968908-e6e5e396.png'}" alt=""></span>
                                     <h3 class="u-text u-text-6">LABORATORIO</h3>
                                 </div>
                             </div>
                             <div class="u-align-center u-container-style u-layout-cell u-size-10 u-layout-cell-5">
-                                <div class="u-container-layout u-container-layout-6"><span class="u-file-icon u-icon u-text-custom-color-1 u-icon-5"><img th:src="@{/assets/img/4006101-0fc408de.png}" alt=""></span>
+                                <div class="u-container-layout u-container-layout-6"><span class="u-file-icon u-icon u-text-custom-color-1 u-icon-5"><img th:src="@{'/assets/img/4006101-0fc408de.png'}" alt=""></span>
                                     <h3 class="u-text u-text-7">RAYOS X</h3>
                                 </div>
                             </div>
                             <div class="u-align-center u-container-style u-layout-cell u-right-cell u-size-10 u-layout-cell-6">
-                                <div class="u-container-layout u-container-layout-7"><span class="u-file-icon u-icon u-text-white u-icon-6"><img th:src="@{/assets/img/8847803-d19f9ec2.png}" alt=""></span>
+                                <div class="u-container-layout u-container-layout-7"><span class="u-file-icon u-icon u-text-white u-icon-6"><img th:src="@{'/assets/img/8847803-d19f9ec2.png'}" alt=""></span>
                                     <h3 class="u-text u-text-8">ECOGRAFíA</h3>
                                 </div>
                             </div>
@@ -215,32 +215,32 @@
                     <div class="u-layout">
                         <div class="u-layout-row">
                             <div class="u-align-center u-container-style u-layout-cell u-left-cell u-size-10 u-layout-cell-1">
-                                <div class="u-container-layout u-container-layout-2"><span class="u-file-icon u-icon u-text-custom-color-1 u-icon-1"><img th:src="@{/assets/img/10154550-7c8a08f0.png}" alt=""></span>
+                                <div class="u-container-layout u-container-layout-2"><span class="u-file-icon u-icon u-text-custom-color-1 u-icon-1"><img th:src="@{'/assets/img/10154550-7c8a08f0.png'}" alt=""></span>
                                     <h3 class="u-text u-text-3">ginecología</h3>
                                 </div>
                             </div>
                             <div class="u-container-style u-layout-cell u-size-10 u-layout-cell-2">
-                                <div class="u-container-layout u-container-layout-3"><span class="u-file-icon u-icon u-text-white u-icon-2"><img th:src="@{/assets/img/1512893-a6649f9a.png}" alt=""></span>
+                                <div class="u-container-layout u-container-layout-3"><span class="u-file-icon u-icon u-text-white u-icon-2"><img th:src="@{'/assets/img/1512893-a6649f9a.png'}" alt=""></span>
                                     <h3 class="u-align-center u-text u-text-4">urología</h3>
                                 </div>
                             </div>
                             <div class="u-align-center u-container-style u-layout-cell u-size-10 u-layout-cell-3">
-                                <div class="u-container-layout u-container-layout-4"><span class="u-file-icon u-icon u-text-custom-color-1 u-icon-3"><img th:src="@{/assets/img/862032-c2e398b0.png}" alt=""></span>
+                                <div class="u-container-layout u-container-layout-4"><span class="u-file-icon u-icon u-text-custom-color-1 u-icon-3"><img th:src="@{'/assets/img/862032-c2e398b0.png'}" alt=""></span>
                                     <h3 class="u-text u-text-5">medicina interna</h3>
                                 </div>
                             </div>
                             <div class="u-align-center u-container-style u-layout-cell u-size-10 u-layout-cell-4">
-                                <div class="u-container-layout u-container-layout-5"><span class="u-file-icon u-icon u-text-white u-icon-4"><img th:src="@{/assets/img/9127705-1c31c0bb.png}" alt=""></span>
+                                <div class="u-container-layout u-container-layout-5"><span class="u-file-icon u-icon u-text-white u-icon-4"><img th:src="@{'/assets/img/9127705-1c31c0bb.png'}" alt=""></span>
                                     <h3 class="u-text u-text-6">neumología</h3>
                                 </div>
                             </div>
                             <div class="u-align-center u-container-style u-layout-cell u-size-10 u-layout-cell-5">
-                                <div class="u-container-layout u-container-layout-6"><span class="u-file-icon u-icon u-text-custom-color-1 u-icon-5"><img th:src="@{/assets/img/17_imagen.png}" alt=""></span>
+                                <div class="u-container-layout u-container-layout-6"><span class="u-file-icon u-icon u-text-custom-color-1 u-icon-5"><img th:src="@{'/assets/img/17_imagen.png'}" alt=""></span>
                                     <h3 class="u-text u-text-7">pediatría</h3>
                                 </div>
                             </div>
                             <div class="u-align-center u-container-style u-layout-cell u-right-cell u-size-10 u-layout-cell-6">
-                                <div class="u-container-layout u-container-layout-7"><span class="u-file-icon u-icon u-text-white u-icon-6"><img th:src="@{/assets/img/109827-929524cf.png}" alt=""></span>
+                                <div class="u-container-layout u-container-layout-7"><span class="u-file-icon u-icon u-text-white u-icon-6"><img th:src="@{'/assets/img/109827-929524cf.png'}" alt=""></span>
                                     <h3 class="u-text u-text-8">NEUROLOGÍA</h3>
                                 </div>
                             </div>
@@ -261,27 +261,27 @@
                     <div class="u-layout">
                         <div class="u-layout-row">
                             <div class="u-align-center u-container-style u-layout-cell u-left-cell u-size-12 u-layout-cell-1">
-                                <div class="u-container-layout u-container-layout-2"><span class="u-file-icon u-icon u-text-custom-color-1 u-icon-1"><img th:src="@{/assets/img/8000554-da6fa44a.png}" alt=""></span>
+                                <div class="u-container-layout u-container-layout-2"><span class="u-file-icon u-icon u-text-custom-color-1 u-icon-1"><img th:src="@{'/assets/img/8000554-da6fa44a.png'}" alt=""></span>
                                     <h3 class="u-text u-text-3">endocrinología</h3>
                                 </div>
                             </div>
                             <div class="u-container-style u-layout-cell u-size-12 u-layout-cell-2">
-                                <div class="u-container-layout u-container-layout-3"><span class="u-file-icon u-icon u-text-white u-icon-2"><img th:src="@{/assets/img/847190-ad6f37de.png}" alt=""></span>
+                                <div class="u-container-layout u-container-layout-3"><span class="u-file-icon u-icon u-text-white u-icon-2"><img th:src="@{'/assets/img/847190-ad6f37de.png'}" alt=""></span>
                                     <h3 class="u-align-center u-text u-text-4">gastr​o-enterología</h3>
                                 </div>
                             </div>
                             <div class="u-align-center u-container-style u-layout-cell u-size-12 u-layout-cell-3">
-                                <div class="u-container-layout u-container-layout-4"><span class="u-file-icon u-icon u-text-custom-color-1 u-icon-3"><img th:src="@{/assets/img/10475966-53250022.png}" alt=""></span>
+                                <div class="u-container-layout u-container-layout-4"><span class="u-file-icon u-icon u-text-custom-color-1 u-icon-3"><img th:src="@{'/assets/img/10475966-53250022.png'}" alt=""></span>
                                     <h3 class="u-text u-text-5">otorrino-laringología</h3>
                                 </div>
                             </div>
                             <div class="u-align-center u-container-style u-layout-cell u-size-12 u-layout-cell-4">
-                                <div class="u-container-layout u-container-layout-5"><span class="u-file-icon u-icon u-text-white u-icon-4"><img th:src="@{/assets/img/10188117-5c249646.png}" alt=""></span>
+                                <div class="u-container-layout u-container-layout-5"><span class="u-file-icon u-icon u-text-white u-icon-4"><img th:src="@{'/assets/img/10188117-5c249646.png'}" alt=""></span>
                                     <h3 class="u-text u-text-6">nefrología</h3>
                                 </div>
                             </div>
                             <div class="u-align-center u-container-style u-layout-cell u-size-12 u-layout-cell-5">
-                                <div class="u-container-layout u-container-layout-6"><span class="u-file-icon u-icon u-text-custom-color-1 u-icon-5"><img th:src="@{/assets/img/4148440-26d5c181.png}" alt=""></span>
+                                <div class="u-container-layout u-container-layout-6"><span class="u-file-icon u-icon u-text-custom-color-1 u-icon-5"><img th:src="@{'/assets/img/4148440-26d5c181.png'}" alt=""></span>
                                     <h3 class="u-text u-text-7">dermatología</h3>
                                 </div>
                             </div>
@@ -385,7 +385,7 @@ c6.177,6.18,9.262,14.271,9.262,22.366C354.708,234.018,351.617,242.115,345.441,24
                     </div>
                 </div>
             </div>
-        </div><span class="u-file-icon u-icon u-icon-3"><img th:src="@{/assets/img/3208998.png}" alt=""></span>
+        </div><span class="u-file-icon u-icon u-icon-3"><img th:src="@{'/assets/img/3208998.png'}" alt=""></span>
         <h2 class="u-align-center-xs u-text u-text-custom-color-1 u-text-7">Derecho a la atención y recuperacion en salud</h2>
         <div class="u-expanded-width-xs u-list u-list-2">
             <div class="u-repeater u-repeater-2">
@@ -407,7 +407,7 @@ c6.177,6.18,9.262,14.271,9.262,22.366C354.708,234.018,351.617,242.115,345.441,24
                 </div>
             </div>
         </div>
-        <img class="u-image u-image-default u-preserve-proportions u-image-1" th:src="@{/assets/img/logo.png}" alt="" data-image-width="49" data-image-height="52">
+        <img class="u-image u-image-default u-preserve-proportions u-image-1" th:src="@{'/assets/img/logo.png'}" alt="" data-image-width="49" data-image-height="52">
         <h6 class="u-align-center-xs u-text u-text-default u-text-12">Clínica LA FE</h6>
         <p class="u-text u-text-13"> Tienes derecho a ser atendido con respeto, sin
             discriminación y bajo un tratamiento adecuado
