@@ -37,7 +37,8 @@
                             <div class="card-body">
                                 <h5 class="card-title">Receta Médica</h5>
                                 <form method="post" th:action="@{'/doctor/dashboard/info/guardarreceta'}" onsubmit="return validateForm()">
-                                    <input th:value="${cita.getIdcita()}" name="id" type="hidden" />
+                                    <input th:value="${cita.getIdcita()}" name="idC" type="hidden" />
+                                    <input th:value="${cita.getPaciente().getIdpaciente()}" name="idP" type="hidden" />
                                     <div class="content-md-6-center">
                                         <label for="medicamento" class="form-label">Medicamento</label>
                                         <input name="medicamento" class="form-control" type="text" placeholder="Medicamento" id="medicamento">
@@ -92,7 +93,7 @@
                     </div>
                 </div>
                 <div class="d-grid gap d-md-flex justify-content-md-center">
-                    <a type= "buttun" class="btn btn-danger" th:href="@{'/doctor/pacientesatendidos/verhistorial/vercita'+ '?id=' + ${cita.getIdcita()}}" >Regresar</a>
+                    <button type="button" class="btn btn-danger"><a style="color: white" th:href="@{'/doctor/dashboard/info'+ '?idP=' + ${cita.getPaciente().getIdpaciente()}+'&idC=' + ${cita.getIdcita()}}" >Regresar</a></button>
                 </div>
             </section>
         </main><!-- End #main -->

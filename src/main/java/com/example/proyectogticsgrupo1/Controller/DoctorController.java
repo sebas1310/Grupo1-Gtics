@@ -405,34 +405,6 @@ public class DoctorController {
 
     }
 
-    @GetMapping("/dashboard/info/anadir")
-    public String anadirRecetaInfo(Model model, @RequestParam("id") int idCita){
-        Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
-        Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
-        model.addAttribute("doctor",doctor);
-        Cita cita = citaRepository.buscarCitaPorId(idCita);
-        model.addAttribute("cita", cita);
-        return "doctor/anadirRecetaInfo";
-    }
-
-    @PostMapping("/dashboard/info/guardarreceta")
-    @Transactional
-    public String guardarRecetaInfo(RedirectAttributes redirectAttributes,
-                                @RequestParam("medicamento") String medicamento ,
-                                @RequestParam("dosis") String dosis,
-                                @RequestParam("descripcion") String descripcion ,
-                                //@RequestParam("idReceta") int idReceta,
-                                @RequestParam("id") int idCita){
-
-        Cita cita1= citaRepository.buscarCitaPorId(idCita);
-        recetaMedicaRepository.agregarReceta(medicamento,dosis,descripcion,idCita);
-        redirectAttributes.addFlashAttribute("msg","Receta Agregada");
-        redirectAttributes.addAttribute("idC",idCita);
-        redirectAttributes.addAttribute("idP",cita1.getPaciente().getIdpaciente());
-        //redirectAttributes.addAttribute("idReceta",idReceta);
-        return "redirect:/doctor/dashboard/info";
-
-    }
 
     @GetMapping("/dashboard/info/editarreceta")
     public String verEditarRecetaInfo(Model model, @RequestParam("idReceta") int idReceta,
@@ -908,35 +880,37 @@ public class DoctorController {
 
     }
 
-    @GetMapping("/pacientesatendidos/verhistorial/vercita/anadir")
-    public String anadirReceta(Model model, @RequestParam("id") int idCita){
+
+    @GetMapping("/dashboard/info/anadir")
+    public String anadirRecetaInfo(Model model, @RequestParam("id") int idCita){
         Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
         Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
         model.addAttribute("doctor",doctor);
         Cita cita = citaRepository.buscarCitaPorId(idCita);
         model.addAttribute("cita", cita);
-        return "doctor/anadirReceta";
+        return "doctor/anadirRecetaInfo";
     }
 
     //consultar si se puede sacar idReceta
-    @PostMapping("/pacientesatendidos/verhistorial/vercita/guardarreceta")
+    @PostMapping("/dashboard/info/guardarreceta")
     @Transactional
     public String guardarReceta(RedirectAttributes redirectAttributes,
                                 @RequestParam("medicamento") String medicamento ,
                                 @RequestParam("dosis") String dosis,
                                 @RequestParam("descripcion") String descripcion ,
                                 //@RequestParam("idReceta") int idReceta,
-                                @RequestParam("id") int idCita){
+                                @RequestParam("idC") int idCita,
+                                @RequestParam("idP") int idPaciente){
 
+        Cita cita1= citaRepository.buscarCitaPorId(idCita);
         recetaMedicaRepository.agregarReceta(medicamento,dosis,descripcion,idCita);
         redirectAttributes.addFlashAttribute("msg","Receta Agregada");
-        redirectAttributes.addAttribute("id",idCita);
+        redirectAttributes.addAttribute("idC",idCita);
+        redirectAttributes.addAttribute("idP",cita1.getPaciente().getIdpaciente());
         //redirectAttributes.addAttribute("idReceta",idReceta);
-        return "redirect:/doctor/pacientesatendidos/verhistorial/vercita";
+        return "redirect:/doctor/dashboard/info";
 
     }
-
-
     //opcion alterna - notificar receta al paciente
     @PostMapping("/dashboard/info/confirmareceta")
     @Transactional

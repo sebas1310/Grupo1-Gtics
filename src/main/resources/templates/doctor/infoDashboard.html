@@ -151,27 +151,26 @@
                 </table>
                 <!-- Añadir Receta-->
                 <div class="d-grid gap-2 d-md-flex justify-content-md-center" >
-                    <a th:if="${(cita.getEstadoCita().getIdestadocita()==1) or (cita.getEstadoCita().getIdestadocita()==2) or (cita.getEstadoCita().getIdestadocita()==3)}" type="button" class="btn btn-outline-primary" disabled>
-                        No Disponible hasta Inicio de Cita
+                    <button th:if="${(cita.getEstadoCita().getIdestadocita()==1) or (cita.getEstadoCita().getIdestadocita()==2) or (cita.getEstadoCita().getIdestadocita()==3)}" type="button" class="btn btn-outline-primary" disabled>
+                        No disponible hasta Inicio de Cita
+                    </button>
+                    <a th:if="${(cita.getEstadoCita().getIdestadocita()==4) and (cita.getFlagreceta()==0)}" id="boton1" type="button" class="btn btn-outline-primary" th:href="@{'/doctor/dashboard/info/anadir?id=' + ${cita.getIdcita()}}">
+                      Añadir Receta
                     </a>
-                  <a th:if="${(cita.getEstadoCita().getIdestadocita()==4) and (cita.getFlagreceta()==0)}" id="boton1" type="button" class="btn btn-outline-primary" th:href="@{'/doctor/dashboard/info/anadir?id=' + ${cita.getIdcita()}}">
-                    Añadir Receta
-                  </a>
                     <br>
-                    <a th:if="${(cita.getTipoCita().getIdtipocita() eq 1) and (recetaMedicaRepository.numRecetas(cita.getIdcita())>=1)}" type="button" th:href="@{'/doctor/dashboard/info/boletaMedicamento?idCita=' + ${cita.getIdcita()} + '&idPaciente=' + ${cita.getPaciente().getIdpaciente()}}" class="btn btn-outline-primary" >
-                        Generar Boleta Farmacia
-                    </a>
+                  <!-- <button th:if="${(cita.getTipoCita().getIdtipocita() eq 1) and (recetaMedicaRepository.numRecetas(cita.getIdcita())>=1)}" type="button" th:href="@{'/doctor/dashboard/info/boletaMedicamento?idCita=' + ${cita.getIdcita()} + '&idPaciente=' + ${cita.getPaciente().getIdpaciente()}}" class="btn btn-outline-primary" >Generar Boleta Farmacia
+                  </button> -->
                     <!--<a th:unless="${cita.getTipoCita().getIdtipocita() eq 1}" type="button" th:href="@{'/doctor/pacientesatendidos/verhistorial/vercita/boletaMedicamentoDelivery?idCita=' + ${cita.getIdcita()} + '&idPaciente=' + ${cita.getPaciente().getIdpaciente()}}" class="btn btn-outline-primary" >
                         Enviar Por Delivery
                     </a>-->
-                    <div th:if="${(recetaMedicaRepository.numRecetas(cita.getIdcita())>=1) and (cita.getFlagreceta()==0)}">
-                        <form method="post" th:action="@{'/doctor/dashboard/info/confirmareceta'}">
-                            <input th:value="${cita.getIdcita()}" name="idCita" class="form-control" type="hidden">
-                            <input th:value="${cita.getPaciente().getIdpaciente()}" name="idPaciente" class="form-control" type="hidden">
-                            <!--<input th:value="${1}" name="flagReceta" class="form-control" type="hidden">-->
-                            <button type="submit" class="btn btn-outline-primary">Confirmar Receta</button>
-                        </form>
-                    </div>
+                  <div th:if="${(recetaMedicaRepository.numRecetas(cita.getIdcita())>=1) and (cita.getFlagreceta()==0)}">
+                    <form method="post" th:action="@{'/doctor/dashboard/info/confirmareceta'}">
+                      <input th:value="${cita.getIdcita()}" name="idCita" class="form-control" type="hidden">
+                      <input th:value="${cita.getPaciente().getIdpaciente()}" name="idPaciente" class="form-control" type="hidden">
+                      <!--<input th:value="${1}" name="flagReceta" class="form-control" type="hidden">-->
+                      <button th:if="${cita.getEstadoCita().getIdestadocita()==4}" type="submit" class="btn btn-outline-primary">Confirmar Receta</button>
+                    </form>
+                  </div>
                 </div>
               </div>
             </div>
@@ -220,14 +219,14 @@
           <div class="card">
             <div class="card-body">
               <h5 class="card-title">Informe Médico</h5>
-              <div th:if="${(cita.getEstadoCita().getIdestadocita()==3 or cita.getEstadoCita().getIdestadocita()==4) and idatosjson==null}" class="text-center">
-                <a th:href="@{'/doctor/dashboard/info/llenarinforme'+'?id=' + ${cita.getIdcita()}}" class="btn btn-danger">Llenar Informe</a>
+              <div th:if="${(cita.getEstadoCita().getIdestadocita()==4) and idatosjson==null}" class="text-center">
+                <button th:href="@{'/doctor/dashboard/info/llenarinforme'+'?id=' + ${cita.getIdcita()}}" class="btn btn-danger">Llenar Informe</button>
               </div>
-              <div th:unless="${cita.getEstadoCita().getIdestadocita()==3 or cita.getEstadoCita().getIdestadocita()==4}" class="text-center">
-                <a class="btn btn-danger">No Disponible hasta Inicio de Cita</a>
+              <div th:if="${cita.getEstadoCita().getIdestadocita()==3 or cita.getEstadoCita().getIdestadocita()==2 or cita.getEstadoCita().getIdestadocita()==1}" class="text-center">
+                <button class="btn btn-outline-danger" disabled>No disponible hasta Inicio de Cita</button>
               </div>
               <div th:if="${(cita.getEstadoCita().getIdestadocita()==3 or cita.getEstadoCita().getIdestadocita()==4) and idatosjson!=null}" class="text-center">
-                <a th:href="@{'/doctor/dashboard/info/llenarinforme'+'?id=' + ${cita.getIdcita()}}" class="btn btn-success">Ver Informe</a>
+                <button th:href="@{'/doctor/dashboard/info/llenarinforme'+'?id=' + ${cita.getIdcita()}}" class="btn btn-success">Ver Informe</button>
               </div>
                <!-- <div th:if="$idatosjson!=null >
                    <td th:text="${informe.getID()}" id="id_modelo" hidden></td>
@@ -244,7 +243,7 @@
               <h6>Si el paciente requiere realizar unos exámenes, entonces envíele un mensaje</h6>
               <br>
               <div class="d-grid gap-1 d-md-flex justify-content-md-center" >
-                  <a th:if="${(cita.getEstadoCita().getIdestadocita()==1) or (cita.getEstadoCita().getIdestadocita()==2) or (cita.getEstadoCita().getIdestadocita()==3)}" class="btn btn-primary" disabled>No Disponible hasta Inicio de Cita</a>
+                  <button th:if="${(cita.getEstadoCita().getIdestadocita()==1) or (cita.getEstadoCita().getIdestadocita()==2) or (cita.getEstadoCita().getIdestadocita()==3)}" class="btn btn-outline-primary" disabled >No disponible hasta Inicio de Cita</button>
                 <a th:if="${(cita.getEstadoCita().getIdestadocita()==4)}" th:href="@{'/doctor/mensajeria/enviarmensaje/examenes'+ '?idp=' + ${paciente.getUsuario().getIdusuario()}}" class="btn btn-primary">Mensaje</a>
               </div>
             </div>

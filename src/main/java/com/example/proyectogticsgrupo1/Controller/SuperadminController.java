@@ -387,7 +387,7 @@ public class SuperadminController {
                                 + "\nSu contraseña por defecto es: " + contrasenaGenerada
                                 + "\nPor favor, ingrese a: http://localhost:8083/cambiarcontrasena aquí para cambiarla.", receiverEmail);
 
-                        return "redirect:/superadmin/index";
+                        return "redirect:/superadfmin/index";
                     }else{
                         bindingResult.rejectValue("correo", "error.correo", "Ya existe un usuario con este correo electrónico");
                         model.addAttribute("listasedes", sedeRepository.listaSedes());
