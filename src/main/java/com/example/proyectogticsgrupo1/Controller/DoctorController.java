@@ -936,6 +936,7 @@ public class DoctorController {
 
     }
 
+
     @Transactional
     @GetMapping(value = "/pacientesatendidos/verhistorial/vercita/borrarreceta")
     public String borrarReceta(@RequestParam("idR") Integer idReceta, RedirectAttributes redirectAttributes){
