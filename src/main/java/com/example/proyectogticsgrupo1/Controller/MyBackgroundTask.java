@@ -1,10 +1,7 @@
 package com.example.proyectogticsgrupo1.Controller;
 import com.example.proyectogticsgrupo1.Entity.Cita;
 import com.example.proyectogticsgrupo1.Entity.EmailService;
-import com.example.proyectogticsgrupo1.Repository.BoletaDoctorRepository;
-import com.example.proyectogticsgrupo1.Repository.BoletaPacienteRepository;
-import com.example.proyectogticsgrupo1.Repository.CitaRepository;
-import com.example.proyectogticsgrupo1.Repository.NotificacionesRepository;
+import com.example.proyectogticsgrupo1.Repository.*;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
@@ -37,6 +34,15 @@ public class MyBackgroundTask {
     @Autowired
     BoletaPacienteRepository boletaPacienteRepository;
 
+    @Autowired
+    ModeloXCitaRepository modeloXCitaRepository;
+
+    @Autowired
+    DatosJsonRepository datosJsonRepository;
+
+    @Autowired
+    EventocalendariodoctorRepository eventocalendariodoctorRepository;
+
     @Async
     @Scheduled(fixedDelay = 1000*35) // Ejecutar cada 35 segundos
     @Transactional
@@ -58,6 +64,15 @@ public class MyBackgroundTask {
                 boletaPacienteRepository.delBoletaPaciente(c.getIdcita());
                 boletaDoctorRepository.delBoletaDoctor(c.getIdcita());
                 //y de ahi la cita
+                Integer idModel = modeloXCitaRepository.idModelxCita(c.getIdcita());
+                if(idModel!=null){
+                    modeloXCitaRepository.borrarModelxCita(idModel);
+                }
+                Integer idCuestionario = datosJsonRepository.idCuestionariolleno(c.getPaciente().getUsuario().getIdusuario(),c.getIdcita());
+                if(idCuestionario!=null){
+                    datosJsonRepository.borrarDatosJson(idCuestionario);
+                }
+                eventocalendariodoctorRepository.cambiarEstadoCalendario2(c.getDoctor().getIddoctor(),c.getFecha(),c.getHorainicio());
                 citaRepository.delCita(c.getIdcita());
                 if (!citaRepository.findById(c.getIdcita()).isPresent()) {
                     System.out.println("elimnada_:" + c.getIdcita());
