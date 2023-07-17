@@ -92,6 +92,10 @@ public interface EventocalendariodoctorRepository extends JpaRepository<Eventoca
                     "ORDER BY fecha ASC LIMIT 2")
     List<DiasProximosDoctor> getDiasProx1(Integer id); */
 
+    @Modifying
+    @Query(nativeQuery = true, value = "UPDATE eventocalendariodoctor SET idtipohoracalendariodoctor = 1, descripcion='libre' WHERE iddoctor=?1 and fecha=?2 and horainicio=?3")
+    void cambiarEstadoCalendario2(Integer iddoc, LocalDate fecha, LocalTime horain);
+
     @Query(nativeQuery = true, value =
             "SELECT DAYNAME(fecha) AS dia, DATE_FORMAT(horainicio, '%H:%i') AS inicio, DATE_FORMAT(horafinal, '%H:%i') AS fin, " +
                     "fecha as fechacita FROM eventocalendariodoctor " +
