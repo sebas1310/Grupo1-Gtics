@@ -35,6 +35,13 @@
     * Author: BootstrapMade.com
     * License: https://bootstrapmade.com/license/
     ======================================================== -->
+
+    <script>
+        function mostrarTerminos() {
+            alert("Aquí puedes mostrar el documento de términos y condiciones o abrir una nueva ventana con su contenido.");
+            // Puedes reemplazar la alerta con tu propio código para mostrar el documento.
+        }
+    </script>
 </head>
 
 <body>
@@ -163,6 +170,12 @@
                                             <input type="password"  class="form-control" id="input2" required>
                                             <div class="invalid-feedback">Ingrese de nuevo su contraseña</div>
                                         </div>
+                                    </div>
+
+                                    <div class="row mb-3">
+                                        <input type="checkbox" id="terminos" name="terminos" required>
+                                        <label for="terminos" onclick="mostrarTerminos()">Acepto los términos y condiciones</label><br><br>
+
                                     </div>
 
                                     <div id="error-message" style="display: none"></div>
