@@ -80,8 +80,8 @@
                 <label class="form-label">Género</label>
                 <select class="form-control" th:field="*{genero}" th:classappend="${#fields.hasErrors('genero') ? 'is-invalid' : ''}" required>
                   <option value="" th:selected="${genero == null}">Selecciona una opción</option>
-                  <option value="M">Masculino</option>
-                  <option value="F">Femenino</option>
+                  <option value="Masculino">Masculino</option>
+                  <option value="Femenino">Femenino</option>
                 </select>
                 <div class="invalid-feedback" th:if="${#fields.hasErrors('genero')}" th:errors="*{genero}"></div>
               </div>

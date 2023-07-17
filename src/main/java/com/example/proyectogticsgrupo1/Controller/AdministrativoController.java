@@ -92,6 +92,13 @@ public class AdministrativoController {
         return"administrativo/formularioreferido";
     }
 
+    @GetMapping(value = "/formularioreferido2")
+    public String formRef2(Model model){
+        Usuario usuarioAdministrativo = (Usuario) session.getAttribute("usuario");
+        model.addAttribute("usuario", usuarioAdministrativo);
+        return"administrativo/formularioreferido2";
+    }
+
     @GetMapping(value = "/invitar")
     public String invitar(Model model){
         Usuario usuarioAdministrativo = (Usuario) session.getAttribute("usuario");
@@ -263,7 +270,7 @@ public class AdministrativoController {
         } else {
             // Lógica para enviar el correo electrónico
             emailService.sendEmail(correo, "Invitación",
-                    "Estimado usuario, usted ha sido invitado a la plataforma de Clínica LA FE:\nIngresa aquí para registrarte: http://localhost:8081/");
+                    "Estimado usuario, usted ha sido invitado a la plataforma de Clínica LA FE:\nIngresa aquí para registrarte: http://localhost:8088/administrativo/formularioreferido2");
             String content = "Usted invito un usuario con CORREO: " + correo ;
             String titulo = "Invitación enviada existosamente";
             notificacionesRepository.notificarCreacion2(usuarioAdministrativo.getIdusuario(),content,titulo);
