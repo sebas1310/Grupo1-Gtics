@@ -26,11 +26,17 @@
     <div class="row">
       <div class="col">
         <h1>Boletas Citas</h1>
+        <nav>
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a th:href="@{'/paciente/historialCitas'}">Historial de Citas</a></li>
+            <li class="breadcrumb-item active">Boleta</li>
+          </ol>
+        </nav>
 
       </div>
       <div class="col">
-        <div style="padding-left:  60%" >
-          <button  class="btn-warning btn" style="text-decoration: underline; cursor: pointer" id="boletaPdf"><i class="bi bi-printer-fill"></i>Descargar Boleta</button>
+        <div style="padding-left:  50%" >
+          <button  class="btn-warning btn" style=" cursor: pointer" id="boletaPdf"><i class="bi bi-printer-fill"></i> Descargar Boleta</button>
         </div>
       </div>
 
@@ -64,12 +70,34 @@
               </table>
               <!--<h5 class="card-title">Boleta - Cita</h5> -->
               <div style=" background-color: #2F68BA" class="text-center" >
-                <p  class="text-center " style="font-size: xx-large;  color: white; font-weight: bolder; font-family: Nunito; height: 50px" >Información Cita</p>
+                <p  class="text-center " style="font-size: 24px;  color: white; font-weight: bolder; font-family: Nunito; height: 43px" >Información Cita</p>
 
               </div>
               <div class="ps-3 ">
                 <div  class="row">
                   <div class="col">
+
+                    <table style="padding-left: 2.5%">
+                      <tr>
+                        <th style="text-align: left;width: 200px;" >Paciente:</th>
+                        <td style="width: 300px;"  th:text="|${boletapac.paciente.usuario.nombres} ${boletapac.paciente.usuario.apellidos}|"></td>
+                      </tr>
+                      <tr>
+                        <th style="text-align: left;width: 200px;">DNI:</th>
+                        <td style="width: 300px;" th:text="|${boletapac.paciente.usuario.dni}|"></td>
+                      </tr>
+                      <tr>
+                        <th style="text-align: left;width: 200px;">Seguro:</th>
+                        <td style="width: 300px;" th:text="|${boletapac.paciente.seguro.nombre}|"></td>
+                      </tr>
+                      <tr>
+                        <th style="text-align: left;width: 200px;" >Fecha:</th>
+                        <td style="width: 300px;" th:text="|${boletapac.cita.fecha}|" ></td>
+                      </tr>
+                    </table>
+
+
+                    <!--
                     <div class="row">
                       <div style="padding-left: 10%" class="col-4">
                         <br>
@@ -95,50 +123,44 @@
 
                       </div>
 
-                    </div>
+                    </div> -->
+
 
                   </div>
-
+                  <br>
                   <div class="col">
-                    <div class="row">
-                      <div style="padding-left: 10%" class="col-5">
-                        <br>
-                        <p style="font-weight: bolder">Médico:</p>
-                        <br>
-                        <p style="font-weight: bolder">Especialidad:</p>
-                        <br>
-                        <p style="font-weight: bolder">Tipo de Cita:</p>
-                        <br>
-                        <p style="font-weight: bolder">Sede:</p>
 
-                      </div>
-                      <div class="col">
-                        <br>
-                        <p><span th:text="|${boletapac.cita.doctor.usuario.nombres} ${boletapac.cita.doctor.usuario.apellidos}|"></span></p>
-                        <br>
-                        <p th:text=" ${boletapac.cita.especialidad.nombre}"></p>
-                        <br>
-                        <p th:text=" ${boletapac.cita.tipoCita.nombre}" ></p>
-                        <br>
-                        <p th:text=" ${boletapac.cita.sede.nombre}"></p>
+                    <table>
+                      <tr>
+                        <th style="text-align: left;width: 200px;">Médico:</th>
+                        <td style="width: 300px;" th:text="|${boletapac.cita.doctor.usuario.nombres} ${boletapac.cita.doctor.usuario.apellidos}|"></td>
+                      </tr>
+                      <tr>
+                        <th style="text-align: left;width: 200px;">Especialidad:</th>
+                        <td style="width: 300px;" th:text=" ${boletapac.cita.especialidad.nombre}"></td>
+                      </tr>
+                      <tr>
+                        <th style="text-align: left;width: 200px;">Tipo de Cita:</th>
+                        <td style="width: 300px;" th:text=" ${boletapac.cita.tipoCita.nombre}"></td>
+                      </tr>
+                      <tr>
+                        <th style="text-align: left;width: 200px;" >Sede:</th>
+                        <td style="width: 300px;" th:text=" ${boletapac.cita.sede.nombre}"></td>
+                      </tr>
+                    </table>
 
 
-                      </div>
-
-                    </div>
                   </div>
                 </div>
 
                 <table style="padding-left: 15%" class="table">
                   <tbody>
 
-
                   <tr>
                     <th scope="row">TOTAL SIN SEGURO:</th>
                     <td> <span th:text="|S/. ${boletapac.cita.especialidad.costo}|"></span></td>
 
                   </tr>
-
                   <tr>
                     <th scope="row">TOTAL CON SEGURO:</th>
                     <td> <span th:text="|S/. ${boletapac.monto}|"></span></td>
@@ -149,7 +171,7 @@
 
               </div>
               <div style="background-color: #2F68BA">
-                <p style="color: white; padding-left: 65%; font-size: large; font-weight: bolder" th:text="|TOTAL FINAL: S/. ${boletapac.monto}|"></p>
+                <p class="text-right" style="color: white; text-align: right; font-weight: bolder; padding-right: 5%" th:text="|TOTAL FINAL: S/. ${boletapac.monto}|"></p>
 
               </div>
 
