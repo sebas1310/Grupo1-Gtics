@@ -36,12 +36,8 @@
     * License: https://bootstrapmade.com/license/
     ======================================================== -->
 
-    <script>
-        function mostrarTerminos() {
-            alert("Aquí puedes mostrar el documento de términos y condiciones o abrir una nueva ventana con su contenido.");
-            // Puedes reemplazar la alerta con tu propio código para mostrar el documento.
-        }
-    </script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+
 </head>
 
 <body>
@@ -174,8 +170,29 @@
 
                                     <div class="row mb-3">
                                         <input type="checkbox" id="terminos" name="terminos" required>
-                                        <label for="terminos" onclick="mostrarTerminos()">Acepto los términos y condiciones</label><br><br>
+                                        <label for="terminos" data-toggle="modal" data-target="#modalTerminos">Acepto los términos y condiciones</label><br><br>
 
+                                    </div>
+
+                                    <!-- Modal de los términos y condiciones -->
+                                    <div class="modal fade" id="modalTerminos" tabindex="-1" role="dialog" aria-labelledby="modalTerminosLabel" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="modalTerminosLabel">Términos y Condiciones</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <!-- Aquí puedes insertar el contenido de los términos y condiciones -->
+                                                    <p>Aquí puedes incluir los términos y condiciones.</p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
 
                                     <div id="error-message" style="display: none"></div>
