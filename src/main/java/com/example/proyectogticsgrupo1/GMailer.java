@@ -54,8 +54,8 @@ public class GMailer {
                 .setAccessType("offline")
                 .build();
 
-        LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8888).build();
-//        LocalServerReceiver receiver = new LocalServerReceiver.Builder().setHost("0.0.0.0").setPort(8083).build();
+         //LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8888).build();
+        LocalServerReceiver receiver = new LocalServerReceiver.Builder().setHost("0.0.0.0").setPort(8888).build();
         return new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
     }
 
