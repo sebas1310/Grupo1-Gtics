@@ -82,7 +82,7 @@ public class SecurityConfig {
 
         //Usar el formulario por defecto de spring security
         http.formLogin()
-                .loginPage("/")
+                .loginPage("/login")
                 .loginProcessingUrl("/validacionusuario")
                 .usernameParameter("correo")
                 .passwordParameter("contrasena")
