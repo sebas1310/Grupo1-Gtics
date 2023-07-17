@@ -925,7 +925,7 @@ public class DoctorController {
         System.out.println("el id cita es"+cita1.getIdcita());
         Paciente paciente1 = pacienteRepository.buscarPacientePorID(idPaciente);
         System.out.println("el id usuario del paciente es"+paciente1.getUsuario().getIdusuario());
-        citaRepository.actualizarFlagReceta(idCita);
+        citaRepository.actualizarFlagReceta(1,idCita);
         notificacionesRepository.notificarCreacion(paciente1.getUsuario().getIdusuario(),"Estimado Paciente: " +
                 ""+paciente1.getUsuario().getNombres()+" ya se encuentre disponible su receta medica para su cita del dia "+cita1.getFecha()+
                 " de: "+cita1.getHorainicio()+" a "+cita1.getHorafinal(),"Receta Disponible , Cita:"+cita1.getFecha());
@@ -992,9 +992,12 @@ public class DoctorController {
         //void notificarCreacion(Integer iddestino,String contenido, String titulo);
         Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
         Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
+        Cita cita1 = citaRepository.buscarCitaPorId(idcita);
         String titulo = "Delivery de Medicamentos Confirmado";
         String contenido = "Estimado Doctor(a): "+doctor.getUsuario().getApellidos()+" se confirmó el delivery de medicamentos para el paciente asignado";
+        citaRepository.actualizarFlagReceta(2,idcita);
         notificacionesRepository.notificarCreacion(usuarioDoctor.getIdusuario(),contenido,titulo);
+        emailService.sendEmail(cita1.getPaciente().getUsuario().getCorreo(),titulo,contenido);
         redirectAttributes.addFlashAttribute("msg5","Delivery Confirmado");
         redirectAttributes.addAttribute("id",idcita);
         return "redirect:/doctor/pacientesatendidos/verhistorial/vercita";
@@ -1374,10 +1377,10 @@ public class DoctorController {
 
         //String titulo = "Estimado Paciente , el doctor(a) requiere que se haga unos examenes de rayos x";
         //notificacionesRepository.notificarCreacion(idUsuarioDestino,descripcion,titulo);
-        //emailService.sendEmail(correoDestino,asunto,descripcion);
-        GMailer enviocorreo = new GMailer();
+        emailService.sendEmail(correoDestino,asunto,descripcion);
+        /*GMailer enviocorreo = new GMailer();
         String receiverEmail = correoDestino; // Aquí puedes colocar la dirección de correo electrónico del receptor deseado
-        enviocorreo.sendMail(asunto, descripcion, receiverEmail);
+        enviocorreo.sendMail(asunto, descripcion, receiverEmail);*/
         mailCorreoRepository.guardarMensaje(asunto,descripcion,correoDestino,idUsuarioDestino ,idUsuarioOrigen);
         redirectAttributes.addFlashAttribute("msg","Mensaje Enviado");
         return "redirect:/doctor/mensajeria";
@@ -1413,10 +1416,10 @@ public class DoctorController {
         notificacionesRepository.notificarCreacion(idUsuarioDestino,descripcion,"Requerimiento de Examenes");
 
 
-        GMailer enviocorreo = new GMailer();
+        /*GMailer enviocorreo = new GMailer();
         String receiverEmail = correoDestino; // Aquí puedes colocar la dirección de correo electrónico del receptor deseado
-        enviocorreo.sendMail(asunto, descripcion, receiverEmail);
-        //emailService.sendEmail(correoDestino,asunto,descripcion);
+        enviocorreo.sendMail(asunto, descripcion, receiverEmail);*/
+        emailService.sendEmail(correoDestino,asunto,descripcion);
 
 
 
@@ -1442,17 +1445,17 @@ public class DoctorController {
 
         System.out.println("llega al repo de envio");
         Cita cita1 = citaRepository.buscarCitaPorId(id_cita);
-        modeloJsonRepository.agregarCuestionarioAPaciente(id_modelo,id_paciente,id_cita,mostrarautomatico);
+        modeloJsonRepository.agregarCuestionarioAPaciente(id_modelo,id_paciente,id_cita,mostrarautomatico,0);
         Paciente paciente1 = pacienteRepository.buscarPacientePorIdUsuario(id_paciente);
         notificacionesRepository.notificarCreacion(paciente1.getUsuario().getIdusuario(),"Estimado Paciente: "+paciente1.getUsuario().getNombres()+" "+paciente1.getUsuario().getApellidos()+" " +
                         ", recuerde llenar el cuestionario enviado por el doctor antes de su cita del dia: "+cita1.getFecha()+" a las: "+cita1.getHorafinal(),"Cuestionario Pendiente para su Cita - Dia: "+cita1.getFecha());
-        GMailer enviocorreo = new GMailer();
+        /*GMailer enviocorreo = new GMailer();
         String receiverEmail = paciente1.getUsuario().getCorreo(); // Aquí puedes colocar la dirección de correo electrónico del receptor deseado
         enviocorreo.sendMail("Cuestionario Pendiente para su Cita - Dia: "+cita1.getFecha(), "Estimado Paciente: "+paciente1.getUsuario().getNombres()+" "+paciente1.getUsuario().getApellidos()+" " +
-                ", recuerde llenar el cuestionario enviado por el doctor antes de su cita del dia: "+cita1.getFecha()+" a las: "+cita1.getHorafinal(), receiverEmail);
+                ", recuerde llenar el cuestionario enviado por el doctor antes de su cita del dia: "+cita1.getFecha()+" a las: "+cita1.getHorafinal(), receiverEmail);*/
 
-        /*emailService.sendEmail(paciente1.getUsuario().getCorreo(),"Cuestionario Pendiente para su Cita - Dia: "+cita1.getFecha(),"Estimado Paciente: "+paciente1.getUsuario().getNombres()+" "+paciente1.getUsuario().getApellidos()+" " +
-                ", recuerde llenar el cuestionario enviado por el doctor antes de su cita del dia: "+cita1.getFecha()+" a las: "+cita1.getHorafinal());*/
+        emailService.sendEmail(paciente1.getUsuario().getCorreo(),"Cuestionario Pendiente para su Cita - Dia: "+cita1.getFecha(),"Estimado Paciente: "+paciente1.getUsuario().getNombres()+" "+paciente1.getUsuario().getApellidos()+" " +
+                ", recuerde llenar el cuestionario enviado por el doctor antes de su cita del dia: "+cita1.getFecha()+" a las: "+cita1.getHorafinal());
 
         redirectAttributes.addAttribute("idC",id_cita);
         redirectAttributes.addAttribute("idP",paciente1.getIdpaciente());
