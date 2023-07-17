@@ -186,6 +186,7 @@ public class AdministradorController {
             usuarioRepository.save(user);
             int edad = usuarioRepository.edad(user.getIdusuario());
             user.setEdad(edad);
+            user.setFormaregistro("Invitado por Correo");
             Paciente paciente = new Paciente();
             EstadoPaciente estadoPaciente = new EstadoPaciente();
             estadoPaciente.setIdestadopaciente(1);
