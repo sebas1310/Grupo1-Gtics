@@ -61,8 +61,11 @@
                                 <td class="text-center" th:text="${seguro.nombre}"></td>
                                 <td class="text-center" th:text="${seguro.coaseguro}"></td>
                                 <td class="text-center" th:text="${seguro.comisiondoctor}"></td>
-                                <td class="text-center" ><a class="btn btn-primary"
-                                       th:href="@{'/superadmin/editarSeguro?id=' + ${seguro.idseguro}}">Editar</a>
+                                <td class="text-center">
+                                    <form th:action="@{/superadmin/editarSeguro}" method="post">
+                                        <input type="hidden" name="id" th:value="${seguro.idseguro}">
+                                        <button type="submit" class="btn btn-primary" >Editar</button>
+                                    </form>
                                 </td>
                             </tr>
 
