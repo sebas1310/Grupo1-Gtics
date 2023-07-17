@@ -63,8 +63,8 @@ public interface CitaRepository extends JpaRepository<Cita, Integer> {
     List<PacientesAtendidos> pacientesAtendidosPorDoctor(Integer idDoctor);
 
     @Modifying
-    @Query(value= "update cita set flagreceta = 1 where idcita=?1",nativeQuery = true)
-    void actualizarFlagReceta (Integer idCita);
+    @Query(value= "update cita set flagreceta = ?1 where idcita=?2",nativeQuery = true)
+    void actualizarFlagReceta (int flag, Integer idCita);
 
 
 

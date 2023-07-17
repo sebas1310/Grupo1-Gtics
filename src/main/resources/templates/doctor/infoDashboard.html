@@ -73,7 +73,6 @@
                       <!--<button  th:if="${(cita.getEstadoCita().getIdestadocita()==3) and (cita.getEstadoCita().getIdestadocita()!=1 or cita.getEstadoCita().getIdestadocita()!=2)}" type="submit" class="btn btn-outline-danger" disabled><i class="bi bi-pause-circle me-1"></i> Finalizar</button> -->
                     </form>
                   </div>
-
                   <!--<a th:href="@{'/doctor/pacientesatendidos/verhistorial/vercita'+ '?id=' + ${cita.getIdcita()}+'&estadocita=3'+'&msg6=Cita_Pausada'}" class="btn btn-primary">Pausar Cita</a>
               <a th:href="@{'/doctor/pacientesatendidos/verhistorial/vercita'+ '?id=' + ${cita.getIdcita()}+'&estadocita=4'+'&msg6=CitaEnConsulta'}" class="btn btn-success">Continuar Cita</a>
               <a th:href="@{'/doctor/pacientesatendidos/verhistorial/vercita'+ '?id=' + ${cita.getIdcita()}+'&estadocita=6'+'&msg6=Cita_Finalizada'}" class="btn btn-danger">Finalizar Cita</a> -->
@@ -159,8 +158,8 @@
                       Añadir Receta
                     </a>
                     <br>
-                  <a th:if="${(cita.getTipoCita().getIdtipocita() eq 1) and (cita.getFlagreceta()==1)}" type="button" th:href="@{'/doctor/dashboard/info/boletaMedicamento?idCita=' + ${cita.getIdcita()} + '&idPaciente=' + ${cita.getPaciente().getIdpaciente()}}" class="btn btn-outline-primary" >Generar Boleta Farmacia
-                  </a>
+                  <!--<a th:if="${(cita.getTipoCita().getIdtipocita() eq 1) and (cita.getFlagreceta()==1)}" type="button" th:href="@{'/doctor/dashboard/info/boletaMedicamento?idCita=' + ${cita.getIdcita()} + '&idPaciente=' + ${cita.getPaciente().getIdpaciente()}}" class="btn btn-outline-primary" >Generar Boleta Farmacia
+                  </a> -->
                     <!--<a th:unless="${cita.getTipoCita().getIdtipocita() eq 1}" type="button" th:href="@{'/doctor/pacientesatendidos/verhistorial/vercita/boletaMedicamentoDelivery?idCita=' + ${cita.getIdcita()} + '&idPaciente=' + ${cita.getPaciente().getIdpaciente()}}" class="btn btn-outline-primary" >
                         Enviar Por Delivery
                     </a>-->
@@ -204,7 +203,7 @@
 
             <div th:if="${cuestionarios.isEmpty()}" class="text-center">
               <div class="text-center">
-                <a th:href="@{'/doctor/dashboard/info/enviarcuestionario' + '?idcuest=' + ${34}+'&id=' + ${cita.getIdcita()}}" class="btn btn-danger">Enviar </a>
+                <a th:href="@{'/doctor/dashboard/info/enviarcuestionario' + '?idcuest=' + ${cita.getDoctor().getEspecialidad().getIdespecialidad()}+'&id=' + ${cita.getIdcita()}}" class="btn btn-danger">Enviar </a>
               </div>
             </div>
             <div th:unless="${cuestionarios.isEmpty()}">
