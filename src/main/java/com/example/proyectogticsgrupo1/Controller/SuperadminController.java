@@ -129,9 +129,11 @@ public class SuperadminController {
                 imagenSubir.setFilebase64(Base64.getEncoder().encodeToString(file.getBytes()));
 
                 String resultadoSubida = uploadInter.subirimagen(imagenSubir);
+
+
                 if(resultadoSubida.equals("ok")){
                     System.out.println("https://lafe.blob.core.windows.net/clinicalafe/"+filename);
-                    usuarioRepository.actualizarfotoperfilSpa(resultadoSubida);
+                    usuarioRepository.actualizarfotoperfilSpa("https://lafe.blob.core.windows.net/clinicalafe/"+filename);
                 }
 
             }else {
