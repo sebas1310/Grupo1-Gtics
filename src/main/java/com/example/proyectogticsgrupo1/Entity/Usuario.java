@@ -52,6 +52,8 @@ public class Usuario  implements Serializable {
     @NotNull(message = "Debes seleccionar un género")
     private String genero;
 
+    @Column(name = "foto")
+    private String foto;
 
     @Pattern(regexp = "^(9)[0-9]{8}$", message = "El número de celular debe empezar con '9' y tener 9 dígitos numéricos")
     private String celular;

@@ -54,8 +54,8 @@ public class GMailer {
                 .setAccessType("offline")
                 .build();
 
-        String redirectUri = "http://34.29.54.187:8888/oauth2callback";
-        LocalServerReceiver receiver = new LocalServerReceiver.Builder().setHost("34.29.54.187").setPort(8888).build();
+        LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8888).build();
+//        LocalServerReceiver receiver = new LocalServerReceiver.Builder().setHost("0.0.0.0").setPort(8083).build();
         return new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
     }
 
