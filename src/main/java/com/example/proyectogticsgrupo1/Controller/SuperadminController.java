@@ -131,7 +131,8 @@ public class SuperadminController {
                 if(resultadoSubida.equals("ok")){
                     System.out.println("https://lafe.blob.core.windows.net/clinicalafe/"+filename);
 
-                    usuarioRepository.actualizarfotoperfilSpa();
+                    usuarioRepository.actualizarfotoperfilSpa(filename);
+
                 }
 
             }
