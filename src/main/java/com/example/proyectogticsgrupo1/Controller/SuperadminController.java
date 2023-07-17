@@ -10,16 +10,20 @@ import com.example.proyectogticsgrupo1.Service.EmailService;
 import com.google.cloud.storage.Bucket;
 import com.google.cloud.storage.Storage;
 import com.google.cloud.storage.StorageOptions;*/
+import com.example.proyectogticsgrupo1.Service.imagenes.ImagenSubir;
+import com.example.proyectogticsgrupo1.Service.imagenes.UploadInter;
 import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.RandomStringUtils;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -28,6 +32,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.io.IOException;
 import java.util.*;
 import java.util.regex.Pattern;
 
@@ -42,6 +47,8 @@ public class SuperadminController {
     SedeRepository sedeRepository;
     @Autowired
     SeguroRepository seguroRepository;
+    @Autowired
+    UploadInter uploadInter;
 
     @Autowired
     TipodeusuarioRepository tipodeusuarioRepository;
@@ -111,6 +118,29 @@ public class SuperadminController {
 
         return "superadmin/index_spa";
     }
+
+    @PostMapping("/guardarImagen")
+    public  String subirImagenes(@RequestParam("id") Integer id, @RequestParam("file") MultipartFile file){
+        try{
+            if (file!=null && !file.isEmpty()){
+                String filename = "perfilSuper." + file.getOriginalFilename().split("\\.")[1];
+                ImagenSubir imagenSubir = new ImagenSubir();
+                imagenSubir.setFilename(filename);
+                imagenSubir.setFilebase64(Base64.getEncoder().encodeToString(file.getBytes()));
+                String resultadoSubida = uploadInter.subirimagen(imagenSubir);
+                if(resultadoSubida.equals("ok")){
+                    System.out.println("https://lafe.blob.core.windows.net/clinicalafe/"+filename);
+
+                    usuarioRepository.actualizarfotoperfilSpa();
+                }
+
+            }
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+        return "redirect:/superadmin/perfil";
+    }
+
 
     @GetMapping("/dashboardpaciente")
     public String dashboardpacientes(Model model) {
