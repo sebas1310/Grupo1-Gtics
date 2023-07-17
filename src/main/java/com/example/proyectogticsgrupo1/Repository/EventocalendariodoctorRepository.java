@@ -17,7 +17,7 @@ import java.util.List;
 
 public interface EventocalendariodoctorRepository extends JpaRepository<Eventocalendariodoctor,Integer> {
     @Query(nativeQuery = true, value = "select * from eventocalendariodoctor where iddoctor=?1 and (idtipohoracalendariodoctor=1 or " +
-            "idtipohoracalendariodoctor=2 ) and fecha >= CURDATE() order by concat(fecha, ' ' , horainicio ) asc ")
+            "idtipohoracalendariodoctor=2 ) and fecha >= CURDATE() order by fecha asc ")
     List<Eventocalendariodoctor> calendarioPorDoctor(Integer iddoc);
     @Query(nativeQuery = true, value = "select * from eventocalendariodoctor where iddoctor=?1 and DATE_FORMAT(fecha, '%Y-%m-%d') ")
 
