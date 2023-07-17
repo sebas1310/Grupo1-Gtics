@@ -28,12 +28,18 @@
     <div class="pagetitle">
         <div class="row">
             <div class="col">
-                <h1>Receta Medica</h1>
+                <h1>Receta Médica</h1>
+                <nav>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a th:href="@{'/paciente/historialCitas'}">Historial de Citas</a></li>
+                        <li class="breadcrumb-item active">Receta</li>
+                    </ol>
+                </nav>
 
             </div>
             <div class="col">
-                <div style="padding-left:  60%" >
-                    <button  class="btn-warning btn" style="text-decoration: underline; cursor: pointer" id="boletaPdf"><i class="bi bi-printer-fill"></i>Descargar Receta</button>
+                <div style="padding-left:  50%" >
+                    <button  class="btn-warning btn" style=" cursor: pointer" id="boletaPdf"><i class="bi bi-printer-fill"></i> Descargar Receta</button>
 
                 </div>
 
@@ -75,59 +81,63 @@
                             <div class="ps-3 ">
                                 <div  class="row">
                                     <div class="col">
-                                        <div class="row">
-                                            <div style="padding-left: 10%" class="col-4">
+                                        <table style="padding-left: 2.5%">
+                                            <tr>
+                                                <th style="text-align: left;width: 200px;" >Paciente:</th>
+                                                <td style="width: 300px;"  th:text="|${cita.paciente.usuario.nombres} ${cita.paciente.usuario.apellidos}|"></td>
+                                            </tr>
+                                            <tr>
+                                                <th style="text-align: left;width: 200px;">DNI:</th>
+                                                <td style="width: 300px;" th:text="|${cita.paciente.usuario.dni}|"></td>
+                                            </tr>
+                                            <tr>
+                                                <th style="text-align: left;width: 200px;">Seguro:</th>
+                                                <td style="width: 300px;" th:text="|${cita.paciente.seguro.nombre}|"></td>
+                                            </tr>
+                                            <tr>
+                                                <th style="text-align: left;width: 200px;" >Fecha:</th>
+                                                <td style="width: 300px;" th:text="|${cita.fecha}|" ></td>
+                                            </tr>
+                                        </table>
 
-                                                <p style="font-weight: bolder">Paciente:</p>
-                                                <p style="font-weight: bolder">DNI:</p>
-                                                <p style="font-weight: bolder">Seguro:</p>
-                                                <p style="font-weight: bolder">Fecha:</p>
-
-
-                                            </div>
-                                            <div class="col">
-                                                <p> <span th:text="|${cita.paciente.usuario.nombres} ${cita.paciente.usuario.apellidos}|"></span> </p>
-                                                <p th:text="|${cita.paciente.usuario.dni}|" ></p>
-                                                <p  th:text="|${cita.paciente.seguro.nombre}|"></p>
-                                                <p th:text="|${cita.fecha}|" ></p>
-                                            </div>
-
-                                        </div>
 
                                     </div>
 
                                     <div class="col">
-                                        <div class="row">
-                                            <div style="padding-left: 10%" class="col-5">
-                                                <p style="font-weight: bolder">Médico:</p>
-                                                <p style="font-weight: bolder">Especialidad:</p>
-                                                <p style="font-weight: bolder">Tipo de Cita:</p>
-                                                <p style="font-weight: bolder">Sede:</p>
-                                            </div>
-                                            <div class="col">
-                                                <p><span th:text="|${cita.doctor.usuario.nombres} ${cita.doctor.usuario.apellidos}|"></span></p>
-                                                <p th:text=" ${cita.especialidad.nombre}"></p>
-                                                <p th:text=" ${cita.tipoCita.nombre}" ></p>
-                                                <p th:text=" ${cita.sede.nombre}"></p>
-                                            </div>
-
-                                        </div>
+                                        <table>
+                                            <tr>
+                                                <th style="text-align: left;width: 200px;">Médico:</th>
+                                                <td style="width: 300px;" th:text="|${cita.doctor.usuario.nombres} ${cita.doctor.usuario.apellidos}|"></td>
+                                            </tr>
+                                            <tr>
+                                                <th style="text-align: left;width: 200px;">Especialidad:</th>
+                                                <td style="width: 300px;" th:text=" ${cita.especialidad.nombre}"></td>
+                                            </tr>
+                                            <tr>
+                                                <th style="text-align: left;width: 200px;">Tipo de Cita:</th>
+                                                <td style="width: 300px;" th:text=" ${cita.tipoCita.nombre}"></td>
+                                            </tr>
+                                            <tr>
+                                                <th style="text-align: left;width: 200px;" >Sede:</th>
+                                                <td style="width: 300px;" th:text=" ${cita.sede.nombre}"></td>
+                                            </tr>
+                                        </table>
                                     </div>
                                 </div>
                                 <div style="padding: 5%">
-                                    <table  class="table  " >
+                                    <table  class="table " >
                                         <thead>
                                         <tr  >
                                             <th class="text-center" scope="col">#</th>
                                             <th class="text-center" scope="col">Medicamento</th>
                                             <th class="text-center" scope="col">Dosis</th>
-                                            <th class="text-center" scope="col">Descripcion</th>
+                                            <th class="text-center" scope="col">Descripción</th>
 
                                         </tr>
                                         </thead>
                                         <tbody>
                                         <tr th:each="list,idx:${recetas}">
-                                            <th scope="row" th:text="${idx.index+1}"></th>
+                                            <th scope="row" class="text-center" th:text="${idx.index+1}"></th>
                                             <td class="text-center"  th:text="${list.medicamento}"></td>
                                             <td class="text-center"  th:text="${list.dosis}"></td>
                                             <td class="text-center"  th:text="${list.descripcion}"></td>

@@ -94,7 +94,7 @@
                     if ( fechaSeleccionada < fechaActual){
                         var errorMessage = document.getElementById("error-message2");
                         errorMessage.style.display = "block";
-                        errorMessage.innerHTML = "Seleccione una fecha mayor que el dia actual" ;
+                        errorMessage.innerHTML = "Seleccione una fecha válida" ;
                         return false;
                     }
                     if (fechaSeleccionada.getDay() === 0) { // Verificar si el día seleccionado es domingo (0 es domingo, 1 es lunes, etc.)
