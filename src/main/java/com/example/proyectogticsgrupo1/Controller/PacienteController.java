@@ -177,14 +177,7 @@ public class PacienteController {
 
     @Autowired
     private EmailService emailService;
-    @GetMapping(value = "/email")
-    public String emailpr(){
-        String user = "sebastian.segura1310@gmail.com";
-        String subj = "HOLA";
-        String msj = "Pruebas de envio";
-        emailService.sendEmail(user,subj,msj);
-        return "redirect:/paciente/";
-    }
+
 
     @GetMapping(value = "/perfilDoctor")
     public String perfilDoc(RedirectAttributes redirectAttributes, @RequestParam("iddoc") String iddoc, Model model){
@@ -1233,28 +1226,19 @@ public class PacienteController {
                 if(idtipocita==1){
                     boletaDoctorRepository.generarBoletaDoctorCita(citaAgendada.getIdcita(),paciente.getIdpaciente(),paciente.getSeguro().getIdseguro(),doc.getIddoctor(),montoDoctor);
                     boletaPacienteRepository.generarBoletaPacienteCita(paciente.getIdpaciente(),citaAgendada.getIdcita(),paciente.getSeguro().getIdseguro(),montoPaciente);
-
-
                     GMailer enviocorreo = new GMailer();
-                    String receiverEmail = "a20192270@pucp.edu.pe"; // Aquí puedes colocar la dirección de correo electrónico del receptor deseado
-                    enviocorreo.sendMail("Confirmacion de Cita", """
-        Dear reader,
-        Hello world.
-      
-        Best regards,
-        myself
-        """, receiverEmail);
+                    String receiverEmail = usuario.getCorreo(); // Aquí puedes colocar la dirección de correo electrónico del receptor deseado
+                    String cntpres ="Estimado usuario usted reservó una cita para el "+eventocalendariodoctor.getFecha().toString()+ ".\n"+"En la sede "+sedeRepository.findById(doc.getSede().getIdsede()).get().getNombre()+" ubicada " +sedeRepository.findById(doc.getSede().getIdsede()).get().getDireccion();
+                    enviocorreo.sendMail(titulo,cntpres, receiverEmail);
 
 
 
-
-
-
-//                    emailService.sendEmail(paciente.getUsuario().getCorreo(),"Confirmación de cita","Estimado usuario usted reservó una cita para el "+eventocalendariodoctor.getFecha().toString()+ ".\n"+"En la sede "+sedeRepository.findById(doc.getSede().getIdsede()).get().getNombre()+" ubicada " +sedeRepository.findById(doc.getSede().getIdsede()).get().getDireccion());
+                   //emailService.sendEmail(paciente.getUsuario().getCorreo(),"Confirmación de cita","Estimado usuario usted reservó una cita para el "+eventocalendariodoctor.getFecha().toString()+ ".\n"+"En la sede "+sedeRepository.findById(doc.getSede().getIdsede()).get().getNombre()+" ubicada " +sedeRepository.findById(doc.getSede().getIdsede()).get().getDireccion());
 
                 }else{
-                    emailService.sendEmail(paciente.getUsuario().getCorreo(),"Confirmación de cita","Estimado usuario usted reservó una cita virtual para el "+eventocalendariodoctor.getFecha().toString()+ ".\n"+"El link para la sesion de zoom es el siguiente: " +doc.getZoom());
-
+                    GMailer enviocorreo = new GMailer();
+                    String receiverEmail = usuario.getCorreo(); // Aquí puedes colocar la dirección de correo electrónico del receptor deseado
+                    enviocorreo.sendMail("Confirmación de cita remoto","Estimado usuario usted reservó una cita virtual para el "+eventocalendariodoctor.getFecha().toString()+ ".\n"+"El link para la sesion de zoom es el siguiente: " +doc.getZoom(), receiverEmail);
                 }
                 redirectAttributes.addFlashAttribute("msg1", "Ha reservado una cita con éxito");
 
