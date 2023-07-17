@@ -97,6 +97,9 @@ public interface CitaRepository extends JpaRepository<Cita, Integer> {
     @Query(value= "select * from cita where fecha = curdate() and idestadocita=2;",nativeQuery = true)
     List<Cita> citasToChangeStatus();
 
+    @Query(value= "select * from cita where idestadocita=6 and paciente_idpaciente=?1 and flagreceta=2",nativeQuery = true)
+    List<Cita> citasDelivery(Integer idpac);
+
     @Modifying
     @Query(value= "delete from cita where idcita = ?1 ",nativeQuery = true)
     void delCita(Integer idcita);

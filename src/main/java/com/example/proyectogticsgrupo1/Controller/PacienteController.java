@@ -179,6 +179,45 @@ public class PacienteController {
     private EmailService emailService;
 
 
+
+    @GetMapping(value = "/delivery")
+    public String delivery(Model model){
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        Paciente paciente = pacienteRepository.pacXuser(usuario.getIdusuario());
+        model.addAttribute("pacientelog",paciente);
+        List<Cita> citasconenvio = citaRepository.citasDelivery(paciente.getIdpaciente());
+        model.addAttribute("citas",citasconenvio);
+        return "paciente/Deliverytrack";
+    }
+
+
+    @GetMapping(value = "/deliverytrack")
+    public String deliverytrack(@RequestParam("idcita") String idcitastr,Model model){
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        Paciente paciente = pacienteRepository.pacXuser(usuario.getIdusuario());
+        try {
+            Integer idcita = Integer.parseInt(idcitastr);
+            List<Cita> citasconenvio = citaRepository.citasDelivery(paciente.getIdpaciente());
+
+            for(Cita c: citasconenvio){
+                System.out.println("cita id: " + c.getIdcita());
+                System.out.println("cita enviada por utrl: " + idcita);
+                System.out.println("paciente y cita?: " + c.getPaciente().getIdpaciente().toString().equals(paciente.getIdpaciente().toString()));
+                System.out.println("citas y cita enviada : " +c.getIdcita().toString().equals(idcitastr));
+                if(c.getPaciente().getIdpaciente().toString().equals(paciente.getIdpaciente().toString()) && c.getIdcita().toString().equals(idcitastr)){
+                    model.addAttribute("pacientelog",paciente);
+                    model.addAttribute("receta",recetaMedicaRepository.recetaCita(c.getIdcita()));
+                    model.addAttribute("citas",citasconenvio);
+                    return "paciente/Deliverytrackview";
+                }
+            }
+        }catch (NumberFormatException e){
+            System.out.println("cualquir hvs");
+            return "redirect:/paciente/delivery";
+        }
+        return "redirect:/paciente/delivery";
+    }
+
     @GetMapping(value = "/perfilDoctor")
     public String perfilDoc(RedirectAttributes redirectAttributes, @RequestParam("iddoc") String iddoc, Model model){
         Usuario usuario = (Usuario) session.getAttribute("usuario");
@@ -201,8 +240,6 @@ public class PacienteController {
         }catch (NumberFormatException e){
             return "redirect:/paciente/";
         }
-
-
     }
     @GetMapping(value = "/selecTipoCita")
     public String selecTipoCita(Model model,@RequestParam("iddoc") Integer id){
@@ -1249,5 +1286,8 @@ public class PacienteController {
             return "redirect:/paciente/reservar2";
         }
     }
+
+
+
 
 }

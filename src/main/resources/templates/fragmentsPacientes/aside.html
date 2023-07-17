@@ -93,6 +93,12 @@
       </a>
     </li>
 
+    <li class="nav-item" th:classappend="${active == 'Delivery' ? 'active':''}">
+      <a class="nav-link" th:classappend="${active != 'Delivery' ? 'collapsed':''}" th:href="@{'/paciente/delivery'}">
+        <i class="bi bi-journal-text"></i><span>Delivery</span>
+      </a>
+    </li>
+
     <li class="nav-item" th:classappend="${active == 'pagos' ? 'active':''}">
       <a class="nav-link" th:classappend="${active != 'pagos' ? 'collapsed':''}" th:href="@{'/paciente/pagos'}">
         <i class="bi bi-credit-card-fill"></i><span>Pagos</span>
