@@ -24,7 +24,7 @@ public interface CitaRepository extends JpaRepository<Cita, Integer> {
     @Query(nativeQuery = true, value = "SELECT * FROM cita WHERE paciente_idpaciente = ?1 AND fecha=?2")
     List<Cita> citasRepetidasValidacion(Integer id, LocalDate fecha);
 
-    @Query(nativeQuery = true, value = "SELECT * FROM cita WHERE fecha= DATE_SUB(NOW(), INTERVAL 5 HOUR) and paciente_idpaciente=?1 ORDER BY fecha ASC")
+    @Query(nativeQuery = true, value = "SELECT * FROM cita WHERE DATE(fecha)= DATE(DATE_SUB(NOW(), INTERVAL 5 HOUR)) and paciente_idpaciente=1 ORDER BY fecha ASC")
     List<Cita> citasHoy(Integer id);
 
     @Query(nativeQuery = true, value = "SELECT * FROM cita WHERE WEEKDAY(fecha) = 3 AND YEARWEEK(fecha, 1) = YEARWEEK(CURDATE(), 1)")

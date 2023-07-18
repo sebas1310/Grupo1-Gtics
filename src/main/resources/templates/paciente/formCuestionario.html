@@ -24,7 +24,8 @@
         <h1>Cuestionario</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item active">Cuestionarios</li>
+                <li class="breadcrumb-item"><a th:href="@{'/paciente/cuestionarios'}">Cuestionarios</a></li>
+                <li class="breadcrumb-item active">Responder Cuestionario</li>
             </ol>
         </nav>
     </div><!-- End Page Title -->
@@ -36,15 +37,15 @@
             <div class="col-lg">
                 <!-- Bitacora -->
                 <div class="card recent-sales overflow-auto">
-                    <div class="card-body">
-                        <form id="cuestionario_en_form">
+                    <div style="padding-left: 2.5%; padding-right: 2.5%; padding-bottom: 2.5%" class="card-body">
+                        <form style="padding: 2.5%" id="cuestionario_en_form">
                             <div id="contenedorDivs">
                                 <!--                        <h5 class="card-title" th:text="|Cuestionario Médico - ${datos.cita.especialidad.nombre}|">Cuestionario Médico</h5>-->
                                 <div class="row mb-3" th:each="pregunta,indice:${listapreguntascuestionario}">
                                     <input type="hidden" th:value="${id_cuest}" name="idcuest" id="idcuest"/>
                                     <input type="hidden" th:value="${idcita}" name="idcita" id="idcita"/>
                                     <label class="card-title" th:text="|Pregunta ${indice.index+1}:|"></label>
-                                    <label class="col-md-4 col-lg-3 col-form-label" th:text="${pregunta}"></label>
+                                    <label class=" col-form-label" th:text="${pregunta}"></label>
                                     <input type="text" th:name="'respuesta' + ${indice.index}" class="form-control"/>
                                 </div>
                                 <br>
