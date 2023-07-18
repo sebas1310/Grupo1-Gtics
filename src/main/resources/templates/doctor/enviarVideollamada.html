@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head th:insert="fragments/doctor/librerias.html :: cabecera (titulo = ' Enviar Mensaje de Examenes')">
+    </head>
+    <body>
+        <!-- ======= Header ======= -->
+        <header th:replace="fragments/doctor/header.html :: header(num_not = '3', num_form = '2 ', por_canc = '1',
+    nombre = |${doctor.usuario.nombres} ${doctor.usuario.apellidos}  (${doctor.usuario.tipodeusuario.nombre.toUpperCase()})|,
+     num_men = '2', id=${session.usuario.idusuario})">
+        </header>
+        <!-- End Header -->
+
+        <!-- ======= Sidebar ======= -->
+        <aside th:replace="fragments/doctor/aside.html :: sidebar (active = 'pacientesAtendidos')">
+        </aside><!-- End Sidebar-->
+
+        <!--Modal Cerrar Sesion-->
+        <div th:replace="fragments/doctor/modalCerrarSesion.html::modal">
+
+        </div>
+        <!-- End Modal-->
+
+
+        <main id="main" class="main">
+
+            <div class="pagetitle">
+                <h1>Enviar Videollamada</h1>
+                <nav>
+                    <!--<ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a th:href="@{'/doctor/dashboard'}">Dashboard</a></li>
+                        <li class="breadcrumb-item active">Cuestionarios</li>
+                    </ol> -->
+                </nav>
+            </div>
+            <!-- End Page Title -->
+
+            <section class="section ">
+                <div class="row">
+
+                    <!-- Right side columns -->
+                    <div class="col-lg">
+                        <!-- Bitacora -->
+                        <div class="card recent-sales overflow-auto">
+                            <div class="card-body">
+                                <h5 class="card-title">Enviar Enlace Videollamada</h5>
+                                <form method="post" th:action="@{'/doctor/dashboard/info/enviarvideollamada/envio'}" class="row g-3">
+
+
+                                    <div th:if="${usuariodestino != null}" class="col-md-6">
+                                        <label for="email" class="form-label">Correo Destino</label>
+                                        <input th:if="${usuariodestino != null}" th:value="${usuariodestino.getCorreo()}" type="text" name="correodestino" class="form-control" id="email" readonly >
+                                    </div>
+
+                                    <div th:unless="${usuariodestino != null}" class="col-md-6">
+                                        <label for="email2" class="form-label">Correo Destino</label>
+                                        <input type="text" name="correodestino" class="form-control" id="email2" >
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label for="asunt" class="form-label">Asunto</label>
+                                        <input th:value="|Enlace de Videollamada para Cita Virtual ${cita.getFecha()} a las ${cita.getHorainicio()}|" type="text" name="asunto" class="form-control" id="asunt" >
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label for="description" class="form-label">Descripcion</label>
+                                        <input th:value="|Estimadx Paciente ${cita.getPaciente().getUsuario().getNombres()} ${cita.getPaciente().getUsuario().getApellidos()}, |" type="text" name="descripcion" class="form-control" id="description">
+                                    </div>
+
+                                    <input type="hidden" th:value="${usuariodestino.idusuario}" name="idusuariodestino" class="form-control" >
+
+                                    <input type="hidden" th:value="${session.usuario.idusuario}" name="idusuarioorigen" class="form-control" >
+
+                                   <input type="hidden" th:value="${cita.getIdcita()}" name="idcita" class="form-control" >
+
+
+                                    <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+                                        <button class="btn btn-primary" type="submit">Enviar</button>
+                                        <button type="button" class="btn btn-danger"><a style="color: white" th:href="@{'/doctor/dashboard/info'+ '?idP=' + ${cita.getPaciente().getIdpaciente()}+'&idC=' + ${cita.getIdcita()}}" >Regresar</a></button>
+                                    </div>
+
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </section>
+        </main><!-- End #main -->
+
+        <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+        <!-- Vendor JS Files -->
+        <script th:src="@{'/assets/vendor/apexcharts/apexcharts.min.js'}"></script>
+        <script th:src="@{'/assets/vendor/bootstrap/js/bootstrap.bundle.min.js'}"></script>
+        <script th:src="@{'/assets/vendor/chart.js/chart.min.js'}"></script>
+        <script th:src="@{'/assets/vendor/echarts/echarts.min.js'}"></script>
+        <script th:src="@{'/assets/vendor/quill/quill.min.js'}"></script>
+        <script th:src="@{'/assets/vendor/simple-datatables/simple-datatables.js'}"></script>
+        <script th:src="@{'/assets/vendor/tinymce/tinymce.min.js'}"></script>
+        <script th:src="@{'/assets/vendor/php-email-form/validate.js'}"></script>
+
+        <!-- Template Main JS File -->
+        <script th:src="@{'/assets/js/main.js'}"></script>
+
+    </body>
+
+
+</html>

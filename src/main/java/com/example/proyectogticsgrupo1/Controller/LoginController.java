@@ -33,18 +33,18 @@ public class LoginController {
     private MailCorreoRepository mailCorreoRepository;
 
 
-
     @Autowired
     SedeRepository sedeRepository;
 
 
     @GetMapping(value = {"/login"})
-    public String inicioSesion(){
+    public String inicioSesion() {
 
         return "superadmin/pages-login_spa";
     }
+
     @GetMapping(value = {"/"})
-    public String inicio(){
+    public String inicio() {
 
         return "superadmin/page-inicio";
     }
@@ -54,7 +54,7 @@ public class LoginController {
     @Transactional
     public String registro(@ModelAttribute("usuario") @Valid Usuario usuario, BindingResult bindingResult,
                            RedirectAttributes attr, Model model, @RequestParam("direccion") String direccion,
-                           @RequestParam("contrasena") String contrasena){
+                           @RequestParam("contrasena") String contrasena) {
 
         System.out.println("fecha de nacimiento:" + usuario.getFechanacimiento());
         if (usuario.getIdusuario() == null) {
@@ -62,7 +62,7 @@ public class LoginController {
         } else {
             attr.addFlashAttribute("msg", "Usuario actualizado exitosamente");
         }
-        if(bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             attr.addFlashAttribute("msg", "presenta errores");
 
             model.addAttribute("listasedes", sedeRepository.findAll());
@@ -70,15 +70,15 @@ public class LoginController {
             attr.addFlashAttribute("usuario", usuario);
             return "superadmin/formularioregistro_spa";
 
-        }else{
+        } else {
 
             Usuario existingUserDni = usuarioRepository.findByDni(usuario.getDni());
             Usuario existingUserCelular = usuarioRepository.findByCelular(usuario.getCelular());
             Usuario existingUserCorreo = usuarioRepository.findByCorreo(usuario.getCorreo());
 
-            if(existingUserDni == null){
-                if(existingUserCelular == null){
-                    if(existingUserCorreo==null){
+            if (existingUserDni == null) {
+                if (existingUserCelular == null) {
+                    if (existingUserCorreo == null) {
 
                         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
                         String hashedNewPassword = passwordEncoder.encode(usuario.getContrasena());
@@ -101,17 +101,17 @@ public class LoginController {
                         pacienteRepository.save(paciente);
                         return "redirect:/login";
 
-                    }else{
+                    } else {
                         model.addAttribute("listasedes", sedeRepository.findAll());
                         bindingResult.rejectValue("correo", "error.correo", "Ya existe un usuario con este correo electrónico");
                         return "superadmin/formularioregistro_spa";
                     }
-                }else{
+                } else {
                     model.addAttribute("listasedes", sedeRepository.findAll());
                     bindingResult.rejectValue("celular", "error.celular", "Ya existe un usuario con este número de celular");
                     return "superadmin/formularioregistro_spa";
                 }
-            }else{
+            } else {
                 model.addAttribute("listasedes", sedeRepository.findAll());
                 bindingResult.rejectValue("dni", "error.dni", "Ya existe un usuario con este DNI");
                 return "superadmin/formularioregistro_spa";
@@ -120,6 +120,77 @@ public class LoginController {
 
 
     }
+
+    @PostMapping(value = "/registroreferido")
+    @Transactional
+    public String registro2(@ModelAttribute("usuario") @Valid Usuario usuario, BindingResult bindingResult,
+                           RedirectAttributes attr, Model model, @RequestParam("direccion") String direccion,
+                           @RequestParam("contrasena") String contrasena) {
+
+        if (usuario.getIdusuario() == null) {
+            attr.addFlashAttribute("aat", "Usuario creado exitosamente");
+        } else {
+            attr.addFlashAttribute("msg", "Usuario actualizado exitosamente");
+        }
+        if (bindingResult.hasErrors()) {
+            attr.addFlashAttribute("msg", "presenta errores");
+
+            model.addAttribute("listasedes", sedeRepository.findAll());
+
+            attr.addFlashAttribute("usuario", usuario);
+            return "superadmin/formularioreferido2";
+
+        } else {
+
+            Usuario existingUserDni = usuarioRepository.findByDni(usuario.getDni());
+            Usuario existingUserCelular = usuarioRepository.findByCelular(usuario.getCelular());
+            Usuario existingUserCorreo = usuarioRepository.findByCorreo(usuario.getCorreo());
+
+            if (existingUserDni == null) {
+                if (existingUserCelular == null) {
+                    if (existingUserCorreo == null) {
+
+                        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+                        String hashedNewPassword = passwordEncoder.encode(usuario.getContrasena());
+                        usuario.setContrasena(hashedNewPassword);
+                        usuarioRepository.save(usuario);
+                        usuario.setFormaregistro("Invitado por Correo");
+                        Paciente paciente = new Paciente();
+                        EstadoPaciente estadoPaciente = new EstadoPaciente();
+                        estadoPaciente.setIdestadopaciente(1);
+                        paciente.setDireccion(direccion);
+                        paciente.setEstadoPaciente(estadoPaciente);
+                        paciente.setConsentimientos(0);
+                        Seguro seguro = new Seguro();
+                        seguro.setIdseguro(7);
+                        paciente.setSeguro(seguro);
+                        paciente.setUsuario(usuario);
+                        paciente.setCondicionenfermedad("-");
+                        pacienteRepository.save(paciente);
+                        return "redirect:/login";
+
+                    } else {
+                        model.addAttribute("listasedes", sedeRepository.findAll());
+                        bindingResult.rejectValue("correo", "error.correo", "Ya existe un usuario con este correo electrónico");
+                        return "superadmin/formularioreferido2";
+                    }
+                } else {
+                    model.addAttribute("listasedes", sedeRepository.findAll());
+                    bindingResult.rejectValue("celular", "error.celular", "Ya existe un usuario con este número de celular");
+                    return "superadmin/formularioreferido2";
+                }
+            } else {
+                model.addAttribute("listasedes", sedeRepository.findAll());
+                bindingResult.rejectValue("dni", "error.dni", "Ya existe un usuario con este DNI");
+                return "superadmin/formularioreferido2";
+            }
+        }
+
+
+    }
+
+
+
 
     @GetMapping(value = "/cambiarcontrasena")
     public String cambiarContra(){
@@ -150,6 +221,12 @@ public class LoginController {
         model.addAttribute("listasedes", sedeRepository.findAll());
 
         return "superadmin/formularioregistro_spa";
+    }
+
+    @GetMapping(value = "/formularioReferido")
+    public String formReferido(@ModelAttribute("usuario") Usuario usuario, Model model){
+        model.addAttribute("listasedes", sedeRepository.findAll());
+        return "superadmin/formularioreferido2";
     }
 
     @PostMapping(value = "/changepassword")
