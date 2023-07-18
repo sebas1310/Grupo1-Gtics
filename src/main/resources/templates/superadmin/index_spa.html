@@ -27,16 +27,20 @@
 
     </div><!-- End Page Title -->
 
-    <section class="section dashboard">
+    <section class="section">
       <div class="row">
-
         <!-- Left side columns -->
-        <div class="col-lg-12">
-          <div class="row">
+        <div class="col-lg">
+          <div class="col-12">
             <!-- Usuarios Registrados -->
-            <div class="col-12">
+            <div class="row">
+              <div class="col-xxl-10 ">
+                <div class="card info-card customers-card">
+                  <div class="card-body">
+              <!---
               <div class="card recent-sales overflow-auto">
                 <div style="width: 100%" class="card-body">
+                  ---->
 
                   <!---
                   <h5 class="card-title">Lista de Usuarios </h5>
@@ -71,7 +75,7 @@
                   </h5>
                   <!-- Default Table -->
                   <table class="table table-borderless datatable" >
-                    <thead>
+                    <thead class="table-light">
                     <tr>
                       <th scope="col">#</th>
                       <th scope="col">Nombre</th>
@@ -96,9 +100,15 @@
                   right: 20px;
                 }
               </style>
+                </div>
+              </div>
+            </div>
+          </div>
 
-              <div class="card recent-sales overflow-auto">
-                <div style="width: 100%" class="card-body">
+          <div class="row">
+            <div class="col-xxl-10">
+              <div class="card info-card customers-card">
+                <div class="card-body">
                   <h5 class="card-title">
                     Doctores
                     <a th:href="@{'/superadmin/dashboarddoctor'}" class="btn btn-success btn-sm card-button">Ver Más</a>
@@ -121,40 +131,15 @@
                         <span th:if="${usuariod.estadohabilitado == 0}"class="badge bg-danger">Inactivo</span></td>                    </tr>
                     </tbody>
                   </table>
-                  <!-- End Default Table Example -->
                 </div>
+              </div>
+            </div>
+          </div>
+        </div>
 
-                <div class="card recent-sales overflow-auto">
-                  <div style="width: 100%" class="card-body">
-                    <h5 class="card-title">
-                      Administrativos
-                      <a th:href="@{'/superadmin/dashboardadministrativo'}" class="btn btn-success btn-sm card-button">Ver Más</a>
-                    </h5>
-                    <!-- Default Table -->
-                    <table class="table table-borderless datatable">
-                      <thead>
-                      <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Nombre</th>
-                        <th scope="col">Estado</th>
-                      </tr>
-                      </thead>
-                      <tbody>
-                      <tbody>
-                      <tr th:each="usuarioa, info: ${listaadministrativo}">
-                        <th scope="row" th:text="${info.index + 1}"></th>
-                        <td th:text="${usuarioa.nombres} + ' ' + ${usuarioa.apellidos}"></td>
-                        <td class="text-center" ><span th:if="${usuarioa.estadohabilitado == 1}" class="badge bg-success">Activo</span>
-                          <span th:if="${usuarioa.estadohabilitado == 0}"class="badge bg-danger">Inactivo</span></td>                      </tr>
-                      </tbody>
-                    </table>
-                    <!-- End Default Table Example -->
-                  </div>
-                </div>
-
-
-                <div class="card recent-sales overflow-auto">
-                  <div style="width: 100%" class="card-body">
+        <div class="col-lg-5">
+          <div class="card">
+            <div class="card-body">
                     <h5 class="card-title">
                       Administradores
                       <a th:href="@{'/superadmin/dashboaradministrador'}" class="btn btn-success btn-sm card-button">Ver Más</a>
@@ -178,11 +163,36 @@
                       </tbody>
                     </table>
                     <!-- End Default Table Example -->
-                  </div>
-                </div>
-              </div>
+            </div>
+          </div>
 
-
+          <div class="card">
+            <div class="card-body">
+                  <h5 class="card-title">
+                    Administrativos
+                    <a th:href="@{'/superadmin/dashboardadministrativo'}" class="btn btn-success btn-sm card-button">Ver Más</a>
+                  </h5>
+                  <!-- Default Table -->
+                  <table class="table table-borderless datatable">
+                    <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Nombre</th>
+                      <th scope="col">Estado</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tbody>
+                    <tr th:each="usuarioa, info: ${listaadministrativo}">
+                      <th scope="row" th:text="${info.index + 1}"></th>
+                      <td th:text="${usuarioa.nombres} + ' ' + ${usuarioa.apellidos}"></td>
+                      <td class="text-center" ><span th:if="${usuarioa.estadohabilitado == 1}" class="badge bg-success">Activo</span>
+                        <span th:if="${usuarioa.estadohabilitado == 0}"class="badge bg-danger">Inactivo</span></td>                      </tr>
+                    </tbody>
+                  </table>
+            </div>
+          </div>
+        </div>
         </div><!-- End Left side columns -->
       </div>
     </section>
