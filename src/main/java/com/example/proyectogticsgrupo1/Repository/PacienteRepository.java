@@ -24,6 +24,7 @@ public interface PacienteRepository extends JpaRepository<Paciente, Integer> {
     @Query(nativeQuery = true, value = "UPDATE paciente SET alergias = ?1 WHERE idpaciente = ?2")
     void modificarAlergia(String alergias, Integer idpaciente);
 
+
     @Modifying
     @Query(nativeQuery = true, value = "UPDATE paciente SET especialidades_pendientes = ?1 WHERE idpaciente = ?2")
     void modificarEspecialidadesPendientes(String especialidadesPendientes, Integer idpaciente);
