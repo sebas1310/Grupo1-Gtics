@@ -79,6 +79,7 @@ public class DoctorController {
     @Autowired
     DatosJsonRepository datosJsonRepository;
 
+    @Autowired
     UploadInter uploadInter;
 
 
@@ -175,9 +176,11 @@ public class DoctorController {
 
     @PostMapping("/guardarImagen")
     public  String subirImagenes(RedirectAttributes attr, @RequestParam("id") Integer id, @RequestParam("file") MultipartFile file)throws IOException{
+        Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
+        Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
         try{
             if (file!=null && !file.isEmpty()){
-                String filename = "perfilDoctor." + id + "." + file.getOriginalFilename().split("\\.")[1];
+                String filename = "doctor" +usuarioDoctor.getIdusuario()+ "." + file.getOriginalFilename().split("\\.")[1];
                 ImagenSubir imagenSubir = new ImagenSubir();
                 imagenSubir.setFilename(filename);
                 imagenSubir.setFilebase64(Base64.getEncoder().encodeToString(file.getBytes()));
