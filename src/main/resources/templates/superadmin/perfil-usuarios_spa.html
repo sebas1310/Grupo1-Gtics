@@ -118,18 +118,6 @@
 
 
                                     <div class="row mb-3">
-                                        <label  class="col-md-4 col-lg-3 col-form-label">Foto de Perfil</label>
-                                        <div class="col-md-8 col-lg-9">
-                                            <img th:src="@{/assets/img/profile-img.jpg}" alt="Profile">
-                                            <div class="pt-2">
-                                                <a href="#" class="btn btn-primary btn-sm" title="Upload new profile image"><i class="bi bi-upload"></i></a>
-                                                <a href="#" class="btn btn-danger btn-sm" title="Remove my profile image"><i class="bi bi-trash"></i></a>
-                                            </div>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="row mb-3">
                                         <label for="nombre" class="col-md-4 col-lg-3 col-form-label">Nombre</label>
                                         <div class="col-md-8 col-lg-9">
                                             <input name="fullName" type="text" class="form-control" id="nombre"  th:field="${persona.nombres}"
@@ -181,7 +169,7 @@
                                         <label  class="col-md-4 col-lg-3 col-form-label">Celular</label>
                                         <div class="col-md-8 col-lg-9">
                                             <input name="phone" type="text" class="form-control" id="celular"  th:field="${persona.celular}"
-                                                   th:classappend="${#fields.hasErrors('celular')?'is-invalid':''}" required>
+                                                   th:classappend="${#fields.hasErrors('celular')?'is-invalid':''}" maxlength="9" required>
                                             <div class="invalid-feedback" th:if="${#fields.hasErrors('celular')}"
                                                  th:errors="*{celular}" ></div>
                                         </div>
@@ -252,7 +240,21 @@
 
                                 <!-- Funcion para validar -->
 
+                                <script>
+                                    var inputTelefono = document.getElementById("celular");
+                                    var mensaje = document.getElementById("mensaje");
 
+                                    inputTelefono.addEventListener("input", function() {
+                                        var telefono = inputTelefono.value;
+
+                                        if (telefono.length > 9) {
+                                            inputTelefono.value = telefono.slice(0, 9);
+                                            mensaje.textContent = "Se ha alcanzado el límite de 9 dígitos.";
+                                        } else {
+                                            mensaje.textContent = "";
+                                        }
+                                    });
+                                </script>
                                 <script>
                                     function validateForm() {
                                         var password = document.getElementById("contrasena1").value;
