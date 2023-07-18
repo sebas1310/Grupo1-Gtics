@@ -41,8 +41,6 @@
                     <div class="card-body">
 
                         <h5 class="card-title">Opciones</h5>
-                        <a class="btn btn-warning" style="--bs-btn-padding-y: .60rem; --bs-btn-padding-x: 0.2cm;
-                                --bs-btn-font-size: .75rem;"></a><span class="card-text"> Citas</span><br>
                         <a class="btn btn-success" style="--bs-btn-padding-y: .60rem; --bs-btn-padding-x: 0.2cm;
                                 --bs-btn-font-size: .75rem;"></a><span class="card-text"> Disponibilidad</span><br>
                         <a class="btn btn-info" style="--bs-btn-padding-y: .60rem; --bs-btn-padding-x: 0.2cm;
@@ -76,49 +74,38 @@
                 function validateForm2() {
                     var fecha = document.getElementById("fecha").value.trim();
                     var fechaActual = new Date();
-                    var fechaSeleccionada = new Date(fecha);
+                    var fechaSeleccionada = new Date(
+                        parseInt(fecha.substring(0, 4)), // Año
+                        parseInt(fecha.substring(5, 7)) - 1, // Mes (se resta 1 porque los meses en JavaScript son base 0)
+                        parseInt(fecha.substring(8, 10)) // Día
+                    );
+
+                    // Configuramos las horas, minutos, segundos y milisegundos de la fecha actual a 0
+                    fechaActual.setHours(0, 0, 0, 0);
+
+
+
                     if (fecha === "" ) {
                         var errorMessage = document.getElementById("error-message2");
                         errorMessage.style.display = "block";
                         errorMessage.innerHTML = "Complete el campo requerido";
                         return false;
                     }
-                    else if ( fechaSeleccionada.getMonth()<fechaActual.getMonth()){
-                        if((fechaSeleccionada.getDate() + 1) < fechaActual.getDate() ){}
-
+                    if ( fechaSeleccionada < fechaActual){
                         var errorMessage = document.getElementById("error-message2");
                         errorMessage.style.display = "block";
-                        errorMessage.innerHTML = "Seleccione una fecha mayor que el dia actual" ;
+                        errorMessage.innerHTML = "Seleccione una fecha válida" ;
                         return false;
-
                     }
+                    if (fechaSeleccionada.getDay() === 0) { // Verificar si el día seleccionado es domingo (0 es domingo, 1 es lunes, etc.)
+                        var errorMessage = document.getElementById("error-message2");
+                        errorMessage.style.display = "block";
+                        errorMessage.innerHTML = "La clinica no atiende domingo";
+                        return false;
+                    }
+
                     return true;
                 }
-                /*function validateForm2() {
-                    var fecha = document.getElementById("fecha").value.trim();
-                    var fechaActual = new Date();
-                    var fechaSeleccionada = new Date(fecha);
-
-                    // Set the time of both dates to midnight
-                    fechaActual.setHours(0, 0, 0, 0);
-                    fechaSeleccionada.setHours(0, 0, 0, 0);
-
-                    if (fecha === "") {
-                        var errorMessage = document.getElementById("error-message2");
-                        errorMessage.style.display = "block";
-                        errorMessage.innerHTML = "Complete el campo requerido";
-                        return false;
-                    } else if (fechaSeleccionada !== fechaActual) {
-                        if (fechaSeleccionada < fechaActual) {
-                            var errorMessage = document.getElementById("error-message2");
-                            errorMessage.style.display = "block";
-                            errorMessage.innerHTML = "Seleccione22 una fecha mayor que el día actual "+ fechaActual+ fechaSeleccionada;
-                            return false;
-                        }
-                    }
-                    return true;
-                } */
-
 
 
             </script>

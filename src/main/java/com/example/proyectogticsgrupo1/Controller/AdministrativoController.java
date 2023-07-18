@@ -6,19 +6,29 @@ import com.example.proyectogticsgrupo1.Entity.Paciente;
 import com.example.proyectogticsgrupo1.Entity.Usuario;
 import com.example.proyectogticsgrupo1.Repository.*;
 import com.example.proyectogticsgrupo1.Service.EmailService;
+import com.google.gson.JsonObject;
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.Banner;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import org.springframework.web.servlet.mvc.support.RedirectAttributesModelMap;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.lang.reflect.Type;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -58,11 +68,20 @@ public class AdministrativoController {
     }
 
     @GetMapping(value = "/crearpaciente")
-    public String crearPaciente(Model model){
+    public String crearPaciente(Model model, @RequestParam(value = "mensaje",required = false) String mensaje){
+        System.out.println(mensaje);
+        if(mensaje != null){
+            model.addAttribute("mensaje", "Validación correcta");
+        }
         Usuario usuarioAdministrativo = (Usuario) session.getAttribute("usuario");
         model.addAttribute("usuario", usuarioAdministrativo);
         return"administrativo/crearpaciente";
+
     }
+
+
+
+
 
     @GetMapping(value = "/dashboarddoctores")
     public String dashDoc(Model model){
@@ -75,12 +94,85 @@ public class AdministrativoController {
 
     @GetMapping(value = "/dashboardpacientes")
     public String dashPac(Model model){
+
         Usuario usuarioAdministrativo = (Usuario) session.getAttribute("usuario");
         List<Paciente> listaPacientesSD = pacienteRepository.listarPacienteporSedeyEspecialidadDashboardPacientes(usuarioAdministrativo.getSede().getIdsede(), usuarioAdministrativo.getEspecialidad().getIdespecialidad()); // a futuro cambiar
         model.addAttribute("listaUsuariosPacientes", listaPacientesSD);
         model.addAttribute("usuario", usuarioAdministrativo);
-        return"administrativo/dashboardpaciente";
+        return "administrativo/dashboardpaciente";
     }
+
+
+    @Transactional
+    @ResponseBody
+    @PostMapping(value = "/consultaReniec")
+
+    public ResponseEntity<String> consultaReniec(Model model, @RequestParam("nombre") String nombre, @RequestParam("dni") String dni,
+                                                 RedirectAttributes redirectAttributes) {
+        String token = "apis-token-4620.hXLROh-1FS43jVJ6Zxg06j2CMigvq9eK";
+        String dni_2 = dni;
+        String url = "https://api.apis.net.pe/v2/reniec/dni?numero=" + dni_2;
+
+        System.out.println(nombre);
+
+        try {
+            URL apiUrl = new URL(url);
+            HttpURLConnection connection = (HttpURLConnection) apiUrl.openConnection();
+            connection.setRequestMethod("GET");
+            connection.setRequestProperty("Referer", "https://apis.net.pe/consulta-dni-api");
+            connection.setRequestProperty("Authorization", "Bearer " + token);
+
+            int responseCode = connection.getResponseCode();
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                String line;
+                StringBuilder response = new StringBuilder();
+                while ((line = reader.readLine()) != null) {
+                    response.append(line);
+                }
+                reader.close();
+
+                System.out.println(response.toString());
+
+                Gson gson = new Gson();
+                JsonObject jsonObject = gson.fromJson(response.toString(), JsonObject.class);
+
+                // Comprueba si el objeto contiene el nombre
+                if (jsonObject.has("nombres")) {
+                    String nombreObtenido = jsonObject.get("nombres").getAsString();
+                    String apellido1 = jsonObject.get("apellidoPaterno").getAsString();
+                    String apellido2 = jsonObject.get("apellidoMaterno").getAsString();
+                    String nombrecompleto = nombreObtenido + " " + apellido1 + " " + apellido2;
+                    System.out.println(nombrecompleto);
+
+                    if (nombrecompleto.equals(nombre)) {
+                        System.out.println("validacion_correcta");
+                        redirectAttributes.addFlashAttribute("mensaje", "Validación correcta");
+                        model.addAttribute("mensaje", "Validación correcta");
+                        return ResponseEntity.ok("Validación correcta");
+                    } else {
+                        System.out.println("Validación incorrecta");
+                        return ResponseEntity.badRequest().body("Validación incorrecta");
+
+                    }
+                } else {
+                    System.out.println("El objeto JSON no contiene la clave 'nombres'");
+                }
+
+                // Aquí puedes trabajar con los demás datos del objeto JSON obtenidos
+            } else {
+                System.out.println("Error: " + responseCode);
+            }
+
+            connection.disconnect();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return ResponseEntity.badRequest().body("Validación incorrecta");
+
+    }
+
 
 
 
@@ -90,6 +182,13 @@ public class AdministrativoController {
         Usuario usuarioAdministrativo = (Usuario) session.getAttribute("usuario");
         model.addAttribute("usuario", usuarioAdministrativo);
         return"administrativo/formularioreferido";
+    }
+
+    @GetMapping(value = "/formularioreferido2")
+    public String formRef2(Model model){
+        Usuario usuarioAdministrativo = (Usuario) session.getAttribute("usuario");
+        model.addAttribute("usuario", usuarioAdministrativo);
+        return"administrativo/formularioreferido2";
     }
 
     @GetMapping(value = "/invitar")
@@ -163,6 +262,8 @@ public class AdministrativoController {
             // Lógica para enviar el correo electrónico
             String mensajeCorreo = "Asunto: " + asunto + "\nDescripción: " + descripcion;
             emailService.sendEmail(correo, "Mensaje de Contacto", mensajeCorreo);
+
+
 
             redirectAttributes.addFlashAttribute("mp1", "El correo ha sido enviado exitosamente");
         } else {
@@ -263,7 +364,32 @@ public class AdministrativoController {
         } else {
             // Lógica para enviar el correo electrónico
             emailService.sendEmail(correo, "Invitación",
-                    "Estimado usuario, usted ha sido invitado a la plataforma de Clínica LA FE:\nIngresa aquí para registrarte: http://localhost:8081/");
+                    "Estimado usuario, usted ha sido invitado a la plataforma de Clínica LA FE:\nIngresa aquí para registrarte: http://localhost:8083/formularioReferido");
+            String content = "Usted invito un usuario con CORREO: " + correo ;
+            String titulo = "Invitación enviada existosamente";
+            notificacionesRepository.notificarCreacion2(usuarioAdministrativo.getIdusuario(),content,titulo);
+            redirectAttributes.addFlashAttribute("ms1", "El correo ha sido enviado exitosamente");
+        }
+
+        return "redirect:/administrativo/crearpaciente";
+    }
+
+    @PostMapping(value = "/enviarcorreoadministrativo1")
+    @Transactional
+    public String enviarCorreo1(@RequestParam("correo") String correo, RedirectAttributes redirectAttributes, Model model) {
+
+        Usuario usuarioAdministrativo = (Usuario) session.getAttribute("usuario");
+        model.addAttribute("usuario", usuarioAdministrativo);
+
+        // Verificar si existe un usuario con el mismo correo electrónico
+        Usuario usuarioCorreo = usuarioRepository.findByCorreo(correo);
+
+        if (usuarioCorreo != null) {
+            redirectAttributes.addFlashAttribute("ms2", "No se pudo enviar el correo, ya existe un usuario con este correo electrónico");
+        } else {
+            // Lógica para enviar el correo electrónico
+            emailService.sendEmail(correo, "Invitación",
+                    "Estimado usuario, usted ha sido invitado a la plataforma de Clínica LA FE:\nIngresa aquí para registrarte: http://34.29.54.187:8083//formularioReferido");
             String content = "Usted invito un usuario con CORREO: " + correo ;
             String titulo = "Invitación enviada existosamente";
             notificacionesRepository.notificarCreacion2(usuarioAdministrativo.getIdusuario(),content,titulo);
@@ -275,4 +401,21 @@ public class AdministrativoController {
 
 
 
+
+
+
+//    @ResponseBody
+//    @PostMapping(value = "/consultaReniec")
+//    public int BorrarPlantilla(Model model,@RequestParam("id_de_modelo_plantilla") int id_de_modelo_plantilla
+//    ){
+//        System.out.println("llega al repo de borrado");
+//        System.out.println(id_de_modelo_plantilla);
+//
+////        modeloJsonRepository.borrarPlantillas(id_de_modelo_plantilla);
+//
+//
+//
+//        return modeloJsonRepository.borrarPlantillas(id_de_modelo_plantilla);
+//
+//    }
 }

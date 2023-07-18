@@ -75,8 +75,9 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
 
 
     @Modifying
-    @Query(value = "update usuario set foto = ?1 where idusuario = ?1", nativeQuery = true)
-    void actualizarfotoperfilSpa(String foto);
+    @Transactional
+    @Query(value = "update usuario set foto = ?1 where idusuario = ?2", nativeQuery = true)
+    void actualizarfotoperfilSpa(String foto,int id);
 
     @Modifying
     @Transactional
@@ -112,6 +113,16 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
             "FROM usuario\n" +
             "WHERE idusuario = ?1",nativeQuery = true)
     int edad(Integer idusuario);
+
+    @Query(value = "SELECT *\n" +
+            "FROM usuario u\n" +
+            "WHERE u.formaregistro = 'Invitado por Correo' and sede_idsede = ?1", nativeQuery = true)
+    List<Usuario> listarpinvitadou(int idsede);
+
+    @Transactional
+    @Modifying
+    @Query(value = "UPDATE usuario SET formaregistro = 'Registrado por Correo' WHERE formaregistro = 'Invitado por Correo' and sede_idsede = ?1\n", nativeQuery = true)
+    void actualizarformRegistro(int idsede);
 
 }
 

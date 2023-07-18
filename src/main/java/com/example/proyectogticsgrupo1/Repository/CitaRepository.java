@@ -13,13 +13,18 @@ import java.time.LocalTime;
 import java.util.List;
 
 public interface CitaRepository extends JpaRepository<Cita, Integer> {
-    @Query(nativeQuery = true, value = "SELECT * FROM cita WHERE paciente_idpaciente = ?1 AND idestadocita = 6 ORDER BY fecha desc\n")
+    @Query(nativeQuery = true, value = "SELECT * FROM cita WHERE paciente_idpaciente = ?1 AND idestadocita IN (4, 6) ORDER BY fecha DESC\n")
     List<Cita> citaPorPaciente(Integer id);
+
+    @Query(nativeQuery = true, value = "SELECT * FROM cita where doctor_iddoctor = ?1 and idcita = ?2 ")
+    List<Cita> citaPorDoctor(Integer idDoc, Integer idCita);
+    @Query(nativeQuery = true, value = "SELECT * FROM bdclinicag1_v2.cita where paciente_idpaciente=?1 and doctor_iddoctor = ?2 and idcita = ?3 ")
+    List<Cita> citaPorPacientePorDoctor(Integer idP, Integer idDoc, Integer idCita);
 
     @Query(nativeQuery = true, value = "SELECT * FROM cita WHERE paciente_idpaciente = ?1 AND fecha=?2")
     List<Cita> citasRepetidasValidacion(Integer id, LocalDate fecha);
 
-    @Query(nativeQuery = true, value = "SELECT * FROM cita WHERE fecha= DATE_SUB(NOW(), INTERVAL 5 HOUR) and paciente_idpaciente=?1 ORDER BY fecha ASC")
+    @Query(nativeQuery = true, value = "SELECT * FROM cita WHERE DATE(fecha)= DATE(DATE_SUB(NOW(), INTERVAL 5 HOUR)) and paciente_idpaciente=1 ORDER BY fecha ASC")
     List<Cita> citasHoy(Integer id);
 
     @Query(nativeQuery = true, value = "SELECT * FROM cita WHERE WEEKDAY(fecha) = 3 AND YEARWEEK(fecha, 1) = YEARWEEK(CURDATE(), 1)")
@@ -63,8 +68,8 @@ public interface CitaRepository extends JpaRepository<Cita, Integer> {
     List<PacientesAtendidos> pacientesAtendidosPorDoctor(Integer idDoctor);
 
     @Modifying
-    @Query(value= "update cita set flagreceta = 1 where idcita=?1",nativeQuery = true)
-    void actualizarFlagReceta (Integer idCita);
+    @Query(value= "update cita set flagreceta = ?1 where idcita=?2",nativeQuery = true)
+    void actualizarFlagReceta (int flag, Integer idCita);
 
 
 
@@ -82,6 +87,8 @@ public interface CitaRepository extends JpaRepository<Cita, Integer> {
     @Query(value= "select * from cita where fecha= ?1 and horainicio = ?2 and doctor_iddoctor = ?3 ",nativeQuery = true)
     Cita citaAgendada (LocalDate fecha, LocalTime horainicio, Integer iddoctor);
 
+    @Query(value= "select * from cita where DATE(fecha) = DATE(DATE_SUB(NOW(), INTERVAL 5 HOUR)) and (idestadocita=1 or idestadocita=2)",nativeQuery = true)
+    List<Cita> citasProxToday();
 
     @Query(value= "select * from cita where fecha= current_date and idestadocita=1 and idtipocita=2 ",nativeQuery = true)
     List<Cita> citasVirtualesToday ();
@@ -92,6 +99,11 @@ public interface CitaRepository extends JpaRepository<Cita, Integer> {
     @Query(value= "select * from cita where fecha= current_date and idestadocita=2 and (idtipocita=1 or idtipocita=2) ",nativeQuery = true)
     List<Cita> citasPagadasToday ();
 
+    @Query(value= "select * from cita where fecha = curdate() and idestadocita=2;",nativeQuery = true)
+    List<Cita> citasToChangeStatus();
+
+    @Query(value= "select * from cita where idestadocita=6 and paciente_idpaciente=?1 and flagreceta=2",nativeQuery = true)
+    List<Cita> citasDelivery(Integer idpac);
 
     @Modifying
     @Query(value= "delete from cita where idcita = ?1 ",nativeQuery = true)
@@ -237,7 +249,10 @@ public interface CitaRepository extends JpaRepository<Cita, Integer> {
     List<Cita> citasxUsuario(int idusuario);
 
 
-     @Query(value = "select * from cita where idestadocita=1 and paciente_idpaciente=?1",nativeQuery = true)
+     @Query(value = "select * from cita where idestadocita=1 and paciente_idpaciente=?1 and \n" +
+             "(DATE(fecha) > DATE(DATE_SUB(NOW(), INTERVAL 5 HOUR))\n" +
+             "    OR (DATE(fecha) = DATE(DATE_SUB(NOW(), INTERVAL 5 HOUR))\n" +
+             "        AND horainicio > DATE_SUB(CURTIME(), INTERVAL 4 HOUR)))",nativeQuery = true)
     List<Cita> paymentcitas(Integer id);
 
      @Query(value = "select * from cita where paciente_idpaciente=?1 and fecha=?2 and horainicio=?3", nativeQuery = true)

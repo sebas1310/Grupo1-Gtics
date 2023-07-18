@@ -15,7 +15,7 @@ public interface NotificacionesRepository extends JpaRepository<Notificaciones,I
             "VALUES (?1,?2,?3,CURRENT_DATE,CURRENT_TIME)",nativeQuery = true)
     void notificarcita(Integer iddestino,String contenido, String titulo);
 
-    @Query(value = "SELECT * FROM  notificaciones WHERE idusuariodestino=?1", nativeQuery = true)
+    @Query(value = "SELECT * FROM  notificaciones WHERE idusuariodestino=?1  ORDER BY fecha desc, hora desc", nativeQuery = true)
     List<Notificaciones> notificacionesPorUsuario(Integer id);
 
     @Modifying

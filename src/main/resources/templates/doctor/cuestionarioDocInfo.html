@@ -55,24 +55,25 @@
                      type="hidden">-->
               <br>
 
+
               <form method="post" th:action="@{'/doctor/cuestionario_envio'}" class="row g-3">
 
-                <input th:value="${idcita}" name="id_cita" class="form-control" type="hidden">
-                <input th:value="${idcuestionario}" name="id_modelo" class="form-control" type="hidden">
-                <input th:value="${cita.getPaciente().getUsuario().getIdusuario()}"  name="id_usuario_paciente" class="form-control"
+                <input th:value="${idcita.getIdcita()}" name="id_cita" class="form-control" type="hidden">
+                <input th:value="${idcuestionario.getId()}" name="id_modelo" class="form-control" type="hidden">
+                <input th:value="${idcita.getPaciente().getUsuario().getIdusuario()}"  name="id_usuario_paciente" class="form-control"
                        type="hidden">
                 <!--<button type="submit" class="btn btn-primary" onclick="ModificarForm()" >Enviar a Paciente</button>-->
 
                 <div class="text-center">
                   <button class="btn btn-primary" type="submit">Enviar a Paciente</button>
-                  <button type="button" class="btn btn-danger"><a style="color: white" th:href="@{'/doctor/dashboard/info'+ '?idP=' + ${cita.getPaciente().getIdpaciente()}+'&idC=' + ${idcita}}" >Regresar</a></button>
+                  <button type="button" class="btn btn-danger"><a style="color: white" th:href="@{'/doctor/dashboard/info'+ '?idP=' + ${idcita.getPaciente().getIdpaciente()}+'&idC=' + ${idcita.getIdcita()}}" >Regresar</a></button>
                 </div>
 
 
               </form>
             </div>
-
-            <div th:unless="${cuestionarios.isEmpty() and iddatosjson!=null}" th:id="contenedorcuestionario">
+            <!--cuestionario no es vacio , pero no pone ocmo vacio y iddatosjson seria nulo , pero se podnria alrevez-->
+            <div th:if="${!cuestionarios.isEmpty() and iddatosjson==null}" th:id="contenedorcuestionario">
               <!--<input th:id="idcuestionariomodelo" th:value="${idcuestionario}" class="form-control"
                      type="hidden">-->
               <div  th:each="pregunta,indice:${listapreguntascuestionario}">
@@ -87,12 +88,12 @@
               <br>
 
                 <div class="text-center">
-                  <button type="button" class="btn btn-danger"><a style="color: white" th:href="@{'/doctor/dashboard/info'+ '?idP=' + ${cita.getPaciente().getIdpaciente()}+'&idC=' + ${idcita}}" >Regresar</a></button>
+                  <button type="button" class="btn btn-danger"><a style="color: white" th:href="@{'/doctor/dashboard/info'+ '?idP=' + ${idcita.getPaciente().getIdpaciente()}+'&idC=' + ${idcita.getIdcita()}}" >Regresar</a></button>
                 </div>
             </div>
 
 
-            <div th:unless="${iddatosjson==null}" >
+            <div th:if="${iddatosjson!=null}" >
 
               <div th:each="inciso,indice:${cuestionariolleno}">
                 <label class="card-title" th:text="|Pregunta ${indice.index+1}:|"></label>
@@ -106,7 +107,7 @@
               <br>
 
               <div class="text-center">
-                <button type="button" class="btn btn-danger"><a style="color: white" th:href="@{'/doctor/dashboard/info'+ '?idP=' + ${cita.getPaciente().getIdpaciente()}+'&idC=' + ${idcita}}">Regresar</a></button>
+                <button type="button" class="btn btn-danger"><a style="color: white" th:href="@{'/doctor/dashboard/info'+ '?idP=' + ${idcita.getPaciente().getIdpaciente()}+'&idC=' + ${idcita.getIdcita()}}">Regresar</a></button>
               </div>
             </div>
           </div>

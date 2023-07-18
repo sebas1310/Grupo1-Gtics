@@ -29,7 +29,7 @@
     </div><!-- End Page Title -->
     <section class="section">
         <div class="row">
-            <div class="col-lg-6">
+            <div class="col-lg-12">
 
 
                 <div class="container">
@@ -37,42 +37,49 @@
 
                     <form id="miFormulario">
 
-                        <select name="roles" id="roles" class="btn btn-secondary dropdown-toggle mb-3">
-                            <option  value="">Seleccione un Tipo de Usuario</option>
-                            <th:block th:each="tipo_usuario : ${tipodeusuarioList}">
-                                <option th:value="${tipo_usuario.idtipodeusuario}" th:text="${tipo_usuario.nombre}"></option>
-                            </th:block>
-                        </select>
-
-                        <select name="especialidades" id="especialidades" class="btn btn-secondary dropdown-toggle mb-3">
-                            <option value="">Seleccione una Especialidad</option>
-                            <th:block th:each="especialidad : ${especialidadList}">
-                                <option th:value="${especialidad.idespecialidad}" th:text="${especialidad.nombre}"></option>
-                            </th:block>
-                        </select>
-                        <select name="tipo_plantilla" id="tipo_plantilla" class="btn btn-secondary dropdown-toggle mb-3">
-                            <option value="">Seleccione Tipo de Plantilla</option>
-                            <option value="formulario">Formulario</option>
-                            <option value="informe">Informe</option>
-                            <option value="cuestionario">Cuestionario</option>
-                        </select>
+                        <div class="row">
+                            <center class="col">
+                                <label for="roles">Seleccione un Tipo de Usuario:</label>
+                                <select name="roles" id="roles" class="btn btn-secondary dropdown-toggle mb-3">
+                                    <option value="">Seleccione un Tipo de Usuario</option>
+                                    <th:block th:each="tipo_usuario : ${tipodeusuarioList}">
+                                        <option th:value="${tipo_usuario.idtipodeusuario}" th:text="${tipo_usuario.nombre}"></option>
+                                    </th:block>
+                                </select>
+                            </center>
+                            <center class="col">
+                                <label for="especialidades">Seleccione una Especialidad:</label>
+                                <select name="especialidades" id="especialidades" class="btn btn-secondary dropdown-toggle mb-3">
+                                    <option value="">Seleccione una Especialidad</option>
+                                    <th:block th:each="especialidad : ${especialidadList}">
+                                        <option th:value="${especialidad.idespecialidad}" th:text="${especialidad.nombre}"></option>
+                                    </th:block>
+                                </select>
+                            </center>
+                            <center class="col">
+                                <label for="tipo_plantilla">Seleccione Tipo de Plantilla:</label>
+                                <select name="tipo_plantilla" id="tipo_plantilla" class="btn btn-secondary dropdown-toggle mb-3">
+                                    <option value="">Seleccione Tipo de Plantilla</option>
+                                    <option value="formulario">Formulario</option>
+                                    <option value="informe">Informe</option>
+                                    <option value="cuestionario">Cuestionario</option>
+                                </select>
+                            </center>
+                        </div>
 
                         <div id="inputs" class="mb-3">
                             <label for="nombrePlantilla">Nombre Plantilla:</label>
                             <input type="text" id="nombrePlantilla" name="nombrePlantilla" class="form-control"/>
                         </div>
-                        <div class="row mb-3">
+                        <div class="mb-3">
                             <label for="tituloInput">Título del nuevo input:</label>
-<!--                            <input type="text" id="tituloInput" name="tituloInput" class="form-control"/>-->
-                            <div class="col-md-8 col-lg-9">
-                                <input type="text" id="tituloInput" name="tituloInput" class="form-control"/>
-
-                            </div>
+                            <input type="text" id="tituloInput" name="tituloInput" class="form-control"/>
                         </div>
-                        <button class="btn btn-primary" id="botonAgregar" onclick="enviarFormulario()" style="color: white">Agregar input</button>
+                        <center><button class="btn btn-primary" id="botonAgregar" onclick="enviarFormulario()" style="color: white">Agregar input</button>
                         <button class="btn btn-dark" id="enviarConcat" onclick="envioStringConcat()" type="submit" style="color: white">Guardar Plantilla - Informe</button>
-<!--                        onclick="envioStringConcat()"-->
-                        <button type="button" class="btn btn-secondary"><a style="color: white" th:href="@{'/superadmin/listaform'}" >Cancelar</a></button>
+
+                        <!--                        onclick="envioStringConcat()"-->
+                        <button type="button" class="btn btn-secondary"><a style="color: white" th:href="@{'/superadmin/listaform'}" >Cancelar</a></button></center>
 <!--                        <button type="submit" onclick="envioStringConcat()" value="Enviar"></button>-->
                     </form>
                 </div>
@@ -156,41 +163,26 @@
 
     </script>
     <script>
-        function envioStringConcat(){
-
+        function envioStringConcat() {
             var inputs_v2 = document.querySelector("#inputs").getElementsByTagName("input");
-
-            var nombreplantilla = document.getElementById("nombrePlantilla").value
-
-            var tipo_plantilla = document.getElementById("tipo_plantilla").value
-
-            const id_rol = document.getElementById("roles").value
-
-            const id_especialidad = document.getElementById("especialidades").value
-
+            var nombreplantilla = document.getElementById("nombrePlantilla").value;
+            var tipo_plantilla = document.getElementById("tipo_plantilla").value;
+            const id_rol = document.getElementById("roles").value;
+            const id_especialidad = document.getElementById("especialidades").value;
             const numInputs = inputs_v2.length;
-
-            const nro_inputs = numInputs-1;
-
-
-
+            const nro_inputs = numInputs - 1;
             var datos = "";
-
 
             for (var i = 1; i < inputs_v2.length; i++) {
                 var input = inputs_v2[i];
-                // var nombre = input.name;
                 var valor = input.name;
-
                 datos = datos + "|" + valor;
-
             }
             console.log(datos);
             var xmlhttp = new XMLHttpRequest();
             xmlhttp.open("POST", "/superadmin/crearPlantillaInforme", true);
             xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
             xmlhttp.onreadystatechange = function() {
-
                 console.log("Estado actual: " + xmlhttp.readyState);
                 console.log("Código de estado HTTP: " + xmlhttp.status);
                 console.log("datos " + datos);
@@ -200,13 +192,13 @@
                 console.log("nro_inputs " + nro_inputs);
                 console.log("tipo_plantilla " + tipo_plantilla);
 
-
                 if (xmlhttp.readyState == XMLHttpRequest.DONE) {
                     if (xmlhttp.status == 200) {
                         // Mostrar mensaje de éxito
                         alert("Plantilla registrada correctamente");
 
-
+                        // Redireccionar a /superadmin/listaform
+                        window.location.replace("/superadmin/listaform");
                     } else {
                         // Mostrar mensaje de error
                         alert("Ha ocurrido un error al registrar la plantilla");
@@ -214,20 +206,36 @@
                 }
             };
 
-            xmlhttp.send("datos=" + datos +"&nombreplantilla="+nombreplantilla+"&id_rol="+id_rol+"&id_especialidad="+id_especialidad+"&nro_inputs="+nro_inputs+"&tipo_plantilla="+tipo_plantilla);
-            // xmlhttp.send(datos);
-
-            // var parametros = "datos=" + encodeURIComponent(datos) +
-            //     "&nombreplantilla=" + encodeURIComponent(nombreplantilla) +
-            //     "&id_rol=" + encodeURIComponent(id_rol) +
-            //     "&id_especialidad=" + encodeURIComponent(id_especialidad) +
-            //     "&nro_inputs=" + encodeURIComponent(nro_inputs) +
-            //     "&tipo_plantilla=" + encodeURIComponent(tipo_plantilla);
-            //
-            // xmlhttp.send(parametros);
-
+            xmlhttp.send(
+                "datos=" +
+                datos +
+                "&nombreplantilla=" +
+                nombreplantilla +
+                "&id_rol=" +
+                id_rol +
+                "&id_especialidad=" +
+                id_especialidad +
+                "&nro_inputs=" +
+                nro_inputs +
+                "&tipo_plantilla=" +
+                tipo_plantilla
+            );
         }
     </script>
+
+<!-- ======= Footer ======= -->
+<footer id="footer" class="footer">
+    <div class="copyright">
+        &copy; Copyright <strong><span>ClinicaLAFE</span></strong>. Todos los derechos reservados
+    </div>
+    <div class="credits">
+        <!-- All the links in the footer should remain intact. -->
+        <!-- You can delete the links only if you purchased the pro version. -->
+        <!-- Licensing information: https://bootstrapmade.com/license/ -->
+        <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
+        Diseñado por <a style="font-weight: bolder; color:#4154F1 ">Grupo 1</a>
+    </div>
+</footer><!-- End Footer -->
 
 
 

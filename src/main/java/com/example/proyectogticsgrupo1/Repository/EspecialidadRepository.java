@@ -15,13 +15,7 @@ public interface EspecialidadRepository extends JpaRepository<Especialidad,Integ
     @Query(nativeQuery = true, value = "select costo from especialidad where idespecialidad=?1")
     Double getCosto(Integer id);
 
-    @Query(nativeQuery = true, value = "SELECT *\n" +
-            "FROM especialidad\n" +
-            "WHERE idespecialidad IN (\n" +
-            "  SELECT idespecialidad\n" +
-            "  FROM doctor\n" +
-            "  WHERE idsede = ?1\n" +
-            ")")
+    @Query(nativeQuery = true, value = "SELECT * FROM especialidad  WHERE idespecialidad IN (SELECT idespecialidad FROM doctor WHERE idsede = ?1  ) order by nombre asc")
     List<Especialidad> listaEspxSede (Integer id);
 
     public Especialidad findByIdespecialidad(Integer id);

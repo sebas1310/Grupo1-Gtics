@@ -12,7 +12,7 @@
 
         <a th:href="@{'/superadmin/index'}"class="logo d-flex align-items-center">
             <img th:src="@{/assets/img/logo.png}" alt="">
-            <span class="d-none d-lg-block" style="color: white" th:href="@{'/superadmin/index'}">Clínica LA FE</span>
+            <span class="d-none d-lg-block" style="color: white">Clínica LA FE</span>
         </a>
 
     </div><!-- End Logo -->
@@ -32,7 +32,7 @@
             <li class="nav-item dropdown">
             <li class="nav-item dropdown pe-3">
                 <a class="nav-link nav-profile d-flex align-items-center pe-0" th:href="@{'/superadmin/perfil'}" >
-                    <img th:src="@{'/gcp/imagenEvento?id=' + ${id}}" alt="Profile" class="rounded-circle">
+                    <!---img th:src="@{'/gcp/imagenEvento?id=' + ${id}}" alt="Profile" class="rounded-circle"--->
                     <span th:text="|${nombre}|" class="d-none d-md-block  ps-2"></span>
                 </a><!-- End Profile Iamge Icon -->
             </li><!-- End Profile Nav -->

@@ -27,17 +27,20 @@
 
     </div><!-- End Page Title -->
 
-    <section class="section dashboard">
+    <section class="section">
       <div class="row">
-
         <!-- Left side columns -->
-        <div class="col-lg-12">
-          <div class="row">
-
+        <div class="col-lg">
+          <div class="col-12">
             <!-- Usuarios Registrados -->
-            <div class="col-12">
+            <div class="row">
+              <div class="col-xxl-10 ">
+                <div class="card info-card customers-card">
+                  <div class="card-body">
+              <!---
               <div class="card recent-sales overflow-auto">
                 <div style="width: 100%" class="card-body">
+                  ---->
 
                   <!---
                   <h5 class="card-title">Lista de Usuarios </h5>
@@ -71,8 +74,8 @@
                     <a th:href="@{'/superadmin/dashboardpaciente'}" class="btn btn-success btn-sm card-button">Ver Más</a>
                   </h5>
                   <!-- Default Table -->
-                  <table class="table">
-                    <thead>
+                  <table class="table table-borderless datatable" >
+                    <thead class="table-light">
                     <tr>
                       <th scope="col">#</th>
                       <th scope="col">Nombre</th>
@@ -97,15 +100,21 @@
                   right: 20px;
                 }
               </style>
+                </div>
+              </div>
+            </div>
+          </div>
 
-              <div class="card recent-sales overflow-auto">
-                <div style="width: 100%" class="card-body">
+          <div class="row">
+            <div class="col-xxl-10">
+              <div class="card info-card customers-card">
+                <div class="card-body">
                   <h5 class="card-title">
                     Doctores
                     <a th:href="@{'/superadmin/dashboarddoctor'}" class="btn btn-success btn-sm card-button">Ver Más</a>
                   </h5>
                   <!-- Default Table -->
-                  <table class="table">
+                  <table class="table table-borderless datatable">
                     <thead>
                     <tr>
                       <th scope="col">#</th>
@@ -122,46 +131,21 @@
                         <span th:if="${usuariod.estadohabilitado == 0}"class="badge bg-danger">Inactivo</span></td>                    </tr>
                     </tbody>
                   </table>
-                  <!-- End Default Table Example -->
                 </div>
+              </div>
+            </div>
+          </div>
+        </div>
 
-                <div class="card recent-sales overflow-auto">
-                  <div style="width: 100%" class="card-body">
-                    <h5 class="card-title">
-                      Administrativos
-                      <a th:href="@{'/superadmin/dashboardadministrativo'}" class="btn btn-success btn-sm card-button">Ver Más</a>
-                    </h5>
-                    <!-- Default Table -->
-                    <table class="table">
-                      <thead>
-                      <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Nombre</th>
-                        <th scope="col">Estado</th>
-                      </tr>
-                      </thead>
-                      <tbody>
-                      <tbody>
-                      <tr th:each="usuarioa, info: ${listaadministrativo}">
-                        <th scope="row" th:text="${info.index + 1}"></th>
-                        <td th:text="${usuarioa.nombres} + ' ' + ${usuarioa.apellidos}"></td>
-                        <td class="text-center" ><span th:if="${usuarioa.estadohabilitado == 1}" class="badge bg-success">Activo</span>
-                          <span th:if="${usuarioa.estadohabilitado == 0}"class="badge bg-danger">Inactivo</span></td>                      </tr>
-                      </tbody>
-                    </table>
-                    <!-- End Default Table Example -->
-                  </div>
-                </div>
-
-
-                <div class="card recent-sales overflow-auto">
-                  <div style="width: 100%" class="card-body">
+        <div class="col-lg-5">
+          <div class="card">
+            <div class="card-body">
                     <h5 class="card-title">
                       Administradores
                       <a th:href="@{'/superadmin/dashboaradministrador'}" class="btn btn-success btn-sm card-button">Ver Más</a>
                     </h5>
                     <!-- Default Table -->
-                    <table class="table">
+                    <table class="table table-borderless datatable">
                       <thead>
                       <tr>
                         <th scope="col">#</th>
@@ -179,11 +163,36 @@
                       </tbody>
                     </table>
                     <!-- End Default Table Example -->
-                  </div>
-                </div>
-              </div>
+            </div>
+          </div>
 
-
+          <div class="card">
+            <div class="card-body">
+                  <h5 class="card-title">
+                    Administrativos
+                    <a th:href="@{'/superadmin/dashboardadministrativo'}" class="btn btn-success btn-sm card-button">Ver Más</a>
+                  </h5>
+                  <!-- Default Table -->
+                  <table class="table table-borderless datatable">
+                    <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Nombre</th>
+                      <th scope="col">Estado</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tbody>
+                    <tr th:each="usuarioa, info: ${listaadministrativo}">
+                      <th scope="row" th:text="${info.index + 1}"></th>
+                      <td th:text="${usuarioa.nombres} + ' ' + ${usuarioa.apellidos}"></td>
+                      <td class="text-center" ><span th:if="${usuarioa.estadohabilitado == 1}" class="badge bg-success">Activo</span>
+                        <span th:if="${usuarioa.estadohabilitado == 0}"class="badge bg-danger">Inactivo</span></td>                      </tr>
+                    </tbody>
+                  </table>
+            </div>
+          </div>
+        </div>
         </div><!-- End Left side columns -->
       </div>
     </section>
@@ -203,7 +212,19 @@
 <script th:src="@{'/assets/vendor/simple-datatables/simple-datatables.js'}"></script>
 <script th:src="@{'/assets/vendor/tinymce/tinymce.min.js'}"></script>
 <script th:src="@{'/assets/vendor/php-email-form/validate.js'}"></script>
-
+<!-- ======= Footer ======= -->
+<footer id="footer" class="footer">
+  <div class="copyright">
+    &copy; Copyright <strong><span>ClinicaLAFE</span></strong>. Todos los derechos reservados
+  </div>
+  <div class="credits">
+    <!-- All the links in the footer should remain intact. -->
+    <!-- You can delete the links only if you purchased the pro version. -->
+    <!-- Licensing information: https://bootstrapmade.com/license/ -->
+    <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
+    Diseñado por <a style="font-weight: bolder; color:#4154F1 ">Grupo 1</a>
+  </div>
+</footer><!-- End Footer -->
 <!-- Template Main JS File -->
 <script th:src="@{'/assets/js/main.js'}"></script>
 

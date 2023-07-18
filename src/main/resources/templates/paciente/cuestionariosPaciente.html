@@ -45,6 +45,7 @@
 
                             <div style="width: 100%" class="card-body" >
                                 <div class="pagetitle">
+                                    <br>
                                     <h1>Cuestionarios Pendientes</h1>
                                 </div>
                                 <table class="table table-borderless datatable" >
@@ -56,17 +57,17 @@
                                         <th class="text-center" scope="col">Fecha Cita</th>
                                         <th class="text-center" scope="col">Completar Cuestionario</th>
                                     </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr th:each="c,idx:${list_cuestionario_2}">
+                                    </thead><tbody>
+                                <tr th:each="c,idx:${(list_cuestionario_2)}">
 
-                                        <td class="text-center" th:text="${idx.index}+1"></td>
-                                        <td class="text-center" th:text="${c.nombrePlantilla}"></td>
-                                        <td class="text-center" th:text="|${c.especialidad.nombre} (${listacita1.get(idx.index).doctor.usuario.nombres} ${listacita1.get(idx.index).doctor.usuario.apellidos})|"></td>
-                                            <td class="text-center" th:text="${listacita1.get(idx.index).fecha}"></td>
-                                        <td class="text-center"> <a type="button" class="bi bi-journal-text" th:href="@{'/paciente/formCuestionario?idcuest='+${c.getId()}+'&idcita='+${listacita1.get(idx.index).getIdcita()}}"></a></td>
-                                    </tr>
-                                    </tbody>
+                                    <td class="text-center" th:text="${idx.index}+1"></td>
+                                    <td class="text-center" th:text="${c.nombrePlantilla}"></td>
+                                    <td class="text-center" th:text="|${c.especialidad.nombre} (${listacita1.get(idx.index).doctor.usuario.nombres} ${listacita1.get(idx.index).doctor.usuario.apellidos})|"></td>
+                                    <td class="text-center" th:text="${listacita1.get(idx.index).fecha}"></td>
+                                    <td class="text-center"> <a type="button" class="bi bi-journal-text" th:href="@{'/paciente/formCuestionario?idcuest='+${c.getId()}+'&idcita='+${listacita1.get(idx.index).getIdcita()}}"></a></td>
+                                </tr>
+                                </tbody>
+
                                 </table>
                             </div>
                         </div>
@@ -78,6 +79,7 @@
 
                             <div style="width: 100%" class="card-body" >
                                 <div class="pagetitle">
+                                    <br>
                                     <h1>Histórico de Cuestionarios</h1>
                                 </div>
                                 <table class="table table-borderless datatable" >
@@ -85,8 +87,8 @@
                                         <tr  >
                                             <th class="text-center" scope="col">#</th>
                                             <th class="text-center" scope="col">Nombre Cuestionario</th>
-                                            <th class="text-center" scope="col">Fecha Cita</th>
-                                            <th class="text-center" scope="col">Mas Info</th>
+                                            <th class="text-center " scope="col">Fecha Cita</th>
+                                            <th class="text-center" scope="col">Más Info</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -116,17 +118,19 @@
 
 </main><!-- End #main -->
 
-<!-- ======= Footer ======= -->
 <footer id="footer" class="footer">
-
+    <div class="copyright">
+        &copy; Copyright <strong><span>ClinicaLAFE</span></strong>. Todos los derechos reservados
+    </div>
     <div class="credits">
         <!-- All the links in the footer should remain intact. -->
         <!-- You can delete the links only if you purchased the pro version. -->
         <!-- Licensing information: https://bootstrapmade.com/license/ -->
         <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
-        Diseñado por <a href="#">Grupo 1</a>
+        Diseñado por <a style="font-weight: bolder; color:#4154F1 ">Grupo 1</a>
     </div>
 </footer><!-- End Footer -->
+
 
 <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 

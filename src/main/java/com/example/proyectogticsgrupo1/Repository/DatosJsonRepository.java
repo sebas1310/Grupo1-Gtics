@@ -33,8 +33,12 @@ public interface DatosJsonRepository extends JpaRepository<DatosJsonEntity,Integ
     @Query(value = "select * from datos_json where nombre_plantilla like 'INF%' and cita_idcita= ?1",nativeQuery = true)
     List<Integer> listaIDDatosJsonDeInformesMedicos (int idCita);
 
+    @Query(value = "select id from datos_json where idusuario = ?1 and cita_idcita=?2",nativeQuery = true)
+    Integer idCuestionariolleno (Integer idusuario , Integer idcita);
 
-
+    @Modifying
+    @Query(value= "delete from datos_json where id = ?1 ",nativeQuery = true)
+    void borrarDatosJson(Integer idDatosJson);
 
 
 

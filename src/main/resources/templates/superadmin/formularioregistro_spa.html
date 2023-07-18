@@ -35,6 +35,48 @@
     * Author: BootstrapMade.com
     * License: https://bootstrapmade.com/license/
     ======================================================== -->
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <style>
+        /* Estilos para el modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 10% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 800px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
 </head>
 
 <body>
@@ -107,7 +149,7 @@
                                     <div class="row mb-3">
                                         <label class="col-sm-12 col-form-label">Fecha de Nacimiento</label>
                                         <div class="col-sm-12">
-                                            <input type="date" id="fechanacimiento" class="form-control" th:field="*{fechanacimiento}" th:classappend="${#fields.hasErrors('fechanacimiento')?'is-invalid':''}" required>
+                                            <input type="date" id="fechanacimiento" class="form-control" th:field="*{fechanacimiento}" th:classappend="${#fields.hasErrors('fechanacimiento')?'is-invalid':''}" max="2023-07-18" required>
                                             <div class="invalid-feedback" th:if="${#fields.hasErrors('fechanacimiento')}"
                                                  th:errors="*{fechanacimiento}"></div>
                                         </div>
@@ -165,6 +207,46 @@
                                         </div>
                                     </div>
 
+                                    <div class="row mb-3">
+
+                                        <div class="col-12">
+                                            <center>
+                                                <input type="checkbox" id="terminos" name="terminos" required>
+
+                                                <p>Por favor, lea los siguientes <a style="font-weight: bolder; color: #4154F1 " id="openModal">Términos y Condiciones</a> antes de utilizar nuestros servicios.</p>
+
+                                            </center>
+
+
+                                        </div>
+
+
+
+                                    </div>
+
+                                    <!-- Modal -->
+                                    <div id="modal" class="modal">
+                                        <div class="modal-content">
+                                            <span class="close">&times;</span>
+                                            <h2>Términos y Condiciones de la Clínica La Fe</h2>
+                                            <p>Bienvenido(a) a nuestra Clínica. Antes de utilizar nuestros servicios, lea detenidamente los siguientes Términos y Condiciones, ya que establecen los derechos y responsabilidades tanto de usted como de nuestra clínica.</p>
+                                            <p>1. Aceptación de los Términos y Condiciones: Al acceder y utilizar los servicios de nuestra clínica, usted acepta cumplir con estos Términos y Condiciones en su totalidad. Si no está de acuerdo con alguno de los términos, le recomendamos que no utilice nuestros servicios.</p>
+                                            <p>2. Información Médica: Nuestra clínica proporciona servicios médicos profesionales. Toda la información médica proporcionada a través de nuestra clínica se ofrece únicamente con fines informativos y no pretende sustituir el consejo médico profesional. Consulte siempre a un médico calificado para obtener un diagnóstico o tratamiento adecuado.</p>
+                                            <p>3. Confidencialidad: Respetamos su privacidad y nos comprometemos a mantener la confidencialidad de su información médica. Sin embargo, en ciertos casos, podemos revelar su información personal de acuerdo con las leyes y regulaciones aplicables.</p>
+                                            <p>4. Responsabilidad: Nuestra clínica se esfuerza por brindar servicios de la más alta calidad. Sin embargo, no podemos hacernos responsables de cualquier daño, pérdida o lesión resultante del uso de nuestros servicios, a menos que sea causado por nuestra negligencia.</p>
+                                            <p>5. Reservas y Cancelaciones: Para programar una cita, le recomendamos que llame con anticipación para asegurarse de la disponibilidad. Si necesita cancelar o reprogramar su cita, le pedimos que nos avise con al menos 24 horas de antelación. Nos reservamos el derecho de cobrar una tarifa por cancelaciones tardías o citas perdidas.</p>
+                                            <p>6. Pago de los Servicios: Nuestra clínica cobra por los servicios médicos proporcionados. Los precios y métodos de pago se establecerán de acuerdo con nuestras políticas internas. Todos los pagos deben realizarse en el momento de recibir los servicios, a menos que se acuerde lo contrario.</p>
+                                            <p>7. Propiedad Intelectual: Todos los contenidos, materiales y derechos de propiedad intelectual asociados con nuestra clínica son propiedad exclusiva de la misma. No se permite la reproducción, distribución o uso no autorizado de dichos materiales sin nuestro consentimiento por escrito.</p>
+                                            <p>8. Modificaciones: Nos reservamos el derecho de modificar o actualizar estos Términos y Condiciones en cualquier momento. Cualquier cambio será efectivo tan pronto como se publique en nuestro sitio web. Le recomendamos que revise periódicamente estos términos para mantenerse informado.</p>
+                                            <p>9. Ley Aplicable: Estos Términos y Condiciones se regirán e interpretarán de acuerdo con las leyes del país en el que se encuentra nuestra clínica.</p>
+                                            <p>Al utilizar nuestros servicios, usted reconoce y acepta estos Términos y Condiciones en su totalidad. Si tiene alguna pregunta o inquietud, no dude en ponerse en contacto con nosotros. Agradecemos su confianza en nuestra clínica y esperamos brindarle una atención médica de calidad.</p>
+                                            <!-- Agrega el resto del texto de los Términos y Condiciones aquí -->
+
+                                            <p>Al utilizar nuestros servicios, usted reconoce y acepta estos Términos y Condiciones en su totalidad. Si tiene alguna pregunta o inquietud, no dude en ponerse en contacto con nosotros. Agradecemos su confianza en nuestra clínica y esperamos brindarle una atención médica de calidad.</p>
+
+                                        </div>
+                                    </div>
+
                                     <div id="error-message" style="display: none"></div>
 
                                     <input type="hidden" th:name="estadohabilitado" th:value="1">
@@ -194,12 +276,43 @@
 
     </div>
 </main><!-- End #main -->
-
+<!-- ======= Footer ======= -->
+<footer id="footer" class="footer">
+    <div class="copyright">
+        &copy; Copyright <strong><span>ClinicaLAFE</span></strong>. Todos los derechos reservados
+    </div>
+    <div class="credits">
+        <!-- All the links in the footer should remain intact. -->
+        <!-- You can delete the links only if you purchased the pro version. -->
+        <!-- Licensing information: https://bootstrapmade.com/license/ -->
+        <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
+        Diseñado por <a style="font-weight: bolder; color:#4154F1 ">Grupo 1</a>
+    </div>
+</footer><!-- End Footer -->
 <a class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
 <script type="application/javascript" th:src="@{'validar.js'}">
 </script>
+<script>
+    // Funciones para mostrar y ocultar el modal
+    var modal = document.getElementById("modal");
+    var openModal = document.getElementById("openModal");
+    var closeModal = document.getElementsByClassName("close")[0];
 
+    openModal.onclick = function() {
+        modal.style.display = "block";
+    }
+
+    closeModal.onclick = function() {
+        modal.style.display = "none";
+    }
+
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+</script>
 <script th:src="@{'/assets/vendor/apexcharts/apexcharts.min.js'}"></script>
 <script th:src="@{'/assets/vendor/bootstrap/js/bootstrap.bundle.min.js'}"></script>
 <script th:src="@{'/assets/vendor/chart.js/chart.min.js'}"></script>

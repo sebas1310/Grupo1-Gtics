@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/html">
 
-<head th:insert="fragments/administrativo/librerias.html :: cabecera (titulo = 'Perfil')">
+<head th:insert="fragments/administrativo/librerias.html :: cabecera (titulo = 'Formulario Registro')">
 
 </head>
 
@@ -28,7 +28,8 @@
     <h1>Formulario de Registro</h1>
     <nav>
       <ol class="breadcrumb">
-        <li class="breadcrumb-item active">Nuevo Paciente</li>
+        <li class="breadcrumb-item"><a th:href="@{'/administrativo/nuevopaciente'}">Nuevo Paciente</a></li>
+        <li class="breadcrumb-item active">Formulario de Registro</li>
       </ol>
     </nav>
   </div>
@@ -38,15 +39,22 @@
       <div class="col-lg-20">
 
         <div class="card">
+          <section id="actualizacion">
+
+            <!-- Aquí puedes agregar el formulario de actualización -->
+          </section>
           <div class="card-body">
             <h5 class="card-title">Formulario</h5>
+            <div id="mensaje" class="alert alert-success" style="display: none;"></div>
+
+            <div id="mensaje_incorrecto" class="alert alert-danger" style="display: none;"></div>
             <div th:if="${ms1!=null}" th:text="${ms1}" class="alert alert-success" role="alert"></div>
             <div th:if="${ms2!=null}" th:text="${ms2}" class="alert alert-danger" role="alert"></div>
             <div th:if="${ms3!=null}" th:text="${ms3}" class="alert alert-danger" role="alert"></div>
 
-            <form class="row g-3" method="post" th:action="@{'/administrativo/enviarcorreoadministrativo'}"  onsubmit="return validateFormAdminsitrativo()">
+            <form class="row g-3" onsubmit="return validateFormAdminsitrativo()">
               <div class="col-12">
-                <label for="nombres" class="form-label">Nombre completo del paciente</label>
+                <label for="nombres" class="form-label">Nombre completo del paciente (EN MAYÚSCULAS)</label>
                 <div class="col-12">
                   <input name="nombres" type="text" class="form-control" id="nombres" required>
                 </div>
@@ -57,18 +65,41 @@
                   <input name="dni" type="text" class="form-control" id="dni" required>
                 </div>
               </div>
-              <div class="col-12">
+<!--              <div class="col-12">-->
+<!--                <label for="correo" class="form-label">Correo</label>-->
+<!--                <div class="col-12">-->
+<!--                  <input name="correo" type="text" class="form-control" id="correo" required>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--              <div class="text-center">-->
+<!--                <button type="submit" class="btn btn-warning" style="background-color:rgb(231,154,110)" ><a style="color: white">Enviar Formulario</a></button>-->
+<!--                <button type="reset" class="btn btn-secondary"><a style="color: white" th:href="@{'/administrativo/nuevopaciente'}">Cancelar</a></button>-->
+<!--              </div>-->
+
+              <div id="error-message" class="alert alert-danger mt-3" style="display: none;"></div>
+            </form>
+
+            <br><br><br><br><br>
+            <div class="text-center">
+              <a type="button" class="btn btn-danger" onclick="enviarSolicitud()">Validar Reniec</a>
+              <a type="button" class="btn btn-secondary" th:href="@{'/administrativo/nuevopaciente'}">Cancelar</a>
+            </div>
+
+
+            <form  method="post" th:action="@{'/administrativo/enviarcorreoadministrativo1'}">
+              <div class="col-12" style="display: none;" id="nuevoInput">
                 <label for="correo" class="form-label">Correo</label>
                 <div class="col-12">
                   <input name="correo" type="text" class="form-control" id="correo" required>
                 </div>
               </div>
-              <div class="text-center">
-                <button type="submit" class="btn btn-warning" style="background-color:rgb(231,154,110)" ><a style="color: white">Enviar Formulario</a></button>
-                <button type="reset" class="btn btn-secondary"><a style="color: white" th:href="@{'/administrativo/nuevopaciente'}">Cancelar</a></button>
+              <br><br><br>
+
+              <div class="text-center" id="nuevoBoton" style="display: none;">
+                <a type="submit" class="btn btn-danger" >Enviar Correo</a>
               </div>
-              <div id="error-message" class="alert alert-danger mt-3" style="display: none;"></div>
             </form>
+
             <script>
               function validateFormAdminsitrativo() {
                 var dni = document.getElementById("dni").value;
@@ -102,6 +133,67 @@
 
                 return true;
               }
+
+              function enviarSolicitud(){
+                document.getElementById("mensaje").style.display = "none";
+                document.getElementById("mensaje_incorrecto").style.display = "none";
+
+
+                document.getElementById("nuevoInput").style.display = "none";
+                document.getElementById("nuevoBoton").style.display = "none";
+
+                var nombre = document.getElementById("nombres").value;
+                var dni = document.getElementById("dni").value;
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", "/administrativo/consultaReniec", true);
+                xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+                // Configurar el manejo de la respuesta
+                xhr.onreadystatechange = function () {
+
+                  if (xhr.readyState == XMLHttpRequest.DONE) {
+                    if (xhr.status == 200) {
+                      // Mostrar mensaje de éxito
+                      alert("Búsqueda realizada");
+
+
+
+                      var mensajeElement = document.getElementById("mensaje");
+
+
+                      if (xhr.responseText.trim() === "Validación correcta") {
+                        mensajeElement.innerHTML = xhr.responseText;
+                        mensajeElement.style.display = "block";
+                        // Mostrar el nuevo input y el nuevo botón
+                        document.getElementById("nuevoInput").style.display = "block";
+                        document.getElementById("nuevoBoton").style.display = "block";
+                      } else if (xhr.responseText.trim() === "Validación incorrecta") {
+                        mensajeElement.innerHTML = xhr.responseText;
+                        // Realizar otras acciones si es necesario
+                      }
+
+                      // window.location.replace("/superadmin/listaform");
+                      // location.reload();
+
+
+
+                    } else {
+                      // Mostrar mensaje de error
+                      alert("Búsqueda realizada");
+                      var mensajeElement = document.getElementById("mensaje_incorrecto");
+                      mensajeElement.innerHTML = xhr.responseText;
+                      mensajeElement.style.display = "block";
+                    }
+                  }
+                };
+
+                // Enviar la solicitud con los datos necesarios
+
+
+
+                xhr.send("nombre="+nombre+"&dni=" +
+                        dni);
+              }
             </script>
 
           </div>
@@ -122,6 +214,19 @@
 
 
 </main><!-- End #main -->
+<!-- ======= Footer ======= -->
+<footer id="footer" class="footer">
+  <div class="copyright">
+    &copy; Copyright <strong><span>ClinicaLAFE</span></strong>. Todos los derechos reservados
+  </div>
+  <div class="credits">
+    <!-- All the links in the footer should remain intact. -->
+    <!-- You can delete the links only if you purchased the pro version. -->
+    <!-- Licensing information: https://bootstrapmade.com/license/ -->
+    <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
+    Diseñado por <a style="font-weight: bolder; color:#4154F1 ">Grupo 1</a>
+  </div>
+</footer><!-- End Footer -->
 
 
 
