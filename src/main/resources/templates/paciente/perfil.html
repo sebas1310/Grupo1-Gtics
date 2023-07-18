@@ -39,7 +39,7 @@
           <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
 
 
-            <img th:src="@{'/gcp/imagenEvento?id=' + ${pacientelog.usuario.idusuario}}" alt="Profile" class="rounded-circle">
+            <img th:src="@{${pacientelog.usuario.foto}}" alt="Profile" class="rounded-circle">
             <h2 th:text="|${pacientelog.usuario.nombres} ${pacientelog.usuario.apellidos}|"></h2>
             <div th:if="${psw1!=null}" th:text="${psw1}" class="alert alert-success" role="alert"></div>
             <div th:if="${psw2!=null}" th:text="${psw2}" class="alert alert-danger" role="alert"></div>
@@ -152,15 +152,12 @@
                   <div class="row mb-3">
                     <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Imagen de Perfil</label>
                     <div class="col-md-8 col-lg-9">
-                      <img th:src="@{'/gcp/imagenEvento?id=' + ${pacientelog.usuario.idusuario}}" alt="Profile" class="rounded-circle">
-                      <br><br>
-                      <label>FOTO</label>
-                      <form method="post" th:action="@{'/imagen/guardarImagen?id='+ ${pacientelog.usuario.idusuario}}" enctype="multipart/form-data">
+                      <form method="post" th:action="@{'/paciente/guardarImagen'}" enctype="multipart/form-data">
                         <div class="form-group">
                           <input type="file" name="file" accept="image/*" class="form-control-file">
                         </div>
-                        <br>
-                        <button type="submit" class="btn btn-warning">Subir foto</button>&nbsp<span style="font-size: small; color: gray">De preferencia la imagen debe pesar menos de 64 KB</span>
+                        <input type="hidden" name="id" th:value="${pacientelog.usuario.idusuario}">
+                        <button type="submit" class="btn btn-primary">Subir imagen</button>
                       </form>
                     </div>
                   </div>
