@@ -71,8 +71,8 @@
 
               </form>
             </div>
-
-            <div th:unless="${cuestionarios.isEmpty() and iddatosjson!=null}" th:id="contenedorcuestionario">
+            <!--cuestionario no es vacio , pero no pone ocmo vacio y iddatosjson seria nulo , pero se podnria alrevez-->
+            <div th:if="${!cuestionarios.isEmpty() and iddatosjson==null}" th:id="contenedorcuestionario">
               <!--<input th:id="idcuestionariomodelo" th:value="${idcuestionario}" class="form-control"
                      type="hidden">-->
               <div  th:each="pregunta,indice:${listapreguntascuestionario}">
@@ -92,7 +92,7 @@
             </div>
 
 
-            <div th:unless="${iddatosjson==null}" >
+            <div th:if="${iddatosjson!=null}" >
 
               <div th:each="inciso,indice:${cuestionariolleno}">
                 <label class="card-title" th:text="|Pregunta ${indice.index+1}:|"></label>

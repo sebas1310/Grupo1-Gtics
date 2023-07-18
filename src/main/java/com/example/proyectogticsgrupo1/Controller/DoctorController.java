@@ -185,6 +185,8 @@ public class DoctorController {
         Cita cita = citaRepository.buscarCitaPorId(idCita);
         model.addAttribute("cita", cita);
         model.addAttribute(recetaMedicaRepository);
+        int idCuestionarioDoc = modeloJsonRepository.cuestionarioMedicoId(cita.getDoctor().getEspecialidad().getIdespecialidad());
+        model.addAttribute("idCuestionarioDoc",idCuestionarioDoc);
         model.addAttribute("estadoscita",estadoCitaRepository.findAll());
         List<Integer> CuestionariosEnviados = modeloJsonRepository.listaIDCuestionariosEnviados(cita.getPaciente().getUsuario().getIdusuario(),cita.getIdcita());
         model.addAttribute(modeloJsonRepository);
@@ -468,6 +470,51 @@ public class DoctorController {
         model.addAttribute("cita", cita);
 
         return "doctor/boletaFarmaciaInfo";
+    }
+
+    @GetMapping("/dashboard/info/enviarvideollamada")
+    public String enviarVideoLlamada(Model model , @RequestParam("idp") int idUsuarioDestino,@RequestParam("idc") int idCita) {
+        Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
+        Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
+        Cita cita1 = citaRepository.buscarCitaPorId(idCita);
+        model.addAttribute("cita",cita1);
+        model.addAttribute("doctor",doctor);
+        if (idUsuarioDestino != 0) {
+            Usuario usuarioDestino = usuarioRepository.usuarioDestino(idUsuarioDestino);
+            model.addAttribute("usuariodestino", usuarioDestino);
+            Optional<Paciente> optPaciente = Optional.ofNullable(pacienteRepository.buscarPacientePorIdUsuario(idUsuarioDestino));
+            if(optPaciente.isPresent()){
+                Integer idpaciente = optPaciente.get().getIdpaciente();
+                model.addAttribute("idpaciente",idpaciente);
+                model.addAttribute("especialidades",especialidadRepository.findAll());
+            }
+            return "doctor/enviarVideollamada";
+        }
+        return "doctor/enviarVideollamada";
+    }
+
+    @PostMapping("/dashboard/info/enviarvideollamada/envio")
+    @Transactional
+    public String sendEmail4(RedirectAttributes redirectAttributes, @RequestParam("correodestino") String correoDestino,
+                             @RequestParam("asunto") String asunto, @RequestParam("descripcion") String descripcion,
+                             @RequestParam("idusuariodestino") int idUsuarioDestino , @RequestParam("idcita") int idCita) throws Exception {
+
+        //Optional<Paciente> optPaciente = Optional.ofNullable(pacienteRepository.buscarPacientePorIdUsuario(idUsuarioDestino));
+        Paciente paciente1 = pacienteRepository.buscarPacientePorIdUsuario(idUsuarioDestino);
+        Cita cita1 = citaRepository.buscarCitaPorId(idCita);
+
+        notificacionesRepository.notificarCreacion(idUsuarioDestino,"El doctor: "+ cita1.getDoctor().getUsuario().getNombres()+" "+cita1.getDoctor().getUsuario().getApellidos()+"le envió su enlace de videollamada para la cita virtual :"+cita1.getFecha(),asunto);
+
+        /*GMailer enviocorreo = new GMailer();
+        String receiverEmail = correoDestino; // Aquí puedes colocar la dirección de correo electrónico del receptor deseado
+        enviocorreo.sendMail(asunto, descripcion, receiverEmail);*/
+        emailService.sendEmail(correoDestino,asunto,descripcion);
+
+        redirectAttributes.addAttribute("idC",idCita);
+        redirectAttributes.addAttribute("idP",paciente1.getIdpaciente());
+        redirectAttributes.addFlashAttribute("msg9","Enlace Enviado");
+        return "redirect:/doctor/dashboard/info";
+        //return ResponseEntity.ok().build();
     }
 
 
@@ -1166,7 +1213,7 @@ public class DoctorController {
     }
 
     @Transactional
-    @PostMapping(value = "/cuestionario/enviarcuestionario")
+    @PostMapping(value = "/cuestionario/ioanrioionario")
     public String enviarCuestionario(Model model, @RequestParam("valores") List<String> valores,
                                      RedirectAttributes redirectAttributes){
         System.out.println("llega al repo de enviar");
@@ -1336,6 +1383,8 @@ public class DoctorController {
             }
             return "doctor/enviarMensajeDoc";
     }
+
+
 
     @GetMapping("/mensajeria/enviarmensaje/examenes")
     public String enviarMensajeDeExamenes(Model model , @RequestParam("idp") int idUsuarioDestino) {
