@@ -40,7 +40,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.logging.SimpleFormatter;
 import java.util.regex.Pattern;
 
 @Controller
@@ -128,9 +130,13 @@ public class SuperadminController {
 
     @PostMapping("/guardarImagen")
     public  String subirImagenes(RedirectAttributes attr, @RequestParam("id") Integer id, @RequestParam("file") MultipartFile file)throws IOException{
+
         try{
             if (file!=null && !file.isEmpty()){
-                String filename = "perfilSuper." + file.getOriginalFilename().split("\\.")[1];
+                Date date = new Date();
+                SimpleDateFormat formatter = new SimpleDateFormat("ddMMyyHHmmss");
+
+                String filename = "perfilSuper" + formatter.format(date) + "." + file.getOriginalFilename().split("\\.")[1];
                 ImagenSubir imagenSubir = new ImagenSubir();
                 imagenSubir.setFilename(filename);
                 imagenSubir.setFilebase64(Base64.getEncoder().encodeToString(file.getBytes()));
@@ -141,6 +147,9 @@ public class SuperadminController {
                 if(resultadoSubida.equals("ok")){
                     System.out.println("https://lafe.blob.core.windows.net/clinicalafe/"+filename);
                     usuarioRepository.actualizarfotoperfilSpa("https://lafe.blob.core.windows.net/clinicalafe/"+filename, id);
+                    session.removeAttribute("usuario");
+
+                    session.setAttribute("usuario", (Usuario) usuarioRepository.findById(id).get());
                 }
 
             }else {
@@ -435,7 +444,7 @@ public class SuperadminController {
                         Content content_2 = new Content("text/plain", "Estimado usuario,"+"\n usted ha sido registrado en la Clínica La Fe "+"\nTu contraseña por defecto es: " + contrasenaGenerada + "\nIngresa"+ " aquí" +"para cambiarla : http://34.29.54.187:8083/cambiarcontrasena");
                         Mail mail = new Mail(from, subject, to, content_2);
 
-                        SendGrid sg = new SendGrid("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");  //aca va el cambio por wsp poner esto
+                        SendGrid sg = new SendGrid("");  //aca va el cambio por wsp poner esto
                         Request request = new Request();
                         try {
                             request.setMethod(Method.POST);
@@ -940,7 +949,7 @@ public class SuperadminController {
                     Content content_2 = new Content("text/plain", "Estimado usuario, hemos restablecido su contraseña, la cual ahora es: " + newpassword);
                     Mail mail = new Mail(from, subject, to, content_2);
 
-                    SendGrid sg = new SendGrid("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");  //aca va el cambio por wsp poner esto
+                    SendGrid sg = new SendGrid("");  //aca va el cambio por wsp poner esto
                     Request request = new Request();
                     try {
                         request.setMethod(Method.POST);
