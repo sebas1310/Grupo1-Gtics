@@ -2,6 +2,13 @@ package com.example.proyectogticsgrupo1.Controller;
 import com.example.proyectogticsgrupo1.Entity.Cita;
 import com.example.proyectogticsgrupo1.Entity.EmailService;
 import com.example.proyectogticsgrupo1.Repository.*;
+import com.sendgrid.Method;
+import com.sendgrid.Request;
+import com.sendgrid.Response;
+import com.sendgrid.SendGrid;
+import com.sendgrid.helpers.mail.Mail;
+import com.sendgrid.helpers.mail.objects.Content;
+import com.sendgrid.helpers.mail.objects.Email;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
@@ -10,6 +17,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import java.time.LocalTime;
 import java.util.List;
 
@@ -46,18 +54,18 @@ public class MyBackgroundTask {
     @Async
     @Scheduled(fixedDelay = 1000*35) // Ejecutar cada 35 segundos
     @Transactional
-    public void doBackgroundTask() {
+    public void doBackgroundTask() throws IOException {
         //todas las citas
         System.out.println(citaRepository.citasProxToday().size());
         for (Cita c : citaRepository.citasProxToday()) {
             //System.out.println(c.getHorainicio());
             //System.out.println(c.getHorainicio());
             ///System.out.println(LocalTime.now());
-            System.out.println("ahora "+LocalTime.now());
+            System.out.println("ahora "+LocalTime.now().minusHours(5));
             System.out.println("cita prox sin pagar a cancelar: "+c.getHorainicio().minusHours(1));
             System.out.println("inicio: " +  c.getHorainicio() +"id :" + c.getIdcita());
             //si la hora actual es igual a la hora de inicio de la cita menos 1, entonces se canelara por falta de pago
-            if (c.getHorainicio().minusHours(1).isBefore(LocalTime.now()) && c.getEstadoCita().getIdestadocita()==1) { //eliminar 1h antes todo
+            if (c.getHorainicio().minusHours(1).isBefore(LocalTime.now().minusHours(5)) && c.getEstadoCita().getIdestadocita()==1) { //eliminar 1h antes todo
                 //System.out.println(LocalTime.now());
                 System.out.println(c.getIdcita());
                 //se elimina boletas primero
@@ -87,15 +95,17 @@ public class MyBackgroundTask {
                             "Cita Cancelada");
 
                     //correos
+
+
                     emailService.sendEmail(c.getPaciente().getUsuario().getCorreo(),
                             "Cita Cancelada por Falta de Pago",
                             "Se cancelo su cita programado para el dia: " + c.getFecha() + " de:" + c.getHorainicio() + "a " + c.getHorafinal() + "Por falta de pago");
                     emailService.sendEmail(c.getDoctor().getUsuario().getCorreo(),
-                            "Cita Cancelada",
-                            "Estimado Doctor(a): Se cancelo su cita programado para el dia: " + c.getFecha() + " de:" + c.getHorainicio() + "a " + c.getHorafinal() + " con el paciente: " +
-                                    c.getPaciente().getUsuario().getNombres() + " " + c.getPaciente().getUsuario().getApellidos() + " por falta de pago del paciente");
+                       "Cita Cancelada",
+                          "Estimado Doctor(a): Se cancelo su cita programado para el dia: " + c.getFecha() + " de:" + c.getHorainicio() + "a " + c.getHorafinal() + " con el paciente: " +
+                                 c.getPaciente().getUsuario().getNombres() + " " + c.getPaciente().getUsuario().getApellidos() + " por falta de pago del paciente");
                 }
-            } else if (LocalTime.now().getHour()==c.getHorainicio().minusHours(2).getHour() && LocalTime.now().getMinute()==c.getHorainicio().getMinute()) {
+            } else if (LocalTime.now().minusHours(5).getHour()==c.getHorainicio().minusHours(2).getHour() && LocalTime.now().minusHours(5).getMinute()==c.getHorainicio().getMinute()) {
                 System.out.println("entro aca");//avisar 2 horas antes
                 emailService.sendEmail(c.getPaciente().getUsuario().getCorreo(),
                         "Recordatorio Cita: " + c.getFecha(),
@@ -121,8 +131,8 @@ public class MyBackgroundTask {
     @Transactional
     public void estadoPausa(){
         for (Cita c : citaRepository.citasToChangeStatus()){
-            System.out.println(LocalTime.now().isAfter(c.getHorainicio()) && LocalTime.now().isBefore(c.getHorafinal()));
-            if(LocalTime.now().isAfter(c.getHorainicio()) && LocalTime.now().isBefore(c.getHorafinal())){
+            System.out.println(LocalTime.now().minusHours(5).isAfter(c.getHorainicio()) && LocalTime.now().minusHours(5).isBefore(c.getHorafinal()));
+            if(LocalTime.now().minusHours(5).isAfter(c.getHorainicio()) && LocalTime.now().minusHours(5).isBefore(c.getHorafinal())){
                 System.out.println("cita: " + c.getIdcita());
                 citaRepository.actualizarEstadoCita(3,c.getIdcita());
             }
