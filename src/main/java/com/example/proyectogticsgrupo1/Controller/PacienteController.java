@@ -120,6 +120,29 @@ public class PacienteController {
         return result;
     }
 
+    @GetMapping(value = "/msj")
+    public void email() throws IOException {
+        Email from = new Email("clinica.lafe.info@gmail.com");
+        String subject = "prue de cita";
+        Email to = new Email("a20203368@pucp.edu.pe");
+        Content content_2 = new Content("text/plain", "Pruebas desde vm");
+        Mail mail = new Mail(from, subject, to, content_2);
+
+        SendGrid sg = new SendGrid("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");  //aca va el cambio por wsp poner esto
+        Request request = new Request();
+        try {
+            request.setMethod(Method.POST);
+            request.setEndpoint("mail/send");
+            request.setBody(mail.build());
+            Response response = sg.api(request);
+            System.out.println(response.getStatusCode());
+            System.out.println(response.getBody());
+            System.out.println(response.getHeaders());
+        } catch (IOException ex) {
+            throw ex;
+        }
+    }
+
 
     @Transactional
     @GetMapping(value = "/")
