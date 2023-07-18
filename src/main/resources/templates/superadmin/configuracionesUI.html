@@ -54,7 +54,7 @@
 
                         <form class="row g-3" method="post" th:action="@{'/superadmin/editarUI'}" >
 
-                            <!---------div class="col-12">
+                            <div class="col-12"hidden="hidden">
                                 <label class="form-label" for="modo" style="color: #012970">Cambia la apariencia de la página</label>
                                 <div class="col-12">
                                         <select class="form-select" name="tema" aria-label="Default select example" id="modo" onchange="cambiarModo()">
@@ -63,11 +63,11 @@
                                             <option value="0">Oscuro</option>
                                         </select>
                                 </div>
-                            </div------>
-                            <!---h1>Modo Oscuro</h1>
-                            <div class="toggle-btn" onclick="toggleDarkMode()">
+                            </div>
+
+                            <div class="toggle-btn" hidden="hidden" onclick="toggleDarkMode()">
                                 <i id="toggleIcon" class="fa fa-moon"></i>
-                            </div----->
+                            </div>
 
                             <div>
                                 <label class="form-label" style="color: #012970">Personalizar Interfaz de Usuario</label>
@@ -91,7 +91,7 @@
                             </div>
 
 
-                            <!---div>
+                            <div hidden="hidden">
                                 <label class="form-label" style="color: #012970">Sube una imagen de fondo</label>
                                 <div>
                                     <div class=" mb-3">
@@ -111,7 +111,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div----->
+                            </div>
 
                             <div class="text-center">
                                 <button type="submit" class="btn btn-primary" style="color: white">Guardar Cambios</button>
@@ -130,16 +130,7 @@
 
         </div>
     </section>
-    <script>
-        function toggleDarkMode() {
-            var body = document.body;
-            var toggleIcon = document.getElementById("toggleIcon");
 
-            body.classList.toggle("dark-mode");
-            toggleIcon.classList.toggle("fa-moon");
-            toggleIcon.classList.toggle("fa-sun");
-        }
-    </script>
 </main><!-- End #main -->
 
 
