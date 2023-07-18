@@ -64,9 +64,9 @@
 
               <form method="post" th:action="@{'/doctor/cuestionario_envio'}" class="row g-3" onsubmit="return validateForm()">
 
-                <input th:value="${idcita}" name="id_cita" class="form-control" type="hidden">
-                <input th:value="${idcuestionario}" name="id_modelo" class="form-control" type="hidden">
-                <input th:value="${cita.getPaciente().getUsuario().getIdusuario()}"  name="id_usuario_paciente" class="form-control"
+                <input th:value="${idcita.getIdcita()}" name="id_cita" class="form-control" type="hidden">
+                <input th:value="${idcuestionario.getId()}" name="id_modelo" class="form-control" type="hidden">
+                <input th:value="${idcita.getPaciente().getUsuario().getIdusuario()}"  name="id_usuario_paciente" class="form-control"
                        type="hidden">
 
                 <div class="col-md-6">
@@ -81,7 +81,7 @@
 
                 <div class="text-center">
                   <button class="btn btn-primary" type="submit">Enviar a Paciente</button>
-                  <button type="button" class="btn btn-danger"><a style="color: white" th:href="@{'/doctor/dashboard/info'+ '?idP=' + ${cita.getPaciente().getIdpaciente()}+'&idC=' + ${idcita}}" >Regresar</a></button>
+                  <button type="button" class="btn btn-danger"><a style="color: white" th:href="@{'/doctor/dashboard/info'+ '?idP=' + ${idcita.getPaciente().getIdpaciente()}+'&idC=' + ${idcita.getIdcita()}}" >Regresar</a></button>
                 </div>
 
 
