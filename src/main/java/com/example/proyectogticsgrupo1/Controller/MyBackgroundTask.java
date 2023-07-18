@@ -1,6 +1,13 @@
 package com.example.proyectogticsgrupo1.Controller;
 import com.example.proyectogticsgrupo1.Entity.Cita;
 import com.example.proyectogticsgrupo1.Entity.EmailService;
+import com.sendgrid.Method;
+import com.sendgrid.Request;
+import com.sendgrid.Response;
+import com.sendgrid.SendGrid;
+import com.sendgrid.helpers.mail.Mail;
+import com.sendgrid.helpers.mail.objects.Content;
+import com.sendgrid.helpers.mail.objects.Email;
 import com.example.proyectogticsgrupo1.Repository.*;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +17,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import java.time.LocalTime;
 import java.util.List;
 
@@ -46,9 +54,8 @@ public class MyBackgroundTask {
     @Async
     @Scheduled(fixedDelay = 1000*35) // Ejecutar cada 35 segundos
     @Transactional
-    public void doBackgroundTask() {
+    public void doBackgroundTask() throws IOException {
         //todas las citas
-        System.out.println(citaRepository.citasProxToday().size());
         for (Cita c : citaRepository.citasProxToday()) {
 
             //System.out.println(c.getHorainicio());
@@ -79,6 +86,27 @@ public class MyBackgroundTask {
                     System.out.println("elimnada_:" + c.getIdcita());
                 } else {
                     //se notifica por correo y notificaciones
+
+                    Email from = new Email("clinica.lafe.info@gmail.com");
+                    String subject = "Confirmación de cita";
+                    Email to = new Email(c.getPaciente().getUsuario().getCorreo());
+                    Content content_2 = new Content("text/plain", "Estimado Paciente, su cita ha sido reservada exitosamente");
+                    Mail mail = new Mail(from, subject, to, content_2);
+
+                    SendGrid sg = new SendGrid("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");  //aca va el cambio
+                    Request request = new Request();
+                    try {
+                        request.setMethod(Method.POST);
+                        request.setEndpoint("mail/send");
+                        request.setBody(mail.build());
+                        Response response = sg.api(request);
+                        System.out.println(response.getStatusCode());
+                        System.out.println(response.getBody());
+                        System.out.println(response.getHeaders());
+                    } catch (IOException ex) {
+                        throw ex;
+                    }
+
                     //A paciente
                     notificacionesRepository.notificarCreacion(c.getPaciente().getUsuario().getIdusuario(), "Se cancelo su cita programado para el dia: " + c.getFecha() + " a las :" + c.getHorainicio() + " Por falta de pago",
                             "Cita Cancelada por Falta de Pago");
@@ -88,13 +116,13 @@ public class MyBackgroundTask {
                             "Cita Cancelada");
 
                     //correos
-                    emailService.sendEmail(c.getPaciente().getUsuario().getCorreo(),
-                            "Cita Cancelada por Falta de Pago",
-                            "Se cancelo su cita programado para el dia: " + c.getFecha() + " de:" + c.getHorainicio() + "a " + c.getHorafinal() + "Por falta de pago");
-                    emailService.sendEmail(c.getDoctor().getUsuario().getCorreo(),
-                            "Cita Cancelada",
-                            "Estimado Doctor(a): Se cancelo su cita programado para el dia: " + c.getFecha() + " de:" + c.getHorainicio() + "a " + c.getHorafinal() + " con el paciente: " +
-                                    c.getPaciente().getUsuario().getNombres() + " " + c.getPaciente().getUsuario().getApellidos() + " por falta de pago del paciente");
+//                    emailService.sendEmail(c.getPaciente().getUsuario().getCorreo(),
+//                            "Cita Cancelada por Falta de Pago",
+//                            "Se cancelo su cita programado para el dia: " + c.getFecha() + " de:" + c.getHorainicio() + "a " + c.getHorafinal() + "Por falta de pago");
+//                    emailService.sendEmail(c.getDoctor().getUsuario().getCorreo(),
+//                            "Cita Cancelada",
+//                            "Estimado Doctor(a): Se cancelo su cita programado para el dia: " + c.getFecha() + " de:" + c.getHorainicio() + "a " + c.getHorafinal() + " con el paciente: " +
+//                                    c.getPaciente().getUsuario().getNombres() + " " + c.getPaciente().getUsuario().getApellidos() + " por falta de pago del paciente");
                 }
             } else if (LocalTime.now().minusHours(5).getHour()==c.getHorainicio().minusHours(2).getHour() && LocalTime.now().getMinute()==c.getHorainicio().getMinute()) {
                 System.out.println("entro aca");//avisar 2 horas antes
