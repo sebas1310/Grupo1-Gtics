@@ -186,7 +186,6 @@ public class AdministradorController {
             usuarioRepository.save(user);
             int edad = usuarioRepository.edad(user.getIdusuario());
             user.setEdad(edad);
-            user.setFormaregistro("Invitado por Correo");
             Paciente paciente = new Paciente();
             EstadoPaciente estadoPaciente = new EstadoPaciente();
             estadoPaciente.setIdestadopaciente(1);
@@ -204,8 +203,7 @@ public class AdministradorController {
             notificacionesRepository.notificarCreacion(usuarioAdministrador.getIdusuario(),content,titulo);
             GMailer enviocorreo = new GMailer();
             String receiverEmail = paciente.getUsuario().getCorreo();
-            enviocorreo.sendMail("Registro Exitoso en Clinica La Fe", "Estimado usuario, usted ha sido registrado en:\nSede " + usuarioAdministrador.getSede().getNombre() + "\nUbicada en " + usuarioAdministrador.getSede().getDireccion() + "\nTu contraseña por defecto es: " + contrasenaGenerada + "\nIngresa"+" aquí" +"para cambiarla : http://localhost:8081/cambiarcontrasena", receiverEmail);
-            //emailService.sendEmail(paciente.getUsuario().getCorreo(), "Confirmación de Registro", "Estimado usuario, usted ha sido registrado en:\nSede " + usuarioAdministrador.getSede().getNombre() + "\nUbicada en " + usuarioAdministrador.getSede().getDireccion() + "\nTu contraseña por defecto es: " + contrasenaGenerada + "\nIngresa"+ "aquí" +"para cambiarla : http://localhost:8081/cambiarcontrasena");
+            emailService.sendEmail(paciente.getUsuario().getCorreo(), "Confirmación de Registro", "Estimado usuario, usted ha sido registrado en:\nSede " + usuarioAdministrador.getSede().getNombre() + "\nUbicada en " + usuarioAdministrador.getSede().getDireccion() + "\nTu contraseña por defecto es: " + contrasenaGenerada + "\nIngresa"+ "aquí" +"para cambiarla : http://34.29.54.187:8083/cambiarcontrasena");
         }
         return "redirect:/administrador/dashboardpaciente";
     }
@@ -364,8 +362,10 @@ public class AdministradorController {
     }
 
     @PostMapping(value = "/actualizar")
-    public String actualizarEstadoPacientes() {
-        pacienteRepository.actualizarEstado();
+    public String actualizarEstadoPacientes(Model model) {
+        Usuario usuarioAdministrador = (Usuario) session.getAttribute("usuario");
+        model.addAttribute("usuario", usuarioAdministrador);
+        pacienteRepository.actualizarformRegistro(usuarioAdministrador.getSede().getIdsede());
         return "redirect:/administrador/dashboardpaciente";
     }
 
@@ -571,10 +571,7 @@ public class AdministradorController {
             String content = "Usted registro un usuario de TIPO: DOCTOR, con CORREO: " + doctor.getUsuario().getCorreo() ;
             String titulo = "Usuario creado con exito";
             notificacionesRepository.notificarCreacion(usuarioAdministrador.getIdusuario(),content,titulo);
-            GMailer enviocorreo = new GMailer();
-            String receiverEmail = doctor.getUsuario().getCorreo();
-            enviocorreo.sendMail("Registro Exitoso en Clinica La Fe", "Estimado usuario, usted ha sido registrado en:\nSede " + usuarioAdministrador.getSede().getNombre() + "\nUbicada en " + usuarioAdministrador.getSede().getDireccion() + "\nTu contraseña por defecto es: " + contrasenaGenerada + "\nIngresa"+" aquí" +"para cambiarla : http://localhost:8081/cambiarcontrasena", receiverEmail);
-            //emailService.sendEmail(doctor.getUsuario().getCorreo(), "Confirmación de Registro", "Estimado usuario, usted ha sido registrado en:\nSede " + usuarioAdministrador.getSede().getNombre() + "\nUbicada en " + usuarioAdministrador.getSede().getDireccion() + "\nTu contraseña por defecto es: " + contrasenaGenerada + "\nIngresa"+ " aquí" +"para cambiarla : http://localhost:8081/cambiarcontrasena");
+            emailService.sendEmail(doctor.getUsuario().getCorreo(), "Confirmación de Registro", "Estimado usuario, usted ha sido registrado en:\nSede " + usuarioAdministrador.getSede().getNombre() + "\nUbicada en " + usuarioAdministrador.getSede().getDireccion() + "\nTu contraseña por defecto es: " + contrasenaGenerada + "\nIngresa"+ " aquí" +"para cambiarla : http://34.29.54.187:8083/cambiarcontrasena");
             return "redirect:/administrador/dashboarddoctor";
         }
     }

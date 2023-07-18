@@ -83,13 +83,13 @@ public interface PacienteRepository extends JpaRepository<Paciente, Integer> {
 
     @Query(value = "SELECT DISTINCT p.* FROM cita c\n" +
             "       INNER JOIN paciente p ON c.paciente_idpaciente = p.idpaciente\n" +
-            "       INNER JOIN estadopaciente e ON p.idestadopaciente = e.idestadopaciente and e.nombre = 'Invitado'\n"+
+            "       INNER JOIN estadopaciente e ON p.idestadopaciente = e.idestadopaciente\n"+
             "       INNER JOIN usuario u on p.idusuario = u.idusuario where c.idsede = ?1", nativeQuery = true)
     List<Paciente> listarPacienteInvitado(int idsede);
 
     @Query(value = "SELECT DISTINCT p.* FROM paciente p\n" +
-            "       INNER JOIN estadopaciente e ON p.idestadopaciente = e.idestadopaciente and e.nombre = 'Invitado'\n"+
-            "       INNER JOIN usuario u on p.idusuario = u.idusuario where u.sede_idsede = ?1", nativeQuery = true)
+            "            INNER JOIN estadopaciente e ON p.idestadopaciente = e.idestadopaciente and p.idestadopaciente = 1\n" +
+            "            INNER JOIN usuario u on p.idusuario = u.idusuario where u.sede_idsede = 1 and u.formaregistro = 'Invitado por Correo'", nativeQuery = true)
     List<Paciente> listarpinvitado(int idsede);
 
     @Query(value = "SELECT DISTINCT p.* FROM cita c\n" +
@@ -114,6 +114,16 @@ public interface PacienteRepository extends JpaRepository<Paciente, Integer> {
     @Modifying
     @Query(value = "UPDATE paciente SET idestadopaciente = 2 WHERE idestadopaciente = 1\n", nativeQuery = true)
     void actualizarEstado();
+
+    @Transactional
+    @Modifying
+    @Query(value = "UPDATE paciente p\n" +
+            "INNER JOIN usuario u ON p.idusuario = u.idusuario\n" +
+            "SET p.idestadopaciente = 2\n" +
+            "WHERE p.idestadopaciente = 1\n" +
+            "  AND u.formaregistro = 'Invitado por Correo'\n" +
+            "  AND u.sede_idsede = ?1\n", nativeQuery = true)
+    void actualizarformRegistro(int idsede);
 
     @Query(value = "select * from paciente where idpaciente= ?1", nativeQuery = true)
     Paciente buscarPacientePorID(Integer idPaciente);

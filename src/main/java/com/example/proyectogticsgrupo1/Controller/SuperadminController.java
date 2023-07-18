@@ -423,7 +423,7 @@ public class SuperadminController {
                         enviocorreo.sendMail("Registro Exitoso en Clinica La Fe", "Estimado usuario,"
                                 + "\nUsted ha sido registrado en Clínica LA FE."
                                 + "\nSu contraseña por defecto es: " + contrasenaGenerada
-                                + "\nPor favor, ingrese a: http://localhost:8083/cambiarcontrasena aquí para cambiarla.", receiverEmail);
+                                + "\nPor favor, ingrese a: http://34.29.54.187:8083/cambiarcontrasena aquí para cambiarla.", receiverEmail);
 
                         return "redirect:/superadmin/index";
                     }else{

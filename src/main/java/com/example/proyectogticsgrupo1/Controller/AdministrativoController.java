@@ -364,7 +364,32 @@ public class AdministrativoController {
         } else {
             // Lógica para enviar el correo electrónico
             emailService.sendEmail(correo, "Invitación",
-                    "Estimado usuario, usted ha sido invitado a la plataforma de Clínica LA FE:\nIngresa aquí para registrarte: http://localhost:8088/administrativo/formularioreferido2");
+                    "Estimado usuario, usted ha sido invitado a la plataforma de Clínica LA FE:\nIngresa aquí para registrarte: http://localhost:8083/formularioReferido");
+            String content = "Usted invito un usuario con CORREO: " + correo ;
+            String titulo = "Invitación enviada existosamente";
+            notificacionesRepository.notificarCreacion2(usuarioAdministrativo.getIdusuario(),content,titulo);
+            redirectAttributes.addFlashAttribute("ms1", "El correo ha sido enviado exitosamente");
+        }
+
+        return "redirect:/administrativo/crearpaciente";
+    }
+
+    @PostMapping(value = "/enviarcorreoadministrativo1")
+    @Transactional
+    public String enviarCorreo1(@RequestParam("correo") String correo, RedirectAttributes redirectAttributes, Model model) {
+
+        Usuario usuarioAdministrativo = (Usuario) session.getAttribute("usuario");
+        model.addAttribute("usuario", usuarioAdministrativo);
+
+        // Verificar si existe un usuario con el mismo correo electrónico
+        Usuario usuarioCorreo = usuarioRepository.findByCorreo(correo);
+
+        if (usuarioCorreo != null) {
+            redirectAttributes.addFlashAttribute("ms2", "No se pudo enviar el correo, ya existe un usuario con este correo electrónico");
+        } else {
+            // Lógica para enviar el correo electrónico
+            emailService.sendEmail(correo, "Invitación",
+                    "Estimado usuario, usted ha sido invitado a la plataforma de Clínica LA FE:\nIngresa aquí para registrarte: http://34.29.54.187:8083//formularioReferido");
             String content = "Usted invito un usuario con CORREO: " + correo ;
             String titulo = "Invitación enviada existosamente";
             notificacionesRepository.notificarCreacion2(usuarioAdministrativo.getIdusuario(),content,titulo);
