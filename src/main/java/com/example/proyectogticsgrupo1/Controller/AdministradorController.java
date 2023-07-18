@@ -214,8 +214,6 @@ public class AdministradorController {
             String content = "Usted registro un usuario de TIPO: PACIENTE, con CORREO: " + paciente.getUsuario().getCorreo() ;
             String titulo = "Usuario creado con exito";
             notificacionesRepository.notificarCreacion(usuarioAdministrador.getIdusuario(),content,titulo);
-            GMailer enviocorreo = new GMailer();
-            String receiverEmail = paciente.getUsuario().getCorreo();
             emailService.sendEmail(paciente.getUsuario().getCorreo(), "Confirmación de Registro", "Estimado usuario, usted ha sido registrado en:\nSede " + usuarioAdministrador.getSede().getNombre() + "\nUbicada en " + usuarioAdministrador.getSede().getDireccion() + "\nTu contraseña por defecto es: " + contrasenaGenerada + "\nIngresa"+ "aquí" +"para cambiarla : http://34.29.54.187:8083/cambiarcontrasena");
         }
         return "redirect:/administrador/dashboardpaciente";
