@@ -53,14 +53,14 @@
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label">Paciente Porcentaje</label>
+                            <label class="form-label">Paciente Porcentaje (%)</label>
                             <input th:field="${seguro.coaseguro}" type="text" class="form-control" th:classappend="${#fields.hasErrors('coaseguro')?'is-invalid':''}" required>
                             <div class="invalid-feedback" th:if="${#fields.hasErrors('coaseguro')}"
                                  th:errors="*{coaseguro}" ></div>
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label">Comisión Doctor</label>
+                            <label class="form-label">Comisión Doctor (%)</label>
                             <input th:field="${seguro.comisiondoctor}" type="text" class="form-control" th:classappend="${#fields.hasErrors('comisiondoctor')?'is-invalid':''}" required>
                             <div class="invalid-feedback" th:if="${#fields.hasErrors('comisiondoctor')}"
                                  th:errors="*{comisiondoctor}" ></div>
