@@ -13,7 +13,7 @@ import java.time.LocalTime;
 import java.util.List;
 
 public interface CitaRepository extends JpaRepository<Cita, Integer> {
-    @Query(nativeQuery = true, value = "SELECT * FROM cita WHERE paciente_idpaciente = ?1 AND idestadocita = 6 ORDER BY fecha desc\n")
+    @Query(nativeQuery = true, value = "SELECT * FROM cita WHERE paciente_idpaciente = ?1 AND idestadocita IN (4, 6) ORDER BY fecha DESC\n")
     List<Cita> citaPorPaciente(Integer id);
 
     @Query(nativeQuery = true, value = "SELECT * FROM cita where doctor_iddoctor = ?1 and idcita = ?2 ")
