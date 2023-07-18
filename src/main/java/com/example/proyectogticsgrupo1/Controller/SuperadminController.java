@@ -12,6 +12,13 @@ import com.google.cloud.storage.Storage;
 import com.google.cloud.storage.StorageOptions;*/
 import com.example.proyectogticsgrupo1.Service.imagenes.ImagenSubir;
 import com.example.proyectogticsgrupo1.Service.imagenes.UploadInter;
+import com.sendgrid.Method;
+import com.sendgrid.Request;
+import com.sendgrid.Response;
+import com.sendgrid.SendGrid;
+import com.sendgrid.helpers.mail.Mail;
+import com.sendgrid.helpers.mail.objects.Content;
+import com.sendgrid.helpers.mail.objects.Email;
 import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
@@ -59,7 +66,8 @@ public class SuperadminController {
     @Autowired
     ModeloRepository modeloRepository;
 
-
+    @Autowired
+    private EmailService emailService;
     @Autowired
     ModeloJsonRepository modeloJsonRepository;
 
@@ -76,8 +84,6 @@ public class SuperadminController {
 
     @Autowired
     UserRepository userRepository;
-    @Autowired
-    private EmailService emailService;
 
     @Autowired
     private HttpSession session;
@@ -400,10 +406,17 @@ public class SuperadminController {
             Usuario existingUserDni = usuarioRepository.findByDni(usuario.getDni());
             Usuario existingUserCelular = usuarioRepository.findByCelular(usuario.getCelular());
             Usuario existingUserCorreo = usuarioRepository.findByCorreo(usuario.getCorreo());
-
+            model.addAttribute("listasedes", sedeRepository.listaSedes());
+            model.addAttribute("listaEspecialidad", especialidadRepository.findAll());
             if(existingUserDni == null){
+                model.addAttribute("listasedes", sedeRepository.listaSedes());
+                model.addAttribute("listaEspecialidad", especialidadRepository.findAll());
                 if(existingUserCelular == null){
+                    model.addAttribute("listasedes", sedeRepository.listaSedes());
+                    model.addAttribute("listaEspecialidad", especialidadRepository.findAll());
                     if(existingUserCorreo == null){
+                        model.addAttribute("listasedes", sedeRepository.listaSedes());
+                        model.addAttribute("listaEspecialidad", especialidadRepository.findAll());
                         attr.addFlashAttribute("msg", "Administrador creado");
                         String contrasenaGenerada = generarContrasena(10);
                         usuario.setContrasena(passwordEncoder.encode(contrasenaGenerada));
@@ -416,9 +429,28 @@ public class SuperadminController {
                         usuario.setEdad(edad);
                         usuarioRepository.save(usuario);
 
-                        GMailer enviocorreo = new GMailer();
-                        String receiverEmail = usuario.getCorreo(); // Aquí puedes colocar la dirección de correo electrónico del receptor deseado
-                        emailService.sendEmail(usuario.getCorreo(), "Confirmación de Registro", "Estimado usuario,"+"\n usted ha sido registrado en la Clínica La Fe "+"\nTu contraseña por defecto es: " + contrasenaGenerada + "\nIngresa"+ " aquí" +"para cambiarla : http://34.29.54.187:8083/cambiarcontrasena");
+
+                        Email from = new Email("clinica.lafe.info@gmail.com");
+                        String subject = "Confirmación de Registro";
+                        Email to = new Email(usuario.getCorreo());
+                        Content content_2 = new Content("text/plain", "Estimado usuario,"+"\n usted ha sido registrado en la Clínica La Fe "+"\nTu contraseña por defecto es: " + contrasenaGenerada + "\nIngresa"+ " aquí" +"para cambiarla : http://34.29.54.187:8083/cambiarcontrasena");
+                        Mail mail = new Mail(from, subject, to, content_2);
+
+                        SendGrid sg = new SendGrid("");  //aca va el cambio por wsp poner esto
+                        Request request = new Request();
+                        try {
+                            request.setMethod(Method.POST);
+                            request.setEndpoint("mail/send");
+                            request.setBody(mail.build());
+                            Response response = sg.api(request);
+                            System.out.println(response.getStatusCode());
+                            System.out.println(response.getBody());
+                            System.out.println(response.getHeaders());
+                        } catch (IOException ex) {
+                            throw ex;
+                        }
+
+                        //emailService.sendEmail(usuario.getCorreo(), "Confirmación de Registro", "Estimado usuario,"+"\n usted ha sido registrado en la Clínica La Fe "+"\nTu contraseña por defecto es: " + contrasenaGenerada + "\nIngresa"+ " aquí" +"para cambiarla : http://34.29.54.187:8083/cambiarcontrasena");
                         /* Construye el mensaje del correo en formato HTML
                         enviocorreo.sendMail("Registro Exitoso en Clinica La Fe", "Estimado usuario,"
                                 + "\nUsted ha sido registrado en Clínica LA FE."
@@ -889,7 +921,7 @@ public class SuperadminController {
                                          @RequestParam("contrasena1") String contrasena,
                                          @RequestParam("newpassword2") String newpassword,
                                          @RequestParam("renewpassword3") String renewpassword,
-                                         RedirectAttributes redirectAttributes) {
+                                         RedirectAttributes redirectAttributes) throws IOException {
 
         Optional<Usuario> optionalUsuario = usuarioRepository.findById(idusuario);
 
@@ -902,7 +934,30 @@ public class SuperadminController {
                 if (newpassword.equals(renewpassword)) {
                     String hashedNewPassword = passwordEncoder.encode(newpassword);
                     usuarioRepository.changePassword(hashedNewPassword, usuario.getIdusuario());
-                    emailService.sendEmail(usuario.getCorreo(), "Cambio de Contraseña", "Estimado usuario, hemos restablecido su contraseña, la cual ahora es: " + newpassword);
+
+
+                    //emailService.sendEmail(usuario.getCorreo(), "Cambio de Contraseña", "Estimado usuario, hemos restablecido su contraseña, la cual ahora es: " + newpassword);
+                    Email from = new Email("clinica.lafe.info@gmail.com");
+                    String subject = "Cambio de Contraseña";
+                    Email to = new Email(usuario.getCorreo());
+                    Content content_2 = new Content("text/plain", "Estimado usuario, hemos restablecido su contraseña, la cual ahora es: " + newpassword);
+                    Mail mail = new Mail(from, subject, to, content_2);
+
+                    SendGrid sg = new SendGrid("");  //aca va el cambio por wsp poner esto
+                    Request request = new Request();
+                    try {
+                        request.setMethod(Method.POST);
+                        request.setEndpoint("mail/send");
+                        request.setBody(mail.build());
+                        Response response = sg.api(request);
+                        System.out.println(response.getStatusCode());
+                        System.out.println(response.getBody());
+                        System.out.println(response.getHeaders());
+                    } catch (IOException ex) {
+                        throw ex;
+                    }
+
+
                     redirectAttributes.addFlashAttribute("psw3", "Contraseña actualizada");
                 } else {
                     redirectAttributes.addFlashAttribute("psw4", "Las contraseñas no coinciden");
