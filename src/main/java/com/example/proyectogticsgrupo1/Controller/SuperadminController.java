@@ -883,7 +883,7 @@ public class SuperadminController {
 
     @PostMapping("/perfilUsuario")
     public String perfilUsuario(Model model, @RequestParam("id") int id) {
-        Usuario usuarioSpa = (Usuario) session.getAttribute("usuario");
+
         model.addAttribute("listasedes", sedeRepository.findAll());
 
         Optional<Usuario> optionalUsuario = usuarioRepository.findById(id);
