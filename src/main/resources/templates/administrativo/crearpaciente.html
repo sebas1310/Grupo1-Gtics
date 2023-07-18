@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/html">
 
-<head th:insert="fragments/administrativo/librerias.html :: cabecera (titulo = 'Perfil')">
+<head th:insert="fragments/administrativo/librerias.html :: cabecera (titulo = 'Formulario Registro')">
 
 </head>
 
@@ -28,7 +28,8 @@
     <h1>Formulario de Registro</h1>
     <nav>
       <ol class="breadcrumb">
-        <li class="breadcrumb-item active">Nuevo Paciente</li>
+        <li class="breadcrumb-item"><a th:href="@{'/administrativo/nuevopaciente'}">Nuevo Paciente</a></li>
+        <li class="breadcrumb-item active">Formulario de Registro</li>
       </ol>
     </nav>
   </div>
@@ -51,9 +52,9 @@
             <div th:if="${ms2!=null}" th:text="${ms2}" class="alert alert-danger" role="alert"></div>
             <div th:if="${ms3!=null}" th:text="${ms3}" class="alert alert-danger" role="alert"></div>
 
-            <form class="row g-3" method="post" th:action="@{'/administrativo/enviarcorreoadministrativo'}"  onsubmit="return validateFormAdminsitrativo()">
+            <form class="row g-3" onsubmit="return validateFormAdminsitrativo()">
               <div class="col-12">
-                <label for="nombres" class="form-label">Nombre completo del paciente</label>
+                <label for="nombres" class="form-label">Nombre completo del paciente (EN MAYÚSCULAS)</label>
                 <div class="col-12">
                   <input name="nombres" type="text" class="form-control" id="nombres" required>
                 </div>
@@ -80,20 +81,24 @@
 
             <br><br><br><br><br>
             <div class="text-center">
-              <a type="button" class="btn btn-warning" style="background-color:rgb(231,154,110)" onclick="enviarSolicitud()">Validar Reniec</a>
+              <a type="button" class="btn btn-danger" onclick="enviarSolicitud()">Validar Reniec</a>
               <a type="button" class="btn btn-secondary" th:href="@{'/administrativo/nuevopaciente'}">Cancelar</a>
             </div>
 
-            <div class="col-12" style="display: none;" id="nuevoInput">
-              <label for="correo" class="form-label">Correo</label>
-              <div class="col-12">
-                <input name="correo" type="text" class="form-control" id="correo" required>
+
+            <form  method="post" th:action="@{'/administrativo/enviarcorreoadministrativo1'}">
+              <div class="col-12" style="display: none;" id="nuevoInput">
+                <label for="correo" class="form-label">Correo</label>
+                <div class="col-12">
+                  <input name="correo" type="text" class="form-control" id="correo" required>
+                </div>
               </div>
-            </div>
-            <br><br><br>
-            <div class="text-center" id="nuevoBoton" style="display: none;">
-              <a type="button" class="btn btn-warning" style="background-color:rgb(231,154,110)">Enviar Correo</a>
-            </div>
+              <br><br><br>
+
+              <div class="text-center" id="nuevoBoton" style="display: none;">
+                <a type="submit" class="btn btn-danger" >Enviar Correo</a>
+              </div>
+            </form>
 
             <script>
               function validateFormAdminsitrativo() {
@@ -209,6 +214,19 @@
 
 
 </main><!-- End #main -->
+<!-- ======= Footer ======= -->
+<footer id="footer" class="footer">
+  <div class="copyright">
+    &copy; Copyright <strong><span>ClinicaLAFE</span></strong>. Todos los derechos reservados
+  </div>
+  <div class="credits">
+    <!-- All the links in the footer should remain intact. -->
+    <!-- You can delete the links only if you purchased the pro version. -->
+    <!-- Licensing information: https://bootstrapmade.com/license/ -->
+    <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
+    Diseñado por <a style="font-weight: bolder; color:#4154F1 ">Grupo 1</a>
+  </div>
+</footer><!-- End Footer -->
 
 
 
