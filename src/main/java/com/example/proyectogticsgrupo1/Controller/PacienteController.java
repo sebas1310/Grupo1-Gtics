@@ -4,9 +4,11 @@ import com.example.proyectogticsgrupo1.Entity.*;
 import com.example.proyectogticsgrupo1.GMailer;
 import com.example.proyectogticsgrupo1.Repository.*;
 import com.example.proyectogticsgrupo1.Service.EmailService;
+import com.example.proyectogticsgrupo1.Service.imagenes.ImagenSubir;
 import com.sendgrid.Method;
 import com.sendgrid.Request;
 import com.sendgrid.Response;
+import com.example.proyectogticsgrupo1.Service.imagenes.UploadInter;
 import com.sendgrid.SendGrid;
 import com.sendgrid.helpers.mail.Mail;
 import com.sendgrid.helpers.mail.objects.Content;
@@ -87,6 +89,8 @@ public class PacienteController {
     @Autowired
     private HttpSession session;
 
+    @Autowired
+    UploadInter uploadInter;
 
     @Autowired
     DatosJsonRepository datosJsonRepository;
@@ -94,6 +98,36 @@ public class PacienteController {
 
     @Autowired
     ModeloXCitaRepository modeloXCitaRepository;
+
+    @PostMapping("/guardarImagen")
+    public  String subirImagenes(RedirectAttributes attr, @RequestParam("id") Integer id, @RequestParam("file") MultipartFile file)throws IOException{
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        Paciente paciente = pacienteRepository.pacXuser(usuario.getIdusuario());
+        try{
+            if (file!=null && !file.isEmpty()){
+
+                String filename = "paciente"+usuario.getIdusuario()+"." + file.getOriginalFilename().split("\\.")[1];
+                ImagenSubir imagenSubir = new ImagenSubir();
+                imagenSubir.setFilename(filename);
+                imagenSubir.setFilebase64(Base64.getEncoder().encodeToString(file.getBytes()));
+
+                String resultadoSubida = uploadInter.subirimagen(imagenSubir);
+
+
+                if(resultadoSubida.equals("ok")){
+                    System.out.println("https://lafe.blob.core.windows.net/clinicalafe/"+filename);
+                    usuarioRepository.actualizarfotoperfilSpa("https://lafe.blob.core.windows.net/clinicalafe/"+filename, id);
+                }
+
+            }else {
+                attr.addFlashAttribute("msg", "imagen subida exitosamente");
+            }
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+        return "redirect:/paciente/perfil";
+    }
+
 
     public Map<String, Integer> cuestToReply() {
         Usuario usuario = (Usuario) session.getAttribute("usuario");
@@ -772,6 +806,8 @@ public class PacienteController {
 
         return "paciente/cuestionariosPaciente";
     }
+
+
 
 
     //ver cuest
