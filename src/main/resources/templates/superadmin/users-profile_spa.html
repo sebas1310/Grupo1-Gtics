@@ -117,10 +117,13 @@
                   <div class="col-md-8 col-lg-9">
                     <form method="post" th:action="@{'/superadmin/guardarImagen'}" enctype="multipart/form-data">
                       <div class="form-group">
-                        <input type="file" name="file" accept="image/*" class="form-control-file">
+                        <input id="imagen" type="file" name="file" accept="image/*" onchange="verificarImagen()" class="form-control-file">
                       </div>
                       <input type="hidden" name="id" th:value="${superadminlog.idusuario}">
-                      <button type="submit" class="btn btn-primary">Subir imagen</button>
+
+                      <button type="submit" style="background-color: #4154F1; color: white" class="btn" id="boton-enviar" disabled>Guardar Cambios</button>
+
+                      <!---button type="submit" class="btn btn-primary">Subir imagen</button---->
                     </form>
 
                   </div>
@@ -220,6 +223,8 @@
 
                   <!-- Funcion para validar -->
                   <script>
+
+
                     function validateForm() {
                       var password = document.getElementById("contrasena").value;
                       var newPassword = document.getElementById("newPassword").value;
@@ -256,7 +261,20 @@
                         errorMessage.innerHTML = "No se permiten espacios en blanco.";
                         return false;
                       }
+
                       return true;
+                    }
+
+                    function verificarImagen() {
+                      var inputImagen = document.getElementById("imagen");
+                      var botonEnviar = document.getElementById("boton-enviar");
+
+                      if (inputImagen.files.length === 0) {
+                        botonEnviar.disabled = true;
+                      } else {
+                        botonEnviar.disabled = false;
+                      }
+
                     }
                   </script>
                   <!-- FIN Funcion para validar -->
