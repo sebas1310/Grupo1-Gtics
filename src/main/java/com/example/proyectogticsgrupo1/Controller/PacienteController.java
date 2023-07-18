@@ -200,12 +200,22 @@ public class PacienteController {
         else {
             if (estado == 6){
 
-                String especialidadespend =  paciente.getEspecialidadesPendientes();
-                List<Integer> idList = Arrays.stream(especialidadespend.split(","))
-                        .map(Integer::parseInt)
-                        .collect(Collectors.toList());
-                System.out.println(idList);
-                List<Especialidad> listaEspecialidadExPend = especialidadRepository.findAllById(idList);
+                String especialidadespend =  paciente.getEspecialidadesDoctor();
+                List<String> idList = Arrays.asList(especialidadespend.split(","));
+
+                List<Integer> idList1 = new ArrayList<>();
+                for (String str : idList) {
+                    int num = Integer.parseInt(str);
+                    idList1.add(num);
+                }
+
+
+
+
+                System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+
+                System.out.println(idList1);
+                List<Especialidad> listaEspecialidadExPend = especialidadRepository.findAllById(idList1);
                 model.addAttribute("especialidadesPendExam", listaEspecialidadExPend);
 
             }
@@ -1030,8 +1040,6 @@ public class PacienteController {
         Paciente paciente = pacienteRepository.pacXuser(usuario.getIdusuario());
         // Obtener el primer carácter de la cadena "alergia"
         Integer idx = Integer.parseInt(alergia.substring(0, 1));
-        System.out.println(idx);
-        System.out.println(id);
 
         pacienteRepository.borrarAlergia(idx, id);
         redirectAttributes.addFlashAttribute("msg2","Alergia borrada correctamente");
@@ -1136,6 +1144,10 @@ public class PacienteController {
                         pacienteRepository.actualizarEstadoPaciente(4,paciente.getIdpaciente());
                         notificacionesRepository.notificarcita(doctor.getUsuario().getIdusuario(),content2,titulo2);
                         if(idtipocita==1){
+
+                            citaRepository.actualizarEstadoCita(2, citaAgendada.getIdcita());
+                            System.out.println(citaAgendada.getIdcita());
+
                             boletaDoctorRepository.generarBoletaDoctorCita(citaAgendada.getIdcita(),paciente.getIdpaciente(),idseguro,iddoctor,montoDoctor);
                             boletaPacienteRepository.generarBoletaPacienteCita(paciente.getIdpaciente(),citaAgendada.getIdcita(),idseguro,montoPaciente);
                             emailService.sendEmail(paciente.getUsuario().getCorreo(),"Confirmación de cita","Estimado usuario usted reservó una cita para el "+fecha.toString()+ ".\n"+"En la sede "+sedeRepository.findById(idsede).get().getNombre()+" ubicada " +sedeRepository.findById(idsede).get().getDireccion());
@@ -1323,13 +1335,21 @@ public class PacienteController {
         Usuario usuario = (Usuario) session.getAttribute("usuario");
         Paciente paciente = pacienteRepository.pacXuser(usuario.getIdusuario());
 
-        if(eventocalendariodoctorRepository.findById(idev).isPresent()){
+        if (eventocalendariodoctorRepository.findById(idev).isPresent()) {
             Eventocalendariodoctor eventocalendariodoctor = eventocalendariodoctorRepository.findById(idev).get();
             Doctor doc = doctorRepository.findById(eventocalendariodoctor.getDoctor().getIddoctor()).get();
             // que no sea cita repetida
-            List<Cita> citarep = citaRepository.finddouble(paciente.getIdpaciente(),eventocalendariodoctor.getFecha(), eventocalendariodoctor.getHorainicio());
-            System.out.println("arr len: "+ citarep.size());
-            if(citarep.size()==0){
+            //------
+            int id11 = paciente.getIdpaciente();
+            int id12 = doc.getEspecialidad().getIdespecialidad();
+            int id1 = citaRepository.citaexampendiente(id11, id12);
+
+            Cita cita1 = citaRepository.buscarCitaPorId(id1);
+            //-------------------------
+
+            List<Cita> citarep = citaRepository.finddouble(paciente.getIdpaciente(), eventocalendariodoctor.getFecha(), eventocalendariodoctor.getHorainicio());
+            System.out.println("arr len: " + citarep.size());
+            if (citarep.size() == 0) {
                 citaRepository.agengedarcita(doc.getSede().getIdsede(),
                         doc.getEspecialidad().getIdespecialidad(),
                         eventocalendariodoctor.getFecha(),
@@ -1344,66 +1364,412 @@ public class PacienteController {
                 eventocalendariodoctorRepository.cambiarEstadoCalendario(doc.getIddoctor(),
                         eventocalendariodoctor.getFecha(),
                         eventocalendariodoctor.getHorainicio());
-                Double costoEspecialidad = especialidadRepository.getCosto(doc.getEspecialidad().getIdespecialidad());
-                Double comisionDoctor = seguroRepository.getCosto(paciente.getSeguro().getIdseguro());
-                Double coaseguroPaciente = seguroRepository.getCoaseguro(paciente.getSeguro().getIdseguro());
-                Float montoDoctor = (float) (costoEspecialidad * comisionDoctor);
-                Float montoPaciente = (float) (costoEspecialidad * coaseguroPaciente);
-                Cita citaAgendada = citaRepository.citaAgendada(eventocalendariodoctor.getFecha(),eventocalendariodoctor.getHorainicio(),doc.getIddoctor());
-                String content = "Usted reservó una cita para "+ eventocalendariodoctor.getFecha()+ "en la siguiente hora: " + eventocalendariodoctor.getHorainicio() + " En la especialiad de " + doc.getEspecialidad().getNombre() + ".";
-                String titulo = "Cita reservada con exito";
-                notificacionesRepository.notificarcita(usuario.getIdusuario(),content,titulo);
-                if(idtipocita==1){
-                    boletaDoctorRepository.generarBoletaDoctorCita(citaAgendada.getIdcita(),paciente.getIdpaciente(),paciente.getSeguro().getIdseguro(),doc.getIddoctor(),montoDoctor);
-                    boletaPacienteRepository.generarBoletaPacienteCita(paciente.getIdpaciente(),citaAgendada.getIdcita(),paciente.getSeguro().getIdseguro(),montoPaciente);
+
+                //String de especialidades que mandaron exam pendientes
+                String especialidades_doctor = paciente.getEspecialidadesDoctor();
+
+
+                //Comprobar si el paciente tiene estado con examenes pendientes y
+                //si la especialidad de la que se va a sacar la cita  existe en la lista de especialidades que mando sacar examenes
+
+                if (paciente.getEstadoPaciente().getIdestadopaciente() == 6 && especialidades_doctor.contains(Integer.toString(doc.getEspecialidad().getIdespecialidad()))) {
+
+                    System.out.println("entraaaaa1");
+
+                    //sigue verificar que haya tenido una cita en la especialidad del examen despues de la cita con la especialidad del doctor
+
+                    //cita que mando el examen pendiente
+
+                    String especialidades_pendientes = paciente.getEspecialidadesPendientes();
+
+                    List<String> especialidadesDocList = Arrays.asList(especialidades_doctor.split(","));
+                    List<String> especialidadesExamList = Arrays.asList(especialidades_pendientes.split(","));
+
+                    String elemento1 = Integer.toString(doc.getEspecialidad().getIdespecialidad());
+                    int index = especialidadesDocList.indexOf(elemento1);
+
+                    System.out.println("fecha cita 1: " + cita1.getFecha()+ "id:" + cita1.getIdcita());
+
+                    int esp_exampendientes = Integer.parseInt(especialidadesExamList.get(index));
+
+
+                    //cita del examen realizado
+
+                    int idcita2 = citaRepository.citaexampendiente(id11, esp_exampendientes);
+                    Cita cita2 = citaRepository.buscarCitaPorId(idcita2);
+
+                    //verificación que la cita del examen sea despues de la cita que mando el examen pero antes de los 7 dias
+
+
+                    //Cita cita1elemento = citaRepository.buscarCitaPorId(c.getIdcita());
+                    LocalDate dentrode7dias = cita1.getFecha().plusDays(7);
+                    LocalDate fechacita1 = cita1.getFecha();
+                    System.out.println("fecha7:"+dentrode7dias);
+
+
+                    //Cita cita2elemento = citaRepository.buscarCitaPorId(c2.getIdcita());
+                    LocalDate fechacita2 = cita2.getFecha();
+                    System.out.println(fechacita2);
+
+                        if (fechacita2.isAfter(fechacita1) && fechacita2.isBefore(dentrode7dias)) {
+                            //se pondra que la cita nueva agendada sera de costo 0
+                            System.out.println("entraaaaa2");
+
+                            Float montoDoctor = (float) (0);
+                            Float montoPaciente = (float) (0);
+                            Cita citaAgendada = citaRepository.citaAgendada(eventocalendariodoctor.getFecha(), eventocalendariodoctor.getHorainicio(), doc.getIddoctor());
+                            String content = "Usted reservó una cita para " + eventocalendariodoctor.getFecha() + "en la siguiente hora: " + eventocalendariodoctor.getHorainicio() + " En la especialiad de " + doc.getEspecialidad().getNombre() + ".";
+                            String titulo = "Cita reservada con exito";
+                            notificacionesRepository.notificarcita(usuario.getIdusuario(), content, titulo);
+                            if (idtipocita == 1) {
+
+                                citaRepository.actualizarEstadoCita(2, citaAgendada.getIdcita());
+                                System.out.println(citaAgendada.getIdcita());
+                                boletaDoctorRepository.generarBoletaDoctorCita(citaAgendada.getIdcita(), paciente.getIdpaciente(), paciente.getSeguro().getIdseguro(), doc.getIddoctor(), montoDoctor);
+                                boletaPacienteRepository.generarBoletaPacienteCita(paciente.getIdpaciente(), citaAgendada.getIdcita(), paciente.getSeguro().getIdseguro(), montoPaciente);
+
                     /* GMailer enviocorreo = new GMailer();
                     String receiverEmail = usuario.getCorreo(); // Aquí puedes colocar la dirección de correo electrónico del receptor deseado
                     String cntpres ="Estimado usuario usted reservó una cita para el "+eventocalendariodoctor.getFecha().toString()+ ".\n"+"En la sede "+sedeRepository.findById(doc.getSede().getIdsede()).get().getNombre()+" ubicada " +sedeRepository.findById(doc.getSede().getIdsede()).get().getDireccion();
                     enviocorreo.sendMail(titulo,cntpres, receiverEmail);*/
 
 
-                    Email from = new Email("clinica.lafe.info@gmail.com");
-                    String subject = "Confirmación de cita";
-                   Email to = new Email(paciente.getUsuario().getCorreo());
-                   Content content_2 = new Content("text/plain", "Estimado Paciente, su cita ha sido reservada exitosamente");
-                   Mail mail = new Mail(from, subject, to, content_2);
+                                    Email from = new Email("clinica.lafe.info@gmail.com");
+                                    String subject = "Confirmación de cita";
+                                    Email to = new Email(paciente.getUsuario().getCorreo());
+                                    Content content_2 = new Content("text/plain", "Estimado Paciente, su cita ha sido reservada exitosamente");
+                                    Mail mail = new Mail(from, subject, to, content_2);
 
-                   SendGrid sg = new SendGrid("");  //aca va el cambio por wsp poner esto
-                   Request request = new Request();
-                    try {
-                        request.setMethod(Method.POST);
-                        request.setEndpoint("mail/send");
-                        request.setBody(mail.build());
-                        Response response = sg.api(request);
-                        System.out.println(response.getStatusCode());
-                        System.out.println(response.getBody());
-                        System.out.println(response.getHeaders());
-                    } catch (IOException ex) {
-                        throw ex;
+                                    SendGrid sg = new SendGrid("");  //aca va el cambio por wsp poner esto
+                                    Request request = new Request();
+                                    try {
+                                        request.setMethod(Method.POST);
+                                        request.setEndpoint("mail/send");
+                                        request.setBody(mail.build());
+                                        Response response = sg.api(request);
+                                        System.out.println(response.getStatusCode());
+                                        System.out.println(response.getBody());
+                                        System.out.println(response.getHeaders());
+                                    } catch (IOException ex) {
+                                        throw ex;
+                                    }
+
+
+                                    emailService.sendEmail(paciente.getUsuario().getCorreo(), "Confirmación de cita", "Estimado usuario usted reservó una cita para el " + eventocalendariodoctor.getFecha().toString() + ".\n" + "En la sede " + sedeRepository.findById(doc.getSede().getIdsede()).get().getNombre() + " ubicada " + sedeRepository.findById(doc.getSede().getIdsede()).get().getDireccion());
+
+                                } else {
+                                    // GMailer enviocorreo = new GMailer();
+                                    //String receiverEmail = usuario.getCorreo(); // Aquí puedes colocar la dirección de correo electrónico del receptor deseado
+                                    //enviocorreo.sendMail("Confirmación de cita remoto","Estimado usuario usted reservó una cita virtual para el "+eventocalendariodoctor.getFecha().toString()+ ".\n"+"El link para la sesion de zoom es el siguiente: " +doc.getZoom(), receiverEmail);
+                                    emailService.sendEmail(paciente.getUsuario().getCorreo(), "Confirmación de cita virtual", "Estimado usuario usted reservó una cita virtual para el " + eventocalendariodoctor.getFecha().toString());
+                                }
+                                redirectAttributes.addFlashAttribute("msg1", "Ha reservado una cita con éxito");
+
+
+                                // se eliminara el examen pendiente
+
+                            if (index >= 0 && index < especialidadesDocList.size()) {
+                                List<String> nuevaLista = new ArrayList<>();
+                                for (int i = 0; i < especialidadesDocList.size(); i++) {
+                                    if (i != index) {
+                                        nuevaLista.add(especialidadesDocList.get(i));
+                                    }
+                                }
+                                especialidadesDocList = nuevaLista;
+                                System.out.println("Elemento eliminado correctamente");
+                            }
+                            if (index >= 0 && index < especialidadesExamList.size()) {
+                                List<String> nuevaLista = new ArrayList<>();
+                                for (int i = 0; i < especialidadesExamList.size(); i++) {
+                                    if (i != index) {
+                                        nuevaLista.add(especialidadesExamList.get(i));
+                                    }
+                                }
+                                especialidadesExamList = nuevaLista;
+                                System.out.println("Elemento eliminado correctamente");
+                            }
+
+
+                                String cadena1 = String.join(",", especialidadesDocList);
+                                String cadena2 = String.join(",", especialidadesExamList);
+
+                                pacienteRepository.modificarEspecialidadesDoctor(cadena1, paciente.getIdpaciente());
+                                pacienteRepository.modificarEspecialidadesPendientes(cadena2, paciente.getIdpaciente());
+
+                                //se comprobara si existen mas examenes pendientes de lo contrario se cambiara el estado del paciente
+
+                                boolean listaVacia = especialidadesDocList.isEmpty();
+
+                                System.out.println(listaVacia);
+
+                                if (listaVacia) {
+
+                                    pacienteRepository.actualizarEstadoPaciente(3, paciente.getIdpaciente());
+                                }
+                                return "redirect:/paciente/";
+                            }
+                                else {
+                                //Si aun no fue a sacarse los examenes
+                                Double costoEspecialidad = especialidadRepository.getCosto(doc.getEspecialidad().getIdespecialidad());
+                                Double comisionDoctor = seguroRepository.getCosto(paciente.getSeguro().getIdseguro());
+                                Double coaseguroPaciente = seguroRepository.getCoaseguro(paciente.getSeguro().getIdseguro());
+                                Float montoDoctor = (float) (costoEspecialidad * comisionDoctor);
+                                Float montoPaciente = (float) (costoEspecialidad * coaseguroPaciente);
+                                Cita citaAgendada = citaRepository.citaAgendada(eventocalendariodoctor.getFecha(), eventocalendariodoctor.getHorainicio(), doc.getIddoctor());
+                                String content = "Usted reservó una cita para " + eventocalendariodoctor.getFecha() + "en la siguiente hora: " + eventocalendariodoctor.getHorainicio() + " En la especialiad de " + doc.getEspecialidad().getNombre() + ".";
+                                String titulo = "Cita reservada con exito";
+                                notificacionesRepository.notificarcita(usuario.getIdusuario(), content, titulo);
+                                if (idtipocita == 1) {
+                                    boletaDoctorRepository.generarBoletaDoctorCita(citaAgendada.getIdcita(), paciente.getIdpaciente(), paciente.getSeguro().getIdseguro(), doc.getIddoctor(), montoDoctor);
+                                    boletaPacienteRepository.generarBoletaPacienteCita(paciente.getIdpaciente(), citaAgendada.getIdcita(), paciente.getSeguro().getIdseguro(), montoPaciente);
+                    /* GMailer enviocorreo = new GMailer();
+                    String receiverEmail = usuario.getCorreo(); // Aquí puedes colocar la dirección de correo electrónico del receptor deseado
+                    String cntpres ="Estimado usuario usted reservó una cita para el "+eventocalendariodoctor.getFecha().toString()+ ".\n"+"En la sede "+sedeRepository.findById(doc.getSede().getIdsede()).get().getNombre()+" ubicada " +sedeRepository.findById(doc.getSede().getIdsede()).get().getDireccion();
+                    enviocorreo.sendMail(titulo,cntpres, receiverEmail);*/
+
+
+                                   Email from = new Email("clinica.lafe.info@gmail.com");
+                                    String subject = "Confirmación de cita";
+                                    Email to = new Email(paciente.getUsuario().getCorreo());
+                                    Content content_2 = new Content("text/plain", "Estimado Paciente, su cita ha sido reservada exitosamente");
+                                    Mail mail = new Mail(from, subject, to, content_2);
+
+                                    SendGrid sg = new SendGrid("");  //aca va el cambio por wsp poner esto
+                                    Request request = new Request();
+                                    try {
+                                        request.setMethod(Method.POST);
+                                        request.setEndpoint("mail/send");
+                                        request.setBody(mail.build());
+                                        Response response = sg.api(request);
+                                        System.out.println(response.getStatusCode());
+                                        System.out.println(response.getBody());
+                                        System.out.println(response.getHeaders());
+                                    } catch (IOException ex) {
+                                        throw ex;
+                                    }
+
+
+                                    emailService.sendEmail(paciente.getUsuario().getCorreo(), "Confirmación de cita", "Estimado usuario usted reservó una cita para el " + eventocalendariodoctor.getFecha().toString() + ".\n" + "En la sede " + sedeRepository.findById(doc.getSede().getIdsede()).get().getNombre() + " ubicada " + sedeRepository.findById(doc.getSede().getIdsede()).get().getDireccion());
+
+                                } else {
+                                    // GMailer enviocorreo = new GMailer();
+                                    //String receiverEmail = usuario.getCorreo(); // Aquí puedes colocar la dirección de correo electrónico del receptor deseado
+                                    //enviocorreo.sendMail("Confirmación de cita remoto","Estimado usuario usted reservó una cita virtual para el "+eventocalendariodoctor.getFecha().toString()+ ".\n"+"El link para la sesion de zoom es el siguiente: " +doc.getZoom(), receiverEmail);
+                                    emailService.sendEmail(paciente.getUsuario().getCorreo(), "Confirmación de cita virtual", "Estimado usuario usted reservó una cita virtual para el " + eventocalendariodoctor.getFecha().toString());
+                                }
+                                redirectAttributes.addFlashAttribute("msg1", "Ha reservado una cita con éxito");
+
+                                return "redirect:/paciente/";
+                            }
+
+
+
+
+                    /*for (Cita c : cita1) {
+                        Cita cita1elemento = citaRepository.buscarCitaPorId(c.getIdcita());
+                        LocalDate dentrode7dias = cita1elemento.getFecha().plusDays(7);
+                        LocalDate fechacita1 = cita1elemento.getFecha();
+                        System.out.println("fecha1"+fechacita1);
+
+                        for (Cita c2 : cita2) {
+                            Cita cita2elemento = citaRepository.buscarCitaPorId(c2.getIdcita());
+                            LocalDate fechacita2 = cita2elemento.getFecha();
+
+                            if (fechacita2.isAfter(fechacita1) && fechacita2.isBefore(dentrode7dias)) {
+                                //se pondra que la cita nueva agendada sera de costo 0
+                                System.out.println("entraaaaa2");
+
+                                Float montoDoctor = (float) (0);
+                                Float montoPaciente = (float) (0);
+                                Cita citaAgendada = citaRepository.citaAgendada(eventocalendariodoctor.getFecha(), eventocalendariodoctor.getHorainicio(), doc.getIddoctor());
+                                String content = "Usted reservó una cita para " + eventocalendariodoctor.getFecha() + "en la siguiente hora: " + eventocalendariodoctor.getHorainicio() + " En la especialiad de " + doc.getEspecialidad().getNombre() + ".";
+                                String titulo = "Cita reservada con exito";
+                                notificacionesRepository.notificarcita(usuario.getIdusuario(), content, titulo);
+                                if (idtipocita == 1) {
+                                    boletaDoctorRepository.generarBoletaDoctorCita(citaAgendada.getIdcita(), paciente.getIdpaciente(), paciente.getSeguro().getIdseguro(), doc.getIddoctor(), montoDoctor);
+                                    boletaPacienteRepository.generarBoletaPacienteCita(paciente.getIdpaciente(), citaAgendada.getIdcita(), paciente.getSeguro().getIdseguro(), montoPaciente);
+                    /* GMailer enviocorreo = new GMailer();
+                    String receiverEmail = usuario.getCorreo(); // Aquí puedes colocar la dirección de correo electrónico del receptor deseado
+                    String cntpres ="Estimado usuario usted reservó una cita para el "+eventocalendariodoctor.getFecha().toString()+ ".\n"+"En la sede "+sedeRepository.findById(doc.getSede().getIdsede()).get().getNombre()+" ubicada " +sedeRepository.findById(doc.getSede().getIdsede()).get().getDireccion();
+                    enviocorreo.sendMail(titulo,cntpres, receiverEmail);*/
+
+
+                              /*      Email from = new Email("clinica.lafe.info@gmail.com");
+                                    String subject = "Confirmación de cita";
+                                    Email to = new Email(paciente.getUsuario().getCorreo());
+                                    Content content_2 = new Content("text/plain", "Estimado Paciente, su cita ha sido reservada exitosamente");
+                                    Mail mail = new Mail(from, subject, to, content_2);
+
+                                    SendGrid sg = new SendGrid("");  //aca va el cambio por wsp poner esto
+                                    Request request = new Request();
+                                    try {
+                                        request.setMethod(Method.POST);
+                                        request.setEndpoint("mail/send");
+                                        request.setBody(mail.build());
+                                        Response response = sg.api(request);
+                                        System.out.println(response.getStatusCode());
+                                        System.out.println(response.getBody());
+                                        System.out.println(response.getHeaders());
+                                    } catch (IOException ex) {
+                                        throw ex;
+                                    }
+
+
+                                    emailService.sendEmail(paciente.getUsuario().getCorreo(), "Confirmación de cita", "Estimado usuario usted reservó una cita para el " + eventocalendariodoctor.getFecha().toString() + ".\n" + "En la sede " + sedeRepository.findById(doc.getSede().getIdsede()).get().getNombre() + " ubicada " + sedeRepository.findById(doc.getSede().getIdsede()).get().getDireccion());
+
+                                } else {
+                                    // GMailer enviocorreo = new GMailer();
+                                    //String receiverEmail = usuario.getCorreo(); // Aquí puedes colocar la dirección de correo electrónico del receptor deseado
+                                    //enviocorreo.sendMail("Confirmación de cita remoto","Estimado usuario usted reservó una cita virtual para el "+eventocalendariodoctor.getFecha().toString()+ ".\n"+"El link para la sesion de zoom es el siguiente: " +doc.getZoom(), receiverEmail);
+                                    emailService.sendEmail(paciente.getUsuario().getCorreo(), "Confirmación de cita virtual", "Estimado usuario usted reservó una cita virtual para el " + eventocalendariodoctor.getFecha().toString());
+                                }
+                                redirectAttributes.addFlashAttribute("msg1", "Ha reservado una cita con éxito");
+
+
+                                // se eliminara el examen pendiente
+
+                                especialidadesDocList.remove(index);
+                                especialidadesExamList.remove(index);
+
+                                String cadena1 = String.join(",", especialidadesDocList);
+                                String cadena2 = String.join(",", especialidadesExamList);
+
+                                pacienteRepository.modificarEspecialidadesDoctor(cadena1, paciente.getIdpaciente());
+                                pacienteRepository.modificarEspecialidadesPendientes(cadena2, paciente.getIdpaciente());
+
+                                //se comprobara si existen mas examenes pendientes de lo contrario se cambiara el estado del paciente
+
+                                boolean listaVacia = especialidades_doctor.isEmpty();
+
+                                if (listaVacia) {
+                                    pacienteRepository.actualizarEstadoPaciente(3, paciente.getIdpaciente());
+                                }
+                                return "redirect:/paciente/";
+                            } else {
+                                //Si aun no fue a sacarse los examenes
+                                Double costoEspecialidad = especialidadRepository.getCosto(doc.getEspecialidad().getIdespecialidad());
+                                Double comisionDoctor = seguroRepository.getCosto(paciente.getSeguro().getIdseguro());
+                                Double coaseguroPaciente = seguroRepository.getCoaseguro(paciente.getSeguro().getIdseguro());
+                                Float montoDoctor = (float) (costoEspecialidad * comisionDoctor);
+                                Float montoPaciente = (float) (costoEspecialidad * coaseguroPaciente);
+                                Cita citaAgendada = citaRepository.citaAgendada(eventocalendariodoctor.getFecha(), eventocalendariodoctor.getHorainicio(), doc.getIddoctor());
+                                String content = "Usted reservó una cita para " + eventocalendariodoctor.getFecha() + "en la siguiente hora: " + eventocalendariodoctor.getHorainicio() + " En la especialiad de " + doc.getEspecialidad().getNombre() + ".";
+                                String titulo = "Cita reservada con exito";
+                                notificacionesRepository.notificarcita(usuario.getIdusuario(), content, titulo);
+                                if (idtipocita == 1) {
+                                    boletaDoctorRepository.generarBoletaDoctorCita(citaAgendada.getIdcita(), paciente.getIdpaciente(), paciente.getSeguro().getIdseguro(), doc.getIddoctor(), montoDoctor);
+                                    boletaPacienteRepository.generarBoletaPacienteCita(paciente.getIdpaciente(), citaAgendada.getIdcita(), paciente.getSeguro().getIdseguro(), montoPaciente);
+                    /* GMailer enviocorreo = new GMailer();
+                    String receiverEmail = usuario.getCorreo(); // Aquí puedes colocar la dirección de correo electrónico del receptor deseado
+                    String cntpres ="Estimado usuario usted reservó una cita para el "+eventocalendariodoctor.getFecha().toString()+ ".\n"+"En la sede "+sedeRepository.findById(doc.getSede().getIdsede()).get().getNombre()+" ubicada " +sedeRepository.findById(doc.getSede().getIdsede()).get().getDireccion();
+                    enviocorreo.sendMail(titulo,cntpres, receiverEmail);*/
+
+
+                       /*             Email from = new Email("clinica.lafe.info@gmail.com");
+                                    String subject = "Confirmación de cita";
+                                    Email to = new Email(paciente.getUsuario().getCorreo());
+                                    Content content_2 = new Content("text/plain", "Estimado Paciente, su cita ha sido reservada exitosamente");
+                                    Mail mail = new Mail(from, subject, to, content_2);
+
+                                    SendGrid sg = new SendGrid("");  //aca va el cambio por wsp poner esto
+                                    Request request = new Request();
+                                    try {
+                                        request.setMethod(Method.POST);
+                                        request.setEndpoint("mail/send");
+                                        request.setBody(mail.build());
+                                        Response response = sg.api(request);
+                                        System.out.println(response.getStatusCode());
+                                        System.out.println(response.getBody());
+                                        System.out.println(response.getHeaders());
+                                    } catch (IOException ex) {
+                                        throw ex;
+                                    }
+
+
+                                    emailService.sendEmail(paciente.getUsuario().getCorreo(), "Confirmación de cita", "Estimado usuario usted reservó una cita para el " + eventocalendariodoctor.getFecha().toString() + ".\n" + "En la sede " + sedeRepository.findById(doc.getSede().getIdsede()).get().getNombre() + " ubicada " + sedeRepository.findById(doc.getSede().getIdsede()).get().getDireccion());
+
+                                } else {
+                                    // GMailer enviocorreo = new GMailer();
+                                    //String receiverEmail = usuario.getCorreo(); // Aquí puedes colocar la dirección de correo electrónico del receptor deseado
+                                    //enviocorreo.sendMail("Confirmación de cita remoto","Estimado usuario usted reservó una cita virtual para el "+eventocalendariodoctor.getFecha().toString()+ ".\n"+"El link para la sesion de zoom es el siguiente: " +doc.getZoom(), receiverEmail);
+                                    emailService.sendEmail(paciente.getUsuario().getCorreo(), "Confirmación de cita virtual", "Estimado usuario usted reservó una cita virtual para el " + eventocalendariodoctor.getFecha().toString());
+                                }
+                                redirectAttributes.addFlashAttribute("msg1", "Ha reservado una cita con éxito");
+
+                                return "redirect:/paciente/";
+                            }
+
+                        }
                     }
 
+                    */
+                     }
+                        else {
+
+                    //Si no tiene estado 6 realiza el proceso normal
+                    Double costoEspecialidad = especialidadRepository.getCosto(doc.getEspecialidad().getIdespecialidad());
+                    Double comisionDoctor = seguroRepository.getCosto(paciente.getSeguro().getIdseguro());
+                    Double coaseguroPaciente = seguroRepository.getCoaseguro(paciente.getSeguro().getIdseguro());
+                    Float montoDoctor = (float) (costoEspecialidad * comisionDoctor);
+                    Float montoPaciente = (float) (costoEspecialidad * coaseguroPaciente);
+                    Cita citaAgendada = citaRepository.citaAgendada(eventocalendariodoctor.getFecha(), eventocalendariodoctor.getHorainicio(), doc.getIddoctor());
+                    String content = "Usted reservó una cita para " + eventocalendariodoctor.getFecha() + "en la siguiente hora: " + eventocalendariodoctor.getHorainicio() + " En la especialiad de " + doc.getEspecialidad().getNombre() + ".";
+                    String titulo = "Cita reservada con exito";
+                    notificacionesRepository.notificarcita(usuario.getIdusuario(), content, titulo);
+                    if (idtipocita == 1) {
+                        citaRepository.actualizarEstadoCita(2, citaAgendada.getIdcita());
+                        System.out.println(citaAgendada.getIdcita());
 
 
-                    emailService.sendEmail(paciente.getUsuario().getCorreo(),"Confirmación de cita","Estimado usuario usted reservó una cita para el "+eventocalendariodoctor.getFecha().toString()+ ".\n"+"En la sede "+sedeRepository.findById(doc.getSede().getIdsede()).get().getNombre()+" ubicada " +sedeRepository.findById(doc.getSede().getIdsede()).get().getDireccion());
+                        boletaDoctorRepository.generarBoletaDoctorCita(citaAgendada.getIdcita(), paciente.getIdpaciente(), paciente.getSeguro().getIdseguro(), doc.getIddoctor(), montoDoctor);
+                        boletaPacienteRepository.generarBoletaPacienteCita(paciente.getIdpaciente(), citaAgendada.getIdcita(), paciente.getSeguro().getIdseguro(), montoPaciente);
+                    /* GMailer enviocorreo = new GMailer();
+                    String receiverEmail = usuario.getCorreo(); // Aquí puedes colocar la dirección de correo electrónico del receptor deseado
+                    String cntpres ="Estimado usuario usted reservó una cita para el "+eventocalendariodoctor.getFecha().toString()+ ".\n"+"En la sede "+sedeRepository.findById(doc.getSede().getIdsede()).get().getNombre()+" ubicada " +sedeRepository.findById(doc.getSede().getIdsede()).get().getDireccion();
+                    enviocorreo.sendMail(titulo,cntpres, receiverEmail);*/
 
-                }else{
-                    // GMailer enviocorreo = new GMailer();
-                    //String receiverEmail = usuario.getCorreo(); // Aquí puedes colocar la dirección de correo electrónico del receptor deseado
-                    //enviocorreo.sendMail("Confirmación de cita remoto","Estimado usuario usted reservó una cita virtual para el "+eventocalendariodoctor.getFecha().toString()+ ".\n"+"El link para la sesion de zoom es el siguiente: " +doc.getZoom(), receiverEmail);
-                    emailService.sendEmail(paciente.getUsuario().getCorreo(),"Confirmación de cita virtual","Estimado usuario usted reservó una cita virtual para el "+eventocalendariodoctor.getFecha().toString());
+
+                        Email from = new Email("clinica.lafe.info@gmail.com");
+                        String subject = "Confirmación de cita";
+                        Email to = new Email(paciente.getUsuario().getCorreo());
+                        Content content_2 = new Content("text/plain", "Estimado Paciente, su cita ha sido reservada exitosamente");
+                        Mail mail = new Mail(from, subject, to, content_2);
+
+                        SendGrid sg = new SendGrid("");  //aca va el cambio por wsp poner esto
+                        Request request = new Request();
+                        try {
+                            request.setMethod(Method.POST);
+                            request.setEndpoint("mail/send");
+                            request.setBody(mail.build());
+                            Response response = sg.api(request);
+                            System.out.println(response.getStatusCode());
+                            System.out.println(response.getBody());
+                            System.out.println(response.getHeaders());
+                        } catch (IOException ex) {
+                            throw ex;
+                        }
+
+
+                        emailService.sendEmail(paciente.getUsuario().getCorreo(), "Confirmación de cita", "Estimado usuario usted reservó una cita para el " + eventocalendariodoctor.getFecha().toString() + ".\n" + "En la sede " + sedeRepository.findById(doc.getSede().getIdsede()).get().getNombre() + " ubicada " + sedeRepository.findById(doc.getSede().getIdsede()).get().getDireccion());
+
+                    } else {
+                        // GMailer enviocorreo = new GMailer();
+                        //String receiverEmail = usuario.getCorreo(); // Aquí puedes colocar la dirección de correo electrónico del receptor deseado
+                        //enviocorreo.sendMail("Confirmación de cita remoto","Estimado usuario usted reservó una cita virtual para el "+eventocalendariodoctor.getFecha().toString()+ ".\n"+"El link para la sesion de zoom es el siguiente: " +doc.getZoom(), receiverEmail);
+                        emailService.sendEmail(paciente.getUsuario().getCorreo(), "Confirmación de cita virtual", "Estimado usuario usted reservó una cita virtual para el " + eventocalendariodoctor.getFecha().toString());
+                    }
+                    redirectAttributes.addFlashAttribute("msg1", "Ha reservado una cita con éxito");
+
+                    return "redirect:/paciente/";
                 }
-                redirectAttributes.addFlashAttribute("msg1", "Ha reservado una cita con éxito");
 
-                return "redirect:/paciente/";
-            }else {
+            } else {
                 return "redirect:/paciente/";
             }
-        }else {
+        } else {
             return "redirect:/paciente/reservar2";
         }
+
     }
-
-
-
 
 }

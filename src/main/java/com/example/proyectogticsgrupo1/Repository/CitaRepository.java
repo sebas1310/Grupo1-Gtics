@@ -3,6 +3,7 @@ package com.example.proyectogticsgrupo1.Repository;
 import com.example.proyectogticsgrupo1.DTO.PacientesAtendidos;
 import com.example.proyectogticsgrupo1.Entity.Cita;
 import com.example.proyectogticsgrupo1.Entity.Paciente;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -24,7 +25,7 @@ public interface CitaRepository extends JpaRepository<Cita, Integer> {
     @Query(nativeQuery = true, value = "SELECT * FROM cita WHERE paciente_idpaciente = ?1 AND fecha=?2")
     List<Cita> citasRepetidasValidacion(Integer id, LocalDate fecha);
 
-    @Query(nativeQuery = true, value = "SELECT * FROM cita WHERE DATE(fecha)= DATE(DATE_SUB(NOW(), INTERVAL 5 HOUR)) and paciente_idpaciente=1 ORDER BY fecha ASC")
+    @Query(nativeQuery = true, value = "SELECT * FROM cita WHERE DATE(fecha)= DATE(DATE_SUB(NOW(), INTERVAL 5 HOUR)) and paciente_idpaciente= ?1 ORDER BY fecha ASC")
     List<Cita> citasHoy(Integer id);
 
     @Query(nativeQuery = true, value = "SELECT * FROM cita WHERE WEEKDAY(fecha) = 3 AND YEARWEEK(fecha, 1) = YEARWEEK(CURDATE(), 1)")
@@ -257,6 +258,10 @@ public interface CitaRepository extends JpaRepository<Cita, Integer> {
 
      @Query(value = "select * from cita where paciente_idpaciente=?1 and fecha=?2 and horainicio=?3", nativeQuery = true)
     List<Cita> finddouble(Integer idpac,LocalDate fecha, LocalTime horini);
+
+     @Query(value = "SELECT * FROM cita WHERE paciente_idpaciente = ?1\n" +
+             "             AND idespecialidad = ?2 order by fecha desc limit 1", nativeQuery = true)
+     Integer citaexampendiente(int idpac, int idesp);
 }
 
 
