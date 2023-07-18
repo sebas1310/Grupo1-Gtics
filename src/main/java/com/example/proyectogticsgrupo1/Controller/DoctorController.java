@@ -228,72 +228,96 @@ public class DoctorController {
     }
 
     @GetMapping("/dashboard/info/enviarcuestionario")
-    public String enviarCuestionarioMedicoInfo(Model model, @RequestParam("id") int idCita,@RequestParam("idcuest") int idcuestionario) {
+    public String enviarCuestionarioMedicoInfo(Model model, @RequestParam("id") String idCita,@RequestParam("idcuest") String idcuestionario) {
 
         Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
         Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
         model.addAttribute("doctor",doctor);
-        Cita cita = citaRepository.buscarCitaPorId(idCita);
-        model.addAttribute("cita", cita);
-        model.addAttribute("listapreguntascuestionario",modeloJsonRepository.listarPreguntasxPlantilla(idcuestionario));
-        model.addAttribute("idcuestionario",idcuestionario);
-        model.addAttribute("idcita",idCita);
-        /*List<Integer> CuestionariosEnviados = modeloJsonRepository.listaIDCuestionariosEnviados(cita.getPaciente().getUsuario().getIdusuario(),cita.getIdcita());
-        model.addAttribute(modeloJsonRepository);
-        model.addAttribute(datosJsonRepository);
-        model.addAttribute("cuestionarios", CuestionariosEnviados);
-        Integer idDatosJsonCuestionario = datosJsonRepository.idDatosJson(idcuestionario,idCita);
-        if(idDatosJsonCuestionario != null){
-            model.addAttribute("iddatosjson",idDatosJsonCuestionario);
-            model.addAttribute("cuestionariolleno",datosJsonRepository.modeloJsonLlenado(idDatosJsonCuestionario));
-        }*/
-        return "doctor/cuestionarioDocEnviar";
-    }
+        try {
+            Integer idc = Integer.parseInt(idCita);
+            Integer idcu = Integer.parseInt(idcuestionario);
+            Optional<Cita> optionalCita = citaRepository.findById(idc);
+            Optional<ModeloJsonEntity> optionalCuestionario = modeloJsonRepository.findById(idcu);
+            if(optionalCita.isPresent() && optionalCuestionario.isPresent()){
+                Cita cita = optionalCita.get();
+                model.addAttribute("idcita", cita);
+                ModeloJsonEntity cuestionario = optionalCuestionario.get();
+                model.addAttribute("idcuestionario", cuestionario);
+                model.addAttribute("listapreguntascuestionario",modeloJsonRepository.listarPreguntasxPlantilla(idcu));
+                return "doctor/cuestionarioDocEnviar";
+            } else {
+                return "redirect:/doctor/dashboard";
+            }
+        }catch (NumberFormatException e){
+            return "redirect:/doctor/dashboard";
+        }
 
+    }
 
     @GetMapping("/dashboard/info/vercuestionario")
-    public String verCuestionarioMedicoInfo(Model model, @RequestParam("id") int idCita,@RequestParam("idcuest") int idcuestionario) {
+    public String verCuestionarioMedicoInfo(Model model, @RequestParam("id") String idCita,@RequestParam("idcuest") String idcuestionario) {
         Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
         Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
         model.addAttribute("doctor",doctor);
-        Cita cita = citaRepository.buscarCitaPorId(idCita);
-        model.addAttribute("cita", cita);
-        model.addAttribute("listapreguntascuestionario",modeloJsonRepository.listarPreguntasxPlantilla(idcuestionario));
-        model.addAttribute("idcuestionario",idcuestionario);
-        model.addAttribute("idcita",idCita);
-        List<Integer> CuestionariosEnviados = modeloJsonRepository.listaIDCuestionariosEnviados(cita.getPaciente().getUsuario().getIdusuario(),cita.getIdcita());
-        model.addAttribute(modeloJsonRepository);
-        model.addAttribute(datosJsonRepository);
-        model.addAttribute("cuestionarios", CuestionariosEnviados);
-        Integer idDatosJsonCuestionario = datosJsonRepository.idDatosJson(idcuestionario,idCita);
-        if(idDatosJsonCuestionario != null){
-            model.addAttribute("iddatosjson",idDatosJsonCuestionario);
-            model.addAttribute("cuestionariolleno",datosJsonRepository.modeloJsonLlenado(idDatosJsonCuestionario));
+        try {
+            Integer idc = Integer.parseInt(idCita);
+            Integer idcu = Integer.parseInt(idcuestionario);
+            Optional<Cita> optionalCita = citaRepository.findById(idc);
+            Optional<ModeloJsonEntity> optionalCuestionario = modeloJsonRepository.findById(idcu);
+            if(optionalCita.isPresent() && optionalCuestionario.isPresent()){
+                Cita cita = optionalCita.get();
+                model.addAttribute("idcita", cita);
+                ModeloJsonEntity cuestionario = optionalCuestionario.get();
+                model.addAttribute("idcuestionario", cuestionario);
+                model.addAttribute("listapreguntascuestionario",modeloJsonRepository.listarPreguntasxPlantilla(idcu));
+                List<Integer> CuestionariosEnviados = modeloJsonRepository.listaIDCuestionariosEnviados(cita.getPaciente().getUsuario().getIdusuario(),cita.getIdcita());
+                model.addAttribute(modeloJsonRepository);
+                model.addAttribute(datosJsonRepository);
+                model.addAttribute("cuestionarios", CuestionariosEnviados);
+                Integer idDatosJsonCuestionario = datosJsonRepository.idDatosJson(idcu,idc);
+                if(idDatosJsonCuestionario != null){
+                    model.addAttribute("iddatosjson",idDatosJsonCuestionario);
+                    model.addAttribute("cuestionariolleno",datosJsonRepository.modeloJsonLlenado(idDatosJsonCuestionario));
+                }
+                return "doctor/cuestionarioDocInfo";
+            } else {
+                return "redirect:/doctor/dashboard";
+            }
+        }catch (NumberFormatException e){
+            return "redirect:/doctor/dashboard";
         }
-        return "doctor/cuestionarioDocInfo";
     }
 
+
+
     @GetMapping("/dashboard/info/llenarinforme")
-    public String llenarInformeMedicoInfo(Model model, @RequestParam("id") int idCita) {
+    public String llenarInformeMedicoInfo(Model model, @RequestParam("id") String idCita) {
 
         Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
         Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
         model.addAttribute("doctor",doctor);
-        Cita cita = citaRepository.buscarCitaPorId(idCita);
-        model.addAttribute("cita", cita);
-        //obtenemos el id del modelo del informe y luego se enviarán los datos desde la vista para llenar en la tabla "datos_json"
-        //int informeId = modeloJsonRepository.informeMedicoId(doctor.getEspecialidad().getIdespecialidad());
-        //model.addAttribute("informemedico",informe);
-        model.addAttribute("listapreguntasinforme",modeloJsonRepository.listarPreguntasxPlantilla(26));
-        model.addAttribute("idinforme",26);
-        Integer idDatosJson = datosJsonRepository.idDatosJson(26,idCita);
-        if(idDatosJson != null){
-            System.out.println(idDatosJson);
-            //model.addAttribute("informelleno", datosJsonRepository.informeMedicoLlenado(idDatosJson));
-            model.addAttribute("informelleno",datosJsonRepository.modeloJsonLlenado(idDatosJson));
-            model.addAttribute("idatosjson",idDatosJson);
+        try {
+            Integer idc = Integer.parseInt(idCita);
+            Optional<Cita> optionalCita = citaRepository.findById(idc);
+            if(optionalCita.isPresent() ){
+                Cita cita = optionalCita.get();
+                model.addAttribute("idcita", cita);
+                model.addAttribute("listapreguntasinforme",modeloJsonRepository.listarPreguntasxPlantilla(26));
+                model.addAttribute("idinforme",26);
+                Integer idDatosJson = datosJsonRepository.idDatosJson(26,idc);
+                if(idDatosJson != null){
+                    System.out.println(idDatosJson);
+                    //model.addAttribute("informelleno", datosJsonRepository.informeMedicoLlenado(idDatosJson));
+                    model.addAttribute("informelleno",datosJsonRepository.modeloJsonLlenado(idDatosJson));
+                    model.addAttribute("idatosjson",idDatosJson);
+                }
+                return "doctor/verInformeMedicoInfo";
+            } else {
+                return "redirect:/doctor/dashboard";
+            }
+        }catch (NumberFormatException e){
+            return "redirect:/doctor/dashboard";
         }
-        return "doctor/verInformeMedicoInfo";
     }
 
     @Transactional
