@@ -100,7 +100,7 @@
                     if (fechaSeleccionada.getDay() === 0) { // Verificar si el día seleccionado es domingo (0 es domingo, 1 es lunes, etc.)
                         var errorMessage = document.getElementById("error-message2");
                         errorMessage.style.display = "block";
-                        errorMessage.innerHTML = "No se permiten fechas que sean domingo";
+                        errorMessage.innerHTML = "La clinica no atiende domingo";
                         return false;
                     }
 

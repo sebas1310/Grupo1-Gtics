@@ -16,8 +16,8 @@ public interface CitaRepository extends JpaRepository<Cita, Integer> {
     @Query(nativeQuery = true, value = "SELECT * FROM cita WHERE paciente_idpaciente = ?1 AND idestadocita = 6 ORDER BY fecha desc\n")
     List<Cita> citaPorPaciente(Integer id);
 
-    @Query(value= "select doctor_iddoctor from cita where paciente_idpaciente = ?1 group by doctor_iddoctor\n",nativeQuery = true)
-    Cita pacientePorDoctor(Integer id);
+    @Query(nativeQuery = true, value = "SELECT * FROM bdclinicag1_v2.cita where doctor_iddoctor = ?1 and idcita = ?2 ")
+    List<Cita> citaPorDoctor(Integer idDoc, Integer idCita);
 
     @Query(nativeQuery = true, value = "SELECT * FROM cita WHERE paciente_idpaciente = ?1 AND fecha=?2")
     List<Cita> citasRepetidasValidacion(Integer id, LocalDate fecha);
