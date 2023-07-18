@@ -135,6 +135,8 @@ public class DoctorController {
         // Obtener la fecha actual
         LocalDate currentDate = LocalDate.now();
 
+
+        //footo lista
         // Obtener el día de la semana actual (Domingo = 1, Lunes = 2, ..., Sábado = 7)
         DayOfWeek currentDayOfWeek = currentDate.getDayOfWeek();
 
