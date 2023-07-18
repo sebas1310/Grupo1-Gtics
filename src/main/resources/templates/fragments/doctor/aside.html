@@ -16,7 +16,7 @@
 
     <li class="nav-item" th:classappend="${active == 'pacientesAtendidos' ? 'active':''}">
       <a class="nav-link collapsed"  th:classappend="${active != 'pacientesAtendidos' ? 'collapsed':''}"
-         th:href="@{'/doctor/pacientesatendidos'+ '?id=' + ${doctor.iddoctor}}">
+         th:href="@{'/doctor/pacientesatendidos'}">
         <i class="bi bi-menu-button-wide"></i>
         <span>Pacientes Atendidos</span>
       </a>
@@ -24,7 +24,7 @@
 
     <li class="nav-item" th:classappend="${active == 'calendario' ? 'active':''}">  <!-- cambia -->
       <a class="nav-link collapsed" th:classappend="${active != 'calendario' ? 'collapsed':''}"
-         th:href="@{'/doctor/calendario'+ '?id=' + ${doctor.iddoctor}}"  > <!--+ '?id=' + ${doctor.iddoctor}}"-->
+         th:href="@{'/doctor/calendario'}"  > <!--+ '?id=' + ${doctor.iddoctor}}"-->
         <i class="bi bi-calendar3"></i>
         <span>Calendario</span>
       </a>
@@ -32,7 +32,7 @@
 
     <li class="nav-item" th:classappend="${active == 'perfil' ? 'active':''}">
       <a class="nav-link collapsed" th:classappend="${active != 'perfil' ? 'collapsed':''}"
-         th:href="@{'/doctor/perfil'+ '?id=' + ${doctor.iddoctor}}">
+         th:href="@{'/doctor/perfil'}">
         <i class="bi bi-person"></i>
         <span>Perfil</span>
       </a>
@@ -41,7 +41,7 @@
 
     <li class="nav-item" th:classappend="${active == 'configuracion' ? 'active':''}">
       <a class="nav-link collapsed" th:classappend="${active != 'configuracion' ? 'collapsed':''}"
-         th:href="@{'/doctor/configuraciones'+ '?id=' + ${doctor.iddoctor}}" >
+         th:href="@{'/doctor/configuraciones'}" >
         <i class="bi bi-gear"></i>
         <span>Configuracion</span>
       </a>
