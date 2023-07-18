@@ -267,114 +267,130 @@ public class PacienteController {
         return "paciente/tipocita";
     }
     @GetMapping(value = "/reservar2")
-    public String selectDate(Model model, @RequestParam(value = "per", required = false) Integer perfil, @RequestParam("iddoc") Integer id, @RequestParam("semana") Integer semana, RedirectAttributes redirectAttributes){
+    public String selectDate(Model model, @RequestParam(value = "per", required = false) String perfil, @RequestParam("iddoc") String id, @RequestParam("semana") String semana, RedirectAttributes redirectAttributes){
+
+        try {
+
+            Integer iddoc = Integer.parseInt(id);
+            int numsemana = Integer.parseInt(semana);
+
+            Optional<Doctor> optionalDoctor = doctorRepository.findById(iddoc);
+            if(optionalDoctor.isPresent()){
+
+                int per = Integer.parseInt(perfil);
+
+                //para el bredcrumb
+                if (per == 1){
+                    model.addAttribute("per", 1);
+                } else if(per==0) {
+                    model.addAttribute("per", 0);
+                } else {
+                    return "redirect:/paciente/";
+                }
+                //---------------------------
+                Doctor doc = doctorRepository.buscarDoctorPorId(iddoc);
+                Usuario usuario = (Usuario) session.getAttribute("usuario");
+                Paciente paciente = pacienteRepository.pacXuser(usuario.getIdusuario());
+
+                model.addAttribute("doc", doc);
+                model.addAttribute("tipocita",tipoCitaRepository.findAll());
+
+                int semana_equivocada = 0;
 
 
-        //para el brecrumb
-        if (perfil != null){
-            model.addAttribute("per", 1);
-        } else {
-            model.addAttribute("per", 0);
+                if (numsemana == 0){
+
+                    model.addAttribute("prev_semana", numsemana);
+                    model.addAttribute("lunes",eventocalendariodoctorRepository.listaLunes(doc.getIddoctor()));
+                    model.addAttribute("martes",eventocalendariodoctorRepository.listaMartes(iddoc));
+                    model.addAttribute("miercoles",eventocalendariodoctorRepository.listaMiercoles(iddoc));
+                    model.addAttribute("jueves",eventocalendariodoctorRepository.listaJueves(iddoc));
+                    model.addAttribute("viernes",eventocalendariodoctorRepository.listaViernes(iddoc));
+                    model.addAttribute("sabado",eventocalendariodoctorRepository.listaSabados(iddoc));
+                } else if (numsemana == 1) {
+
+                    model.addAttribute("prev_semana", numsemana);
+                    model.addAttribute("lunes",eventocalendariodoctorRepository.listaLunes1(doc.getIddoctor()));
+                    model.addAttribute("martes",eventocalendariodoctorRepository.listaMartes1(iddoc));
+                    model.addAttribute("miercoles",eventocalendariodoctorRepository.listaMiercoles1(iddoc));
+                    model.addAttribute("jueves",eventocalendariodoctorRepository.listaJueves1(iddoc));
+                    model.addAttribute("viernes",eventocalendariodoctorRepository.listaViernes1(iddoc));
+                    model.addAttribute("sabado",eventocalendariodoctorRepository.listaSabados1(iddoc));
+                } else if (numsemana == 2) {
+
+                    model.addAttribute("prev_semana", numsemana);
+                    model.addAttribute("lunes",eventocalendariodoctorRepository.listaLunes2(doc.getIddoctor()));
+                    model.addAttribute("martes",eventocalendariodoctorRepository.listaMartes2(iddoc));
+                    model.addAttribute("miercoles",eventocalendariodoctorRepository.listaMiercoles2(iddoc));
+                    model.addAttribute("jueves",eventocalendariodoctorRepository.listaJueves2(iddoc));
+                    model.addAttribute("viernes",eventocalendariodoctorRepository.listaViernes2(iddoc));
+                    model.addAttribute("sabado",eventocalendariodoctorRepository.listaSabados2(iddoc));
+
+                } else if (numsemana == 3) {
+
+                    model.addAttribute("prev_semana", numsemana);
+                    model.addAttribute("lunes",eventocalendariodoctorRepository.listaLunes3(doc.getIddoctor()));
+                    model.addAttribute("martes",eventocalendariodoctorRepository.listaMartes3(iddoc));
+                    model.addAttribute("miercoles",eventocalendariodoctorRepository.listaMiercoles3(iddoc));
+                    model.addAttribute("jueves",eventocalendariodoctorRepository.listaJueves3(iddoc));
+                    model.addAttribute("viernes",eventocalendariodoctorRepository.listaViernes3(iddoc));
+                    model.addAttribute("sabado",eventocalendariodoctorRepository.listaSabados3(iddoc));
+
+
+                } else if (numsemana == 4) {
+
+                    model.addAttribute("prev_semana", numsemana);
+                    model.addAttribute("lunes",eventocalendariodoctorRepository.listaLunes4(doc.getIddoctor()));
+                    model.addAttribute("martes",eventocalendariodoctorRepository.listaMartes4(iddoc));
+                    model.addAttribute("miercoles",eventocalendariodoctorRepository.listaMiercoles4(iddoc));
+                    model.addAttribute("jueves",eventocalendariodoctorRepository.listaJueves4(iddoc));
+                    model.addAttribute("viernes",eventocalendariodoctorRepository.listaViernes4(iddoc));
+                    model.addAttribute("sabado",eventocalendariodoctorRepository.listaSabados4(iddoc));
+                } else if ( numsemana > 4  || numsemana < 0){
+
+                    numsemana = 0;
+                    semana_equivocada = 1;
+
+
+                    model.addAttribute("prev_semana", numsemana);
+                    model.addAttribute("lunes",eventocalendariodoctorRepository.listaLunes(doc.getIddoctor()));
+                    model.addAttribute("martes",eventocalendariodoctorRepository.listaMartes(iddoc));
+                    model.addAttribute("miercoles",eventocalendariodoctorRepository.listaMiercoles(iddoc));
+                    model.addAttribute("jueves",eventocalendariodoctorRepository.listaJueves(iddoc));
+                    model.addAttribute("viernes",eventocalendariodoctorRepository.listaViernes(iddoc));
+                    model.addAttribute("sabado",eventocalendariodoctorRepository.listaSabados(iddoc));
+                }
+
+                if(semana_equivocada == 1) {
+                    redirectAttributes.addFlashAttribute("msg2", "Solo puede reservar citas para un mes como máximo");
+                }
+
+
+                model.addAttribute("diainicioSemana", eventocalendariodoctorRepository.obtnerdiaInicioSemana(numsemana));
+                model.addAttribute("mesinicioSemana", eventocalendariodoctorRepository.obtnermesInicioSemana(numsemana));
+                model.addAttribute("anoinicioSemana", eventocalendariodoctorRepository.obtneranoInicioSemana(numsemana));
+
+
+                model.addAttribute("diafinSemana", eventocalendariodoctorRepository.obtenerdiaFinSemana(numsemana));
+                model.addAttribute("mesfinSemana", eventocalendariodoctorRepository.obtnermesFinSemana(numsemana));
+                model.addAttribute("anofinSemana", eventocalendariodoctorRepository.obtneranoFinSemana(numsemana));
+
+
+
+                model.addAttribute("nombre_mes", eventocalendariodoctorRepository.obtenerMes(numsemana));
+
+                model.addAttribute("pacientelog",paciente);
+                //Eventocalendariodoctor eventocalendariodoctor = eventocalendariodoctorRepository.calendarioPorDoctor(id);
+                model.addAttribute("calendario", eventocalendariodoctorRepository.calendarioPorDoctor(iddoc));
+                return "paciente/reservar2";
+            }
+            else {
+                return "redirect:/paciente/";
+            }
+        }catch (NumberFormatException e){
+            return "redirect:/paciente/";
         }
-        //---------------------------
-        Doctor doc = doctorRepository.buscarDoctorPorId(id);
-        Usuario usuario = (Usuario) session.getAttribute("usuario");
-        Paciente paciente = pacienteRepository.pacXuser(usuario.getIdusuario());
 
-        model.addAttribute("doc", doc);
-        model.addAttribute("tipocita",tipoCitaRepository.findAll());
-
-        int semana_equivocada = 0;
-
-
-        if (semana == 0){
-
-            model.addAttribute("prev_semana", semana);
-            model.addAttribute("lunes",eventocalendariodoctorRepository.listaLunes(doc.getIddoctor()));
-            model.addAttribute("martes",eventocalendariodoctorRepository.listaMartes(id));
-            model.addAttribute("miercoles",eventocalendariodoctorRepository.listaMiercoles(id));
-            model.addAttribute("jueves",eventocalendariodoctorRepository.listaJueves(id));
-            model.addAttribute("viernes",eventocalendariodoctorRepository.listaViernes(id));
-            model.addAttribute("sabado",eventocalendariodoctorRepository.listaSabados(id));
-        } else if (semana == 1) {
-
-            model.addAttribute("prev_semana", semana);
-            model.addAttribute("lunes",eventocalendariodoctorRepository.listaLunes1(doc.getIddoctor()));
-            model.addAttribute("martes",eventocalendariodoctorRepository.listaMartes1(id));
-            model.addAttribute("miercoles",eventocalendariodoctorRepository.listaMiercoles1(id));
-            model.addAttribute("jueves",eventocalendariodoctorRepository.listaJueves1(id));
-            model.addAttribute("viernes",eventocalendariodoctorRepository.listaViernes1(id));
-            model.addAttribute("sabado",eventocalendariodoctorRepository.listaSabados1(id));
-        } else if (semana == 2) {
-
-            model.addAttribute("prev_semana", semana);
-            model.addAttribute("lunes",eventocalendariodoctorRepository.listaLunes2(doc.getIddoctor()));
-            model.addAttribute("martes",eventocalendariodoctorRepository.listaMartes2(id));
-            model.addAttribute("miercoles",eventocalendariodoctorRepository.listaMiercoles2(id));
-            model.addAttribute("jueves",eventocalendariodoctorRepository.listaJueves2(id));
-            model.addAttribute("viernes",eventocalendariodoctorRepository.listaViernes2(id));
-            model.addAttribute("sabado",eventocalendariodoctorRepository.listaSabados2(id));
-
-        } else if (semana == 3) {
-
-            model.addAttribute("prev_semana", semana);
-            model.addAttribute("lunes",eventocalendariodoctorRepository.listaLunes3(doc.getIddoctor()));
-            model.addAttribute("martes",eventocalendariodoctorRepository.listaMartes3(id));
-            model.addAttribute("miercoles",eventocalendariodoctorRepository.listaMiercoles3(id));
-            model.addAttribute("jueves",eventocalendariodoctorRepository.listaJueves3(id));
-            model.addAttribute("viernes",eventocalendariodoctorRepository.listaViernes3(id));
-            model.addAttribute("sabado",eventocalendariodoctorRepository.listaSabados3(id));
-
-
-        } else if (semana == 4) {
-
-            model.addAttribute("prev_semana", semana);
-            model.addAttribute("lunes",eventocalendariodoctorRepository.listaLunes4(doc.getIddoctor()));
-            model.addAttribute("martes",eventocalendariodoctorRepository.listaMartes4(id));
-            model.addAttribute("miercoles",eventocalendariodoctorRepository.listaMiercoles4(id));
-            model.addAttribute("jueves",eventocalendariodoctorRepository.listaJueves4(id));
-            model.addAttribute("viernes",eventocalendariodoctorRepository.listaViernes4(id));
-            model.addAttribute("sabado",eventocalendariodoctorRepository.listaSabados4(id));
-        } else if ( semana > 4  || semana < 0){
-
-            semana = 0;
-            semana_equivocada = 1;
-
-
-            model.addAttribute("prev_semana", semana);
-            model.addAttribute("lunes",eventocalendariodoctorRepository.listaLunes(doc.getIddoctor()));
-            model.addAttribute("martes",eventocalendariodoctorRepository.listaMartes(id));
-            model.addAttribute("miercoles",eventocalendariodoctorRepository.listaMiercoles(id));
-            model.addAttribute("jueves",eventocalendariodoctorRepository.listaJueves(id));
-            model.addAttribute("viernes",eventocalendariodoctorRepository.listaViernes(id));
-            model.addAttribute("sabado",eventocalendariodoctorRepository.listaSabados(id));
-
-        }
-
-        if(semana_equivocada == 1) {
-
-            redirectAttributes.addFlashAttribute("msg2", "Solo puede reservar citas para un mes como máximo");
-
-        }
-
-
-        model.addAttribute("diainicioSemana", eventocalendariodoctorRepository.obtnerdiaInicioSemana(semana));
-        model.addAttribute("mesinicioSemana", eventocalendariodoctorRepository.obtnermesInicioSemana(semana));
-        model.addAttribute("anoinicioSemana", eventocalendariodoctorRepository.obtneranoInicioSemana(semana));
-
-
-        model.addAttribute("diafinSemana", eventocalendariodoctorRepository.obtenerdiaFinSemana(semana));
-        model.addAttribute("mesfinSemana", eventocalendariodoctorRepository.obtnermesFinSemana(semana));
-        model.addAttribute("anofinSemana", eventocalendariodoctorRepository.obtneranoFinSemana(semana));
-
-
-
-        model.addAttribute("nombre_mes", eventocalendariodoctorRepository.obtenerMes(semana));
-
-        model.addAttribute("pacientelog",paciente);
-        //Eventocalendariodoctor eventocalendariodoctor = eventocalendariodoctorRepository.calendarioPorDoctor(id);
-        model.addAttribute("calendario", eventocalendariodoctorRepository.calendarioPorDoctor(id));
-        return "paciente/reservar2";
     }
 
 

@@ -68,7 +68,7 @@
                 <h5 style="font-family: Nunito" class="card-title" th:text="|Doc. ${doc.usuario.nombres} ${doc.usuario.apellidos}|"></h5>
 
                 <div class="text-center">
-                  <a style="font-family: Nunito" th:href="@{'/paciente/reservar2?iddoc='+ ${doc.iddoctor}+ '&semana=' + 0}" class="btn btn-outline-warning ">Ver disponibilidad</a>
+                  <a style="font-family: Nunito" th:href="@{'/paciente/reservar2?per='+0+'&iddoc='+ ${doc.iddoctor}+ '&semana=' + 0}" class="btn btn-outline-warning ">Ver disponibilidad</a>
                 </div>
 
               </div>
