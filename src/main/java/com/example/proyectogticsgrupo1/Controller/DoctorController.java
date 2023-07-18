@@ -2,14 +2,11 @@ package com.example.proyectogticsgrupo1.Controller;
 
 import com.example.proyectogticsgrupo1.DTO.InformeMedico;
 import com.example.proyectogticsgrupo1.Entity.*;
-import com.example.proyectogticsgrupo1.GMailer;
 import com.example.proyectogticsgrupo1.Repository.*;
 /*import com.google.cloud.storage.Blob;
 import com.google.cloud.storage.Bucket;
 import com.google.cloud.storage.Storage;
 import com.google.cloud.storage.StorageOptions;*/
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,11 +14,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.example.proyectogticsgrupo1.Service.EmailService;
 
-import java.io.IOException;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -608,32 +603,50 @@ public class DoctorController {
     }
 
     @GetMapping("/pacientesatendidos/verhistorial")
-    public String historialPacienteDoctor(Model model, @RequestParam("id") int idPaciente){
+    public String historialPacienteDoctor(Model model, @RequestParam("id") String idPaciente) {
 
-            Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
-            Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
-            model.addAttribute("doctor",doctor);
-            Paciente paciente1 = pacienteRepository.buscarPacientePorID(idPaciente);
-            model.addAttribute("paciente", paciente1);
-            List<Cita> listaCitasPaciente = citaRepository.citasPorPaciente(idPaciente,doctor.getIddoctor());
-            for (Cita cita:listaCitasPaciente){
-                //primero se verifica si la fecha de la cita coincide con el dia actual
-                if(cita.getFecha().equals(LocalDate.now())){
-                    //si coincide ,entonces vemos si su hora final es menor a la hora actual
-                    if(LocalTime.now().isAfter(cita.getHorainicio()) && LocalTime.now().isBefore(cita.getHorafinal())) {
-                        citaRepository.actualizarEstadoCita(4,cita.getIdcita());
-                        pacienteRepository.actualizarEstadoPaciente(5,paciente1.getIdpaciente());
-                    }else if(LocalTime.now().isAfter(cita.getHorafinal())){
-                        //si es verdad , entonces se actualiza el estado de la cita a "finalizada"
-                        citaRepository.actualizarEstadoCita(6,cita.getIdcita());
-                        pacienteRepository.actualizarEstadoPaciente(3,paciente1.getIdpaciente());
+        Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
+        Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
+        model.addAttribute("doctor", doctor);
+        try {
+            Integer idp = Integer.parseInt(idPaciente);
+            Optional<Paciente> optionalPaciente = pacienteRepository.findById(idp);
+            List<Cita> listaCitasPaciente = citaRepository.citasPorPaciente(idp, doctor.getIddoctor());
+            //Cita cita1 = citaRepository.pacientePorDoctor(idp);
+            //if(optionalPaciente.isPresent() && cita1.getDoctor().getIddoctor().equals(doctor.getIddoctor())) {
+            for (Cita cita : listaCitasPaciente) {
+                if (optionalPaciente.isPresent()) {
+                    if (cita.getDoctor().getIddoctor().equals(doctor.getIddoctor())) {
+                        Paciente paciente = optionalPaciente.get();
+                        model.addAttribute("paciente", paciente);
+                        if (cita.getFecha().equals(LocalDate.now())) {
+                            //si coincide ,entonces vemos si su hora final es menor a la hora actual
+                            if (LocalTime.now().isAfter(cita.getHorainicio()) && LocalTime.now().isBefore(cita.getHorafinal())) {
+                                citaRepository.actualizarEstadoCita(4, cita.getIdcita());
+                                pacienteRepository.actualizarEstadoPaciente(5, paciente.getIdpaciente());
+                            } else if (LocalTime.now().isAfter(cita.getHorafinal())) {
+                                //si es verdad , entonces se actualiza el estado de la cita a "finalizada"
+                                citaRepository.actualizarEstadoCita(6, cita.getIdcita());
+                                pacienteRepository.actualizarEstadoPaciente(3, paciente.getIdpaciente());
+                            }
+                        }
+                        model.addAttribute("citaspaciente", listaCitasPaciente);
+                        model.addAttribute("bitacoradiagnostico", bitacoraDeDiagnosticoRepository.bitacoraDeDiagnostico(idp));
+                        model.addAttribute(doctorRepository);
+                        return "doctor/verHistorial";
+                    } else {
+                        return "redirect:/doctor/pacientesatendidos";
                     }
+
+                } else {
+                    return "redirect:/doctor/pacientesatendidos";
                 }
             }
-            model.addAttribute("citaspaciente", listaCitasPaciente);
-            model.addAttribute("bitacoradiagnostico", bitacoraDeDiagnosticoRepository.bitacoraDeDiagnostico(idPaciente));
-            model.addAttribute(doctorRepository);
-            return "doctor/verHistorial";
+
+        } catch (NumberFormatException e) {
+            return "redirect:/doctor/pacientesatendidos";
+        }
+        return "redirect:/doctor/pacientesatendidos";
     }
 
     @PostMapping("/pacientesatendidos/verhistorial/guardarbitacora")
