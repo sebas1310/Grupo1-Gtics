@@ -4,7 +4,11 @@ import com.example.proyectogticsgrupo1.Entity.*;
 import com.example.proyectogticsgrupo1.GMailer;
 import com.example.proyectogticsgrupo1.Repository.*;
 import com.example.proyectogticsgrupo1.Service.EmailService;
+import com.sendgrid.Method;
+import com.sendgrid.Request;
 import com.sendgrid.Response;
+import com.sendgrid.SendGrid;
+import com.sendgrid.helpers.mail.Mail;
 import com.sendgrid.helpers.mail.objects.Content;
 import com.sendgrid.helpers.mail.objects.Email;
 import jakarta.servlet.http.HttpServletRequest;
@@ -1271,6 +1275,27 @@ public class PacienteController {
                     String receiverEmail = usuario.getCorreo(); // Aquí puedes colocar la dirección de correo electrónico del receptor deseado
                     String cntpres ="Estimado usuario usted reservó una cita para el "+eventocalendariodoctor.getFecha().toString()+ ".\n"+"En la sede "+sedeRepository.findById(doc.getSede().getIdsede()).get().getNombre()+" ubicada " +sedeRepository.findById(doc.getSede().getIdsede()).get().getDireccion();
                     enviocorreo.sendMail(titulo,cntpres, receiverEmail);*/
+
+
+//                    Email from = new Email("clinica.lafe.info@gmail.com");
+//                    String subject = "Confirmación de cita";
+//                    Email to = new Email("adrian.lopez@pucp.edu.pe");
+//                    Content content_2 = new Content("text/plain", "Estimado Paciente, su cita ha sido reservada exitosamente");
+//                    Mail mail = new Mail(from, subject, to, content_2);
+//
+//                    SendGrid sg = new SendGrid(".");
+//                    Request request = new Request();
+//                    try {
+//                        request.setMethod(Method.POST);
+//                        request.setEndpoint("mail/send");
+//                        request.setBody(mail.build());
+//                        Response response = sg.api(request);
+//                        System.out.println(response.getStatusCode());
+//                        System.out.println(response.getBody());
+//                        System.out.println(response.getHeaders());
+//                    } catch (IOException ex) {
+//                        throw ex;
+//                    }
 
 
 
