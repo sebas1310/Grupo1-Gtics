@@ -50,7 +50,7 @@
               <h5 class="card-title">Estado de Cita</h5>
               <div class="ps-3">
                 <div>
-                  <div class="d-grid gap-3 d-md-flex justify-content-md-center">
+                  <div class="text-center">
 
                     <form method="post" th:action="@{'/doctor/pacientesatendidos/verhistorial/vercita/actualizarestadocita'}" >
                       <input name="id" th:value="${cita.getIdcita()}" class="form-control" type="hidden">
@@ -243,7 +243,7 @@
               <h5 class="card-title">Examen Medico</h5>
               <h6>Si el paciente requiere realizar unos exámenes, entonces envíele un mensaje</h6>
               <br>
-              <div class="d-grid gap-1 d-md-flex justify-content-md-center" >
+              <div class="text-center" >
                   <button th:if="${(cita.getEstadoCita().getIdestadocita()==1) or (cita.getEstadoCita().getIdestadocita()==2) or (cita.getEstadoCita().getIdestadocita()==3)}" class="btn btn-outline-primary" disabled >No disponible hasta Inicio de Cita</button>
                 <a th:if="${(cita.getEstadoCita().getIdestadocita()==4)}" th:href="@{'/doctor/mensajeria/enviarmensaje/examenes'+ '?idp=' + ${paciente.getUsuario().getIdusuario()}}" class="btn btn-primary">Enviar</a>
               </div>
@@ -255,7 +255,7 @@
                   <h5 class="card-title">Enviar Videollamada</h5>
                   <h6>Envie el enlace de videollamada al paciente para la cita vitual, através de un mensaje</h6>
                   <br>
-                  <div class="d-grid gap-1 d-md-flex justify-content-md-center" >
+                  <div class="text-center" >
                       <button th:if="${(cita.getEstadoCita().getIdestadocita()==1)}" class="btn btn-outline-primary" disabled >No disponible hasta el pago de cita</button>
                       <a th:if="${(cita.getEstadoCita().getIdestadocita()!=1)}" th:href="@{'/doctor/dashboard/info/enviarvideollamada'+ '?idp=' + ${paciente.getUsuario().getIdusuario()}+'&idc='+${cita.getIdcita()}}" class="btn btn-primary">Enviar</a>
                   </div>

@@ -17,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.example.proyectogticsgrupo1.Service.EmailService;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -165,37 +166,65 @@ public class DoctorController {
         model.addAttribute("eventos", eventos);
         return "doctor/dashboardDoc";
     }
+
+    @GetMapping(value = "**")
+    public RedirectView redirectToDelivery() {
+        return new RedirectView("/doctor/dashboard");
+    }
     @GetMapping("/dashboard/info")
-    public String infoDashboard(Model model, @RequestParam("idC") int idCita,
-                                @RequestParam("idP") int idPaciente,
+    public String infoDashboard(Model model, @RequestParam("idC") String idCita,
+                                @RequestParam("idP") String idPaciente,
                                 @RequestParam(name="idReceta", defaultValue = "0") int idReceta) {
 
         Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
         Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
         model.addAttribute("doctor",doctor);
-        model.addAttribute("recetamedica", recetaMedicaRepository.buscarRecetaMedicaPorCita(idCita, idReceta));
-        Paciente paciente = pacienteRepository.buscarPacientePorID(idPaciente);
-        model.addAttribute("paciente", paciente);
-        List<Cita> citasAgendadas1 = citaRepository.buscarCitasAgendadasDoctor(doctor.getIddoctor());
-        model.addAttribute("citasAgendadas",citasAgendadas1);
-        Cita cita = citaRepository.buscarCitaPorId(idCita);
-        model.addAttribute("cita", cita);
-        model.addAttribute(recetaMedicaRepository);
-        int idCuestionarioDoc = modeloJsonRepository.cuestionarioMedicoId(cita.getDoctor().getEspecialidad().getIdespecialidad());
-        model.addAttribute("idCuestionarioDoc",idCuestionarioDoc);
-        model.addAttribute("estadoscita",estadoCitaRepository.findAll());
-        List<Integer> CuestionariosEnviados = modeloJsonRepository.listaIDCuestionariosEnviados(cita.getPaciente().getUsuario().getIdusuario(),cita.getIdcita());
-        model.addAttribute(modeloJsonRepository);
-        model.addAttribute(datosJsonRepository);
-        model.addAttribute("cuestionarios", CuestionariosEnviados);
-        Integer idDatosJson = datosJsonRepository.idDatosJson(26,idCita);
-        if(idDatosJson != null){
-            System.out.println(idDatosJson);
-            //model.addAttribute("informelleno", datosJsonRepository.informeMedicoLlenado(idDatosJson));
-            model.addAttribute("informelleno",datosJsonRepository.modeloJsonLlenado(idDatosJson));
-            model.addAttribute("idatosjson",idDatosJson);
+        try{
+            Integer idc = Integer.parseInt(idCita);
+            Integer idp = Integer.parseInt(idPaciente);
+            Optional<Cita> optionalCita = citaRepository.findById(idc);
+            Optional<Paciente> optionalPaciente = pacienteRepository.findById(idp);
+            List<Cita> listaCitasPacienteDoctor = citaRepository.citaPorPacientePorDoctor(idp, doctor.getIddoctor(), idc);
+            for (Cita cita1 : listaCitasPacienteDoctor) {
+                if(optionalCita.isPresent() && optionalPaciente.isPresent()){
+                    if (cita1.getDoctor().getIddoctor().equals(doctor.getIddoctor())) {
+                        Cita cita = optionalCita.get();
+                        model.addAttribute("cita", cita);
+                        Paciente paciente = optionalPaciente.get();
+                        model.addAttribute("paciente", paciente);
+
+                        model.addAttribute("recetamedica", recetaMedicaRepository.buscarRecetaMedicaPorCita(idc, idReceta));
+                        model.addAttribute(recetaMedicaRepository);
+                        List<Cita> citasAgendadas1 = citaRepository.buscarCitasAgendadasDoctor(doctor.getIddoctor());
+                        model.addAttribute("citasAgendadas",citasAgendadas1);
+                        int idCuestionarioDoc = modeloJsonRepository.cuestionarioMedicoId(cita.getDoctor().getEspecialidad().getIdespecialidad());
+                        model.addAttribute("idCuestionarioDoc",idCuestionarioDoc);
+                        model.addAttribute("estadoscita",estadoCitaRepository.findAll());
+                        List<Integer> CuestionariosEnviados = modeloJsonRepository.listaIDCuestionariosEnviados(cita.getPaciente().getUsuario().getIdusuario(),cita.getIdcita());
+                        model.addAttribute(modeloJsonRepository);
+                        model.addAttribute(datosJsonRepository);
+                        model.addAttribute("cuestionarios", CuestionariosEnviados);
+                        Integer idDatosJson = datosJsonRepository.idDatosJson(26,idc);
+                        if(idDatosJson != null){
+                            System.out.println(idDatosJson);
+                            //model.addAttribute("informelleno", datosJsonRepository.informeMedicoLlenado(idDatosJson));
+                            model.addAttribute("informelleno",datosJsonRepository.modeloJsonLlenado(idDatosJson));
+                            model.addAttribute("idatosjson",idDatosJson);
+                        }
+                        return "doctor/infoDashboard";
+                    } else {
+                        return "redirect:/doctor/dashboard";
+                    }
+
+                } else {
+                    return "redirect:/doctor/dashboard";
+                }
+
+            }
+        }catch (NumberFormatException e){
+            return "redirect:/doctor/dashboard";
         }
-        return "doctor/infoDashboard";
+        return "redirect:/doctor/dashboard";
     }
 
     @GetMapping("/dashboard/info/enviarcuestionario")
@@ -705,8 +734,7 @@ public class DoctorController {
     @GetMapping("/pacientesatendidos/verhistorial/vercita")
     public String verCitaDoctor(Model model, @RequestParam("id") String idCita,
                                 @RequestParam(name="idReceta", defaultValue = "0") int idReceta,
-                                @RequestParam(name="msg6", defaultValue = "") String msg,
-                                @RequestParam(name="numcita" ,defaultValue = "0") int numcita){
+                                @RequestParam(name="msg6", defaultValue = "") String msg){
 
 
         Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
@@ -721,7 +749,6 @@ public class DoctorController {
                     if (optionalCita.isPresent()) {
                         Cita cita = optionalCita.get();
                         model.addAttribute("cita", cita);
-                        model.addAttribute("numcita",numcita);
                         model.addAttribute("estadoscita",estadoCitaRepository.findAll());
                         model.addAttribute("recetamedica", recetaMedicaRepository.buscarRecetaMedicaPorCita(idc, idReceta));
                         model.addAttribute(recetaMedicaRepository);
