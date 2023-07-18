@@ -406,8 +406,7 @@ public class SuperadminController {
             Usuario existingUserDni = usuarioRepository.findByDni(usuario.getDni());
             Usuario existingUserCelular = usuarioRepository.findByCelular(usuario.getCelular());
             Usuario existingUserCorreo = usuarioRepository.findByCorreo(usuario.getCorreo());
-            model.addAttribute("listasedes", sedeRepository.listaSedes());
-            model.addAttribute("listaEspecialidad", especialidadRepository.findAll());
+
             if(existingUserDni == null){
                 model.addAttribute("listasedes", sedeRepository.listaSedes());
                 model.addAttribute("listaEspecialidad", especialidadRepository.findAll());
@@ -469,14 +468,12 @@ public class SuperadminController {
                     }
                 }else{
                     bindingResult.rejectValue("celular", "error.celular", "Ya existe un usuario con este número de celular");
-                    model.addAttribute("listasedes", sedeRepository.listaSedes());
-                    model.addAttribute("listaespecialidad", especialidadRepository.findAll());
+
                     return "superadmin/pages-registrar-adminitrador";
                 }
             }else{
                 bindingResult.rejectValue("dni", "error.dni", "Ya existe un usuario con este DNI");
-                model.addAttribute("listasedes", sedeRepository.listaSedes());
-                model.addAttribute("listaespecialidad", especialidadRepository.findAll());
+
                 return "superadmin/pages-registrar-adminitrador";
             }
         }
