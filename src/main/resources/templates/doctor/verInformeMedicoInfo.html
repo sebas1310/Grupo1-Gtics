@@ -50,7 +50,7 @@ num_men = '2', id=${session.usuario.idusuario})">
                   <input th:value="${idcita.getIdcita()}" class="form-control" type="hidden">
                     <div class="text-center">
                         <a th:href="@{'/doctor/dashboard/info'+ '?idP=' + ${idcita.getPaciente().getIdpaciente()}+'&idC=' + ${idcita.getIdcita()}+'&msg6=Informe_Llenado'}" type="submit" class="btn btn-success" onclick="ModificarForm()"
-                           data-bs-toggle="modal" data-bs-target="#verticalycentered">Guardar</a>
+                          >Guardar</a>
                         <a th:href="@{'/doctor/dashboard/info'+ '?idP=' + ${idcita.getPaciente().getIdpaciente()}+'&idC=' + ${idcita.getIdcita()}}" class="btn btn-danger">Regresar</a>
                     </div>
                 </div>
@@ -194,7 +194,7 @@ num_men = '2', id=${session.usuario.idusuario})">
       } else {*/
           var xmlhttp = new XMLHttpRequest();
           var url = "/doctor/dashboard/info/llenarinforme/guardar?valores=" + encodeURIComponent(valores);
-          if (valores.trim() !== "") {
+          //if (valores.trim() !== "") {
             xmlhttp.open("POST", url, true);
             xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
             xmlhttp.onreadystatechange = function () {
@@ -209,12 +209,16 @@ num_men = '2', id=${session.usuario.idusuario})">
                 }
               }
             };
+            if (valores.trim() !== "") {
+              xmlhttp.send();
+            } else {
+              // Mostrar mensaje de error si los datos están vacíos
+              alert("No se pueden enviar datos vacíos");
+            }
 
-            xmlhttp.send();
-
-          }  else {
-            alert("No se pueden enviar datos vacíos");
-          }
+          //} else {
+           // alert("No se pueden enviar datos vacíos");
+         // }
 // xmlhttp.send(datos);
   }
 </script>

@@ -7,6 +7,8 @@ import com.example.proyectogticsgrupo1.Repository.*;
 import com.google.cloud.storage.Bucket;
 import com.google.cloud.storage.Storage;
 import com.google.cloud.storage.StorageOptions;*/
+import com.example.proyectogticsgrupo1.Service.imagenes.ImagenSubir;
+import com.example.proyectogticsgrupo1.Service.imagenes.UploadInter;
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 import org.checkerframework.checker.units.qual.C;
@@ -15,10 +17,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.example.proyectogticsgrupo1.Service.EmailService;
 import org.springframework.web.servlet.view.RedirectView;
 
+import java.io.IOException;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -75,6 +79,7 @@ public class DoctorController {
     @Autowired
     DatosJsonRepository datosJsonRepository;
 
+    UploadInter uploadInter;
 
 
     public DoctorController(CitaRepository citaRepository, DoctorRepository doctorRepository, PacienteRepository pacienteRepository,
@@ -165,6 +170,33 @@ public class DoctorController {
         // Agregar la lista de eventos al modelo
         model.addAttribute("eventos", eventos);
         return "doctor/dashboardDoc";
+    }
+
+
+    @PostMapping("/guardarImagen")
+    public  String subirImagenes(RedirectAttributes attr, @RequestParam("id") Integer id, @RequestParam("file") MultipartFile file)throws IOException{
+        try{
+            if (file!=null && !file.isEmpty()){
+                String filename = "perfilDoctor." + id + "." + file.getOriginalFilename().split("\\.")[1];
+                ImagenSubir imagenSubir = new ImagenSubir();
+                imagenSubir.setFilename(filename);
+                imagenSubir.setFilebase64(Base64.getEncoder().encodeToString(file.getBytes()));
+
+                String resultadoSubida = uploadInter.subirimagen(imagenSubir);
+
+
+                if(resultadoSubida.equals("ok")){
+                    System.out.println("https://lafe.blob.core.windows.net/clinicalafe/"+filename);
+                    usuarioRepository.actualizarfotoperfilSpa("https://lafe.blob.core.windows.net/clinicalafe/"+filename, id);
+                }
+
+            }else {
+                attr.addFlashAttribute("msg", "Imagen subida exitosamente");
+            }
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+        return "redirect:/doctor/perfil";
     }
 
     @GetMapping(value = "**")
