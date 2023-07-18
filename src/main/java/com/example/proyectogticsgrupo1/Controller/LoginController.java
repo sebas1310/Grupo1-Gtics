@@ -284,7 +284,7 @@ public class LoginController {
 
         if (usuario != null && usuario.getDni().equals(dni)) {
             // Lógica para enviar el correo electrónico
-            emailService.sendEmail(correo, "Cambio de Contraseña","Estimado usuario, usted ha solicitado un cambio de contraseña:\nIngresa aquí para cambiarla: http://localhost:8081/cambiarcontrasena2");
+            emailService.sendEmail(correo, "Cambio de Contraseña","Estimado usuario, usted ha solicitado un cambio de contraseña:\nIngresa aquí para cambiarla: http://34.29.54.187:8083/cambiarcontrasena2");
             redirectAttributes.addFlashAttribute("ms1", "El correo ha sido enviado exitosamente");
         } else if (usuario == null) {
             redirectAttributes.addFlashAttribute("ms2", "No se pudo enviar el correo, no se encontró ningún usuario con el correo electrónico proporcionado");

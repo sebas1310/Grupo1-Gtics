@@ -375,7 +375,7 @@ public class AdministrativoController {
         } else {
             // Lógica para enviar el correo electrónico
             emailService.sendEmail(correo, "Invitación",
-                    "Estimado usuario, usted ha sido invitado a la plataforma de Clínica LA FE:\nIngresa aquí para registrarte: http://localhost:8083/formularioReferido");
+                    "Estimado usuario, usted ha sido invitado a la plataforma de Clínica LA FE:\nIngresa aquí para registrarte: http://34.29.54.187:8083/formularioReferido");
             String content = "Usted invito un usuario con CORREO: " + correo ;
             String titulo = "Invitación enviada existosamente";
             notificacionesRepository.notificarCreacion2(usuarioAdministrativo.getIdusuario(),content,titulo);
