@@ -1288,7 +1288,7 @@ public class PacienteController {
 //                    Content content_2 = new Content("text/plain", "Estimado Paciente, su cita ha sido reservada exitosamente");
 //                    Mail mail = new Mail(from, subject, to, content_2);
 //
-//                    SendGrid sg = new SendGrid("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");
+//                    SendGrid sg = new SendGrid(".");  //aca va el cambio
 //                    Request request = new Request();
 //                    try {
 //                        request.setMethod(Method.POST);
