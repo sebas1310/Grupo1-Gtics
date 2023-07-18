@@ -9,6 +9,7 @@ import com.google.cloud.storage.Storage;
 import com.google.cloud.storage.StorageOptions;*/
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
+import org.checkerframework.checker.units.qual.C;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -671,37 +672,72 @@ public class DoctorController {
     }
 
     @GetMapping("/pacientesatendidos/verhistorial/boleta")
-    public String verBoletaDoctor(Model model, @RequestParam("id") int idCita ){
+    public String verBoletaDoctor(Model model, @RequestParam("id") String idCita ){
 
-            Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
-            Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
-            model.addAttribute("doctor",doctor);
-            BoletaDoctor boletaDoctor = boletaDoctorRepository.buscarBoletaDoctorCita(idCita);
-            model.addAttribute("boletadoctor", boletaDoctor);
-            Cita cita = citaRepository.buscarCitaPorId(idCita);
-            model.addAttribute("cita", cita);
-
-        return "doctor/boletaDoc";
+        Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
+        Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
+        model.addAttribute("doctor", doctor);
+        try {
+            Integer idc = Integer.parseInt(idCita);
+            Optional<Cita> optionalCita = citaRepository.findById(idc);
+            List<BoletaDoctor> listaBoletaCita = boletaDoctorRepository.buscarBoletaPorDoctorPorCita(doctor.getIddoctor(), idc);
+            for (BoletaDoctor boleta: listaBoletaCita) {
+                if(boleta.getDoctor().getIddoctor().equals(doctor.getIddoctor())) {
+                    if (optionalCita.isPresent()) {
+                        Cita cita = optionalCita.get();
+                        model.addAttribute("cita", cita);
+                        BoletaDoctor boletaDoctor = boletaDoctorRepository.buscarBoletaDoctorCita(idc);
+                        model.addAttribute("boletadoctor", boletaDoctor);
+                        return "doctor/boletaDoc";
+                    }else {
+                        return "redirect:/doctor/pacientesatendidos";
+                    }
+                } else {
+                    return "redirect:/doctor/pacientesatendidos";
+                }
+            }
+            }catch (NumberFormatException e) {
+                return "redirect:/doctor/pacientesatendidos";
+            }
+        return "redirect:/doctor/pacientesatendidos";
     }
 
     @GetMapping("/pacientesatendidos/verhistorial/vercita")
-    public String verCitaDoctor(Model model, @RequestParam("id") int idCita,
+    public String verCitaDoctor(Model model, @RequestParam("id") String idCita,
                                 @RequestParam(name="idReceta", defaultValue = "0") int idReceta,
                                 @RequestParam(name="msg6", defaultValue = "") String msg,
                                 @RequestParam(name="numcita" ,defaultValue = "0") int numcita){
 
 
-            Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
-            Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
-            model.addAttribute("doctor",doctor);
-            Cita cita = citaRepository.buscarCitaPorId(idCita);
-            model.addAttribute("cita", cita);
-            model.addAttribute("numcita",numcita);
-            model.addAttribute("estadoscita",estadoCitaRepository.findAll());
-            model.addAttribute("recetamedica", recetaMedicaRepository.buscarRecetaMedicaPorCita(idCita, idReceta));
-            model.addAttribute(recetaMedicaRepository);
-            model.addAttribute("msg6",msg);
-        return "doctor/verCita";
+        Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
+        Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
+        model.addAttribute("doctor",doctor);
+        try {
+            Integer idc = Integer.parseInt(idCita);
+            Optional<Cita> optionalCita = citaRepository.findById(idc);
+            List<Cita> listaCita = citaRepository.citaPorDoctor(doctor.getIddoctor(), idc);
+            for (Cita cita1: listaCita) {
+                if(cita1.getDoctor().getIddoctor().equals(doctor.getIddoctor())) {
+                    if (optionalCita.isPresent()) {
+                        Cita cita = optionalCita.get();
+                        model.addAttribute("cita", cita);
+                        model.addAttribute("numcita",numcita);
+                        model.addAttribute("estadoscita",estadoCitaRepository.findAll());
+                        model.addAttribute("recetamedica", recetaMedicaRepository.buscarRecetaMedicaPorCita(idc, idReceta));
+                        model.addAttribute(recetaMedicaRepository);
+                        model.addAttribute("msg6",msg);
+                        return "doctor/verCita";
+                    }else {
+                        return "redirect:/doctor/pacientesatendidos";
+                    }
+                } else {
+                    return "redirect:/doctor/pacientesatendidos";
+                }
+            }
+        }catch (NumberFormatException e) {
+            return "redirect:/doctor/pacientesatendidos";
+        }
+        return "redirect:/doctor/pacientesatendidos";
     }
 
     @PostMapping("/pacientesatendidos/verhistorial/vercita/actualizarestadocita")

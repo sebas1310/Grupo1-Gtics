@@ -70,12 +70,12 @@
                                                                 <td style="width: 300px;"  th:text="|${boletadoctor.getPaciente().getUsuario().getNombres()} ${boletadoctor.getPaciente().getUsuario().getApellidos()}|"></td>
                                                             </tr>
                                                             <tr>
-                                                                <th style="text-align: left;width: 200px;">Seguro:</th>
-                                                                <td style="width: 300px;" th:text="${boletadoctor.getPaciente().getSeguro().getNombre()}"></td>
+                                                                <th style="text-align: left;width: 200px;" >Fecha:</th>
+                                                                <td style="width: 300px;" th:text="${boletadoctor.getCita().getFecha()}"></td>
                                                             </tr>
                                                             <tr>
-                                                                <th style="text-align: left;width: 200px;" >Motivo:</th>
-                                                                <td style="width: 300px;" th:text="${boletadoctor.getPaciente().getCondicionenfermedad()}"></td>
+                                                                <th style="text-align: left;width: 200px;">Seguro:</th>
+                                                                <td style="width: 300px;" th:text="${boletadoctor.getPaciente().getSeguro().getNombre()}"></td>
                                                             </tr>
                                                         </table>
                                             </div>
@@ -91,10 +91,7 @@
                                                                 <th style="text-align: left;width: 200px;">Tipo de Cita:</th>
                                                                 <td style="width: 300px;" th:text="${boletadoctor.getCita().getTipoCita().getNombre()}"></td>
                                                             </tr>
-                                                            <tr>
-                                                                <th style="text-align: left;width: 200px;" >Fecha:</th>
-                                                                <td style="width: 300px;" th:text="${boletadoctor.getCita().getFecha()}"></td>
-                                                            </tr>
+
                                                         </table>
                                             </div>
                                         </div>

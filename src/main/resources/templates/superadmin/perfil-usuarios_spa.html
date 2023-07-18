@@ -172,7 +172,7 @@
                                     <div class="row mb-3">
                                         <label class="col-md-4 col-lg-3 col-form-label">Fecha de Nacimiento</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <input name="fechanacimiento" type="date" class="form-control" id="fechanacimiento" th:field="*{fechanacimiento}" required>
+                                            <input name="fechanacimiento" type="date" class="form-control" id="fechanacimiento" max="2023-07-18" th:field="*{fechanacimiento}" required>
                                             <div class="invalid-feedback" th:if="${#fields.hasErrors('fechanacimiento')}" th:errors="*{fechanacimiento}"></div>
                                         </div>
                                     </div>
