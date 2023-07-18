@@ -38,6 +38,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -101,6 +102,12 @@ public class SuperadminController {
         emailService.sendEmail(user, subj, msj);
         return "redirect:/index";
     }
+
+    @GetMapping(value = "**")
+    public RedirectView redirectToDelivery() {
+        return new RedirectView("/superadmin/index");
+    }
+
     @GetMapping("/index")
     public String inicioDashboardSuperadmin(Model model){
         Usuario usuarioSpa = (Usuario) session.getAttribute("usuario");

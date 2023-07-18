@@ -23,6 +23,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import org.springframework.web.servlet.mvc.support.RedirectAttributesModelMap;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -86,6 +87,11 @@ public class AdministrativoController {
         model.addAttribute("usuario", usuarioAdministrativo);
         return"administrativo/crearpaciente";
 
+    }
+
+    @GetMapping(value = "**")
+    public RedirectView redirectToDelivery() {
+        return new RedirectView("/administrativo/dashboard");
     }
 
 
@@ -332,17 +338,9 @@ public class AdministrativoController {
                                @RequestParam("correo") String correo,
                                @RequestParam("celular") String celular) {
 
-        // Validar que el celular tenga exactamente 9 dígitos y sean números
-        if (celular.length() != 9 || !celular.matches("\\d{9}")) {
-            redirectAttributes.addAttribute("id", idusuario);
-            redirectAttributes.addFlashAttribute("errorCelular", "El celular debe tener 9 dígitos numéricos.");
-            return "redirect:/administrativo/perfil";
-        }
-
         usuarioRepository.perfil(nombres, apellidos, correo, celular, idusuario);
         session.removeAttribute("usuario");
         session.setAttribute("usuario", usuarioRepository.findById(idusuario).get());
-        redirectAttributes.addAttribute("id", idusuario);
         redirectAttributes.addFlashAttribute("msg", "Perfil Actualizado");
         return "redirect:/administrativo/perfil";
     }

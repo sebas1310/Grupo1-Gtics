@@ -31,6 +31,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 
 import javax.print.Doc;
 import java.io.File;
@@ -99,6 +100,11 @@ public class AdministradorController {
         String msj = "Pruebas de envio";
         emailService.sendEmail(user, subj, msj);
         return "redirect:/administrador";
+    }
+
+    @GetMapping(value = "**")
+    public RedirectView redirectToDelivery() {
+        return new RedirectView("/administrador");
     }
 
     @GetMapping("")
