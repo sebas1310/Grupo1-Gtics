@@ -418,14 +418,17 @@ public class SuperadminController {
 
                         GMailer enviocorreo = new GMailer();
                         String receiverEmail = usuario.getCorreo(); // Aquí puedes colocar la dirección de correo electrónico del receptor deseado
-
-                        // Construye el mensaje del correo en formato HTML
+                        emailService.sendEmail(usuario.getCorreo(), "Confirmación de Registro", "Estimado usuario,"+"\n usted ha sido registrado en la Clínica La Fe "+"\nTu contraseña por defecto es: " + contrasenaGenerada + "\nIngresa"+ " aquí" +"para cambiarla : http://34.29.54.187:8083/cambiarcontrasena");
+                        /* Construye el mensaje del correo en formato HTML
                         enviocorreo.sendMail("Registro Exitoso en Clinica La Fe", "Estimado usuario,"
                                 + "\nUsted ha sido registrado en Clínica LA FE."
                                 + "\nSu contraseña por defecto es: " + contrasenaGenerada
                                 + "\nPor favor, ingrese a: http://34.29.54.187:8083/cambiarcontrasena aquí para cambiarla.", receiverEmail);
 
+                        */
                         return "redirect:/superadmin/index";
+
+
                     }else{
                         bindingResult.rejectValue("correo", "error.correo", "Ya existe un usuario con este correo electrónico");
                         model.addAttribute("listasedes", sedeRepository.listaSedes());

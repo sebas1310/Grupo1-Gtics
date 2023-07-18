@@ -45,6 +45,7 @@
 
                             <div style="width: 100%" class="card-body" >
                                 <div class="pagetitle">
+                                    <br>
                                     <h1>Cuestionarios Pendientes</h1>
                                 </div>
                                 <table class="table table-borderless datatable" >
@@ -56,17 +57,17 @@
                                         <th class="text-center" scope="col">Fecha Cita</th>
                                         <th class="text-center" scope="col">Completar Cuestionario</th>
                                     </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr th:each="c,idx:${list_cuestionario_2}">
+                                    </thead><tbody>
+                                <tr th:each="c,idx:${(list_cuestionario_2)}">
 
-                                        <td class="text-center" th:text="${idx.index}+1"></td>
-                                        <td class="text-center" th:text="${c.nombrePlantilla}"></td>
-                                        <td class="text-center" th:text="|${c.especialidad.nombre} (${listacita1.get(idx.index).doctor.usuario.nombres} ${listacita1.get(idx.index).doctor.usuario.apellidos})|"></td>
-                                            <td class="text-center" th:text="${listacita1.get(idx.index).fecha}"></td>
-                                        <td class="text-center"> <a type="button" class="bi bi-journal-text" th:href="@{'/paciente/formCuestionario?idcuest='+${c.getId()}+'&idcita='+${listacita1.get(idx.index).getIdcita()}}"></a></td>
-                                    </tr>
-                                    </tbody>
+                                    <td class="text-center" th:text="${idx.index}+1"></td>
+                                    <td class="text-center" th:text="${c.nombrePlantilla}"></td>
+                                    <td class="text-center" th:text="|${c.especialidad.nombre} (${listacita1.get(idx.index).doctor.usuario.nombres} ${listacita1.get(idx.index).doctor.usuario.apellidos})|"></td>
+                                    <td class="text-center" th:text="${listacita1.get(idx.index).fecha}"></td>
+                                    <td class="text-center"> <a type="button" class="bi bi-journal-text" th:href="@{'/paciente/formCuestionario?idcuest='+${c.getId()}+'&idcita='+${listacita1.get(idx.index).getIdcita()}}"></a></td>
+                                </tr>
+                                </tbody>
+
                                 </table>
                             </div>
                         </div>
@@ -78,6 +79,7 @@
 
                             <div style="width: 100%" class="card-body" >
                                 <div class="pagetitle">
+                                    <br>
                                     <h1>Histórico de Cuestionarios</h1>
                                 </div>
                                 <table class="table table-borderless datatable" >
@@ -85,8 +87,8 @@
                                         <tr  >
                                             <th class="text-center" scope="col">#</th>
                                             <th class="text-center" scope="col">Nombre Cuestionario</th>
-                                            <th class="text-center" scope="col">Fecha Cita</th>
-                                            <th class="text-center" scope="col">Mas Info</th>
+                                            <th class="text-center " scope="col">Fecha Cita</th>
+                                            <th class="text-center" scope="col">Más Info</th>
                                         </tr>
                                     </thead>
                                     <tbody>

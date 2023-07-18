@@ -4,7 +4,11 @@ import com.example.proyectogticsgrupo1.Entity.*;
 import com.example.proyectogticsgrupo1.GMailer;
 import com.example.proyectogticsgrupo1.Repository.*;
 import com.example.proyectogticsgrupo1.Service.EmailService;
+import com.sendgrid.Method;
+import com.sendgrid.Request;
 import com.sendgrid.Response;
+import com.sendgrid.SendGrid;
+import com.sendgrid.helpers.mail.Mail;
 import com.sendgrid.helpers.mail.objects.Content;
 import com.sendgrid.helpers.mail.objects.Email;
 import jakarta.servlet.http.HttpServletRequest;
@@ -28,6 +32,8 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.Calendar;
+
 
 @Controller
 @RequestMapping(value = "/paciente")
@@ -381,6 +387,34 @@ public class PacienteController {
         //Optional<Paciente> optionalPaciente = pacienteRepository.findById(1);
         //Paciente paciente =  optionalPaciente.get();
         model.addAttribute("pacientelog",paciente);
+
+        //------Edad------
+
+        // Obtener la fecha actual
+                Calendar calActual = Calendar.getInstance();
+
+        // Obtener la fecha de nacimiento
+                Date fechaNacimiento = paciente.getUsuario().getFechanacimiento();
+
+        // Crear una instancia de Calendar para la fecha de nacimiento
+                Calendar calNacimiento = Calendar.getInstance();
+                calNacimiento.setTime(fechaNacimiento);
+
+        // Calcular la edad
+                int edad = calActual.get(Calendar.YEAR) - calNacimiento.get(Calendar.YEAR);
+
+        // Verificar si aún no se ha cumplido el cumpleaños de este año
+                if (calActual.get(Calendar.MONTH) < calNacimiento.get(Calendar.MONTH) ||
+                        (calActual.get(Calendar.MONTH) == calNacimiento.get(Calendar.MONTH) &&
+                                calActual.get(Calendar.DAY_OF_MONTH) < calNacimiento.get(Calendar.DAY_OF_MONTH))) {
+            edad--;
+        }
+
+        // La variable 'edad' ahora contiene la edad calculada
+        //-----------------
+
+        model.addAttribute("edad", edad);
+
         return "paciente/perfil";
     }
 
@@ -594,8 +628,6 @@ public class PacienteController {
 
         System.out.println("llega a lista cuestionarios");
 
-
-
         Paciente paciente = pacienteRepository.pacXuser(usuario.getIdusuario());
 
 //        System.out.println(paciente);
@@ -603,13 +635,11 @@ public class PacienteController {
         List<Cita> listaCitas = citaRepository.citasxUsuario(paciente.getIdpaciente());
 
 
-
         List<Cita> listaCita1 = new ArrayList<>();
 
         List<Cita> listaCita2 = new ArrayList<>();
 
 //        System.out.println(listaCitas);
-
 
 //        List<ModeloPorCita> listaModelosxCita = modeloJsonRepository.consultarModelo(cita_unica.getIdcita());
         List<ModeloJsonEntity> listamodelos = new ArrayList<>();
@@ -626,16 +656,11 @@ public class PacienteController {
             //validar si existe un cuestionario asignado a una cita
             if (id_modelo != null){
 
-
-
                 //validar si existe un cuestionario lleno para colocarlo en la parte de historico
                 Integer id_datos_llenos = datosJsonRepository.buscarsiexisteRegistro(cita_unica.getIdcita());
 
                 //si en caso no hay coincidencias
                 if(id_datos_llenos == null) {
-
-
-
 
 //                    System.out.println(id_modelo);
 
@@ -652,9 +677,6 @@ public class PacienteController {
 
                 }else {
 
-
-
-
                     //si en caso hay coincidencias
                     DatosJsonEntity datos_json_cuestionario_2 = datosJsonRepository.DatosLlenos(id_datos_llenos);
 
@@ -666,11 +688,6 @@ public class PacienteController {
                     }
                 }
 
-
-
-
-
-
 //                if(datos_json_cuestionario_2 != null) {
 //                    System.out.println(datos_json_cuestionario_2);
 //                    listamodelos_datosllenos.add(datos_json_cuestionario_2);
@@ -678,21 +695,13 @@ public class PacienteController {
 //
 //                listamodelos.add(modelo_cuestionario_2);
 
-
-
-
-
-
             }
-
         }
 
 
 
         model.addAttribute("listacita1",listaCita1);
         model.addAttribute("listacita2",listaCita2);
-
-
 
         model.addAttribute("listaidcitas",citas);
 
@@ -1276,6 +1285,29 @@ public class PacienteController {
                     String receiverEmail = usuario.getCorreo(); // Aquí puedes colocar la dirección de correo electrónico del receptor deseado
                     String cntpres ="Estimado usuario usted reservó una cita para el "+eventocalendariodoctor.getFecha().toString()+ ".\n"+"En la sede "+sedeRepository.findById(doc.getSede().getIdsede()).get().getNombre()+" ubicada " +sedeRepository.findById(doc.getSede().getIdsede()).get().getDireccion();
                     enviocorreo.sendMail(titulo,cntpres, receiverEmail);*/
+
+
+//                    Email from = new Email("clinica.lafe.info@gmail.com");
+//                    String subject = "Confirmación de cita";
+//                    Email to = new Email("adrian.lopez@pucp.edu.pe");
+//                    Content content_2 = new Content("text/plain", "Estimado Paciente, su cita ha sido reservada exitosamente");
+//                    Mail mail = new Mail(from, subject, to, content_2);
+//
+//                    SendGrid sg = new SendGrid(".");  //aca va el cambio
+//                    Request request = new Request();
+//                    try {
+//                        request.setMethod(Method.POST);
+//                        request.setEndpoint("mail/send");
+//                        request.setBody(mail.build());
+//                        Response response = sg.api(request);
+//                        System.out.println(response.getStatusCode());
+//                        System.out.println(response.getBody());
+//                        System.out.println(response.getHeaders());
+//                    } catch (IOException ex) {
+//                        throw ex;
+//                    }
+
+
 
                     emailService.sendEmail(paciente.getUsuario().getCorreo(),"Confirmación de cita","Estimado usuario usted reservó una cita para el "+eventocalendariodoctor.getFecha().toString()+ ".\n"+"En la sede "+sedeRepository.findById(doc.getSede().getIdsede()).get().getNombre()+" ubicada " +sedeRepository.findById(doc.getSede().getIdsede()).get().getDireccion());
 
