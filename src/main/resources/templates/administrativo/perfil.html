@@ -39,8 +39,8 @@
         <div class="card">
           <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
 
-            <img th:src="@{/assets/img/profile-img.jpg}" alt="Profile" class="rounded-circle">
-            <h2><span th:text="${session.usuario.nombres} + ' ' + ${session.usuario.apellidos}"></span></h2>
+            <img th:src="@{${administrativolog.foto}}" alt="Profile" class="rounded-circle">
+            <h2><span th:text="${administrativolog.nombres} + ' ' + ${administrativolog.apellidos}"></span></h2>
             <h3><span th:text="${#strings.capitalize(session.usuario.tipodeusuario.nombre)}"></span></h3>
             <div th:if="${psw1!=null}" th:text="${psw1}" class="alert alert-success" role="alert"></div>
             <div th:if="${psw2!=null}" th:text="${psw2}" class="alert alert-danger" role="alert"></div>
@@ -112,18 +112,26 @@
 
               <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
 
+                <div class="row mb-3">
+                  <label for="profile-edit" class="col-md-4 col-lg-6 col-form-label">Cambia tu imagen de perfil</label>
+                </div>
+
+                <div class="col-md-8 col-lg-9">
+                  <form method="post" th:action="@{'/administrativo/guardarImagen'}" enctype="multipart/form-data">
+                    <div class="form-group">
+                      <input id="imagen" type="file" name="file" accept="image/*" onchange="verificarImagen()" class="form-control-file">
+                    </div>
+                    <input type="hidden" name="id" th:value="${administrativolog.idusuario}">
+
+                    <button type="submit" style="background-color: #4154F1; color: white" class="btn btn-danger" id="boton-enviar" disabled>Subir Imagen</button>
+
+                  </form>
+
+                </div>
+
                 <!-- Profile Edit Form -->
                 <form method="post" th:action="@{'/administrativo/editarperfil'}">
-                  <div class="row mb-3">
-                    <label for="profile-edit" class="col-md-4 col-lg-3 col-form-label">Imagen de Perfil</label>
-                    <div class="col-md-8 col-lg-9">
-                      <img th:src="@{/assets/img/profile-img.jpg}" alt="Profile">
-                      <div class="pt-2">
-                        <a href="#" class="btn btn-primary btn-sm" title="Upload new profile image"><i class="bi bi-upload"></i></a>
-                        <a href="#" class="btn btn-danger btn-sm" title="Remove my profile image"><i class="bi bi-trash"></i></a>
-                      </div>
-                    </div>
-                  </div>
+
                   <input th:value="${session.usuario.getIdusuario()}" name="id" type="hidden">
                   <input th:value="${session.usuario.getIdusuario()}" name="idusuario" type="hidden">
                   <div class="row mb-3">
@@ -161,7 +169,7 @@
                    </div>-->
 
                   <div class="text-center">
-                    <button type="submit" class="btn btn-warning" style="background-color:rgb(231,154,110)">Guardar Cambios</button>
+                    <button type="submit" class="btn btn-danger" style="color: white">Guardar Cambios</button>
                   </div>
                 </form><!-- End ProfileEditForm-->
 
@@ -195,7 +203,7 @@
                   </div>
 
                   <div class="text-center">
-                    <button type="submit" class="btn btn-warning" style="background-color:rgb(231,154,110)">Cambiar Contraseña</button>
+                    <button type="submit" class="btn btn-danger" style="color: white">Cambiar Contraseña</button>
                   </div>
                   <div id="error-message" class="alert alert-danger mt-3" style="display: none;"></div>
                 </form><!-- End Change Password Form -->
@@ -225,9 +233,18 @@
                       errorMessage.innerHTML = "No coinciden las contraseñas";
                       return false;
                     }
-
-
                     return true;
+                  }
+
+                  function verificarImagen() {
+                    var inputImagen = document.getElementById("imagen");
+                    var botonEnviar = document.getElementById("boton-enviar");
+
+                    if (inputImagen.files.length === 0) {
+                      botonEnviar.disabled = true;
+                    } else {
+                      botonEnviar.disabled = false;
+                    }
                   }
                 </script>
                 <!-- FIN Funcion para validar -->

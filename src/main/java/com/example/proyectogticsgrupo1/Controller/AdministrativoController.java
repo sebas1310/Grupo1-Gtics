@@ -6,6 +6,8 @@ import com.example.proyectogticsgrupo1.Entity.Paciente;
 import com.example.proyectogticsgrupo1.Entity.Usuario;
 import com.example.proyectogticsgrupo1.Repository.*;
 import com.example.proyectogticsgrupo1.Service.EmailService;
+import com.example.proyectogticsgrupo1.Service.imagenes.ImagenSubir;
+import com.example.proyectogticsgrupo1.Service.imagenes.UploadInter;
 import com.google.gson.JsonObject;
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
@@ -16,6 +18,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -29,8 +32,11 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Base64;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -46,6 +52,9 @@ public class AdministrativoController {
 
     @Autowired
     private EmailService emailService;
+
+    @Autowired
+    UploadInter uploadInter;
 
     @Autowired
     MailCorreoRepository mailCorreoRepository;
@@ -304,10 +313,14 @@ public class AdministrativoController {
     }
 
     @GetMapping(value = "/perfil")
-    public String perfil(Model model){
+    public String perfil(@ModelAttribute("administrativolog") Usuario usuario,Model model){
 
         Usuario usuarioAdministrativo = (Usuario) session.getAttribute("usuario");
+        Usuario administrativo = usuarioRepository.buscarPorId(usuarioAdministrativo.getIdusuario());
         model.addAttribute("usuario", usuarioAdministrativo);
+        int edad = usuarioRepository.edad(administrativo.getIdusuario());
+        administrativo.setEdad(edad);
+        model.addAttribute("administrativolog", administrativo);
         return "administrativo/perfil";
     }
 
@@ -397,6 +410,39 @@ public class AdministrativoController {
         }
 
         return "redirect:/administrativo/crearpaciente";
+    }
+
+    @PostMapping("/guardarImagen")
+    public  String subirImagenes(RedirectAttributes attr, @RequestParam("id") Integer id, @RequestParam("file") MultipartFile file)throws IOException {
+
+        try{
+            if (file!=null && !file.isEmpty()){
+                Date date = new Date();
+                SimpleDateFormat formatter = new SimpleDateFormat("ddMMyyHHmmss");
+
+                String filename = "perfilAdministrativo" + id + "." + formatter.format(date) + "." + file.getOriginalFilename().split("\\.")[1];
+                ImagenSubir imagenSubir = new ImagenSubir();
+                imagenSubir.setFilename(filename);
+                imagenSubir.setFilebase64(Base64.getEncoder().encodeToString(file.getBytes()));
+
+                String resultadoSubida = uploadInter.subirimagen(imagenSubir);
+
+
+                if(resultadoSubida.equals("ok")){
+                    System.out.println("https://lafe.blob.core.windows.net/clinicalafe/"+filename);
+                    usuarioRepository.actualizarfotoperfilSpa("https://lafe.blob.core.windows.net/clinicalafe/"+filename, id);
+                    session.removeAttribute("usuario");
+
+                    session.setAttribute("usuario", (Usuario) usuarioRepository.findById(id).get());
+                }
+
+            }else {
+                attr.addFlashAttribute("msg", "imagen subida exitosamente");
+            }
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+        return "redirect:/administrativo/perfil";
     }
 
 

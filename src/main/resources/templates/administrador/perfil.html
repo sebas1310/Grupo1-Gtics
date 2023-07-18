@@ -42,13 +42,14 @@
         <div class="card">
           <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
 
-            <img th:src="@{'/gcp/imagenEvento?id=' + ${administradorlog.idusuario}}" alt="Profile" class="rounded-circle">
+            <img th:src="@{${administradorlog.foto}}" alt="Profile" class="rounded-circle">
             <h2><span th:text="${administradorlog.nombres} + ' ' + ${administradorlog.apellidos}"></span></h2>
             <h3><span th:text="${#strings.capitalize(administradorlog.tipodeusuario.nombre)}"></span></h3>
             <div th:if="${psw1!=null}" th:text="${psw1}" class="alert alert-success" role="alert"></div>
             <div th:if="${psw2!=null}" th:text="${psw2}" class="alert alert-danger" role="alert"></div>
           </div>
         </div>
+
 
       </div>
 
@@ -116,20 +117,26 @@
 
               <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
 
+                <div class="row mb-3">
+                  <label for="profile-edit" class="col-md-4 col-lg-3 col-form-label">Cambia tu imagen de perfil</label>
+                </div>
+
                 <div class="col-md-8 col-lg-9">
-                  <form method="post" th:action="@{'/administrador/guardarImagen?id='+ ${administradorlog.idusuario}}" enctype="multipart/form-data">
+                  <form method="post" th:action="@{'/administrador/guardarImagen'}" enctype="multipart/form-data">
                     <div class="form-group">
-                      <input type="file" name="file" accept="image/*" class="form-control-file">
+                      <input id="imagen" type="file" name="file" accept="image/*" onchange="verificarImagen()" class="form-control-file">
                     </div>
-                    <button type="submit" class="btn btn-primary">Upload image</button>
+                    <input type="hidden" name="id" th:value="${administradorlog.idusuario}">
+
+                    <button type="submit" style="background-color: #4154F1; color: white" class="btn" id="boton-enviar" disabled>Guardar Cambios</button>
+
                   </form>
+
                 </div>
 
                 <!-- Profile Edit Form -->
                 <form method="post" th:action="@{'/administrador/editarperfil'}" onsubmit="return validate()">
-                  <div class="row mb-3">
-                    <label for="profile-edit" class="col-md-4 col-lg-3 col-form-label">Imagen de Perfil</label>
-                  </div>
+
                   <input th:value="${session.usuario.getIdusuario()}" name="id" type="hidden">
                   <input th:value="${session.usuario.getIdusuario()}" name="idusuario" type="hidden">
                   <div class="row mb-3">
@@ -285,6 +292,17 @@
 
 
                     return true;
+                  }
+
+                  function verificarImagen() {
+                    var inputImagen = document.getElementById("imagen");
+                    var botonEnviar = document.getElementById("boton-enviar");
+
+                    if (inputImagen.files.length === 0) {
+                      botonEnviar.disabled = true;
+                    } else {
+                      botonEnviar.disabled = false;
+                    }
                   }
                 </script>
                 <!-- FIN Funcion para validar -->
