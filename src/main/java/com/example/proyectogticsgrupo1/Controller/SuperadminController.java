@@ -451,7 +451,7 @@ public class SuperadminController {
                         Content content_2 = new Content("text/plain", "Estimado usuario,"+"\n usted ha sido registrado en la Clínica La Fe "+"\nTu contraseña por defecto es: " + contrasenaGenerada + "\nIngresa"+ " aquí" +"para cambiarla : http://34.29.54.187:8083/cambiarcontrasena");
                         Mail mail = new Mail(from, subject, to, content_2);
 
-                        SendGrid sg = new SendGrid("");  //aca va el cambio por wsp poner esto
+                        SendGrid sg = new SendGrid("llavesuper");  //aca va el cambio por wsp poner esto
                         Request request = new Request();
                         try {
                             request.setMethod(Method.POST);
@@ -956,7 +956,7 @@ public class SuperadminController {
                     Content content_2 = new Content("text/plain", "Estimado usuario, hemos restablecido su contraseña, la cual ahora es: " + newpassword);
                     Mail mail = new Mail(from, subject, to, content_2);
 
-                    SendGrid sg = new SendGrid("");  //aca va el cambio por wsp poner esto
+                    SendGrid sg = new SendGrid("llavesuper");  //aca va el cambio por wsp poner esto
                     Request request = new Request();
                     try {
                         request.setMethod(Method.POST);
