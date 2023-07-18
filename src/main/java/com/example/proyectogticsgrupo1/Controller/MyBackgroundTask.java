@@ -93,7 +93,7 @@ public class MyBackgroundTask {
                     Content content_2 = new Content("text/plain", "Estimado Paciente, su cita ha sido reservada exitosamente");
                     Mail mail = new Mail(from, subject, to, content_2);
 
-                    SendGrid sg = new SendGrid("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");  //aca va el cambio
+                    SendGrid sg = new SendGrid("");  //aca va el cambio
                     Request request = new Request();
                     try {
                         request.setMethod(Method.POST);
