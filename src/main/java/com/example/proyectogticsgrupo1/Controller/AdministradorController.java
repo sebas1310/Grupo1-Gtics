@@ -186,7 +186,6 @@ public class AdministradorController {
             usuarioRepository.save(user);
             int edad = usuarioRepository.edad(user.getIdusuario());
             user.setEdad(edad);
-            user.setFormaregistro("Invitado por Correo");
             Paciente paciente = new Paciente();
             EstadoPaciente estadoPaciente = new EstadoPaciente();
             estadoPaciente.setIdestadopaciente(1);
@@ -364,8 +363,10 @@ public class AdministradorController {
     }
 
     @PostMapping(value = "/actualizar")
-    public String actualizarEstadoPacientes() {
-        pacienteRepository.actualizarEstado();
+    public String actualizarEstadoPacientes(Model model) {
+        Usuario usuarioAdministrador = (Usuario) session.getAttribute("usuario");
+        model.addAttribute("usuario", usuarioAdministrador);
+        pacienteRepository.actualizarformRegistro(usuarioAdministrador.getSede().getIdsede());
         return "redirect:/administrador/dashboardpaciente";
     }
 

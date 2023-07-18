@@ -114,6 +114,16 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
             "WHERE idusuario = ?1",nativeQuery = true)
     int edad(Integer idusuario);
 
+    @Query(value = "SELECT *\n" +
+            "FROM usuario u\n" +
+            "WHERE u.formaregistro = 'Invitado por Correo' and sede_idsede = ?1", nativeQuery = true)
+    List<Usuario> listarpinvitadou(int idsede);
+
+    @Transactional
+    @Modifying
+    @Query(value = "UPDATE usuario SET formaregistro = 'Registrado por Correo' WHERE formaregistro = 'Invitado por Correo' and sede_idsede = ?1\n", nativeQuery = true)
+    void actualizarformRegistro(int idsede);
+
 }
 
 
