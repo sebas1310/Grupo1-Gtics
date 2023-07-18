@@ -192,29 +192,32 @@ num_men = '2', id=${session.usuario.idusuario})">
       if (incorrectos >= 1) {
           return false;
       } else {*/
-          var xmlhttp = new XMLHttpRequest();
-          var url = "/doctor/dashboard/info/llenarinforme/guardar?valores=" + encodeURIComponent(valores);
-          //if (valores.trim() !== "") {
-            xmlhttp.open("POST", url, true);
-            xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-            xmlhttp.onreadystatechange = function () {
-              if (xmlhttp.readyState == XMLHttpRequest.DONE) {
-                if (xmlhttp.status == 200) {
-                  // Mostrar mensaje de éxito
-                  alert("Datos Guardados");
-                  location.reload();
-                } else {
-                  // Mostrar mensaje de error
-                  alert("Ha ocurrido un error al llenar el informe");
-                }
-              }
-            };
-            if (valores.trim() !== "") {
-              xmlhttp.send();
-            } else {
-              // Mostrar mensaje de error si los datos están vacíos
-              alert("No se pueden enviar datos vacíos");
-            }
+    var xmlhttp = new XMLHttpRequest();
+    var url = "/doctor/dashboard/info/llenarinforme/guardar?valores=" + encodeURIComponent(valores);
+
+    xmlhttp.open("POST", url, true);
+    xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xmlhttp.send();
+    if (valores.trim() !== "") {
+      xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == XMLHttpRequest.DONE) {
+          if (xmlhttp.status == 200) {
+            // Mostrar mensaje de éxito
+            alert("Datos Guardados");
+            location.reload();
+          } else {
+            // Mostrar mensaje de error
+            alert("Ha ocurrido un error al llenar el informe");
+          }
+        }
+      };
+      xmlhttp.open("POST", url, true);
+      xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+      xmlhttp.send();
+    } else {
+      // Mostrar mensaje de error si los datos están vacíos
+      alert("No se pueden enviar datos vacíos");
+    }
 
           //} else {
            // alert("No se pueden enviar datos vacíos");

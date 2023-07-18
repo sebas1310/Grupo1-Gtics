@@ -211,11 +211,13 @@ public class DoctorController {
     @GetMapping("/dashboard/info")
     public String infoDashboard(Model model, @RequestParam("idC") String idCita,
                                 @RequestParam("idP") String idPaciente,
-                                @RequestParam(name="idReceta", defaultValue = "0") int idReceta) {
+                                @RequestParam(name="idReceta", defaultValue = "0") int idReceta,
+                                @RequestParam(name="msg6", defaultValue = "") String msg6) {
 
         Usuario usuarioDoctor = (Usuario) session.getAttribute("usuario");
         Doctor doctor = doctorRepository.buscarDoctorPorIdUsuario(usuarioDoctor.getIdusuario());
         model.addAttribute("doctor",doctor);
+        model.addAttribute("msg6",msg6);
         try{
             Integer idc = Integer.parseInt(idCita);
             Integer idp = Integer.parseInt(idPaciente);
